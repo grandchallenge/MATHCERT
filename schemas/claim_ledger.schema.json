@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Grand Challenge Claim Ledger",
+  "type": "object",
+  "required": [
+    "claims"
+  ],
+  "properties": {
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "claim_id",
+          "claim_text",
+          "claim_class",
+          "support_type",
+          "status",
+          "promotion_condition"
+        ],
+        "properties": {
+          "claim_id": {
+            "type": "string"
+          },
+          "short_name": {
+            "type": "string"
+          },
+          "claim_text": {
+            "type": "string"
+          },
+          "claim_class": {
+            "enum": [
+              "PROVED_IN_PACKAGE",
+              "FORMALIZED",
+              "COMPUTED_EXACTLY",
+              "INTERVAL_CERTIFIED",
+              "SAT_SMT_CERTIFIED",
+              "LITERATURE_DERIVED",
+              "HEURISTIC",
+              "CONJECTURAL",
+              "FAILED_ATTEMPT",
+              "NEEDS_AUDIT",
+              "SUPERSEDED",
+              "REFUTED"
+            ]
+          },
+          "support_type": {
+            "enum": [
+              "HUMAN_PROOF",
+              "LEAN_PROOF",
+              "COQ_PROOF",
+              "ISABELLE_PROOF",
+              "EXACT_RATIONAL_COMPUTATION",
+              "INTERVAL_CERTIFICATE",
+              "SAT_SMT_CERTIFICATE",
+              "SOURCE_CITATION",
+              "NUMERICAL_EVIDENCE",
+              "HEURISTIC_ARGUMENT",
+              "EXTERNAL_SPECIALIST_PENDING"
+            ]
+          },
+          "status": {
+            "enum": [
+              "DRAFT",
+              "UNDER_REVIEW",
+              "AUDITED",
+              "CHECKED",
+              "CERTIFIED",
+              "OPEN_PROBLEM",
+              "PARTIAL",
+              "FAILED",
+              "REJECTED",
+              "SUPERSEDED"
+            ]
+          },
+          "certainty": {
+            "type": "string"
+          },
+          "source_or_artifact": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "assumptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "promotion_condition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "related_files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

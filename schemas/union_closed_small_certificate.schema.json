@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Union-Closed Small-Universe Audit Certificate",
+  "type": "object",
+  "required": [
+    "certificate_type",
+    "generator_version",
+    "counting_convention",
+    "source_audit",
+    "source_audit_sha256",
+    "results"
+  ],
+  "properties": {
+    "certificate_type": {
+      "const": "union_closed_small_universe_audit"
+    },
+    "generator_version": {
+      "type": "string"
+    },
+    "counting_convention": {
+      "const": "raw union-closed counts include the empty family; Frankl-facing counts include only nontrivial families with nonempty support"
+    },
+    "source_audit": {
+      "type": "string"
+    },
+    "source_audit_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "universe_size",
+          "raw_union_closed_families",
+          "nontrivial_union_closed_families",
+          "frankl_violations"
+        ],
+        "properties": {
+          "universe_size": { "type": "integer", "minimum": 0, "maximum": 4 },
+          "raw_union_closed_families": { "type": "integer", "minimum": 0 },
+          "nontrivial_union_closed_families": { "type": "integer", "minimum": 0 },
+          "frankl_violations": { "type": "integer", "minimum": 0 }
+        }
+      }
+    }
+  }
+}

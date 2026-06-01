@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathcert.example/schemas/certificate.schema.json",
+  "title": "MATHCERT certificate metadata",
+  "type": "object",
+  "required": ["claim_id", "support_modality", "status", "artifact"],
+  "properties": {
+    "claim_id": { "type": "string", "minLength": 1 },
+    "support_modality": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["planned", "pending", "checked", "rejected"]
+    },
+    "artifact": { "type": "string", "minLength": 1 },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "replay_command": { "type": "string" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,39 @@
+{
+  "certificate_type": "union_closed_small_universe_audit",
+  "generator_version": "uc-small-audit-v1",
+  "counting_convention": "raw union-closed counts include the empty family; Frankl-facing counts include only nontrivial families with nonempty support",
+  "source_audit": "MATHFORGE/domains/union_closed/union_closed_small_audit.json",
+  "source_audit_sha256": "06903c0f6cb7168d8ccfba8b8ff037d70e46e7d0e5cdf6185b1d133a5d56db72",
+  "results": [
+    {
+      "universe_size": 0,
+      "raw_union_closed_families": 2,
+      "nontrivial_union_closed_families": 0,
+      "frankl_violations": 0
+    },
+    {
+      "universe_size": 1,
+      "raw_union_closed_families": 4,
+      "nontrivial_union_closed_families": 2,
+      "frankl_violations": 0
+    },
+    {
+      "universe_size": 2,
+      "raw_union_closed_families": 14,
+      "nontrivial_union_closed_families": 12,
+      "frankl_violations": 0
+    },
+    {
+      "universe_size": 3,
+      "raw_union_closed_families": 122,
+      "nontrivial_union_closed_families": 120,
+      "frankl_violations": 0
+    },
+    {
+      "universe_size": 4,
+      "raw_union_closed_families": 4960,
+      "nontrivial_union_closed_families": 4958,
+      "frankl_violations": 0
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+claims:
+  - claim_id: UC-WP04-L001
+    short_name: two-element-member case
+    claim_text: If a union-closed finite family contains {a, b}, then at least one of a and b appears in at least half of the family.
+    claim_class: FORMALIZED
+    support_type: LEAN_PROOF
+    status: CHECKED
+    certainty: CERTIFIED
+    source_or_artifact:
+      - MATHCERT/MathCert/Domains/UnionClosed/TwoElementCase.lean
+    assumptions: []
+    promotion_condition: Already checked locally; preserve under CI.
