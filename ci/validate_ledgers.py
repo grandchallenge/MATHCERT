@@ -15,7 +15,12 @@ except Exception as exc:
 REQUIRED = {"claim_id", "claim_text", "claim_class", "support_type", "status", "promotion_condition"}
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 COORDINATOR_ROOT = Path(__file__).resolve().parents[2]
-ROOT = COORDINATOR_ROOT if (COORDINATOR_ROOT / "MATHCERT").exists() else PACKAGE_ROOT
+ROOT = (
+    COORDINATOR_ROOT
+    if (COORDINATOR_ROOT / "MATHCERT").exists()
+    and (COORDINATOR_ROOT / "schemas" / "claim_ledger.schema.json").exists()
+    else PACKAGE_ROOT
+)
 SCHEMA = json.loads((ROOT / "schemas" / "claim_ledger.schema.json").read_text(encoding="utf-8"))
 ITEM_SCHEMA = SCHEMA["properties"]["claims"]["items"]["properties"]
 ENUM_FIELDS = {key: set(value["enum"]) for key, value in ITEM_SCHEMA.items() if "enum" in value}
