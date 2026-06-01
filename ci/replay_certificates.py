@@ -6,8 +6,9 @@ import hashlib
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-CERTIFICATE = ROOT / "MATHCERT" / "certificates" / "exact" / "union_closed_n_le_4.json"
+PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+COORDINATOR_ROOT = Path(__file__).resolve().parents[2]
+CERTIFICATE = PACKAGE_ROOT / "certificates" / "exact" / "union_closed_n_le_4.json"
 CONVENTION = (
     "raw union-closed counts include the empty family; Frankl-facing counts include "
     "only nontrivial families with nonempty support"
@@ -54,9 +55,13 @@ def main() -> int:
     certificate = json.loads(CERTIFICATE.read_text(encoding="utf-8"))
     if certificate["counting_convention"] != CONVENTION:
         raise ValueError("certificate counting convention is not canonical")
-    audit = ROOT / certificate["source_audit"]
+    audit = COORDINATOR_ROOT / certificate["source_audit"]
+    expected_digest = certificate["source_audit_sha256"]
+    if not audit.exists():
+        audit = PACKAGE_ROOT / certificate["source_audit_snapshot"]
+        expected_digest = certificate["source_audit_snapshot_sha256"]
     digest = hashlib.sha256(audit.read_bytes()).hexdigest()
-    if digest != certificate["source_audit_sha256"]:
+    if digest != expected_digest:
         raise ValueError("source audit hash does not match certificate")
     expected = [replay(n) for n in range(5)]
     if certificate["results"] != expected:

@@ -13,7 +13,14 @@ except Exception as exc:
     raise
 
 REQUIRED = {"claim_id", "claim_text", "claim_class", "support_type", "status", "promotion_condition"}
-ROOT = Path(__file__).resolve().parents[2]
+PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+COORDINATOR_ROOT = Path(__file__).resolve().parents[2]
+ROOT = (
+    COORDINATOR_ROOT
+    if (COORDINATOR_ROOT / "MATHCERT").exists()
+    and (COORDINATOR_ROOT / "schemas" / "claim_ledger.schema.json").exists()
+    else PACKAGE_ROOT
+)
 SCHEMA = json.loads((ROOT / "schemas" / "claim_ledger.schema.json").read_text(encoding="utf-8"))
 ITEM_SCHEMA = SCHEMA["properties"]["claims"]["items"]["properties"]
 ENUM_FIELDS = {key: set(value["enum"]) for key, value in ITEM_SCHEMA.items() if "enum" in value}
@@ -24,7 +31,12 @@ def is_url(value: str) -> bool:
 
 
 def artifact_exists(value: str) -> bool:
-    return is_url(value) or (ROOT / value).exists()
+    path = Path(value)
+    return (
+        is_url(value)
+        or (ROOT / path).exists()
+        or (path.parts and path.parts[0] == "MATHCERT" and (PACKAGE_ROOT / Path(*path.parts[1:])).exists())
+    )
 
 
 def validate(path: Path, seen_ids: dict[str, Path]) -> int:
@@ -65,7 +77,7 @@ def validate(path: Path, seen_ids: dict[str, Path]) -> int:
 
 
 def main() -> int:
-    roots = [ROOT / "templates", ROOT / "MATHSOLVE", ROOT / "MATHCERT"]
+    roots = [PACKAGE_ROOT] if ROOT == PACKAGE_ROOT else [ROOT / "templates", ROOT / "MATHSOLVE", ROOT / "MATHCERT"]
     files = []
     for root in roots:
         if root.exists():

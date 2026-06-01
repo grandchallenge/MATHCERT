@@ -3,7 +3,9 @@
   "generator_version": "uc-small-audit-v1",
   "counting_convention": "raw union-closed counts include the empty family; Frankl-facing counts include only nontrivial families with nonempty support",
   "source_audit": "MATHFORGE/domains/union_closed/union_closed_small_audit.json",
+  "source_audit_snapshot": "certificates/exact/source/union_closed_small_audit.json",
   "source_audit_sha256": "06903c0f6cb7168d8ccfba8b8ff037d70e46e7d0e5cdf6185b1d133a5d56db72",
+  "source_audit_snapshot_sha256": "5867f59822222f239cf74a44cdb64acfbcf6d730cf2e85d9853a360aeba2f21c",
   "results": [
     {
       "universe_size": 0,
