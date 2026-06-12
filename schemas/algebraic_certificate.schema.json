@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MATHCERT Algebraic Certificate",
+  "type": "object",
+  "required": [
+    "certificate_id",
+    "schema_version",
+    "claim_id",
+    "certificate_kind",
+    "coefficient_domain",
+    "variables",
+    "monomial_order",
+    "trusted_boundary",
+    "external_backend",
+    "problem",
+    "certificate",
+    "verification"
+  ],
+  "properties": {
+    "certificate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "claim_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "certificate_kind": {
+      "enum": [
+        "polynomial_identity",
+        "remainder_verification",
+        "groebner_basis",
+        "ideal_membership",
+        "ideal_nonmembership",
+        "ideal_equality",
+        "radical_membership",
+        "finite_truncation",
+        "finite_to_infinite_bridge"
+      ]
+    },
+    "coefficient_domain": {
+      "enum": [
+        "QQ",
+        "ZZ",
+        "FF",
+        "RR_FORMAL",
+        "CUSTOM"
+      ]
+    },
+    "variables": {
+      "type": "object",
+      "required": [
+        "universe",
+        "names"
+      ],
+      "properties": {
+        "universe": {
+          "type": "string"
+        },
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "index_type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "monomial_order": {
+      "type": "string"
+    },
+    "trusted_boundary": {
+      "enum": [
+        "external_output_only",
+        "external_certificate_recorded",
+        "script_replayed",
+        "lean_kernel_checked",
+        "integrated_checked_theorem"
+      ]
+    },
+    "external_backend": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "enum": [
+            "SageMath",
+            "SymPy",
+            "Singular",
+            "Magma",
+            "Custom"
+          ]
+        },
+        "version": {
+          "type": "string"
+        },
+        "command": {
+          "type": "string"
+        },
+        "output_sha256": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "problem": {
+      "type": "object",
+      "required": [
+        "statement"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string"
+        },
+        "generators": {
+          "type": "array"
+        },
+        "target": {
+          "type": "array"
+        },
+        "side_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "certificate": {
+      "type": "object",
+      "description": "Witness data: coefficients, normal forms, bases, reductions, exponents, or branch metadata.",
+      "additionalProperties": true
+    },
+    "verification": {
+      "type": "object",
+      "required": [
+        "lean_status"
+      ],
+      "properties": {
+        "lean_status": {
+          "enum": [
+            "not_started",
+            "statement_only",
+            "checked_local_lemma",
+            "checked_theorem"
+          ]
+        },
+        "lean_file": {
+          "type": "string"
+        },
+        "lean_theorem": {
+          "type": "string"
+        },
+        "replay_script": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}
