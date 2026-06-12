@@ -1,0 +1,26 @@
+claims:
+  - claim_id: ALG-GB-DEMO-C001
+    short_name: toy_square_identity_certificate_lane
+    claim_text: "The polynomial identity (x + y)^2 = x^2 + 2xy + y^2 is registered as a toy algebraic certificate and checked as a Lean local lemma."
+    claim_class: GROEBNER_CERTIFIED
+    support_type: LEAN_KERNEL_CHECKED_CERTIFICATE
+    status: CERTIFIED
+    certainty: "kernel-checked toy fixture; not a substantive mathematical result"
+    source_or_artifact:
+      - certificates/algebraic/GB-DEMO-001.json
+      - MathCert/Algebraic/ToyIdentity.lean
+      - https://arxiv.org/pdf/2602.12772
+      - https://arxiv.org/pdf/2604.13514
+    assumptions:
+      - "Rational polynomial arithmetic."
+      - "The JSON artifact is provenance; the Lean theorem is the trusted boundary."
+    promotion_condition: "Use the same lane for a nontrivial GCL algebraic subclaim with an exported CAS certificate and a Lean-checked replay theorem."
+    related_files:
+      - docs/algebraic_certificate_lane.md
+      - schemas/algebraic_certificate.schema.json
+    certificate_metadata:
+      certificate_id: GB-DEMO-001
+      certificate_kind: polynomial_identity
+      certificate_path: certificates/algebraic/GB-DEMO-001.json
+      lean_theorem: MathCert.Algebraic.toy_square_identity
+      trusted_boundary: lean_kernel_checked

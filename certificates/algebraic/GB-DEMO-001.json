@@ -1,0 +1,86 @@
+{
+  "certificate_id": "GB-DEMO-001",
+  "schema_version": "0.1.0",
+  "claim_id": "ALG-GB-DEMO-C001",
+  "certificate_kind": "polynomial_identity",
+  "coefficient_domain": "QQ",
+  "variables": {
+    "universe": "finite",
+    "names": [
+      "x",
+      "y"
+    ],
+    "index_type": "Fin 2"
+  },
+  "monomial_order": "lex",
+  "trusted_boundary": "lean_kernel_checked",
+  "external_backend": {
+    "name": "SymPy",
+    "version": "fixture",
+    "command": "expand((x + y)**2 - (x**2 + 2*x*y + y**2))",
+    "output_sha256": "6492d9116f7c5d39d3606ba89d1f64a09443fce12cb779290e3fa8dbdaad5bcd"
+  },
+  "problem": {
+    "statement": "(x + y)^2 = x^2 + 2xy + y^2 over QQ[x,y]",
+    "target": [
+      [
+        {
+          "c": [
+            1,
+            1
+          ],
+          "e": [
+            [
+              0,
+              2
+            ]
+          ]
+        },
+        {
+          "c": [
+            2,
+            1
+          ],
+          "e": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "c": [
+            1,
+            1
+          ],
+          "e": [
+            [
+              1,
+              2
+            ]
+          ]
+        }
+      ]
+    ],
+    "side_conditions": []
+  },
+  "certificate": {
+    "external_payload_sha256": "6492d9116f7c5d39d3606ba89d1f64a09443fce12cb779290e3fa8dbdaad5bcd",
+    "normal_form": [],
+    "meaning": "The difference between left and right sides reduces to the zero polynomial."
+  },
+  "verification": {
+    "lean_status": "checked_local_lemma",
+    "lean_file": "MathCert/Algebraic/ToyIdentity.lean",
+    "lean_theorem": "MathCert.Algebraic.toy_square_identity",
+    "replay_script": "ci/validate_algebraic_certificates.py"
+  },
+  "references": [
+    "https://arxiv.org/pdf/2602.12772",
+    "https://arxiv.org/pdf/2604.13514"
+  ]
+}
