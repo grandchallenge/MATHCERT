@@ -5,7 +5,9 @@ inductive ClaimType where
   | provedInPackage
   | formalized
   | computedExactly
+  | algebraicCertified
   | intervalCertified
+  | satSmtCertified
   | literatureDerived
   | heuristic
   | conjectural
