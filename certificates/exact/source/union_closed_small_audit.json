@@ -1,0 +1,56 @@
+{
+  "generator_version": "uc-small-audit-v1",
+  "counting_convention": "raw union-closed counts include the empty family; Frankl-facing counts include only nontrivial families with nonempty support",
+  "results": [
+    {
+      "n": 0,
+      "universe_size": 0,
+      "all_subsets": 1,
+      "all_families": 2,
+      "union_closed_families": 2,
+      "nontrivial_union_closed_families": 0,
+      "violations": 0,
+      "violation_examples_bitmasks": []
+    },
+    {
+      "n": 1,
+      "universe_size": 1,
+      "all_subsets": 2,
+      "all_families": 4,
+      "union_closed_families": 4,
+      "nontrivial_union_closed_families": 2,
+      "violations": 0,
+      "violation_examples_bitmasks": []
+    },
+    {
+      "n": 2,
+      "universe_size": 2,
+      "all_subsets": 4,
+      "all_families": 16,
+      "union_closed_families": 14,
+      "nontrivial_union_closed_families": 12,
+      "violations": 0,
+      "violation_examples_bitmasks": []
+    },
+    {
+      "n": 3,
+      "universe_size": 3,
+      "all_subsets": 8,
+      "all_families": 256,
+      "union_closed_families": 122,
+      "nontrivial_union_closed_families": 120,
+      "violations": 0,
+      "violation_examples_bitmasks": []
+    },
+    {
+      "n": 4,
+      "universe_size": 4,
+      "all_subsets": 16,
+      "all_families": 65536,
+      "union_closed_families": 4960,
+      "nontrivial_union_closed_families": 4958,
+      "violations": 0,
+      "violation_examples_bitmasks": []
+    }
+  ]
+}
