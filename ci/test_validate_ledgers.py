@@ -22,7 +22,8 @@ def valid_claim(claim_id: str) -> dict:
         "support_type": "HEURISTIC_ARGUMENT",
         "status": "DRAFT",
         "promotion_condition": "Replace with a checked result.",
-        "source_or_artifact": [],
+        "source_or_artifact": ["https://example.com/test-artifact"],
+        "knowledge_graph_refs": ["UC-WP04"],
     }
 
 
@@ -44,6 +45,24 @@ def main() -> int:
         claim["source_or_artifact"] = ["does/not/exist.txt"]
         write_ledger(missing_artifact, [claim])
         assert validate(missing_artifact, {}) == 1
+
+        empty_artifact = root / "empty_artifact.yaml"
+        claim = valid_claim("TEST-C004")
+        claim["source_or_artifact"] = []
+        write_ledger(empty_artifact, [claim])
+        assert validate(empty_artifact, {}) == 1
+
+        missing_promotion = root / "missing_promotion.yaml"
+        claim = valid_claim("TEST-C005")
+        claim["promotion_condition"] = " "
+        write_ledger(missing_promotion, [claim])
+        assert validate(missing_promotion, {}) == 1
+
+        missing_graph_ref = root / "missing_graph_ref.yaml"
+        claim = valid_claim("TEST-C006")
+        claim["knowledge_graph_refs"] = ["MISSING-NODE"]
+        write_ledger(missing_graph_ref, [claim])
+        assert validate(missing_graph_ref, {}) == 1
 
     print("Ledger validator rejection tests passed")
     return 0

@@ -1,0 +1,46 @@
+{
+  "contract_version": "1.0.0",
+  "domain_id": "UC",
+  "knowledge_graph_refs": [
+    "UC-DOMAIN",
+    "UC-CONJECTURE-FRANKL",
+    "UC-PROBLEM-SET-FAMILY",
+    "UC-PROBLEM-LATTICE",
+    "UC-DEFINITION-UNION-CLOSED-FAMILY",
+    "UC-OBJECT-FINITE-LATTICE",
+    "UC-METHOD-ENTROPY",
+    "UC-METHOD-AVERAGING",
+    "UC-METHOD-EXACT-ENUMERATION",
+    "UC-WP01",
+    "UC-WP02",
+    "UC-WP03",
+    "UC-WP04",
+    "UC-WP05",
+    "UC-CLAIM-WP05-L001",
+    "UC-CLAIM-WP05-COROLLARY-2-4",
+    "UC-CLAIM-WP05-LEMMA-2-5",
+    "UC-CLAIM-WP05-THEOREM-2-6",
+    "UC-CLAIM-WP05-THEOREM-1-4",
+    "UC-CLAIM-WP05-THEOREM-2-9",
+    "UC-CLAIM-WP05-COROLLARY-2-10",
+    "UC-CLAIM-WP05-COROLLARY-2-11",
+    "UC-CLAIM-WP05-THEOREM-2-12",
+    "UC-ARTIFACT-LEAN-FRANKL-STATEMENT",
+    "UC-ARTIFACT-N4-CERTIFICATE",
+    "UC-ARTIFACT-LATTICE-MINIMUM-LEAN",
+    "UC-ARTIFACT-LATTICE-DELETION-LEAN"
+  ],
+  "classification_mapping_refs": [
+    "UC-MAP-MSC-05D05",
+    "UC-MAP-MSC-06A12",
+    "UC-MAP-ARXIV-MATH-CO"
+  ],
+  "source_ids": [
+    "msc2020_skos",
+    "zbmath_open",
+    "openalex",
+    "arxiv",
+    "ontomathpro",
+    "math_programme"
+  ]
+}

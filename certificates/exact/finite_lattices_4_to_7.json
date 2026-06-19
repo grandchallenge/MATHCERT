@@ -1,0 +1,42 @@
+{
+  "certificate_type": "finite_lattice_small_order_replay",
+  "generator_version": "finite-lattice-linear-extension-v1",
+  "source_claim": "Bouchard Theorem 2.15 branch (i): every lattice with 4..7 elements has at least two doubly irreducible elements",
+  "source": "https://arxiv.org/abs/2503.00277",
+  "enumeration_convention": "strict partial orders on {0,...,n-1} whose numeric labels form a linear extension; unlabeled counts are recovered by canonicalizing the reflexive order under all relabelings",
+  "irreducibility_convention": "doubly irreducible means exactly one lower cover and exactly one upper cover",
+  "results": [
+    {
+      "size": 4,
+      "candidate_relation_masks": 64,
+      "linear_extension_lattice_presentations": 2,
+      "unlabeled_lattice_count": 2,
+      "minimum_doubly_irreducible_elements": 2,
+      "violating_lattice_presentations": 0
+    },
+    {
+      "size": 5,
+      "candidate_relation_masks": 1024,
+      "linear_extension_lattice_presentations": 7,
+      "unlabeled_lattice_count": 5,
+      "minimum_doubly_irreducible_elements": 2,
+      "violating_lattice_presentations": 0
+    },
+    {
+      "size": 6,
+      "candidate_relation_masks": 32768,
+      "linear_extension_lattice_presentations": 39,
+      "unlabeled_lattice_count": 15,
+      "minimum_doubly_irreducible_elements": 2,
+      "violating_lattice_presentations": 0
+    },
+    {
+      "size": 7,
+      "candidate_relation_masks": 2097152,
+      "linear_extension_lattice_presentations": 320,
+      "unlabeled_lattice_count": 53,
+      "minimum_doubly_irreducible_elements": 2,
+      "violating_lattice_presentations": 0
+    }
+  ]
+}

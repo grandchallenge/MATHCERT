@@ -10,3 +10,5 @@ claims:
       - MATHCERT/MathCert/Domains/UnionClosed/TwoElementCase.lean
     assumptions: []
     promotion_condition: Already checked locally; preserve under CI.
+    knowledge_graph_refs:
+      - UC-WP04

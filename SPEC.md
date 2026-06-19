@@ -24,6 +24,9 @@ MATHCERT owns:
 8. **CI gates** preventing silent drift.
 9. **Assumption and dependency ledgers**.
 10. **Formalization blocker reports** for missing libraries or unformalized background.
+11. **Programme reference validation** for stable knowledge graph provenance,
+    without allowing classifications or discovery metadata to determine
+    certification.
 
 ## Non-responsibilities
 

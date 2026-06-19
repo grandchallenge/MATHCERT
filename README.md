@@ -28,7 +28,13 @@ toolchain. The package-local pin makes that dependency explicit.
 ## Certification boundary
 
 The full union-closed sets conjecture is stated but not proved. The checked local
-lemmas and independently replayed `n <= 4` audit are bounded infrastructure.
+lemmas, the independently replayed `n <= 4` audit, the checked
+minimum-lattice-counterexample theorem spine, and the independently replayed
+finite-lattice certificate for sizes `4..7` are restricted infrastructure.
+
+Knowledge graph and classification references are provenance links only.
+Certification remains determined by checked proofs, replayable certificates, and
+the claim ledger policy.
 
 ## Algebraic certificate lane
 

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Finite Lattice Small-Order Replay Certificate",
+  "type": "object",
+  "required": [
+    "certificate_type",
+    "generator_version",
+    "source_claim",
+    "source",
+    "enumeration_convention",
+    "irreducibility_convention",
+    "results"
+  ],
+  "properties": {
+    "certificate_type": {
+      "const": "finite_lattice_small_order_replay"
+    },
+    "generator_version": {
+      "type": "string"
+    },
+    "source_claim": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "enumeration_convention": {
+      "const": "strict partial orders on {0,...,n-1} whose numeric labels form a linear extension; unlabeled counts are recovered by canonicalizing the reflexive order under all relabelings"
+    },
+    "irreducibility_convention": {
+      "const": "doubly irreducible means exactly one lower cover and exactly one upper cover"
+    },
+    "results": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "size",
+          "candidate_relation_masks",
+          "linear_extension_lattice_presentations",
+          "unlabeled_lattice_count",
+          "minimum_doubly_irreducible_elements",
+          "violating_lattice_presentations"
+        ],
+        "properties": {
+          "size": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 7
+          },
+          "candidate_relation_masks": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "linear_extension_lattice_presentations": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unlabeled_lattice_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minimum_doubly_irreducible_elements": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "violating_lattice_presentations": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}

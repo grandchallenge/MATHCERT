@@ -16,6 +16,7 @@
           "claim_class",
           "support_type",
           "status",
+          "source_or_artifact",
           "promotion_condition"
         ],
         "properties": {
@@ -131,6 +132,14 @@
               }
             },
             "additionalProperties": true
+          },
+          "knowledge_graph_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         }
       }
