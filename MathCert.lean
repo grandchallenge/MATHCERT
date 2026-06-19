@@ -6,5 +6,11 @@ import MathCert.Algebraic.ToyIdentity
 import MathCert.Domains.UnionClosed.Basic
 import MathCert.Domains.UnionClosed.Frequency
 import MathCert.Domains.UnionClosed.FranklStatement
+import MathCert.Domains.UnionClosed.LatticeDeletion
+import MathCert.Domains.UnionClosed.LatticeInterval
+import MathCert.Domains.UnionClosed.LatticeSubposet
+import MathCert.Domains.UnionClosed.LatticeMinimum
+import MathCert.Domains.UnionClosed.LatticeLength
+import MathCert.Domains.UnionClosed.RivalLength
 import MathCert.Domains.UnionClosed.SingletonCase
 import MathCert.Domains.UnionClosed.TwoElementCase

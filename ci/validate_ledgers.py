@@ -12,18 +12,46 @@ except Exception as exc:
     print("PyYAML is required for ledger validation", file=sys.stderr)
     raise
 
-REQUIRED = {"claim_id", "claim_text", "claim_class", "support_type", "status", "promotion_condition"}
+REQUIRED = {
+    "claim_id",
+    "claim_text",
+    "claim_class",
+    "support_type",
+    "status",
+    "source_or_artifact",
+    "promotion_condition",
+}
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
-COORDINATOR_ROOT = Path(__file__).resolve().parents[2]
-ROOT = (
-    COORDINATOR_ROOT
-    if (COORDINATOR_ROOT / "MATHCERT").exists()
-    and (COORDINATOR_ROOT / "schemas" / "claim_ledger.schema.json").exists()
-    else PACKAGE_ROOT
+WORKSPACE_ROOT = PACKAGE_ROOT.parent
+SCHEMA_ROOT = next(
+    path
+    for path in (
+        WORKSPACE_ROOT / "MATH-PROGRAMME",
+        WORKSPACE_ROOT,
+        PACKAGE_ROOT,
+    )
+    if (path / "schemas" / "claim_ledger.schema.json").exists()
 )
-SCHEMA = json.loads((ROOT / "schemas" / "claim_ledger.schema.json").read_text(encoding="utf-8"))
+ARTIFACT_ROOT = WORKSPACE_ROOT if (WORKSPACE_ROOT / "MATHCERT").exists() else PACKAGE_ROOT
+SCHEMA = json.loads(
+    (SCHEMA_ROOT / "schemas" / "claim_ledger.schema.json").read_text(encoding="utf-8")
+)
 ITEM_SCHEMA = SCHEMA["properties"]["claims"]["items"]["properties"]
 ENUM_FIELDS = {key: set(value["enum"]) for key, value in ITEM_SCHEMA.items() if "enum" in value}
+
+
+def load_graph_refs() -> set[str]:
+    graph_path = WORKSPACE_ROOT / "MATH-PROGRAMME" / "knowledge_graph" / "union_closed.json"
+    if graph_path.exists():
+        graph = json.loads(graph_path.read_text(encoding="utf-8"))
+        return {node["node_id"] for node in graph["nodes"]}
+    contract = json.loads(
+        (PACKAGE_ROOT / "contracts" / "classification_discovery_refs.json").read_text(encoding="utf-8")
+    )
+    return set(contract["knowledge_graph_refs"])
+
+
+ALLOWED_GRAPH_REFS = load_graph_refs()
 
 
 def is_url(value: str) -> bool:
@@ -34,7 +62,8 @@ def artifact_exists(value: str) -> bool:
     path = Path(value)
     return (
         is_url(value)
-        or (ROOT / path).exists()
+        or (ARTIFACT_ROOT / path).exists()
+        or (PACKAGE_ROOT / path).exists()
         or (path.parts and path.parts[0] == "MATHCERT" and (PACKAGE_ROOT / Path(*path.parts[1:])).exists())
     )
 
@@ -69,15 +98,36 @@ def validate(path: Path, seen_ids: dict[str, Path]) -> int:
         if not str(claim["promotion_condition"]).strip():
             print(f"{path}:{i}: promotion_condition must not be empty")
             errors += 1
-        for artifact in claim.get("source_or_artifact", []):
+        artifacts = claim["source_or_artifact"]
+        if not isinstance(artifacts, list) or not artifacts:
+            print(f"{path}:{i}: source_or_artifact must be a nonempty list")
+            errors += 1
+            continue
+        for artifact in artifacts:
+            if not isinstance(artifact, str) or not artifact.strip():
+                print(f"{path}:{i}: artifact entries must be nonempty strings")
+                errors += 1
+                continue
             if not artifact_exists(artifact):
                 print(f"{path}:{i}: missing artifact {artifact}")
+                errors += 1
+        for graph_ref in claim.get("knowledge_graph_refs", []):
+            if graph_ref not in ALLOWED_GRAPH_REFS:
+                print(f"{path}:{i}: unresolved knowledge_graph_ref {graph_ref}")
                 errors += 1
     return errors
 
 
 def main() -> int:
-    roots = [PACKAGE_ROOT] if ROOT == PACKAGE_ROOT else [ROOT / "templates", ROOT / "MATHSOLVE", ROOT / "MATHCERT"]
+    roots = (
+        [PACKAGE_ROOT]
+        if ARTIFACT_ROOT == PACKAGE_ROOT
+        else [
+            ARTIFACT_ROOT / "templates",
+            ARTIFACT_ROOT / "MATHSOLVE",
+            ARTIFACT_ROOT / "MATHCERT",
+        ]
+    )
     files = []
     for root in roots:
         if root.exists():
