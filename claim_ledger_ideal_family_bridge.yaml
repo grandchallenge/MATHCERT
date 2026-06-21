@@ -197,3 +197,25 @@ claims:
     knowledge_graph_refs:
       - UC-WP05
       - UC-METHOD-AVERAGING
+
+  - claim_id: UC-WP06-L009
+    short_name: complement-class wrapper
+    claim_text: MATHCERT contains a checked wrapper theorem showing that any finite family explicitly represented as the complement of a local ideal family is union-closed, nontrivial, and Frankl-abundant.
+    claim_class: FORMALIZED
+    support_type: LEAN_PROOF
+    status: CHECKED
+    certainty: CERTIFIED
+    source_or_artifact:
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyDuality.lean
+      - https://github.com/grandchallenge/MATHSOLVE/blob/8fa8353173d058b3edfb187e57e6d81d00895398/domains/union_closed/WP06_ideal_family_bridge/COMPLEMENT_CLASS_NEXT_TARGET_ASSESSMENT.md
+      - https://github.com/grandchallenge/MATHSOLVE/blob/8fa8353173d058b3edfb187e57e6d81d00895398/domains/union_closed/WP06_ideal_family_bridge/12_NEXT_EXECUTABLE_STEP.md
+    assumptions:
+      - Applies only when the target family is explicitly represented as complementFamilyOn F U for some local ideal family F on U.
+      - This is a wrapper around UC-WP06-L008, not a proof that every union-closed family has such a representation.
+    promotion_condition: Already checked locally; preserve UC-WP06-L008 as the canonical complement-duality theorem and use this wrapper only for complement-class reuse.
+    certificate_metadata:
+      lean_theorem: MathCert.UnionClosed.complementOfLocalIdealFamily_frankl
+      trusted_boundary: integrated_checked_theorem
+    knowledge_graph_refs:
+      - UC-WP05
+      - UC-METHOD-AVERAGING

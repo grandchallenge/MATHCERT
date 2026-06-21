@@ -56,6 +56,7 @@ Checked bridge theorems:
 - `complementFamilyOn_abundant_of_exists_rare`
 - `complementFamilyOn_averageAbundant_of_averageRare`
 - `localIdealFamily_complement_frankl`
+- `complementOfLocalIdealFamily_frankl`
 - `localIdealFamily_complement_averageAbundant`
 
 Checked NDS support theorems:

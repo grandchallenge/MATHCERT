@@ -250,6 +250,17 @@ theorem localIdealFamily_complement_frankl
   rcases hAbundant with ⟨x, hxSupport, _⟩
   exact ⟨x, hxSupport⟩
 
+/-- Families explicitly represented as complements of local ideal families
+inherit the checked Frankl-facing conclusion. -/
+theorem complementOfLocalIdealFamily_frankl
+    {G : Family α}
+    (hG : ∃ F U, IsIdealFamilyOn F U ∧ G = complementFamilyOn F U) :
+    IsUnionClosed G ∧ IsNontrivial G ∧ IsFranklAbundant G := by
+  classical
+  rcases hG with ⟨F, U, hIdeal, hEq⟩
+  rw [hEq]
+  exact localIdealFamily_complement_frankl hIdeal
+
 /-- The checked average-rarity theorem for local ideal families dualizes to
 average abundance of the complement family. -/
 theorem localIdealFamily_complement_averageAbundant
