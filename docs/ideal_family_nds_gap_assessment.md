@@ -109,11 +109,9 @@ not imply average rarity for arbitrary finite families.
 
 ## Next Formal Target
 
-The local ideal-family average-rarity bridge is now closed.  The next formal
-target should be selected from the source roadmap rather than extending this
-branch ad hoc.  Complement duality to union-closed abundance is the natural
-follow-up if the campaign wants to connect this ideal-family theorem back to
-Frankl-facing statements.
+The local ideal-family average-rarity bridge and its complement-duality bridge
+to union-closed abundance are now closed.  The next formal target should be
+selected from the source roadmap rather than extending this branch ad hoc.
 
 Do not promote the upstream NDS theorem until its active proof placeholders are
 removed.  The local proof now supplies the MATHCERT theorem independently; the
