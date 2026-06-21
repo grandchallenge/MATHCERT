@@ -1,0 +1,174 @@
+claims:
+  - claim_id: UC-WP06-L001
+    short_name: ideal-family conditional average bridge
+    claim_text: A local finite family satisfying the ideal-family hypotheses is average-rare whenever the ported predicate-family ideal has NDS at most zero.
+    claim_class: FORMALIZED
+    support_type: LEAN_PROOF
+    status: CHECKED
+    certainty: CERTIFIED
+    source_or_artifact:
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyBridge.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyPort.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyPort/Core.lean
+      - https://github.com/grandchallenge/MATHSOLVE/blob/e028c7a97cdbd60c4ceaf9e33895c700750032e9/external_audits/frankl_lean/BUILD_AUDIT.md
+    assumptions:
+      - Ported NDS nonpositivity is supplied as an explicit Lean hypothesis.
+    promotion_condition: Promoted by UC-WP06-L007; retain this theorem as the conditional bridge used by the checked local proof.
+    certificate_metadata:
+      lean_theorem: MathCert.UnionClosed.localIdealFamily_averageRare_of_port_nds
+      trusted_boundary: integrated_checked_theorem
+    knowledge_graph_refs:
+      - UC-WP05
+      - UC-METHOD-AVERAGING
+
+  - claim_id: UC-WP06-L002
+    short_name: ideal-family rare vertex bridge
+    claim_text: A local finite family satisfying the ideal-family hypotheses has an element of the ground set whose local frequency is at most half the family size.
+    claim_class: FORMALIZED
+    support_type: LEAN_PROOF
+    status: CHECKED
+    certainty: CERTIFIED
+    source_or_artifact:
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyBridge.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyPort/FranklRare.lean
+      - https://github.com/grandchallenge/MATHSOLVE/blob/e028c7a97cdbd60c4ceaf9e33895c700750032e9/external_audits/frankl_lean/BUILD_AUDIT.md
+    assumptions: []
+    promotion_condition: Already checked locally; preserve under CI and keep external audit record with the port.
+    certificate_metadata:
+      lean_theorem: MathCert.UnionClosed.localIdealFamily_exists_rare
+      trusted_boundary: integrated_checked_theorem
+    knowledge_graph_refs:
+      - UC-WP05
+      - UC-METHOD-AVERAGING
+
+  - claim_id: UC-WP06-BLOCKER-001
+    short_name: upstream NDS theorem not promoted
+    claim_text: The audited upstream NDS theorem path remains unpromoted because it contains active proof placeholders at the pinned commit and did not build cleanly in this environment. This no longer blocks the local MATHCERT theorem, which is superseded by the checked local proof in UC-WP06-L007.
+    claim_class: SUPERSEDED
+    support_type: SOURCE_CITATION
+    status: SUPERSEDED
+    certainty: SUPERSEDED
+    source_or_artifact:
+      - https://github.com/grandchallenge/MATHSOLVE/blob/e028c7a97cdbd60c4ceaf9e33895c700750032e9/external_audits/frankl_lean/BUILD_AUDIT.md
+      - MATHCERT/docs/ideal_family_nds_gap_assessment.md
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyNDS.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyTrace.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyContraction.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyNDSDiff.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyNDSEndgame.lean
+    assumptions: []
+    promotion_condition: Keep as provenance for the upstream audit only; use UC-WP06-L007 for the trusted local theorem.
+    knowledge_graph_refs:
+      - UC-WP05
+      - UC-METHOD-AVERAGING
+
+  - claim_id: UC-WP06-L003
+    short_name: rare-to-average gap
+    claim_text: The bridge formally records that average rarity is a frequency-sum bound, that everywhere rarity implies average rarity, and that existence of one rare element alone does not imply average rarity for arbitrary finite families.
+    claim_class: FORMALIZED
+    support_type: LEAN_PROOF
+    status: CHECKED
+    certainty: CERTIFIED
+    source_or_artifact:
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyBridge.lean
+      - MATHCERT/docs/ideal_family_nds_gap_assessment.md
+    assumptions: []
+    promotion_condition: Use these lemmas to guide the next local NDS nonpositivity proof; do not treat rare-vertex existence as an average-rarity proof.
+    certificate_metadata:
+      lean_theorem: MathCert.UnionClosed.existsRare_not_sufficient_for_averageRare
+      trusted_boundary: integrated_checked_theorem
+    knowledge_graph_refs:
+      - UC-WP05
+      - UC-METHOD-AVERAGING
+
+  - claim_id: UC-WP06-L004
+    short_name: ideal-family NDS support layer
+    claim_text: MATHCERT contains checked NDS support lemmas for the ideal-family bridge, including incidence double counting, normalized-degree summation, the one-point ground base case, and the degree-one consequence of missing singleton membership.
+    claim_class: FORMALIZED
+    support_type: LEAN_PROOF
+    status: CHECKED
+    certainty: CERTIFIED
+    source_or_artifact:
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyNDS.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyBridge.lean
+      - MATHCERT/docs/ideal_family_nds_gap_assessment.md
+    assumptions:
+      - This claim does not assert unconditional NDS nonpositivity.
+    promotion_condition: Consumed by the checked trace/contraction induction in UC-WP06-L007; retain as reusable NDS infrastructure.
+    certificate_metadata:
+      lean_theorem: IdealFamily.SetFamily.sum_normalizedDegree_over_ground_eq_nds
+      trusted_boundary: integrated_checked_theorem
+    knowledge_graph_refs:
+      - UC-WP05
+      - UC-METHOD-AVERAGING
+
+  - claim_id: UC-WP06-L005
+    short_name: ideal-family trace and contraction infrastructure
+    claim_text: MATHCERT contains checked trace and contraction infrastructure for the ideal-family NDS proof, including the traced ideal, its carrier decomposition as deletion union contraction, strict ground-cardinality decrease, injectivity of erasing a contained vertex, and contraction cardinality/sum identities.
+    claim_class: FORMALIZED
+    support_type: LEAN_PROOF
+    status: CHECKED
+    certainty: CERTIFIED
+    source_or_artifact:
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyTrace.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyContraction.lean
+      - MATHCERT/docs/ideal_family_nds_gap_assessment.md
+    assumptions:
+      - This claim does not assert the exact NDS trace-difference formula.
+      - This claim does not assert unconditional NDS nonpositivity.
+    promotion_condition: Consumed by the checked trace/contraction induction in UC-WP06-L007; retain as reusable trace and contraction infrastructure.
+    certificate_metadata:
+      lean_theorem: IdealFamily.Ideal.trace_carrier_eq_del_union_contr
+      trusted_boundary: integrated_checked_theorem
+    knowledge_graph_refs:
+      - UC-WP05
+      - UC-METHOD-AVERAGING
+
+  - claim_id: UC-WP06-L006
+    short_name: ideal-family exact NDS trace difference
+    claim_text: MATHCERT contains a checked exact one-step NDS trace-difference formula for ideal families, expressing nds(F) minus nds(trace_v F) as the normalized degree at v plus the intersection-block sum over contraction and deletion. It also contains the checked degree-one trace-drop specializations for the two ground.erase v membership subcases.
+    claim_class: FORMALIZED
+    support_type: LEAN_PROOF
+    status: CHECKED
+    certainty: CERTIFIED
+    source_or_artifact:
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyNDSDiff.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyTrace.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyContraction.lean
+      - MATHCERT/docs/ideal_family_nds_gap_assessment.md
+    assumptions:
+      - This claim does not assert unconditional NDS nonpositivity.
+    promotion_condition: Consumed by the checked trace/contraction induction in UC-WP06-L007; retain the exact trace-difference formula and degree-one branches as reusable arithmetic infrastructure.
+    certificate_metadata:
+      lean_theorem: IdealFamily.Ideal.nds_diff_trace_as_normdeg
+      trusted_boundary: integrated_checked_theorem
+    knowledge_graph_refs:
+      - UC-WP05
+      - UC-METHOD-AVERAGING
+
+  - claim_id: UC-WP06-L007
+    short_name: local ideal-family average rarity
+    claim_text: MATHCERT contains a checked local trace/contraction induction proving NDS nonpositivity for every ported ideal family, the bridge theorem localIdealFamily_port_nds_nonpos, and the unconditional localIdealFamily_averageRare theorem.
+    claim_class: FORMALIZED
+    support_type: LEAN_PROOF
+    status: CHECKED
+    certainty: CERTIFIED
+    source_or_artifact:
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyNDSEndgame.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyNDS.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyNDSDiff.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyContraction.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyTrace.lean
+      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyBridge.lean
+      - MATHCERT/docs/ideal_family_nds_gap_assessment.md
+      - MATHCERT/docs/ideal_family_bridge_phase_closeout.md
+    assumptions:
+      - Applies to finite local families satisfying IsIdealFamilyOn.
+      - The external upstream repository is provenance only and is not imported as a trusted dependency.
+    promotion_condition: Already checked locally; preserve through lake build, no-sorry scan, and ledger validation before using as an input to later union-closed duality work.
+    certificate_metadata:
+      lean_theorem: MathCert.UnionClosed.localIdealFamily_averageRare
+      trusted_boundary: integrated_checked_theorem
+    knowledge_graph_refs:
+      - UC-WP05
+      - UC-METHOD-AVERAGING
