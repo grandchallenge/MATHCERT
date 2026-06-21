@@ -165,34 +165,9 @@ claims:
     assumptions:
       - Applies to finite local families satisfying IsIdealFamilyOn.
       - The external upstream repository is provenance only and is not imported as a trusted dependency.
-    promotion_condition: Already checked locally and consumed by the complement-duality bridge in UC-WP06-L008; preserve through lake build, no-sorry scan, and ledger validation.
+    promotion_condition: Already checked locally; preserve through lake build, no-sorry scan, and ledger validation before using as an input to later union-closed duality work.
     certificate_metadata:
       lean_theorem: MathCert.UnionClosed.localIdealFamily_averageRare
-      trusted_boundary: integrated_checked_theorem
-    knowledge_graph_refs:
-      - UC-WP05
-      - UC-METHOD-AVERAGING
-
-  - claim_id: UC-WP06-L008
-    short_name: ideal-family complement duality
-    claim_text: "MATHCERT contains a checked complement-duality bridge: the complement of a local ideal family is union-closed, nontrivial, and Frankl-abundant; average rarity of the ideal family also dualizes to average abundance of the complement family."
-    claim_class: FORMALIZED
-    support_type: LEAN_PROOF
-    status: CHECKED
-    certainty: CERTIFIED
-    source_or_artifact:
-      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyDuality.lean
-      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyNDSEndgame.lean
-      - MATHCERT/MathCert/Domains/UnionClosed/IdealFamilyBridge.lean
-      - MATHCERT/MathCert/Domains/UnionClosed/FranklStatement.lean
-      - MATHCERT/docs/ideal_family_nds_gap_assessment.md
-      - MATHCERT/docs/ideal_family_bridge_phase_closeout.md
-    assumptions:
-      - Applies to complements of finite local families satisfying IsIdealFamilyOn on a fixed finite ground.
-      - This is a restricted ideal-family-to-union-closed bridge, not a proof of the full Frankl conjecture.
-    promotion_condition: Already checked locally; preserve through lake build, no-sorry scan, and ledger validation before using as a Frankl-facing restricted-result input.
-    certificate_metadata:
-      lean_theorem: MathCert.UnionClosed.localIdealFamily_complement_frankl
       trusted_boundary: integrated_checked_theorem
     knowledge_graph_refs:
       - UC-WP05
