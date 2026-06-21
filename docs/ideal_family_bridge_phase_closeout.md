@@ -37,6 +37,7 @@ Primary files:
 - `MathCert/Domains/UnionClosed/IdealFamilyContraction.lean`
 - `MathCert/Domains/UnionClosed/IdealFamilyNDSDiff.lean`
 - `MathCert/Domains/UnionClosed/IdealFamilyNDSEndgame.lean`
+- `MathCert/Domains/UnionClosed/IdealFamilyDuality.lean`
 
 Checked bridge theorems:
 
@@ -51,6 +52,11 @@ Checked bridge theorems:
 - `isAverageRareOn_iff_sum_freq_on`
 - `everywhereRare_averageRare`
 - `existsRare_not_sufficient_for_averageRare`
+- `complementFamilyOn_unionClosed_of_ideal`
+- `complementFamilyOn_abundant_of_exists_rare`
+- `complementFamilyOn_averageAbundant_of_averageRare`
+- `localIdealFamily_complement_frankl`
+- `localIdealFamily_complement_averageAbundant`
 
 Checked NDS support theorems:
 

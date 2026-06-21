@@ -33,12 +33,14 @@ noncomputable def carrier (e : K ↪o L) : Finset L := by
   classical
   exact Finset.univ.image e
 
+omit [Fintype L] [BoundedOrder L] [BoundedOrder K] in
 @[simp]
 theorem mem_carrier {e : K ↪o L} {y : L} :
     y ∈ carrier e ↔ ∃ x : K, e x = y := by
   classical
   simp [carrier]
 
+omit [Fintype L] [BoundedOrder L] [BoundedOrder K] in
 @[simp]
 theorem apply_mem_carrier (e : K ↪o L) (x : K) :
     e x ∈ carrier e := by
@@ -50,6 +52,7 @@ def HasBoundaryTouch (e : K ↪o L) : Prop :=
   ∃ x : K, x ≠ ⊥ ∧ x ≠ ⊤ ∧
     ∃ y : L, y ∉ carrier e ∧ (y ⋖ e x ∨ e x ⋖ y)
 
+omit [Fintype L] [BoundedOrder L] in
 theorem lower_cover_mem_of_noBoundary
     {e : K ↪o L} (hno : ¬HasBoundaryTouch e)
     {x : K} (hx_bot : x ≠ ⊥) (hx_top : x ≠ ⊤)
@@ -59,6 +62,7 @@ theorem lower_cover_mem_of_noBoundary
   by_contra hy
   exact hno ⟨x, hx_bot, hx_top, y, hy, Or.inl hyx⟩
 
+omit [Fintype L] [BoundedOrder L] in
 theorem upper_cover_mem_of_noBoundary
     {e : K ↪o L} (hno : ¬HasBoundaryTouch e)
     {x : K} (hx_bot : x ≠ ⊥) (hx_top : x ≠ ⊤)
@@ -68,6 +72,7 @@ theorem upper_cover_mem_of_noBoundary
   by_contra hy
   exact hno ⟨x, hx_bot, hx_top, y, hy, Or.inr hxy⟩
 
+omit [BoundedOrder L] in
 private theorem cover_below_mem_of_noBoundary
     {e : K ↪o L} (hno : ¬HasBoundaryTouch e)
     {q : K} (hq_bot : q ≠ ⊥) (hq_top : q ≠ ⊤)
@@ -80,6 +85,7 @@ private theorem cover_below_mem_of_noBoundary
   obtain ⟨z', hz'⟩ := (mem_carrier (e := e)).1 hzmem
   exact ⟨z', by simpa [hz'] using haz, by simpa [hz'] using hzq⟩
 
+omit [BoundedOrder L] in
 /--
 If an internal non-top sup-irreducible element has no ambient boundary touch,
 then its image is sup-irreducible in the ambient lattice.
@@ -91,7 +97,7 @@ theorem ambient_supIrred_of_noBoundary
   classical
   have hq_bot : q ≠ ⊥ := by
     intro h
-    exact hq.not_isMin (by simpa [h] using isMin_bot)
+    exact hq.not_isMin (by simp [h])
   constructor
   · intro hmin
     apply hq.not_isMin
@@ -128,6 +134,7 @@ theorem ambient_supIrred_of_noBoundary
     · have hval := congrArg e hzb
       exact (hzbq.ne hval).elim
 
+omit [BoundedOrder L] in
 private theorem cover_above_mem_of_noBoundary
     {e : K ↪o L} (hno : ¬HasBoundaryTouch e)
     {q : K} (hq_bot : q ≠ ⊥) (hq_top : q ≠ ⊤)
@@ -140,6 +147,7 @@ private theorem cover_above_mem_of_noBoundary
   obtain ⟨z', hz'⟩ := (mem_carrier (e := e)).1 hzmem
   exact ⟨z', by simpa [hz'] using hqz, by simpa [hz'] using hza⟩
 
+omit [BoundedOrder L] in
 /--
 If an internal non-bottom inf-irreducible element has no ambient boundary
 touch, then its image is inf-irreducible in the ambient lattice.
@@ -151,7 +159,7 @@ theorem ambient_infIrred_of_noBoundary
   classical
   have hq_top : q ≠ ⊤ := by
     intro h
-    exact hq.1 (by simpa [h] using isMax_top)
+    exact hq.1 (by simp [h])
   constructor
   · intro hmax
     apply hq.1
@@ -188,9 +196,10 @@ theorem ambient_infIrred_of_noBoundary
     · have hval := congrArg e hzb
       exact False.elim ((ne_of_lt hqzb.lt) hval.symm)
 
+omit [BoundedOrder L] in
 private theorem upper_candidate_top_le_of_noBoundary
     {e : K ↪o L} (hno : ¬HasBoundaryTouch e)
-    {q : K} (hq_bot : q ≠ ⊥) (hq_top : q ≠ ⊤)
+    {q : K} (hq_bot : q ≠ ⊥) (_hq_top : q ≠ ⊤)
     {y : L} (hqy : e q ≤ y) (hy : y ∉ carrier e) :
     e (⊤ : K) ≤ y := by
   classical

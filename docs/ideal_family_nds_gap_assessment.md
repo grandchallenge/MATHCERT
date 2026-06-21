@@ -38,6 +38,11 @@ Checked Lean theorems:
 - `IdealFamily.Ideal.inter_sum_le_contr_nds`
 - `IdealFamily.Ideal.nds_diff_singleton_nonpos_of_contr_nds`
 - `IdealFamily.Ideal.port_nds_nonpos`
+- `complementFamilyOn_unionClosed_of_ideal`
+- `complementFamilyOn_abundant_of_exists_rare`
+- `complementFamilyOn_averageAbundant_of_averageRare`
+- `localIdealFamily_complement_frankl`
+- `localIdealFamily_complement_averageAbundant`
 
 New checked file:
 
@@ -46,6 +51,7 @@ New checked file:
 - `MathCert/Domains/UnionClosed/IdealFamilyContraction.lean`
 - `MathCert/Domains/UnionClosed/IdealFamilyNDSDiff.lean`
 - `MathCert/Domains/UnionClosed/IdealFamilyNDSEndgame.lean`
+- `MathCert/Domains/UnionClosed/IdealFamilyDuality.lean`
 
 ## Former Gap Now Closed
 

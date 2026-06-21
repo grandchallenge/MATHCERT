@@ -142,11 +142,11 @@ private theorem upperConeCard_embedded_add_one
           _ = e (Classical.choose hy) := by rw [hk]
           _ = y.1 := hyspec
       · have hfalse : False := by
-          simpa [f, hx, hy] using hxy
+          simp [f, hx, hy] at hxy
         exact hfalse.elim
     · by_cases hy : ∃ k : K, e k = y.1
       · have hfalse : False := by
-          simpa [f, hx, hy] using hxy
+          simp [f, hx, hy] at hxy
         exact hfalse.elim
       · have hxtop :
             x.1 = ⊤ :=
@@ -244,7 +244,7 @@ private theorem upperConeCard_deletedTop_add_one
         exact hfalse.elim
     · by_cases hy : y.1 = ⊤
       · have hfalse : False := by
-          simpa [f, hx, hy] using hxy
+          simp [f, hx, hy] at hxy
         exact hfalse.elim
       · have hsub :
             (⟨⟨x.1, hx⟩, x.2⟩ :
@@ -1279,6 +1279,7 @@ theorem minimumCounterexample_meetIrred_has_exactCone_lower
         (x := m) (by simp)
   exact (not_le_of_gt hsmaller) hminimal
 
+omit [BoundedOrder L] in
 private theorem upperConeCard_upperInterval
     {x : L} [Fintype (Set.Ici x)] (q : Set.Ici x) :
     upperConeCard q = upperConeCard q.1 := by
@@ -1324,6 +1325,7 @@ private theorem upperConeCard_upperCover_add_one
   have hcard := Fintype.card_congr e
   simpa [Nat.add_comm] using hcard.symm
 
+omit [BoundedOrder L] in
 private theorem upperIntervalCard_add_outside
     (x : L) :
     upperIntervalCard x + outsideUpperIntervalCard x =
@@ -1367,6 +1369,7 @@ private theorem upperIntervalCard_add_outside
   have hcard := Fintype.card_congr e
   simpa [Fintype.card_sum] using hcard.symm
 
+omit [BoundedOrder L] in
 private theorem upperConeCard_closure_add_incomparable
     {x cBot : L} [Fintype (Set.Ici x)]
     (hcBot : Incomparable cBot x)
@@ -1698,16 +1701,16 @@ theorem minimumCounterexample_embeddedSubposet_twoDoublyIrred_boundary
   by_contra hno
   have hx_bot : x ≠ ⊥ := by
     intro h
-    exact hxSup.not_isMin (by simpa [h] using isMin_bot)
+    exact hxSup.not_isMin (by simp [h])
   have hx_top : x ≠ ⊤ := by
     intro h
-    exact hxInf.1 (by simpa [h] using isMax_top)
+    exact hxInf.1 (by simp [h])
   have hy_bot : y ≠ ⊥ := by
     intro h
-    exact hySup.not_isMin (by simpa [h] using isMin_bot)
+    exact hySup.not_isMin (by simp [h])
   have hy_top : y ≠ ⊤ := by
     intro h
-    exact hyInf.1 (by simpa [h] using isMax_top)
+    exact hyInf.1 (by simp [h])
   have hxSupAmbient : SupIrred (e x) :=
     EmbeddedSubposet.ambient_supIrred_of_noBoundary hno hxSup hx_top
   have hxInfAmbient : InfIrred (e x) :=
@@ -1751,7 +1754,7 @@ theorem minimumCounterexample_embeddedSubposet_branchII_joinReducible_boundary
         exact hTop_not_sup (by simpa [hqtop] using hq)
       have hq_bot : q ≠ ⊥ := by
         intro hqbot
-        exact hq.not_isMin (by simpa [hqbot] using isMin_bot)
+        exact hq.not_isMin (by simp [hqbot])
       have hq_ambient :
           SupIrred (e q) :=
         EmbeddedSubposet.ambient_supIrred_of_noBoundary hno hq hq_top

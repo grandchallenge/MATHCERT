@@ -19,5 +19,6 @@ import MathCert.Domains.UnionClosed.IdealFamilyTrace
 import MathCert.Domains.UnionClosed.IdealFamilyContraction
 import MathCert.Domains.UnionClosed.IdealFamilyNDSDiff
 import MathCert.Domains.UnionClosed.IdealFamilyNDSEndgame
+import MathCert.Domains.UnionClosed.IdealFamilyDuality
 import MathCert.Domains.UnionClosed.SingletonCase
 import MathCert.Domains.UnionClosed.TwoElementCase

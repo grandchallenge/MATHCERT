@@ -24,6 +24,7 @@ variable {L : Type u} [Fintype L] [Lattice L] [BoundedOrder L]
 def Incomparable (a b : L) : Prop :=
   ¬a ≤ b ∧ ¬b ≤ a
 
+omit [Fintype L] [BoundedOrder L] in
 theorem incomparable_comm {a b : L} :
     Incomparable a b ↔ Incomparable b a := by
   simp only [Incomparable, and_comm]
@@ -37,18 +38,21 @@ noncomputable def incomparableFinset (x : L) : Finset L := by
   classical
   exact Finset.univ.filter fun y => Incomparable y x
 
+omit [BoundedOrder L] in
 @[simp]
 theorem mem_incomparableFinset {x y : L} :
     y ∈ incomparableFinset x ↔ Incomparable y x := by
   classical
   simp [incomparableFinset]
 
+omit [Fintype L] [BoundedOrder L] in
 theorem le_or_ge_of_not_incomparable {x y : L}
     (h : ¬Incomparable y x) :
     y ≤ x ∨ x ≤ y := by
   simp only [Incomparable, not_and_or, Classical.not_not] at h
   exact h
 
+omit [Fintype L] [BoundedOrder L] in
 theorem inf_lt_of_incomparable {x y : L} (h : Incomparable y x) :
     x ⊓ y < x := by
   refine lt_of_le_of_ne inf_le_left ?_
@@ -57,6 +61,7 @@ theorem inf_lt_of_incomparable {x y : L} (h : Incomparable y x) :
   rw [← heq]
   exact (inf_le_right : x ⊓ y ≤ y)
 
+omit [Fintype L] [BoundedOrder L] in
 theorem inf_lt_right_of_incomparable {x y : L} (h : Incomparable y x) :
     x ⊓ y < y := by
   refine lt_of_le_of_ne inf_le_right ?_
@@ -65,18 +70,21 @@ theorem inf_lt_right_of_incomparable {x y : L} (h : Incomparable y x) :
   rw [← heq]
   exact (inf_le_left : x ⊓ y ≤ x)
 
+omit [Fintype L] [BoundedOrder L] in
 theorem sup_lt_of_incomparable {x y : L} (h : Incomparable y x) :
     x < x ⊔ y := by
   refine lt_of_le_of_ne le_sup_left ?_
   intro heq
   exact h.1 ((le_sup_right : y ≤ x ⊔ y).trans_eq heq.symm)
 
+omit [Fintype L] [BoundedOrder L] in
 theorem sup_lt_right_of_incomparable {x y : L} (h : Incomparable y x) :
     y < x ⊔ y := by
   refine lt_of_le_of_ne le_sup_right ?_
   intro heq
   exact h.2 ((le_sup_left : x ≤ x ⊔ y).trans_eq heq.symm)
 
+omit [Fintype L] in
 /-- A greatest element among the elements incomparable with `x` is inf-irreducible. -/
 theorem infIrred_of_greatest_incomparable
     {x c : L} (hc : Incomparable c x)
@@ -104,6 +112,7 @@ theorem infIrred_of_greatest_incomparable
       · exact hb
     exact hc.2 (by rw [← hab]; exact le_inf hxa hxb)
 
+omit [Fintype L] in
 /-- A least element among the elements incomparable with `x` is sup-irreducible. -/
 theorem supIrred_of_least_incomparable
     {x c : L} (hc : Incomparable c x)
@@ -131,6 +140,7 @@ theorem supIrred_of_least_incomparable
       · exact (hc.2 (hb.trans hbc.le)).elim
     exact hc.1 (by rw [← hab]; exact sup_le hax hbx)
 
+omit [Fintype L] in
 /-- A maximal element among those incomparable with `x` is inf-irreducible. -/
 theorem infIrred_of_maximal_incomparable
     {x c : L} (hcmax : Maximal (fun y => Incomparable y x) c) :
@@ -157,6 +167,7 @@ theorem infIrred_of_maximal_incomparable
       · exact hb
     exact hcmax.1.2 (by rw [← hab]; exact le_inf hxa hxb)
 
+omit [Fintype L] in
 /-- A minimal element among those incomparable with `x` is sup-irreducible. -/
 theorem supIrred_of_minimal_incomparable
     {x c : L} (hcmin : Minimal (fun y => Incomparable y x) c) :
@@ -183,6 +194,7 @@ theorem supIrred_of_minimal_incomparable
       · exact (hcmin.1.2 (hb.trans hbc.le)).elim
     exact hcmin.1.1 (by rw [← hab]; exact sup_le hax hbx)
 
+omit [Fintype L] [BoundedOrder L] in
 /--
 If the incomparable elements form a chain, a maximal member of any nonempty
 finite subcollection is above every member of that subcollection.
@@ -200,6 +212,7 @@ theorem chain_maximal_is_greatest
   · exact hyc'
   · exact hcmax.2 hy hcy
 
+omit [Fintype L] [BoundedOrder L] in
 /-- Dual form of `chain_maximal_is_greatest`. -/
 theorem chain_minimal_is_least
     {x : L} (hchain : IsChain (· ≤ ·) (incomparableSet x))
@@ -214,6 +227,7 @@ theorem chain_minimal_is_least
   · exact hcy
   · exact hcmin.2 hy hyc'
 
+omit [BoundedOrder L] in
 theorem exists_two_lower_covers_of_not_supIrred
     {c : L} (hcmin : ¬IsMin c) (hc : ¬SupIrred c) :
     ∃ a b : L, a ⋖ c ∧ b ⋖ c ∧ a ≠ b := by
@@ -230,6 +244,7 @@ theorem exists_two_lower_covers_of_not_supIrred
     exact sup_le hda heb
   exact (not_le_of_gt hac.lt) hca
 
+omit [BoundedOrder L] in
 theorem exists_two_upper_covers_of_not_infIrred
     {c : L} (hcmax : ¬IsMax c) (hc : ¬InfIrred c) :
     ∃ a b : L, c ⋖ a ∧ c ⋖ b ∧ a ≠ b := by
@@ -335,6 +350,7 @@ theorem infIrred_of_incomparable_chain_and_greatest_not_supIrred
     exact hcu.2 hc_lt_top htop_lt_u
   exact hlcTop.2 hlw hwt
 
+omit [Fintype L] in
 /--
 Along an incomparable chain of inf-irreducibles with a unique doubly
 irreducible element at the bottom, meeting with `x` is strictly monotone.
@@ -488,7 +504,7 @@ theorem twice_incomparableCard_le_outsideUpperIntervalCard
     · have hab : a = b := by
         apply Subtype.ext
         exact congrArg (fun z : O => z.1) hEq
-      simpa [hab]
+      simp [hab]
     ·
       exfalso
       have hval := congrArg (fun z : O => z.1) hEq
@@ -519,7 +535,7 @@ theorem twice_incomparableCard_le_outsideUpperIntervalCard
             inf_strictMono_on_incomparable_chain hchain hcBot hleast
               hcBotSup hallInf hunique b.2 a.2 hbalt
           exact (ne_of_lt hstrict) hmeet.symm
-      simpa [hab]
+      simp [hab]
   unfold incomparableCard outsideUpperIntervalCard
   have hcard := Fintype.card_le_of_injective f hf
   simpa [P, O, Nat.mul_comm] using hcard
@@ -528,17 +544,20 @@ theorem twice_incomparableCard_le_outsideUpperIntervalCard
 def upperIntervalCeil (x y : L) : Set.Ici x :=
   ⟨x ⊔ y, le_sup_left⟩
 
+omit [Fintype L] [BoundedOrder L] in
 @[simp]
 theorem upperIntervalCeil_val (x y : L) :
     (upperIntervalCeil x y).1 = x ⊔ y :=
   rfl
 
+omit [Fintype L] [BoundedOrder L] in
 @[simp]
 theorem upperIntervalCeil_eq_self (x : L) (y : Set.Ici x) :
     upperIntervalCeil x y.1 = y := by
   apply Subtype.ext
   exact sup_eq_right.mpr y.2
 
+omit [Fintype L] [BoundedOrder L] in
 @[simp]
 theorem upperIntervalCeil_sup (x y z : L) :
     upperIntervalCeil x (y ⊔ z) =
@@ -552,6 +571,7 @@ def upperIntervalCeilSupHom (x : L) : SupHom L (Set.Ici x) where
   toFun := upperIntervalCeil x
   map_sup' := upperIntervalCeil_sup x
 
+omit [Fintype L] [BoundedOrder L] in
 theorem upperIntervalCeil_surjective (x : L) :
     Function.Surjective (upperIntervalCeil x) := by
   intro y
@@ -604,6 +624,7 @@ def upperIntervalUpperConeEquiv (x : L) (q : Set.Ici x) :
 noncomputable def upperIntervalCard (x : L) : Nat :=
   @Fintype.card (Set.Ici x) (Fintype.ofFinite _)
 
+omit [BoundedOrder L] in
 /-- The upper interval has the same cardinality as the ambient cone of `x`. -/
 theorem card_upperInterval_eq_upperConeType (x : L) :
     upperIntervalCard x =
