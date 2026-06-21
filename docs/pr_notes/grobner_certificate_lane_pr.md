@@ -7,6 +7,15 @@ derived from the 2026 Lean Gröbner formalization and the 2026 Lean-CAS tactic
 paper: exact symbolic computation may be delegated to external systems, but
 MATHCERT only trusts replayed or Lean-kernel-checked certificates.
 
+## Programme references
+
+- [MATH-PROGRAMME Pages home](https://grandchallenge.github.io/MATH-PROGRAMME/)
+- [Programme Atlas](https://grandchallenge.github.io/MATH-PROGRAMME/PROGRAMME_ATLAS/)
+- [MATHCERT pillar doctrine](https://github.com/grandchallenge/MATH-PROGRAMME/blob/main/MATHCERT_SPEC.md)
+- [Cross-pillar lanes](https://grandchallenge.github.io/MATH-PROGRAMME/CROSS_PILLAR_LANES/)
+- [Groebner and EXPSPACE doctrine](https://grandchallenge.github.io/MATH-PROGRAMME/GROEBNER_EXPSPACE_DOCTRINE/)
+- [Claim-boundary doctrine](https://grandchallenge.github.io/MATH-PROGRAMME/CLAIM_BOUNDARY_DOCTRINE/)
+
 ## Changes
 
 - adds Lean vocabulary for algebraic certificate kinds, external backends, and

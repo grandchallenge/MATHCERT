@@ -6,6 +6,19 @@ This lane codifies a narrow but important MATHCERT doctrine:
 
 > Computation may suggest. Certificates may travel. Lean must check.
 
+## Programme links
+
+Read this certificate lane through the programme front door and the shared doctrine pages:
+
+- [MATH-PROGRAMME Pages home](https://grandchallenge.github.io/MATH-PROGRAMME/)
+- [Programme Atlas](https://grandchallenge.github.io/MATH-PROGRAMME/PROGRAMME_ATLAS/)
+- [MATHCERT pillar doctrine](https://github.com/grandchallenge/MATH-PROGRAMME/blob/main/MATHCERT_SPEC.md)
+- [Certification Ladder](https://github.com/grandchallenge/MATH-PROGRAMME/blob/main/CERTIFICATION_LADDER.md)
+- [Cross-pillar lanes](https://grandchallenge.github.io/MATH-PROGRAMME/CROSS_PILLAR_LANES/)
+- [Groebner and EXPSPACE doctrine](https://grandchallenge.github.io/MATH-PROGRAMME/GROEBNER_EXPSPACE_DOCTRINE/)
+- [Reduction and Certificate Foundations](https://grandchallenge.github.io/MATH-PROGRAMME/REDUCTION_CERTIFICATE_FOUNDATIONS/)
+- [Claim-boundary doctrine](https://grandchallenge.github.io/MATH-PROGRAMME/CLAIM_BOUNDARY_DOCTRINE/)
+
 The lane is for proof obligations whose hard part is exact symbolic algebra:
 polynomial identity checking, ideal membership, ideal equality, Gröbner-basis
 checking, normal-form or remainder verification, radical membership, and

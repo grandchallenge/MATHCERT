@@ -10,6 +10,19 @@ Doctrine:
 
 The initial checker is intentionally narrow: it validates TCM Fixture 006 assignment artifacts by replaying an integer primal witness and an integer dual upper-bound certificate.
 
+## Programme links
+
+This certificate lane should be read through the programme's finite-obligation and claim-boundary doctrine:
+
+- [MATH-PROGRAMME Pages home](https://grandchallenge.github.io/MATH-PROGRAMME/)
+- [Programme Atlas](https://grandchallenge.github.io/MATH-PROGRAMME/PROGRAMME_ATLAS/)
+- [MATHCERT pillar doctrine](https://github.com/grandchallenge/MATH-PROGRAMME/blob/main/MATHCERT_SPEC.md)
+- [Certification Ladder](https://github.com/grandchallenge/MATH-PROGRAMME/blob/main/CERTIFICATION_LADDER.md)
+- [Cross-pillar lanes](https://grandchallenge.github.io/MATH-PROGRAMME/CROSS_PILLAR_LANES/)
+- [Claim-boundary doctrine](https://grandchallenge.github.io/MATH-PROGRAMME/CLAIM_BOUNDARY_DOCTRINE/)
+- [Resource Budget Policy](https://grandchallenge.github.io/MATH-PROGRAMME/RESOURCE_BUDGET_POLICY/)
+- [TCM semiring-contraction route doctrine](https://github.com/grandchallenge/MATH-PROGRAMME/blob/main/docs/routes/TCM_SEMIRING_CONTRACTION_ROUTE.md)
+
 ## Fixture 006 checker
 
 ```bash

@@ -12,5 +12,12 @@ import MathCert.Domains.UnionClosed.LatticeSubposet
 import MathCert.Domains.UnionClosed.LatticeMinimum
 import MathCert.Domains.UnionClosed.LatticeLength
 import MathCert.Domains.UnionClosed.RivalLength
+import MathCert.Domains.UnionClosed.IdealFamilyPort
+import MathCert.Domains.UnionClosed.IdealFamilyBridge
+import MathCert.Domains.UnionClosed.IdealFamilyNDS
+import MathCert.Domains.UnionClosed.IdealFamilyTrace
+import MathCert.Domains.UnionClosed.IdealFamilyContraction
+import MathCert.Domains.UnionClosed.IdealFamilyNDSDiff
+import MathCert.Domains.UnionClosed.IdealFamilyNDSEndgame
 import MathCert.Domains.UnionClosed.SingletonCase
 import MathCert.Domains.UnionClosed.TwoElementCase
