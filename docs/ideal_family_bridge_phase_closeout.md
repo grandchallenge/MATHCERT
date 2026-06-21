@@ -37,6 +37,7 @@ Primary files:
 - `MathCert/Domains/UnionClosed/IdealFamilyContraction.lean`
 - `MathCert/Domains/UnionClosed/IdealFamilyNDSDiff.lean`
 - `MathCert/Domains/UnionClosed/IdealFamilyNDSEndgame.lean`
+- `MathCert/Domains/UnionClosed/IdealFamilyDuality.lean`
 
 Checked bridge theorems:
 
@@ -51,6 +52,11 @@ Checked bridge theorems:
 - `isAverageRareOn_iff_sum_freq_on`
 - `everywhereRare_averageRare`
 - `existsRare_not_sufficient_for_averageRare`
+- `complementFamilyOn_unionClosed_of_ideal`
+- `complementFamilyOn_abundant_of_exists_rare`
+- `complementFamilyOn_averageAbundant_of_averageRare`
+- `localIdealFamily_complement_frankl`
+- `localIdealFamily_complement_averageAbundant`
 
 Checked NDS support theorems:
 
@@ -130,10 +136,12 @@ theorem localIdealFamily_port_nds_nonpos
 The originally requested `localIdealFamily_averageRare` theorem is now a
 checked wrapper around `localIdealFamily_averageRare_of_port_nds_nonpos`.
 
+The follow-up complement-duality theorem is also checked: the complement of a
+local ideal family is union-closed, nontrivial, and Frankl-abundant.
+
 ## Closure Rule
 
-The local ideal-family average-rarity bridge is closed.  Do not import the
-upstream repository as a trusted dependency unless a newly audited upstream
-commit is placeholder-free and reproducibly builds.  Further use of the
-ideal-family result should proceed through local wrappers, such as complement
-duality to union-closed abundance, or through the next source-roadmap target.
+The local ideal-family average-rarity bridge and complement-duality wrapper are
+closed.  Do not import the upstream repository as a trusted dependency unless a
+newly audited upstream commit is placeholder-free and reproducibly builds.
+Further work should proceed through the next source-roadmap target.

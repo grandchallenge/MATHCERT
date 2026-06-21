@@ -38,6 +38,11 @@ Checked Lean theorems:
 - `IdealFamily.Ideal.inter_sum_le_contr_nds`
 - `IdealFamily.Ideal.nds_diff_singleton_nonpos_of_contr_nds`
 - `IdealFamily.Ideal.port_nds_nonpos`
+- `complementFamilyOn_unionClosed_of_ideal`
+- `complementFamilyOn_abundant_of_exists_rare`
+- `complementFamilyOn_averageAbundant_of_averageRare`
+- `localIdealFamily_complement_frankl`
+- `localIdealFamily_complement_averageAbundant`
 
 New checked file:
 
@@ -46,6 +51,7 @@ New checked file:
 - `MathCert/Domains/UnionClosed/IdealFamilyContraction.lean`
 - `MathCert/Domains/UnionClosed/IdealFamilyNDSDiff.lean`
 - `MathCert/Domains/UnionClosed/IdealFamilyNDSEndgame.lean`
+- `MathCert/Domains/UnionClosed/IdealFamilyDuality.lean`
 
 ## Former Gap Now Closed
 
@@ -103,11 +109,9 @@ not imply average rarity for arbitrary finite families.
 
 ## Next Formal Target
 
-The local ideal-family average-rarity bridge is now closed.  The next formal
-target should be selected from the source roadmap rather than extending this
-branch ad hoc.  Complement duality to union-closed abundance is the natural
-follow-up if the campaign wants to connect this ideal-family theorem back to
-Frankl-facing statements.
+The local ideal-family average-rarity bridge and its complement-duality bridge
+to union-closed abundance are now closed.  The next formal target should be
+selected from the source roadmap rather than extending this branch ad hoc.
 
 Do not promote the upstream NDS theorem until its active proof placeholders are
 removed.  The local proof now supplies the MATHCERT theorem independently; the
