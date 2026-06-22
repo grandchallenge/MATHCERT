@@ -71,3 +71,24 @@ The lightweight JSON certificate validator is included in the standard CI path:
 python3 ci/validate_algebraic_certificates.py
 python3 ci/test_validate_algebraic_certificates.py
 ```
+
+## Tropical ReLU certificate fixture
+
+MATHCERT includes a first tropical-neural extraction fixture:
+
+```text
+2D ReLU MLP -> tropical rational certificate -> independent replay checker
+```
+
+Fixture 001 records a tiny two-hidden-unit ReLU classifier, expands its logits
+into max-plus affine pieces, prunes only a domain-dominated affine probe, and
+certifies a logit margin over the box `[-1, 1]^2`. The checker is independent of
+PyTorch and uses exact rational arithmetic.
+
+```bash
+python3 ci/validate_tropic_relu_certificates.py
+python3 ci/test_validate_tropic_relu_certificates.py
+```
+
+See `docs/tropic_relu_fixture_001.md` and
+`certificates/tropic_relu/fixture_001_relu_mlp_margin.json`.
