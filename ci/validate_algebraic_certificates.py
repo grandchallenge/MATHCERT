@@ -109,17 +109,24 @@ def validate_tropical_initial_ideal(path: Path, data: dict[str, Any]) -> list[st
     if not isinstance(certificate.get("initial_generators"), list):
         errors.append(_error(path, "certificate.initial_generators must be a list"))
 
-    if not isinstance(certificate.get("contains_monomial"), bool):
+    contains_monomial = certificate.get("contains_monomial")
+    if not isinstance(contains_monomial, bool):
         errors.append(_error(path, "certificate.contains_monomial must be boolean"))
 
     decision = certificate.get("route_decision")
     if decision not in {"retained", "rejected"}:
         errors.append(_error(path, "certificate.route_decision must be retained or rejected"))
 
-    if certificate.get("contains_monomial") is True and not certificate.get("monomial_witness"):
+    if contains_monomial is True and decision != "rejected":
+        errors.append(_error(path, "contains_monomial=true requires route_decision=rejected"))
+
+    if contains_monomial is False and decision != "retained":
+        errors.append(_error(path, "contains_monomial=false requires route_decision=retained"))
+
+    if contains_monomial is True and not certificate.get("monomial_witness"):
         errors.append(_error(path, "rejected tropical certificates require a monomial_witness"))
 
-    if certificate.get("contains_monomial") is False and certificate.get("monomial_witness"):
+    if contains_monomial is False and certificate.get("monomial_witness"):
         errors.append(_error(path, "retained tropical certificates must not carry a monomial_witness"))
 
     return errors
