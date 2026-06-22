@@ -15,6 +15,10 @@ python ci/validate_algebraic_certificates.py
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 python ci/test_validate_algebraic_certificates.py
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+python ci/validate_tropic_relu_certificates.py
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+python ci/test_validate_tropic_relu_certificates.py
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 python ci/replay_certificates.py
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 python ci/check_sorries.py
