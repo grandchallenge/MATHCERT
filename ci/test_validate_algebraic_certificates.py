@@ -112,11 +112,18 @@ def main() -> int:
         write(bad_sparse, payload)
         assert validate_certificate(bad_sparse)
 
-        bad_tropical = root / "bad_tropical.json"
+        bad_tropical_missing_witness = root / "bad_tropical_missing_witness.json"
         payload = valid_tropical_certificate()
         payload["certificate"]["contains_monomial"] = True
-        write(bad_tropical, payload)
-        assert validate_certificate(bad_tropical)
+        payload["certificate"]["route_decision"] = "rejected"
+        write(bad_tropical_missing_witness, payload)
+        assert validate_certificate(bad_tropical_missing_witness)
+
+        bad_tropical_decision = root / "bad_tropical_decision.json"
+        payload = valid_tropical_certificate()
+        payload["certificate"]["route_decision"] = "rejected"
+        write(bad_tropical_decision, payload)
+        assert validate_certificate(bad_tropical_decision)
 
     print("Algebraic certificate validator rejection tests passed")
     return 0
