@@ -39,6 +39,45 @@ def valid_certificate() -> dict:
     }
 
 
+def valid_tropical_certificate() -> dict:
+    return {
+        "certificate_id": "TEST-TG-001",
+        "schema_version": "0.1.0",
+        "claim_id": "TROPIC-GROEBNER-001/TG001-B",
+        "certificate_kind": "tropical_initial_ideal",
+        "coefficient_domain": "QQ",
+        "variables": {"universe": "finite", "names": ["x", "y"], "index_type": "Fin 2"},
+        "monomial_order": "weight_refined_lex",
+        "trusted_boundary": "external_certificate_recorded",
+        "external_backend": {"name": "Custom", "version": "fixture"},
+        "problem": {
+            "statement": "For f=x+y+1 and w=(1,0), the weighted initial form is y+1.",
+            "generators": [
+                [
+                    {"c": [1, 1], "e": [[0, 1]]},
+                    {"c": [1, 1], "e": [[1, 1]]},
+                    {"c": [1, 1], "e": []}
+                ]
+            ],
+            "target": [
+                [
+                    {"c": [1, 1], "e": [[1, 1]]},
+                    {"c": [1, 1], "e": []}
+                ]
+            ],
+        },
+        "certificate": {
+            "valuation": "trivial",
+            "weight": [[1, 1], [0, 1]],
+            "term_scores": {"x": [1, 1], "y": [0, 1], "1": [0, 1]},
+            "initial_generators": ["y + 1"],
+            "contains_monomial": False,
+            "route_decision": "retained",
+        },
+        "verification": {"lean_status": "not_started"},
+    }
+
+
 def write(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
@@ -50,6 +89,10 @@ def main() -> int:
         good = root / "good.json"
         write(good, valid_certificate())
         assert validate_certificate(good) == []
+
+        good_tropical = root / "good_tropical.json"
+        write(good_tropical, valid_tropical_certificate())
+        assert validate_certificate(good_tropical) == []
 
         bad_kind = root / "bad_kind.json"
         payload = valid_certificate()
@@ -68,6 +111,12 @@ def main() -> int:
         payload["problem"]["target"] = [[{"c": [1, 0], "e": []}]]
         write(bad_sparse, payload)
         assert validate_certificate(bad_sparse)
+
+        bad_tropical = root / "bad_tropical.json"
+        payload = valid_tropical_certificate()
+        payload["certificate"]["contains_monomial"] = True
+        write(bad_tropical, payload)
+        assert validate_certificate(bad_tropical)
 
     print("Algebraic certificate validator rejection tests passed")
     return 0
