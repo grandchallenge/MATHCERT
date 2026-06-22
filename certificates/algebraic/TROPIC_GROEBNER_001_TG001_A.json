@@ -1,0 +1,62 @@
+{
+  "certificate_id": "TROPIC-GROEBNER-001-TG001-A",
+  "schema_version": "0.1.0",
+  "claim_id": "TROPIC-GROEBNER-001/TG001-A",
+  "certificate_kind": "tropical_initial_ideal",
+  "coefficient_domain": "QQ",
+  "variables": {
+    "universe": "finite",
+    "names": ["x", "y"],
+    "index_type": "Fin 2"
+  },
+  "monomial_order": "weight_refined_lex",
+  "trusted_boundary": "external_certificate_recorded",
+  "external_backend": {
+    "name": "Custom",
+    "version": "fixture",
+    "command": "manual exact term-score replay"
+  },
+  "problem": {
+    "statement": "For f=x+y+1 over QQ with trivial valuation and weight w=(0,0), the weighted initial form is x+y+1 and the sampled weight is retained by the monomial-free predicate for the principal initial generator.",
+    "generators": [
+      [
+        {"c": [1, 1], "e": [[0, 1]]},
+        {"c": [1, 1], "e": [[1, 1]]},
+        {"c": [1, 1], "e": []}
+      ]
+    ],
+    "target": [
+      [
+        {"c": [1, 1], "e": [[0, 1]]},
+        {"c": [1, 1], "e": [[1, 1]]},
+        {"c": [1, 1], "e": []}
+      ]
+    ],
+    "side_conditions": [
+      "trivial coefficient valuation",
+      "minimum-score convention for weighted initial forms",
+      "sampled-weight claim only; no full fan enumeration"
+    ]
+  },
+  "certificate": {
+    "valuation": "trivial",
+    "weight": [[0, 1], [0, 1]],
+    "term_scores": {
+      "x": [0, 1],
+      "y": [0, 1],
+      "1": [0, 1]
+    },
+    "minimal_terms": ["x", "y", "1"],
+    "initial_generators": ["x + y + 1"],
+    "contains_monomial": false,
+    "route_decision": "retained"
+  },
+  "verification": {
+    "lean_status": "not_started",
+    "replay_script": "ci/validate_algebraic_certificates.py"
+  },
+  "references": [
+    "grandchallenge/MATH-PROGRAMME docs/TROPIC_GROEBNER_ROUTE.md",
+    "grandchallenge/MATH-PROGRAMME fixtures/TROPIC_GROEBNER_001_LEDGER.md"
+  ]
+}
