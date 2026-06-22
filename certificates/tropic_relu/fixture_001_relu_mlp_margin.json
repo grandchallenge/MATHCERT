@@ -1,0 +1,394 @@
+{
+  "certificate_id": "TR-RELU-FIXTURE-001",
+  "schema_version": "0.1.0",
+  "claim_id": "MATHCERT-TROPIC-RELU-FIXTURE-001",
+  "certificate_kind": "relu_mlp_tropical_margin",
+  "trusted_boundary": "script_replayed",
+  "variables": {
+    "universe": "finite_box_R2",
+    "names": [
+      "x1",
+      "x2"
+    ],
+    "domain": {
+      "kind": "box",
+      "bounds": {
+        "x1": [
+          -1,
+          1
+        ],
+        "x2": [
+          -1,
+          1
+        ]
+      }
+    }
+  },
+  "network": {
+    "description": "Two-hidden-unit 2D ReLU classifier. h_sum = ReLU(x1 + x2), h_diff = ReLU(x1 - x2), class_0 = 0, class_1 = 1 + h_sum + h_diff.",
+    "input_dimension": 2,
+    "hidden_units": [
+      {
+        "name": "h_sum",
+        "activation": "relu",
+        "preactivation": {
+          "bias": [
+            0,
+            1
+          ],
+          "coefficients": {
+            "x1": [
+              1,
+              1
+            ],
+            "x2": [
+              1,
+              1
+            ]
+          }
+        }
+      },
+      {
+        "name": "h_diff",
+        "activation": "relu",
+        "preactivation": {
+          "bias": [
+            0,
+            1
+          ],
+          "coefficients": {
+            "x1": [
+              1,
+              1
+            ],
+            "x2": [
+              -1,
+              1
+            ]
+          }
+        }
+      }
+    ],
+    "logits": {
+      "class_0": {
+        "bias": [
+          0,
+          1
+        ],
+        "hidden_coefficients": {
+          "h_sum": [
+            0,
+            1
+          ],
+          "h_diff": [
+            0,
+            1
+          ]
+        }
+      },
+      "class_1": {
+        "bias": [
+          1,
+          1
+        ],
+        "hidden_coefficients": {
+          "h_sum": [
+            1,
+            1
+          ],
+          "h_diff": [
+            1,
+            1
+          ]
+        }
+      }
+    }
+  },
+  "tropical_rational": {
+    "semantics": "Each logit is represented as max(numerator_terms) - max(denominator_terms). Fixture 001 uses zero denominators, so the logits are max-affine tropical polynomials.",
+    "logits": {
+      "class_0": {
+        "numerator_raw_terms": [
+          {
+            "id": "class0_const",
+            "bias": [
+              0,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                0,
+                1
+              ],
+              "x2": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "numerator_pruned_terms": [
+          {
+            "id": "class0_const",
+            "bias": [
+              0,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                0,
+                1
+              ],
+              "x2": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "denominator_terms": [
+          {
+            "id": "class0_den0",
+            "bias": [
+              0,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                0,
+                1
+              ],
+              "x2": [
+                0,
+                1
+              ]
+            }
+          }
+        ]
+      },
+      "class_1": {
+        "numerator_raw_terms": [
+          {
+            "id": "class1_const",
+            "bias": [
+              1,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                0,
+                1
+              ],
+              "x2": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "id": "class1_sum",
+            "bias": [
+              1,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                1,
+                1
+              ],
+              "x2": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "id": "class1_diff",
+            "bias": [
+              1,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                1,
+                1
+              ],
+              "x2": [
+                -1,
+                1
+              ]
+            }
+          },
+          {
+            "id": "class1_double_x1",
+            "bias": [
+              1,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                2,
+                1
+              ],
+              "x2": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "id": "class1_dominated_probe",
+            "bias": [
+              -2,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                1,
+                1
+              ],
+              "x2": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "numerator_pruned_terms": [
+          {
+            "id": "class1_const",
+            "bias": [
+              1,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                0,
+                1
+              ],
+              "x2": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "id": "class1_sum",
+            "bias": [
+              1,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                1,
+                1
+              ],
+              "x2": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "id": "class1_diff",
+            "bias": [
+              1,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                1,
+                1
+              ],
+              "x2": [
+                -1,
+                1
+              ]
+            }
+          },
+          {
+            "id": "class1_double_x1",
+            "bias": [
+              1,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                2,
+                1
+              ],
+              "x2": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "denominator_terms": [
+          {
+            "id": "class1_den0",
+            "bias": [
+              0,
+              1
+            ],
+            "coefficients": {
+              "x1": [
+                0,
+                1
+              ],
+              "x2": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "pruning_record": [
+          {
+            "removed_term_id": "class1_dominated_probe",
+            "dominating_kept_term_id": "class1_const",
+            "reason": "On x1 in [-1, 1], x1 - 2 <= -1 <= 1, so the constant class1_const term dominates the probe everywhere on the certified box."
+          }
+        ]
+      }
+    }
+  },
+  "property": {
+    "kind": "logit_margin_lower_bound",
+    "statement": "For every (x1,x2) in [-1,1]^2, class_1(x) - class_0(x) >= 1.",
+    "greater_logit": "class_1",
+    "lesser_logit": "class_0",
+    "margin": [
+      1,
+      1
+    ],
+    "witness": {
+      "mode": "pairwise_affine_dominance",
+      "cover": [
+        {
+          "lesser_numerator_term_id": "class0_const",
+          "greater_denominator_term_id": "class1_den0",
+          "greater_numerator_term_id": "class1_const",
+          "lesser_denominator_term_id": "class0_den0",
+          "claimed_min_difference": [
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  },
+  "artifact_hashes": {
+    "network_sha256": "974ccc2fa2eeef6b42174678c9dfe2752cd584c717649a3f4bf6d3380c6bf243",
+    "tropical_rational_sha256": "a10807865e70d5627302df058f9c2dac5a0bcdd271d7920fb4818e4db500c7b9",
+    "property_sha256": "9b8679405593d61e75c131bf486cb706181ea3261d5fea569a456617d9f1e619"
+  },
+  "verification": {
+    "checker": "ci/validate_tropic_relu_certificates.py",
+    "checker_language": "Python 3 standard library only",
+    "floating_point_status": "no floating point arithmetic used by checker",
+    "torch_status": "PyTorch not imported by checker",
+    "lean_status": "not_lifted_to_lean",
+    "certification_level": "script_replayed_fixture"
+  }
+}
