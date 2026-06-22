@@ -62,8 +62,10 @@ simple trust doctrine:
 
 The lane is designed for polynomial identities, ideal membership and
 non-membership, Gröbner-basis checking, ideal equality, radical membership,
-remainder verification, and finite-truncation witnesses for families of algebraic
-problems. See `docs/algebraic_certificate_lane.md`.
+remainder verification, finite-truncation witnesses for families of algebraic
+problems, and tropical initial-ideal records. See `docs/algebraic_certificate_lane.md`.
+
+The TROPIC-GROEBNER extension is documented in `docs/tropical_initial_ideal_certificates.md`.
 
 The lightweight JSON certificate validator is included in the standard CI path:
 
