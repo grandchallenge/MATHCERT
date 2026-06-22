@@ -68,6 +68,127 @@ def artifact_exists(value: str) -> bool:
     )
 
 
+def is_mathcert_ledger(path: Path) -> bool:
+    try:
+        path.resolve().relative_to(PACKAGE_ROOT.resolve())
+        return True
+    except ValueError:
+        return False
+
+
+def validate_foundation_profile(data: dict, path: Path) -> int:
+    errors = 0
+    if data.get("foundation_doctrine_version") != 1:
+        print(f"{path}: foundation_doctrine_version must be 1")
+        return 1
+
+    profile = data.get("foundational_profile")
+    if not isinstance(profile, dict):
+        print(f"{path}: foundational_profile must be present for foundation-aware ledgers")
+        return 1
+
+    for field in (
+        "carrier_type",
+        "carrier_description",
+        "ambient_structure",
+        "admissible_operations",
+        "regularity",
+        "axiom_profile",
+        "witness_policy",
+        "pathology_risk",
+    ):
+        if field not in profile:
+            print(f"{path}: foundational_profile missing {field}")
+            errors += 1
+
+    axiom_profile = profile.get("axiom_profile")
+    if isinstance(axiom_profile, dict) and axiom_profile.get("choice_usage") == "unknown":
+        print(f"{path}: foundational_profile.axiom_profile.choice_usage must not be unknown")
+        errors += 1
+    pathology_risk = profile.get("pathology_risk")
+    if isinstance(pathology_risk, dict) and pathology_risk.get("level") == "unknown":
+        print(f"{path}: foundational_profile.pathology_risk.level must not be unknown")
+        errors += 1
+    return errors
+
+
+def validate_foundation_certificate(path: Path, index: int, claim: dict) -> int:
+    errors = 0
+    certificate = claim.get("foundation_certificate")
+    claim_id = claim.get("claim_id", f"index-{index}")
+    if not isinstance(certificate, dict):
+        print(f"{path}:{index}: {claim_id} missing foundation_certificate")
+        return 1
+
+    if certificate.get("statement_id") != claim_id:
+        print(f"{path}:{index}: foundation_certificate.statement_id must match {claim_id}")
+        errors += 1
+    if not str(certificate.get("foundational_profile_ref", "")).strip():
+        print(f"{path}:{index}: foundation_certificate.foundational_profile_ref must not be empty")
+        errors += 1
+    if certificate.get("ambient_structure_confirmed") is not True:
+        print(f"{path}:{index}: foundation_certificate.ambient_structure_confirmed must be true")
+        errors += 1
+
+    regularity = certificate.get("regularity_confirmed")
+    if not isinstance(regularity, dict) or regularity.get("status") not in {"confirmed", "not_applicable"}:
+        print(f"{path}:{index}: foundation_certificate.regularity_confirmed.status must be confirmed or not_applicable")
+        errors += 1
+
+    axiom_profile = certificate.get("axiom_profile")
+    if not isinstance(axiom_profile, dict):
+        print(f"{path}:{index}: foundation_certificate.axiom_profile must be present")
+        errors += 1
+    else:
+        if axiom_profile.get("choice_usage") == "unknown":
+            print(f"{path}:{index}: foundation_certificate.axiom_profile.choice_usage must not be unknown")
+            errors += 1
+        if axiom_profile.get("large_cardinal_usage") not in {"none", "consistency_background", "essential"}:
+            print(f"{path}:{index}: foundation_certificate.axiom_profile.large_cardinal_usage must be explicit")
+            errors += 1
+        if axiom_profile.get("determinacy_usage") not in {"none", "local", "essential"}:
+            print(f"{path}:{index}: foundation_certificate.axiom_profile.determinacy_usage must be explicit")
+            errors += 1
+
+    witness = certificate.get("witness_audit")
+    if not isinstance(witness, dict):
+        print(f"{path}:{index}: foundation_certificate.witness_audit must be present")
+        errors += 1
+    else:
+        if witness.get("existence_claim") == "unknown":
+            print(f"{path}:{index}: foundation_certificate.witness_audit.existence_claim must not be unknown")
+            errors += 1
+        if witness.get("witness_artifact") == "unknown":
+            print(f"{path}:{index}: foundation_certificate.witness_audit.witness_artifact must not be unknown")
+            errors += 1
+
+    boundary = certificate.get("checker_boundary")
+    if not isinstance(boundary, dict):
+        print(f"{path}:{index}: foundation_certificate.checker_boundary must be present")
+        errors += 1
+    else:
+        if boundary.get("machine_check_status") not in {"checked", "partially_checked", "not_applicable"}:
+            print(f"{path}:{index}: foundation_certificate.checker_boundary.machine_check_status must be checked, partially_checked, or not_applicable")
+            errors += 1
+        if boundary.get("checker") in {None, "", "none", "unknown"}:
+            print(f"{path}:{index}: foundation_certificate.checker_boundary.checker must be explicit")
+            errors += 1
+        if not str(boundary.get("replay_command", "")).strip():
+            print(f"{path}:{index}: foundation_certificate.checker_boundary.replay_command must not be empty")
+            errors += 1
+
+    pathology = certificate.get("pathology_audit")
+    if not isinstance(pathology, dict) or pathology.get("level") == "unknown":
+        print(f"{path}:{index}: foundation_certificate.pathology_audit.level must not be unknown")
+        errors += 1
+
+    verdict = certificate.get("verdict")
+    if not isinstance(verdict, dict) or verdict.get("status") not in {"certified", "provisionally_certified", "human_audited"}:
+        print(f"{path}:{index}: foundation_certificate.verdict.status must be explicit")
+        errors += 1
+    return errors
+
+
 def validate(path: Path, seen_ids: dict[str, Path]) -> int:
     data = yaml.safe_load(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict) or not isinstance(data.get("claims"), list):
@@ -75,6 +196,8 @@ def validate(path: Path, seen_ids: dict[str, Path]) -> int:
         return 1
     claims = data["claims"]
     errors = 0
+    if "foundation_doctrine_version" in data:
+        errors += validate_foundation_profile(data, path)
     for i, claim in enumerate(claims):
         if not isinstance(claim, dict):
             print(f"{path}:{i}: expected a mapping")
@@ -115,6 +238,13 @@ def validate(path: Path, seen_ids: dict[str, Path]) -> int:
             if graph_ref not in ALLOWED_GRAPH_REFS:
                 print(f"{path}:{i}: unresolved knowledge_graph_ref {graph_ref}")
                 errors += 1
+        if (
+            "foundation_doctrine_version" in data
+            and is_mathcert_ledger(path)
+            and claim.get("status") in {"CHECKED", "CERTIFIED"}
+            and claim.get("claim_class") != "SUPERSEDED"
+        ):
+            errors += validate_foundation_certificate(path, i, claim)
     return errors
 
 

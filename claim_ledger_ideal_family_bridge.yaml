@@ -1,3 +1,64 @@
+foundation_doctrine_version: 1
+foundational_profile: &wp06_foundational_profile
+  carrier_type: finite
+  carrier_description: Finite local ideal families over a fixed finite ground set, their finite complement families, and restricted Frankl-abundance statements for that representation.
+  ambient_structure:
+    - order_structure
+    - algebraic_structure
+    - computable_presentation
+  admissible_operations:
+    - equality_test
+    - membership_test
+    - order_comparison
+    - finite_search
+  regularity:
+    - finite
+    - decidable
+    - computable
+  axiom_profile:
+    base: finite
+    choice_usage: finite_choice
+    excluded_middle: used
+  witness_policy:
+    existence_claim: extractable
+    expected_artifact: proof_term
+  pathology_risk:
+    level: low
+    triggers: []
+    notes: The certified WP06 chain is finite and Lean-checked; it does not use analytic regularity, full choice, determinacy, or large-cardinal assumptions.
+foundation_certificate_defaults:
+  lean_checked: &wp06_lean_foundation_certificate
+    foundational_profile_ref: MATHCERT/claim_ledger_ideal_family_bridge.yaml#/foundational_profile
+    ambient_structure_confirmed: true
+    regularity_confirmed:
+      status: confirmed
+      notes: Finite local family and fixed finite ground hypotheses are explicit in the Lean statements.
+    axiom_profile:
+      base: finite
+      choice_usage: finite_choice
+      excluded_middle: used
+      large_cardinal_usage: none
+      determinacy_usage: none
+    witness_audit:
+      existence_claim: extractable
+      witness_artifact: present
+      extraction_notes: The trusted witness is the Lean proof term; no external constructive extractor is claimed.
+    checker_boundary:
+      machine_check_status: checked
+      checker: Lean
+      trusted_core_description: Lean kernel plus mathlib finite set-family/order libraries in the local MATHCERT Lake package.
+      replay_command: .\ci\check_lean.ps1
+    numerical_audit:
+      uses_numerics: false
+      enclosure_or_error_bound: not_required
+      notes: No numerical or interval evidence is used.
+    pathology_audit:
+      level: low
+      triggers: []
+      mitigation: Finite decidable carrier; no arbitrary continuum subset or foundations-sensitive assumption is present.
+    verdict:
+      status: certified
+      reason: Lean theorem is checked locally and preserved through the MATHCERT build and ledger validation gates.
 claims:
   - claim_id: UC-WP06-L001
     short_name: ideal-family conditional average bridge
@@ -17,6 +78,9 @@ claims:
     certificate_metadata:
       lean_theorem: MathCert.UnionClosed.localIdealFamily_averageRare_of_port_nds
       trusted_boundary: integrated_checked_theorem
+    foundation_certificate:
+      <<: *wp06_lean_foundation_certificate
+      statement_id: UC-WP06-L001
     knowledge_graph_refs:
       - UC-WP05
       - UC-METHOD-AVERAGING
@@ -37,6 +101,9 @@ claims:
     certificate_metadata:
       lean_theorem: MathCert.UnionClosed.localIdealFamily_exists_rare
       trusted_boundary: integrated_checked_theorem
+    foundation_certificate:
+      <<: *wp06_lean_foundation_certificate
+      statement_id: UC-WP06-L002
     knowledge_graph_refs:
       - UC-WP05
       - UC-METHOD-AVERAGING
@@ -77,6 +144,9 @@ claims:
     certificate_metadata:
       lean_theorem: MathCert.UnionClosed.existsRare_not_sufficient_for_averageRare
       trusted_boundary: integrated_checked_theorem
+    foundation_certificate:
+      <<: *wp06_lean_foundation_certificate
+      statement_id: UC-WP06-L003
     knowledge_graph_refs:
       - UC-WP05
       - UC-METHOD-AVERAGING
@@ -98,6 +168,9 @@ claims:
     certificate_metadata:
       lean_theorem: IdealFamily.SetFamily.sum_normalizedDegree_over_ground_eq_nds
       trusted_boundary: integrated_checked_theorem
+    foundation_certificate:
+      <<: *wp06_lean_foundation_certificate
+      statement_id: UC-WP06-L004
     knowledge_graph_refs:
       - UC-WP05
       - UC-METHOD-AVERAGING
@@ -120,6 +193,9 @@ claims:
     certificate_metadata:
       lean_theorem: IdealFamily.Ideal.trace_carrier_eq_del_union_contr
       trusted_boundary: integrated_checked_theorem
+    foundation_certificate:
+      <<: *wp06_lean_foundation_certificate
+      statement_id: UC-WP06-L005
     knowledge_graph_refs:
       - UC-WP05
       - UC-METHOD-AVERAGING
@@ -142,6 +218,9 @@ claims:
     certificate_metadata:
       lean_theorem: IdealFamily.Ideal.nds_diff_trace_as_normdeg
       trusted_boundary: integrated_checked_theorem
+    foundation_certificate:
+      <<: *wp06_lean_foundation_certificate
+      statement_id: UC-WP06-L006
     knowledge_graph_refs:
       - UC-WP05
       - UC-METHOD-AVERAGING
@@ -169,6 +248,9 @@ claims:
     certificate_metadata:
       lean_theorem: MathCert.UnionClosed.localIdealFamily_averageRare
       trusted_boundary: integrated_checked_theorem
+    foundation_certificate:
+      <<: *wp06_lean_foundation_certificate
+      statement_id: UC-WP06-L007
     knowledge_graph_refs:
       - UC-WP05
       - UC-METHOD-AVERAGING
@@ -194,6 +276,9 @@ claims:
     certificate_metadata:
       lean_theorem: MathCert.UnionClosed.localIdealFamily_complement_frankl
       trusted_boundary: integrated_checked_theorem
+    foundation_certificate:
+      <<: *wp06_lean_foundation_certificate
+      statement_id: UC-WP06-L008
     knowledge_graph_refs:
       - UC-WP05
       - UC-METHOD-AVERAGING
@@ -216,6 +301,9 @@ claims:
     certificate_metadata:
       lean_theorem: MathCert.UnionClosed.complementOfLocalIdealFamily_frankl
       trusted_boundary: integrated_checked_theorem
+    foundation_certificate:
+      <<: *wp06_lean_foundation_certificate
+      statement_id: UC-WP06-L009
     knowledge_graph_refs:
       - UC-WP05
       - UC-METHOD-AVERAGING
