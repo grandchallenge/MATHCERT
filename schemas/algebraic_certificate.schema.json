@@ -38,7 +38,8 @@
         "ideal_equality",
         "radical_membership",
         "finite_truncation",
-        "finite_to_infinite_bridge"
+        "finite_to_infinite_bridge",
+        "tropical_initial_ideal"
       ]
     },
     "coefficient_domain": {
@@ -137,7 +138,7 @@
     },
     "certificate": {
       "type": "object",
-      "description": "Witness data: coefficients, normal forms, bases, reductions, exponents, or branch metadata.",
+      "description": "Witness data: coefficients, normal forms, bases, reductions, exponents, branch metadata, or tropical initial-ideal records.",
       "additionalProperties": true
     },
     "verification": {

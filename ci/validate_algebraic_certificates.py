@@ -40,6 +40,7 @@ KINDS = {
     "radical_membership",
     "finite_truncation",
     "finite_to_infinite_bridge",
+    "tropical_initial_ideal",
 }
 
 TRUST_BOUNDARIES = {
@@ -92,6 +93,45 @@ def is_sparse_polynomial(value: Any) -> bool:
     return isinstance(value, list) and all(is_sparse_monomial(term) for term in value)
 
 
+def validate_tropical_initial_ideal(path: Path, data: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    certificate = data.get("certificate")
+    if not isinstance(certificate, dict):
+        return [_error(path, "certificate must be an object")]
+
+    weight = certificate.get("weight")
+    if not isinstance(weight, list) or not all(is_rational_pair(entry) for entry in weight):
+        errors.append(_error(path, "certificate.weight must be a list of rational pairs"))
+
+    if certificate.get("valuation") not in {"trivial", "nontrivial", "unspecified"}:
+        errors.append(_error(path, "certificate.valuation must be trivial, nontrivial, or unspecified"))
+
+    if not isinstance(certificate.get("initial_generators"), list):
+        errors.append(_error(path, "certificate.initial_generators must be a list"))
+
+    contains_monomial = certificate.get("contains_monomial")
+    if not isinstance(contains_monomial, bool):
+        errors.append(_error(path, "certificate.contains_monomial must be boolean"))
+
+    decision = certificate.get("route_decision")
+    if decision not in {"retained", "rejected"}:
+        errors.append(_error(path, "certificate.route_decision must be retained or rejected"))
+
+    if contains_monomial is True and decision != "rejected":
+        errors.append(_error(path, "contains_monomial=true requires route_decision=rejected"))
+
+    if contains_monomial is False and decision != "retained":
+        errors.append(_error(path, "contains_monomial=false requires route_decision=retained"))
+
+    if contains_monomial is True and not certificate.get("monomial_witness"):
+        errors.append(_error(path, "rejected tropical certificates require a monomial_witness"))
+
+    if contains_monomial is False and certificate.get("monomial_witness"):
+        errors.append(_error(path, "retained tropical certificates must not carry a monomial_witness"))
+
+    return errors
+
+
 def validate_certificate(path: Path) -> list[str]:
     errors: list[str] = []
     try:
@@ -140,6 +180,9 @@ def validate_certificate(path: Path) -> list[str]:
             polys = problem[field]
             if not isinstance(polys, list) or not all(is_sparse_polynomial(poly) for poly in polys):
                 errors.append(_error(path, f"problem.{field} must be a list of sparse polynomials"))
+
+    if data.get("certificate_kind") == "tropical_initial_ideal":
+        errors.extend(validate_tropical_initial_ideal(path, data))
 
     return errors
 
