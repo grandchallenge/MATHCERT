@@ -10,5 +10,7 @@ python3 ci/validate_ledgers.py
 python3 ci/test_validate_ledgers.py
 python3 ci/validate_algebraic_certificates.py
 python3 ci/test_validate_algebraic_certificates.py
+python3 ci/validate_tropic_relu_certificates.py
+python3 ci/test_validate_tropic_relu_certificates.py
 python3 ci/replay_certificates.py
 python3 ci/check_sorries.py
