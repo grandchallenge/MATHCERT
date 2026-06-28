@@ -20,7 +20,7 @@ Read this certificate lane through the programme front door and the shared doctr
 - [Claim-boundary doctrine](https://grandchallenge.github.io/MATH-PROGRAMME/CLAIM_BOUNDARY_DOCTRINE/)
 
 The lane is for proof obligations whose hard part is exact symbolic algebra:
-polynomial identity checking, ideal membership, ideal equality, Gröbner-basis
+polynomial identity checking, ideal membership, ideal equality, Groebner-basis
 checking, normal-form or remainder verification, radical membership, and
 finite-truncation algebra for families of polynomial systems.
 
@@ -30,7 +30,7 @@ subclaims that appear inside those arguments.
 
 ## Paper-derived design notes
 
-The February 2026 Lean Gröbner formalization develops the foundations directly
+The February 2026 Lean Groebner formalization develops the foundations directly
 over Mathlib's `MvPolynomial` and monomial-order infrastructure. Its relevant
 lessons for MATHCERT are:
 
@@ -46,10 +46,10 @@ Reference: <https://arxiv.org/pdf/2602.12772>.
 The April 2026 automated polynomial-reasoning paper makes the operational lesson
 even sharper:
 
-- realistic Gröbner computation inside Lean is not the practical default;
+- realistic Groebner computation inside Lean is not the practical default;
 - external systems such as SageMath or SymPy should perform heavy computation;
 - returned certificates should be serialized, imported, and checked in Lean;
-- supported tasks include remainder verification, Gröbner-basis checking, ideal
+- supported tasks include remainder verification, Groebner-basis checking, ideal
   equality, ideal membership, and radical membership.
 
 Reference: <https://arxiv.org/pdf/2604.13514>.

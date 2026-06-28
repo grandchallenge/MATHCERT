@@ -61,7 +61,7 @@ simple trust doctrine:
 4. Lean-checked lemmas are the certification boundary.
 
 The lane is designed for polynomial identities, ideal membership and
-non-membership, Gröbner-basis checking, ideal equality, radical membership,
+non-membership, Groebner-basis checking, ideal equality, radical membership,
 remainder verification, finite-truncation witnesses for families of algebraic
 problems, and tropical initial-ideal records. See `docs/algebraic_certificate_lane.md`.
 
