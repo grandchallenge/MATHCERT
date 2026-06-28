@@ -21,7 +21,7 @@ This certificate lane should be read through the programme's finite-obligation a
 - [Cross-pillar lanes](https://grandchallenge.github.io/MATH-PROGRAMME/CROSS_PILLAR_LANES/)
 - [Claim-boundary doctrine](https://grandchallenge.github.io/MATH-PROGRAMME/CLAIM_BOUNDARY_DOCTRINE/)
 - [Resource Budget Policy](https://grandchallenge.github.io/MATH-PROGRAMME/RESOURCE_BUDGET_POLICY/)
-- [TCM semiring-contraction route doctrine](https://github.com/grandchallenge/MATH-PROGRAMME/blob/main/docs/routes/TCM_SEMIRING_CONTRACTION_ROUTE.md)
+- [TCM semiring-contraction route doctrine](https://grandchallenge.github.io/MATH-PROGRAMME/routes/TCM_SEMIRING_CONTRACTION_ROUTE/)
 
 ## Fixture 006 checker
 

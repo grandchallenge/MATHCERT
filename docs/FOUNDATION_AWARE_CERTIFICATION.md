@@ -1,6 +1,6 @@
 # Foundation-Aware Certification Standard
 
-Status: proposed MATHCERT trust-ledger standard  
+Status: proposed MATHCERT trust-ledger standard
 Purpose: certify not only that a claim has evidence, but what kind of foundational strength and constructive content that evidence carries.
 
 ## Certification principle
@@ -92,7 +92,7 @@ The artifact is produced by CAS or algebraic machinery but has an independently 
 
 Examples:
 
-- Gröbner representation;
+- Groebner representation;
 - resultant certificate;
 - polynomial identity certificate;
 - algebraic witness export.

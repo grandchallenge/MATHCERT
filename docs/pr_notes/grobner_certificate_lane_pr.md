@@ -1,9 +1,9 @@
-# PR: Add algebraic Gröbner certificate lane
+# PR: Add algebraic Groebner certificate lane
 
 ## Summary
 
 This PR adds a first-class algebraic certificate lane to MATHCERT. The lane is
-derived from the 2026 Lean Gröbner formalization and the 2026 Lean-CAS tactic
+derived from the 2026 Lean Groebner formalization and the 2026 Lean-CAS tactic
 paper: exact symbolic computation may be delegated to external systems, but
 MATHCERT only trusts replayed or Lean-kernel-checked certificates.
 
@@ -20,7 +20,7 @@ MATHCERT only trusts replayed or Lean-kernel-checked certificates.
 
 - adds Lean vocabulary for algebraic certificate kinds, external backends, and
   trust boundaries;
-- adds a Gröbner-lane doctrine module and a toy kernel-checked polynomial
+- adds a Groebner-lane doctrine module and a toy kernel-checked polynomial
   identity;
 - adds a JSON schema for algebraic certificates;
 - adds a sample certificate fixture and claim-ledger template;
@@ -44,7 +44,7 @@ python3 ci/check_sorries.py
 
 ## Notes
 
-This PR deliberately does not implement a full Gröbner tactic or CAS bridge.
+This PR deliberately does not implement a full Groebner tactic or CAS bridge.
 It establishes the MATHCERT-facing ledger/schema/trust-boundary layer so that
-later work can plug in SageMath, SymPy, Singular, or a Lean-side Gröbner tactic
+later work can plug in SageMath, SymPy, Singular, or a Lean-side Groebner tactic
 without changing claim-ledger semantics.
