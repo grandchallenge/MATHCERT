@@ -36,5 +36,8 @@
   "exact_certificate_files": [
     "certificates/exact/union_closed_n_le_4.json",
     "certificates/exact/finite_lattices_4_to_7.json"
+  ],
+  "supporting_artifact_files": [
+    "certificates/exact/source/union_closed_small_audit.json"
   ]
 }
