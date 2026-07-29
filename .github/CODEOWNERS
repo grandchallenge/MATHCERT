@@ -1,1 +1,6 @@
-* @fyremael
+* @grandchallenge/mathcert-maintainers
+/certificates/ @grandchallenge/mathcert-maintainers @grandchallenge/referees
+/formal/ @grandchallenge/mathcert-maintainers @grandchallenge/referees
+/lean/ @grandchallenge/mathcert-maintainers @grandchallenge/referees
+/governance/ @grandchallenge/the-council @grandchallenge/amanuensis
+/.github/ @grandchallenge/security @grandchallenge/mathcert-maintainers

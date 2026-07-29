@@ -1,0 +1,8 @@
+changelog:
+  categories:
+    - title: Admitted evidence
+      labels: ["pillar:cert"]
+    - title: Maintenance
+      labels: ["dependencies", "maintenance"]
+    - title: Other changes
+      labels: ["*"]
