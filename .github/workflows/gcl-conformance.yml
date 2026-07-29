@@ -10,7 +10,12 @@ permissions:
   contents: read
 jobs:
   policy:
-    uses: grandchallenge/.github/.github/workflows/gcl-policy.yml@fa540b9d00e389486e031268198199cd363ea175
+    uses: grandchallenge/.github/.github/workflows/gcl-policy.yml@6df9adc6fae6086eab11800dadd06af6dc0f3b5b
     with:
       profile: Cert
       standards_ref: c5604226b306a1b6fe104757a3852ded5cba2bb9
+  security:
+    permissions:
+      contents: read
+      security-events: write
+    uses: grandchallenge/.github/.github/workflows/gcl-security.yml@6df9adc6fae6086eab11800dadd06af6dc0f3b5b
