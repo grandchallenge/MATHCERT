@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: Cite the admitted MATHCERT release, exact commit, and evidence digest.
+title: MATHCERT
+type: software
+authors:
+  - name: Grand Challenge Labs Referees
+repository-code: https://github.com/grandchallenge/MATHCERT
+license: MIT
