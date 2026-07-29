@@ -17,5 +17,4 @@ jobs:
   security:
     permissions:
       contents: read
-      security-events: write
-    uses: grandchallenge/.github/.github/workflows/gcl-security.yml@6df9adc6fae6086eab11800dadd06af6dc0f3b5b
+    uses: grandchallenge/.github/.github/workflows/gcl-security.yml@f98003ef7f8a28ea774e82bf21ce0fe0323d1c28
