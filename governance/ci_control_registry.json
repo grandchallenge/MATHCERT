@@ -8,7 +8,8 @@
   "controls": [
     {"path": "ci/validate_certification_routes.py", "mode": "direct"},
     {"path": "ci/test_validate_certification_routes.py", "mode": "direct"},
-    {"path": "ci/validate_ledgers.py", "mode": "direct"},
+    {"path": "ci/validate_ledgers.py", "mode": "library", "exercised_by": "ci/check_ledgers.py"},
+    {"path": "ci/check_ledgers.py", "mode": "direct"},
     {"path": "ci/test_validate_ledgers.py", "mode": "direct"},
     {"path": "ci/validate_algebraic_certificates.py", "mode": "direct"},
     {"path": "ci/test_validate_algebraic_certificates.py", "mode": "direct"},
