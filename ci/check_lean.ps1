@@ -15,6 +15,8 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Invoke-Control "ci/validate_certification_routes.py"
 Invoke-Control "ci/test_validate_certification_routes.py"
+Invoke-Control "ci/validate_formal_source_provenance.py"
+Invoke-Control "ci/test_formal_source_provenance.py"
 Invoke-Control "ci/check_ledgers.py"
 Invoke-Control "ci/test_validate_ledgers.py"
 Invoke-Control "ci/validate_algebraic_certificates.py"
