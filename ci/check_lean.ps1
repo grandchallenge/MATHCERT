@@ -13,6 +13,9 @@ function Invoke-Control([string]$Path) {
 lake build
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+lake build mathsolve/MathSolve
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 lake env lean MathCert/FormalSources/RHNSReplay.lean
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
