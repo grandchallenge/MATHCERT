@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "certificate_id": "MC-FC-WP00-NS-CI-001",
+  "campaign_id": "NS-CI-001",
+  "solve_provider": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "merge_commit": "916f3434abcce29098ba7508a3b457a461461193",
+    "manifest": {
+      "path": "campaign_manifests/NS-CI-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "fcdd10f96b19c218ba700deb452b7da7f6b9b975"
+    },
+    "handoff": {
+      "path": "cert_handoffs/NS-CI-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "40cad99646829fe40edf9c616074514407e49dee"
+    },
+    "target_sources": [
+      {
+        "path": "MathSolve/FormalConjectures/NSCriticalIntegrability.lean",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "5fd1b53b01a85f70591412d742ba324cf8abea59"
+      },
+      {
+        "path": "MathSolve/FormalConjectures/Replay.lean",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "38e2c950d55b70b8047c5c9227340e4e4001837c"
+      }
+    ],
+    "target_record": {
+      "path": "formal_sources/formal_conjectures/MS-FC-WP00.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0d50ff7122ead2a6ee931cdc35a3c06fb85c9a52"
+    }
+  },
+  "cert_replay": {
+    "repository": "grandchallenge/MATHCERT",
+    "source_commit": "89371038b5d3fe526387a9767a48ac5bd6e527b1",
+    "module": "MathCert/FormalSources/RHNSReplay.lean",
+    "module_blob": "c807eaa8a79c470d52b2d06223b539fe8f79787d",
+    "lean_toolchain": "leanprover/lean4:v4.29.1",
+    "mathlib_commit": "5e932f97dd25535344f80f9dd8da3aab83df0fe6"
+  },
+  "source_identity_verified": true,
+  "extraction_replayed": true,
+  "target_declaration_elaborated": true,
+  "concordance_theorem_kernel_checked": false,
+  "axiom_report": {
+    "kernel_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "imported_domain_axioms": [
+      "MathSolve.FormalConjectures.NS.IsUnforcedLerayHopfSolution",
+      "MathSolve.FormalConjectures.NS.MixedNormFiniteOnZeroT",
+      "MathSolve.FormalConjectures.NS.PositiveClayWholeSpaceAlternative"
+    ],
+    "unexpected_axioms": []
+  },
+  "sorry_inventory": {
+    "sorry_count": 0,
+    "admit_count": 0
+  },
+  "mathematical_target_proved": false,
+  "disposition": "qualified_interface_only",
+  "claim_boundary": "This certificate qualifies the exact NS-CI target interface, exponent order, quantifier order, explicit analytic axiom boundary, and one-way bridge definition. It does not prove universal critical integrability, NS-A2, the bridge, or global regularity."
+}

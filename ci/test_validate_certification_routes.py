@@ -46,7 +46,7 @@ class CertificationRouteTests(unittest.TestCase):
         data = self.load_registry()
         route = next(r for r in data["routes"] if r["campaign_id"] == "UC-001")
         route["intake_packet"] = None
-        self.assertTrue(any("lacks intake packet" in error for error in self.errors(data)))
+        self.assertTrue(any("expected an artifact object" in error for error in self.errors(data)))
 
     def test_pending_route_cannot_claim_packet(self) -> None:
         data = self.load_registry()
@@ -77,7 +77,7 @@ class CertificationRouteTests(unittest.TestCase):
         data = self.load_registry()
         route = next(r for r in data["routes"] if r["campaign_id"] == "UC-001")
         route["intake_status"] = "qualified"
-        self.assertTrue(any("lacks MATHCERT output" in error for error in self.errors(data)))
+        self.assertTrue(any("expected an artifact object" in error for error in self.errors(data)))
 
     def test_commit_cannot_substitute_for_artifact_digest(self) -> None:
         data = self.load_registry()
@@ -101,6 +101,19 @@ class CertificationRouteTests(unittest.TestCase):
         packet = data["routes"][0]["intake_packet"]
         packet["digest"] = "0" * 40
         self.assertTrue(any("packet identity drift" in error for error in self.errors(data)))
+
+    def test_qualified_output_digest_drift_fails(self) -> None:
+        data = self.load_registry()
+        rh = next(r for r in data["routes"] if r["campaign_id"] == "RH-001")
+        rh["cert_output"]["digest"] = "0" * 40
+        self.assertTrue(any("output digest drift" in error for error in self.errors(data)))
+
+    def test_rh_cannot_downgrade_to_ready(self) -> None:
+        data = self.load_registry()
+        rh = next(r for r in data["routes"] if r["campaign_id"] == "RH-001")
+        rh["intake_status"] = "ready"
+        rh["cert_output"] = None
+        self.assertTrue(any("governed intake state drift" in error for error in self.errors(data)))
 
 
 if __name__ == "__main__":
