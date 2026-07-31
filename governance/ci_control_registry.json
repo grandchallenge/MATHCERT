@@ -10,6 +10,8 @@
     {"path": "ci/test_validate_certification_routes.py", "mode": "direct"},
     {"path": "ci/validate_formal_source_provenance.py", "mode": "direct"},
     {"path": "ci/test_formal_source_provenance.py", "mode": "direct"},
+    {"path": "ci/validate_formal_target_certificates.py", "mode": "direct"},
+    {"path": "ci/test_formal_target_certificates.py", "mode": "direct"},
     {"path": "ci/validate_ledgers.py", "mode": "library", "exercised_by": "ci/check_ledgers.py"},
     {"path": "ci/check_ledgers.py", "mode": "direct"},
     {"path": "ci/test_validate_ledgers.py", "mode": "direct"},
@@ -31,6 +33,7 @@
     {"root": "certificates/exact", "checker": "ci/replay_certificates.py", "admission": "enumerated"},
     {"root": "certificates/algebraic", "checker": "ci/validate_algebraic_certificates.py", "admission": "recursive"},
     {"root": "certificates/tropic_relu", "checker": "ci/validate_tropic_relu_certificates.py", "admission": "recursive"},
+    {"root": "certificates/formal_sources", "checker": "ci/validate_formal_target_certificates.py", "admission": "recursive"},
     {"root": "certificates/interval", "checker": null, "admission": "blocked"},
     {"root": "certificates/sat", "checker": null, "admission": "blocked"},
     {"root": "certificates/external", "checker": null, "admission": "blocked"}
