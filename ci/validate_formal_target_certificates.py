@@ -9,8 +9,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from jsonschema import Draft202012Validator
-
 ROOT = Path(__file__).resolve().parents[1]
 CERT_DIR = ROOT / "certificates" / "formal_sources"
 SCHEMA_PATH = ROOT / "schemas" / "formal_target_certificate.schema.json"
@@ -36,6 +34,13 @@ EXPECTED_OUTPUT_BLOBS = {
     "RH-001": "3668bbf792d994a6d8919101417f2f3cad342cdc",
     "NS-CI-001": "6047ad774957974a6c2aa86bae72b51841e774a4",
 }
+EXPECTED_TOP_KEYS = {
+    "schema_version", "certificate_id", "campaign_id", "solve_provider",
+    "cert_replay", "source_identity_verified", "extraction_replayed",
+    "target_declaration_elaborated", "concordance_theorem_kernel_checked",
+    "axiom_report", "sorry_inventory", "mathematical_target_proved",
+    "disposition", "claim_boundary",
+}
 
 
 def load_json(path: Path) -> Any:
@@ -57,8 +62,9 @@ def certificate_errors(
     root: Path = ROOT,
 ) -> list[str]:
     schema = load_json(schema_path)
-    validator = Draft202012Validator(schema)
     found: list[str] = []
+    if schema.get("$id") != "https://grandchallenge.ai/schemas/formal_target_certificate.schema.json":
+        found.append("formal target certificate schema identity drift")
     paths = sorted(directory.glob("*.json"))
     actual = {path.name for path in paths}
     expected = set(EXPECTED_FILES.values())
@@ -66,31 +72,35 @@ def certificate_errors(
         found.append(f"missing formal target certificate: {missing}")
     for unknown in sorted(actual - expected):
         found.append(f"unregistered formal target certificate: {unknown}")
-    records: dict[str, dict[str, Any]] = {}
     for path in paths:
         data = load_json(path)
-        for error in validator.iter_errors(data):
-            found.append(f"{path}: {error.json_path}: {error.message}")
+        if set(data) != EXPECTED_TOP_KEYS:
+            found.append(f"{path}: certificate fields drift")
         campaign = str(data.get("campaign_id", ""))
-        records[campaign] = data
         if EXPECTED_FILES.get(campaign) != path.name:
             found.append(f"{path}: campaign/file identity drift")
-        if data.get("certificate_id") != f"MC-FC-WP00-{campaign}":
+        if data.get("schema_version") != "1.0.0" or data.get("certificate_id") != f"MC-FC-WP00-{campaign}":
             found.append(f"{path}: certificate identity drift")
         provider = data.get("solve_provider", {})
-        if provider.get("merge_commit") != SOLVE_COMMIT:
+        if provider.get("repository") != "grandchallenge/MATHSOLVE" or provider.get("merge_commit") != SOLVE_COMMIT:
             found.append(f"{path}: MATHSOLVE merge drift")
         replay = data.get("cert_replay", {})
         if replay.get("source_commit") != REPLAY_COMMIT or replay.get("module_blob") != REPLAY_BLOB:
             found.append(f"{path}: Cert replay identity drift")
-        if replay.get("mathlib_commit") != MATHLIB_COMMIT:
-            found.append(f"{path}: mathlib identity drift")
+        if replay.get("mathlib_commit") != MATHLIB_COMMIT or replay.get("lean_toolchain") != "leanprover/lean4:v4.29.1":
+            found.append(f"{path}: target toolchain drift")
+        for flag in ("source_identity_verified", "extraction_replayed", "target_declaration_elaborated"):
+            if data.get(flag) is not True:
+                found.append(f"{path}: {flag} must be true")
         if data.get("concordance_theorem_kernel_checked") is not EXPECTED_CONCORDANCE.get(campaign):
             found.append(f"{path}: concordance disposition drift")
-        domain_axioms = set(data.get("axiom_report", {}).get("imported_domain_axioms", []))
+        axiom_report = data.get("axiom_report", {})
+        if set(axiom_report.get("kernel_axioms", [])) != {"Classical.choice", "Quot.sound", "propext"}:
+            found.append(f"{path}: kernel axiom set drift")
+        domain_axioms = set(axiom_report.get("imported_domain_axioms", []))
         if domain_axioms != EXPECTED_DOMAIN_AXIOMS.get(campaign):
             found.append(f"{path}: imported domain axiom set drift")
-        if data.get("axiom_report", {}).get("unexpected_axioms"):
+        if axiom_report.get("unexpected_axioms"):
             found.append(f"{path}: unexpected axiom admitted")
         if data.get("mathematical_target_proved") is not False:
             found.append(f"{path}: mathematical target must remain unproved")
@@ -98,6 +108,8 @@ def certificate_errors(
             found.append(f"{path}: disposition inflation")
         if data.get("sorry_inventory") != {"sorry_count": 0, "admit_count": 0}:
             found.append(f"{path}: proof-placeholder inventory drift")
+        if not str(data.get("claim_boundary", "")).strip():
+            found.append(f"{path}: empty claim boundary")
         if git_blob_sha1(path) != EXPECTED_OUTPUT_BLOBS.get(campaign):
             found.append(f"{path}: certificate blob identity drift")
     registry = load_json(registry_path)
