@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "certificate_id": "MC-FC-WP00-RH-001",
+  "campaign_id": "RH-001",
+  "solve_provider": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "merge_commit": "916f3434abcce29098ba7508a3b457a461461193",
+    "manifest": {
+      "path": "campaign_manifests/RH-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "4ce2c5bcdc7bc1d0d63f7b2244898c8a651d5f64"
+    },
+    "handoff": {
+      "path": "cert_handoffs/RH-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "7304f185bd817bb67b77540513dc01d05f6fcd3a"
+    },
+    "target_sources": [
+      {
+        "path": "MathSolve/FormalConjectures/RiemannHypothesis.lean",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "da4a0b9b30be28c11bc9c25323aeb53b5f065aca"
+      },
+      {
+        "path": "MathSolve/FormalConjectures/Replay.lean",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "38e2c950d55b70b8047c5c9227340e4e4001837c"
+      }
+    ],
+    "target_record": {
+      "path": "formal_sources/formal_conjectures/MS-FC-WP00.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0d50ff7122ead2a6ee931cdc35a3c06fb85c9a52"
+    }
+  },
+  "cert_replay": {
+    "repository": "grandchallenge/MATHCERT",
+    "source_commit": "89371038b5d3fe526387a9767a48ac5bd6e527b1",
+    "module": "MathCert/FormalSources/RHNSReplay.lean",
+    "module_blob": "c807eaa8a79c470d52b2d06223b539fe8f79787d",
+    "lean_toolchain": "leanprover/lean4:v4.29.1",
+    "mathlib_commit": "5e932f97dd25535344f80f9dd8da3aab83df0fe6"
+  },
+  "source_identity_verified": true,
+  "extraction_replayed": true,
+  "target_declaration_elaborated": true,
+  "concordance_theorem_kernel_checked": true,
+  "axiom_report": {
+    "kernel_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "imported_domain_axioms": [],
+    "unexpected_axioms": []
+  },
+  "sorry_inventory": {
+    "sorry_count": 0,
+    "admit_count": 0
+  },
+  "mathematical_target_proved": false,
+  "disposition": "qualified_interface_only",
+  "claim_boundary": "This certificate qualifies the exact RH statement interface and its definitional equality to mathlib RiemannHypothesis. It does not prove RH or certify any zero-location argument."
+}
