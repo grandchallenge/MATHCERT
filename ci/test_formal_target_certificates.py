@@ -1,0 +1,108 @@
+from __future__ import annotations
+
+import copy
+import json
+import tempfile
+import unittest
+from pathlib import Path
+
+import validate_formal_target_certificates as module
+
+
+class FormalTargetCertificateTests(unittest.TestCase):
+    def load_records(self) -> dict[str, dict]:
+        return {
+            path.name: module.load_json(path)
+            for path in module.CERT_DIR.glob("*.json")
+        }
+
+    def write_records(self, records: dict[str, dict]) -> Path:
+        root = Path(tempfile.mkdtemp())
+        for name, payload in records.items():
+            (root / name).write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        return root
+
+    def record_errors(self, mutate) -> list[str]:
+        records = copy.deepcopy(self.load_records())
+        mutate(records)
+        directory = self.write_records(records)
+        return module.certificate_errors(directory=directory)
+
+    def write_registry(self, payload: dict) -> Path:
+        handle = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
+        with handle:
+            json.dump(payload, handle)
+        return Path(handle.name)
+
+    def test_current_certificates_pass(self) -> None:
+        self.assertEqual([], module.certificate_errors())
+
+    def test_mathematical_proof_inflation_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-FC-WP00-RH-001.json"].__setitem__("mathematical_target_proved", True)
+        )
+        self.assertTrue(any("mathematical target must remain unproved" in error for error in errors))
+
+    def test_missing_ns_axiom_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-FC-WP00-NS-CI-001.json"]["axiom_report"]["imported_domain_axioms"].pop()
+        )
+        self.assertTrue(any("imported domain axiom set drift" in error for error in errors))
+
+    def test_rh_domain_axiom_inflation_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-FC-WP00-RH-001.json"]["axiom_report"]["imported_domain_axioms"].append("Hidden.Axiom")
+        )
+        self.assertTrue(any("imported domain axiom set drift" in error for error in errors))
+
+    def test_unexpected_axiom_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-FC-WP00-NS-CI-001.json"]["axiom_report"]["unexpected_axioms"].append("Hidden.Axiom")
+        )
+        self.assertTrue(any("unexpected axiom" in error for error in errors))
+
+    def test_solve_commit_drift_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-FC-WP00-RH-001.json"]["solve_provider"].__setitem__("merge_commit", "0" * 40)
+        )
+        self.assertTrue(any("MATHSOLVE merge drift" in error for error in errors))
+
+    def test_disposition_inflation_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-FC-WP00-RH-001.json"].__setitem__("disposition", "theorem_certified")
+        )
+        self.assertTrue(any("disposition inflation" in error for error in errors))
+
+    def test_rh_concordance_downgrade_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-FC-WP00-RH-001.json"].__setitem__("concordance_theorem_kernel_checked", False)
+        )
+        self.assertTrue(any("concordance disposition drift" in error for error in errors))
+
+    def test_ns_false_equivalence_promotion_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-FC-WP00-NS-CI-001.json"].__setitem__("concordance_theorem_kernel_checked", True)
+        )
+        self.assertTrue(any("concordance disposition drift" in error for error in errors))
+
+    def test_route_downgrade_fails(self) -> None:
+        registry = module.load_json(module.REGISTRY_PATH)
+        rh = next(route for route in registry["routes"] if route["campaign_id"] == "RH-001")
+        rh["intake_status"] = "ready"
+        path = self.write_registry(registry)
+        try:
+            errors = module.certificate_errors(registry_path=path)
+        finally:
+            path.unlink(missing_ok=True)
+        self.assertTrue(any("route is not qualified" in error for error in errors))
+
+    def test_missing_certificate_fails(self) -> None:
+        records = self.load_records()
+        records.pop("MC-FC-WP00-RH-001.json")
+        directory = self.write_records(records)
+        errors = module.certificate_errors(directory=directory)
+        self.assertTrue(any("missing formal target certificate" in error for error in errors))
+
+
+if __name__ == "__main__":
+    unittest.main()
