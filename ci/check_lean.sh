@@ -9,6 +9,7 @@ fi
 cd "$(dirname "$0")/.."
 
 lake build
+lake build mathsolve/MathSolve
 lake env lean MathCert/FormalSources/RHNSReplay.lean
 python3 ci/validate_certification_routes.py
 python3 ci/test_validate_certification_routes.py
