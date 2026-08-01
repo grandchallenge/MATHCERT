@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OTP-CERT-INTAKE-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "state": "three_intake_candidates_pending_cert_activation",
+  "tracker": "https://github.com/grandchallenge/MATHCERT/issues/46",
+  "authority": {
+    "solve_handoff_merge": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+    "solve_reviewed_head": "675706f5c0fe6fcbbcdf2998186fa10577fe05f5",
+    "solve_review_id": 4835520166,
+    "forge_semantic_merge": "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
+    "cert_pre_route_merge": "993286f982c2fccc144475cdbf9a35d0c7f5f24c"
+  },
+  "gate_state": {
+    "kernel_replay_clear_count": 12,
+    "semantic_clear_count": 3,
+    "result_family_count": 12,
+    "clear_families": [
+      "OTP-F-EHRHART",
+      "OTP-J1-COMPACTNESS",
+      "OTP-J2-TWO-DEGENERATE"
+    ],
+    "solve_packet_count": 3
+  },
+  "intakes": [
+    {
+      "result_family": "OTP-F-EHRHART",
+      "intake_id": "MC-OTP-INTAKE-F-EHRHART",
+      "path": "governance/result_family_intakes/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1c6a5f349803bba09b000ceb3f8a53ee3038ca48",
+      "producer_packet_digest": "4653985d4980113514266c3c421804437bacb019",
+      "semantic_record_digest": "a3dc4de4c38a80b7aec1fae6506b08e14d2e58bb"
+    },
+    {
+      "result_family": "OTP-J1-COMPACTNESS",
+      "intake_id": "MC-OTP-INTAKE-J1-COMPACTNESS",
+      "path": "governance/result_family_intakes/OTP-J1-COMPACTNESS.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "d08eec02d7ee44f3bc2692cf7949c70d8e0f2bbf",
+      "producer_packet_digest": "2d9c6e555a03b71eb33c476321e7f2d311ed168f",
+      "semantic_record_digest": "659396358d0d999c00011645f72602f30ccf6b0e"
+    },
+    {
+      "result_family": "OTP-J2-TWO-DEGENERATE",
+      "intake_id": "MC-OTP-INTAKE-J2-TWO-DEGENERATE",
+      "path": "governance/result_family_intakes/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "6e9cfee8f988e357aabdd53e2883220d170b7e60",
+      "producer_packet_digest": "0d226492bf13e13bc1a437be01104db3d4c96f79",
+      "semantic_record_digest": "7bd168c46921f64364b20021b6315d68f0fde7d0"
+    }
+  ],
+  "blocked_repair_lanes": [
+    "OTP-C-PERMANENT",
+    "OTP-H-GAPCVP"
+  ],
+  "aggregate_integration": {
+    "state": "failed_separate_obligation",
+    "failure": "All.lean namespace collision on replicate_to_periodic_packing",
+    "reopens_family_replay": false,
+    "reopens_semantic_gates": false,
+    "creates_cert_route": false
+  },
+  "cert_state": {
+    "intake_candidate_count": 3,
+    "registered_route_count": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0
+  },
+  "activation": {
+    "condition": "exact-head CI, non-author APPROVED review, and protected MATHCERT merge",
+    "head_change_requires_reapproval": true,
+    "effect": "three_independent_intakes_accepted_no_routes_no_adjudication"
+  },
+  "route_controls": {
+    "global_certification_route_registry_modified": false,
+    "aggregate_intake": null,
+    "aggregate_route_prohibited": true,
+    "result_family_granularity": true,
+    "may_adjudicate": false,
+    "may_promote_claim": false
+  },
+  "supersedes_state_of": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP00_SYNC.json",
+  "claim_boundary": "This current-state overlay proposes three independent MATHCERT intake records for protected activation. It does not modify the global certification-route registry, create an aggregate intake or route, issue a Cert output, adjudicate or prove any target, clear the remaining nine semantic families, remove the Permanent or GapCVP blockers, resolve the separate All.lean integration defect, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}

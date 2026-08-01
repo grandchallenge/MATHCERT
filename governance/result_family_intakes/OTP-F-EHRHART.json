@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_result_family_intake",
+  "intake_id": "MC-OTP-INTAKE-F-EHRHART",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-F-EHRHART",
+  "intake_status": "accepted_after_protected_mathcert_merge",
+  "authority": {
+    "solve_handoff_merge": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+    "solve_reviewed_head": "675706f5c0fe6fcbbcdf2998186fa10577fe05f5",
+    "solve_review": {
+      "review_id": 4835520166,
+      "reviewer": "jimsteeg",
+      "state": "APPROVED",
+      "submitted_at": "2026-08-01T19:14:38Z"
+    },
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "4653985d4980113514266c3c421804437bacb019"
+    },
+    "forge_semantic_merge": "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
+    "semantic_record": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic_audits/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "a3dc4de4c38a80b7aec1fae6506b08e14d2e58bb"
+    },
+    "cert_pre_route_merge": "993286f982c2fccc144475cdbf9a35d0c7f5f24c",
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca",
+      "tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365",
+      "archive_sha256": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f"
+    }
+  },
+  "gates": {
+    "kernel_replay": "clear",
+    "source_semantic": "clear",
+    "nonvacuity": "clear",
+    "aggregate_import_required": false
+  },
+  "target_scope": {
+    "source_theorem": "Chapter 8, Theorem 1.1, parsed P219 L18214-L18229",
+    "normalized_statement": "For every positive dimension n, a full-dimensional compact convex body K in real n-space with barycenter zero and with zero as its only interior lattice point has ordinary Euclidean volume at most (n+1)^n/n!. The bound is attained by the translated dilation (n+1)Delta_n-(1,...,1); classification of all equality cases is excluded.",
+    "lean_theorems": [
+      "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+      "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+      "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+      "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+    ],
+    "nonvacuity_witnesses": [
+      "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+      "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+    ],
+    "scope_exclusions": [
+      "No uniqueness or classification of all equality cases is admitted for certification.",
+      "Intake does not independently replay or adjudicate the analytic proof beyond the upstream kernel and Comparator evidence."
+    ]
+  },
+  "certification_state": {
+    "requested_route_id": "MC-ROUTE-OTP-F-EHRHART",
+    "certification_route_registry_entry": null,
+    "cert_output": null,
+    "may_design_work_package_after_activation": true,
+    "may_adjudicate": false,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact-head CI, non-author APPROVED review, and protected MATHCERT merge",
+    "head_change_requires_reapproval": true,
+    "effect": "intake_accepted_no_route_no_adjudication"
+  },
+  "route_controls": {
+    "result_family_only": true,
+    "may_create_aggregate_intake": false,
+    "may_create_aggregate_route": false,
+    "may_imply_certification": false,
+    "may_imply_proof": false
+  },
+  "claim_boundary": "This record accepts only the exact Ehrhart producer packet for independent MATHCERT intake after protected activation. It does not register a certification route, produce a Cert output, adjudicate or prove the theorem, classify equality cases, admit an aggregate ten-proofs object, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}

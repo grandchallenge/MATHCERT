@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/mathcert/openai_ten_proofs_result_family_intake.schema.json",
+  "title": "OpenAI ten-proofs independent result-family intake",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "intake_id",
+    "candidate_id",
+    "result_family",
+    "intake_status",
+    "authority",
+    "gates",
+    "target_scope",
+    "certification_state",
+    "activation",
+    "route_controls",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_result_family_intake"},
+    "intake_id": {"type": "string", "pattern": "^MC-OTP-INTAKE-[A-Z0-9-]+$"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {
+      "enum": [
+        "OTP-F-EHRHART",
+        "OTP-J1-COMPACTNESS",
+        "OTP-J2-TWO-DEGENERATE"
+      ]
+    },
+    "intake_status": {"const": "accepted_after_protected_mathcert_merge"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "solve_handoff_merge",
+        "solve_reviewed_head",
+        "solve_review",
+        "producer_packet",
+        "forge_semantic_merge",
+        "semantic_record",
+        "cert_pre_route_merge",
+        "official_subject"
+      ],
+      "properties": {
+        "solve_handoff_merge": {"const": "443daf537dc7e4ee34ab43aeb01508d9177816ab"},
+        "solve_reviewed_head": {"const": "675706f5c0fe6fcbbcdf2998186fa10577fe05f5"},
+        "solve_review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["review_id", "reviewer", "state", "submitted_at"],
+          "properties": {
+            "review_id": {"const": 4835520166},
+            "reviewer": {"const": "jimsteeg"},
+            "state": {"const": "APPROVED"},
+            "submitted_at": {"const": "2026-08-01T19:14:38Z"}
+          }
+        },
+        "producer_packet": {"$ref": "#/$defs/externalArtifact"},
+        "forge_semantic_merge": {"const": "cb0a203c36a9ef33270d62ab369df7bc27d3b242"},
+        "semantic_record": {"$ref": "#/$defs/externalArtifact"},
+        "cert_pre_route_merge": {"const": "993286f982c2fccc144475cdbf9a35d0c7f5f24c"},
+        "official_subject": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "commit", "tree", "archive_sha256"],
+          "properties": {
+            "repository": {"const": "openai/ten-proofs"},
+            "commit": {"const": "e62211d28e3a9131950c89caa6542cfe5eff3bca"},
+            "tree": {"const": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365"},
+            "archive_sha256": {"const": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f"}
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kernel_replay", "source_semantic", "nonvacuity", "aggregate_import_required"],
+      "properties": {
+        "kernel_replay": {"const": "clear"},
+        "source_semantic": {"const": "clear"},
+        "nonvacuity": {"const": "clear"},
+        "aggregate_import_required": {"const": false}
+      }
+    },
+    "target_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_theorem", "normalized_statement", "lean_theorems", "nonvacuity_witnesses", "scope_exclusions"],
+      "properties": {
+        "source_theorem": {"type": "string", "minLength": 20},
+        "normalized_statement": {"type": "string", "minLength": 100},
+        "lean_theorems": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 8}
+        },
+        "nonvacuity_witnesses": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 8}
+        },
+        "scope_exclusions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 20}
+        }
+      }
+    },
+    "certification_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requested_route_id",
+        "certification_route_registry_entry",
+        "cert_output",
+        "may_design_work_package_after_activation",
+        "may_adjudicate",
+        "mathematical_target_proved",
+        "may_promote_claim"
+      ],
+      "properties": {
+        "requested_route_id": {"type": "string", "pattern": "^MC-ROUTE-OTP-[A-Z0-9-]+$"},
+        "certification_route_registry_entry": {"type": "null"},
+        "cert_output": {"type": "null"},
+        "may_design_work_package_after_activation": {"const": true},
+        "may_adjudicate": {"const": false},
+        "mathematical_target_proved": {"const": false},
+        "may_promote_claim": {"const": false}
+      }
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["condition", "head_change_requires_reapproval", "effect"],
+      "properties": {
+        "condition": {"const": "exact-head CI, non-author APPROVED review, and protected MATHCERT merge"},
+        "head_change_requires_reapproval": {"const": true},
+        "effect": {"const": "intake_accepted_no_route_no_adjudication"}
+      }
+    },
+    "route_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result_family_only",
+        "may_create_aggregate_intake",
+        "may_create_aggregate_route",
+        "may_imply_certification",
+        "may_imply_proof"
+      ],
+      "properties": {
+        "result_family_only": {"const": true},
+        "may_create_aggregate_intake": {"const": false},
+        "may_create_aggregate_route": {"const": false},
+        "may_imply_certification": {"const": false},
+        "may_imply_proof": {"const": false}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 180}
+  },
+  "$defs": {
+    "externalArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit_sha", "path", "digest_algorithm", "digest"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 3},
+        "commit_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "path": {"type": "string", "minLength": 3},
+        "digest_algorithm": {"const": "git_blob_sha1"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    }
+  }
+}
