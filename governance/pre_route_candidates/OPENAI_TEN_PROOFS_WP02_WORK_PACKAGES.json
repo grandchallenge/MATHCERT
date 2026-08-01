@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_certification_work_package_registry",
+  "registry_id": "MC-OTP-CERT-WP01",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "authority": {
+    "cert_intake_merge": "d99d2625ee838945087a91a50923cddc2dcc8d85",
+    "cert_intake_reviewed_head": "28e9300c2641e17597ff087f2b892ed214d6c90a",
+    "cert_intake_review_id": 4835619680
+  },
+  "work_packages": [
+    {
+      "result_family": "OTP-F-EHRHART",
+      "work_package_id": "OTP-F-EHRHART-CERT-WP01",
+      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/48",
+      "path": "governance/result_family_work_packages/OTP-F-EHRHART-CERT-WP01.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "056149e7a659fb6b24b7d7389a3dcd68bb581bcd"
+    },
+    {
+      "result_family": "OTP-J1-COMPACTNESS",
+      "work_package_id": "OTP-J1-COMPACTNESS-CERT-WP01",
+      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/49",
+      "path": "governance/result_family_work_packages/OTP-J1-COMPACTNESS-CERT-WP01.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "d80cade6d99c7ca54f4384a68e178b2f4335a8b2"
+    },
+    {
+      "result_family": "OTP-J2-TWO-DEGENERATE",
+      "work_package_id": "OTP-J2-TWO-DEGENERATE-CERT-WP01",
+      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/50",
+      "path": "governance/result_family_work_packages/OTP-J2-TWO-DEGENERATE-CERT-WP01.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "dbbc4ab59f21b3f5cb2f313c51f754b9b306389c"
+    }
+  ],
+  "execution_state": {
+    "authorized_work_package_count": 3,
+    "executing_count": 0,
+    "evidence_bundle_count": 0,
+    "proposed_route_count": 0,
+    "registered_route_count": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0
+  },
+  "blocked_repair_lanes": [
+    "OTP-C-PERMANENT",
+    "OTP-H-GAPCVP"
+  ],
+  "aggregate_integration": {
+    "obligation": "Resolve the All.lean namespace collision on replicate_to_periodic_packing as separate integration debt.",
+    "reopens_family_replay": false,
+    "reopens_semantic_gates": false,
+    "creates_work_package": false,
+    "creates_cert_route": false
+  },
+  "route_controls": {
+    "global_certification_route_registry_modified": false,
+    "aggregate_work_package": null,
+    "aggregate_route_prohibited": true,
+    "result_family_granularity": true,
+    "may_adjudicate": false,
+    "may_promote_claim": false
+  },
+  "claim_boundary": "This registry records three independent certification work packages authorized only after protected activation. It records no executing replay, evidence bundle, proposed or registered route, adjudication, Cert output, proved target, aggregate work package, aggregate route, or promoted mathematical, novelty, priority, publication, patentability, product, or commercial claim."
+}
