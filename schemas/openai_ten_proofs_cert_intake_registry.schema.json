@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/mathcert/openai_ten_proofs_cert_intake_registry.schema.json",
+  "title": "OpenAI ten-proofs MATHCERT intake registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "candidate_id",
+    "state",
+    "tracker",
+    "authority",
+    "gate_state",
+    "intakes",
+    "blocked_repair_lanes",
+    "aggregate_integration",
+    "cert_state",
+    "activation",
+    "route_controls",
+    "supersedes_state_of",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"const": "MC-OTP-CERT-INTAKE-001"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "state": {"const": "three_intake_candidates_pending_cert_activation"},
+    "tracker": {"const": "https://github.com/grandchallenge/MATHCERT/issues/46"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["solve_handoff_merge", "solve_reviewed_head", "solve_review_id", "forge_semantic_merge", "cert_pre_route_merge"],
+      "properties": {
+        "solve_handoff_merge": {"const": "443daf537dc7e4ee34ab43aeb01508d9177816ab"},
+        "solve_reviewed_head": {"const": "675706f5c0fe6fcbbcdf2998186fa10577fe05f5"},
+        "solve_review_id": {"const": 4835520166},
+        "forge_semantic_merge": {"const": "cb0a203c36a9ef33270d62ab369df7bc27d3b242"},
+        "cert_pre_route_merge": {"const": "993286f982c2fccc144475cdbf9a35d0c7f5f24c"}
+      }
+    },
+    "gate_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kernel_replay_clear_count", "semantic_clear_count", "result_family_count", "clear_families", "solve_packet_count"],
+      "properties": {
+        "kernel_replay_clear_count": {"const": 12},
+        "semantic_clear_count": {"const": 3},
+        "result_family_count": {"const": 12},
+        "clear_families": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "OTP-F-EHRHART"},
+            {"const": "OTP-J1-COMPACTNESS"},
+            {"const": "OTP-J2-TWO-DEGENERATE"}
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "solve_packet_count": {"const": 3}
+      }
+    },
+    "intakes": {
+      "type": "array",
+      "prefixItems": [
+        {"$ref": "#/$defs/intakeRef"},
+        {"$ref": "#/$defs/intakeRef"},
+        {"$ref": "#/$defs/intakeRef"}
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "blocked_repair_lanes": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "OTP-C-PERMANENT"},
+        {"const": "OTP-H-GAPCVP"}
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "aggregate_integration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "failure", "reopens_family_replay", "reopens_semantic_gates", "creates_cert_route"],
+      "properties": {
+        "state": {"const": "failed_separate_obligation"},
+        "failure": {"const": "All.lean namespace collision on replicate_to_periodic_packing"},
+        "reopens_family_replay": {"const": false},
+        "reopens_semantic_gates": {"const": false},
+        "creates_cert_route": {"const": false}
+      }
+    },
+    "cert_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intake_candidate_count", "registered_route_count", "adjudication_count", "cert_output_count", "mathematical_target_proved_count"],
+      "properties": {
+        "intake_candidate_count": {"const": 3},
+        "registered_route_count": {"const": 0},
+        "adjudication_count": {"const": 0},
+        "cert_output_count": {"const": 0},
+        "mathematical_target_proved_count": {"const": 0}
+      }
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["condition", "head_change_requires_reapproval", "effect"],
+      "properties": {
+        "condition": {"const": "exact-head CI, non-author APPROVED review, and protected MATHCERT merge"},
+        "head_change_requires_reapproval": {"const": true},
+        "effect": {"const": "three_independent_intakes_accepted_no_routes_no_adjudication"}
+      }
+    },
+    "route_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "global_certification_route_registry_modified",
+        "aggregate_intake",
+        "aggregate_route_prohibited",
+        "result_family_granularity",
+        "may_adjudicate",
+        "may_promote_claim"
+      ],
+      "properties": {
+        "global_certification_route_registry_modified": {"const": false},
+        "aggregate_intake": {"type": "null"},
+        "aggregate_route_prohibited": {"const": true},
+        "result_family_granularity": {"const": true},
+        "may_adjudicate": {"const": false},
+        "may_promote_claim": {"const": false}
+      }
+    },
+    "supersedes_state_of": {"const": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP00_SYNC.json"},
+    "claim_boundary": {"type": "string", "minLength": 180}
+  },
+  "$defs": {
+    "intakeRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result_family", "intake_id", "path", "digest_algorithm", "digest", "producer_packet_digest", "semantic_record_digest"],
+      "properties": {
+        "result_family": {
+          "enum": ["OTP-F-EHRHART", "OTP-J1-COMPACTNESS", "OTP-J2-TWO-DEGENERATE"]
+        },
+        "intake_id": {"type": "string", "pattern": "^MC-OTP-INTAKE-[A-Z0-9-]+$"},
+        "path": {"type": "string", "pattern": "^governance/result_family_intakes/.+\\.json$"},
+        "digest_algorithm": {"const": "git_blob_sha1"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "producer_packet_digest": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "semantic_record_digest": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    }
+  }
+}
