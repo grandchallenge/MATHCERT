@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_result_family_intake",
+  "intake_id": "MC-OTP-INTAKE-J1-COMPACTNESS",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-J1-COMPACTNESS",
+  "intake_status": "accepted_after_protected_mathcert_merge",
+  "authority": {
+    "solve_handoff_merge": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+    "solve_reviewed_head": "675706f5c0fe6fcbbcdf2998186fa10577fe05f5",
+    "solve_review": {
+      "review_id": 4835520166,
+      "reviewer": "jimsteeg",
+      "state": "APPROVED",
+      "submitted_at": "2026-08-01T19:14:38Z"
+    },
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-J1-COMPACTNESS.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "2d9c6e555a03b71eb33c476321e7f2d311ed168f"
+    },
+    "forge_semantic_merge": "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
+    "semantic_record": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic_audits/OTP-J1-COMPACTNESS.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "659396358d0d999c00011645f72602f30ccf6b0e"
+    },
+    "cert_pre_route_merge": "993286f982c2fccc144475cdbf9a35d0c7f5f24c",
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca",
+      "tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365",
+      "archive_sha256": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f"
+    }
+  },
+  "gates": {
+    "kernel_replay": "clear",
+    "source_semantic": "clear",
+    "nonvacuity": "clear",
+    "aggregate_import_required": false
+  },
+  "target_scope": {
+    "source_theorem": "Chapter 10, Theorem 1.1, parsed P236 L19757-L19791",
+    "normalized_statement": "There exists a finite nonempty family F of connected bipartite finite simple graphs, every member containing a cycle, such that ex(n,F)=O(n^(4/3-1/48)) while every H in F satisfies ex(n,H)=Omega(n^(4/3)); consequently the corrected Erdos-Simonovits compactness conjecture fails.",
+    "lean_theorems": [
+      "CompactnessConjecture.quantitativeCompactnessCounterexample",
+      "CompactnessConjecture.compactnessCounterexample_bigO",
+      "CompactnessConjecture.not_erdos_180"
+    ],
+    "nonvacuity_witnesses": [
+      "CompactnessConjecture.quantitativeCompactnessCounterexample",
+      "CompactnessConjecture.compactnessCounterexample_bigO"
+    ],
+    "scope_exclusions": [
+      "The explicit combinatorial construction is not separately admitted beyond the checked existential theorem targets.",
+      "No historical compactness formulation outside the corrected cyclic-family statement is admitted."
+    ]
+  },
+  "certification_state": {
+    "requested_route_id": "MC-ROUTE-OTP-J1-COMPACTNESS",
+    "certification_route_registry_entry": null,
+    "cert_output": null,
+    "may_design_work_package_after_activation": true,
+    "may_adjudicate": false,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact-head CI, non-author APPROVED review, and protected MATHCERT merge",
+    "head_change_requires_reapproval": true,
+    "effect": "intake_accepted_no_route_no_adjudication"
+  },
+  "route_controls": {
+    "result_family_only": true,
+    "may_create_aggregate_intake": false,
+    "may_create_aggregate_route": false,
+    "may_imply_certification": false,
+    "may_imply_proof": false
+  },
+  "claim_boundary": "This record accepts only the exact corrected compactness-conjecture producer packet for independent MATHCERT intake after protected activation. It does not independently certify the construction, register a certification route, produce a Cert output, adjudicate or prove the theorem, admit an aggregate ten-proofs object, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
