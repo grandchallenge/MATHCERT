@@ -29,5 +29,7 @@ python3 ci/audit_certificate_coverage.py
 python3 ci/test_audit_certificate_coverage.py
 python3 ci/check_formal_trust.py
 python3 ci/test_check_formal_trust.py
+python3 ci/validate_openai_ten_proofs_result_family_intakes.py
+python3 ci/test_openai_ten_proofs_result_family_intakes.py
 python3 ci/audit_ci_reachability.py
 python3 ci/test_audit_ci_reachability.py
