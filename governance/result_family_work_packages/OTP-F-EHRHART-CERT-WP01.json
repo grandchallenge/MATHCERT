@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_certification_work_package",
+  "work_package_id": "OTP-F-EHRHART-CERT-WP01",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-F-EHRHART",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/48",
+  "status": "authorized_after_protected_mathcert_merge",
+  "authority": {
+    "cert_intake_merge": "d99d2625ee838945087a91a50923cddc2dcc8d85",
+    "cert_intake_reviewed_head": "28e9300c2641e17597ff087f2b892ed214d6c90a",
+    "cert_intake_review": {
+      "review_id": 4835619680,
+      "reviewer": "jimsteeg",
+      "state": "APPROVED",
+      "submitted_at": "2026-08-01T20:00:13Z"
+    },
+    "intake_record": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "d99d2625ee838945087a91a50923cddc2dcc8d85",
+      "path": "governance/result_family_intakes/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1c6a5f349803bba09b000ceb3f8a53ee3038ca48"
+    },
+    "solve_handoff_merge": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+    "forge_semantic_merge": "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca",
+      "tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365",
+      "archive_sha256": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f"
+    }
+  },
+  "execution": {
+    "allowed": true,
+    "isolated_family_replay_required": true,
+    "clean_room_environment_required": true,
+    "aggregate_import_required": false,
+    "required_steps": [
+      "verify_content_addressed_authority",
+      "reacquire_exact_family_sources",
+      "replay_challenge_solution_and_comparator",
+      "replay_named_nonvacuity_witnesses",
+      "record_theorem_level_axiom_report",
+      "audit_source_statement_and_scope_exclusions",
+      "scan_placeholders_unsafe_custom_axioms_and_hidden_dependencies",
+      "obtain_exact_head_non_author_specialist_review"
+    ],
+    "required_artifacts": [
+      "environment_manifest",
+      "source_identity_report",
+      "family_replay_log",
+      "comparator_result",
+      "nonvacuity_replay_report",
+      "theorem_axiom_report",
+      "semantic_concordance_attestation",
+      "trust_boundary_scan",
+      "independent_review_attestation"
+    ],
+    "specialist_review_required": true
+  },
+  "target_scope": {
+    "source_theorem": "Chapter 8, Theorem 1.1, parsed P219 L18214-L18229",
+    "lean_theorems": [
+      "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+      "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+      "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+      "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+    ],
+    "nonvacuity_witnesses": [
+      "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+      "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+    ],
+    "scope_exclusions": [
+      "No uniqueness or classification of all equality cases is submitted.",
+      "No aggregate All.lean import is required for this family replay.",
+      "A successful replay does not by itself adjudicate or prove the mathematical theorem."
+    ]
+  },
+  "route_state": {
+    "requested_route_id": "MC-ROUTE-OTP-F-EHRHART",
+    "certification_route_registry_entry": null,
+    "proposed_route_record": null,
+    "cert_output": null,
+    "may_register_route_on_branch": false,
+    "may_adjudicate": false,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact-head CI, non-author APPROVED review, and protected MATHCERT merge",
+    "head_change_requires_reapproval": true,
+    "effect": "work_package_authorized_for_execution_no_route_no_adjudication"
+  },
+  "route_controls": {
+    "result_family_only": true,
+    "may_create_aggregate_work_package": false,
+    "may_create_aggregate_route": false,
+    "may_imply_certification": false,
+    "may_imply_proof": false
+  },
+  "claim_boundary": "This work package authorizes bounded independent evidence production for the exact Ehrhart result family after protected activation. It does not register a route, adjudicate or prove the theorem, classify equality cases, issue a Cert output, admit an aggregate ten-proofs object, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
