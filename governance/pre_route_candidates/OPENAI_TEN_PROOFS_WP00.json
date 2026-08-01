@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OPENAI-TEN-PROOFS-WP00-PRE-ROUTE",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "state": "pre_route_candidate",
+  "subject": {
+    "repository": "openai/ten-proofs",
+    "commit": "6fefffdbab0dfa726fcfde6cefae23aa7a1888f3",
+    "tree": "79e6a50b1e391bdddb18b42be3e886c1d9784ed3",
+    "result_family_count": 12
+  },
+  "tracker": "https://github.com/grandchallenge/MATHCERT/issues/43",
+  "upstream_trackers": {
+    "mathforge": "https://github.com/grandchallenge/MATHFORGE/issues/35",
+    "programme": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/198",
+    "mathsolve": "https://github.com/grandchallenge/MATHSOLVE/issues/90"
+  },
+  "proposal_heads": {
+    "mathforge": "f4283c59571a43be23d07700b4cfddafc2bcda8d",
+    "programme": "66c18086216e509ca7cdae26d59f8f57f500c5c1"
+  },
+  "intake_controls": {
+    "source_manifest_merged": false,
+    "programme_route_authorized": false,
+    "solve_handoff_present": false,
+    "exact_head_build_passed": false,
+    "all_comparator_checks_passed": false,
+    "theorem_axiom_reports_present": false,
+    "source_statement_concordance_present": false,
+    "independent_specialist_review_present": false,
+    "may_adjudicate": false
+  },
+  "cert_output": null,
+  "adjudication_granularity": "result_family",
+  "allowed_future_dispositions": [
+    "qualified_interface_only",
+    "certified_formal_result",
+    "proof_debt",
+    "rejected"
+  ],
+  "blockers": [
+    "The provider and Programme proposals are unmerged.",
+    "No content-addressed MATHSOLVE handoff exists.",
+    "Default and Comparator library target defects are unresolved.",
+    "Trusted kernel and Comparator replay is incomplete.",
+    "Source-paper and formal-statement concordance is absent."
+  ],
+  "claim_boundary": "This pre-route record creates no certification route in governance/certification_routes.json, supplies no Cert output, and authorizes no theorem, source-equivalence, novelty, priority, patentability, or commercial claim."
+}
