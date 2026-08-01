@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OTP-UMBRELLA-SYNC-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "state": "pre_route_candidate_semantic_audit_open",
+  "programme_tracker": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/200",
+  "semantic_tracker": "https://github.com/grandchallenge/MATHFORGE/issues/50",
+  "authority": {
+    "forge_evidence_merge": "72452f4579749448169cacf9f2ab22a4df2bb182",
+    "review_remedy_merge": "bffb7d63476d79e86665ec5a74d554794e24357e",
+    "theorem_matrix_blob": "2d8b24c32c804c4f5ca0f5f5ad1185199d35664b",
+    "provider_manifest_blob": "2bf815006770e8484efcbe242380678fb7be8ca8",
+    "historical_source_lock_blob": "1b4981178553ad300a5abead6d3c9f6bac78d0da",
+    "review_attestation_blob": "30f98012208cc26c64f3c05cf65b7be9dba52cd6"
+  },
+  "subject": {
+    "current_official": {
+      "repository": "openai/ten-proofs",
+      "commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca",
+      "tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365",
+      "archive_sha256": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f"
+    },
+    "historical_disconnected": {
+      "commit": "6fefffdbab0dfa726fcfde6cefae23aa7a1888f3",
+      "tree": "79e6a50b1e391bdddb18b42be3e886c1d9784ed3",
+      "role": "historical_intake_evidence"
+    },
+    "result_family_count": 12
+  },
+  "upstream_state": {
+    "source_acquisition": "present",
+    "kernel_replay": "clear_12_of_12_corrected_target_set",
+    "theorem_axiom_reports": "present_41_of_41",
+    "semantic_gate": "clear_0_of_12",
+    "solve_handoff_count": 0
+  },
+  "aggregate_integration": {
+    "state": "failed_separate_obligation",
+    "failure": "All.lean namespace collision on replicate_to_periodic_packing",
+    "reopens_kernel_gate": false,
+    "creates_cert_route": false
+  },
+  "intake_controls": {
+    "source_manifest_merged": true,
+    "programme_candidate_governance_present": true,
+    "exact_head_corrected_target_build_passed": true,
+    "all_comparator_checks_passed": true,
+    "theorem_axiom_reports_present": true,
+    "source_statement_concordance_clear_count": 0,
+    "solve_handoff_present": false,
+    "independent_specialist_review_present": false,
+    "may_adjudicate": false
+  },
+  "route_controls": {
+    "certification_route_registry_entry": null,
+    "cert_output": null,
+    "adjudication_granularity": "result_family",
+    "aggregate_route_prohibited": true,
+    "may_accept_semantic_audit_evidence": true,
+    "may_accept_result_family_handoff": false,
+    "may_adjudicate": false,
+    "may_promote_claim": false
+  },
+  "handoff_rule": "MATHCERT may accept a result-family handoff only after MATHSOLVE emits a content-addressed packet for a family whose replay and governed source-semantic/nonvacuity gates are both clear.",
+  "supersedes_state_of": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP00.json",
+  "claim_boundary": "This current-state overlay records that trusted replay and source acquisition are present while semantic clearance remains zero. It creates no certification route, accepts no handoff, issues no Cert output, adjudicates no theorem, and authorizes no aggregate ten-proofs, novelty, priority, publication, or commercial claim."
+}
