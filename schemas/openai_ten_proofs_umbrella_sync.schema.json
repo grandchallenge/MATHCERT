@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/mathcert/openai_ten_proofs_umbrella_sync.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_id", "candidate_id", "state", "programme_tracker", "semantic_tracker", "authority", "subject", "upstream_state", "aggregate_integration", "intake_controls", "route_controls", "handoff_rule", "supersedes_state_of", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"const": "MC-OTP-UMBRELLA-SYNC-001"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "state": {"const": "pre_route_candidate_semantic_audit_open"},
+    "programme_tracker": {"const": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/200"},
+    "semantic_tracker": {"const": "https://github.com/grandchallenge/MATHFORGE/issues/50"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["forge_evidence_merge", "review_remedy_merge", "theorem_matrix_blob", "provider_manifest_blob", "historical_source_lock_blob", "review_attestation_blob"],
+      "properties": {
+        "forge_evidence_merge": {"const": "72452f4579749448169cacf9f2ab22a4df2bb182"},
+        "review_remedy_merge": {"const": "bffb7d63476d79e86665ec5a74d554794e24357e"},
+        "theorem_matrix_blob": {"const": "2d8b24c32c804c4f5ca0f5f5ad1185199d35664b"},
+        "provider_manifest_blob": {"const": "2bf815006770e8484efcbe242380678fb7be8ca8"},
+        "historical_source_lock_blob": {"const": "1b4981178553ad300a5abead6d3c9f6bac78d0da"},
+        "review_attestation_blob": {"const": "30f98012208cc26c64f3c05cf65b7be9dba52cd6"}
+      }
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_official", "historical_disconnected", "result_family_count"],
+      "properties": {
+        "current_official": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "commit", "tree", "archive_sha256"],
+          "properties": {
+            "repository": {"const": "openai/ten-proofs"},
+            "commit": {"const": "e62211d28e3a9131950c89caa6542cfe5eff3bca"},
+            "tree": {"const": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365"},
+            "archive_sha256": {"const": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f"}
+          }
+        },
+        "historical_disconnected": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["commit", "tree", "role"],
+          "properties": {
+            "commit": {"const": "6fefffdbab0dfa726fcfde6cefae23aa7a1888f3"},
+            "tree": {"const": "79e6a50b1e391bdddb18b42be3e886c1d9784ed3"},
+            "role": {"const": "historical_intake_evidence"}
+          }
+        },
+        "result_family_count": {"const": 12}
+      }
+    },
+    "upstream_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_acquisition", "kernel_replay", "theorem_axiom_reports", "semantic_gate", "solve_handoff_count"],
+      "properties": {
+        "source_acquisition": {"const": "present"},
+        "kernel_replay": {"const": "clear_12_of_12_corrected_target_set"},
+        "theorem_axiom_reports": {"const": "present_41_of_41"},
+        "semantic_gate": {"const": "clear_0_of_12"},
+        "solve_handoff_count": {"const": 0}
+      }
+    },
+    "aggregate_integration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "failure", "reopens_kernel_gate", "creates_cert_route"],
+      "properties": {
+        "state": {"const": "failed_separate_obligation"},
+        "failure": {"const": "All.lean namespace collision on replicate_to_periodic_packing"},
+        "reopens_kernel_gate": {"const": false},
+        "creates_cert_route": {"const": false}
+      }
+    },
+    "intake_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_manifest_merged", "programme_candidate_governance_present", "exact_head_corrected_target_build_passed", "all_comparator_checks_passed", "theorem_axiom_reports_present", "source_statement_concordance_clear_count", "solve_handoff_present", "independent_specialist_review_present", "may_adjudicate"],
+      "properties": {
+        "source_manifest_merged": {"const": true},
+        "programme_candidate_governance_present": {"const": true},
+        "exact_head_corrected_target_build_passed": {"const": true},
+        "all_comparator_checks_passed": {"const": true},
+        "theorem_axiom_reports_present": {"const": true},
+        "source_statement_concordance_clear_count": {"const": 0},
+        "solve_handoff_present": {"const": false},
+        "independent_specialist_review_present": {"const": false},
+        "may_adjudicate": {"const": false}
+      }
+    },
+    "route_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["certification_route_registry_entry", "cert_output", "adjudication_granularity", "aggregate_route_prohibited", "may_accept_semantic_audit_evidence", "may_accept_result_family_handoff", "may_adjudicate", "may_promote_claim"],
+      "properties": {
+        "certification_route_registry_entry": {"type": "null"},
+        "cert_output": {"type": "null"},
+        "adjudication_granularity": {"const": "result_family"},
+        "aggregate_route_prohibited": {"const": true},
+        "may_accept_semantic_audit_evidence": {"const": true},
+        "may_accept_result_family_handoff": {"const": false},
+        "may_adjudicate": {"const": false},
+        "may_promote_claim": {"const": false}
+      }
+    },
+    "handoff_rule": {"type": "string", "minLength": 140},
+    "supersedes_state_of": {"const": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP00.json"},
+    "claim_boundary": {"type": "string", "minLength": 180}
+  }
+}
