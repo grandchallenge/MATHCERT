@@ -1,0 +1,275 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_result_family_adjudication_contract",
+  "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-J2-TWO-DEGENERATE",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-J2-TWO-DEGENERATE",
+  "route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
+  "contract_state": "design_only",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/60",
+  "authority": {
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca",
+      "tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365",
+      "archive_sha256": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f"
+    },
+    "provider_manifest": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15",
+      "path": "provider_manifests/OPENAI-TEN-PROOFS-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472"
+    },
+    "source_revision_audit": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "a498ef40b7652b55bf121b5682604e259b8d3073",
+      "path": "sources/OPENAI-TEN-PROOFS-001/source_revision_audits/OTP-TRANCHE-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "80d473b1b545fd9ca05fc5200bcf70ff5f9fcb05"
+    },
+    "semantic_record": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic_audits/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "7bd168c46921f64364b20021b6315d68f0fde7d0"
+    },
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0d226492bf13e13bc1a437be01104db3d4c96f79"
+    },
+    "cert_intake": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "d99d2625ee838945087a91a50923cddc2dcc8d85",
+      "path": "governance/result_family_intakes/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "6e9cfee8f988e357aabdd53e2883220d170b7e60"
+    },
+    "cert_work_package": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "677a58a126145977581050bcb5d12d5b6a99fb51",
+      "path": "governance/result_family_work_packages/OTP-J2-TWO-DEGENERATE-CERT-WP01.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "dbbc4ab59f21b3f5cb2f313c51f754b9b306389c"
+    },
+    "replay_evidence": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "563c29c9687aad1bd06330436e3056cce7745c93",
+      "path": "governance/result_family_replay_evidence/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "215ce18b4139159c89d167ab11cab6c35d5a38ff"
+    },
+    "repository_bundle": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "563c29c9687aad1bd06330436e3056cce7745c93",
+      "path": "evidence/openai_ten_proofs/two-degenerate.zip.b64",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "14d050b03ccc9891f8c3e5ec4f522aa5aa00b8aa",
+      "decoded_sha256": "b3efb532152677dd84c0872071a9d2aa061ea56b9a8a7d9175c6382766f27ed4"
+    },
+    "route_proposal": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "e8d1e34509e640d82902ad0195560740b52bec0e",
+      "path": "governance/result_family_route_proposals/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0692ac15c19328532bdcd3e73b3c8c4371647ac6"
+    },
+    "route_registration": {
+      "reviewed_head": "4b9930d8785867bd1c59f4848795cb2b7b960dcf",
+      "merge_commit": "cec85b13f5be48439e02fbbfedcf7ca1d839c097",
+      "non_author_review": {
+        "reviewer": "jimsteeg",
+        "state": "APPROVED",
+        "submitted_at": "2026-08-02T05:21:21Z"
+      },
+      "exact_head_checks": {
+        "cert_checks": {"run_id": 30732705290, "conclusion": "success"},
+        "gcl_conformance": {"run_id": 30732705451, "conclusion": "success"},
+        "otp_family_replay": {"run_id": 30732705279, "conclusion": "success"}
+      },
+      "registration_receipt": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "cec85b13f5be48439e02fbbfedcf7ca1d839c097",
+        "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP06_ROUTE_REGISTRATIONS.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "38b1c03a6506f877ad9aed74e92cb6d202b444a5"
+      },
+      "registered_route_registry": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "cec85b13f5be48439e02fbbfedcf7ca1d839c097",
+        "path": "governance/certification_routes.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "b5541045591f8589130b1577c50d51d70c3b4337"
+      }
+    },
+    "post_merge_attestation": {
+      "reviewed_head": "14c7384ab009f3b62bada1f091657096767d8845",
+      "merge_commit": "64b103923959b02a1b29dd37569eca6e53abd902",
+      "non_author_review": {
+        "reviewer": "jimsteeg",
+        "state": "APPROVED",
+        "submitted_at": "2026-08-02T05:54:00Z"
+      },
+      "exact_head_checks": {
+        "cert_checks": {"run_id": 30734248763, "conclusion": "success"},
+        "gcl_conformance": {"run_id": 30734248972, "conclusion": "success"}
+      },
+      "manifest": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "64b103923959b02a1b29dd37569eca6e53abd902",
+        "path": "governance/post_merge_attestations/OTP-CERT-ROUTE-REGISTRATION-001.v1.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "01c963fe22acec8073086038b78601b2128fea27"
+      },
+      "verbatim_document": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "64b103923959b02a1b29dd37569eca6e53abd902",
+        "path": "governance/post_merge_attestations/OTP-CERT-ROUTE-REGISTRATION-001.v1.md",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "afe8b4241fe5c8cc99626f713f9ac76f48f7b805"
+      }
+    },
+    "implementation_authorization": {
+      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/60",
+      "comment_id": 5155876676,
+      "scope": "design_only_adjudication_contracts"
+    }
+  },
+  "route_scope": {
+    "registered_route_state": "submitted",
+    "target_claim_ids": [
+      "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
+      "TwoDegenerateGraphs.not_erdos_146"
+    ],
+    "source_theorem": "Chapter 10, Theorem 1.2, parsed P236-P237 L19792-L19822",
+    "current_revision_locus": {
+      "chapter": 10,
+      "theorem": "Theorem 1.2",
+      "pdf_page_index": 236,
+      "printed_page": 235,
+      "concordance": "clear_at_recorded_locus"
+    },
+    "normalized_statement": "There exist a fixed finite connected bipartite 2-degenerate graph H and positive real constants c and epsilon such that ex(n,H) is at least c*n^(3/2+epsilon) for all sufficiently large n, refuting the conjectured O(n^(3/2)) bound and the r=2 case of the general degeneracy conjecture.",
+    "nonvacuity_witnesses": [
+      "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample"
+    ],
+    "scope_exclusions": [
+      "Checker acceptance of the encoded existential targets does not independently certify the explicit probabilistic or combinatorial construction.",
+      "The stronger coloring-side degree property is not attributed to source Theorem 1.2 and remains excluded.",
+      "The proof body was not compared in full and the contract applies only to the recorded current-revision theorem locus."
+    ]
+  },
+  "decision_contract": {
+    "decision_question": "Does the complete admissible evidence support a family-specific MATHCERT adjudication of only the exact encoded target set, with every recorded source-scope limitation preserved?",
+    "admissible_dispositions": [
+      "adjudication_clear_encoded_targets_only",
+      "adjudication_not_clear",
+      "defer_insufficient_evidence"
+    ],
+    "required_evidence": [
+      {
+        "evidence_id": "authority_integrity",
+        "requirement": "Reverify every content-addressed authority from the official subject through the merged post-merge attestation.",
+        "execution_status": "must_refresh_at_execution"
+      },
+      {
+        "evidence_id": "isolated_checker_replay",
+        "requirement": "Run a clean isolated replay of the exact encoded target set under the pinned Lean and Comparator toolchain and retain theorem-level axiom reports.",
+        "execution_status": "must_refresh_at_execution"
+      },
+      {
+        "evidence_id": "source_statement_concordance",
+        "requirement": "Reacquire the exact source theorem locus and independently confirm statement equivalence without inferring whole-document equivalence.",
+        "execution_status": "must_refresh_at_execution"
+      },
+      {
+        "evidence_id": "nonvacuity",
+        "requirement": "Replay and inspect the named nonvacuity witness and reject vacuous encodings or weakened predicates.",
+        "execution_status": "must_refresh_at_execution"
+      },
+      {
+        "evidence_id": "construction_and_interpretation",
+        "requirement": "Complete the family-specific construction and extremal-interpretation obligations before any positive disposition.",
+        "execution_status": "must_complete_at_execution"
+      },
+      {
+        "evidence_id": "independent_specialist_review",
+        "requirement": "Obtain a binding non-author specialist review on the exact adjudication execution head.",
+        "execution_status": "future_gate"
+      },
+      {
+        "evidence_id": "human_steward_execution_authorization",
+        "requirement": "Obtain a separate Human Steward authorization naming the contracts and exact execution head before adjudication.",
+        "execution_status": "future_gate"
+      }
+    ],
+    "family_obligations": {
+      "semantic_concordance": [
+        "Reconfirm the fixed finite connected bipartite 2-degenerate graph statement, positive constants, and sufficiently-large-n quantifier order.",
+        "Do not import the stronger coloring-side degree property into the source theorem scope."
+      ],
+      "nonvacuity": [
+        "Confirm that the encoded graph and positive constants are genuinely existentially inhabited rather than definitionally vacuous.",
+        "Replay the extremal counterexample witness under the exact pinned toolchain."
+      ],
+      "construction_and_interpretation": [
+        "Require independent certification of the source construction before any positive adjudication.",
+        "Require independent review of the extremal exponent interpretation; checker acceptance of existential targets alone is insufficient."
+      ],
+      "source_concordance": [
+        "Reacquire Chapter 10, Theorem 1.2 at the recorded current-revision locus before execution.",
+        "Reject attribution of the stronger coloring-side property or any broader degeneracy theorem."
+      ]
+    },
+    "family_boundary": "A future adjudication must distinguish encoded checker acceptance from independent certification of the construction and extremal interpretation; the stronger coloring-side property remains excluded."
+  },
+  "reviewer_requirements": {
+    "minimum_binding_non_author_reviewers": 1,
+    "required_review_state": "APPROVED",
+    "review_must_bind_exact_execution_head": true,
+    "competence": [
+      "extremal graph theory, graph degeneracy, asymptotic lower bounds, and Lean formalization",
+      "Lean 4 kernel replay and theorem-level axiom analysis",
+      "source-to-formal statement concordance and nonvacuity review"
+    ],
+    "independence": [
+      "Reviewer must not be the adjudication-contract author.",
+      "Reviewer must not self-approve an adjudication execution they authored.",
+      "Reviewer must disclose any material conflict affecting mathematical or evidence judgment."
+    ]
+  },
+  "execution_gate": {
+    "separate_human_steward_authorization_required": true,
+    "authorization_must_name_contract_and_exact_execution_head": true,
+    "exact_head_cert_checks_required": true,
+    "exact_head_gcl_conformance_required": true,
+    "fresh_non_author_approval_required": true,
+    "protected_merge_required": true,
+    "head_change_requires_revalidation_and_reapproval": true,
+    "design_merge_effect": "contract_admitted_design_only_no_adjudication"
+  },
+  "state": {
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false
+  },
+  "preserved_limitations": {
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false,
+    "unexamined_result_family_count": 9,
+    "blocked_repair_lanes": [
+      "OTP-C-PERMANENT",
+      "OTP-H-GAPCVP"
+    ],
+    "all_lean_state": "failed_namespace_collision"
+  },
+  "claim_boundary": "This design-only contract defines a possible future adjudication process for OTP-J2-TWO-DEGENERATE only. It does not adjudicate or prove any theorem, issue a Cert output, alter the submitted route state, promote a mathematical target, clear blocked or unexamined families, establish whole-document equivalence, compare the proof body in full, attribute the stronger coloring-side property to the source theorem, create an aggregate ten-proofs adjudication or certification object, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
