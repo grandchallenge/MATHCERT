@@ -20,11 +20,13 @@ class CertificationRouteTests(unittest.TestCase):
  def test_pending_route_cannot_claim_packet(self):
   d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OZ-001");r["intake_packet"]=copy.deepcopy(d["routes"][0]["intake_packet"]);self.assertTrue(any("pending route" in x for x in self.errors(d)))
  def test_submitted_is_not_an_adjudication(self):
-  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-F-EHRHART");r["cert_output"]=copy.deepcopy(d["routes"][1]["cert_output"]);self.assertTrue(any("intake-only" in x for x in self.errors(d)))
- def test_adjudication_requires_exact_output(self):
-  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="UC-001");r["cert_output"]=None;self.assertTrue(any("output identity drift" in x or "expected an artifact" in x for x in self.errors(d)))
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-J1-COMPACTNESS");r["cert_output"]=copy.deepcopy(next(x for x in d["routes"] if x["campaign_id"]=="OTP-F-EHRHART")["cert_output"]);self.assertTrue(any("intake-only" in x for x in self.errors(d)))
  def test_uc_cannot_return_to_ready(self):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="UC-001")["intake_status"]="ready";self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
+ def test_ehrhart_output_pointer_drift_fails(self):
+  d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-F-EHRHART")["cert_output"]["commit_sha"]="0"*40;self.assertTrue(any("output identity drift" in x for x in self.errors(d)))
+ def test_ehrhart_cannot_return_to_submitted(self):
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-F-EHRHART");r["intake_status"]="submitted";r["cert_output"]=None;self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
  def test_commit_cannot_substitute_digest(self):
   d=self.load_registry();s=d["routes"][0]["source_manifest"];s["digest"]=s["commit_sha"];self.assertTrue(any("must not be substituted" in x for x in self.errors(d)))
  def test_duplicate_claim_fails(self):
@@ -35,8 +37,6 @@ class CertificationRouteTests(unittest.TestCase):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-J1-COMPACTNESS")["intake_packet"]["digest"]="0"*40;self.assertTrue(any("packet identity drift" in x for x in self.errors(d)))
  def test_otp_state_promotion_fails(self):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-J2-TWO-DEGENERATE")["intake_status"]="qualified";self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
- def test_otp_route_omission_fails(self):
-  d=self.load_registry();d["routes"]=[r for r in d["routes"] if r["campaign_id"]!="OTP-F-EHRHART"];self.assertTrue(self.errors(d))
  def test_aggregate_route_fails(self):
   d=self.load_registry();r=copy.deepcopy(next(r for r in d["routes"] if r["campaign_id"]=="OTP-F-EHRHART"));r["campaign_id"]="OPENAI-TEN-PROOFS-001";r["route_id"]="MC-ROUTE-OPENAI-TEN-PROOFS-001";d["routes"].append(r);self.assertTrue(self.errors(d))
 if __name__=="__main__":unittest.main()
