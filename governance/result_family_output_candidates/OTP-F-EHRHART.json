@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_ehrhart_output_candidate",
+  "candidate_id": "MC-OTP-F-EHRHART-OUTPUT-CANDIDATE-001",
+  "result_family": "OTP-F-EHRHART",
+  "route_id": "MC-ROUTE-OTP-F-EHRHART",
+  "contract_id": "MC-OTP-F-EHRHART-OUTPUT-CONTRACT-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/70",
+  "implementation_authorization": {
+    "issue": "https://github.com/grandchallenge/MATHCERT/issues/70",
+    "comment_id": 5157454689,
+    "author": "jimsteeg",
+    "scope": "non_operational_exact_output_candidate_preparation_only"
+  },
+  "candidate_state": "output_candidate_prepared_pending_authorization",
+  "protected_authority": {
+    "contract": {
+      "merge_commit": "0a8df66a768fe1b2671cb5301ecb20464d9b5ecf",
+      "path": "governance/result_family_output_contracts/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "bdcfcc4d8b94b5d9c6993842260c8347fc2f6458"
+    },
+    "restricted_output_schema": {
+      "path": "schemas/otp_ehrhart_qualified_output.schema.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "01bef61e1cc58544a3e007e3d74cde2420ec53bf"
+    },
+    "adjudication": {
+      "merge_commit": "41a2d699204d73543a4ac4bd33b2865d3803c5d6",
+      "path": "governance/result_family_adjudications/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "dcea25320169b9309ebf6c7f48249df9a312555f",
+      "disposition": "adjudication_clear_encoded_targets_only"
+    },
+    "closure_attestation": {
+      "merge_commit": "c3f8a66413eb1081819253e5d43341479b756a95",
+      "path": "governance/post_merge_attestations/OTP-F-EHRHART-CERT-ADJUDICATION-001.v1.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "478811b443c9a60c12de85008d4e6da253de095a"
+    },
+    "live_route_registry": {
+      "path": "governance/certification_routes.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "b5541045591f8589130b1577c50d51d70c3b4337"
+    }
+  },
+  "staged_artifacts": {
+    "certificate": {
+      "path": "governance/result_family_output_candidates/staged_certificates/MC-OTP-F-EHRHART-001.json",
+      "future_live_path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "27a855c949b67e71372c7f0d6601d80125d33968",
+      "certificate_id": "MC-OTP-F-EHRHART-QUAL-001",
+      "disposition": "qualified_encoded_targets_only"
+    },
+    "route_transition": {
+      "path": "governance/result_family_output_candidates/staged_route_transitions/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "2862950612fde71331cce92161ecf208f57f3eb9",
+      "mode": "single_registry_entry_replacement_template",
+      "execution_commit_token": "$PROTECTED_EXECUTION_MERGE"
+    }
+  },
+  "encoded_targets": [
+    "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+    "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+    "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+    "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+  ],
+  "evidence_receipts": {
+    "lean_kernel": "accept",
+    "nanoda": "accept",
+    "theorem_axiom_report": "permitted_only",
+    "solution_placeholder_count": 0,
+    "unsafe_declaration_count": 0,
+    "custom_axiom_count": 0,
+    "source_statement_concordance": "clear_at_chapter_8_theorem_1_1_for_encoded_scope_only",
+    "nonvacuity": "clear_for_named_centered_body_and_normalized_volume_witness_paths",
+    "sharpness_witness": "admitted_centered_simplex_sharpness_witness_only"
+  },
+  "atomic_execution_plan": {
+    "route_transition": {
+      "from": "submitted",
+      "to": "qualified"
+    },
+    "certificate_insertion": "exactly_one",
+    "same_protected_commit_required": true,
+    "partial_application_prohibited": true,
+    "execution_commit_token_must_be_resolved": true
+  },
+  "review_state": {
+    "fresh_non_author_specialist_review_required": true,
+    "specialist_review": null,
+    "status": "pending_exact_head_non_author_specialist_review"
+  },
+  "execution_authorization": {
+    "separate_human_steward_authorization_required": true,
+    "must_name_contract_exact_candidate_head_protected_candidate_merge_and_candidate_blob": true,
+    "authorization": null
+  },
+  "state": {
+    "may_execute": false,
+    "live_route_state": "submitted",
+    "live_cert_output": null,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_output": false,
+    "protected_effect": "none"
+  },
+  "preserved_limitations": {
+    "classification_or_uniqueness_of_all_equality_cases": "excluded",
+    "whole_document_byte_equivalence": "not_established_between_all_revisions",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false,
+    "other_family_outputs_authorized": false,
+    "blocked_repair_lanes": [
+      "OTP-C-PERMANENT",
+      "OTP-H-GAPCVP"
+    ],
+    "all_lean_state": "failed_namespace_collision",
+    "unexamined_result_family_count": 9
+  },
+  "claim_boundary": "This non-operative output candidate stages the exact restricted OTP-F-EHRHART certificate and atomic route-transition template under the protected output contract. It does not execute the candidate, alter the live submitted route, insert a live Cert output, mark the source theorem or any mathematical target proved, classify or establish uniqueness of all equality cases, establish whole-document equivalence, compare the analytic proof body in full, qualify another result family, repair Permanent, GapCVP, or All.lean, create aggregate ten-proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}
