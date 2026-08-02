@@ -1,0 +1,2 @@
+# Content-addressed governance records must retain repository LF bytes on all runners.
+governance/**/*.json text eol=lf
