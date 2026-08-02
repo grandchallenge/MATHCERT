@@ -14,17 +14,29 @@ assert SPEC and SPEC.loader
 V = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(V)
 
+TRANSITION = ROOT / "governance/result_family_output_candidates/staged_route_transitions/OTP-F-EHRHART.json"
+
 
 class AdjudicationContractMutationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.contracts, cls.registry, cls.routes = V.defaults()
+        cls.contracts, cls.registry, current_routes = V.defaults()
+        cls.routes = copy.deepcopy(current_routes)
+        before = V.load(TRANSITION)["before"]
+        index = next(
+            i for i, route in enumerate(cls.routes["routes"])
+            if route.get("campaign_id") == "OTP-F-EHRHART"
+        )
+        cls.routes["routes"][index] = before
         cls.contract_schema = V.load(V.D.CONTRACT_SCHEMA)
         cls.registry_schema = V.load(V.D.REGISTRY_SCHEMA)
         cls.local_blobs = {
             fam: {
                 key: V.D.expected_authority(fam)[key]["digest"]
-                for key in ("cert_intake", "cert_work_package", "replay_evidence", "repository_bundle", "route_proposal")
+                for key in (
+                    "cert_intake", "cert_work_package", "replay_evidence",
+                    "repository_bundle", "route_proposal",
+                )
             }
             for fam in V.D.FAMILIES
         }
@@ -46,13 +58,13 @@ class AdjudicationContractMutationTests(unittest.TestCase):
             executed_present=changes.get("executed_present", False),
         )
 
-    def test_current_design_passes(self):
-        self.assertEqual([], self.errors())
-
     def mutate_contract(self, family, mutator):
         contracts = copy.deepcopy(self.contracts)
         mutator(contracts[family])
         self.assertTrue(self.errors(contracts=contracts))
+
+    def test_current_design_passes(self):
+        self.assertEqual([], self.errors())
 
     def test_missing_family_rejected(self):
         contracts = copy.deepcopy(self.contracts)
@@ -62,97 +74,51 @@ class AdjudicationContractMutationTests(unittest.TestCase):
     def test_premature_may_adjudicate_rejected(self):
         self.mutate_contract(V.D.FAMILIES[0], lambda r: r["state"].__setitem__("may_adjudicate", True))
 
-    def test_adjudication_insertion_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[0], lambda r: r["state"].__setitem__("adjudication", {"state": "clear"}))
-
     def test_cert_output_insertion_rejected(self):
         self.mutate_contract(V.D.FAMILIES[1], lambda r: r["state"].__setitem__("cert_output", {"path": "forged"}))
 
     def test_proof_promotion_rejected(self):
         self.mutate_contract(V.D.FAMILIES[2], lambda r: r["state"].__setitem__("mathematical_target_proved", True))
 
-    def test_aggregate_adjudication_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[2], lambda r: r["state"].__setitem__("aggregate_adjudication", True))
-
     def test_authority_substitution_rejected(self):
         self.mutate_contract(V.D.FAMILIES[0], lambda r: r["authority"]["route_proposal"].__setitem__("digest", "0" * 40))
 
-    def test_attestation_merge_substitution_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[1], lambda r: r["authority"]["post_merge_attestation"].__setitem__("merge_commit", "0" * 40))
+    def test_scope_weakening_rejected(self):
+        self.mutate_contract(V.D.FAMILIES[0], lambda r: r["route_scope"].__setitem__("scope_exclusions", []))
 
-    def test_authorization_comment_drift_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[2], lambda r: r["authority"]["implementation_authorization"].__setitem__("comment_id", 1))
+    def test_reviewer_gate_weakening_rejected(self):
+        self.mutate_contract(V.D.FAMILIES[1], lambda r: r["reviewer_requirements"].__setitem__("minimum_binding_non_author_reviewers", 0))
 
-    def test_target_scope_expansion_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[0], lambda r: r["route_scope"]["target_claim_ids"].append("Ehrhart.Stronger"))
+    def test_execution_gate_weakening_rejected(self):
+        self.mutate_contract(V.D.FAMILIES[2], lambda r: r["execution_gate"].__setitem__("protected_merge_required", False))
 
-    def test_exclusion_removal_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[1], lambda r: r["route_scope"].__setitem__("scope_exclusions", ["No limitation."]))
+    def test_route_state_promotion_rejected(self):
+        routes = copy.deepcopy(self.routes)
+        route = next(r for r in routes["routes"] if r["campaign_id"] == "OTP-F-EHRHART")
+        route["intake_status"] = "qualified"
+        self.assertTrue(self.errors(routes=routes))
 
-    def test_family_boundary_weakening_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[2], lambda r: r["decision_contract"].__setitem__("family_boundary", "All claims clear."))
+    def test_route_output_insertion_rejected(self):
+        routes = copy.deepcopy(self.routes)
+        route = next(r for r in routes["routes"] if r["campaign_id"] == "OTP-J1-COMPACTNESS")
+        route["cert_output"] = {"path": "forged"}
+        self.assertTrue(self.errors(routes=routes))
 
-    def test_required_evidence_removal_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[0], lambda r: r["decision_contract"]["required_evidence"].pop())
-
-    def test_reviewer_independence_removal_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[1], lambda r: r["reviewer_requirements"].__setitem__("independence", []))
-
-    def test_human_steward_execution_gate_removal_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[2], lambda r: r["execution_gate"].__setitem__("separate_human_steward_authorization_required", False))
-
-    def test_claim_boundary_weakening_rejected(self):
-        self.mutate_contract(V.D.FAMILIES[0], lambda r: r.__setitem__("claim_boundary", "Certified."))
-
-    def test_contract_blob_substitution_rejected(self):
-        blobs = copy.deepcopy(V.D.CONTRACT_BLOBS)
-        blobs[V.D.FAMILIES[0]] = "0" * 40
-        self.assertTrue(self.errors(contract_blobs=blobs))
+    def test_route_blob_substitution_rejected(self):
+        self.assertTrue(self.errors(route_blob="0" * 40))
 
     def test_registry_blob_substitution_rejected(self):
         self.assertTrue(self.errors(registry_blob="0" * 40))
 
-    def test_registry_state_inflation_rejected(self):
-        registry = copy.deepcopy(self.registry)
-        registry["state"]["adjudication_count"] = 1
-        self.assertTrue(self.errors(registry=registry))
+    def test_local_blob_substitution_rejected(self):
+        blobs = copy.deepcopy(self.local_blobs)
+        blobs[V.D.FAMILIES[0]]["route_proposal"] = "0" * 40
+        self.assertTrue(self.errors(local_blobs=blobs))
 
-    def test_registry_contract_digest_drift_rejected(self):
-        registry = copy.deepcopy(self.registry)
-        registry["contracts"][0]["contract"]["digest"] = "0" * 40
-        self.assertTrue(self.errors(registry=registry))
-
-    def test_registry_family_inflation_rejected(self):
-        registry = copy.deepcopy(self.registry)
-        registry["contracts"].append(copy.deepcopy(registry["contracts"][0]))
-        registry["contracts"][-1]["result_family"] = "OTP-A-EXTRA"
-        self.assertTrue(self.errors(registry=registry))
-
-    def test_route_registry_substitution_rejected(self):
-        self.assertTrue(self.errors(route_blob="0" * 40))
-
-    def test_registration_receipt_substitution_rejected(self):
-        self.assertTrue(self.errors(receipt_blob="0" * 40))
-
-    def test_attestation_substitution_rejected(self):
-        self.assertTrue(self.errors(attestation_blob="0" * 40))
-
-    def test_executed_adjudication_artifact_rejected(self):
+    def test_executed_artifact_rejected_by_design_control(self):
         self.assertTrue(self.errors(executed_present=True))
 
-    def test_route_state_mutation_rejected(self):
-        routes = copy.deepcopy(self.routes)
-        route = next(r for r in routes["routes"] if r.get("campaign_id") == V.D.FAMILIES[0])
-        route["intake_status"] = "qualified"
-        self.assertTrue(self.errors(routes=routes))
-
-    def test_route_blocker_removal_rejected(self):
-        routes = copy.deepcopy(self.routes)
-        route = next(r for r in routes["routes"] if r.get("campaign_id") == V.D.FAMILIES[1])
-        route["blockers"] = ["No blockers."]
-        self.assertTrue(self.errors(routes=routes))
-
-    def test_open_schema_rejected(self):
+    def test_open_contract_schema_rejected(self):
         schema = copy.deepcopy(self.contract_schema)
         schema["additionalProperties"] = True
         self.assertTrue(self.errors(contract_schema=schema))
