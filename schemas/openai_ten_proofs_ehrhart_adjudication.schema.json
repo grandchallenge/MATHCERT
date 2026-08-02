@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/openai_ten_proofs_ehrhart_adjudication.schema.json",
+  "title": "OpenAI Ten Proofs Ehrhart adjudication",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "adjudication_id",
+    "result_family",
+    "route_id",
+    "contract_id",
+    "tracker_issue",
+    "authority",
+    "encoded_targets",
+    "raw_evidence_verification",
+    "evidence_assessment",
+    "decision",
+    "review_gate",
+    "state",
+    "preserved_limitations",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_ehrhart_adjudication"},
+    "adjudication_id": {"const": "MC-OTP-F-EHRHART-ADJUDICATION-001"},
+    "result_family": {"const": "OTP-F-EHRHART"},
+    "route_id": {"const": "MC-ROUTE-OTP-F-EHRHART"},
+    "contract_id": {"const": "MC-OTP-ADJUDICATION-CONTRACT-F-EHRHART"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/64"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_design_merge",
+        "contract_blob",
+        "execution_candidate_head",
+        "execution_candidate_merge",
+        "execution_candidate_record_blob",
+        "execution_candidate_manifest_blob",
+        "human_steward_authorization"
+      ],
+      "properties": {
+        "contract_design_merge": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "contract_blob": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "execution_candidate_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "execution_candidate_merge": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "execution_candidate_record_blob": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "execution_candidate_manifest_blob": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "human_steward_authorization": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["issue", "comment_id", "named_contract", "named_candidate_head", "named_candidate_merge"],
+          "properties": {
+            "issue": {"type": "string", "minLength": 1},
+            "comment_id": {"type": "integer", "minimum": 1},
+            "named_contract": {"type": "string", "minLength": 1},
+            "named_candidate_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "named_candidate_merge": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+          }
+        }
+      }
+    },
+    "encoded_targets": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "raw_evidence_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "artifact_name", "bytes", "sha256", "sha256sums_verified", "bundle_manifest_present", "verification_result"],
+      "properties": {
+        "artifact_id": {"type": "integer", "minimum": 1},
+        "artifact_name": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "sha256sums_verified": {"type": "integer", "minimum": 1},
+        "bundle_manifest_present": {"type": "boolean"},
+        "verification_result": {"enum": ["pass", "fail"]}
+      }
+    },
+    "evidence_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_integrity",
+        "isolated_checker_replay",
+        "lean_kernel",
+        "nanoda",
+        "theorem_axioms",
+        "trust_boundary",
+        "source_statement_concordance",
+        "nonvacuity",
+        "construction_interpretation",
+        "equality_case_classification",
+        "whole_document_equivalence",
+        "proof_body_compared_in_full"
+      ],
+      "properties": {
+        "authority_integrity": {"type": "string", "minLength": 1},
+        "isolated_checker_replay": {"type": "string", "minLength": 1},
+        "lean_kernel": {"type": "string", "minLength": 1},
+        "nanoda": {"type": "string", "minLength": 1},
+        "theorem_axioms": {"type": "string", "minLength": 1},
+        "trust_boundary": {"type": "string", "minLength": 1},
+        "source_statement_concordance": {"type": "string", "minLength": 1},
+        "nonvacuity": {"type": "string", "minLength": 1},
+        "construction_interpretation": {"type": "string", "minLength": 1},
+        "equality_case_classification": {"type": "string", "minLength": 1},
+        "whole_document_equivalence": {"type": "string", "minLength": 1},
+        "proof_body_compared_in_full": {"type": "boolean"}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "disposition", "scope", "rationale", "binding_effect"],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "disposition": {"enum": ["adjudication_clear_encoded_targets_only", "adjudication_not_clear", "defer_insufficient_evidence"]},
+        "scope": {"type": "string", "minLength": 1},
+        "rationale": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "binding_effect": {"type": "string", "minLength": 1}
+      }
+    },
+    "review_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fresh_non_author_specialist_review_required", "minimum_reviewers", "required_state", "must_bind_exact_head", "recorded_review"],
+      "properties": {
+        "fresh_non_author_specialist_review_required": {"type": "boolean"},
+        "minimum_reviewers": {"type": "integer", "minimum": 1},
+        "required_state": {"type": "string", "minLength": 1},
+        "must_bind_exact_head": {"type": "boolean"},
+        "recorded_review": {"type": "null"}
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["route_state", "adjudication_operation_authorized", "adjudication_recorded_on_branch", "cert_output", "mathematical_target_proved", "may_promote_claim", "aggregate_adjudication"],
+      "properties": {
+        "route_state": {"type": "string", "minLength": 1},
+        "adjudication_operation_authorized": {"type": "boolean"},
+        "adjudication_recorded_on_branch": {"type": "boolean"},
+        "cert_output": {"type": "null"},
+        "mathematical_target_proved": {"type": "boolean"},
+        "may_promote_claim": {"type": "boolean"},
+        "aggregate_adjudication": {"type": "boolean"}
+      }
+    },
+    "preserved_limitations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification_or_uniqueness_of_all_equality_cases",
+        "whole_document_byte_equivalence",
+        "whole_document_semantic_equivalence",
+        "proof_body_compared_in_full",
+        "other_family_adjudications_executed",
+        "unexamined_result_family_count",
+        "blocked_repair_lanes",
+        "all_lean_state"
+      ],
+      "properties": {
+        "classification_or_uniqueness_of_all_equality_cases": {"type": "string", "minLength": 1},
+        "whole_document_byte_equivalence": {"type": "string", "minLength": 1},
+        "whole_document_semantic_equivalence": {"type": "string", "minLength": 1},
+        "proof_body_compared_in_full": {"type": "boolean"},
+        "other_family_adjudications_executed": {"type": "boolean"},
+        "unexamined_result_family_count": {"type": "integer", "minimum": 0},
+        "blocked_repair_lanes": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "all_lean_state": {"type": "string", "minLength": 1}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}
