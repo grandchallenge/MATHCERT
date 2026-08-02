@@ -15,6 +15,15 @@ on:
       - "governance/result_family_adjudication_contracts/OTP-F-EHRHART.json"
       - "evidence/openai_ten_proofs/ehrhart_refresh/**"
       - "governance/certification_routes.json"
+      - "certificates/formal_sources/MC-OTP-F-EHRHART-001.json"
+      - "governance/result_family_output_candidates/OTP-F-EHRHART.json"
+      - "governance/result_family_output_execution_closures/OTP-F-EHRHART.json"
+      - "governance/post_merge_attestations/OTP-F-EHRHART-CERT-OUTPUT-EXEC-001.v1.json"
+      - "governance/post_merge_attestations/OTP-F-EHRHART-CERT-OUTPUT-EXEC-001.v1.md"
+      - "schemas/otp_ehrhart_output_execution_closure.schema.json"
+      - "schemas/otp_ehrhart_output_execution_post_merge_attestation.schema.json"
+      - "ci/validate_otp_ehrhart_output_execution_post_merge_attestation.py"
+      - "ci/test_otp_ehrhart_output_execution_post_merge_attestation.py"
   workflow_dispatch:
 
 permissions:
@@ -45,3 +54,7 @@ jobs:
         run: python ci/validate_otp_ehrhart_adjudication.py
       - name: Run adversarial mutations
         run: python ci/test_otp_ehrhart_adjudication.py
+      - name: Validate Ehrhart output execution closure
+        run: python ci/validate_otp_ehrhart_output_execution_post_merge_attestation.py
+      - name: Run output execution closure mutations
+        run: python ci/test_otp_ehrhart_output_execution_post_merge_attestation.py
