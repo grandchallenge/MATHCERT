@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
-import subprocess
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -15,141 +16,55 @@ CANDIDATE = ROOT / "governance/result_family_output_candidates/OTP-F-EHRHART.jso
 CANDIDATE_SCHEMA = ROOT / "schemas/otp_ehrhart_output_candidate.schema.json"
 STAGED_CERTIFICATE = ROOT / "governance/result_family_output_candidates/staged_certificates/MC-OTP-F-EHRHART-001.json"
 TRANSITION = ROOT / "governance/result_family_output_candidates/staged_route_transitions/OTP-F-EHRHART.json"
+TRANSITION_SCHEMA = ROOT / "schemas/otp_ehrhart_atomic_route_transition_template.schema.json"
 FUTURE_SCHEMA = ROOT / "schemas/otp_ehrhart_qualified_output.schema.json"
 LIVE_CERTIFICATE = ROOT / "certificates/formal_sources/MC-OTP-F-EHRHART-001.json"
 ROUTES = ROOT / "governance/certification_routes.json"
 
-CONTENT_COMMIT = "7b79b459422951cc6e36feda34c8a6e3d615ef17"
-ROUTE_COMMIT = "34b34687ab8960089806a7e57dab7d5db4429ad1"
-CORRECTION_MERGE = "686a48bb49015e4b8558bbc83d182f21f8b9e097"
-CERT_PATH = "certificates/formal_sources/MC-OTP-F-EHRHART-001.json"
-ROUTES_PATH = "governance/certification_routes.json"
-EXPECTED_TARGETS = [
-    "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
-    "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
-    "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
-    "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex",
-]
+BASE_SPEC = importlib.util.spec_from_file_location(
+    "validate_otp_ehrhart_output_contract",
+    ROOT / "ci/validate_otp_ehrhart_output_contract.py",
+)
+assert BASE_SPEC and BASE_SPEC.loader
+BASE = importlib.util.module_from_spec(BASE_SPEC)
+BASE_SPEC.loader.exec_module(BASE)
+
+EXECUTION_SPEC = importlib.util.spec_from_file_location(
+    "validate_otp_ehrhart_output_execution",
+    ROOT / "ci/validate_otp_ehrhart_output_execution.py",
+)
+assert EXECUTION_SPEC and EXECUTION_SPEC.loader
+EXECUTION = importlib.util.module_from_spec(EXECUTION_SPEC)
+EXECUTION_SPEC.loader.exec_module(EXECUTION)
+
 EXPECTED_BLOBS = {
-    "candidate": "7637665719df1c93d92934817b73e95cf12c8c30",
-    "candidate_schema": "11d3aa8d828c0a7fa8571a576549aa704b7f7961",
-    "certificate": "27a855c949b67e71372c7f0d6601d80125d33968",
+    "candidate": "2caf48f8db9dfc68c82dbc7f5def386382952199",
+    "candidate_schema": "3a80a5b78fe0e69b3232cd1649ec67fb0362d479",
     "transition": "fd3c39ce2fbb4ba6a62085d6778d9dcb59d8453c",
-    "future_schema": "01bef61e1cc58544a3e007e3d74cde2420ec53bf",
-    "routes_before": "b5541045591f8589130b1577c50d51d70c3b4337",
-    "routes_after": "f4df18d612459af629615fdd36d67dad192a297a",
+    "transition_schema": "22560521720bde3f74f3825969d9ce2dadd0b766",
+    "staged_certificate": "27a855c949b67e71372c7f0d6601d80125d33968",
+    "routes": "b5541045591f8589130b1577c50d51d70c3b4337",
 }
 EXPECTED_CANDIDATE_FILES = {
     "OTP-F-EHRHART.json",
     "staged_certificates/MC-OTP-F-EHRHART-001.json",
     "staged_route_transitions/OTP-F-EHRHART.json",
 }
-ALLOWED_EXECUTION_FILES = {
-    CERT_PATH,
-    ROUTES_PATH,
-    "governance/result_family_output_candidates/OTP-F-EHRHART.json",
-    "schemas/otp_ehrhart_output_candidate.schema.json",
-    "ci/validate_otp_ehrhart_output_candidate.py",
-    "ci/test_otp_ehrhart_output_candidate.py",
-    "ci/validate_certification_routes.py",
-    "ci/test_validate_certification_routes.py",
-    "ci/validate_formal_target_certificates.py",
-    "ci/test_formal_target_certificates.py",
-    "ci/test_otp_ehrhart_output_contract.py",
-    "ci/validate_openai_ten_proofs_route_registrations.py",
-    "ci/validate_otp_ehrhart_adjudication.py",
-    "ci/validate_human_steward_post_merge_attestation.py",
-    "ci/test_human_steward_post_merge_attestation.py",
-    "ci/validate_openai_ten_proofs_adjudication_design_with_successors.py",
-    "ci/test_openai_ten_proofs_adjudication_contracts.py",
-}
+CONTENT_TOKEN = "$CERTIFICATE_CONTENT_COMMIT"
+FORBIDDEN_TOKEN = "$PROTECTED_EXECUTION_MERGE"
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
 
 
 def load(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def git_blob_bytes(payload: bytes) -> str:
+def git_blob_sha1(path: Path) -> str:
+    payload = path.read_bytes()
     return hashlib.sha1(
         f"blob {len(payload)}\0".encode("ascii") + payload,
         usedforsecurity=False,
     ).hexdigest()
-
-
-def git_blob(path: Path) -> str:
-    return git_blob_bytes(path.read_bytes())
-
-
-def run_git(*args: str) -> subprocess.CompletedProcess[bytes]:
-    return subprocess.run(
-        ["git", *args],
-        cwd=ROOT,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=False,
-    )
-
-
-def ensure_history() -> None:
-    shallow = run_git("rev-parse", "--is-shallow-repository")
-    if shallow.returncode == 0 and shallow.stdout.decode().strip() == "true":
-        result = run_git("fetch", "--no-tags", "--unshallow", "origin")
-        if result.returncode != 0:
-            raise RuntimeError(
-                "unable to unshallow repository for execution ancestry validation: "
-                + result.stderr.decode(errors="replace")
-            )
-    for commit in (CORRECTION_MERGE, CONTENT_COMMIT, ROUTE_COMMIT):
-        if run_git("cat-file", "-e", f"{commit}^{{commit}}").returncode != 0:
-            result = run_git("fetch", "--no-tags", "origin", commit)
-            if result.returncode != 0:
-                raise RuntimeError(
-                    f"unable to fetch governed commit {commit}: "
-                    + result.stderr.decode(errors="replace")
-                )
-
-
-def git_object_blob(commit: str, path: str) -> str | None:
-    result = run_git("show", f"{commit}:{path}")
-    return git_blob_bytes(result.stdout) if result.returncode == 0 else None
-
-
-def changed_files(commit: str) -> list[str] | None:
-    result = run_git("diff-tree", "--no-commit-id", "--name-only", "-r", commit)
-    if result.returncode != 0:
-        return None
-    return [line for line in result.stdout.decode().splitlines() if line]
-
-
-def diff_files(base: str, head: str) -> list[str] | None:
-    result = run_git("diff", "--name-only", base, head)
-    if result.returncode != 0:
-        return None
-    return [line for line in result.stdout.decode().splitlines() if line]
-
-
-def is_ancestor(ancestor: str, descendant: str) -> bool:
-    return run_git("merge-base", "--is-ancestor", ancestor, descendant).returncode == 0
-
-
-def actual_git_receipt() -> dict[str, Any]:
-    ensure_history()
-    head_result = run_git("rev-parse", "HEAD")
-    head = head_result.stdout.decode().strip() if head_result.returncode == 0 else ""
-    return {
-        "head": head,
-        "content_commit_is_ancestor_of_route_commit": is_ancestor(CONTENT_COMMIT, ROUTE_COMMIT),
-        "content_commit_is_ancestor_of_head": is_ancestor(CONTENT_COMMIT, head) if head else False,
-        "route_commit_is_ancestor_of_head": is_ancestor(ROUTE_COMMIT, head) if head else False,
-        "certificate_blob_at_content_commit": git_object_blob(CONTENT_COMMIT, CERT_PATH),
-        "certificate_blob_at_route_commit": git_object_blob(ROUTE_COMMIT, CERT_PATH),
-        "certificate_blob_at_head": git_object_blob(head, CERT_PATH) if head else None,
-        "registry_blob_at_content_commit": git_object_blob(CONTENT_COMMIT, ROUTES_PATH),
-        "registry_blob_at_route_commit": git_object_blob(ROUTE_COMMIT, ROUTES_PATH),
-        "content_commit_files": changed_files(CONTENT_COMMIT),
-        "route_commit_files": changed_files(ROUTE_COMMIT),
-        "execution_changed_files": diff_files(CORRECTION_MERGE, head) if head else None,
-    }
 
 
 def actual_candidate_files() -> set[str]:
@@ -157,189 +72,190 @@ def actual_candidate_files() -> set[str]:
     return {path.relative_to(root).as_posix() for path in root.rglob("*.json")}
 
 
+def future_execution_errors(
+    *,
+    certificate_content_commit: str,
+    exact_execution_head: str,
+    certificate_content_commit_is_ancestor: bool,
+    certificate_exists_at_content_commit: bool,
+    certificate_blob_at_content_commit: str,
+    certificate_blob_at_execution_head: str,
+    registry_blob_at_content_commit: str,
+    route_changed_at_content_commit: bool,
+    route_transition_commit_after_content_commit: bool,
+    cert_output_commit_sha: str,
+    merge_method: str,
+    protected_main_publication_atomic: bool,
+    protected_main_route_state_before_merge: str,
+    protected_main_certificate_present_before_merge: bool,
+    protected_main_cert_output_present_before_merge: bool,
+    mathematical_target_proved: bool = False,
+    equality_case_classified: bool = False,
+    other_family_output: bool = False,
+    aggregate_output: bool = False,
+) -> list[str]:
+    errors: list[str] = []
+    checks = [
+        (not HEX40.fullmatch(certificate_content_commit), "certificate-content commit must be a full Git SHA"),
+        (not HEX40.fullmatch(exact_execution_head), "exact execution head must be a full Git SHA"),
+        (certificate_content_commit == exact_execution_head, "certificate-content commit must precede the exact execution head"),
+        (not certificate_content_commit_is_ancestor, "certificate-content commit is not an ancestor of the exact execution head"),
+        (not certificate_exists_at_content_commit, "live certificate path is absent at the certificate-content commit"),
+        (certificate_blob_at_content_commit != EXPECTED_BLOBS["staged_certificate"], "certificate blob at content commit is incorrect"),
+        (certificate_blob_at_execution_head != EXPECTED_BLOBS["staged_certificate"], "exact execution head does not preserve certificate bytes"),
+        (registry_blob_at_content_commit != EXPECTED_BLOBS["routes"], "route registry changed in certificate-content commit"),
+        (route_changed_at_content_commit, "route-first or combined content-commit ordering is prohibited"),
+        (not route_transition_commit_after_content_commit, "route transition must occur after the certificate-content commit"),
+        (cert_output_commit_sha != certificate_content_commit, "cert_output does not point to the certificate-content commit"),
+        (merge_method != "merge", "protected execution must use merge-commit method"),
+        (not protected_main_publication_atomic, "protected-main certificate/route publication is not atomic"),
+        (protected_main_route_state_before_merge != "submitted", "protected-main route changed before protected merge"),
+        (protected_main_certificate_present_before_merge, "protected-main certificate appeared before protected merge"),
+        (protected_main_cert_output_present_before_merge, "protected-main cert_output appeared before protected merge"),
+        (mathematical_target_proved, "mathematical proof status promotion is prohibited"),
+        (equality_case_classified, "equality-case classification is prohibited"),
+        (other_family_output, "other-family output is prohibited"),
+        (aggregate_output, "aggregate output authority is prohibited"),
+    ]
+    errors.extend(message for failed, message in checks if failed)
+    return errors
+
+
 def validation_errors(
     *,
     candidate: dict[str, Any] | None = None,
     candidate_schema: dict[str, Any] | None = None,
-    certificate: dict[str, Any] | None = None,
     staged_certificate: dict[str, Any] | None = None,
     transition: dict[str, Any] | None = None,
+    transition_schema: dict[str, Any] | None = None,
     future_schema: dict[str, Any] | None = None,
     routes: dict[str, Any] | None = None,
     blobs: dict[str, str] | None = None,
+    live_certificate_present: bool | None = None,
     candidate_files: set[str] | None = None,
-    git_receipt: dict[str, Any] | None = None,
 ) -> list[str]:
-    errors: list[str] = []
+    errors = BASE.validation_errors(candidate_present=False)
     candidate = load(CANDIDATE) if candidate is None else candidate
     candidate_schema = load(CANDIDATE_SCHEMA) if candidate_schema is None else candidate_schema
-    certificate = load(LIVE_CERTIFICATE) if certificate is None else certificate
     staged_certificate = load(STAGED_CERTIFICATE) if staged_certificate is None else staged_certificate
     transition = load(TRANSITION) if transition is None else transition
+    transition_schema = load(TRANSITION_SCHEMA) if transition_schema is None else transition_schema
     future_schema = load(FUTURE_SCHEMA) if future_schema is None else future_schema
     routes = load(ROUTES) if routes is None else routes
-    candidate_files = actual_candidate_files() if candidate_files is None else candidate_files
-    if git_receipt is None:
-        try:
-            git_receipt = actual_git_receipt()
-        except RuntimeError as exc:
-            return [str(exc)]
     if blobs is None:
         blobs = {
-            "candidate": git_blob(CANDIDATE),
-            "candidate_schema": git_blob(CANDIDATE_SCHEMA),
-            "certificate": git_blob(LIVE_CERTIFICATE),
-            "transition": git_blob(TRANSITION),
-            "future_schema": git_blob(FUTURE_SCHEMA),
-            "routes_after": git_blob(ROUTES),
+            "candidate": git_blob_sha1(CANDIDATE),
+            "candidate_schema": git_blob_sha1(CANDIDATE_SCHEMA),
+            "transition": git_blob_sha1(TRANSITION),
+            "transition_schema": git_blob_sha1(TRANSITION_SCHEMA),
+            "staged_certificate": git_blob_sha1(STAGED_CERTIFICATE),
+            "routes": EXPECTED_BLOBS["routes"],
         }
+    live_certificate_present = LIVE_CERTIFICATE.exists() if live_certificate_present is None else live_certificate_present
+    candidate_files = actual_candidate_files() if candidate_files is None else candidate_files
 
-    if candidate_schema.get("additionalProperties") is not False:
-        errors.append("execution schema must remain closed")
-    if candidate_schema.get("$id") != "https://grandchallenge.ai/schemas/otp_ehrhart_output_candidate.schema.json":
-        errors.append("execution schema identity drift")
-    for error in Draft202012Validator(candidate_schema).iter_errors(candidate):
-        errors.append(f"execution schema violation: {error.message}")
-    for key in ("candidate", "candidate_schema", "certificate", "transition", "future_schema", "routes_after"):
-        if blobs.get(key) != EXPECTED_BLOBS[key]:
-            errors.append(f"{key} blob drift")
+    for label, schema, data, expected_id in (
+        ("candidate", candidate_schema, candidate, "https://grandchallenge.ai/schemas/otp_ehrhart_output_candidate.schema.json"),
+        ("transition", transition_schema, transition, "https://grandchallenge.ai/schemas/otp_ehrhart_atomic_route_transition_template.schema.json"),
+    ):
+        if schema.get("additionalProperties") is not False:
+            errors.append(f"{label} schema must remain closed")
+        if schema.get("$id") != expected_id:
+            errors.append(f"{label} schema identity drift")
+        errors.extend(
+            f"{label} schema violation: {error.message}"
+            for error in Draft202012Validator(schema).iter_errors(data)
+        )
+    errors.extend(
+        f"staged certificate schema violation: {error.message}"
+        for error in Draft202012Validator(future_schema).iter_errors(staged_certificate)
+    )
+    errors.extend(
+        f"{name} blob drift"
+        for name, expected in EXPECTED_BLOBS.items()
+        if blobs.get(name) != expected
+    )
     if candidate_files != EXPECTED_CANDIDATE_FILES:
-        errors.append("output execution candidate membership drift")
+        errors.append("output-candidate file membership drift")
+    if live_certificate_present:
+        errors.append("live Cert output exists during correction")
 
-    for error in Draft202012Validator(future_schema).iter_errors(certificate):
-        errors.append(f"live certificate schema violation: {error.message}")
-    if certificate != staged_certificate:
-        errors.append("live certificate bytes differ from protected staged certificate")
-    if certificate.get("encoded_targets") != EXPECTED_TARGETS:
-        errors.append("certificate target scope drift")
-    qualification = certificate.get("qualification", {})
-    if qualification.get("disposition") != "qualified_encoded_targets_only":
-        errors.append("certificate disposition inflation")
-    if qualification.get("source_theorem_mathematically_proved") is not False:
-        errors.append("certificate promotes source theorem proof")
-    if qualification.get("equality_case_classification") != "excluded":
-        errors.append("certificate equality-case inflation")
-    if certificate.get("state") != {
-        "route_state": "qualified",
-        "cert_output_inserted": True,
-        "mathematical_target_proved": False,
-        "may_promote_claim": False,
-        "aggregate_output": False,
-    }:
-        errors.append("certificate state inflation")
+    serialized = json.dumps({"candidate": candidate, "transition": transition}, sort_keys=True)
+    if FORBIDDEN_TOKEN in serialized:
+        errors.append("protected-merge self-reference remains")
+    if CONTENT_TOKEN not in serialized:
+        errors.append("certificate-content commit token is missing")
 
-    route_map = {
-        route.get("campaign_id"): route
-        for route in routes.get("routes", [])
-        if isinstance(route, dict)
+    live_route = next(
+        (item for item in routes.get("routes", []) if item.get("route_id") == "MC-ROUTE-OTP-F-EHRHART"),
+        None,
+    )
+    before = transition.get("before", {})
+    after = transition.get("after_template", {})
+    if live_route is None:
+        errors.append("live OTP-F-EHRHART route missing")
+    elif live_route != before:
+        errors.append("corrected transition before-state does not exactly match live route")
+    if not live_route or live_route.get("intake_status") != "submitted" or live_route.get("cert_output") is not None:
+        errors.append("live route changed during correction")
+
+    allowed = {"intake_status", "claim_boundary", "cert_output", "blockers", "reopening_conditions"}
+    errors.extend(
+        f"unauthorized route-field mutation in corrected transition: {key}"
+        for key in set(before) | set(after)
+        if key not in allowed and before.get(key) != after.get(key)
+    )
+    output = after.get("cert_output", {})
+    if output.get("commit_sha") != CONTENT_TOKEN:
+        errors.append("corrected cert_output does not use certificate-content token")
+    if output.get("digest") != EXPECTED_BLOBS["staged_certificate"]:
+        errors.append("corrected cert_output certificate digest drift")
+
+    binding = transition.get("certificate_content_commit_binding", {})
+    if binding.get("unresolved_during_correction") is not True:
+        errors.append("certificate-content commit resolved during correction")
+    atomicity = transition.get("atomicity", {})
+    required = {
+        "certificate_content_commit_precedes_route_transition": True,
+        "exact_reviewed_head_descends_from_certificate_content_commit": True,
+        "protected_merge_method": "merge",
+        "squash_merge_prohibited": True,
+        "rebase_merge_prohibited": True,
+        "protected_main_publishes_certificate_and_route_together": True,
+        "partial_protected_main_state_prohibited": True,
     }
-    ehrhart = route_map.get("OTP-F-EHRHART")
-    expected_route = json.loads(json.dumps(transition.get("after_template", {})))
-    if expected_route.get("cert_output"):
-        expected_route["cert_output"]["commit_sha"] = CONTENT_COMMIT
-    if ehrhart != expected_route:
-        errors.append("live OTP-F-EHRHART route differs from authorized transition")
-    if ehrhart and ehrhart.get("target_claim_ids") != EXPECTED_TARGETS:
-        errors.append("live route target scope drift")
-    otp_outputs = [
-        route.get("campaign_id")
-        for route in routes.get("routes", [])
-        if str(route.get("campaign_id", "")).startswith("OTP-")
-        and route.get("cert_output") is not None
-    ]
-    if otp_outputs != ["OTP-F-EHRHART"]:
-        errors.append("OTP output membership drift")
-    for family in ("OTP-J1-COMPACTNESS", "OTP-J2-TWO-DEGENERATE"):
-        route = route_map.get(family, {})
-        if route.get("intake_status") != "submitted" or route.get("cert_output") is not None:
-            errors.append(f"{family}: unauthorized route/output promotion")
-    if "OPENAI-TEN-PROOFS-001" in route_map:
-        errors.append("aggregate ten-proofs route inserted")
+    errors.extend(
+        f"corrected atomicity drift: {key}"
+        for key, expected in required.items()
+        if atomicity.get(key) != expected
+    )
+    if transition.get("execution_sequence", {}).get("route_first_ordering_prohibited") is not True:
+        errors.append("route-first ordering is not prohibited")
+    if transition.get("candidate_effect") != "none_until_separately_authorized_atomic_execution":
+        errors.append("corrected candidate gains premature operative effect")
 
-    if candidate.get("execution_authorization", {}).get("comment_id") != 5157828756:
-        errors.append("Human Steward execution authorization drift")
-    if candidate.get("execution_commits", {}).get("certificate_content_commit") != CONTENT_COMMIT:
-        errors.append("certificate-content commit drift")
-    if candidate.get("execution_commits", {}).get("route_transition_commit") != ROUTE_COMMIT:
-        errors.append("route-transition commit drift")
-    if candidate.get("branch_execution_state", {}).get("cert_output") != expected_route.get("cert_output"):
-        errors.append("execution record cert_output drift")
-    if candidate.get("branch_execution_state", {}).get("protected_main_effect") != "none_until_merge":
-        errors.append("execution record claims premature protected effect")
-    gate = candidate.get("publication_gate", {})
-    if gate.get("protected_merge_method") != "merge":
-        errors.append("merge-commit publication requirement removed")
-    for key in (
-        "squash_merge_prohibited",
-        "rebase_merge_prohibited",
-        "expected_head_required",
-        "certificate_content_commit_must_remain_ancestor",
-        "protected_main_atomic_publication_required",
-        "partial_protected_main_state_prohibited",
-    ):
-        if gate.get(key) is not True:
-            errors.append(f"publication gate disabled: {key}")
-
-    if not git_receipt.get("content_commit_is_ancestor_of_route_commit"):
-        errors.append("certificate-content commit is not ancestor of route-transition commit")
-    if not git_receipt.get("content_commit_is_ancestor_of_head"):
-        errors.append("certificate-content commit is not ancestor of exact head")
-    if not git_receipt.get("route_commit_is_ancestor_of_head"):
-        errors.append("route-transition commit is not ancestor of exact head")
-    if git_receipt.get("certificate_blob_at_content_commit") != EXPECTED_BLOBS["certificate"]:
-        errors.append("certificate blob missing or altered at content commit")
-    if git_receipt.get("certificate_blob_at_route_commit") != EXPECTED_BLOBS["certificate"]:
-        errors.append("certificate blob not preserved at route-transition commit")
-    if git_receipt.get("certificate_blob_at_head") != EXPECTED_BLOBS["certificate"]:
-        errors.append("certificate blob not preserved at exact head")
-    if git_receipt.get("registry_blob_at_content_commit") != EXPECTED_BLOBS["routes_before"]:
-        errors.append("route registry changed in certificate-content commit")
-    if git_receipt.get("registry_blob_at_route_commit") != EXPECTED_BLOBS["routes_after"]:
-        errors.append("route-transition commit registry blob drift")
-    if git_receipt.get("content_commit_files") != [CERT_PATH]:
-        errors.append("certificate-content commit changes files outside the certificate path")
-    if git_receipt.get("route_commit_files") != [ROUTES_PATH]:
-        errors.append("route-transition commit changes files outside the route registry")
-    changed = git_receipt.get("execution_changed_files")
-    if not isinstance(changed, list):
-        errors.append("unable to enumerate execution-branch changes")
-    elif set(changed) - ALLOWED_EXECUTION_FILES:
-        errors.append("execution branch contains unauthorized changed files")
-
-    limitations = candidate.get("preserved_limitations", {})
-    if limitations.get("classification_or_uniqueness_of_all_equality_cases") != "excluded":
-        errors.append("equality-case exclusion removed")
-    if limitations.get("whole_document_semantic_equivalence") != "not_established":
-        errors.append("whole-document equivalence inflated")
-    if limitations.get("proof_body_compared_in_full") is not False:
-        errors.append("proof-body comparison inflated")
-    if limitations.get("other_family_outputs_issued") is not False:
-        errors.append("other-family output admitted")
-    boundary = str(candidate.get("claim_boundary", ""))
-    for token in (
-        "does not independently prove",
-        "equality cases",
-        "whole-document",
-        "another result family",
-        "aggregate ten-proofs authority",
-        "commercial claims",
-        "Mathematical target proved remains false",
-    ):
-        if token not in boundary:
-            errors.append(f"claim boundary missing token: {token}")
+    qualification = staged_certificate.get("qualification", {})
+    state = staged_certificate.get("state", {})
+    if qualification.get("source_theorem_mathematically_proved") is not False:
+        errors.append("staged certificate promotes source theorem proof")
+    if qualification.get("equality_case_classification") != "excluded":
+        errors.append("staged certificate inflates equality-case authority")
+    if state.get("aggregate_output") is not False:
+        errors.append("staged certificate gains aggregate authority")
     return errors
 
 
 def main() -> int:
+    if load(CANDIDATE).get("record_type") == "otp_ehrhart_output_execution":
+        return EXECUTION.main()
     errors = validation_errors()
     if errors:
         print("\n".join(errors), file=sys.stderr)
-        print(f"OTP-F-EHRHART execution validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    head = actual_git_receipt().get("head")
     print(
-        "validated OTP-F-EHRHART certificate-first execution, exact ancestor commit "
-        f"{CONTENT_COMMIT}, later route transition {ROUTE_COMMIT}, and exact head {head}"
+        "validated corrected non-operative OTP-F-EHRHART candidate, "
+        "certificate-content ancestor binding, merge-only publication, "
+        "and zero present route/output authority"
     )
     return 0
 
