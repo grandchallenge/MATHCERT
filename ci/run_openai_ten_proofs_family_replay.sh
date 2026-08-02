@@ -24,8 +24,13 @@ expected_upstream_tree="2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365"
 expected_forge_commit="cb0a203c36a9ef33270d62ab369df7bc27d3b242"
 expected_solve_commit="443daf537dc7e4ee34ab43aeb01508d9177816ab"
 expected_cert_wp_merge="677a58a126145977581050bcb5d12d5b6a99fb51"
-expected_manuscript_sha="f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53"
+admitted_manuscript_sha="f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53"
+admitted_manuscript_bytes="2266052"
+observed_manuscript_sha="64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6"
+observed_manuscript_bytes="2266371"
 expected_reasoning_sha="13b95999f060c0be2142089cfb8b17b75e9231c3c1f3fa0980445ff1b35f0b3b"
+expected_reasoning_bytes="441468"
+source_drift_issue="https://github.com/grandchallenge/MATHFORGE/issues/52"
 
 case "$family" in
   OTP-F-EHRHART)
@@ -50,7 +55,8 @@ case "$family" in
     )
     exclusions=(
       "No uniqueness or classification of all equality cases is submitted."
-      "A successful replay does not by itself adjudicate or prove the mathematical theorem."
+      "Exact concordance with the manuscript revision currently served by the mutable CDN remains pending MATHFORGE issue 52."
+      "A successful formal replay does not by itself adjudicate or prove the mathematical theorem."
     )
     ;;
   OTP-J1-COMPACTNESS)
@@ -75,7 +81,8 @@ case "$family" in
     exclusions=(
       "The explicit combinatorial construction is not independently submitted beyond the checked existential targets."
       "No historical compactness formulation outside the corrected cyclic-family statement is submitted."
-      "A successful replay does not by itself adjudicate or prove the mathematical theorem."
+      "Exact concordance with the manuscript revision currently served by the mutable CDN remains pending MATHFORGE issue 52."
+      "A successful formal replay does not by itself adjudicate or prove the mathematical theorem."
     )
     ;;
   OTP-J2-TWO-DEGENERATE)
@@ -98,7 +105,8 @@ case "$family" in
     exclusions=(
       "The additional coloring-side degree property is not attributed to source Theorem 1.2."
       "The underlying probabilistic or combinatorial construction is not independently submitted beyond the checked existential theorem."
-      "A successful replay does not by itself adjudicate or prove the mathematical theorem."
+      "Exact concordance with the manuscript revision currently served by the mutable CDN remains pending MATHFORGE issue 52."
+      "A successful formal replay does not by itself adjudicate or prove the mathematical theorem."
     )
     ;;
   *)
@@ -136,12 +144,43 @@ for required in "$config_path" "$challenge_file" "$solution_file"; do
   [[ -f "$required" ]] || { echo "missing replay input: $required" >&2; exit 1; }
 done
 
-curl --fail --location --retry 3 --silent --show-error \
-  https://cdn.openai.com/pdf/ten-proofs-oai.pdf -o "$output_dir/manuscript.pdf"
-curl --fail --location --retry 3 --silent --show-error \
-  https://cdn.openai.com/pdf/reasoning-walkthroughs.pdf -o "$output_dir/reasoning-walkthroughs.pdf"
-assert_eq "$(sha256sum "$output_dir/manuscript.pdf" | cut -d' ' -f1)" "$expected_manuscript_sha" "manuscript SHA-256"
-assert_eq "$(sha256sum "$output_dir/reasoning-walkthroughs.pdf" | cut -d' ' -f1)" "$expected_reasoning_sha" "reasoning-notes SHA-256"
+manuscript_url="https://cdn.openai.com/pdf/ten-proofs-oai.pdf"
+reasoning_url="https://cdn.openai.com/pdf/reasoning-walkthroughs.pdf"
+curl --fail --location --retry 3 --silent --show-error "$manuscript_url" -o "$output_dir/manuscript.pdf"
+curl --fail --location --retry 3 --silent --show-error "$reasoning_url" -o "$output_dir/reasoning-walkthroughs.pdf"
+
+current_manuscript_sha="$(sha256sum "$output_dir/manuscript.pdf" | cut -d' ' -f1)"
+current_manuscript_bytes="$(stat -c '%s' "$output_dir/manuscript.pdf")"
+current_reasoning_sha="$(sha256sum "$output_dir/reasoning-walkthroughs.pdf" | cut -d' ' -f1)"
+current_reasoning_bytes="$(stat -c '%s' "$output_dir/reasoning-walkthroughs.pdf")"
+assert_eq "$current_reasoning_sha" "$expected_reasoning_sha" "reasoning-notes SHA-256"
+assert_eq "$current_reasoning_bytes" "$expected_reasoning_bytes" "reasoning-notes byte count"
+
+if [[ "$current_manuscript_sha" == "$admitted_manuscript_sha" && "$current_manuscript_bytes" == "$admitted_manuscript_bytes" ]]; then
+  source_revision_status="admitted_revision_reacquired"
+elif [[ "$current_manuscript_sha" == "$observed_manuscript_sha" && "$current_manuscript_bytes" == "$observed_manuscript_bytes" ]]; then
+  source_revision_status="source_revision_drift_detected"
+else
+  echo "unregistered manuscript revision: sha256=$current_manuscript_sha bytes=$current_manuscript_bytes" >&2
+  exit 1
+fi
+
+{
+  echo "status=$source_revision_status"
+  echo "source_drift_issue=$source_drift_issue"
+  echo "manuscript_url=$manuscript_url"
+  echo "admitted_manuscript_sha256=$admitted_manuscript_sha"
+  echo "admitted_manuscript_bytes=$admitted_manuscript_bytes"
+  echo "current_manuscript_sha256=$current_manuscript_sha"
+  echo "current_manuscript_bytes=$current_manuscript_bytes"
+  echo "reasoning_url=$reasoning_url"
+  echo "reasoning_sha256=$current_reasoning_sha"
+  echo "reasoning_bytes=$current_reasoning_bytes"
+  if command -v pdfinfo >/dev/null 2>&1; then
+    echo "--- pdfinfo ---"
+    pdfinfo "$output_dir/manuscript.pdf" || true
+  fi
+} > "$output_dir/source-revision-report.txt"
 
 {
   echo "family=$family"
@@ -159,7 +198,7 @@ assert_eq "$(sha256sum "$output_dir/reasoning-walkthroughs.pdf" | cut -d' ' -f1)
   echo "comparator_commit=$(git -C "$upstream/.lake/packages/Comparator" rev-parse HEAD)"
   echo "lean4checker_commit=$(git -C "$upstream/.lake/packages/Comparator/.lake/packages/Lean4Checker" rev-parse HEAD)"
   echo "lean4export_commit=$(git -C "$root/tools/lean4export" rev-parse HEAD)"
-  echo "landrun_commit=811cfff51ceaf3d9843708aa6d22e9b84ccac8b4d"
+  echo "landrun_commit=$(git -C "$root/tools/landrun" rev-parse HEAD)"
   echo "nanoda_commit=$(git -C "$root/tools/nanoda" rev-parse HEAD)"
   echo "landrun_binary_sha256=$(sha256sum "${COMPARATOR_LANDRUN_REAL}" | cut -d' ' -f1)"
   echo "landrun_adapter_sha256=$(sha256sum "${COMPARATOR_LANDRUN}" | cut -d' ' -f1)"
@@ -182,8 +221,11 @@ assert_eq "$(sha256sum "$output_dir/reasoning-walkthroughs.pdf" | cut -d' ' -f1)
   echo "intake_blob=$intake_blob"
   echo "work_package_path=$work_package_path"
   echo "work_package_blob=$work_package_blob"
-  echo "manuscript_sha256=$expected_manuscript_sha"
+  echo "source_revision_status=$source_revision_status"
+  echo "admitted_manuscript_sha256=$admitted_manuscript_sha"
+  echo "current_manuscript_sha256=$current_manuscript_sha"
   echo "reasoning_notes_sha256=$expected_reasoning_sha"
+  echo "source_drift_issue=$source_drift_issue"
 } > "$output_dir/source-identities.txt"
 
 scan_log="$output_dir/trust-boundary-scan.txt"
@@ -217,6 +259,33 @@ axiom_file="MATHCERTReplayAxioms.lean"
 lake env lean "$axiom_file" 2>&1 | tee "$output_dir/theorem-axioms.log"
 rm -f "$axiom_file"
 
+THEOREMS="$(printf '%s\n' "${theorem_names[@]}")" AXIOM_LOG="$output_dir/theorem-axioms.log" AXIOM_REPORT="$output_dir/axiom-check.json" \
+python3 - <<'PY'
+import json
+import os
+import re
+from pathlib import Path
+
+text = Path(os.environ["AXIOM_LOG"]).read_text(encoding="utf-8")
+theorems = [x for x in os.environ["THEOREMS"].splitlines() if x]
+allowed = {"propext", "Classical.choice", "Quot.sound"}
+records = []
+for theorem in theorems:
+    pattern = re.compile(r"'" + re.escape(theorem) + r"' depends on axioms:\s*\[(.*?)\]", re.S)
+    match = pattern.search(text)
+    if match is None:
+        raise SystemExit(f"missing theorem axiom report: {theorem}")
+    axioms = {item.strip() for item in match.group(1).replace("\n", " ").split(",") if item.strip()}
+    unexpected = sorted(axioms - allowed)
+    if unexpected:
+        raise SystemExit(f"unexpected axioms for {theorem}: {unexpected}")
+    records.append({"theorem": theorem, "axioms": sorted(axioms), "unexpected": []})
+Path(os.environ["AXIOM_REPORT"]).write_text(
+    json.dumps({"permitted": sorted(allowed), "reports": records}, indent=2) + "\n",
+    encoding="utf-8",
+)
+PY
+
 lake exe comparator "$config" 2>&1 | tee "$output_dir/comparator.log"
 end_utc="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
@@ -224,25 +293,13 @@ grep -Fq "Lean default kernel accepts the solution" "$output_dir/comparator.log"
 grep -Fq "Nanoda kernel accepts the solution" "$output_dir/comparator.log"
 grep -Fq "Your solution is okay!" "$output_dir/comparator.log"
 
-for theorem in "${theorem_names[@]}"; do
-  grep -Fq "'$theorem' depends on axioms:" "$output_dir/theorem-axioms.log"
-done
-if grep -Ev "depends on axioms:|^[[:space:]]*(propext|Classical.choice|Quot.sound)[,\]]?$|^[[:space:]]*$" "$output_dir/theorem-axioms.log" \
-    | grep -E "depends on axioms|axioms:" >/dev/null; then
-  echo "unexpected theorem axiom report format" >&2
-  exit 1
-fi
-for forbidden in sorryAx Lean.trustCompiler; do
-  if grep -Fq "$forbidden" "$output_dir/theorem-axioms.log"; then
-    echo "forbidden axiom in theorem report: $forbidden" >&2
-    exit 1
-  fi
-done
-
 FAMILY="$family" SOURCE_THEOREM="$source_theorem" START_UTC="$start_utc" END_UTC="$end_utc" \
 CONFIG="$config" SOLUTION_MODULE="$solution_module" CHALLENGE_MODULE="$challenge_module" \
 THEOREMS="$(printf '%s\n' "${theorem_names[@]}")" WITNESSES="$(printf '%s\n' "${witness_names[@]}")" \
 EXCLUSIONS="$(printf '%s\n' "${exclusions[@]}")" OUTPUT_DIR="$output_dir" \
+SOURCE_REVISION_STATUS="$source_revision_status" SOURCE_DRIFT_ISSUE="$source_drift_issue" \
+ADMITTED_MANUSCRIPT_SHA="$admitted_manuscript_sha" CURRENT_MANUSCRIPT_SHA="$current_manuscript_sha" \
+CURRENT_MANUSCRIPT_BYTES="$current_manuscript_bytes" REASONING_SHA="$current_reasoning_sha" \
 python3 - <<'PY'
 import hashlib
 import json
@@ -274,6 +331,15 @@ record = {
         "isolated_family_replay": True,
         "aggregate_all_import_used": False,
     },
+    "source_revision": {
+        "status": os.environ["SOURCE_REVISION_STATUS"],
+        "admitted_manuscript_sha256": os.environ["ADMITTED_MANUSCRIPT_SHA"],
+        "current_manuscript_sha256": os.environ["CURRENT_MANUSCRIPT_SHA"],
+        "current_manuscript_bytes": int(os.environ["CURRENT_MANUSCRIPT_BYTES"]),
+        "reasoning_notes_sha256": os.environ["REASONING_SHA"],
+        "audit_issue": os.environ["SOURCE_DRIFT_ISSUE"],
+        "current_revision_semantic_concordance": "pending",
+    },
     "targets": {
         "config": os.environ["CONFIG"],
         "challenge_module": os.environ["CHALLENGE_MODULE"],
@@ -289,11 +355,12 @@ record = {
         "nanoda": "accept",
         "theorem_axiom_report": "permitted_only",
         "trust_boundary_scan": "clear",
+        "source_revision_concordance": "blocked_pending_forge_audit",
     },
     "semantic_attestation": {
         "source_theorem": os.environ["SOURCE_THEOREM"],
         "scope_exclusions": lines("EXCLUSIONS"),
-        "status": "pending_exact_head_non_author_specialist_review",
+        "status": "pending_source_revision_audit_and_exact_head_non_author_specialist_review",
     },
     "route_state": {
         "proposed_route": None,
@@ -312,4 +379,4 @@ find "$output_dir" -maxdepth 1 -type f -not -name '*.pdf' -print0 \
   | sort -z | xargs -0 sha256sum > "$output_dir/SHA256SUMS"
 rm -f "$output_dir/manuscript.pdf" "$output_dir/reasoning-walkthroughs.pdf"
 
-echo "completed isolated replay for $family"
+echo "completed isolated formal replay for $family with source revision status $source_revision_status"
