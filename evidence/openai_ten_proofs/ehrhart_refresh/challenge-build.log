@@ -1,0 +1,9 @@
+Build target: ComparatorChallenges.F_EhrhartVolumeInequality
+Result: pass
+Jobs: 8655
+Expected boundary placeholders:
+- ComparatorChallenges/F_EhrhartVolumeInequality.lean:48
+- ComparatorChallenges/F_EhrhartVolumeInequality.lean:52
+- ComparatorChallenges/F_EhrhartVolumeInequality.lean:56
+- ComparatorChallenges/F_EhrhartVolumeInequality.lean:65
+Disposition: challenge placeholders are Comparator boundary declarations and are not accepted as solution evidence.

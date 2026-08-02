@@ -1,0 +1,18 @@
+Family: OTP-F-EHRHART
+Comparator configuration: ComparatorChallenges/F_EhrhartVolumeInequality.json
+Challenge module: ComparatorChallenges.F_EhrhartVolumeInequality
+Solution module: EhrhartVolumeInequality
+
+Build challenge: pass
+Build solution: pass
+
+Comparator targets:
+- Ehrhart.Volume.ehrhart_volume_inequality_for_sets
+- Ehrhart.SimplexVolume.exists_centeredBody_sharp
+- Ehrhart.SimplexVolume.barycenter_centeredSimplex
+- Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex
+
+Nanoda kernel: accept
+Lean default kernel: accept
+Comparator disposition: pass
+Aggregate All.lean import used: false

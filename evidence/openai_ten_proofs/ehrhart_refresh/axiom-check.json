@@ -1,0 +1,29 @@
+{
+  "permitted": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "reports": [
+    {
+      "theorem": "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+      "axioms": ["Classical.choice", "Quot.sound", "propext"],
+      "unexpected": []
+    },
+    {
+      "theorem": "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+      "axioms": ["Classical.choice", "Quot.sound", "propext"],
+      "unexpected": []
+    },
+    {
+      "theorem": "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+      "axioms": ["Classical.choice", "Quot.sound", "propext"],
+      "unexpected": []
+    },
+    {
+      "theorem": "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex",
+      "axioms": ["Classical.choice", "Quot.sound", "propext"],
+      "unexpected": []
+    }
+  ]
+}

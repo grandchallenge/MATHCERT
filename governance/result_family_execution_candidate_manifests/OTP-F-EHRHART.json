@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_ehrhart_execution_candidate_manifest",
+  "manifest_id": "MC-OTP-F-EHRHART-EXECUTION-CANDIDATE-MANIFEST-001",
+  "candidate_id": "MC-OTP-F-EHRHART-EXECUTION-CANDIDATE-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/62",
+  "candidate_record": {
+    "repository": "grandchallenge/MATHCERT",
+    "path": "governance/result_family_execution_candidates/OTP-F-EHRHART.json",
+    "address_mode": "exact_pr_head",
+    "head_change_requires_revalidation": true
+  },
+  "governing_contract": {
+    "design_merge_commit": "9f5ec626306092a352aa5ba8d9920b6ddb11b8bb",
+    "path": "governance/result_family_adjudication_contracts/OTP-F-EHRHART.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "6e1c210d82440210da71fd661daffe986df81f03"
+  },
+  "raw_workflow_artifact": {
+    "generation_head": "f83e35f352a4b66d225c86e2837e48ab98e0d530",
+    "workflow_run_id": 30737697106,
+    "job_id": 91469396219,
+    "artifact_id": 8830320201,
+    "name": "otp-ehrhart-evidence-refresh",
+    "bytes": 16546,
+    "digest_algorithm": "sha256",
+    "digest": "7a433f6b7d4b9b641ae6ad1b3e42c5c40e57d53922fb758286e38a92ca8e69fb",
+    "role": "raw_workflow_evidence_authority"
+  },
+  "source_authority": {
+    "manuscript_sha256": "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6",
+    "source_revision_audit_commit": "a498ef40b7652b55bf121b5682604e259b8d3073",
+    "source_revision_audit_blob": "80d473b1b545fd9ca05fc5200bcf70ff5f9fcb05",
+    "semantic_record_blob": "a3dc4de4c38a80b7aec1fae6506b08e14d2e58bb"
+  },
+  "repository_evidence": {
+    "root": "evidence/openai_ten_proofs/ehrhart_refresh",
+    "format": "curated_selected_files",
+    "file_count": 10,
+    "byte_identity_to_raw_artifact_not_claimed": true,
+    "files": [
+      {"path": "evidence/openai_ten_proofs/ehrhart_refresh/axiom-check.json", "role": "theorem_axiom_report"},
+      {"path": "evidence/openai_ten_proofs/ehrhart_refresh/challenge-build.log", "role": "challenge_boundary_replay"},
+      {"path": "evidence/openai_ten_proofs/ehrhart_refresh/comparator.log", "role": "comparator_and_kernel_replay"},
+      {"path": "evidence/openai_ten_proofs/ehrhart_refresh/environment.txt", "role": "toolchain_and_workflow_identity"},
+      {"path": "evidence/openai_ten_proofs/ehrhart_refresh/solution-build.log", "role": "solution_replay_and_trust_scan"},
+      {"path": "evidence/openai_ten_proofs/ehrhart_refresh/source-identities.txt", "role": "content_addressed_authority_chain"},
+      {"path": "evidence/openai_ten_proofs/ehrhart_refresh/source-locus-theorem-1.1.txt", "role": "source_statement_concordance"},
+      {"path": "evidence/openai_ten_proofs/ehrhart_refresh/source-revision-report.txt", "role": "source_reacquisition_receipt"},
+      {"path": "evidence/openai_ten_proofs/ehrhart_refresh/theorem-axioms.log", "role": "human_readable_axiom_report"},
+      {"path": "evidence/openai_ten_proofs/ehrhart_refresh/trust-boundary-scan.txt", "role": "placeholder_unsafe_custom_axiom_scan"}
+    ]
+  },
+  "controls": {
+    "candidate_state": "evidence_prepared",
+    "route_state": "submitted",
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication_prohibited": true,
+    "equality_case_classification_prohibited": true,
+    "other_family_execution_prohibited": true
+  },
+  "activation": {
+    "condition": "exact-head Cert checks, GCL conformance, dedicated Linux and Windows candidate controls, successful Ehrhart evidence-refresh replay, fresh binding non-author specialist APPROVED review, explicit exact-head Human Steward merge disposition recorded before merge, and protected MATHCERT merge",
+    "head_change_requires_revalidation_and_reapproval": true,
+    "effect": "ehrhart_evidence_candidate_admitted_no_adjudication_no_output",
+    "later_adjudication_requires_separate_human_steward_authorization": true
+  },
+  "claim_boundary": "This manifest content-addresses the raw OTP-F-EHRHART workflow artifact, governing contract, source revision, and route authority while indexing curated review extracts at the exact PR head. It does not adjudicate or prove a theorem, issue a Cert output, alter the submitted route, classify equality cases, execute another family, establish whole-document equivalence, create aggregate authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}

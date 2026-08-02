@@ -1,0 +1,149 @@
+name: OTP Ehrhart evidence refresh
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-ehrhart-evidence-refresh.yml"
+      - "ci/run_otp_ehrhart_evidence_refresh.sh"
+      - "ci/run_openai_ten_proofs_family_replay.sh"
+      - "governance/result_family_execution_candidates/OTP-F-EHRHART.json"
+      - "governance/result_family_execution_candidate_manifests/OTP-F-EHRHART.json"
+      - "schemas/openai_ten_proofs_ehrhart_execution_candidate.schema.json"
+      - "ci/validate_otp_ehrhart_execution_candidate.py"
+      - "ci/test_otp_ehrhart_execution_candidate.py"
+      - "evidence/openai_ten_proofs/ehrhart-refresh.zip.b64"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    name: refresh-ehrhart
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      MATHCERT_WORKFLOW_SHA: ${{ github.sha }}
+    steps:
+      - name: Check out MATHCERT subject head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check out exact upstream formalization
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: openai/ten-proofs
+          ref: e62211d28e3a9131950c89caa6542cfe5eff3bca
+          path: upstream
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Forge semantic authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: cb0a203c36a9ef33270d62ab369df7bc27d3b242
+          path: forge
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Forge source-revision authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: a498ef40b7652b55bf121b5682604e259b8d3073
+          path: forge-audit
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Solve producer authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHSOLVE
+          ref: 443daf537dc7e4ee34ab43aeb01508d9177816ab
+          path: solve
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Bootstrap project dependencies
+        uses: grandchallenge/lean-action@aa909e45950f6e5dd89e05dfed6b78e190ed99b8
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          lake-package-directory: upstream
+
+      - name: Activate governed Lean 4.32.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          elan toolchain list | grep -Fq 'leanprover/lean4:v4.32.0' || elan toolchain install leanprover/lean4:v4.32.0
+          elan run leanprover/lean4:v4.32.0 lean --version | grep -F "version 4.32.0"
+          echo "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0" >> "$GITHUB_ENV"
+
+      - name: Install source-locus tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+
+      - name: Build pinned Comparator toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          lean --version | grep -F "version 4.32.0"
+          mkdir -p tools "$RUNNER_TEMP/otp-bin"
+
+          git clone --filter=blob:none https://github.com/leanprover/lean4export.git tools/lean4export
+          git -C tools/lean4export checkout --detach 4e7915201d3f9f04470d9eae002fa695f7cdc589
+          (cd tools/lean4export && lake build)
+
+          git clone --filter=blob:none https://github.com/ammkrn/nanoda_lib.git tools/nanoda
+          git -C tools/nanoda checkout --detach ddfac2bf5a7b56cb46e141494427ff3dd55963c7
+          (cd tools/nanoda && cargo build --release --locked)
+
+          git clone --filter=blob:none https://github.com/Zouuup/landrun.git tools/landrun
+          git -C tools/landrun checkout --detach 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
+          (cd tools/landrun && go build -trimpath -o "$RUNNER_TEMP/otp-bin/landrun-real" ./cmd/landrun)
+          cp ci/landrun_comparator_adapter.sh "$RUNNER_TEMP/otp-bin/landrun"
+          chmod +x "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
+
+          echo "$RUNNER_TEMP/otp-bin" >> "$GITHUB_PATH"
+          echo "COMPARATOR_LANDRUN=$RUNNER_TEMP/otp-bin/landrun" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LANDRUN_REAL=$RUNNER_TEMP/otp-bin/landrun-real" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/tools/lean4export/.lake/build/bin/lean4export" >> "$GITHUB_ENV"
+          echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/tools/nanoda/target/release/nanoda_bin" >> "$GITHUB_ENV"
+
+      - name: Prepare upstream dependencies
+        shell: bash
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          lean --version | grep -F "version 4.32.0"
+          lake exe cache get
+
+      - name: Execute Ehrhart evidence refresh
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x ci/run_otp_ehrhart_evidence_refresh.sh
+          ci/run_otp_ehrhart_evidence_refresh.sh evidence/ehrhart-refresh
+
+      - name: Upload execution-candidate evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: otp-ehrhart-evidence-refresh
+          path: evidence/ehrhart-refresh/
+          if-no-files-found: error
+          retention-days: 30
