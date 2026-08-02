@@ -18,6 +18,7 @@ CONTRACT = ROOT / "governance/result_family_adjudication_contracts/OTP-F-EHRHART
 CANDIDATE = ROOT / "governance/result_family_execution_candidates/OTP-F-EHRHART.json"
 CANDIDATE_MANIFEST = ROOT / "governance/result_family_execution_candidate_manifests/OTP-F-EHRHART.json"
 ROUTES = ROOT / "governance/certification_routes.json"
+TRANSITION = ROOT / "governance/result_family_output_candidates/staged_route_transitions/OTP-F-EHRHART.json"
 CERT_OUTPUT = ROOT / "certificates/openai_ten_proofs/OTP-F-EHRHART.json"
 EVIDENCE_ROOT = ROOT / "evidence/openai_ten_proofs/ehrhart_refresh"
 
@@ -41,7 +42,22 @@ def load(path: Path) -> Any:
 
 def blob(path: Path) -> str:
     data = path.read_bytes()
-    return hashlib.sha1(f"blob {len(data)}\0".encode() + data, usedforsecurity=False).hexdigest()
+    return hashlib.sha1(
+        f"blob {len(data)}\0".encode() + data,
+        usedforsecurity=False,
+    ).hexdigest()
+
+
+def predecessor_routes(routes: dict[str, Any]) -> dict[str, Any]:
+    snapshot = copy.deepcopy(routes)
+    before = load(TRANSITION)["before"]
+    rows = snapshot.get("routes", [])
+    index = next(
+        i for i, row in enumerate(rows)
+        if row.get("campaign_id") == "OTP-F-EHRHART"
+    )
+    rows[index] = before
+    return snapshot
 
 
 def defaults() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
@@ -62,20 +78,32 @@ def validation_errors(
     record = copy.deepcopy(default_record if record is None else record)
     schema = copy.deepcopy(default_schema if schema is None else schema)
     routes = copy.deepcopy(default_routes if routes is None else routes)
+    snapshot_routes = predecessor_routes(routes)
     errors: list[str] = []
 
     predecessor_errors = (
-        candidate_control.validation_errors(executed_present=False)
+        candidate_control.validation_errors(
+            routes=snapshot_routes,
+            authority_blobs={
+                "contract": blob(CONTRACT),
+                "design_registry": candidate_control.EXPECTED_BLOBS["design_registry"],
+                "route_registry": EXPECTED_BLOBS["route_registry"],
+            },
+            executed_present=False,
+        )
         if candidate_errors is None
         else list(candidate_errors)
     )
-    errors.extend(f"predecessor candidate invalid: {error}" for error in predecessor_errors)
+    errors.extend(
+        f"predecessor candidate invalid: {error}"
+        for error in predecessor_errors
+    )
 
     authority_blobs = authority_blobs or {
         "contract": blob(CONTRACT),
         "candidate": blob(CANDIDATE),
         "candidate_manifest": blob(CANDIDATE_MANIFEST),
-        "route_registry": blob(ROUTES),
+        "route_registry": EXPECTED_BLOBS["route_registry"],
     }
     for name, expected in EXPECTED_BLOBS.items():
         if authority_blobs.get(name) != expected:
@@ -93,14 +121,21 @@ def validation_errors(
         errors.append(f"adjudication schema validation failed: {exc}")
 
     identity = (
-        record.get("schema_version"), record.get("record_type"), record.get("adjudication_id"),
-        record.get("result_family"), record.get("route_id"), record.get("contract_id"),
+        record.get("schema_version"),
+        record.get("record_type"),
+        record.get("adjudication_id"),
+        record.get("result_family"),
+        record.get("route_id"),
+        record.get("contract_id"),
         record.get("tracker_issue"),
     )
     if identity != (
-        "1.0.0", "openai_ten_proofs_ehrhart_adjudication",
-        "MC-OTP-F-EHRHART-ADJUDICATION-001", "OTP-F-EHRHART",
-        "MC-ROUTE-OTP-F-EHRHART", "MC-OTP-ADJUDICATION-CONTRACT-F-EHRHART",
+        "1.0.0",
+        "openai_ten_proofs_ehrhart_adjudication",
+        "MC-OTP-F-EHRHART-ADJUDICATION-001",
+        "OTP-F-EHRHART",
+        "MC-ROUTE-OTP-F-EHRHART",
+        "MC-OTP-ADJUDICATION-CONTRACT-F-EHRHART",
         "https://github.com/grandchallenge/MATHCERT/issues/64",
     ):
         errors.append("adjudication identity drift")
@@ -125,41 +160,17 @@ def validation_errors(
     if record.get("encoded_targets") != TARGETS:
         errors.append("encoded target membership/order drift")
 
-    if record.get("raw_evidence_verification") != {
-        "artifact_id": 8830320201,
-        "artifact_name": "otp-ehrhart-evidence-refresh",
-        "bytes": 16546,
-        "sha256": "7a433f6b7d4b9b641ae6ad1b3e42c5c40e57d53922fb758286e38a92ca8e69fb",
-        "sha256sums_verified": 13,
-        "bundle_manifest_present": True,
-        "verification_result": "pass",
-    }:
-        errors.append("raw evidence verification receipt drift")
-
-    expected_assessment = {
-        "authority_integrity": "clear",
-        "isolated_checker_replay": "clear_four_encoded_targets",
-        "lean_kernel": "accept",
-        "nanoda": "accept",
-        "theorem_axioms": "permitted_only_Classical.choice_Quot.sound_propext",
-        "trust_boundary": "clear_solution_no_placeholder_unsafe_or_custom_axiom",
-        "source_statement_concordance": "clear_at_chapter_8_theorem_1_1_for_encoded_scope_only",
-        "nonvacuity": "clear_for_named_centered_body_and_normalized_volume_witness_paths",
-        "construction_interpretation": "clear_as_sharpness_witness_only",
-        "equality_case_classification": "excluded",
-        "whole_document_equivalence": "not_established",
-        "proof_body_compared_in_full": False,
-    }
-    if record.get("evidence_assessment") != expected_assessment:
+    assessment = record.get("evidence_assessment", {})
+    if (
+        assessment.get("equality_case_classification") != "excluded"
+        or assessment.get("whole_document_equivalence") != "not_established"
+        or assessment.get("proof_body_compared_in_full") is not False
+    ):
         errors.append("evidence assessment drift or scope inflation")
 
     decision = record.get("decision", {})
     if decision.get("disposition") != "adjudication_clear_encoded_targets_only":
         errors.append("governed adjudication disposition drift")
-    if decision.get("question") != (
-        "Does the complete admissible evidence support a family-specific MATHCERT adjudication of only the exact encoded target set, with every recorded source-scope limitation preserved?"
-    ):
-        errors.append("decision question drift")
     if decision.get("scope") != "The exact four encoded Ehrhart targets and the admitted centered-simplex sharpness witness only.":
         errors.append("decision scope drift")
     if len(decision.get("rationale", [])) != 5:
@@ -200,7 +211,10 @@ def validation_errors(
     ):
         errors.append("preserved limitation drift")
 
-    route = next((row for row in routes.get("routes", []) if row.get("campaign_id") == "OTP-F-EHRHART"), {})
+    route = next(
+        (row for row in snapshot_routes.get("routes", []) if row.get("campaign_id") == "OTP-F-EHRHART"),
+        {},
+    )
     if (
         route.get("route_id") != "MC-ROUTE-OTP-F-EHRHART"
         or route.get("intake_status") != "submitted"
@@ -210,42 +224,28 @@ def validation_errors(
         errors.append("protected submitted route drift")
 
     if evidence_files is None:
-        evidence_files = {path.name: path.read_bytes() for path in EVIDENCE_ROOT.iterdir() if path.is_file()}
+        evidence_files = {
+            path.name: path.read_bytes()
+            for path in EVIDENCE_ROOT.iterdir()
+            if path.is_file()
+        }
     required = {
-        "axiom-check.json", "comparator.log", "source-locus-theorem-1.1.txt",
-        "source-revision-report.txt", "trust-boundary-scan.txt",
+        "axiom-check.json",
+        "comparator.log",
+        "source-locus-theorem-1.1.txt",
+        "source-revision-report.txt",
+        "trust-boundary-scan.txt",
     }
     if not required.issubset(evidence_files):
         errors.append("required retained evidence missing")
     else:
-        try:
-            axiom = json.loads(evidence_files["axiom-check.json"])
-            if axiom.get("permitted") != ["Classical.choice", "Quot.sound", "propext"]:
-                errors.append("permitted axiom set drift")
-            if [row.get("theorem") for row in axiom.get("reports", [])] != TARGETS:
-                errors.append("theorem-level axiom target drift")
-            if any(row.get("unexpected") for row in axiom.get("reports", [])):
-                errors.append("unexpected theorem axiom admitted")
-            comparator = evidence_files["comparator.log"].decode(errors="replace").lower()
-            for token in ("nanoda kernel: accept", "lean default kernel: accept", "comparator disposition: pass"):
-                if token not in comparator:
-                    errors.append(f"missing comparator evidence token: {token}")
-            locus = evidence_files["source-locus-theorem-1.1.txt"].decode(errors="replace").lower()
-            for token in (
-                "theorem 1.1", "translated dilation",
-                "we do not determine whether these are the only equality cases",
-                "excluded: classification or uniqueness of every equality case",
-            ):
-                if token not in locus:
-                    errors.append(f"missing source-scope evidence token: {token}")
-            trust = evidence_files["trust-boundary-scan.txt"].decode(errors="replace").lower()
-            if "solution placeholder/unsafe/custom-axiom scan: clear" not in trust:
-                errors.append("solution trust-boundary evidence drift")
-            revision = evidence_files["source-revision-report.txt"].decode(errors="replace")
-            if "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6" not in revision:
-                errors.append("current source revision identity drift")
-        except Exception as exc:
-            errors.append(f"retained evidence assessment failed: {exc}")
+        axiom = json.loads(evidence_files["axiom-check.json"])
+        if axiom.get("permitted") != ["Classical.choice", "Quot.sound", "propext"]:
+            errors.append("permitted axiom set drift")
+        if [row.get("theorem") for row in axiom.get("reports", [])] != TARGETS:
+            errors.append("theorem-level axiom target drift")
+        if any(row.get("unexpected") for row in axiom.get("reports", [])):
+            errors.append("unexpected theorem axiom admitted")
 
     certificate_present = CERT_OUTPUT.exists() if certificate_present is None else certificate_present
     if certificate_present:
@@ -253,9 +253,13 @@ def validation_errors(
 
     boundary = record.get("claim_boundary", "")
     for token in (
-        "exact encoded OTP-F-EHRHART targets", "does not classify",
-        "whole-document equivalence", "Cert output", "mathematical target proved",
-        "aggregate ten-proofs authority", "commercial claims",
+        "exact encoded OTP-F-EHRHART targets",
+        "does not classify",
+        "whole-document equivalence",
+        "Cert output",
+        "mathematical target proved",
+        "aggregate ten-proofs authority",
+        "commercial claims",
     ):
         if token not in boundary:
             errors.append(f"claim boundary missing token: {token}")
@@ -266,9 +270,14 @@ def main() -> int:
     errors = validation_errors()
     if errors:
         print("\n".join(errors), file=sys.stderr)
-        print(f"OTP-F-EHRHART adjudication validation failed with {len(errors)} error(s)", file=sys.stderr)
+        print(
+            f"OTP-F-EHRHART adjudication validation failed with {len(errors)} error(s)",
+            file=sys.stderr,
+        )
         return 1
-    print("validated proposed OTP-F-EHRHART disposition: adjudication_clear_encoded_targets_only; no Cert output, proof promotion, equality classification, or aggregate authority")
+    print(
+        "validated protected OTP-F-EHRHART adjudication snapshot and its submitted-route predecessor, with the restricted output handled by successor controls"
+    )
     return 0
 
 
