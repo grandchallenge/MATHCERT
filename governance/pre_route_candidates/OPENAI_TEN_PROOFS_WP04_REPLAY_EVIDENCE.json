@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_replay_evidence_registry",
+  "registry_id": "MC-OTP-REPLAY-EVIDENCE-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "execution": {
+    "pull_request": 52,
+    "evidence_head": "a437fe81f1e84597e338cac90ed1f07e1720434d",
+    "workflow_merge_sha": "d0ae997e777af35d6ee051ccffbf86309acb397b",
+    "workflow_run_id": 30726486167,
+    "lean_version": "4.32.0"
+  },
+  "evidence_records": [
+    {
+      "result_family": "OTP-F-EHRHART",
+      "evidence_id": "MC-OTP-EVIDENCE-F-EHRHART",
+      "path": "governance/result_family_replay_evidence/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "d17d36d02f6505060f5a9e5f1f71f3c323fa1af8",
+      "bundle_path": "evidence/openai_ten_proofs/ehrhart.zip.b64",
+      "bundle_blob": "346eebb415609e6e66a9cb04510b7ba4994cf309",
+      "artifact_id": 8826641842,
+      "artifact_sha256": "22fcaad533db94c03569439bb41fcda68618386826abd3aa624bbf90e9345adb"
+    },
+    {
+      "result_family": "OTP-J1-COMPACTNESS",
+      "evidence_id": "MC-OTP-EVIDENCE-J1-COMPACTNESS",
+      "path": "governance/result_family_replay_evidence/OTP-J1-COMPACTNESS.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "5fe635510a0d2aa05da641e342078cf8b2b34aa6",
+      "bundle_path": "evidence/openai_ten_proofs/compactness.zip.b64",
+      "bundle_blob": "0f2a8918e669734ab89ece34b3f6dc60774552e2",
+      "artifact_id": 8826594510,
+      "artifact_sha256": "852d0fa51a328199e6aeaf67a51fdd384ab30ec62ef6a7e28c5e22e597b3a99b"
+    },
+    {
+      "result_family": "OTP-J2-TWO-DEGENERATE",
+      "evidence_id": "MC-OTP-EVIDENCE-J2-TWO-DEGENERATE",
+      "path": "governance/result_family_replay_evidence/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "215ce18b4139159c89d167ab11cab6c35d5a38ff",
+      "bundle_path": "evidence/openai_ten_proofs/two-degenerate.zip.b64",
+      "bundle_blob": "14d050b03ccc9891f8c3e5ec4f522aa5aa00b8aa",
+      "artifact_id": 8826578658,
+      "artifact_sha256": "b3efb532152677dd84c0872071a9d2aa061ea56b9a8a7d9175c6382766f27ed4"
+    }
+  ],
+  "state": {
+    "formal_replay_clear_count": 3,
+    "evidence_bundle_count": 3,
+    "specialist_review_count": 0,
+    "current_revision_semantic_concordance_clear_count": 0,
+    "proposed_route_count": 0,
+    "registered_route_count": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0
+  },
+  "source_revision": {
+    "status": "blocked_pending_forge_audit",
+    "forge_issue": 52
+  },
+  "route_controls": {
+    "aggregate_route_prohibited": true,
+    "may_adjudicate": false,
+    "may_promote_claim": false
+  },
+  "claim_boundary": "This registry admits three repository-owned formal replay evidence bundles for specialist review only. It registers no certification route, performs no adjudication, issues no Cert output, and promotes no mathematical or aggregate claim."
+}
