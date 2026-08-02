@@ -1,18 +1,24 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "record_type": "otp_ehrhart_output_candidate",
   "candidate_id": "MC-OTP-F-EHRHART-OUTPUT-CANDIDATE-001",
   "result_family": "OTP-F-EHRHART",
   "route_id": "MC-ROUTE-OTP-F-EHRHART",
   "contract_id": "MC-OTP-F-EHRHART-OUTPUT-CONTRACT-001",
   "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/70",
-  "implementation_authorization": {
+  "original_implementation_authorization": {
     "issue": "https://github.com/grandchallenge/MATHCERT/issues/70",
     "comment_id": 5157454689,
     "author": "jimsteeg",
     "scope": "non_operational_exact_output_candidate_preparation_only"
   },
-  "candidate_state": "output_candidate_prepared_pending_authorization",
+  "correction_authorization": {
+    "issue": "https://github.com/grandchallenge/MATHCERT/issues/72",
+    "comment_id": 5157620838,
+    "author": "jimsteeg",
+    "scope": "remove_self_referential_execution_binding_only"
+  },
+  "candidate_state": "output_candidate_corrected_pending_execution_authorization",
   "protected_authority": {
     "contract": {
       "merge_commit": "0a8df66a768fe1b2671cb5301ecb20464d9b5ecf",
@@ -38,6 +44,14 @@
       "digest_algorithm": "git_blob_sha1",
       "digest": "478811b443c9a60c12de85008d4e6da253de095a"
     },
+    "candidate_admission": {
+      "exact_reviewed_head": "477a539e0c7bec49856d4fc7cfa05480fba6b77a",
+      "approval_review_id": 4838291838,
+      "human_steward_disposition_comment_id": 5157572279,
+      "protected_merge_commit": "4e5c02416a6dd66c52d9da87c5229ecf61673372",
+      "prior_candidate_record_blob": "840cef30be3f17d52952e2f529c730a8bdf4d81e",
+      "prior_transition_blob": "2862950612fde71331cce92161ecf208f57f3eb9"
+    },
     "live_route_registry": {
       "path": "governance/certification_routes.json",
       "digest_algorithm": "git_blob_sha1",
@@ -56,9 +70,9 @@
     "route_transition": {
       "path": "governance/result_family_output_candidates/staged_route_transitions/OTP-F-EHRHART.json",
       "digest_algorithm": "git_blob_sha1",
-      "digest": "2862950612fde71331cce92161ecf208f57f3eb9",
-      "mode": "single_registry_entry_replacement_template",
-      "execution_commit_token": "$PROTECTED_EXECUTION_MERGE"
+      "digest": "fd3c39ce2fbb4ba6a62085d6778d9dcb59d8453c",
+      "mode": "certificate_content_commit_then_route_transition_template",
+      "certificate_content_commit_token": "$CERTIFICATE_CONTENT_COMMIT"
     }
   },
   "encoded_targets": [
@@ -78,30 +92,34 @@
     "nonvacuity": "clear_for_named_centered_body_and_normalized_volume_witness_paths",
     "sharpness_witness": "admitted_centered_simplex_sharpness_witness_only"
   },
-  "atomic_execution_plan": {
-    "route_transition": {
-      "from": "submitted",
-      "to": "qualified"
-    },
-    "certificate_insertion": "exactly_one",
-    "same_protected_commit_required": true,
-    "partial_application_prohibited": true,
-    "execution_commit_token_must_be_resolved": true
+  "corrected_execution_plan": {
+    "certificate_content_commit_first": true,
+    "route_transition_commit_later": true,
+    "certificate_content_commit_must_be_ancestor_of_exact_reviewed_head": true,
+    "certificate_blob_must_be_preserved_at_exact_reviewed_head": true,
+    "cert_output_points_to_certificate_content_commit": true,
+    "protected_merge_method": "merge",
+    "squash_merge_prohibited": true,
+    "rebase_merge_prohibited": true,
+    "protected_main_atomic_publication_required": true,
+    "partial_protected_main_state_prohibited": true,
+    "route_first_ordering_prohibited": true
   },
-  "review_state": {
+  "correction_review_state": {
     "fresh_non_author_specialist_review_required": true,
     "specialist_review": null,
-    "status": "pending_exact_head_non_author_specialist_review"
+    "status": "pending_exact_head_non_author_correction_review"
   },
   "execution_authorization": {
     "separate_human_steward_authorization_required": true,
-    "must_name_contract_exact_candidate_head_protected_candidate_merge_and_candidate_blob": true,
+    "must_name_corrected_exact_candidate_head_protected_correction_merge_candidate_blob_and_transition_blob": true,
     "authorization": null
   },
   "state": {
     "may_execute": false,
     "live_route_state": "submitted",
     "live_cert_output": null,
+    "live_certificate_present": false,
     "mathematical_target_proved": false,
     "may_promote_claim": false,
     "aggregate_output": false,
@@ -120,5 +138,5 @@
     "all_lean_state": "failed_namespace_collision",
     "unexamined_result_family_count": 9
   },
-  "claim_boundary": "This non-operative output candidate stages the exact restricted OTP-F-EHRHART certificate and atomic route-transition template under the protected output contract. It does not execute the candidate, alter the live submitted route, insert a live Cert output, mark the source theorem or any mathematical target proved, classify or establish uniqueness of all equality cases, establish whole-document equivalence, compare the analytic proof body in full, qualify another result family, repair Permanent, GapCVP, or All.lean, create aggregate ten-proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+  "claim_boundary": "This correction removes only the self-referential protected-merge token from the non-operative OTP-F-EHRHART output candidate and replaces it with a certificate-content ancestor-commit model. It does not execute the candidate, create the live certificate on protected main, alter the live submitted route, insert a live Cert output, mark the source theorem or any mathematical target proved, classify or establish uniqueness of all equality cases, establish whole-document equivalence, compare the analytic proof body in full, qualify another result family, repair Permanent, GapCVP, or All.lean, create aggregate ten-proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
 }
