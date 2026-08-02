@@ -44,5 +44,7 @@ Invoke-Control "ci/validate_openai_ten_proofs_adjudication_design_with_successor
 Invoke-Control "ci/test_openai_ten_proofs_adjudication_contracts.py"
 Invoke-Control "ci/validate_otp_ehrhart_adjudication.py"
 Invoke-Control "ci/test_otp_ehrhart_adjudication.py"
+Invoke-Control "ci/validate_otp_ehrhart_adjudication_post_merge_attestation.py"
+Invoke-Control "ci/test_otp_ehrhart_adjudication_post_merge_attestation.py"
 Invoke-Control "ci/audit_ci_reachability.py"
 Invoke-Control "ci/test_audit_ci_reachability.py"
