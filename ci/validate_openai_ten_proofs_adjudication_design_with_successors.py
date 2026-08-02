@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import copy
 import sys
 from pathlib import Path
 
@@ -9,11 +10,28 @@ import validate_openai_ten_proofs_adjudication_contracts as design
 ROOT = Path(__file__).resolve().parents[1]
 ADJUDICATION_DIR = ROOT / "governance/result_family_adjudications"
 CERT_DIR = ROOT / "certificates/openai_ten_proofs"
+TRANSITION = ROOT / "governance/result_family_output_candidates/staged_route_transitions/OTP-F-EHRHART.json"
 ALLOWED_ADJUDICATIONS = {"OTP-F-EHRHART.json"}
 
 
+def design_routes_snapshot() -> dict:
+    routes = design.load(design.D.ROUTES)
+    before = design.load(TRANSITION)["before"]
+    snapshot = copy.deepcopy(routes)
+    index = next(
+        i for i, route in enumerate(snapshot["routes"])
+        if route.get("campaign_id") == "OTP-F-EHRHART"
+    )
+    snapshot["routes"][index] = before
+    return snapshot
+
+
 def validation_errors() -> list[str]:
-    errors = design.validation_errors(executed_present=False)
+    errors = design.validation_errors(
+        routes=design_routes_snapshot(),
+        route_blob=design.D.ROUTE_REGISTRY_BLOB,
+        executed_present=False,
+    )
     actual_adjudications = {
         path.name for path in ADJUDICATION_DIR.glob("*.json") if path.is_file()
     } if ADJUDICATION_DIR.is_dir() else set()
@@ -26,7 +44,7 @@ def validation_errors() -> list[str]:
         path.name for path in CERT_DIR.glob("*.json") if path.is_file()
     } if CERT_DIR.is_dir() else set()
     if actual_outputs:
-        errors.append(f"unauthorized OTP Cert output artifacts exist: {sorted(actual_outputs)}")
+        errors.append(f"unauthorized legacy OTP Cert output artifacts exist: {sorted(actual_outputs)}")
     return errors
 
 
@@ -40,7 +58,7 @@ def main() -> int:
         )
         return 1
     print(
-        "validated three immutable design-only OTP adjudication contracts, exactly one separately governed Ehrhart adjudication record, and zero Cert outputs"
+        "validated immutable design-only adjudication contracts against their submitted-route snapshot, exactly one separately governed Ehrhart adjudication, and no legacy OTP output artifact"
     )
     return 0
 
