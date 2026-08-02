@@ -23,6 +23,20 @@ class EhrhartAdjudicationMutationTests(unittest.TestCase):
     def test_baseline(self) -> None:
         self.assertEqual([], control.validation_errors())
 
+    def test_unrelated_uc_route_evolution_does_not_invalidate_ehrhart(self) -> None:
+        routes = copy.deepcopy(self.routes)
+        uc = next(route for route in routes["routes"] if route["campaign_id"] == "UC-001")
+        uc["reopening_conditions"].append("synthetic unrelated route evolution")
+        self.assertEqual([], control.validation_errors(routes=routes))
+
+    def test_live_ehrhart_route_mutation_is_rejected(self) -> None:
+        self.assert_rejected(
+            lambda r, s, ro, k: next(
+                route for route in ro["routes"] if route["campaign_id"] == "OTP-F-EHRHART"
+            ).__setitem__("intake_status", "qualified"),
+            "protected submitted route drift",
+        )
+
     def test_disposition_substitution_rejected(self) -> None:
         self.assert_rejected(
             lambda r, s, ro, k: r["decision"].__setitem__("disposition", "adjudication_not_clear"),
