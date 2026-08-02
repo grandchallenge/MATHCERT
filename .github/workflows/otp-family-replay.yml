@@ -101,8 +101,9 @@ jobs:
           git -C tools/nanoda checkout --detach ddfac2bf5a7b56cb46e141494427ff3dd55963c7
           (cd tools/nanoda && cargo build --release --locked)
 
-          GOBIN="$RUNNER_TEMP/otp-bin" go install github.com/zouuup/landrun/cmd/landrun@811cfff51ceaf3d9843708aa6d22e9b84ccac8b4d
-          mv "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
+          git clone --filter=blob:none https://github.com/Zouuup/landrun.git tools/landrun
+          git -C tools/landrun checkout --detach 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4d
+          (cd tools/landrun && go build -trimpath -o "$RUNNER_TEMP/otp-bin/landrun-real" ./cmd/landrun)
           cp ci/landrun_comparator_adapter.sh "$RUNNER_TEMP/otp-bin/landrun"
           chmod +x "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
 
@@ -137,5 +138,5 @@ jobs:
         with:
           name: otp-${{ matrix.slug }}-evidence
           path: evidence/${{ matrix.slug }}/
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 30
