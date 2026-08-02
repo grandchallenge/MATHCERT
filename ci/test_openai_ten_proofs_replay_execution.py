@@ -122,6 +122,33 @@ class OpenAITenProofsReplayExecutionTests(unittest.TestCase):
         record["source_revision"]["forge_audit_issue"] = None
         self.assertTrue(self.errors(record=record))
 
+    def test_lean_432_activation_removal_is_rejected(self) -> None:
+        workflow = self.workflow.replace(
+            "elan toolchain install leanprover/lean4:v4.32.0",
+            "echo toolchain omitted",
+        )
+        self.assertTrue(self.errors(workflow=workflow))
+
+    def test_pr_head_capture_removal_is_rejected(self) -> None:
+        workflow = self.workflow.replace("MATHCERT_HEAD_SHA:", "MISSING_HEAD_SHA:")
+        self.assertTrue(self.errors(workflow=workflow))
+
+    def test_lean4checker_identity_removal_is_rejected(self) -> None:
+        runner = self.runner.replace(".lake/packages/Lean4Checker", ".lake/packages/unknown-checker")
+        self.assertTrue(self.errors(runner=runner))
+
+    def test_ambiguous_github_head_is_rejected(self) -> None:
+        runner = self.runner.replace("mathcert_head_sha", "github_head")
+        self.assertTrue(self.errors(runner=runner))
+
+    def test_self_referential_checksum_is_rejected(self) -> None:
+        runner = self.runner.replace(" -not -name 'SHA256SUMS'", "")
+        self.assertTrue(self.errors(runner=runner))
+
+    def test_challenge_placeholder_boundary_removal_is_rejected(self) -> None:
+        runner = self.runner.replace("expected_comparator_boundary", "clear")
+        self.assertTrue(self.errors(runner=runner))
+
 
 if __name__ == "__main__":
     unittest.main()
