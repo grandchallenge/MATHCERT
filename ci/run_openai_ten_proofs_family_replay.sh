@@ -24,6 +24,13 @@ expected_upstream_tree="2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365"
 expected_forge_commit="cb0a203c36a9ef33270d62ab369df7bc27d3b242"
 expected_solve_commit="443daf537dc7e4ee34ab43aeb01508d9177816ab"
 expected_cert_wp_merge="677a58a126145977581050bcb5d12d5b6a99fb51"
+expected_lean_version="4.32.0"
+expected_mathlib_commit="81a5d257c8e410db227a6665ed08f64fea08e997"
+expected_comparator_commit="07bc4ea40f2266dcb861820a2ec1fa3244ed307f"
+expected_lean4checker_commit="b7398199245524275543dec6113229c9bb4902e5"
+expected_lean4export_commit="4e7915201d3f9f04470d9eae002fa695f7cdc589"
+expected_landrun_commit="811cfff51ceaf3d9843708aa6d22e9b84ccac8b4d"
+expected_nanoda_commit="ddfac2bf5a7b56cb46e141494427ff3dd55963c7"
 admitted_manuscript_sha="f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53"
 admitted_manuscript_bytes="2266052"
 observed_manuscript_sha="64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6"
@@ -128,6 +135,12 @@ git_blob() {
   git -C "$repo" rev-parse "HEAD:$path"
 }
 
+lean_version_line="$(lean --version | head -n1)"
+if [[ "$lean_version_line" != *"version $expected_lean_version"* ]]; then
+  echo "Lean toolchain mismatch: expected $expected_lean_version, found $lean_version_line" >&2
+  exit 1
+fi
+
 assert_eq "$(git -C "$upstream" rev-parse HEAD)" "$expected_upstream_commit" "upstream commit"
 assert_eq "$(git -C "$upstream" rev-parse 'HEAD^{tree}')" "$expected_upstream_tree" "upstream tree"
 assert_eq "$(git -C "$forge" rev-parse HEAD)" "$expected_forge_commit" "Forge commit"
@@ -136,6 +149,12 @@ assert_eq "$(git_blob "$forge" "$semantic_path")" "$semantic_blob" "semantic rec
 assert_eq "$(git_blob "$solve" "$packet_path")" "$packet_blob" "Solve packet blob"
 assert_eq "$(git -C "$root" rev-parse "$expected_cert_wp_merge:$intake_path")" "$intake_blob" "Cert intake blob"
 assert_eq "$(git -C "$root" rev-parse "$expected_cert_wp_merge:$work_package_path")" "$work_package_blob" "Cert work-package blob"
+assert_eq "$(git -C "$upstream/.lake/packages/mathlib" rev-parse HEAD)" "$expected_mathlib_commit" "mathlib commit"
+assert_eq "$(git -C "$upstream/.lake/packages/Comparator" rev-parse HEAD)" "$expected_comparator_commit" "Comparator commit"
+assert_eq "$(git -C "$upstream/.lake/packages/Lean4Checker" rev-parse HEAD)" "$expected_lean4checker_commit" "Lean4Checker commit"
+assert_eq "$(git -C "$root/tools/lean4export" rev-parse HEAD)" "$expected_lean4export_commit" "lean4export commit"
+assert_eq "$(git -C "$root/tools/landrun" rev-parse HEAD)" "$expected_landrun_commit" "Landrun commit"
+assert_eq "$(git -C "$root/tools/nanoda" rev-parse HEAD)" "$expected_nanoda_commit" "Nanoda commit"
 
 config_path="$upstream/$config"
 challenge_file="$upstream/${challenge_module//./\/}.lean"
@@ -184,10 +203,11 @@ fi
 
 {
   echo "family=$family"
-  echo "github_sha=${GITHUB_SHA:-unknown}"
+  echo "mathcert_head_sha=${MATHCERT_HEAD_SHA:-unknown}"
+  echo "workflow_checkout_sha=${MATHCERT_WORKFLOW_SHA:-${GITHUB_SHA:-unknown}}"
   echo "runner_image=${ImageOS:-unknown}-${ImageVersion:-unknown}"
   echo "uname=$(uname -a)"
-  echo "lean=$(lean --version | head -n1)"
+  echo "lean=$lean_version_line"
   echo "lake=$(lake --version | head -n1)"
   echo "go=$(go version)"
   echo "rustc=$(rustc --version)"
@@ -196,7 +216,7 @@ fi
   echo "upstream_tree=$(git -C "$upstream" rev-parse 'HEAD^{tree}')"
   echo "mathlib_commit=$(git -C "$upstream/.lake/packages/mathlib" rev-parse HEAD)"
   echo "comparator_commit=$(git -C "$upstream/.lake/packages/Comparator" rev-parse HEAD)"
-  echo "lean4checker_commit=$(git -C "$upstream/.lake/packages/Comparator/.lake/packages/Lean4Checker" rev-parse HEAD)"
+  echo "lean4checker_commit=$(git -C "$upstream/.lake/packages/Lean4Checker" rev-parse HEAD)"
   echo "lean4export_commit=$(git -C "$root/tools/lean4export" rev-parse HEAD)"
   echo "landrun_commit=$(git -C "$root/tools/landrun" rev-parse HEAD)"
   echo "nanoda_commit=$(git -C "$root/tools/nanoda" rev-parse HEAD)"
@@ -241,6 +261,7 @@ if grep -nE '^[[:space:]]*import[[:space:]]+All([[:space:]]|$)' "$solution_file"
   exit 1
 fi
 echo "solution placeholder/unsafe/custom-axiom scan: clear" >> "$scan_log"
+echo "challenge placeholders: expected Comparator boundary, not solution evidence" >> "$scan_log"
 echo "aggregate All import scan: clear" >> "$scan_log"
 
 cd "$upstream"
@@ -300,6 +321,7 @@ EXCLUSIONS="$(printf '%s\n' "${exclusions[@]}")" OUTPUT_DIR="$output_dir" \
 SOURCE_REVISION_STATUS="$source_revision_status" SOURCE_DRIFT_ISSUE="$source_drift_issue" \
 ADMITTED_MANUSCRIPT_SHA="$admitted_manuscript_sha" CURRENT_MANUSCRIPT_SHA="$current_manuscript_sha" \
 CURRENT_MANUSCRIPT_BYTES="$current_manuscript_bytes" REASONING_SHA="$current_reasoning_sha" \
+MATHCERT_HEAD_SHA="${MATHCERT_HEAD_SHA:-unknown}" WORKFLOW_SHA="${MATHCERT_WORKFLOW_SHA:-${GITHUB_SHA:-unknown}}" \
 python3 - <<'PY'
 import hashlib
 import json
@@ -326,7 +348,8 @@ record = {
     "execution": {
         "start_utc": os.environ["START_UTC"],
         "end_utc": os.environ["END_UTC"],
-        "github_head": os.environ.get("GITHUB_SHA", "unknown"),
+        "mathcert_head_sha": os.environ["MATHCERT_HEAD_SHA"],
+        "workflow_checkout_sha": os.environ["WORKFLOW_SHA"],
         "clean_room_runner": True,
         "isolated_family_replay": True,
         "aggregate_all_import_used": False,
@@ -349,6 +372,7 @@ record = {
     },
     "results": {
         "challenge_build": "pass",
+        "challenge_placeholders": "expected_comparator_boundary",
         "solution_build": "pass",
         "comparator": "pass",
         "lean_kernel": "accept",
@@ -375,7 +399,7 @@ record = {
 (out / "evidence-summary.json").write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
 PY
 
-find "$output_dir" -maxdepth 1 -type f -not -name '*.pdf' -print0 \
+find "$output_dir" -maxdepth 1 -type f -not -name '*.pdf' -not -name 'SHA256SUMS' -print0 \
   | sort -z | xargs -0 sha256sum > "$output_dir/SHA256SUMS"
 rm -f "$output_dir/manuscript.pdf" "$output_dir/reasoning-walkthroughs.pdf"
 
