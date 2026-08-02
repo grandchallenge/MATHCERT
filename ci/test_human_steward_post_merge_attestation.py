@@ -19,7 +19,7 @@ SPEC.loader.exec_module(M)
 class HumanStewardPostMergeAttestationTests(unittest.TestCase):
     def setUp(self) -> None:
         self.attestation = json.loads(M.ATTESTATION.read_text(encoding="utf-8"))
-        self.routes = json.loads(M.ROUTES.read_text(encoding="utf-8"))
+        self.routes = M.historical_routes(json.loads(M.ROUTES.read_text(encoding="utf-8")))
         self.schema = json.loads(M.SCHEMA.read_text(encoding="utf-8"))
 
     def errors(self, **kwargs):
@@ -29,7 +29,7 @@ class HumanStewardPostMergeAttestationTests(unittest.TestCase):
             schema=copy.deepcopy(kwargs.get("schema", self.schema)),
             routes=copy.deepcopy(kwargs.get("routes", self.routes)),
             document_blob=kwargs.get("document_blob", "afe8b4241fe5c8cc99626f713f9ac76f48f7b805"),
-            route_blob=kwargs.get("route_blob", "b5541045591f8589130b1577c50d51d70c3b4337"),
+            route_blob=kwargs.get("route_blob", M.OLD_ROUTE_BLOB),
             receipt_blob=kwargs.get("receipt_blob", "38b1c03a6506f877ad9aed74e92cb6d202b444a5"),
         )
 
