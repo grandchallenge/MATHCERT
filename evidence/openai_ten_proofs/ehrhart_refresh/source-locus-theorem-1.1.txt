@@ -1,0 +1,19 @@
+Source reacquisition record
+URL: https://cdn.openai.com/pdf/ten-proofs-oai.pdf
+SHA-256: 64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6
+Bytes: 2266371
+Locus: Chapter 8, Theorem 1.1; PDF page index 219; printed page 218
+Relation: byte-identical to the subject audited by MATHFORGE source-revision audit MF-OTP-SOURCE-REVISION-AUDIT-001.
+
+Normalized statement:
+For every positive dimension n, a full-dimensional compact convex body K in real n-space with barycenter zero and zero as its only interior lattice point has ordinary Euclidean volume at most (n+1)^n/n!. The translated dilation (n+1)Delta_n-(1,...,1) attains the bound.
+
+Equality-case boundary:
+The source states: “We do not determine whether these are the only equality cases.”
+
+Concordance scope:
+- Included: encoded volume inequality.
+- Included: admitted sharpness witness.
+- Excluded: classification or uniqueness of every equality case.
+- Not established: whole-document semantic equivalence.
+- Not performed: full analytic proof-body comparison.
