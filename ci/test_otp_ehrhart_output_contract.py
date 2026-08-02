@@ -22,6 +22,11 @@ class OTPEhrhartOutputContractTests(unittest.TestCase):
         self.contract_schema = json.loads(M.CONTRACT_SCHEMA.read_text(encoding="utf-8"))
         self.future_schema = json.loads(M.FUTURE_SCHEMA.read_text(encoding="utf-8"))
         self.routes = json.loads(M.ROUTES.read_text(encoding="utf-8"))
+        transition = json.loads(
+            (ROOT / "governance/result_family_output_candidates/staged_route_transitions/OTP-F-EHRHART.json").read_text(encoding="utf-8")
+        )
+        index = next(i for i, route in enumerate(self.routes["routes"]) if route["route_id"] == "MC-ROUTE-OTP-F-EHRHART")
+        self.routes["routes"][index] = copy.deepcopy(transition["before"])
         self.adjudication = json.loads(M.ADJUDICATION.read_text(encoding="utf-8"))
         self.attestation = json.loads(M.ATTESTATION.read_text(encoding="utf-8"))
 
