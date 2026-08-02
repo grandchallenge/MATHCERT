@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "human_steward_post_merge_attestation",
+  "attestation_id": "MC-HS-POST-MERGE-OTP-CERT-ROUTE-REGISTRATION-001-V1",
+  "attestation_version": 1,
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/58",
+  "subject": {
+    "repository": "grandchallenge/MATHCERT",
+    "pull_request": 57,
+    "operation_id": "OTP-CERT-ROUTE-REGISTRATION-001",
+    "exact_reviewed_head": "4b9930d8785867bd1c59f4848795cb2b7b960dcf",
+    "merge_commit": "cec85b13f5be48439e02fbbfedcf7ca1d839c097",
+    "merged_at": "2026-08-02T05:21:28Z"
+  },
+  "non_author_review": {
+    "reviewer": "jimsteeg",
+    "state": "APPROVED",
+    "submitted_at": "2026-08-02T05:21:21Z"
+  },
+  "exact_head_checks": {
+    "cert_checks": {
+      "run_id": 30732705290,
+      "conclusion": "success"
+    },
+    "gcl_conformance": {
+      "run_id": 30732705451,
+      "conclusion": "success"
+    },
+    "otp_family_replay": {
+      "run_id": 30732705279,
+      "conclusion": "success"
+    }
+  },
+  "repository_mirror": {
+    "pull_request_comment_id": 5155627280,
+    "comment_author": "jimsteeg",
+    "recording_capacity": "delegated_recording_authority",
+    "authority_note": "The GitHub comment is a repository mirror of the Human Steward disposition. It does not establish that the disposition preceded merge."
+  },
+  "attestation_document": {
+    "path": "governance/post_merge_attestations/OTP-CERT-ROUTE-REGISTRATION-001.v1.md",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "afe8b4241fe5c8cc99626f713f9ac76f48f7b805"
+  },
+  "bound_artifacts": {
+    "route_registration_receipt": {
+      "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP06_ROUTE_REGISTRATIONS.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "38b1c03a6506f877ad9aed74e92cb6d202b444a5"
+    },
+    "registered_route_registry": {
+      "path": "governance/certification_routes.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "b5541045591f8589130b1577c50d51d70c3b4337"
+    }
+  },
+  "chronology": {
+    "disposition_recorded_after_merge": true,
+    "chronology_exception": true,
+    "retrospective_ratification": true,
+    "does_not_rewrite_event_order": true,
+    "future_rule": "Future governed merges requiring an exact-head Human Steward disposition must record that disposition before merge."
+  },
+  "ratified_scope": {
+    "registered_routes": [
+      "MC-ROUTE-OTP-F-EHRHART",
+      "MC-ROUTE-OTP-J1-COMPACTNESS",
+      "MC-ROUTE-OTP-J2-TWO-DEGENERATE"
+    ],
+    "route_state": "submitted",
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "preserved_limitations": {
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_bodies_compared_in_full": false,
+    "blocked_repair_lanes": [
+      "OTP-C-PERMANENT",
+      "OTP-H-GAPCVP"
+    ],
+    "all_lean_state": "failed_namespace_collision",
+    "unexamined_result_family_count": 9
+  },
+  "effect": "documentary_ratification_only_no_new_route_authority",
+  "claim_boundary": "This versioned post-merge attestation records a retrospective Human Steward ratification and chronology exception for MATHCERT PR #57. It does not represent that disposition preceded merge, alter the registered submitted route states, adjudicate or prove a theorem, issue a Cert output, promote a mathematical target, create an aggregate route or certification object, clear blocked or unexamined families, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
