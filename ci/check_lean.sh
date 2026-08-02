@@ -43,5 +43,7 @@ python3 ci/validate_otp_ehrhart_adjudication.py
 python3 ci/test_otp_ehrhart_adjudication.py
 python3 ci/validate_otp_ehrhart_adjudication_post_merge_attestation.py
 python3 ci/test_otp_ehrhart_adjudication_post_merge_attestation.py
+python3 ci/validate_otp_ehrhart_output_contract.py
+python3 ci/test_otp_ehrhart_output_contract.py
 python3 ci/audit_ci_reachability.py
 python3 ci/test_audit_ci_reachability.py
