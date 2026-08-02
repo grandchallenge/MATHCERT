@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_route_proposal_registry",
+  "record_id": "MC-OPENAI-TEN-PROOFS-WP05-ROUTE-PROPOSALS",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/53",
+  "authority": {
+    "cert_replay_evidence_merge": "563c29c9687aad1bd06330436e3056cce7745c93",
+    "forge_source_revision_audit_merge": "a498ef40b7652b55bf121b5682604e259b8d3073",
+    "forge_provider_manifest_merge": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15",
+    "source_revision_audit_blob": "80d473b1b545fd9ca05fc5200bcf70ff5f9fcb05",
+    "provider_manifest_blob": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472",
+    "global_registered_route_registry_blob": "5b3e8d48b9f6c5b03ed3dc439bf9e43876e017b1"
+  },
+  "state": {
+    "proposal_count": 3,
+    "registered_route_count": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "proposals": [
+    {
+      "result_family": "OTP-F-EHRHART",
+      "proposal_id": "MC-OTP-ROUTE-PROPOSAL-F-EHRHART",
+      "requested_route_id": "MC-ROUTE-OTP-F-EHRHART",
+      "path": "governance/result_family_route_proposals/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "7b069a003c84ef285259108076a55338fab0bc7f"
+    },
+    {
+      "result_family": "OTP-J1-COMPACTNESS",
+      "proposal_id": "MC-OTP-ROUTE-PROPOSAL-J1-COMPACTNESS",
+      "requested_route_id": "MC-ROUTE-OTP-J1-COMPACTNESS",
+      "path": "governance/result_family_route_proposals/OTP-J1-COMPACTNESS.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "2e541ca5882873ee1c756814642994361b10c78c"
+    },
+    {
+      "result_family": "OTP-J2-TWO-DEGENERATE",
+      "proposal_id": "MC-OTP-ROUTE-PROPOSAL-J2-TWO-DEGENERATE",
+      "requested_route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
+      "path": "governance/result_family_route_proposals/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0692ac15c19328532bdcd3e73b3c8c4371647ac6"
+    }
+  ],
+  "blocked_repair_lanes": [
+    "OTP-C-PERMANENT",
+    "OTP-H-GAPCVP"
+  ],
+  "unexamined_result_family_count": 9,
+  "aggregate_integration": {
+    "all_lean_state": "failed_namespace_collision",
+    "reopens_family_replay": false,
+    "creates_route": false,
+    "creates_adjudication": false
+  },
+  "route_controls": {
+    "global_registered_route_registry_modified": false,
+    "proposal_registry_separate": true,
+    "may_register_route": false,
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "aggregate_route_prohibited": true,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact-head Cert checks, GCL conformance, non-author APPROVED specialist review, explicit exact-head Human Steward disposition, and protected MATHCERT merge",
+    "head_change_requires_reapproval": true,
+    "effect": "three_route_proposals_admitted_no_registration_no_adjudication"
+  },
+  "claim_boundary": "This registry admits only three independent proposed route records after protected activation. It does not modify the global registered-route registry, register a route, adjudicate or prove a target, issue a Cert output, clear the remaining nine result families, repair Permanent, GapCVP, or All.lean, create an aggregate ten-proofs route, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}

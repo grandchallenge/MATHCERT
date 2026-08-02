@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_result_family_route_proposal",
+  "proposal_id": "MC-OTP-ROUTE-PROPOSAL-F-EHRHART",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-F-EHRHART",
+  "requested_route_id": "MC-ROUTE-OTP-F-EHRHART",
+  "proposal_state": "proposed_only",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/53",
+  "authority": {
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca",
+      "tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365",
+      "archive_sha256": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f"
+    },
+    "solve_handoff_merge": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "4653985d4980113514266c3c421804437bacb019"
+    },
+    "forge_semantic_merge": "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
+    "semantic_record": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic_audits/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "a3dc4de4c38a80b7aec1fae6506b08e14d2e58bb"
+    },
+    "cert_intake_merge": "d99d2625ee838945087a91a50923cddc2dcc8d85",
+    "cert_intake": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "d99d2625ee838945087a91a50923cddc2dcc8d85",
+      "path": "governance/result_family_intakes/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1c6a5f349803bba09b000ceb3f8a53ee3038ca48"
+    },
+    "cert_work_package_merge": "677a58a126145977581050bcb5d12d5b6a99fb51",
+    "cert_work_package": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "677a58a126145977581050bcb5d12d5b6a99fb51",
+      "path": "governance/result_family_work_packages/OTP-F-EHRHART-CERT-WP01.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "056149e7a659fb6b24b7d7389a3dcd68bb581bcd"
+    },
+    "cert_replay_evidence_merge": "563c29c9687aad1bd06330436e3056cce7745c93",
+    "replay_evidence": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "563c29c9687aad1bd06330436e3056cce7745c93",
+      "path": "governance/result_family_replay_evidence/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "d17d36d02f6505060f5a9e5f1f71f3c323fa1af8"
+    },
+    "repository_bundle": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "563c29c9687aad1bd06330436e3056cce7745c93",
+      "path": "evidence/openai_ten_proofs/ehrhart.zip.b64",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "346eebb415609e6e66a9cb04510b7ba4994cf309",
+      "decoded_sha256": "22fcaad533db94c03569439bb41fcda68618386826abd3aa624bbf90e9345adb"
+    },
+    "source_revision_audit": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "a498ef40b7652b55bf121b5682604e259b8d3073",
+      "path": "sources/OPENAI-TEN-PROOFS-001/source_revision_audits/OTP-TRANCHE-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "80d473b1b545fd9ca05fc5200bcf70ff5f9fcb05"
+    },
+    "provider_manifest": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15",
+      "path": "provider_manifests/OPENAI-TEN-PROOFS-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472"
+    }
+  },
+  "source_scope": {
+    "source_theorem": "Chapter 8, Theorem 1.1, parsed P219 L18214-L18229",
+    "current_revision_locus": {
+      "chapter": 8,
+      "theorem": "Theorem 1.1",
+      "pdf_page_index": 219,
+      "printed_page": 218,
+      "concordance": "clear_at_recorded_locus"
+    },
+    "normalized_statement": "For every positive dimension n, a full-dimensional compact convex body K in real n-space with barycenter zero and with zero as its only interior lattice point has ordinary Euclidean volume at most (n+1)^n/n!. The bound is attained by the translated dilation (n+1)Delta_n-(1,...,1); classification of all equality cases is excluded.",
+    "lean_theorems": [
+      "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+      "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+      "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+      "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+    ],
+    "nonvacuity_witnesses": [
+      "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+      "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+    ],
+    "scope_exclusions": [
+      "No uniqueness or classification of all equality cases is admitted for certification.",
+      "The analytic proof body was not compared in full and is not independently adjudicated by this proposal.",
+      "The proposal applies only to the encoded theorem targets and the recorded current-revision theorem locus."
+    ]
+  },
+  "evidence_disposition": {
+    "kernel_replay": "clear",
+    "lean_kernel": "accept",
+    "nanoda": "accept",
+    "theorem_axiom_report": "permitted_only",
+    "trust_boundary_scan": "clear",
+    "source_semantic": "clear",
+    "nonvacuity": "clear",
+    "current_revision_locus": "clear",
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false
+  },
+  "route_controls": {
+    "global_registered_route_registry_modified": false,
+    "route_registry_entry": null,
+    "may_register_route": false,
+    "may_adjudicate": false,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_route": false,
+    "aggregate_adjudication": false
+  },
+  "activation": {
+    "condition": "exact-head Cert checks, GCL conformance, non-author APPROVED specialist review, explicit exact-head Human Steward disposition, and protected MATHCERT merge",
+    "head_change_requires_reapproval": true,
+    "effect": "route_proposal_admitted_no_registration_no_adjudication"
+  },
+  "claim_boundary": "This record proposes only an independent Ehrhart result-family route. It does not register that route, adjudicate or prove the theorem, classify all equality cases, establish whole-document manuscript equivalence, issue a Cert output, create an aggregate ten-proofs route, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}

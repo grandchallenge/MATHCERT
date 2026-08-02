@@ -17,4 +17,6 @@ class T(unittest.TestCase):
  def test_registry_inflation(self):r=copy.deepcopy(self.g);r['state']['registered_route_count']=3;self.assertTrue(self.errors(registry=r))
  def test_execution_regression(self):r=copy.deepcopy(self.e);r['execution_state']['completed_family_count']=0;self.assertTrue(self.errors(execution=r))
  def test_route_registration(self):r=copy.deepcopy(self.routes);r['routes'].append({'route_id':'MC-ROUTE-OTP-F-EHRHART'});self.assertTrue(self.errors(routes=r))
+ def test_route_proposal_suite(self):
+  spec=importlib.util.spec_from_file_location('route_proposal_tests',ROOT/'ci/test_openai_ten_proofs_route_proposals.py');self.assertIsNotNone(spec);self.assertIsNotNone(spec.loader);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);suite=unittest.defaultTestLoader.loadTestsFromModule(module);result=unittest.TestResult();suite.run(result);self.assertTrue(result.wasSuccessful(),f'route proposal suite errors={result.errors} failures={result.failures}')
 if __name__=='__main__':unittest.main()
