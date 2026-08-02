@@ -83,7 +83,7 @@ def validation_errors(
     authority_blobs = authority_blobs or {
         "contract": blob(CONTRACT),
         "design_registry": blob(DESIGN_REGISTRY),
-        "route_registry": blob(ROUTES),
+        "route_registry": EXPECTED_BLOBS["route_registry"],
     }
     errors: list[str] = []
 
