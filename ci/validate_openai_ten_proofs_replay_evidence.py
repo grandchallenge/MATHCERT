@@ -10,6 +10,7 @@ def load(p):return json.loads(p.read_text())
 def sha(b):return hashlib.sha256(b).hexdigest()
 def blob_bytes(b):return hashlib.sha1(f'blob {len(b)}\0'.encode()+b,usedforsecurity=False).hexdigest()
 def blob(p):return blob_bytes(p.read_bytes())
+def decode_base64(data):return base64.b64decode(b''.join(data.split()),validate=True)
 def validation_errors(records=None,registry=None,execution=None,routes=None):
  e=[];records={p.stem:load(p) for p in RECORD_ROOT.glob('*.json')} if records is None else records;registry=load(REGISTRY) if registry is None else registry;execution=load(EXECUTION) if execution is None else execution;routes=load(ROUTES) if routes is None else routes
  if set(records)!=set(EXPECTED):e.append('evidence membership drift')
@@ -20,7 +21,7 @@ def validation_errors(records=None,registry=None,execution=None,routes=None):
   auth={'repository':'grandchallenge/MATHCERT','pull_request':52,'head_sha':HEAD,'workflow_merge_sha':MERGE,'workflow_run_id':RUN,'job_id':job,'workflow_name':'OTP family replay','artifact':{'id':aid,'name':aname,'bytes':abytes,'sha256':asha}}
   if rec.get('execution_authority')!=auth or rec.get('work_package_id')!=wp:e.append(f'{fam}: authority drift')
   bpath=ROOT/f'evidence/openai_ten_proofs/{slug}.zip.b64';encoded=bpath.read_bytes() if bpath.exists() else b''
-  try:decoded=base64.b64decode(encoded,validate=True);z=zipfile.ZipFile(io.BytesIO(decoded));names=sorted(z.namelist())
+  try:decoded=decode_base64(encoded);z=zipfile.ZipFile(io.BytesIO(decoded));names=sorted(z.namelist())
   except Exception:e.append(f'{fam}: bundle decode failure');continue
   bundle=rec.get('repository_bundle',{})
   if bundle.get('path')!=str(bpath.relative_to(ROOT)) or bundle.get('encoded_bytes')!=len(encoded) or bundle.get('encoded_git_blob_sha1')!=blob_bytes(encoded) or bundle.get('decoded_bytes')!=len(decoded) or bundle.get('decoded_sha256')!=sha(decoded):e.append(f'{fam}: bundle identity drift')
