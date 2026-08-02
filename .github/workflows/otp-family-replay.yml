@@ -94,7 +94,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          elan toolchain install leanprover/lean4:v4.32.0
+          elan toolchain list | grep -Fq 'leanprover/lean4:v4.32.0' || elan toolchain install leanprover/lean4:v4.32.0
           elan run leanprover/lean4:v4.32.0 lean --version | grep -F "version 4.32.0"
           echo "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0" >> "$GITHUB_ENV"
 
