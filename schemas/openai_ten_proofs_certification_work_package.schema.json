@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/openai_ten_proofs_certification_work_package.schema.json",
+  "title": "OpenAI ten-proofs result-family certification work package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "work_package_id",
+    "candidate_id",
+    "result_family",
+    "tracker_issue",
+    "status",
+    "authority",
+    "execution",
+    "target_scope",
+    "route_state",
+    "activation",
+    "route_controls",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_certification_work_package"},
+    "work_package_id": {"type": "string", "minLength": 1},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {
+      "enum": ["OTP-F-EHRHART", "OTP-J1-COMPACTNESS", "OTP-J2-TWO-DEGENERATE"]
+    },
+    "tracker_issue": {"type": "string", "pattern": "^https://github.com/grandchallenge/MATHCERT/issues/[0-9]+$"},
+    "status": {"const": "authorized_after_protected_mathcert_merge"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cert_intake_merge",
+        "cert_intake_reviewed_head",
+        "cert_intake_review",
+        "intake_record",
+        "solve_handoff_merge",
+        "forge_semantic_merge",
+        "official_subject"
+      ],
+      "properties": {
+        "cert_intake_merge": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "cert_intake_reviewed_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "cert_intake_review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["review_id", "reviewer", "state", "submitted_at"],
+          "properties": {
+            "review_id": {"type": "integer", "minimum": 1},
+            "reviewer": {"type": "string", "minLength": 1},
+            "state": {"const": "APPROVED"},
+            "submitted_at": {"type": "string", "minLength": 1}
+          }
+        },
+        "intake_record": {"$ref": "#/$defs/content_addressed_file"},
+        "solve_handoff_merge": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "forge_semantic_merge": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "official_subject": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "commit", "tree", "archive_sha256"],
+          "properties": {
+            "repository": {"const": "openai/ten-proofs"},
+            "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "archive_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+          }
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed",
+        "isolated_family_replay_required",
+        "clean_room_environment_required",
+        "aggregate_import_required",
+        "required_steps",
+        "required_artifacts",
+        "specialist_review_required"
+      ],
+      "properties": {
+        "allowed": {"const": true},
+        "isolated_family_replay_required": {"const": true},
+        "clean_room_environment_required": {"const": true},
+        "aggregate_import_required": {"const": false},
+        "required_steps": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "required_artifacts": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "specialist_review_required": {"const": true}
+      }
+    },
+    "target_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_theorem", "lean_theorems", "nonvacuity_witnesses", "scope_exclusions"],
+      "properties": {
+        "source_theorem": {"type": "string", "minLength": 1},
+        "lean_theorems": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "nonvacuity_witnesses": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "scope_exclusions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "route_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requested_route_id",
+        "certification_route_registry_entry",
+        "proposed_route_record",
+        "cert_output",
+        "may_register_route_on_branch",
+        "may_adjudicate",
+        "mathematical_target_proved",
+        "may_promote_claim"
+      ],
+      "properties": {
+        "requested_route_id": {"type": "string", "minLength": 1},
+        "certification_route_registry_entry": {"type": "null"},
+        "proposed_route_record": {"type": "null"},
+        "cert_output": {"type": "null"},
+        "may_register_route_on_branch": {"const": false},
+        "may_adjudicate": {"const": false},
+        "mathematical_target_proved": {"const": false},
+        "may_promote_claim": {"const": false}
+      }
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["condition", "head_change_requires_reapproval", "effect"],
+      "properties": {
+        "condition": {"type": "string", "minLength": 1},
+        "head_change_requires_reapproval": {"const": true},
+        "effect": {"const": "work_package_authorized_for_execution_no_route_no_adjudication"}
+      }
+    },
+    "route_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result_family_only",
+        "may_create_aggregate_work_package",
+        "may_create_aggregate_route",
+        "may_imply_certification",
+        "may_imply_proof"
+      ],
+      "properties": {
+        "result_family_only": {"const": true},
+        "may_create_aggregate_work_package": {"const": false},
+        "may_create_aggregate_route": {"const": false},
+        "may_imply_certification": {"const": false},
+        "may_imply_proof": {"const": false}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "content_addressed_file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit_sha", "path", "digest_algorithm", "digest"],
+      "properties": {
+        "repository": {"const": "grandchallenge/MATHCERT"},
+        "commit_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "path": {"type": "string", "minLength": 1},
+        "digest_algorithm": {"const": "git_blob_sha1"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    }
+  }
+}
