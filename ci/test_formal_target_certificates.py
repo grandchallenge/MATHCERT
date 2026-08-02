@@ -43,6 +43,18 @@ class FormalTargetCertificateTests(unittest.TestCase):
         )
         self.assertTrue(any("mathematical target must remain unproved" in error for error in errors))
 
+    def test_ehrhart_proof_inflation_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-F-EHRHART-001.json"]["qualification"].__setitem__("source_theorem_mathematically_proved", True)
+        )
+        self.assertTrue(any("mathematical target must remain unproved" in error or "schema violation" in error for error in errors))
+
+    def test_ehrhart_equality_inflation_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-F-EHRHART-001.json"]["qualification"].__setitem__("equality_case_classification", "complete")
+        )
+        self.assertTrue(any("equality-case inflation" in error or "schema violation" in error for error in errors))
+
     def test_missing_ns_axiom_fails(self) -> None:
         errors = self.record_errors(
             lambda r: r["MC-FC-WP00-NS-CI-001.json"]["axiom_report"]["imported_domain_axioms"].pop()
@@ -95,6 +107,17 @@ class FormalTargetCertificateTests(unittest.TestCase):
         finally:
             path.unlink(missing_ok=True)
         self.assertTrue(any("route is not qualified" in error for error in errors))
+
+    def test_ehrhart_route_pointer_drift_fails(self) -> None:
+        registry = module.load_json(module.REGISTRY_PATH)
+        route = next(route for route in registry["routes"] if route["campaign_id"] == "OTP-F-EHRHART")
+        route["cert_output"]["commit_sha"] = "0" * 40
+        path = self.write_registry(registry)
+        try:
+            errors = module.certificate_errors(registry_path=path)
+        finally:
+            path.unlink(missing_ok=True)
+        self.assertTrue(any("certificate-content commit pointer drift" in error for error in errors))
 
     def test_missing_certificate_fails(self) -> None:
         records = self.load_records()
