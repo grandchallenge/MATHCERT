@@ -9,27 +9,15 @@
       "route_id": "MC-ROUTE-UC-001",
       "campaign_id": "UC-001",
       "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/25",
-      "source_manifest": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "campaign_manifests/UC-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "55629c3004b8bffc35fc0fa6f5fbc711ff48aa3c"
-      },
-      "intake_status": "ready",
-      "intake_packet": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "cert_handoffs/UC-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "8369bc21e45be6af71d2a0cdb0c5ab3cb5313bfb"
-      },
+      "source_manifest": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "campaign_manifests/UC-001.json", "digest_algorithm": "git_blob_sha1", "digest": "55629c3004b8bffc35fc0fa6f5fbc711ff48aa3c"},
+      "intake_status": "qualified",
+      "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "cert_handoffs/UC-001.json", "digest_algorithm": "git_blob_sha1", "digest": "8369bc21e45be6af71d2a0cdb0c5ab3cb5313bfb"},
       "target_claim_ids": ["UC-WP02-L002", "UC-WP04-L001", "UC-WP01-C004"],
       "requested_modalities": ["LEAN_FORMALIZATION", "EXACT_RATIONAL_CERTIFICATE"],
-      "claim_boundary": "Restricted Lean theorems, bounded replay, and source concordance do not prove Frankl's conjecture.",
-      "cert_output": null,
-      "blockers": ["The packet is accepted for intake only; no MATHCERT adjudication has been recorded."],
-      "reopening_conditions": ["Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."]
+      "claim_boundary": "The two exact restricted Lean theorems and the independently replayed finite range through n <= 4 are qualified. Frankl's conjecture and the universal bridge remain unproved.",
+      "cert_output": {"repository": "grandchallenge/MATHCERT", "commit_sha": "214c4f4d7962883bb10172db84d5162dde2e5c4e", "path": "certificates/union_closed/MC-UC-WP04-QUAL-001.json", "digest_algorithm": "git_blob_sha1", "digest": "265c185d6b2b2970dc675729efa3fc4860f29204"},
+      "blockers": ["UC-FRANKL remains an open mathematical problem.", "Proof obligation UC-P04, bridging the restricted and finite claims to the universal target, remains open.", "The finite qualification stops at universe size n <= 4."],
+      "reopening_conditions": ["Update this route when the handoff identity, restricted theorem statements, finite range, checker identity, universal bridge status, or mathematical proof status changes."]
     },
     {
       "route_id": "MC-ROUTE-NS-CI-001",
