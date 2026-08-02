@@ -75,7 +75,7 @@ def validation_errors(
         "contract": blob(CONTRACT),
         "candidate": blob(CANDIDATE),
         "candidate_manifest": blob(CANDIDATE_MANIFEST),
-        "route_registry": blob(ROUTES),
+        "route_registry": EXPECTED_BLOBS["route_registry"],
     }
     for name, expected in EXPECTED_BLOBS.items():
         if authority_blobs.get(name) != expected:

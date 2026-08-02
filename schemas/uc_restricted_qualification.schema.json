@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/uc_restricted_qualification.schema.json",
+  "title": "MATHCERT UC-001 restricted qualification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "certificate_id",
+    "campaign_id",
+    "route_id",
+    "solve_provider",
+    "qualified_claims",
+    "cert_replay",
+    "axiom_report",
+    "placeholder_inventory",
+    "finite_range",
+    "mathematical_target_proved",
+    "disposition",
+    "unresolved_obligations",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "certificate_id": {"const": "MC-UC-WP04-QUAL-001"},
+    "campaign_id": {"const": "UC-001"},
+    "route_id": {"const": "MC-ROUTE-UC-001"},
+    "solve_provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "merge_commit", "manifest", "handoff", "claim_ledger", "proof_obligations"],
+      "properties": {
+        "repository": {"const": "grandchallenge/MATHSOLVE"},
+        "merge_commit": {"const": "916f3434abcce29098ba7508a3b457a461461193"},
+        "manifest": {"$ref": "#/$defs/artifact"},
+        "handoff": {"$ref": "#/$defs/artifact"},
+        "claim_ledger": {"$ref": "#/$defs/artifact"},
+        "proof_obligations": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "qualified_claims": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim_id", "modality", "disposition", "evidence"],
+        "properties": {
+          "claim_id": {"enum": ["UC-WP02-L002", "UC-WP04-L001", "UC-WP01-C004"]},
+          "modality": {"enum": ["LEAN_FORMALIZATION", "EXACT_RATIONAL_CERTIFICATE"]},
+          "disposition": {"enum": ["qualified_restricted_theorem", "qualified_finite_range_only"]},
+          "evidence": {"$ref": "#/$defs/artifact"}
+        }
+      }
+    },
+    "cert_replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "source_commit", "module", "module_blob", "lean_toolchain", "exact_certificate", "exact_replay_checker"],
+      "properties": {
+        "repository": {"const": "grandchallenge/MATHCERT"},
+        "source_commit": {"const": "bac9913978443dd38fb08901a641fcd99c38383f"},
+        "module": {"const": "MathCert/FormalSources/UCRestrictedReplay.lean"},
+        "module_blob": {"const": "663c0100c7c78c1cf41cce0a2ef271aaa262e274"},
+        "lean_toolchain": {"const": "leanprover/lean4:v4.29.1"},
+        "exact_certificate": {"$ref": "#/$defs/artifact"},
+        "exact_replay_checker": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "axiom_report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kernel_axioms", "imported_domain_axioms", "unexpected_axioms"],
+      "properties": {
+        "kernel_axioms": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["Classical.choice", "Quot.sound", "propext"]}
+        },
+        "imported_domain_axioms": {"type": "array", "maxItems": 0},
+        "unexpected_axioms": {"type": "array", "maxItems": 0}
+      }
+    },
+    "placeholder_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sorry_count", "admit_count"],
+      "properties": {
+        "sorry_count": {"const": 0},
+        "admit_count": {"const": 0}
+      }
+    },
+    "finite_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_universe_size", "frankl_violations", "exact_replay"],
+      "properties": {
+        "max_universe_size": {"const": 4},
+        "frankl_violations": {"const": 0},
+        "exact_replay": {"const": true}
+      }
+    },
+    "mathematical_target_proved": {"const": false},
+    "disposition": {"const": "qualified_restricted_claims_only"},
+    "unresolved_obligations": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"enum": ["UC-P04", "UC-FRANKL"]}
+    },
+    "claim_boundary": {"type": "string", "minLength": 80}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit_sha", "path", "digest_algorithm", "digest"],
+      "properties": {
+        "repository": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+        "commit_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "path": {"type": "string", "minLength": 1},
+        "digest_algorithm": {"const": "git_blob_sha1"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    }
+  }
+}

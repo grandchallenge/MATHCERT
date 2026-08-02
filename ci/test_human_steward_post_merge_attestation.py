@@ -29,12 +29,18 @@ class HumanStewardPostMergeAttestationTests(unittest.TestCase):
             schema=copy.deepcopy(kwargs.get("schema", self.schema)),
             routes=copy.deepcopy(kwargs.get("routes", self.routes)),
             document_blob=kwargs.get("document_blob", "afe8b4241fe5c8cc99626f713f9ac76f48f7b805"),
-            route_blob=kwargs.get("route_blob", "b5541045591f8589130b1577c50d51d70c3b4337"),
+            route_blob=kwargs.get("route_blob", M.HISTORICAL_ROUTE_BLOB),
             receipt_blob=kwargs.get("receipt_blob", "38b1c03a6506f877ad9aed74e92cb6d202b444a5"),
         )
 
     def test_current_attestation_passes(self) -> None:
         self.assertEqual([], self.errors())
+
+    def test_unrelated_uc_route_evolution_is_permitted(self) -> None:
+        routes = copy.deepcopy(self.routes)
+        uc = next(item for item in routes["routes"] if item["campaign_id"] == "UC-001")
+        uc["reopening_conditions"].append("unrelated route evolution")
+        self.assertEqual([], self.errors(routes=routes))
 
     def test_reviewed_head_drift_is_rejected(self) -> None:
         data = copy.deepcopy(self.attestation)

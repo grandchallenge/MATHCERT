@@ -5,12 +5,19 @@ cd "$(dirname "$0")/.."
 lake build
 lake build mathsolve/MathSolve
 lake env lean MathCert/FormalSources/RHNSReplay.lean
+lake env lean MathCert/FormalSources/UCRestrictedReplay.lean
 python3 ci/validate_certification_routes.py
 python3 ci/test_validate_certification_routes.py
 python3 ci/validate_formal_source_provenance.py
 python3 ci/test_formal_source_provenance.py
 python3 ci/validate_formal_target_certificates.py
 python3 ci/test_formal_target_certificates.py
+python3 ci/validate_uc_restricted_qualification_schema.py
+python3 ci/test_uc_restricted_qualification_schema.py
+python3 ci/validate_uc_restricted_qualification.py
+python3 ci/test_uc_restricted_qualification.py
+python3 ci/validate_uc_provider_identity_exclusion.py
+python3 ci/test_uc_provider_identity_exclusion.py
 python3 ci/check_ledgers.py
 python3 ci/test_validate_ledgers.py
 python3 ci/validate_algebraic_certificates.py

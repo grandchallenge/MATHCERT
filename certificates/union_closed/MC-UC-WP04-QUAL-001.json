@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0.0",
+  "certificate_id": "MC-UC-WP04-QUAL-001",
+  "campaign_id": "UC-001",
+  "route_id": "MC-ROUTE-UC-001",
+  "solve_provider": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "merge_commit": "916f3434abcce29098ba7508a3b457a461461193",
+    "manifest": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
+      "path": "campaign_manifests/UC-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "55629c3004b8bffc35fc0fa6f5fbc711ff48aa3c"
+    },
+    "handoff": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
+      "path": "cert_handoffs/UC-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "8369bc21e45be6af71d2a0cdb0c5ab3cb5313bfb"
+    },
+    "claim_ledger": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "2a0124051d67b4db63a75f5cc592a02b7553a2c2",
+      "path": "campaign_ledgers/UC-001/claim_ledger.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "05c5b58f603a923fd6e66b44411ffd7c53559d55"
+    },
+    "proof_obligations": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "7d8ebdddc74b231b2405465259d0b799e6d8f3a0",
+      "path": "campaign_ledgers/UC-001/proof_obligation_dag.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "5cc706c23636dadd83ab859246c412918c605f15"
+    }
+  },
+  "qualified_claims": [
+    {
+      "claim_id": "UC-WP02-L002",
+      "modality": "LEAN_FORMALIZATION",
+      "disposition": "qualified_restricted_theorem",
+      "evidence": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "4e5c02416a6dd66c52d9da87c5229ecf61673372",
+        "path": "MathCert/Domains/UnionClosed/SingletonCase.lean",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "76a707e7e05f6648a08dbe68a0e28b03361e4e0e"
+      }
+    },
+    {
+      "claim_id": "UC-WP04-L001",
+      "modality": "LEAN_FORMALIZATION",
+      "disposition": "qualified_restricted_theorem",
+      "evidence": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "4e5c02416a6dd66c52d9da87c5229ecf61673372",
+        "path": "MathCert/Domains/UnionClosed/TwoElementCase.lean",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "3caf5a7f2c0a2399970ed260f49daa01b3eb2ca4"
+      }
+    },
+    {
+      "claim_id": "UC-WP01-C004",
+      "modality": "EXACT_RATIONAL_CERTIFICATE",
+      "disposition": "qualified_finite_range_only",
+      "evidence": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "4e5c02416a6dd66c52d9da87c5229ecf61673372",
+        "path": "certificates/exact/union_closed_n_le_4.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "c8b5ea50021aeef647a7a6e5e25fba54aac1e050"
+      }
+    }
+  ],
+  "cert_replay": {
+    "repository": "grandchallenge/MATHCERT",
+    "source_commit": "bac9913978443dd38fb08901a641fcd99c38383f",
+    "module": "MathCert/FormalSources/UCRestrictedReplay.lean",
+    "module_blob": "663c0100c7c78c1cf41cce0a2ef271aaa262e274",
+    "lean_toolchain": "leanprover/lean4:v4.29.1",
+    "exact_certificate": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "4e5c02416a6dd66c52d9da87c5229ecf61673372",
+      "path": "certificates/exact/union_closed_n_le_4.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "c8b5ea50021aeef647a7a6e5e25fba54aac1e050"
+    },
+    "exact_replay_checker": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "4e5c02416a6dd66c52d9da87c5229ecf61673372",
+      "path": "ci/replay_certificates.py",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "e54d45a64d3060e07db236c5c86469d904abd477"
+    }
+  },
+  "axiom_report": {
+    "kernel_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "imported_domain_axioms": [],
+    "unexpected_axioms": []
+  },
+  "placeholder_inventory": {
+    "sorry_count": 0,
+    "admit_count": 0
+  },
+  "finite_range": {
+    "max_universe_size": 4,
+    "frankl_violations": 0,
+    "exact_replay": true
+  },
+  "mathematical_target_proved": false,
+  "disposition": "qualified_restricted_claims_only",
+  "unresolved_obligations": [
+    "UC-P04",
+    "UC-FRANKL"
+  ],
+  "claim_boundary": "This certificate qualifies only the two exact restricted Lean theorems and the independently replayed finite range through universe size four. It does not prove Frankl's conjecture, discharge the universal bridge, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}

@@ -13,7 +13,10 @@ ALLOWED_ADJUDICATIONS = {"OTP-F-EHRHART.json"}
 
 
 def validation_errors() -> list[str]:
-    errors = design.validation_errors(executed_present=False)
+    errors = design.validation_errors(
+        executed_present=False,
+        route_blob=design.D.ROUTE_REGISTRY_BLOB,
+    )
     actual_adjudications = {
         path.name for path in ADJUDICATION_DIR.glob("*.json") if path.is_file()
     } if ADJUDICATION_DIR.is_dir() else set()
