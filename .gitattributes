@@ -1,2 +1,5 @@
 # Content-addressed governance records must retain repository LF bytes on all runners.
 governance/**/*.json text eol=lf
+governance/post_merge_attestations/*.md text eol=lf
+schemas/**/*.json text eol=lf
+ci/**/*.py text eol=lf
