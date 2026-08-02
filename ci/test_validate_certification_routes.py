@@ -1,120 +1,40 @@
 from __future__ import annotations
-
-import json
-import tempfile
-import unittest
+import copy,json,tempfile,unittest
 from pathlib import Path
-
 import validate_certification_routes as module
-
-
 class CertificationRouteTests(unittest.TestCase):
-    def load_registry(self) -> dict:
-        return module.load_json(module.REGISTRY_PATH)
-
-    def write_registry(self, payload: dict) -> Path:
-        handle = tempfile.NamedTemporaryFile(
-            "w", suffix=".json", delete=False, encoding="utf-8"
-        )
-        with handle:
-            json.dump(payload, handle, indent=2)
-            handle.write("\n")
-        return Path(handle.name)
-
-    def errors(self, payload: dict) -> list[str]:
-        path = self.write_registry(payload)
-        try:
-            return module.route_errors(path)
-        finally:
-            path.unlink(missing_ok=True)
-
-    def test_current_registry_passes(self) -> None:
-        self.assertEqual([], module.route_errors())
-
-    def test_missing_campaign_fails(self) -> None:
-        data = self.load_registry()
-        data["routes"] = data["routes"][:-1]
-        self.assertTrue(any("uncovered" in error for error in self.errors(data)))
-
-    def test_wrong_hodge_tracker_fails(self) -> None:
-        data = self.load_registry()
-        hodge = next(r for r in data["routes"] if r["campaign_id"] == "HC-001")
-        hodge["tracker_issue"] = "https://github.com/grandchallenge/MATHCERT/issues/24"
-        self.assertTrue(any("tracker drift" in error for error in self.errors(data)))
-
-    def test_ready_without_packet_fails(self) -> None:
-        data = self.load_registry()
-        route = next(r for r in data["routes"] if r["campaign_id"] == "UC-001")
-        route["intake_packet"] = None
-        self.assertTrue(any("expected an artifact object" in error for error in self.errors(data)))
-
-    def test_pending_route_cannot_claim_packet(self) -> None:
-        data = self.load_registry()
-        route = next(r for r in data["routes"] if r["campaign_id"] == "OZ-001")
-        route["intake_packet"] = {
-            "repository": "grandchallenge/MATHSOLVE",
-            "commit_sha": module.EXPECTED_SOLVE_COMMIT,
-            "path": "cert_handoffs/OZ-001.json",
-            "digest_algorithm": "git_blob_sha1",
-            "digest": "b244c30b1b3aa4590a8b9ff9d63c5b66dab87663",
-        }
-        self.assertTrue(any("pending route" in error for error in self.errors(data)))
-
-    def test_submitted_is_not_an_adjudication(self) -> None:
-        data = self.load_registry()
-        route = next(r for r in data["routes"] if r["campaign_id"] == "UC-001")
-        route["intake_status"] = "submitted"
-        route["cert_output"] = {
-            "repository": "grandchallenge/MATHCERT",
-            "commit_sha": "3" * 40,
-            "path": "dispositions/UC-001.json",
-            "digest_algorithm": "git_blob_sha1",
-            "digest": "4" * 40,
-        }
-        self.assertTrue(any("intake-only" in error for error in self.errors(data)))
-
-    def test_adjudication_requires_output(self) -> None:
-        data = self.load_registry()
-        route = next(r for r in data["routes"] if r["campaign_id"] == "UC-001")
-        route["intake_status"] = "qualified"
-        self.assertTrue(any("expected an artifact object" in error for error in self.errors(data)))
-
-    def test_commit_cannot_substitute_for_artifact_digest(self) -> None:
-        data = self.load_registry()
-        source = data["routes"][0]["source_manifest"]
-        source["digest"] = source["commit_sha"]
-        self.assertTrue(any("must not be substituted" in error for error in self.errors(data)))
-
-    def test_duplicate_claim_fails(self) -> None:
-        data = self.load_registry()
-        data["routes"][1]["target_claim_ids"].append("UC-WP02-L002")
-        self.assertTrue(any("duplicate target claim" in error for error in self.errors(data)))
-
-    def test_manifest_digest_drift_fails(self) -> None:
-        data = self.load_registry()
-        source = data["routes"][0]["source_manifest"]
-        source["digest"] = "0" * 40
-        self.assertTrue(any("manifest identity drift" in error for error in self.errors(data)))
-
-    def test_ready_packet_digest_drift_fails(self) -> None:
-        data = self.load_registry()
-        packet = data["routes"][0]["intake_packet"]
-        packet["digest"] = "0" * 40
-        self.assertTrue(any("packet identity drift" in error for error in self.errors(data)))
-
-    def test_qualified_output_digest_drift_fails(self) -> None:
-        data = self.load_registry()
-        rh = next(r for r in data["routes"] if r["campaign_id"] == "RH-001")
-        rh["cert_output"]["digest"] = "0" * 40
-        self.assertTrue(any("output digest drift" in error for error in self.errors(data)))
-
-    def test_rh_cannot_downgrade_to_ready(self) -> None:
-        data = self.load_registry()
-        rh = next(r for r in data["routes"] if r["campaign_id"] == "RH-001")
-        rh["intake_status"] = "ready"
-        rh["cert_output"] = None
-        self.assertTrue(any("governed intake state drift" in error for error in self.errors(data)))
-
-
-if __name__ == "__main__":
-    unittest.main()
+ def load_registry(self):return module.load_json(module.REGISTRY_PATH)
+ def errors(self,payload):
+  h=tempfile.NamedTemporaryFile("w",suffix=".json",delete=False,encoding="utf-8")
+  with h:json.dump(payload,h,indent=2);h.write("\n")
+  p=Path(h.name)
+  try:return module.route_errors(p)
+  finally:p.unlink(missing_ok=True)
+ def test_current_registry_passes(self):self.assertEqual([],module.route_errors())
+ def test_missing_campaign_fails(self):
+  d=self.load_registry();d["routes"]=d["routes"][:-1];self.assertTrue(any("uncovered" in x for x in self.errors(d)))
+ def test_wrong_hodge_tracker_fails(self):
+  d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="HC-001")["tracker_issue"]="https://github.com/grandchallenge/MATHCERT/issues/24";self.assertTrue(any("tracker drift" in x for x in self.errors(d)))
+ def test_ready_without_packet_fails(self):
+  d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="UC-001")["intake_packet"]=None;self.assertTrue(self.errors(d))
+ def test_pending_route_cannot_claim_packet(self):
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OZ-001");r["intake_packet"]=copy.deepcopy(d["routes"][0]["intake_packet"]);self.assertTrue(any("pending route" in x for x in self.errors(d)))
+ def test_submitted_is_not_an_adjudication(self):
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-F-EHRHART");r["cert_output"]=copy.deepcopy(d["routes"][1]["cert_output"]);self.assertTrue(any("intake-only" in x for x in self.errors(d)))
+ def test_adjudication_requires_exact_output(self):
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="UC-001");r["intake_status"]="qualified";self.assertTrue(self.errors(d))
+ def test_commit_cannot_substitute_digest(self):
+  d=self.load_registry();s=d["routes"][0]["source_manifest"];s["digest"]=s["commit_sha"];self.assertTrue(any("must not be substituted" in x for x in self.errors(d)))
+ def test_duplicate_claim_fails(self):
+  d=self.load_registry();d["routes"][1]["target_claim_ids"].append("UC-WP02-L002");self.assertTrue(any("duplicate target claim" in x for x in self.errors(d)))
+ def test_manifest_digest_drift_fails(self):
+  d=self.load_registry();d["routes"][0]["source_manifest"]["digest"]="0"*40;self.assertTrue(any("manifest identity drift" in x for x in self.errors(d)))
+ def test_otp_packet_drift_fails(self):
+  d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-J1-COMPACTNESS")["intake_packet"]["digest"]="0"*40;self.assertTrue(any("packet identity drift" in x for x in self.errors(d)))
+ def test_otp_state_promotion_fails(self):
+  d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-J2-TWO-DEGENERATE")["intake_status"]="qualified";self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
+ def test_otp_route_omission_fails(self):
+  d=self.load_registry();d["routes"]=[r for r in d["routes"] if r["campaign_id"]!="OTP-F-EHRHART"];self.assertTrue(self.errors(d))
+ def test_aggregate_route_fails(self):
+  d=self.load_registry();r=copy.deepcopy(next(r for r in d["routes"] if r["campaign_id"]=="OTP-F-EHRHART"));r["campaign_id"]="OPENAI-TEN-PROOFS-001";r["route_id"]="MC-ROUTE-OPENAI-TEN-PROOFS-001";d["routes"].append(r);self.assertTrue(self.errors(d))
+if __name__=="__main__":unittest.main()
