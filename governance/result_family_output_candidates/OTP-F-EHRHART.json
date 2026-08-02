@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2.0",
+  "schema_version": "1.2.1",
   "record_type": "otp_ehrhart_output_execution",
   "execution_id": "MC-OTP-F-EHRHART-OUTPUT-EXEC-001",
   "candidate_id": "MC-OTP-F-EHRHART-OUTPUT-CANDIDATE-001",
@@ -50,11 +50,22 @@
       "digest_algorithm": "git_blob_sha1",
       "digest": "b5541045591f8589130b1577c50d51d70c3b4337"
     },
-    "route_registry_after": {
+    "route_registry_at_transition_commit": {
       "path": "governance/certification_routes.json",
       "digest_algorithm": "git_blob_sha1",
       "digest": "f4df18d612459af629615fdd36d67dad192a297a"
+    },
+    "route_registry_at_reviewed_head": {
+      "path": "governance/certification_routes.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "75bc7e8da9c3ccf41cda8a733ca18742468a066d"
     }
+  },
+  "protected_main_synchronization": {
+    "merge_commit": "4bfcb6b10b233fcfc7992aa2f8a4eb40eac5dd66",
+    "operation_id": "MC-UC-WP04-QUAL-001",
+    "route_registry_blob": "cf876f43ae824f965a3aedf411671c110c380028",
+    "effect": "retain_unrelated_protected_uc_qualification_without_changing_ehrhart_execution_commit_order"
   },
   "encoded_targets": [
     "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
@@ -109,5 +120,5 @@
     "all_lean_state": "failed_namespace_collision",
     "unexamined_result_family_count": 9
   },
-  "claim_boundary": "This execution record prepares one restricted OTP-F-EHRHART qualification for protected merge. It binds the certificate-content ancestor commit, the later single-route transition, the exact four encoded targets, and disposition qualified_encoded_targets_only. It does not independently prove Chapter 8, Theorem 1.1 or its analytic proof body; it does not classify or establish uniqueness of all equality cases; it does not establish whole-document byte or semantic equivalence; it does not compare the complete analytic proof body; it does not qualify Compactness, Two-degenerate, or another result family; it does not repair Permanent, GapCVP, or All.lean; it does not create aggregate ten-proofs authority; and it does not authorize novelty, priority, publication, patentability, product, or commercial claims. Mathematical target proved remains false."
+  "claim_boundary": "This execution record prepares one restricted OTP-F-EHRHART qualification for protected merge. It binds the certificate-content ancestor commit, the later single-route transition, the reconciled reviewed-head route registry, the exact four encoded targets, and disposition qualified_encoded_targets_only. The protected-main synchronization retains the independently governed UC qualification and does not alter the Ehrhart certificate-first commit order. It does not independently prove Chapter 8, Theorem 1.1 or its analytic proof body; it does not classify or establish uniqueness of all equality cases; it does not establish whole-document byte or semantic equivalence; it does not compare the complete analytic proof body; it does not qualify Compactness, Two-degenerate, or another result family; it does not repair Permanent, GapCVP, or All.lean; it does not create aggregate ten-proofs authority; and it does not authorize novelty, priority, publication, patentability, product, or commercial claims. Mathematical target proved remains false."
 }
