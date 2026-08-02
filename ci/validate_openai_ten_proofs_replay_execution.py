@@ -49,6 +49,25 @@ EXPECTED_TOOLCHAIN = {
     "landrun": "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4d",
     "nanoda": "ddfac2bf5a7b56cb46e141494427ff3dd55963c7",
 }
+EXPECTED_SOURCE_REVISION = {
+    "status": "source_revision_drift_detected",
+    "forge_audit_issue": "https://github.com/grandchallenge/MATHFORGE/issues/52",
+    "admitted_manuscript": {
+        "bytes": 2266052,
+        "sha256": "f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53",
+    },
+    "observed_manuscript": {
+        "bytes": 2266371,
+        "sha256": "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6",
+        "observed_at": "2026-08-02",
+    },
+    "reasoning_notes": {
+        "bytes": 441468,
+        "sha256": "13b95999f060c0be2142089cfb8b17b75e9231c3c1f3fa0980445ff1b35f0b3b",
+        "status": "byte_identical",
+    },
+    "current_revision_semantic_concordance": "blocked_pending_forge_audit",
+}
 REQUESTED_ROUTES = {
     "MC-ROUTE-OTP-F-EHRHART",
     "MC-ROUTE-OTP-J1-COMPACTNESS",
@@ -100,8 +119,8 @@ def validation_errors(
         record,
         {
             "schema_version", "record_type", "execution_id", "candidate_id",
-            "authority", "workflow", "families", "execution_state",
-            "route_controls", "claim_boundary",
+            "authority", "workflow", "source_revision", "families",
+            "execution_state", "route_controls", "claim_boundary",
         },
         "OTP-CERT-REPLAY-001",
         errors,
@@ -142,6 +161,8 @@ def validation_errors(
         errors.append("OTP-CERT-REPLAY-001: clean-room matrix disabled")
     if workflow.get("toolchain") != EXPECTED_TOOLCHAIN:
         errors.append("OTP-CERT-REPLAY-001: toolchain identity drift")
+    if top.get("source_revision") != EXPECTED_SOURCE_REVISION:
+        errors.append("OTP-CERT-REPLAY-001: source revision identities or blocked disposition drift")
     if top.get("families") != EXPECTED_FAMILIES:
         errors.append("OTP-CERT-REPLAY-001: family matrix drift")
 
@@ -200,7 +221,12 @@ def validation_errors(
         "#print axioms",
         "Nanoda kernel accepts the solution",
         "Lean default kernel accepts the solution",
-        "pending_exact_head_non_author_specialist_review",
+        "source_revision_drift_detected",
+        "blocked_pending_forge_audit",
+        "https://github.com/grandchallenge/MATHFORGE/issues/52",
+        "f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53",
+        "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6",
+        "pending_source_revision_audit_and_exact_head_non_author_specialist_review",
         "aggregate_all_import_used",
         "may_adjudicate",
         "mathematical_target_proved",
@@ -234,8 +260,9 @@ def main() -> int:
         print(f"OpenAI ten-proofs replay execution validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     print(
-        "validated three submitted clean-room family replays, pinned checker toolchain, "
-        "zero evidence promotion, zero routes, zero adjudication, and aggregate prohibition"
+        "validated three submitted clean-room formal replays, separated manuscript revisions, "
+        "pinned checker toolchain, zero evidence promotion, zero routes, zero adjudication, "
+        "and aggregate prohibition"
     )
     return 0
 
