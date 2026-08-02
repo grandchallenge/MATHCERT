@@ -16,6 +16,12 @@ BASE_COMMIT = "64e042ddb1147338ad7868a2847715fe7c1c079d"
 SNAPSHOT_COMMIT = "686a48bb49015e4b8558bbc83d182f21f8b9e097"
 SOURCE_PATH = "ci/validate_otp_ehrhart_adjudication.py"
 ROUTES_PATH = "governance/certification_routes.json"
+EXPECTED_BLOBS = {
+    "contract": "6e1c210d82440210da71fd661daffe986df81f03",
+    "candidate": "caff4c5b6f99cfbee373af1858174c9e1102d990",
+    "candidate_manifest": "6b1b3cf62df8e3005870a4468d2410b080ac3499",
+    "route_registry": "b5541045591f8589130b1577c50d51d70c3b4337",
+}
 
 
 def git(*args: str) -> subprocess.CompletedProcess[bytes]:
@@ -55,6 +61,11 @@ def protected_module() -> types.ModuleType:
 
 def snapshot_routes() -> dict[str, Any]:
     return json.loads(git_show(SNAPSHOT_COMMIT, ROUTES_PATH))
+
+
+def defaults() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    base = protected_module()
+    return base.load(base.RECORD), base.load(base.SCHEMA), snapshot_routes()
 
 
 def validation_errors(
