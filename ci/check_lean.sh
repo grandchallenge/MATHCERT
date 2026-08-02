@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-if ! command -v lake >/dev/null 2>&1; then
-  echo "lake is not installed; cannot certify Lean files." >&2
-  exit 1
-fi
-
+if ! command -v lake >/dev/null 2>&1; then echo "lake is not installed; cannot certify Lean files." >&2; exit 1; fi
 cd "$(dirname "$0")/.."
-
 lake build
 lake build mathsolve/MathSolve
 lake env lean MathCert/FormalSources/RHNSReplay.lean
@@ -33,5 +27,9 @@ python3 ci/validate_openai_ten_proofs_result_family_intakes.py
 python3 ci/test_openai_ten_proofs_result_family_intakes.py
 python3 ci/validate_openai_ten_proofs_certification_work_packages.py
 python3 ci/test_openai_ten_proofs_certification_work_packages.py
+python3 ci/validate_openai_ten_proofs_replay_execution.py
+python3 ci/test_openai_ten_proofs_replay_execution.py
+python3 ci/validate_openai_ten_proofs_replay_evidence.py
+python3 ci/test_openai_ten_proofs_replay_evidence.py
 python3 ci/audit_ci_reachability.py
 python3 ci/test_audit_ci_reachability.py
