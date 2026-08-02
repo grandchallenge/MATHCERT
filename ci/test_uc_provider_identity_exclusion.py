@@ -41,6 +41,40 @@ class UCProviderIdentityExclusionTests(unittest.TestCase):
         found = self.errors(mutate)
         self.assertTrue(any("was expected" in item for item in found), found)
 
+    def test_correction_history_cannot_be_removed(self) -> None:
+        found = self.errors(lambda value: value.pop("correction_history"))
+        self.assertTrue(any("required property" in item for item in found), found)
+
+    def test_corrected_recorded_digest_must_match_live_value(self) -> None:
+        def mutate(value: dict) -> None:
+            value["correction_history"]["corrected_recorded_digest"] = "0" * 40
+        found = self.errors(mutate)
+        self.assertTrue(any("corrected recorded digest" in item or "was expected" in item for item in found), found)
+
+    def test_corrected_observed_digest_must_match_live_value(self) -> None:
+        def mutate(value: dict) -> None:
+            value["correction_history"]["corrected_observed_digest"] = "0" * 40
+        found = self.errors(mutate)
+        self.assertTrue(any("corrected observed digest" in item or "was expected" in item for item in found), found)
+
+    def test_superseded_recorded_digest_must_differ(self) -> None:
+        def mutate(value: dict) -> None:
+            value["correction_history"]["superseded_recorded_digest"] = value["excluded_artifact"]["recorded_digest"]
+        found = self.errors(mutate)
+        self.assertTrue(any("superseded recorded digest" in item or "was expected" in item for item in found), found)
+
+    def test_superseded_observed_digest_must_differ(self) -> None:
+        def mutate(value: dict) -> None:
+            value["correction_history"]["superseded_observed_digest"] = value["excluded_artifact"]["observed_digest"]
+        found = self.errors(mutate)
+        self.assertTrue(any("superseded observed digest" in item or "was expected" in item for item in found), found)
+
+    def test_qualification_cannot_change(self) -> None:
+        def mutate(value: dict) -> None:
+            value["correction_history"]["qualification_unchanged"] = False
+        found = self.errors(mutate)
+        self.assertTrue(any("cannot alter the qualification" in item or "True was expected" in item for item in found), found)
+
     def test_repair_cannot_be_optional(self) -> None:
         def mutate(value: dict) -> None:
             value["downstream_repair"]["required"] = False
