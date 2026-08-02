@@ -1,0 +1,5 @@
+Ehrhart.Volume.ehrhart_volume_inequality_for_sets: propext, Classical.choice, Quot.sound
+Ehrhart.SimplexVolume.exists_centeredBody_sharp: propext, Classical.choice, Quot.sound
+Ehrhart.SimplexVolume.barycenter_centeredSimplex: propext, Classical.choice, Quot.sound
+Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex: propext, Classical.choice, Quot.sound
+Unexpected axioms: none
