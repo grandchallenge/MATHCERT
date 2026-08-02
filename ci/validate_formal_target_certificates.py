@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate restricted RH and NS-CI target-interface certificates."""
+"""Validate restricted formal-source qualification certificates."""
 from __future__ import annotations
 
 import hashlib
@@ -9,18 +9,23 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from jsonschema import Draft202012Validator
+
 ROOT = Path(__file__).resolve().parents[1]
 CERT_DIR = ROOT / "certificates" / "formal_sources"
 SCHEMA_PATH = ROOT / "schemas" / "formal_target_certificate.schema.json"
+EHRHART_SCHEMA_PATH = ROOT / "schemas" / "otp_ehrhart_qualified_output.schema.json"
 REGISTRY_PATH = ROOT / "governance" / "certification_routes.json"
 SOLVE_COMMIT = "916f3434abcce29098ba7508a3b457a461461193"
 MATHLIB_COMMIT = "5e932f97dd25535344f80f9dd8da3aab83df0fe6"
 REPLAY_COMMIT = "89371038b5d3fe526387a9767a48ac5bd6e527b1"
 REPLAY_BLOB = "c807eaa8a79c470d52b2d06223b539fe8f79787d"
-EXPECTED_FILES = {
+LEGACY_FILES = {
     "RH-001": "MC-FC-WP00-RH-001.json",
     "NS-CI-001": "MC-FC-WP00-NS-CI-001.json",
 }
+EHRHART_FILE = "MC-OTP-F-EHRHART-001.json"
+EXPECTED_FILES = set(LEGACY_FILES.values()) | {EHRHART_FILE}
 EXPECTED_DOMAIN_AXIOMS = {
     "RH-001": set(),
     "NS-CI-001": {
@@ -33,7 +38,14 @@ EXPECTED_CONCORDANCE = {"RH-001": True, "NS-CI-001": False}
 EXPECTED_OUTPUT_BLOBS = {
     "RH-001": "3668bbf792d994a6d8919101417f2f3cad342cdc",
     "NS-CI-001": "6047ad774957974a6c2aa86bae72b51841e774a4",
+    "OTP-F-EHRHART": "27a855c949b67e71372c7f0d6601d80125d33968",
 }
+EXPECTED_EHRHART_TARGETS = [
+    "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+    "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+    "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+    "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex",
+]
 EXPECTED_TOP_KEYS = {
     "schema_version", "certificate_id", "campaign_id", "solve_provider",
     "cert_replay", "source_identity_verified", "extraction_replayed",
@@ -60,24 +72,70 @@ def certificate_errors(
     schema_path: Path = SCHEMA_PATH,
     registry_path: Path = REGISTRY_PATH,
     root: Path = ROOT,
+    ehrhart_schema_path: Path = EHRHART_SCHEMA_PATH,
 ) -> list[str]:
     schema = load_json(schema_path)
+    ehrhart_schema = load_json(ehrhart_schema_path)
     found: list[str] = []
     if schema.get("$id") != "https://grandchallenge.ai/schemas/formal_target_certificate.schema.json":
         found.append("formal target certificate schema identity drift")
+    if ehrhart_schema.get("$id") != "https://grandchallenge.ai/schemas/otp_ehrhart_qualified_output.schema.json":
+        found.append("Ehrhart qualification schema identity drift")
+    if ehrhart_schema.get("additionalProperties") is not False:
+        found.append("Ehrhart qualification schema must remain closed")
     paths = sorted(directory.glob("*.json"))
     actual = {path.name for path in paths}
-    expected = set(EXPECTED_FILES.values())
-    for missing in sorted(expected - actual):
+    for missing in sorted(EXPECTED_FILES - actual):
         found.append(f"missing formal target certificate: {missing}")
-    for unknown in sorted(actual - expected):
+    for unknown in sorted(actual - EXPECTED_FILES):
         found.append(f"unregistered formal target certificate: {unknown}")
+
     for path in paths:
         data = load_json(path)
+        if path.name == EHRHART_FILE:
+            for error in Draft202012Validator(ehrhart_schema).iter_errors(data):
+                found.append(f"{path}: Ehrhart schema violation: {error.message}")
+            if data.get("certificate_id") != "MC-OTP-F-EHRHART-QUAL-001":
+                found.append(f"{path}: certificate identity drift")
+            if data.get("result_family") != "OTP-F-EHRHART" or data.get("route_id") != "MC-ROUTE-OTP-F-EHRHART":
+                found.append(f"{path}: family/route identity drift")
+            if data.get("encoded_targets") != EXPECTED_EHRHART_TARGETS:
+                found.append(f"{path}: encoded target scope drift")
+            qualification = data.get("qualification", {})
+            if qualification.get("disposition") != "qualified_encoded_targets_only":
+                found.append(f"{path}: disposition inflation")
+            if qualification.get("source_theorem_mathematically_proved") is not False:
+                found.append(f"{path}: mathematical target must remain unproved")
+            if qualification.get("equality_case_classification") != "excluded":
+                found.append(f"{path}: equality-case inflation")
+            if data.get("axiom_report") != {
+                "kernel_axioms": ["Classical.choice", "Quot.sound", "propext"],
+                "imported_domain_axioms": [],
+                "unexpected_axioms": [],
+            }:
+                found.append(f"{path}: axiom boundary drift")
+            if data.get("trust_boundary") != {
+                "solution_placeholder_count": 0,
+                "unsafe_declaration_count": 0,
+                "custom_axiom_count": 0,
+            }:
+                found.append(f"{path}: trust-boundary drift")
+            if data.get("state") != {
+                "route_state": "qualified",
+                "cert_output_inserted": True,
+                "mathematical_target_proved": False,
+                "may_promote_claim": False,
+                "aggregate_output": False,
+            }:
+                found.append(f"{path}: state inflation")
+            if git_blob_sha1(path) != EXPECTED_OUTPUT_BLOBS["OTP-F-EHRHART"]:
+                found.append(f"{path}: certificate blob identity drift")
+            continue
+
         if set(data) != EXPECTED_TOP_KEYS:
             found.append(f"{path}: certificate fields drift")
         campaign = str(data.get("campaign_id", ""))
-        if EXPECTED_FILES.get(campaign) != path.name:
+        if LEGACY_FILES.get(campaign) != path.name:
             found.append(f"{path}: campaign/file identity drift")
         if data.get("schema_version") != "1.0.0" or data.get("certificate_id") != f"MC-FC-WP00-{campaign}":
             found.append(f"{path}: certificate identity drift")
@@ -97,8 +155,7 @@ def certificate_errors(
         axiom_report = data.get("axiom_report", {})
         if set(axiom_report.get("kernel_axioms", [])) != {"Classical.choice", "Quot.sound", "propext"}:
             found.append(f"{path}: kernel axiom set drift")
-        domain_axioms = set(axiom_report.get("imported_domain_axioms", []))
-        if domain_axioms != EXPECTED_DOMAIN_AXIOMS.get(campaign):
+        if set(axiom_report.get("imported_domain_axioms", [])) != EXPECTED_DOMAIN_AXIOMS.get(campaign):
             found.append(f"{path}: imported domain axiom set drift")
         if axiom_report.get("unexpected_axioms"):
             found.append(f"{path}: unexpected axiom admitted")
@@ -112,9 +169,12 @@ def certificate_errors(
             found.append(f"{path}: empty claim boundary")
         if git_blob_sha1(path) != EXPECTED_OUTPUT_BLOBS.get(campaign):
             found.append(f"{path}: certificate blob identity drift")
+
     registry = load_json(registry_path)
     route_map = {route.get("campaign_id"): route for route in registry.get("routes", [])}
-    for campaign, filename in EXPECTED_FILES.items():
+    route_files = dict(LEGACY_FILES)
+    route_files["OTP-F-EHRHART"] = EHRHART_FILE
+    for campaign, filename in route_files.items():
         route = route_map.get(campaign, {})
         if route.get("intake_status") != "qualified":
             found.append(f"{campaign}: route is not qualified")
@@ -122,6 +182,9 @@ def certificate_errors(
         expected_path = f"certificates/formal_sources/{filename}"
         if output.get("path") != expected_path or output.get("digest") != EXPECTED_OUTPUT_BLOBS[campaign]:
             found.append(f"{campaign}: route output identity drift")
+    if route_map.get("OTP-F-EHRHART", {}).get("cert_output", {}).get("commit_sha") != "7b79b459422951cc6e36feda34c8a6e3d615ef17":
+        found.append("OTP-F-EHRHART: certificate-content commit pointer drift")
+
     replay_path = root / "MathCert/FormalSources/RHNSReplay.lean"
     replay_text = replay_path.read_text(encoding="utf-8") if replay_path.exists() else ""
     for token in (
@@ -152,7 +215,7 @@ def main() -> int:
         print("\n".join(found), file=sys.stderr)
         print(f"formal target certificate validation failed with {len(found)} error(s)", file=sys.stderr)
         return 1
-    print("validated RH and NS-CI restricted interface qualifications, exact provider and replay identities, axiom boundaries, and unproved-target invariants")
+    print("validated RH, NS-CI, and OTP-F-EHRHART restricted qualifications with exact output identities and unproved-target invariants")
     return 0
 
 
