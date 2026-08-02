@@ -11,6 +11,7 @@
     "candidate_id",
     "authority",
     "workflow",
+    "source_revision",
     "families",
     "execution_state",
     "route_controls",
@@ -52,6 +53,52 @@
             "nanoda": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
           }
         }
+      }
+    },
+    "source_revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "forge_audit_issue",
+        "admitted_manuscript",
+        "observed_manuscript",
+        "reasoning_notes",
+        "current_revision_semantic_concordance"
+      ],
+      "properties": {
+        "status": {"const": "source_revision_drift_detected"},
+        "forge_audit_issue": {"const": "https://github.com/grandchallenge/MATHFORGE/issues/52"},
+        "admitted_manuscript": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["bytes", "sha256"],
+          "properties": {
+            "bytes": {"const": 2266052},
+            "sha256": {"const": "f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53"}
+          }
+        },
+        "observed_manuscript": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["bytes", "sha256", "observed_at"],
+          "properties": {
+            "bytes": {"const": 2266371},
+            "sha256": {"const": "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6"},
+            "observed_at": {"const": "2026-08-02"}
+          }
+        },
+        "reasoning_notes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["bytes", "sha256", "status"],
+          "properties": {
+            "bytes": {"const": 441468},
+            "sha256": {"const": "13b95999f060c0be2142089cfb8b17b75e9231c3c1f3fa0980445ff1b35f0b3b"},
+            "status": {"const": "byte_identical"}
+          }
+        },
+        "current_revision_semantic_concordance": {"const": "blocked_pending_forge_audit"}
       }
     },
     "families": {
