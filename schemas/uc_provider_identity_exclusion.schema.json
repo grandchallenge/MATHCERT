@@ -10,38 +10,124 @@
     "campaign_id",
     "source_manifest",
     "excluded_artifact",
+    "correction_history",
     "qualification_effect",
     "downstream_repair",
     "status",
     "claim_boundary"
   ],
   "properties": {
-    "schema_version": {"const": "1.0.0"},
-    "record_id": {"const": "MC-UC-001-PROVIDER-IDENTITY-EXCLUSION-001"},
-    "campaign_id": {"const": "UC-001"},
+    "schema_version": {
+      "const": "1.0.1"
+    },
+    "record_id": {
+      "const": "MC-UC-001-PROVIDER-IDENTITY-EXCLUSION-001"
+    },
+    "campaign_id": {
+      "const": "UC-001"
+    },
     "source_manifest": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["repository", "commit_sha", "path", "digest_algorithm", "digest"],
+      "required": [
+        "repository",
+        "commit_sha",
+        "path",
+        "digest_algorithm",
+        "digest"
+      ],
       "properties": {
-        "repository": {"const": "grandchallenge/MATHSOLVE"},
-        "commit_sha": {"const": "916f3434abcce29098ba7508a3b457a461461193"},
-        "path": {"const": "campaign_manifests/UC-001.json"},
-        "digest_algorithm": {"const": "git_blob_sha1"},
-        "digest": {"const": "55629c3004b8bffc35fc0fa6f5fbc711ff48aa3c"}
+        "repository": {
+          "const": "grandchallenge/MATHSOLVE"
+        },
+        "commit_sha": {
+          "const": "916f3434abcce29098ba7508a3b457a461461193"
+        },
+        "path": {
+          "const": "campaign_manifests/UC-001.json"
+        },
+        "digest_algorithm": {
+          "const": "git_blob_sha1"
+        },
+        "digest": {
+          "const": "55629c3004b8bffc35fc0fa6f5fbc711ff48aa3c"
+        }
       }
     },
     "excluded_artifact": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["path", "cited_commit", "recorded_digest", "observed_digest", "defect_class", "severity"],
+      "required": [
+        "path",
+        "cited_commit",
+        "recorded_digest",
+        "observed_digest",
+        "defect_class",
+        "severity"
+      ],
       "properties": {
-        "path": {"const": "domains/union_closed/WP04_small_cases_and_certificates/README.md"},
-        "cited_commit": {"const": "0a859ee8cad2cefa095b75d513853416a869cb07"},
-        "recorded_digest": {"const": "e4f48836865808e0af47057018bda35350162f6d"},
-        "observed_digest": {"const": "607e49416190359ccd731cd71c461e1ac74c1054"},
-        "defect_class": {"const": "stale_git_blob_identity"},
-        "severity": {"const": "P2_PROVIDER_INTEGRITY"}
+        "path": {
+          "const": "domains/union_closed/WP04_small_cases_and_certificates/README.md"
+        },
+        "cited_commit": {
+          "const": "0a859ee8cad2cefa095b75d513853416a869cb07"
+        },
+        "recorded_digest": {
+          "const": "e4f4882666653fa1f0996aa7923e6290137fe2ee"
+        },
+        "observed_digest": {
+          "const": "607e49467df51f73b8dfe49cf2bf9bdec4f4e1f9"
+        },
+        "defect_class": {
+          "const": "stale_git_blob_identity"
+        },
+        "severity": {
+          "const": "P2_PROVIDER_INTEGRITY"
+        }
+      }
+    },
+    "correction_history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correction_id",
+        "tracker_issue",
+        "discovered_after_merge_commit",
+        "superseded_recorded_digest",
+        "superseded_observed_digest",
+        "corrected_recorded_digest",
+        "corrected_observed_digest",
+        "source_of_truth",
+        "qualification_unchanged"
+      ],
+      "properties": {
+        "correction_id": {
+          "const": "MC-UC-PROVIDER-ID-CORR-001"
+        },
+        "tracker_issue": {
+          "const": "https://github.com/grandchallenge/MATHCERT/issues/78"
+        },
+        "discovered_after_merge_commit": {
+          "const": "4bfcb6b10b233fcfc7992aa2f8a4eb40eac5dd66"
+        },
+        "superseded_recorded_digest": {
+          "const": "e4f48836865808e0af47057018bda35350162f6d"
+        },
+        "superseded_observed_digest": {
+          "const": "607e49416190359ccd731cd71c461e1ac74c1054"
+        },
+        "corrected_recorded_digest": {
+          "const": "e4f4882666653fa1f0996aa7923e6290137fe2ee"
+        },
+        "corrected_observed_digest": {
+          "const": "607e49467df51f73b8dfe49cf2bf9bdec4f4e1f9"
+        },
+        "source_of_truth": {
+          "const": "github_contents_api_git_blob_sha1"
+        },
+        "qualification_unchanged": {
+          "const": true
+        }
       }
     },
     "qualification_effect": {
@@ -50,16 +136,37 @@
     "downstream_repair": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["required", "repository", "issue", "required_action", "closure_blocked_until_repair"],
+      "required": [
+        "required",
+        "repository",
+        "issue",
+        "required_action",
+        "closure_blocked_until_repair"
+      ],
       "properties": {
-        "required": {"const": true},
-        "repository": {"const": "grandchallenge/MATHSOLVE"},
-        "issue": {"const": 1},
-        "required_action": {"const": "repin_or_remove_stale_readme_artifact_and_regenerate_uc_manifest_handoff_lineage"},
-        "closure_blocked_until_repair": {"const": true}
+        "required": {
+          "const": true
+        },
+        "repository": {
+          "const": "grandchallenge/MATHSOLVE"
+        },
+        "issue": {
+          "const": 1
+        },
+        "required_action": {
+          "const": "repin_or_remove_stale_readme_artifact_and_regenerate_uc_manifest_handoff_lineage"
+        },
+        "closure_blocked_until_repair": {
+          "const": true
+        }
       }
     },
-    "status": {"const": "open_repair_required"},
-    "claim_boundary": {"type": "string", "minLength": 80}
+    "status": {
+      "const": "open_repair_required"
+    },
+    "claim_boundary": {
+      "type": "string",
+      "minLength": 80
+    }
   }
 }
