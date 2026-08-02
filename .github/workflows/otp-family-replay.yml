@@ -24,6 +24,9 @@ jobs:
     name: replay-${{ matrix.slug }}
     runs-on: ubuntu-24.04
     timeout-minutes: 55
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      MATHCERT_WORKFLOW_SHA: ${{ github.sha }}
     strategy:
       fail-fast: false
       matrix:
@@ -77,20 +80,29 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
 
-      - name: Install Lean 4.32.0 and mathlib cache
+      - name: Bootstrap project dependencies
         uses: grandchallenge/lean-action@aa909e45950f6e5dd89e05dfed6b78e190ed99b8
         with:
           auto-config: false
           build: false
           test: false
           lint: false
-          use-mathlib-cache: true
+          use-mathlib-cache: false
           lake-package-directory: upstream
+
+      - name: Activate governed Lean 4.32.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          elan toolchain install leanprover/lean4:v4.32.0
+          elan run leanprover/lean4:v4.32.0 lean --version | grep -F "version 4.32.0"
+          echo "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0" >> "$GITHUB_ENV"
 
       - name: Build pinned Comparator toolchain
         shell: bash
         run: |
           set -euo pipefail
+          lean --version | grep -F "version 4.32.0"
           mkdir -p tools "$RUNNER_TEMP/otp-bin"
 
           git clone --filter=blob:none https://github.com/leanprover/lean4export.git tools/lean4export
@@ -118,6 +130,7 @@ jobs:
         working-directory: upstream
         run: |
           set -euo pipefail
+          lean --version | grep -F "version 4.32.0"
           lake exe cache get
 
       - name: Execute isolated family replay
