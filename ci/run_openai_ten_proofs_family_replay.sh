@@ -11,7 +11,6 @@ config="$2"
 solution_module="$3"
 challenge_module="$4"
 output_dir="$5"
-
 root="$(cd "$(dirname "$0")/.." && pwd)"
 upstream="$root/upstream"
 forge="$root/forge"
@@ -29,7 +28,7 @@ expected_mathlib_commit="81a5d257c8e410db227a6665ed08f64fea08e997"
 expected_comparator_commit="07bc4ea40f2266dcb861820a2ec1fa3244ed307f"
 expected_lean4checker_commit="b7398199245524275543dec6113229c9bb4902e5"
 expected_lean4export_commit="4e7915201d3f9f04470d9eae002fa695f7cdc589"
-expected_landrun_commit="811cfff51ceaf3d9843708aa6d22e9b84ccac8b4d"
+expected_landrun_commit="811cfff51ceaf3d9843708aa6d22e9b84ccac8b4"
 expected_nanoda_commit="ddfac2bf5a7b56cb46e141494427ff3dd55963c7"
 admitted_manuscript_sha="f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53"
 admitted_manuscript_bytes="2266052"
@@ -50,21 +49,9 @@ case "$family" in
     work_package_path="governance/result_family_work_packages/OTP-F-EHRHART-CERT-WP01.json"
     work_package_blob="056149e7a659fb6b24b7d7389a3dcd68bb581bcd"
     source_theorem="Chapter 8, Theorem 1.1, parsed P219 L18214-L18229"
-    theorem_names=(
-      Ehrhart.Volume.ehrhart_volume_inequality_for_sets
-      Ehrhart.SimplexVolume.exists_centeredBody_sharp
-      Ehrhart.SimplexVolume.barycenter_centeredSimplex
-      Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex
-    )
-    witness_names=(
-      Ehrhart.SimplexVolume.exists_centeredBody_sharp
-      Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex
-    )
-    exclusions=(
-      "No uniqueness or classification of all equality cases is submitted."
-      "Exact concordance with the manuscript revision currently served by the mutable CDN remains pending MATHFORGE issue 52."
-      "A successful formal replay does not by itself adjudicate or prove the mathematical theorem."
-    )
+    theorem_names=(Ehrhart.Volume.ehrhart_volume_inequality_for_sets Ehrhart.SimplexVolume.exists_centeredBody_sharp Ehrhart.SimplexVolume.barycenter_centeredSimplex Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex)
+    witness_names=(Ehrhart.SimplexVolume.exists_centeredBody_sharp Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex)
+    exclusions=("No uniqueness or classification of all equality cases is submitted." "Exact concordance with the manuscript revision currently served by the mutable CDN remains pending MATHFORGE issue 52." "A successful formal replay does not by itself adjudicate or prove the mathematical theorem.")
     ;;
   OTP-J1-COMPACTNESS)
     semantic_path="sources/OPENAI-TEN-PROOFS-001/semantic_audits/OTP-J1-COMPACTNESS.json"
@@ -76,21 +63,9 @@ case "$family" in
     work_package_path="governance/result_family_work_packages/OTP-J1-COMPACTNESS-CERT-WP01.json"
     work_package_blob="d80cade6d99c7ca54f4384a68e178b2f4335a8b2"
     source_theorem="Chapter 10, Theorem 1.1, parsed P236 L19757-L19791"
-    theorem_names=(
-      CompactnessConjecture.quantitativeCompactnessCounterexample
-      CompactnessConjecture.compactnessCounterexample_bigO
-      CompactnessConjecture.not_erdos_180
-    )
-    witness_names=(
-      CompactnessConjecture.quantitativeCompactnessCounterexample
-      CompactnessConjecture.compactnessCounterexample_bigO
-    )
-    exclusions=(
-      "The explicit combinatorial construction is not independently submitted beyond the checked existential targets."
-      "No historical compactness formulation outside the corrected cyclic-family statement is submitted."
-      "Exact concordance with the manuscript revision currently served by the mutable CDN remains pending MATHFORGE issue 52."
-      "A successful formal replay does not by itself adjudicate or prove the mathematical theorem."
-    )
+    theorem_names=(CompactnessConjecture.quantitativeCompactnessCounterexample CompactnessConjecture.compactnessCounterexample_bigO CompactnessConjecture.not_erdos_180)
+    witness_names=(CompactnessConjecture.quantitativeCompactnessCounterexample CompactnessConjecture.compactnessCounterexample_bigO)
+    exclusions=("The explicit combinatorial construction is not independently submitted beyond the checked existential targets." "No historical compactness formulation outside the corrected cyclic-family statement is submitted." "Exact concordance with the manuscript revision currently served by the mutable CDN remains pending MATHFORGE issue 52." "A successful formal replay does not by itself adjudicate or prove the mathematical theorem.")
     ;;
   OTP-J2-TWO-DEGENERATE)
     semantic_path="sources/OPENAI-TEN-PROOFS-001/semantic_audits/OTP-J2-TWO-DEGENERATE.json"
@@ -102,45 +77,23 @@ case "$family" in
     work_package_path="governance/result_family_work_packages/OTP-J2-TWO-DEGENERATE-CERT-WP01.json"
     work_package_blob="dbbc4ab59f21b3f5cb2f313c51f754b9b306389c"
     source_theorem="Chapter 10, Theorem 1.2, parsed P236-P237 L19792-L19822"
-    theorem_names=(
-      TwoDegenerateGraphs.twoDegenerateExtremalCounterexample
-      TwoDegenerateGraphs.not_erdos_146
-    )
-    witness_names=(
-      TwoDegenerateGraphs.twoDegenerateExtremalCounterexample
-    )
-    exclusions=(
-      "The additional coloring-side degree property is not attributed to source Theorem 1.2."
-      "The underlying probabilistic or combinatorial construction is not independently submitted beyond the checked existential theorem."
-      "Exact concordance with the manuscript revision currently served by the mutable CDN remains pending MATHFORGE issue 52."
-      "A successful formal replay does not by itself adjudicate or prove the mathematical theorem."
-    )
+    theorem_names=(TwoDegenerateGraphs.twoDegenerateExtremalCounterexample TwoDegenerateGraphs.not_erdos_146)
+    witness_names=(TwoDegenerateGraphs.twoDegenerateExtremalCounterexample)
+    exclusions=("The additional coloring-side degree property is not attributed to source Theorem 1.2." "The underlying probabilistic or combinatorial construction is not independently submitted beyond the checked existential theorem." "Exact concordance with the manuscript revision currently served by the mutable CDN remains pending MATHFORGE issue 52." "A successful formal replay does not by itself adjudicate or prove the mathematical theorem.")
     ;;
-  *)
-    echo "unknown family: $family" >&2
-    exit 64
-    ;;
+  *) echo "unknown family: $family" >&2; exit 64 ;;
 esac
 
 assert_eq() {
-  local actual="$1" expected="$2" label="$3"
-  if [[ "$actual" != "$expected" ]]; then
-    echo "$label mismatch: expected $expected, found $actual" >&2
+  if [[ "$1" != "$2" ]]; then
+    echo "$3 mismatch: expected $2, found $1" >&2
     exit 1
   fi
 }
-
-git_blob() {
-  local repo="$1" path="$2"
-  git -C "$repo" rev-parse "HEAD:$path"
-}
+git_blob() { git -C "$1" rev-parse "HEAD:$2"; }
 
 lean_version_line="$(lean --version | head -n1)"
-if [[ "$lean_version_line" != *"version $expected_lean_version"* ]]; then
-  echo "Lean toolchain mismatch: expected $expected_lean_version, found $lean_version_line" >&2
-  exit 1
-fi
-
+[[ "$lean_version_line" == *"version $expected_lean_version"* ]] || { echo "Lean toolchain mismatch: expected $expected_lean_version, found $lean_version_line" >&2; exit 1; }
 assert_eq "$(git -C "$upstream" rev-parse HEAD)" "$expected_upstream_commit" "upstream commit"
 assert_eq "$(git -C "$upstream" rev-parse 'HEAD^{tree}')" "$expected_upstream_tree" "upstream tree"
 assert_eq "$(git -C "$forge" rev-parse HEAD)" "$expected_forge_commit" "Forge commit"
@@ -159,22 +112,18 @@ assert_eq "$(git -C "$root/tools/nanoda" rev-parse HEAD)" "$expected_nanoda_comm
 config_path="$upstream/$config"
 challenge_file="$upstream/${challenge_module//./\/}.lean"
 solution_file="$upstream/${solution_module//./\/}.lean"
-for required in "$config_path" "$challenge_file" "$solution_file"; do
-  [[ -f "$required" ]] || { echo "missing replay input: $required" >&2; exit 1; }
-done
+for required in "$config_path" "$challenge_file" "$solution_file"; do [[ -f "$required" ]] || { echo "missing replay input: $required" >&2; exit 1; }; done
 
 manuscript_url="https://cdn.openai.com/pdf/ten-proofs-oai.pdf"
 reasoning_url="https://cdn.openai.com/pdf/reasoning-walkthroughs.pdf"
 curl --fail --location --retry 3 --silent --show-error "$manuscript_url" -o "$output_dir/manuscript.pdf"
 curl --fail --location --retry 3 --silent --show-error "$reasoning_url" -o "$output_dir/reasoning-walkthroughs.pdf"
-
 current_manuscript_sha="$(sha256sum "$output_dir/manuscript.pdf" | cut -d' ' -f1)"
 current_manuscript_bytes="$(stat -c '%s' "$output_dir/manuscript.pdf")"
 current_reasoning_sha="$(sha256sum "$output_dir/reasoning-walkthroughs.pdf" | cut -d' ' -f1)"
 current_reasoning_bytes="$(stat -c '%s' "$output_dir/reasoning-walkthroughs.pdf")"
 assert_eq "$current_reasoning_sha" "$expected_reasoning_sha" "reasoning-notes SHA-256"
 assert_eq "$current_reasoning_bytes" "$expected_reasoning_bytes" "reasoning-notes byte count"
-
 if [[ "$current_manuscript_sha" == "$admitted_manuscript_sha" && "$current_manuscript_bytes" == "$admitted_manuscript_bytes" ]]; then
   source_revision_status="admitted_revision_reacquired"
 elif [[ "$current_manuscript_sha" == "$observed_manuscript_sha" && "$current_manuscript_bytes" == "$observed_manuscript_bytes" ]]; then
@@ -195,10 +144,7 @@ fi
   echo "reasoning_url=$reasoning_url"
   echo "reasoning_sha256=$current_reasoning_sha"
   echo "reasoning_bytes=$current_reasoning_bytes"
-  if command -v pdfinfo >/dev/null 2>&1; then
-    echo "--- pdfinfo ---"
-    pdfinfo "$output_dir/manuscript.pdf" || true
-  fi
+  command -v pdfinfo >/dev/null 2>&1 && { echo "--- pdfinfo ---"; pdfinfo "$output_dir/manuscript.pdf" || true; }
 } > "$output_dir/source-revision-report.txt"
 
 {
@@ -250,157 +196,66 @@ fi
 
 scan_log="$output_dir/trust-boundary-scan.txt"
 : > "$scan_log"
-if grep -nE '\b(sorry|admit)\b|^[[:space:]]*(axiom|opaque|unsafe)[[:space:]]' "$solution_file" >> "$scan_log"; then
-  echo "prohibited solution declaration or placeholder detected" >&2
-  cat "$scan_log" >&2
-  exit 1
-fi
-if grep -nE '^[[:space:]]*import[[:space:]]+All([[:space:]]|$)' "$solution_file" "$challenge_file" >> "$scan_log"; then
-  echo "hidden aggregate All dependency detected" >&2
-  cat "$scan_log" >&2
-  exit 1
-fi
+if grep -nE '\b(sorry|admit)\b|^[[:space:]]*(axiom|opaque|unsafe)[[:space:]]' "$solution_file" >> "$scan_log"; then echo "prohibited solution declaration or placeholder detected" >&2; cat "$scan_log" >&2; exit 1; fi
+if grep -nE '^[[:space:]]*import[[:space:]]+All([[:space:]]|$)' "$solution_file" "$challenge_file" >> "$scan_log"; then echo "hidden aggregate All dependency detected" >&2; cat "$scan_log" >&2; exit 1; fi
 echo "solution placeholder/unsafe/custom-axiom scan: clear" >> "$scan_log"
 echo "challenge placeholders: expected Comparator boundary, not solution evidence" >> "$scan_log"
 echo "aggregate All import scan: clear" >> "$scan_log"
 
 cd "$upstream"
 start_utc="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-set -o pipefail
 lake build "$solution_module" 2>&1 | tee "$output_dir/solution-build.log"
 lake build "$challenge_module" 2>&1 | tee "$output_dir/challenge-build.log"
-
 axiom_file="MATHCERTReplayAxioms.lean"
 {
   echo "import $solution_module"
-  for theorem in "${theorem_names[@]}"; do
-    echo "#print axioms $theorem"
-  done
+  for theorem in "${theorem_names[@]}"; do echo "#print axioms $theorem"; done
 } > "$axiom_file"
 lake env lean "$axiom_file" 2>&1 | tee "$output_dir/theorem-axioms.log"
 rm -f "$axiom_file"
 
-THEOREMS="$(printf '%s\n' "${theorem_names[@]}")" AXIOM_LOG="$output_dir/theorem-axioms.log" AXIOM_REPORT="$output_dir/axiom-check.json" \
-python3 - <<'PY'
-import json
-import os
-import re
+THEOREMS="$(printf '%s\n' "${theorem_names[@]}")" AXIOM_LOG="$output_dir/theorem-axioms.log" AXIOM_REPORT="$output_dir/axiom-check.json" python3 - <<'PY'
+import json, os, re
 from pathlib import Path
-
 text = Path(os.environ["AXIOM_LOG"]).read_text(encoding="utf-8")
-theorems = [x for x in os.environ["THEOREMS"].splitlines() if x]
 allowed = {"propext", "Classical.choice", "Quot.sound"}
-records = []
-for theorem in theorems:
-    pattern = re.compile(r"'" + re.escape(theorem) + r"' depends on axioms:\s*\[(.*?)\]", re.S)
-    match = pattern.search(text)
-    if match is None:
-        raise SystemExit(f"missing theorem axiom report: {theorem}")
-    axioms = {item.strip() for item in match.group(1).replace("\n", " ").split(",") if item.strip()}
+reports = []
+for theorem in [x for x in os.environ["THEOREMS"].splitlines() if x]:
+    m = re.search(r"'" + re.escape(theorem) + r"' depends on axioms:\s*\[(.*?)\]", text, re.S)
+    if not m: raise SystemExit(f"missing theorem axiom report: {theorem}")
+    axioms = {x.strip() for x in m.group(1).replace("\n", " ").split(",") if x.strip()}
     unexpected = sorted(axioms - allowed)
-    if unexpected:
-        raise SystemExit(f"unexpected axioms for {theorem}: {unexpected}")
-    records.append({"theorem": theorem, "axioms": sorted(axioms), "unexpected": []})
-Path(os.environ["AXIOM_REPORT"]).write_text(
-    json.dumps({"permitted": sorted(allowed), "reports": records}, indent=2) + "\n",
-    encoding="utf-8",
-)
+    if unexpected: raise SystemExit(f"unexpected axioms for {theorem}: {unexpected}")
+    reports.append({"theorem": theorem, "axioms": sorted(axioms), "unexpected": []})
+Path(os.environ["AXIOM_REPORT"]).write_text(json.dumps({"permitted": sorted(allowed), "reports": reports}, indent=2) + "\n", encoding="utf-8")
 PY
 
 lake exe comparator "$config" 2>&1 | tee "$output_dir/comparator.log"
 end_utc="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
 grep -Fq "Lean default kernel accepts the solution" "$output_dir/comparator.log"
 grep -Fq "Nanoda kernel accepts the solution" "$output_dir/comparator.log"
 grep -Fq "Your solution is okay!" "$output_dir/comparator.log"
 
-FAMILY="$family" SOURCE_THEOREM="$source_theorem" START_UTC="$start_utc" END_UTC="$end_utc" \
-CONFIG="$config" SOLUTION_MODULE="$solution_module" CHALLENGE_MODULE="$challenge_module" \
-THEOREMS="$(printf '%s\n' "${theorem_names[@]}")" WITNESSES="$(printf '%s\n' "${witness_names[@]}")" \
-EXCLUSIONS="$(printf '%s\n' "${exclusions[@]}")" OUTPUT_DIR="$output_dir" \
-SOURCE_REVISION_STATUS="$source_revision_status" SOURCE_DRIFT_ISSUE="$source_drift_issue" \
-ADMITTED_MANUSCRIPT_SHA="$admitted_manuscript_sha" CURRENT_MANUSCRIPT_SHA="$current_manuscript_sha" \
-CURRENT_MANUSCRIPT_BYTES="$current_manuscript_bytes" REASONING_SHA="$current_reasoning_sha" \
-MATHCERT_HEAD_SHA="${MATHCERT_HEAD_SHA:-unknown}" WORKFLOW_SHA="${MATHCERT_WORKFLOW_SHA:-${GITHUB_SHA:-unknown}}" \
-python3 - <<'PY'
-import hashlib
-import json
-import os
+FAMILY="$family" SOURCE_THEOREM="$source_theorem" START_UTC="$start_utc" END_UTC="$end_utc" CONFIG="$config" SOLUTION_MODULE="$solution_module" CHALLENGE_MODULE="$challenge_module" THEOREMS="$(printf '%s\n' "${theorem_names[@]}")" WITNESSES="$(printf '%s\n' "${witness_names[@]}")" EXCLUSIONS="$(printf '%s\n' "${exclusions[@]}")" OUTPUT_DIR="$output_dir" SOURCE_REVISION_STATUS="$source_revision_status" SOURCE_DRIFT_ISSUE="$source_drift_issue" ADMITTED_MANUSCRIPT_SHA="$admitted_manuscript_sha" CURRENT_MANUSCRIPT_SHA="$current_manuscript_sha" CURRENT_MANUSCRIPT_BYTES="$current_manuscript_bytes" REASONING_SHA="$current_reasoning_sha" MATHCERT_HEAD_SHA="${MATHCERT_HEAD_SHA:-unknown}" WORKFLOW_SHA="${MATHCERT_WORKFLOW_SHA:-${GITHUB_SHA:-unknown}}" python3 - <<'PY'
+import hashlib, json, os
 from pathlib import Path
-
 out = Path(os.environ["OUTPUT_DIR"])
-
-def lines(name: str) -> list[str]:
-    return [x for x in os.environ[name].splitlines() if x]
-
-def sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-files = {}
-for path in sorted(out.iterdir()):
-    if path.is_file() and path.suffix != ".pdf":
-        files[path.name] = {"sha256": sha(path), "bytes": path.stat().st_size}
-
+lines = lambda name: [x for x in os.environ[name].splitlines() if x]
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+files = {p.name: {"sha256": sha(p), "bytes": p.stat().st_size} for p in sorted(out.iterdir()) if p.is_file() and p.suffix != ".pdf"}
 record = {
-    "schema_version": "1.0.0",
-    "record_type": "openai_ten_proofs_family_replay_evidence",
-    "result_family": os.environ["FAMILY"],
-    "execution": {
-        "start_utc": os.environ["START_UTC"],
-        "end_utc": os.environ["END_UTC"],
-        "mathcert_head_sha": os.environ["MATHCERT_HEAD_SHA"],
-        "workflow_checkout_sha": os.environ["WORKFLOW_SHA"],
-        "clean_room_runner": True,
-        "isolated_family_replay": True,
-        "aggregate_all_import_used": False,
-    },
-    "source_revision": {
-        "status": os.environ["SOURCE_REVISION_STATUS"],
-        "admitted_manuscript_sha256": os.environ["ADMITTED_MANUSCRIPT_SHA"],
-        "current_manuscript_sha256": os.environ["CURRENT_MANUSCRIPT_SHA"],
-        "current_manuscript_bytes": int(os.environ["CURRENT_MANUSCRIPT_BYTES"]),
-        "reasoning_notes_sha256": os.environ["REASONING_SHA"],
-        "audit_issue": os.environ["SOURCE_DRIFT_ISSUE"],
-        "current_revision_semantic_concordance": "pending",
-    },
-    "targets": {
-        "config": os.environ["CONFIG"],
-        "challenge_module": os.environ["CHALLENGE_MODULE"],
-        "solution_module": os.environ["SOLUTION_MODULE"],
-        "theorem_names": lines("THEOREMS"),
-        "nonvacuity_witnesses": lines("WITNESSES"),
-    },
-    "results": {
-        "challenge_build": "pass",
-        "challenge_placeholders": "expected_comparator_boundary",
-        "solution_build": "pass",
-        "comparator": "pass",
-        "lean_kernel": "accept",
-        "nanoda": "accept",
-        "theorem_axiom_report": "permitted_only",
-        "trust_boundary_scan": "clear",
-        "source_revision_concordance": "blocked_pending_forge_audit",
-    },
-    "semantic_attestation": {
-        "source_theorem": os.environ["SOURCE_THEOREM"],
-        "scope_exclusions": lines("EXCLUSIONS"),
-        "status": "pending_source_revision_audit_and_exact_head_non_author_specialist_review",
-    },
-    "route_state": {
-        "proposed_route": None,
-        "registered_route": None,
-        "may_adjudicate": False,
-        "cert_output": None,
-        "mathematical_target_proved": False,
-        "may_promote_claim": False,
-    },
-    "files": files,
+  "schema_version": "1.0.0", "record_type": "openai_ten_proofs_family_replay_evidence", "result_family": os.environ["FAMILY"],
+  "execution": {"start_utc": os.environ["START_UTC"], "end_utc": os.environ["END_UTC"], "mathcert_head_sha": os.environ["MATHCERT_HEAD_SHA"], "workflow_checkout_sha": os.environ["WORKFLOW_SHA"], "clean_room_runner": True, "isolated_family_replay": True, "aggregate_all_import_used": False},
+  "source_revision": {"status": os.environ["SOURCE_REVISION_STATUS"], "admitted_manuscript_sha256": os.environ["ADMITTED_MANUSCRIPT_SHA"], "current_manuscript_sha256": os.environ["CURRENT_MANUSCRIPT_SHA"], "current_manuscript_bytes": int(os.environ["CURRENT_MANUSCRIPT_BYTES"]), "reasoning_notes_sha256": os.environ["REASONING_SHA"], "audit_issue": os.environ["SOURCE_DRIFT_ISSUE"], "current_revision_semantic_concordance": "pending"},
+  "targets": {"config": os.environ["CONFIG"], "challenge_module": os.environ["CHALLENGE_MODULE"], "solution_module": os.environ["SOLUTION_MODULE"], "theorem_names": lines("THEOREMS"), "nonvacuity_witnesses": lines("WITNESSES")},
+  "results": {"challenge_build": "pass", "challenge_placeholders": "expected_comparator_boundary", "solution_build": "pass", "comparator": "pass", "lean_kernel": "accept", "nanoda": "accept", "theorem_axiom_report": "permitted_only", "trust_boundary_scan": "clear", "source_revision_concordance": "blocked_pending_forge_audit"},
+  "semantic_attestation": {"source_theorem": os.environ["SOURCE_THEOREM"], "scope_exclusions": lines("EXCLUSIONS"), "status": "pending_source_revision_audit_and_exact_head_non_author_specialist_review"},
+  "route_state": {"proposed_route": None, "registered_route": None, "may_adjudicate": False, "cert_output": None, "mathematical_target_proved": False, "may_promote_claim": False},
+  "files": files,
 }
 (out / "evidence-summary.json").write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
 PY
 
-find "$output_dir" -maxdepth 1 -type f -not -name '*.pdf' -not -name 'SHA256SUMS' -print0 \
-  | sort -z | xargs -0 sha256sum > "$output_dir/SHA256SUMS"
+find "$output_dir" -maxdepth 1 -type f -not -name '*.pdf' -not -name 'SHA256SUMS' -print0 | sort -z | xargs -0 sha256sum > "$output_dir/SHA256SUMS"
 rm -f "$output_dir/manuscript.pdf" "$output_dir/reasoning-walkthroughs.pdf"
-
 echo "completed isolated formal replay for $family with source revision status $source_revision_status"
