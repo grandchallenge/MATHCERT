@@ -114,7 +114,7 @@ jobs:
           (cd tools/nanoda && cargo build --release --locked)
 
           git clone --filter=blob:none https://github.com/Zouuup/landrun.git tools/landrun
-          git -C tools/landrun checkout --detach 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4d
+          git -C tools/landrun checkout --detach 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
           (cd tools/landrun && go build -trimpath -o "$RUNNER_TEMP/otp-bin/landrun-real" ./cmd/landrun)
           cp ci/landrun_comparator_adapter.sh "$RUNNER_TEMP/otp-bin/landrun"
           chmod +x "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
