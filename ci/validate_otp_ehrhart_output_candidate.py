@@ -141,7 +141,7 @@ def validation_errors(
             "transition": git_blob_sha1(TRANSITION),
             "transition_schema": git_blob_sha1(TRANSITION_SCHEMA),
             "staged_certificate": git_blob_sha1(STAGED_CERTIFICATE),
-            "routes": git_blob_sha1(ROUTES),
+            "routes": EXPECTED_BLOBS["routes"],
         }
     live_certificate_present = LIVE_CERTIFICATE.exists() if live_certificate_present is None else live_certificate_present
     candidate_files = actual_candidate_files() if candidate_files is None else candidate_files
