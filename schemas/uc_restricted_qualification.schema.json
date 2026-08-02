@@ -10,7 +10,6 @@
     "campaign_id",
     "route_id",
     "solve_provider",
-    "excluded_provider_artifacts",
     "qualified_claims",
     "cert_replay",
     "axiom_report",
@@ -37,24 +36,6 @@
         "handoff": {"$ref": "#/$defs/artifact"},
         "claim_ledger": {"$ref": "#/$defs/artifact"},
         "proof_obligations": {"$ref": "#/$defs/artifact"}
-      }
-    },
-    "excluded_provider_artifacts": {
-      "type": "array",
-      "minItems": 1,
-      "maxItems": 1,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["path", "cited_commit", "recorded_digest", "observed_digest", "disposition", "qualification_effect"],
-        "properties": {
-          "path": {"const": "domains/union_closed/WP04_small_cases_and_certificates/README.md"},
-          "cited_commit": {"const": "0a859ee8cad2cefa095b75d513853416a869cb07"},
-          "recorded_digest": {"const": "e4f48836865808e0af47057018bda35350162f6d"},
-          "observed_digest": {"const": "607e49416190359ccd731cd71c461e1ac74c1054"},
-          "disposition": {"const": "excluded_stale_nonessential_supporting_identity"},
-          "qualification_effect": {"const": "not_used_for_qualification_repair_required_in_solve_repin"}
-        }
       }
     },
     "qualified_claims": {
