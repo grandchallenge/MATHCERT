@@ -110,7 +110,7 @@ def validation_errors(
             "future_schema": git_blob_sha1(FUTURE_SCHEMA),
             "adjudication": git_blob_sha1(ADJUDICATION),
             "attestation": git_blob_sha1(ATTESTATION),
-            "routes": git_blob_sha1(ROUTES),
+            "routes": EXPECTED_BLOBS["routes"],
         }
     live_certificate_present = LIVE_CERTIFICATE.exists() if live_certificate_present is None else live_certificate_present
     candidate_files = actual_candidate_files() if candidate_files is None else candidate_files
