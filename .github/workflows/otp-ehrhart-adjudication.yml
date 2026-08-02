@@ -1,0 +1,46 @@
+name: OTP Ehrhart adjudication
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-ehrhart-adjudication.yml"
+      - "governance/result_family_adjudications/OTP-F-EHRHART.json"
+      - "schemas/openai_ten_proofs_ehrhart_adjudication.schema.json"
+      - "ci/validate_otp_ehrhart_adjudication.py"
+      - "ci/test_otp_ehrhart_adjudication.py"
+      - "ci/otp_ehrhart_candidate_control.py"
+      - "governance/result_family_execution_candidates/OTP-F-EHRHART.json"
+      - "governance/result_family_execution_candidate_manifests/OTP-F-EHRHART.json"
+      - "governance/result_family_adjudication_contracts/OTP-F-EHRHART.json"
+      - "evidence/openai_ten_proofs/ehrhart_refresh/**"
+      - "governance/certification_routes.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  adjudication-control:
+    name: adjudication-control (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out exact adjudication head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install validator dependency
+        shell: bash
+        run: python -m pip install --disable-pip-version-check jsonschema
+      - name: Validate Ehrhart adjudication
+        run: python ci/validate_otp_ehrhart_adjudication.py
+      - name: Run adversarial mutations
+        run: python ci/test_otp_ehrhart_adjudication.py
