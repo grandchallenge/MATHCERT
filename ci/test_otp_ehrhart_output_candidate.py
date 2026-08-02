@@ -7,8 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
-    "validate_otp_ehrhart_output_candidate",
-    ROOT / "ci/validate_otp_ehrhart_output_candidate.py",
+    "validate_otp_ehrhart_output_execution",
+    ROOT / "ci/validate_otp_ehrhart_output_execution.py",
 )
 assert SPEC and SPEC.loader
 M = importlib.util.module_from_spec(SPEC)
@@ -94,6 +94,13 @@ class OTPEhrhartOutputExecutionTests(unittest.TestCase):
         )
         self.assertTrue(self.errors(routes=routes))
 
+    def test_protected_uc_loss_is_rejected(self):
+        routes = copy.deepcopy(self.routes)
+        route = next(x for x in routes["routes"] if x["campaign_id"] == "UC-001")
+        route["intake_status"] = "ready"
+        route["cert_output"] = None
+        self.assertTrue(self.errors(routes=routes))
+
     def test_aggregate_route_is_rejected(self):
         routes = copy.deepcopy(self.routes)
         route = copy.deepcopy(routes["routes"][-1])
@@ -105,6 +112,11 @@ class OTPEhrhartOutputExecutionTests(unittest.TestCase):
     def test_nonancestor_content_commit_is_rejected(self):
         receipt = copy.deepcopy(self.receipt)
         receipt["content_commit_is_ancestor_of_head"] = False
+        self.assertTrue(self.errors(git_receipt=receipt))
+
+    def test_missing_synchronized_main_ancestry_is_rejected(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["synchronized_main_is_ancestor_of_head"] = False
         self.assertTrue(self.errors(git_receipt=receipt))
 
     def test_route_first_ordering_is_rejected(self):
@@ -120,6 +132,11 @@ class OTPEhrhartOutputExecutionTests(unittest.TestCase):
     def test_changed_registry_at_content_commit_is_rejected(self):
         receipt = copy.deepcopy(self.receipt)
         receipt["registry_blob_at_content_commit"] = "0" * 40
+        self.assertTrue(self.errors(git_receipt=receipt))
+
+    def test_reviewed_head_registry_drift_is_rejected(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["registry_blob_at_head"] = "0" * 40
         self.assertTrue(self.errors(git_receipt=receipt))
 
     def test_route_commit_scope_inflation_is_rejected(self):
