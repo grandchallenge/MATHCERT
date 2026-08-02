@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import sys
@@ -12,6 +13,7 @@ ATTESTATION = ROOT / "governance/post_merge_attestations/OTP-CERT-ROUTE-REGISTRA
 DOCUMENT = ROOT / "governance/post_merge_attestations/OTP-CERT-ROUTE-REGISTRATION-001.v1.md"
 SCHEMA = ROOT / "schemas/human_steward_post_merge_attestation.schema.json"
 ROUTES = ROOT / "governance/certification_routes.json"
+TRANSITION = ROOT / "governance/result_family_output_candidates/staged_route_transitions/OTP-F-EHRHART.json"
 RECEIPT = ROOT / "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP06_ROUTE_REGISTRATIONS.json"
 
 EXPECTED_DOCUMENT = """# Post-merge Human Steward disposition and ratification
@@ -38,30 +40,18 @@ The preserved limitations remain binding: whole-document byte and semantic equiv
 
 Because the merge occurred before this disposition was recorded, this entry is a retrospective ratification and chronology exception record. It does not represent that the disposition preceded the merge. Future governed merges requiring an exact-head Human Steward disposition must record that disposition before merge.
 """
-
 EXPECTED_ROUTES = [
     "MC-ROUTE-OTP-F-EHRHART",
     "MC-ROUTE-OTP-J1-COMPACTNESS",
     "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
 ]
 EXPECTED_TOP_KEYS = {
-    "schema_version",
-    "record_type",
-    "attestation_id",
-    "attestation_version",
-    "tracker_issue",
-    "subject",
-    "non_author_review",
-    "exact_head_checks",
-    "repository_mirror",
-    "attestation_document",
-    "bound_artifacts",
-    "chronology",
-    "ratified_scope",
-    "preserved_limitations",
-    "effect",
-    "claim_boundary",
+    "schema_version", "record_type", "attestation_id", "attestation_version",
+    "tracker_issue", "subject", "non_author_review", "exact_head_checks",
+    "repository_mirror", "attestation_document", "bound_artifacts", "chronology",
+    "ratified_scope", "preserved_limitations", "effect", "claim_boundary",
 }
+OLD_ROUTE_BLOB = "b5541045591f8589130b1577c50d51d70c3b4337"
 
 
 def load(path: Path) -> Any:
@@ -79,6 +69,17 @@ def git_blob_sha1(path: Path) -> str:
     return git_blob_sha1_bytes(path.read_bytes())
 
 
+def historical_routes(routes: dict[str, Any]) -> dict[str, Any]:
+    snapshot = copy.deepcopy(routes)
+    before = load(TRANSITION)["before"]
+    index = next(
+        i for i, item in enumerate(snapshot["routes"])
+        if item.get("route_id") == "MC-ROUTE-OTP-F-EHRHART"
+    )
+    snapshot["routes"][index] = before
+    return snapshot
+
+
 def validation_errors(
     *,
     attestation: dict[str, Any] | None = None,
@@ -93,25 +94,23 @@ def validation_errors(
     attestation = load(ATTESTATION) if attestation is None else attestation
     document_text = DOCUMENT.read_text(encoding="utf-8") if document_text is None else document_text
     schema = load(SCHEMA) if schema is None else schema
-    routes = load(ROUTES) if routes is None else routes
+    routes = historical_routes(load(ROUTES)) if routes is None else routes
     document_blob = git_blob_sha1(DOCUMENT) if document_blob is None else document_blob
-    route_blob = git_blob_sha1(ROUTES) if route_blob is None else route_blob
+    route_blob = OLD_ROUTE_BLOB if route_blob is None else route_blob
     receipt_blob = git_blob_sha1(RECEIPT) if receipt_blob is None else receipt_blob
 
     if schema.get("additionalProperties") is not False:
         errors.append("attestation schema must remain closed")
     if set(attestation) != EXPECTED_TOP_KEYS:
         errors.append("attestation top-level field set drift")
-    if attestation.get("schema_version") != "1.0.0":
-        errors.append("attestation schema version drift")
-    if attestation.get("record_type") != "human_steward_post_merge_attestation":
-        errors.append("attestation record type drift")
-    if attestation.get("attestation_id") != "MC-HS-POST-MERGE-OTP-CERT-ROUTE-REGISTRATION-001-V1":
+    if (
+        attestation.get("schema_version") != "1.0.0"
+        or attestation.get("record_type") != "human_steward_post_merge_attestation"
+        or attestation.get("attestation_id") != "MC-HS-POST-MERGE-OTP-CERT-ROUTE-REGISTRATION-001-V1"
+        or attestation.get("attestation_version") != 1
+        or attestation.get("tracker_issue") != "https://github.com/grandchallenge/MATHCERT/issues/58"
+    ):
         errors.append("attestation identity drift")
-    if attestation.get("attestation_version") != 1:
-        errors.append("attestation version drift")
-    if attestation.get("tracker_issue") != "https://github.com/grandchallenge/MATHCERT/issues/58":
-        errors.append("attestation tracker drift")
 
     if attestation.get("subject") != {
         "repository": "grandchallenge/MATHCERT",
@@ -136,19 +135,17 @@ def validation_errors(
         errors.append("exact-head CI identity drift")
 
     mirror = attestation.get("repository_mirror", {})
-    if mirror.get("pull_request_comment_id") != 5155627280:
-        errors.append("repository mirror comment drift")
-    if mirror.get("comment_author") != "jimsteeg":
-        errors.append("repository mirror author drift")
-    if mirror.get("recording_capacity") != "delegated_recording_authority":
-        errors.append("repository mirror capacity drift")
-    if "does not establish that the disposition preceded merge" not in str(mirror.get("authority_note", "")):
-        errors.append("repository mirror chronology qualification removed")
+    if (
+        mirror.get("pull_request_comment_id") != 5155627280
+        or mirror.get("comment_author") != "jimsteeg"
+        or mirror.get("recording_capacity") != "delegated_recording_authority"
+        or "does not establish that the disposition preceded merge" not in str(mirror.get("authority_note", ""))
+    ):
+        errors.append("repository mirror authority or chronology drift")
 
     if document_text != EXPECTED_DOCUMENT:
         errors.append("verbatim Human Steward disposition text drift")
-    document = attestation.get("attestation_document", {})
-    if document != {
+    if attestation.get("attestation_document") != {
         "path": "governance/post_merge_attestations/OTP-CERT-ROUTE-REGISTRATION-001.v1.md",
         "digest_algorithm": "git_blob_sha1",
         "digest": "afe8b4241fe5c8cc99626f713f9ac76f48f7b805",
@@ -167,28 +164,25 @@ def validation_errors(
     if bound.get("registered_route_registry") != {
         "path": "governance/certification_routes.json",
         "digest_algorithm": "git_blob_sha1",
-        "digest": "b5541045591f8589130b1577c50d51d70c3b4337",
+        "digest": OLD_ROUTE_BLOB,
     }:
         errors.append("registered-route registry authority drift")
     if receipt_blob != "38b1c03a6506f877ad9aed74e92cb6d202b444a5":
         errors.append("route-registration receipt Git blob drift")
-    if route_blob != "b5541045591f8589130b1577c50d51d70c3b4337":
+    if route_blob != OLD_ROUTE_BLOB:
         errors.append("registered-route registry Git blob drift")
 
     chronology = attestation.get("chronology", {})
     for key in (
-        "disposition_recorded_after_merge",
-        "chronology_exception",
-        "retrospective_ratification",
-        "does_not_rewrite_event_order",
+        "disposition_recorded_after_merge", "chronology_exception",
+        "retrospective_ratification", "does_not_rewrite_event_order",
     ):
         if chronology.get(key) is not True:
             errors.append(f"chronology control disabled: {key}")
     if "before merge" not in str(chronology.get("future_rule", "")):
         errors.append("future pre-merge disposition rule weakened")
 
-    scope = attestation.get("ratified_scope", {})
-    if scope != {
+    if attestation.get("ratified_scope") != {
         "registered_routes": EXPECTED_ROUTES,
         "route_state": "submitted",
         "adjudication_count": 0,
@@ -225,16 +219,11 @@ def validation_errors(
         errors.append("documentary-only effect drift")
     boundary = str(attestation.get("claim_boundary", ""))
     for token in (
-        "does not represent that disposition preceded merge",
-        "does not",
-        "adjudicate or prove",
-        "Cert output",
-        "aggregate route",
-        "commercial claims",
+        "does not represent that disposition preceded merge", "does not",
+        "adjudicate or prove", "Cert output", "aggregate route", "commercial claims",
     ):
         if token not in boundary:
             errors.append(f"claim boundary missing token: {token}")
-
     return errors
 
 
@@ -244,10 +233,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"post-merge attestation validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print(
-        "validated versioned post-merge Human Steward ratification, exact chronology exception, "
-        "three submitted routes, and zero adjudication or output authority"
-    )
+    print("validated immutable route-registration ratification snapshot; later route successors are governed separately")
     return 0
 
 
