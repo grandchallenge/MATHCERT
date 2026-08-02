@@ -19,7 +19,7 @@ SPEC.loader.exec_module(M)
 class HumanStewardPostMergeAttestationTests(unittest.TestCase):
     def setUp(self) -> None:
         self.attestation = json.loads(M.ATTESTATION.read_text(encoding="utf-8"))
-        self.routes = json.loads(M.ROUTES.read_text(encoding="utf-8"))
+        self.routes = M.historical_routes(json.loads(M.ROUTES.read_text(encoding="utf-8")))
         self.schema = json.loads(M.SCHEMA.read_text(encoding="utf-8"))
 
     def errors(self, **kwargs):
