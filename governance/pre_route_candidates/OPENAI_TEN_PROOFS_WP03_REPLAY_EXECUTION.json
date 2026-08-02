@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_replay_execution",
+  "execution_id": "MC-OTP-CERT-REPLAY-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "authority": {
+    "work_package_merge": "677a58a126145977581050bcb5d12d5b6a99fb51",
+    "reviewed_head": "ceefe8efe037a0190de745098a37e011b4d170f8",
+    "review_id": 4836164204,
+    "reviewer": "jimsteeg"
+  },
+  "workflow": {
+    "path": ".github/workflows/otp-family-replay.yml",
+    "clean_room_matrix": true,
+    "toolchain": {
+      "lean": "4.32.0",
+      "comparator": "07bc4ea40f2266dcb861820a2ec1fa3244ed307f",
+      "lean4export": "4e7915201d3f9f04470d9eae002fa695f7cdc589",
+      "lean4checker": "b7398199245524275543dec6113229c9bb4902e5",
+      "landrun": "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4d",
+      "nanoda": "ddfac2bf5a7b56cb46e141494427ff3dd55963c7"
+    }
+  },
+  "families": [
+    {
+      "result_family": "OTP-F-EHRHART",
+      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/48",
+      "config": "ComparatorChallenges/F_EhrhartVolumeInequality.json",
+      "solution_module": "EhrhartVolumeInequality",
+      "challenge_module": "ComparatorChallenges.F_EhrhartVolumeInequality"
+    },
+    {
+      "result_family": "OTP-J1-COMPACTNESS",
+      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/49",
+      "config": "ComparatorChallenges/J_CompactnessConjecture.json",
+      "solution_module": "CompactnessAndDegeneracy",
+      "challenge_module": "ComparatorChallenges.J_CompactnessConjecture"
+    },
+    {
+      "result_family": "OTP-J2-TWO-DEGENERATE",
+      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/50",
+      "config": "ComparatorChallenges/J_TwoDegenerateGraphs.json",
+      "solution_module": "CompactnessAndDegeneracy",
+      "challenge_module": "ComparatorChallenges.J_TwoDegenerateGraphs"
+    }
+  ],
+  "execution_state": {
+    "state": "submitted_for_exact_head_ci_execution",
+    "submitted_family_count": 3,
+    "completed_family_count": 0,
+    "evidence_bundle_count": 0,
+    "proposed_route_count": 0,
+    "registered_route_count": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0
+  },
+  "route_controls": {
+    "global_route_registry_modified": false,
+    "aggregate_route_prohibited": true,
+    "may_adjudicate": false,
+    "may_promote_claim": false
+  },
+  "claim_boundary": "This execution record submits three independent clean-room family replays to exact-head CI. It records no completed evidence bundle, proposed or registered route, adjudication, Cert output, proved theorem, aggregate ten-proofs route, or promoted mathematical, novelty, priority, publication, patentability, product, or commercial claim."
+}
