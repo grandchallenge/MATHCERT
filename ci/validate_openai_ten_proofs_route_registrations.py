@@ -10,8 +10,8 @@ PROPOSAL_REG=ROOT/"governance"/"pre_route_candidates"/"OPENAI_TEN_PROOFS_WP05_RO
 SCHEMA=ROOT/"schemas"/"openai_ten_proofs_route_registration_registry.schema.json"
 EXPECTED_FAMILIES=["OTP-F-EHRHART","OTP-J1-COMPACTNESS","OTP-J2-TWO-DEGENERATE"]
 EXPECTED_PROPOSALS={"OTP-F-EHRHART":"7b069a003c84ef285259108076a55338fab0bc7f","OTP-J1-COMPACTNESS":"2e541ca5882873ee1c756814642994361b10c78c","OTP-J2-TWO-DEGENERATE":"0692ac15c19328532bdcd3e73b3c8c4371647ac6"}
-PROTECTED_REGISTRATION_ROUTE_BLOB="b5541045591f8589130b1577c50d51d70c3b4337"
-CURRENT_ROUTE_BLOB="f4df18d612459af629615fdd36d67dad192a297a"
+EXPECTED_ROUTE_BLOB="b5541045591f8589130b1577c50d51d70c3b4337"
+CURRENT_ROUTE_BLOB="75bc7e8da9c3ccf41cda8a733ca18742468a066d"
 EXPECTED_PROPOSAL_REGISTRY_BLOB="1883b29ec888ffc487c65b76b35cfcb122f47e51"
 EXPECTED_BEFORE_BLOB="5b3e8d48b9f6c5b03ed3dc439bf9e43876e017b1"
 EXPECTED_PROPOSAL_MERGE="e8d1e34509e640d82902ad0195560740b52bec0e"
@@ -31,10 +31,10 @@ def closed_schema(v:Any)->list[str]:
   elif isinstance(x,list):
    for i,y in enumerate(x):walk(y,p+f"/{i}")
  walk(v);return e
-def validation_errors(receipt=None,routes=None,proposal_registry=None,proposal_blobs=None,routes_blob=None,proposal_registry_blob=None)->list[str]:
+def validation_errors(receipt=None,routes=None,proposal_registry=None,proposal_blobs=None,routes_blob=None,proposal_registry_blob=None,current_routes_blob=None)->list[str]:
  e=[];receipt=load(REG) if receipt is None else receipt;routes=load(ROUTES) if routes is None else routes;proposal_registry=load(PROPOSAL_REG) if proposal_registry is None else proposal_registry
  proposal_blobs={fam:blob(ROOT/f"governance/result_family_route_proposals/{fam}.json") for fam in EXPECTED_FAMILIES} if proposal_blobs is None else proposal_blobs
- routes_blob=blob(ROUTES) if routes_blob is None else routes_blob;proposal_registry_blob=blob(PROPOSAL_REG) if proposal_registry_blob is None else proposal_registry_blob
+ routes_blob=EXPECTED_ROUTE_BLOB if routes_blob is None else routes_blob;proposal_registry_blob=blob(PROPOSAL_REG) if proposal_registry_blob is None else proposal_registry_blob;current_routes_blob=blob(ROUTES) if current_routes_blob is None else current_routes_blob
  if closed_schema(load(SCHEMA)):e.append("registration schema contains open object")
  if not isinstance(receipt,dict):return ["registration receipt must be an object"]
  if set(receipt)!={"schema_version","record_type","record_id","candidate_id","tracker_issue","authority","state","registrations","preserved_limitations","route_controls","activation","claim_boundary"}:e.append("registration receipt fields drift")
@@ -45,8 +45,9 @@ def validation_errors(receipt=None,routes=None,proposal_registry=None,proposal_b
  exp_pr={"repository":"grandchallenge/MATHCERT","commit_sha":EXPECTED_PROPOSAL_MERGE,"path":"governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP05_ROUTE_PROPOSALS.json","digest_algorithm":"git_blob_sha1","digest":EXPECTED_PROPOSAL_REGISTRY_BLOB}
  if a.get("proposal_registry")!=exp_pr:e.append("proposal registry authority drift")
  if a.get("registered_route_registry_before_blob")!=EXPECTED_BEFORE_BLOB:e.append("prior route registry identity drift")
- if a.get("registered_route_registry_blob")!=PROTECTED_REGISTRATION_ROUTE_BLOB:e.append("protected registration route identity drift")
- if routes_blob!=CURRENT_ROUTE_BLOB:e.append("current route registry blob drift")
+ if a.get("registered_route_registry_blob")!=EXPECTED_ROUTE_BLOB:e.append("protected registration route identity drift")
+ if routes_blob!=EXPECTED_ROUTE_BLOB:e.append("registered-route snapshot blob drift")
+ if current_routes_blob!=CURRENT_ROUTE_BLOB:e.append("current route registry blob drift")
  if proposal_registry_blob!=EXPECTED_PROPOSAL_REGISTRY_BLOB:e.append("proposal registry blob drift")
  if proposal_registry.get("state",{}).get("proposal_count")!=3:e.append("proposal registry count drift")
  regs=receipt.get("registrations")
@@ -89,5 +90,5 @@ def validation_errors(receipt=None,routes=None,proposal_registry=None,proposal_b
 def main()->int:
  e=validation_errors()
  if e:print("\n".join(e),file=sys.stderr);print(f"route registration validation failed with {len(e)} error(s)",file=sys.stderr);return 1
- print("validated protected three-route registration receipt and exact OTP-F-EHRHART restricted successor");return 0
+ print("validated protected three-route registration receipt, current UC qualification, and exact OTP-F-EHRHART restricted successor");return 0
 if __name__=="__main__":raise SystemExit(main())
