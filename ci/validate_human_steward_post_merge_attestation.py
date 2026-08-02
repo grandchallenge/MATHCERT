@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import sys
 from pathlib import Path
 from typing import Any
+
+import validate_openai_ten_proofs_route_registrations as route_registration
 
 ROOT = Path(__file__).resolve().parents[1]
 ATTESTATION = ROOT / "governance/post_merge_attestations/OTP-CERT-ROUTE-REGISTRATION-001.v1.json"
@@ -80,6 +83,10 @@ def git_blob_sha1(path: Path) -> str:
     return git_blob_sha1_bytes(path.read_bytes())
 
 
+def historical_routes(routes: dict[str, Any]) -> dict[str, Any]:
+    return route_registration.registration_snapshot(copy.deepcopy(routes))
+
+
 def validation_errors(
     *,
     attestation: dict[str, Any] | None = None,
@@ -94,7 +101,7 @@ def validation_errors(
     attestation = load(ATTESTATION) if attestation is None else attestation
     document_text = DOCUMENT.read_text(encoding="utf-8") if document_text is None else document_text
     schema = load(SCHEMA) if schema is None else schema
-    routes = load(ROUTES) if routes is None else routes
+    routes = historical_routes(load(ROUTES)) if routes is None else routes
     document_blob = git_blob_sha1(DOCUMENT) if document_blob is None else document_blob
     route_blob = HISTORICAL_ROUTE_BLOB if route_blob is None else route_blob
     receipt_blob = git_blob_sha1(RECEIPT) if receipt_blob is None else receipt_blob
@@ -246,8 +253,8 @@ def main() -> int:
         print(f"post-merge attestation validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     print(
-        "validated versioned post-merge Human Steward ratification, exact chronology exception, "
-        "three submitted routes, and zero adjudication or output authority"
+        "validated immutable route-registration ratification snapshot; "
+        "later route successors are governed separately"
     )
     return 0
 
