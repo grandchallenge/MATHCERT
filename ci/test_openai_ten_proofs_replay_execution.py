@@ -94,6 +94,34 @@ class OpenAITenProofsReplayExecutionTests(unittest.TestCase):
         record["route_controls"]["aggregate_route_prohibited"] = False
         self.assertTrue(self.errors(record=record))
 
+    def test_source_drift_record_removal_is_rejected(self) -> None:
+        record = copy.deepcopy(self.record)
+        record.pop("source_revision")
+        self.assertTrue(self.errors(record=record))
+
+    def test_silent_manuscript_repin_is_rejected(self) -> None:
+        record = copy.deepcopy(self.record)
+        record["source_revision"]["admitted_manuscript"] = copy.deepcopy(
+            record["source_revision"]["observed_manuscript"]
+        )
+        record["source_revision"]["admitted_manuscript"].pop("observed_at")
+        self.assertTrue(self.errors(record=record))
+
+    def test_observed_revision_drift_is_rejected(self) -> None:
+        record = copy.deepcopy(self.record)
+        record["source_revision"]["observed_manuscript"]["sha256"] = "0" * 64
+        self.assertTrue(self.errors(record=record))
+
+    def test_semantic_block_removal_is_rejected(self) -> None:
+        record = copy.deepcopy(self.record)
+        record["source_revision"]["current_revision_semantic_concordance"] = "clear"
+        self.assertTrue(self.errors(record=record))
+
+    def test_forge_audit_issue_removal_is_rejected(self) -> None:
+        record = copy.deepcopy(self.record)
+        record["source_revision"]["forge_audit_issue"] = None
+        self.assertTrue(self.errors(record=record))
+
 
 if __name__ == "__main__":
     unittest.main()
