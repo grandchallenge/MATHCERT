@@ -192,11 +192,16 @@ def validation_errors(
         "runs-on: ubuntu-24.04",
         "timeout-minutes: 55",
         "fail-fast: false",
+        "MATHCERT_HEAD_SHA:",
+        "MATHCERT_WORKFLOW_SHA:",
         "openai/ten-proofs",
         "e62211d28e3a9131950c89caa6542cfe5eff3bca",
         "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
         "443daf537dc7e4ee34ab43aeb01508d9177816ab",
         "grandchallenge/lean-action@aa909e45950f6e5dd89e05dfed6b78e190ed99b8",
+        "use-mathlib-cache: false",
+        "elan toolchain install leanprover/lean4:v4.32.0",
+        "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0",
         "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
         "4e7915201d3f9f04470d9eae002fa695f7cdc589",
         "ddfac2bf5a7b56cb46e141494427ff3dd55963c7",
@@ -217,10 +222,16 @@ def validation_errors(
                 errors.append(f"OTP-CERT-REPLAY-001: unpinned action: {stripped}")
 
     required_runner_tokens = [
+        "expected_lean_version=\"4.32.0\"",
+        "Lean toolchain mismatch",
+        ".lake/packages/Lean4Checker",
+        "mathcert_head_sha=",
+        "workflow_checkout_sha=",
         "lake exe comparator",
         "#print axioms",
         "Nanoda kernel accepts the solution",
         "Lean default kernel accepts the solution",
+        "expected_comparator_boundary",
         "source_revision_drift_detected",
         "blocked_pending_forge_audit",
         "https://github.com/grandchallenge/MATHFORGE/issues/52",
@@ -230,11 +241,13 @@ def validation_errors(
         "aggregate_all_import_used",
         "may_adjudicate",
         "mathematical_target_proved",
-        "sha256sum",
+        "-not -name 'SHA256SUMS'",
     ]
     for token in required_runner_tokens:
         if token not in runner_text:
             errors.append(f"OTP-CERT-REPLAY-001: runner token missing: {token}")
+    if "github_head" in runner_text:
+        errors.append("OTP-CERT-REPLAY-001: ambiguous github_head field remains in runner")
     if "exec \"$real_landrun\" \"${prefix[@]}\" -- \"$@\"" not in adapter_text:
         errors.append("OTP-CERT-REPLAY-001: landrun command separator adapter drift")
 
@@ -260,9 +273,9 @@ def main() -> int:
         print(f"OpenAI ten-proofs replay execution validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     print(
-        "validated three submitted clean-room formal replays, separated manuscript revisions, "
-        "pinned checker toolchain, zero evidence promotion, zero routes, zero adjudication, "
-        "and aggregate prohibition"
+        "validated three submitted clean-room formal replays, exact PR-head capture, governed Lean 4.32.0, "
+        "complete checker identities, separated manuscript revisions, zero evidence promotion, zero routes, "
+        "zero adjudication, and aggregate prohibition"
     )
     return 0
 
