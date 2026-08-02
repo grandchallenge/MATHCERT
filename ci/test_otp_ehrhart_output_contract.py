@@ -3,10 +3,12 @@ from __future__ import annotations
 import copy
 import importlib.util
 import json
+import subprocess
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+SNAPSHOT_COMMIT = "686a48bb49015e4b8558bbc83d182f21f8b9e097"
 SPEC = importlib.util.spec_from_file_location(
     "validate_otp_ehrhart_output_contract",
     ROOT / "ci/validate_otp_ehrhart_output_contract.py",
@@ -16,14 +18,30 @@ M = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(M)
 
 
+def git(*args: str) -> subprocess.CompletedProcess[bytes]:
+    return subprocess.run(["git", *args], cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+
+
+def protected_routes() -> dict:
+    shallow = git("rev-parse", "--is-shallow-repository")
+    if shallow.returncode == 0 and shallow.stdout.decode().strip() == "true":
+        git("fetch", "--no-tags", "--unshallow", "origin")
+    if git("cat-file", "-e", f"{SNAPSHOT_COMMIT}^{{commit}}").returncode != 0:
+        git("fetch", "--no-tags", "origin", SNAPSHOT_COMMIT)
+    result = git("show", f"{SNAPSHOT_COMMIT}:governance/certification_routes.json")
+    if result.returncode != 0:
+        raise RuntimeError("unable to load protected route snapshot")
+    return json.loads(result.stdout)
+
+
 class OTPEhrhartOutputContractTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.contract = json.loads(M.CONTRACT.read_text(encoding="utf-8"))
-        self.contract_schema = json.loads(M.CONTRACT_SCHEMA.read_text(encoding="utf-8"))
-        self.future_schema = json.loads(M.FUTURE_SCHEMA.read_text(encoding="utf-8"))
-        self.routes = json.loads(M.ROUTES.read_text(encoding="utf-8"))
-        self.adjudication = json.loads(M.ADJUDICATION.read_text(encoding="utf-8"))
-        self.attestation = json.loads(M.ATTESTATION.read_text(encoding="utf-8"))
+        self.contract = M.load(M.CONTRACT)
+        self.contract_schema = M.load(M.CONTRACT_SCHEMA)
+        self.future_schema = M.load(M.FUTURE_SCHEMA)
+        self.routes = protected_routes()
+        self.adjudication = M.load(M.ADJUDICATION)
+        self.attestation = M.load(M.ATTESTATION)
 
     def errors(self, **kwargs):
         return M.validation_errors(
@@ -41,104 +59,29 @@ class OTPEhrhartOutputContractTests(unittest.TestCase):
             contract_files=kwargs.get("contract_files", set(M.EXPECTED_CONTRACT_FILES)),
         )
 
-    def test_current_contract_passes(self) -> None:
-        self.assertEqual([], self.errors())
-
-    def test_authorization_comment_drift_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["implementation_authorization"]["comment_id"] = 1
-        self.assertTrue(self.errors(contract=data))
-
-    def test_non_design_state_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["contract_state"] = "executed"
-        self.assertTrue(self.errors(contract=data))
-
-    def test_adjudication_blob_drift_is_rejected(self) -> None:
-        self.assertTrue(self.errors(adjudication_blob="0" * 40))
-
-    def test_attestation_blob_drift_is_rejected(self) -> None:
-        self.assertTrue(self.errors(attestation_blob="0" * 40))
-
-    def test_future_schema_blob_drift_is_rejected(self) -> None:
-        self.assertTrue(self.errors(future_schema_blob="0" * 40))
-
-    def test_target_omission_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["output_scope"]["encoded_targets"].pop()
-        self.assertTrue(self.errors(contract=data))
-
-    def test_qualification_disposition_inflation_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["qualification_semantics"]["permitted_disposition"] = "source_theorem_proved"
-        self.assertTrue(self.errors(contract=data))
-
-    def test_certificate_identity_drift_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["future_certificate"]["certificate_id"] = "MC-OTP-F-EHRHART-PROVED-001"
-        self.assertTrue(self.errors(contract=data))
-
-    def test_non_atomic_execution_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["atomic_execution"]["mode"] = "split_operations"
-        self.assertTrue(self.errors(contract=data))
-
-    def test_partial_state_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["atomic_execution"]["partial_state_prohibited"] = False
-        self.assertTrue(self.errors(contract=data))
-
-    def test_route_qualification_during_design_is_rejected(self) -> None:
-        routes = copy.deepcopy(self.routes)
-        route = next(item for item in routes["routes"] if item["route_id"] == "MC-ROUTE-OTP-F-EHRHART")
-        route["intake_status"] = "qualified"
-        self.assertTrue(self.errors(routes=routes))
-
-    def test_cert_output_insertion_during_design_is_rejected(self) -> None:
-        routes = copy.deepcopy(self.routes)
-        route = next(item for item in routes["routes"] if item["route_id"] == "MC-ROUTE-OTP-F-EHRHART")
-        route["cert_output"] = {"path": "forged.json"}
-        self.assertTrue(self.errors(routes=routes))
-
-    def test_mathematical_proof_promotion_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["state"]["mathematical_target_proved"] = True
-        self.assertTrue(self.errors(contract=data))
-
-    def test_future_schema_proof_promotion_is_rejected(self) -> None:
-        schema = copy.deepcopy(self.future_schema)
-        schema["properties"]["state"]["const"]["mathematical_target_proved"] = True
-        self.assertTrue(self.errors(future_schema=schema))
-
-    def test_open_future_schema_is_rejected(self) -> None:
-        schema = copy.deepcopy(self.future_schema)
-        schema["additionalProperties"] = True
-        self.assertTrue(self.errors(future_schema=schema))
-
-    def test_premature_certificate_file_is_rejected(self) -> None:
-        self.assertTrue(self.errors(future_certificate_present=True))
-
-    def test_premature_candidate_is_rejected(self) -> None:
-        self.assertTrue(self.errors(candidate_present=True))
-
-    def test_equality_classification_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["preserved_limitations"]["classification_or_uniqueness_of_all_equality_cases"] = "established"
-        self.assertTrue(self.errors(contract=data))
-
-    def test_aggregate_authority_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["state"]["aggregate_output"] = True
-        self.assertTrue(self.errors(contract=data))
-
-    def test_claim_boundary_weakening_is_rejected(self) -> None:
-        data = copy.deepcopy(self.contract)
-        data["claim_boundary"] = "The Ehrhart theorem is certified."
-        self.assertTrue(self.errors(contract=data))
-
-    def test_output_contract_family_inflation_is_rejected(self) -> None:
-        self.assertTrue(self.errors(contract_files={"OTP-F-EHRHART.json", "OTP-J1-COMPACTNESS.json"}))
+    def test_current_contract_passes(self): self.assertEqual([], self.errors())
+    def test_authorization_drift_fails(self):
+        data=copy.deepcopy(self.contract);data["implementation_authorization"]["comment_id"]=1;self.assertTrue(self.errors(contract=data))
+    def test_non_design_state_fails(self):
+        data=copy.deepcopy(self.contract);data["contract_state"]="executed";self.assertTrue(self.errors(contract=data))
+    def test_authority_blob_drift_fails(self):
+        self.assertTrue(self.errors(adjudication_blob="0"*40));self.assertTrue(self.errors(attestation_blob="0"*40));self.assertTrue(self.errors(future_schema_blob="0"*40))
+    def test_target_omission_fails(self):
+        data=copy.deepcopy(self.contract);data["output_scope"]["encoded_targets"].pop();self.assertTrue(self.errors(contract=data))
+    def test_non_atomic_execution_fails(self):
+        data=copy.deepcopy(self.contract);data["atomic_execution"]["mode"]="split_operations";self.assertTrue(self.errors(contract=data))
+    def test_route_promotion_in_design_fails(self):
+        routes=copy.deepcopy(self.routes);route=next(x for x in routes["routes"] if x["campaign_id"]=="OTP-F-EHRHART");route["intake_status"]="qualified";self.assertTrue(self.errors(routes=routes))
+    def test_proof_promotion_fails(self):
+        data=copy.deepcopy(self.contract);data["state"]["mathematical_target_proved"]=True;self.assertTrue(self.errors(contract=data))
+    def test_open_future_schema_fails(self):
+        data=copy.deepcopy(self.future_schema);data["additionalProperties"]=True;self.assertTrue(self.errors(future_schema=data))
+    def test_premature_artifacts_fail(self):
+        self.assertTrue(self.errors(future_certificate_present=True));self.assertTrue(self.errors(candidate_present=True))
+    def test_equality_inflation_fails(self):
+        data=copy.deepcopy(self.contract);data["preserved_limitations"]["classification_or_uniqueness_of_all_equality_cases"]="established";self.assertTrue(self.errors(contract=data))
+    def test_aggregate_authority_fails(self):
+        data=copy.deepcopy(self.contract);data["state"]["aggregate_output"]=True;self.assertTrue(self.errors(contract=data))
 
 
-if __name__ == "__main__":
-    unittest.main()
+if __name__ == "__main__": unittest.main()

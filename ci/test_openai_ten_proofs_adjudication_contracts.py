@@ -5,6 +5,8 @@ import importlib.util
 import unittest
 from pathlib import Path
 
+import validate_openai_ten_proofs_route_registrations as route_registration
+
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
     "validate_openai_ten_proofs_adjudication_contracts",
@@ -18,7 +20,8 @@ SPEC.loader.exec_module(V)
 class AdjudicationContractMutationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.contracts, cls.registry, cls.routes = V.defaults()
+        cls.contracts, cls.registry, live_routes = V.defaults()
+        cls.routes = route_registration.registration_snapshot(live_routes)
         cls.contract_schema = V.load(V.D.CONTRACT_SCHEMA)
         cls.registry_schema = V.load(V.D.REGISTRY_SCHEMA)
         cls.local_blobs = {
