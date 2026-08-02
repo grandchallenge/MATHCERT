@@ -6,9 +6,11 @@ S=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proo
 M=importlib.util.module_from_spec(S);S.loader.exec_module(M)
 class RouteRegistrationTests(unittest.TestCase):
  def setUp(self):
-  self.r=json.loads(M.REG.read_text());self.routes=json.loads(M.ROUTES.read_text());self.preg=json.loads(M.PROPOSAL_REG.read_text());self.pb={f:M.blob(ROOT/f"governance/result_family_route_proposals/{f}.json") for f in M.EXPECTED_FAMILIES};self.rb=M.blob(M.ROUTES);self.prb=M.blob(M.PROPOSAL_REG)
+  self.r=json.loads(M.REG.read_text());self.routes=json.loads(M.ROUTES.read_text());self.preg=json.loads(M.PROPOSAL_REG.read_text());self.pb={f:M.blob(ROOT/f"governance/result_family_route_proposals/{f}.json") for f in M.EXPECTED_FAMILIES};self.rb=M.EXPECTED_ROUTE_BLOB;self.prb=M.blob(M.PROPOSAL_REG)
  def errors(self,**k):return M.validation_errors(receipt=copy.deepcopy(k.get("receipt",self.r)),routes=copy.deepcopy(k.get("routes",self.routes)),proposal_registry=copy.deepcopy(k.get("proposal_registry",self.preg)),proposal_blobs=copy.deepcopy(k.get("proposal_blobs",self.pb)),routes_blob=k.get("routes_blob",self.rb),proposal_registry_blob=k.get("proposal_registry_blob",self.prb))
  def test_current(self):self.assertEqual(self.errors(),[])
+ def test_unrelated_uc_route_evolution_is_permitted(self):
+  routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="UC-001")["reopening_conditions"].append("unrelated evolution");self.assertEqual(self.errors(routes=routes),[])
  def test_missing_registration(self):
   r=copy.deepcopy(self.r);r["registrations"]=r["registrations"][:-1];self.assertTrue(self.errors(receipt=r))
  def test_extra_family(self):
@@ -30,6 +32,8 @@ class RouteRegistrationTests(unittest.TestCase):
   routes=copy.deepcopy(self.routes);routes["routes"]=[x for x in routes["routes"] if x["campaign_id"]!="OTP-F-EHRHART"];self.assertTrue(self.errors(routes=routes))
  def test_output_insertion(self):
   routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J1-COMPACTNESS")["cert_output"]={"forged":True};self.assertTrue(self.errors(routes=routes))
+ def test_otp_state_mutation_is_rejected(self):
+  routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J2-TWO-DEGENERATE")["intake_status"]="qualified";self.assertTrue(self.errors(routes=routes))
  def test_limit_removal(self):
   r=copy.deepcopy(self.r);r["preserved_limitations"]["proof_bodies_compared_in_full"]=True;self.assertTrue(self.errors(receipt=r))
  def test_blocker_removal(self):
