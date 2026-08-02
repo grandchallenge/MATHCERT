@@ -39,5 +39,7 @@ python3 ci/validate_human_steward_post_merge_attestation.py
 python3 ci/test_human_steward_post_merge_attestation.py
 python3 ci/validate_openai_ten_proofs_adjudication_contracts.py
 python3 ci/test_openai_ten_proofs_adjudication_contracts.py
+python3 ci/validate_otp_ehrhart_adjudication.py
+python3 ci/test_otp_ehrhart_adjudication.py
 python3 ci/audit_ci_reachability.py
 python3 ci/test_audit_ci_reachability.py
