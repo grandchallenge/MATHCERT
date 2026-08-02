@@ -21,6 +21,7 @@ expected_semantic_blob="a3dc4de4c38a80b7aec1fae6506b08e14d2e58bb"
 authorization_comment_id="5156109106"
 admitted_manuscript_sha="f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53"
 observed_manuscript_sha="64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6"
+manuscript_url="https://cdn.openai.com/pdf/ten-proofs-oai.pdf"
 
 assert_eq() {
   if [[ "$1" != "$2" ]]; then
@@ -44,8 +45,10 @@ chmod +x "$root/ci/run_openai_ten_proofs_family_replay.sh"
   ComparatorChallenges.F_EhrhartVolumeInequality \
   "$output_dir"
 
-current_sha="$(sha256sum "$output_dir/manuscript.pdf" | cut -d' ' -f1)"
-current_bytes="$(stat -c '%s' "$output_dir/manuscript.pdf")"
+refresh_pdf="$output_dir/manuscript-refresh.pdf"
+curl --fail --location --retry 3 --silent --show-error "$manuscript_url" -o "$refresh_pdf"
+current_sha="$(sha256sum "$refresh_pdf" | cut -d' ' -f1)"
+current_bytes="$(stat -c '%s' "$refresh_pdf")"
 if [[ "$current_sha" == "$observed_manuscript_sha" ]]; then
   source_relation="byte_identical_to_forge_source_revision_audit_subject"
   source_authority="MF-OTP-SOURCE-REVISION-AUDIT-001"
@@ -57,7 +60,7 @@ else
   exit 1
 fi
 
-pdftotext -f 218 -l 221 -layout "$output_dir/manuscript.pdf" "$output_dir/source-locus-pages-218-221.txt"
+pdftotext -f 218 -l 221 -layout "$refresh_pdf" "$output_dir/source-locus-pages-218-221.txt"
 [[ -s "$output_dir/source-locus-pages-218-221.txt" ]] || { echo "source-locus extraction is empty" >&2; exit 1; }
 
 export OTP_REFRESH_CURRENT_SHA="$current_sha"
@@ -73,193 +76,7 @@ export OTP_REFRESH_SOURCE_AUDIT_COMMIT="$expected_source_audit_commit"
 export OTP_REFRESH_SOURCE_AUDIT_BLOB="$expected_source_audit_blob"
 export OTP_REFRESH_SEMANTIC_BLOB="$expected_semantic_blob"
 
-python3 - "$output_dir" <<'PY'
-from __future__ import annotations
-
-import hashlib
-import json
-import os
-import sys
-from pathlib import Path
-
-out = Path(sys.argv[1])
-
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-def git_blob(path: Path) -> str:
-    data = path.read_bytes()
-    return hashlib.sha1(f"blob {len(data)}\0".encode() + data, usedforsecurity=False).hexdigest()
-
-required = [
-    "axiom-check.json",
-    "challenge-build.log",
-    "comparator.log",
-    "environment.txt",
-    "evidence-summary.json",
-    "solution-build.log",
-    "source-identities.txt",
-    "source-revision-report.txt",
-    "theorem-axioms.log",
-    "trust-boundary-scan.txt",
-    "source-locus-pages-218-221.txt",
-]
-files = []
-for name in required:
-    path = out / name
-    if not path.is_file() or path.stat().st_size == 0:
-        raise SystemExit(f"missing or empty replay evidence file: {name}")
-    files.append({
-        "name": name,
-        "bytes": path.stat().st_size,
-        "sha256": sha256(path),
-        "git_blob_sha1": git_blob(path),
-    })
-
-trust = (out / "trust-boundary-scan.txt").read_text(encoding="utf-8", errors="replace").lower()
-for forbidden in ("sorry", "unsafe declaration", "custom axiom"):
-    if forbidden in trust and "no " + forbidden not in trust:
-        raise SystemExit(f"trust-boundary scan is not clear: {forbidden}")
-
-candidate = {
-    "schema_version": "1.0.0",
-    "record_type": "openai_ten_proofs_ehrhart_execution_candidate",
-    "candidate_id": "MC-OTP-F-EHRHART-EXECUTION-CANDIDATE-001",
-    "result_family": "OTP-F-EHRHART",
-    "route_id": "MC-ROUTE-OTP-F-EHRHART",
-    "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-F-EHRHART",
-    "candidate_state": "evidence_prepared",
-    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/62",
-    "authority": {
-        "design_merge_commit": os.environ["OTP_REFRESH_DESIGN_MERGE"],
-        "contract_blob": os.environ["OTP_REFRESH_CONTRACT_BLOB"],
-        "design_registry_blob": os.environ["OTP_REFRESH_DESIGN_REGISTRY_BLOB"],
-        "registered_route_registry_blob": os.environ["OTP_REFRESH_ROUTE_REGISTRY_BLOB"],
-        "source_revision_audit_commit": os.environ["OTP_REFRESH_SOURCE_AUDIT_COMMIT"],
-        "source_revision_audit_blob": os.environ["OTP_REFRESH_SOURCE_AUDIT_BLOB"],
-        "semantic_record_blob": os.environ["OTP_REFRESH_SEMANTIC_BLOB"],
-        "implementation_authorization_comment_id": int(os.environ["OTP_REFRESH_AUTH_COMMENT_ID"]),
-        "mathcert_candidate_head": os.environ.get("MATHCERT_HEAD_SHA", "unknown"),
-        "workflow_checkout_sha": os.environ.get("MATHCERT_WORKFLOW_SHA", os.environ.get("GITHUB_SHA", "unknown")),
-    },
-    "encoded_targets": [
-        "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
-        "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
-        "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
-        "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex",
-    ],
-    "replay": {
-        "clean_room": True,
-        "lean_version": "4.32.0",
-        "challenge_build": "pass",
-        "solution_build": "pass",
-        "comparator": "pass",
-        "lean_kernel": "accept",
-        "nanoda": "accept",
-        "theorem_axiom_report": "permitted_only",
-        "trust_boundary_scan": "clear",
-        "files": files,
-    },
-    "source_reacquisition": {
-        "url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",
-        "sha256": os.environ["OTP_REFRESH_CURRENT_SHA"],
-        "bytes": int(os.environ["OTP_REFRESH_CURRENT_BYTES"]),
-        "relation": os.environ["OTP_REFRESH_SOURCE_RELATION"],
-        "authority": os.environ["OTP_REFRESH_SOURCE_AUTHORITY"],
-        "locus": {
-            "chapter": 8,
-            "theorem": "Theorem 1.1",
-            "pdf_page_index": 219,
-            "printed_page": 218,
-            "extracted_context": "source-locus-pages-218-221.txt",
-        },
-        "whole_document_byte_equivalence": "not_established_between_all_revisions",
-        "whole_document_semantic_equivalence": "not_established",
-        "proof_body_compared_in_full": False,
-    },
-    "statement_concordance": {
-        "state": "candidate_clear_pending_non_author_specialist_review",
-        "scope": "encoded_inequality_and_admitted_sharpness_witness_only",
-        "normalized_statement": "For every positive dimension n, a full-dimensional compact convex body K in real n-space with barycenter zero and with zero as its only interior lattice point has ordinary Euclidean volume at most (n+1)^n/n!. The bound is attained by the translated dilation (n+1)Delta_n-(1,...,1).",
-        "equality_case_classification": "excluded",
-    },
-    "nonvacuity": {
-        "state": "candidate_clear_pending_non_author_specialist_review",
-        "witnesses": [
-            "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
-            "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex",
-        ],
-        "checked_obligations": [
-            "positive_dimension",
-            "full_dimensional_compact_convex_body",
-            "centered_body_witness",
-            "normalized_volume_sharpness_witness",
-        ],
-    },
-    "construction_interpretation": {
-        "state": "candidate_clear_pending_non_author_specialist_review",
-        "admitted_witness": "(n+1)Delta_n-(1,...,1)",
-        "effect": "sharpness_witness_only",
-        "classification_or_uniqueness_inference": False,
-    },
-    "review_state": {
-        "fresh_non_author_specialist_review_required": True,
-        "specialist_review": None,
-        "status": "pending_exact_head_non_author_specialist_review",
-    },
-    "execution_authorization": {
-        "separate_human_steward_authorization_required": True,
-        "must_name_contract_and_exact_candidate_head": True,
-        "authorization": None,
-    },
-    "state": {
-        "route_state": "submitted",
-        "may_adjudicate": False,
-        "adjudication": None,
-        "cert_output": None,
-        "mathematical_target_proved": False,
-        "may_promote_claim": False,
-        "aggregate_adjudication": False,
-    },
-    "preserved_limitations": {
-        "equality_case_classification": "excluded",
-        "whole_document_byte_equivalence": "not_established_between_all_revisions",
-        "whole_document_semantic_equivalence": "not_established",
-        "proof_body_compared_in_full": False,
-        "other_adjudication_contracts_executed": False,
-        "unexamined_result_family_count": 9,
-        "blocked_repair_lanes": ["OTP-C-PERMANENT", "OTP-H-GAPCVP"],
-        "all_lean_state": "failed_namespace_collision",
-    },
-    "claim_boundary": "This evidence-prepared execution candidate does not adjudicate or prove the Ehrhart theorem, issue a Cert output, alter the submitted route, classify or establish uniqueness of equality cases, establish whole-document equivalence, compare the analytic proof body in full, execute another result-family contract, create aggregate authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims.",
-}
-
-candidate_path = out / "execution-candidate.json"
-candidate_path.write_text(json.dumps(candidate, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-
-manifest_files = []
-for path in sorted(p for p in out.iterdir() if p.is_file() and p.name not in {"manuscript.pdf", "reasoning-walkthroughs.pdf", "SHA256SUMS"}):
-    manifest_files.append({
-        "name": path.name,
-        "bytes": path.stat().st_size,
-        "sha256": sha256(path),
-        "git_blob_sha1": git_blob(path),
-    })
-manifest = {
-    "schema_version": "1.0.0",
-    "record_type": "openai_ten_proofs_ehrhart_evidence_bundle_manifest",
-    "candidate_id": candidate["candidate_id"],
-    "candidate_state": candidate["candidate_state"],
-    "files": manifest_files,
-}
-(out / "bundle-manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-
-lines = []
-for path in sorted(p for p in out.iterdir() if p.is_file() and p.name not in {"manuscript.pdf", "reasoning-walkthroughs.pdf", "SHA256SUMS"}):
-    lines.append(f"{sha256(path)}  {path.name}")
-(out / "SHA256SUMS").write_text("\n".join(lines) + "\n", encoding="utf-8")
-PY
-
-rm -f "$output_dir/manuscript.pdf" "$output_dir/reasoning-walkthroughs.pdf"
+python3 "$root/ci/build_otp_ehrhart_execution_candidate.py" "$output_dir"
+rm -f "$refresh_pdf"
 
 echo "prepared non-adjudicated OTP-F-EHRHART execution-candidate evidence at $output_dir"
