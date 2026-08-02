@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the UC-001 stale provider-identity exclusion and repair gate."""
+"""Validate the corrected UC-001 stale provider-identity exclusion and repair gate."""
 from __future__ import annotations
 
 import json
@@ -40,9 +40,22 @@ def errors(
     ]
     if schema.get("additionalProperties") is not False:
         found.append("UC provider exclusion schema must remain closed")
+
     excluded = record.get("excluded_artifact", {})
+    correction = record.get("correction_history", {})
     if excluded.get("recorded_digest") == excluded.get("observed_digest"):
         found.append("UC provider exclusion must record a real identity mismatch")
+    if correction.get("corrected_recorded_digest") != excluded.get("recorded_digest"):
+        found.append("corrected recorded digest is not the live exclusion value")
+    if correction.get("corrected_observed_digest") != excluded.get("observed_digest"):
+        found.append("corrected observed digest is not the live exclusion value")
+    if correction.get("superseded_recorded_digest") == excluded.get("recorded_digest"):
+        found.append("superseded recorded digest was not actually corrected")
+    if correction.get("superseded_observed_digest") == excluded.get("observed_digest"):
+        found.append("superseded observed digest was not actually corrected")
+    if correction.get("qualification_unchanged") is not True:
+        found.append("provider identity correction cannot alter the qualification")
+
     if record.get("source_manifest") != certificate.get("solve_provider", {}).get("manifest"):
         found.append("UC provider exclusion source manifest is not the qualified manifest")
     excluded_path = excluded.get("path")
@@ -73,7 +86,10 @@ def main() -> int:
         print("\n".join(found), file=sys.stderr)
         print(f"UC provider identity exclusion failed with {len(found)} error(s)", file=sys.stderr)
         return 1
-    print("validated stale UC README exclusion and mandatory downstream MATHSOLVE repair gate")
+    print(
+        "validated corrected stale UC README exclusion, explicit correction history, "
+        "and mandatory downstream MATHSOLVE repair gate"
+    )
     return 0
 
 
