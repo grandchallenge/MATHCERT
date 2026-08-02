@@ -15,6 +15,7 @@ SCHEMA = ROOT / "schemas/human_steward_post_merge_attestation.schema.json"
 ROUTES = ROOT / "governance/certification_routes.json"
 TRANSITION = ROOT / "governance/result_family_output_candidates/staged_route_transitions/OTP-F-EHRHART.json"
 RECEIPT = ROOT / "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP06_ROUTE_REGISTRATIONS.json"
+HISTORICAL_ROUTE_BLOB = "b5541045591f8589130b1577c50d51d70c3b4337"
 
 EXPECTED_DOCUMENT = """# Post-merge Human Steward disposition and ratification
 
@@ -51,7 +52,6 @@ EXPECTED_TOP_KEYS = {
     "repository_mirror", "attestation_document", "bound_artifacts", "chronology",
     "ratified_scope", "preserved_limitations", "effect", "claim_boundary",
 }
-OLD_ROUTE_BLOB = "b5541045591f8589130b1577c50d51d70c3b4337"
 
 
 def load(path: Path) -> Any:
@@ -96,7 +96,7 @@ def validation_errors(
     schema = load(SCHEMA) if schema is None else schema
     routes = historical_routes(load(ROUTES)) if routes is None else routes
     document_blob = git_blob_sha1(DOCUMENT) if document_blob is None else document_blob
-    route_blob = OLD_ROUTE_BLOB if route_blob is None else route_blob
+    route_blob = HISTORICAL_ROUTE_BLOB if route_blob is None else route_blob
     receipt_blob = git_blob_sha1(RECEIPT) if receipt_blob is None else receipt_blob
 
     if schema.get("additionalProperties") is not False:
@@ -164,12 +164,12 @@ def validation_errors(
     if bound.get("registered_route_registry") != {
         "path": "governance/certification_routes.json",
         "digest_algorithm": "git_blob_sha1",
-        "digest": OLD_ROUTE_BLOB,
+        "digest": HISTORICAL_ROUTE_BLOB,
     }:
         errors.append("registered-route registry authority drift")
     if receipt_blob != "38b1c03a6506f877ad9aed74e92cb6d202b444a5":
         errors.append("route-registration receipt Git blob drift")
-    if route_blob != OLD_ROUTE_BLOB:
+    if route_blob != HISTORICAL_ROUTE_BLOB:
         errors.append("registered-route registry Git blob drift")
 
     chronology = attestation.get("chronology", {})
