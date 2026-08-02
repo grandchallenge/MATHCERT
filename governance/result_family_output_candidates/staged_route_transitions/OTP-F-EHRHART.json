@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_ehrhart_atomic_route_transition_template",
+  "transition_id": "MC-OTP-F-EHRHART-QUAL-TRANSITION-001",
+  "route_id": "MC-ROUTE-OTP-F-EHRHART",
+  "live_registry": {
+    "path": "governance/certification_routes.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "b5541045591f8589130b1577c50d51d70c3b4337",
+    "must_remain_byte_identical_during_candidate_preparation": true
+  },
+  "execution_commit_binding": {
+    "token": "$PROTECTED_EXECUTION_MERGE",
+    "resolution": "Replace exactly once with the protected atomic execution merge commit after exact-head review and before final protected-record verification.",
+    "unresolved_during_candidate_preparation": true
+  },
+  "before": {
+    "route_id": "MC-ROUTE-OTP-F-EHRHART",
+    "campaign_id": "OTP-F-EHRHART",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/55",
+    "source_manifest": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15",
+      "path": "provider_manifests/OPENAI-TEN-PROOFS-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472"
+    },
+    "intake_status": "submitted",
+    "intake_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "4653985d4980113514266c3c421804437bacb019"
+    },
+    "target_claim_ids": [
+      "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+      "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+      "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+      "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+    ],
+    "requested_modalities": [
+      "LEAN_FORMALIZATION",
+      "SEMANTIC_REPLAY",
+      "SPECIALIST_AUDIT_PENDING"
+    ],
+    "claim_boundary": "This registered route is limited to the exact encoded Ehrhart family targets and recorded current-revision theorem locus. It does not classify all equality cases, compare the analytic proof body in full, adjudicate or prove the source theorem, issue a Cert output, or create an aggregate ten-proofs route.",
+    "cert_output": null,
+    "blockers": [
+      "No MATHCERT adjudication has been authorized or recorded.",
+      "Classification of all Ehrhart equality cases remains excluded.",
+      "Whole-document manuscript equivalence and full proof-body comparison remain unestablished."
+    ],
+    "reopening_conditions": [
+      "Update this route only through a separately authorized, exact-head reviewed MATHCERT adjudication or authority-repin operation."
+    ]
+  },
+  "after_template": {
+    "route_id": "MC-ROUTE-OTP-F-EHRHART",
+    "campaign_id": "OTP-F-EHRHART",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/55",
+    "source_manifest": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15",
+      "path": "provider_manifests/OPENAI-TEN-PROOFS-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472"
+    },
+    "intake_status": "qualified",
+    "intake_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "4653985d4980113514266c3c421804437bacb019"
+    },
+    "target_claim_ids": [
+      "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+      "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+      "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+      "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+    ],
+    "requested_modalities": [
+      "LEAN_FORMALIZATION",
+      "SEMANTIC_REPLAY",
+      "SPECIALIST_AUDIT_PENDING"
+    ],
+    "claim_boundary": "This restricted route qualification applies only to the exact four encoded OTP-F-EHRHART targets and the admitted centered-simplex sharpness witness under protected disposition qualified_encoded_targets_only. It does not mark Chapter 8, Theorem 1.1 or any mathematical target proved, classify all equality cases, establish whole-document equivalence, compare the analytic proof body in full, qualify another family, or create aggregate ten-proofs authority.",
+    "cert_output": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "$PROTECTED_EXECUTION_MERGE",
+      "path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "27a855c949b67e71372c7f0d6601d80125d33968"
+    },
+    "blockers": [
+      "The source theorem and its analytic proof body are not mathematically proved by this restricted qualification.",
+      "Classification or uniqueness of all Ehrhart equality cases remains excluded.",
+      "Whole-document byte and semantic equivalence remain unestablished."
+    ],
+    "reopening_conditions": [
+      "Update this route only through a separately authorized, exact-head reviewed operation when the encoded targets, protected evidence authority, qualification disposition, certificate identity, or mathematical proof status changes."
+    ]
+  },
+  "atomicity": {
+    "single_registry_entry_replacement": true,
+    "route_transition": "submitted_to_qualified",
+    "certificate_insertion": "exactly_one",
+    "certificate_path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json",
+    "certificate_digest": "27a855c949b67e71372c7f0d6601d80125d33968",
+    "route_and_certificate_same_protected_commit_required": true,
+    "partial_application_prohibited": true
+  },
+  "candidate_effect": "none_until_separately_authorized_atomic_execution"
+}
