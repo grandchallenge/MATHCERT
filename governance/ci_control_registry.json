@@ -30,6 +30,8 @@
     {"path": "ci/test_openai_ten_proofs_result_family_intakes.py", "mode": "direct"},
     {"path": "ci/validate_openai_ten_proofs_certification_work_packages.py", "mode": "direct"},
     {"path": "ci/test_openai_ten_proofs_certification_work_packages.py", "mode": "direct"},
+    {"path": "ci/validate_openai_ten_proofs_replay_execution.py", "mode": "direct"},
+    {"path": "ci/test_openai_ten_proofs_replay_execution.py", "mode": "direct"},
     {"path": "ci/audit_ci_reachability.py", "mode": "direct"},
     {"path": "ci/test_audit_ci_reachability.py", "mode": "direct"}
   ],
