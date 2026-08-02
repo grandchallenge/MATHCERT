@@ -29,8 +29,8 @@ def design_routes_snapshot() -> dict:
 def validation_errors() -> list[str]:
     errors = design.validation_errors(
         routes=design_routes_snapshot(),
-        route_blob=design.D.ROUTE_REGISTRY_BLOB,
         executed_present=False,
+        route_blob=design.D.ROUTE_REGISTRY_BLOB,
     )
     actual_adjudications = {
         path.name for path in ADJUDICATION_DIR.glob("*.json") if path.is_file()
