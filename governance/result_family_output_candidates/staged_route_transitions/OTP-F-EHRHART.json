@@ -1,18 +1,39 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "record_type": "otp_ehrhart_atomic_route_transition_template",
   "transition_id": "MC-OTP-F-EHRHART-QUAL-TRANSITION-001",
   "route_id": "MC-ROUTE-OTP-F-EHRHART",
+  "correction_authority": {
+    "issue": "https://github.com/grandchallenge/MATHCERT/issues/72",
+    "comment_id": 5157620838,
+    "author": "jimsteeg",
+    "scope": "remove_self_referential_execution_binding_only",
+    "protected_candidate_merge": "4e5c02416a6dd66c52d9da87c5229ecf61673372",
+    "prior_transition_blob": "2862950612fde71331cce92161ecf208f57f3eb9"
+  },
   "live_registry": {
     "path": "governance/certification_routes.json",
     "digest_algorithm": "git_blob_sha1",
     "digest": "b5541045591f8589130b1577c50d51d70c3b4337",
-    "must_remain_byte_identical_during_candidate_preparation": true
+    "must_remain_byte_identical_during_correction": true
   },
-  "execution_commit_binding": {
-    "token": "$PROTECTED_EXECUTION_MERGE",
-    "resolution": "Replace exactly once with the protected atomic execution merge commit after exact-head review and before final protected-record verification.",
-    "unresolved_during_candidate_preparation": true
+  "certificate_content_commit_binding": {
+    "token": "$CERTIFICATE_CONTENT_COMMIT",
+    "resolution": "Resolve to the full SHA of the earlier commit on the future execution branch that first creates the exact live certificate bytes while leaving the route registry unchanged.",
+    "unresolved_during_correction": true,
+    "must_be_full_git_sha": true,
+    "must_precede_route_transition_commit": true,
+    "must_be_ancestor_of_exact_reviewed_execution_head": true,
+    "certificate_path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json",
+    "certificate_digest_algorithm": "git_blob_sha1",
+    "certificate_digest": "27a855c949b67e71372c7f0d6601d80125d33968"
+  },
+  "execution_sequence": {
+    "step_1": "certificate_content_commit_creates_exact_live_certificate_and_leaves_registry_unchanged",
+    "step_2": "later_route_transition_commit_replaces_exactly_one_route_entry_and_points_to_step_1_commit",
+    "step_3": "exact_reviewed_execution_head_descends_from_step_1_and_preserves_certificate_bytes",
+    "step_4": "protected_merge_uses_merge_commit_method_and_publishes_certificate_and_route_together",
+    "route_first_ordering_prohibited": true
   },
   "before": {
     "route_id": "MC-ROUTE-OTP-F-EHRHART",
@@ -88,7 +109,7 @@
     "claim_boundary": "This restricted route qualification applies only to the exact four encoded OTP-F-EHRHART targets and the admitted centered-simplex sharpness witness under protected disposition qualified_encoded_targets_only. It does not mark Chapter 8, Theorem 1.1 or any mathematical target proved, classify all equality cases, establish whole-document equivalence, compare the analytic proof body in full, qualify another family, or create aggregate ten-proofs authority.",
     "cert_output": {
       "repository": "grandchallenge/MATHCERT",
-      "commit_sha": "$PROTECTED_EXECUTION_MERGE",
+      "commit_sha": "$CERTIFICATE_CONTENT_COMMIT",
       "path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json",
       "digest_algorithm": "git_blob_sha1",
       "digest": "27a855c949b67e71372c7f0d6601d80125d33968"
@@ -108,8 +129,13 @@
     "certificate_insertion": "exactly_one",
     "certificate_path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json",
     "certificate_digest": "27a855c949b67e71372c7f0d6601d80125d33968",
-    "route_and_certificate_same_protected_commit_required": true,
-    "partial_application_prohibited": true
+    "certificate_content_commit_precedes_route_transition": true,
+    "exact_reviewed_head_descends_from_certificate_content_commit": true,
+    "protected_merge_method": "merge",
+    "squash_merge_prohibited": true,
+    "rebase_merge_prohibited": true,
+    "protected_main_publishes_certificate_and_route_together": true,
+    "partial_protected_main_state_prohibited": true
   },
   "candidate_effect": "none_until_separately_authorized_atomic_execution"
 }
