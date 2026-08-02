@@ -56,10 +56,6 @@ def git_blob_sha1_bytes(payload: bytes) -> str:
     ).hexdigest()
 
 
-def git_blob_sha1(path: Path) -> str:
-    return git_blob_sha1_bytes(path.read_bytes())
-
-
 def git(*args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         ["git", *args],
@@ -89,6 +85,11 @@ def object_blob(commit: str, path: str) -> str:
     if result.returncode != 0:
         raise RuntimeError(f"unable to resolve {path} at {commit}")
     return result.stdout.strip()
+
+
+def tracked_blob(path: Path) -> str:
+    """Return the checked-out Git object identity independent of line endings."""
+    return object_blob("HEAD", path.relative_to(ROOT).as_posix())
 
 
 def is_ancestor(ancestor: str, descendant: str) -> bool:
@@ -161,14 +162,14 @@ def validation_errors(
     certificate = load(CERTIFICATE) if certificate is None else certificate
     adjudication = load(ADJUDICATION) if adjudication is None else adjudication
     blobs = {
-        "document": git_blob_sha1(DOCUMENT),
-        "attestation_schema": git_blob_sha1(ATTESTATION_SCHEMA),
-        "closure": git_blob_sha1(CLOSURE),
-        "closure_schema": git_blob_sha1(CLOSURE_SCHEMA),
-        "historical_candidate": git_blob_sha1(HISTORICAL_CANDIDATE),
-        "routes": git_blob_sha1(ROUTES),
-        "certificate": git_blob_sha1(CERTIFICATE),
-        "adjudication": git_blob_sha1(ADJUDICATION),
+        "document": tracked_blob(DOCUMENT),
+        "attestation_schema": tracked_blob(ATTESTATION_SCHEMA),
+        "closure": tracked_blob(CLOSURE),
+        "closure_schema": tracked_blob(CLOSURE_SCHEMA),
+        "historical_candidate": tracked_blob(HISTORICAL_CANDIDATE),
+        "routes": tracked_blob(ROUTES),
+        "certificate": tracked_blob(CERTIFICATE),
+        "adjudication": tracked_blob(ADJUDICATION),
     } if blobs is None else blobs
     receipt = git_receipt() if receipt is None else receipt
     other_adjudication_present = (
