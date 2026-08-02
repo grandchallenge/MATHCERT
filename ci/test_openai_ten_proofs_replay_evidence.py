@@ -6,6 +6,9 @@ class T(unittest.TestCase):
  def setUp(self):self.r={p.stem:json.loads(p.read_text()) for p in M.RECORD_ROOT.glob('*.json')};self.g=json.loads(M.REGISTRY.read_text());self.e=json.loads(M.EXECUTION.read_text());self.routes=json.loads(M.ROUTES.read_text())
  def errors(self,**k):return M.validation_errors(records=copy.deepcopy(k.get('records',self.r)),registry=copy.deepcopy(k.get('registry',self.g)),execution=copy.deepcopy(k.get('execution',self.e)),routes=copy.deepcopy(k.get('routes',self.routes)))
  def test_current(self):self.assertEqual(self.errors(),[])
+ def test_base64_terminal_newline_is_normalized(self):self.assertEqual(M.decode_base64(b'QQ==\n'),b'A')
+ def test_invalid_base64_is_rejected(self):
+  with self.assertRaises(Exception):M.decode_base64(b'QQ$=')
  def test_missing(self):r=copy.deepcopy(self.r);r.pop('OTP-F-EHRHART');self.assertTrue(self.errors(records=r))
  def test_artifact_drift(self):r=copy.deepcopy(self.r);r['OTP-J1-COMPACTNESS']['execution_authority']['artifact']['sha256']='0'*64;self.assertTrue(self.errors(records=r))
  def test_bundle_drift(self):r=copy.deepcopy(self.r);r['OTP-J2-TWO-DEGENERATE']['repository_bundle']['decoded_sha256']='0'*64;self.assertTrue(self.errors(records=r))
