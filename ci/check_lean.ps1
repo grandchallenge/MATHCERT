@@ -8,12 +8,16 @@ lake build mathsolve/MathSolve
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 lake env lean MathCert/FormalSources/RHNSReplay.lean
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+lake env lean MathCert/FormalSources/UCRestrictedReplay.lean
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 Invoke-Control "ci/validate_certification_routes.py"
 Invoke-Control "ci/test_validate_certification_routes.py"
 Invoke-Control "ci/validate_formal_source_provenance.py"
 Invoke-Control "ci/test_formal_source_provenance.py"
 Invoke-Control "ci/validate_formal_target_certificates.py"
 Invoke-Control "ci/test_formal_target_certificates.py"
+Invoke-Control "ci/validate_uc_restricted_qualification.py"
+Invoke-Control "ci/test_uc_restricted_qualification.py"
 Invoke-Control "ci/check_ledgers.py"
 Invoke-Control "ci/test_validate_ledgers.py"
 Invoke-Control "ci/validate_algebraic_certificates.py"
