@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "registry_id": "MC-CERTIFICATION-ROUTES",
   "provider_repository": "grandchallenge/MATHCERT",
-  "provider_base_commit": "fc39eb8cd33b4dc69adfa96f1ae0648c58fbfeb5",
+  "provider_base_commit": "e8d1e34509e640d82902ad0195560740b52bec0e",
   "programme_issue": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/123",
   "routes": [
     {
@@ -24,279 +24,114 @@
         "digest_algorithm": "git_blob_sha1",
         "digest": "8369bc21e45be6af71d2a0cdb0c5ab3cb5313bfb"
       },
-      "target_claim_ids": [
-        "UC-WP02-L002",
-        "UC-WP04-L001",
-        "UC-WP01-C004"
-      ],
-      "requested_modalities": [
-        "LEAN_FORMALIZATION",
-        "EXACT_RATIONAL_CERTIFICATE"
-      ],
+      "target_claim_ids": ["UC-WP02-L002", "UC-WP04-L001", "UC-WP01-C004"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "EXACT_RATIONAL_CERTIFICATE"],
       "claim_boundary": "Restricted Lean theorems, bounded replay, and source concordance do not prove Frankl's conjecture.",
       "cert_output": null,
-      "blockers": [
-        "The packet is accepted for intake only; no MATHCERT adjudication has been recorded."
-      ],
-      "reopening_conditions": [
-        "Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."
-      ]
+      "blockers": ["The packet is accepted for intake only; no MATHCERT adjudication has been recorded."],
+      "reopening_conditions": ["Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."]
     },
     {
       "route_id": "MC-ROUTE-NS-CI-001",
       "campaign_id": "NS-CI-001",
       "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/19",
-      "source_manifest": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "campaign_manifests/NS-CI-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "fcdd10f96b19c218ba700deb452b7da7f6b9b975"
-      },
+      "source_manifest": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "campaign_manifests/NS-CI-001.json", "digest_algorithm": "git_blob_sha1", "digest": "fcdd10f96b19c218ba700deb452b7da7f6b9b975"},
       "intake_status": "qualified",
-      "intake_packet": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "cert_handoffs/NS-CI-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "40cad99646829fe40edf9c616074514407e49dee"
-      },
-      "target_claim_ids": [
-        "NS-CI-T-000",
-        "NS-CI-WP00-C003",
-        "NS-A2"
-      ],
-      "requested_modalities": [
-        "LEAN_FORMALIZATION",
-        "SEMANTIC_REPLAY",
-        "SPECIALIST_AUDIT_PENDING"
-      ],
+      "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "cert_handoffs/NS-CI-001.json", "digest_algorithm": "git_blob_sha1", "digest": "40cad99646829fe40edf9c616074514407e49dee"},
+      "target_claim_ids": ["NS-CI-T-000", "NS-CI-WP00-C003", "NS-A2"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
       "claim_boundary": "The exact NS-CI target interface, quantifier order, exponent order, imported analytic axiom boundary, and one-way bridge definition are qualified. Universal critical integrability, NS-A2, the bridge, and global regularity remain unproved.",
-      "cert_output": {
-        "repository": "grandchallenge/MATHCERT",
-        "commit_sha": "b1aa08001eb8537be8e204c3866aefd5f898252e",
-        "path": "certificates/formal_sources/MC-FC-WP00-NS-CI-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "6047ad774957974a6c2aa86bae72b51841e774a4"
-      },
-      "blockers": [
-        "NS-CI-T-000 and NS-A2 remain mathematically unproved.",
-        "The continuation bridge remains an unproved one-way proposition.",
-        "The Leray-Hopf, mixed-norm, and positive Clay predicates remain explicit imported domain axioms."
-      ],
-      "reopening_conditions": [
-        "Update this route when the target quantifiers, exponent order, imported axiom set, handoff identity, or mathematical proof status changes."
-      ]
+      "cert_output": {"repository": "grandchallenge/MATHCERT", "commit_sha": "b1aa08001eb8537be8e204c3866aefd5f898252e", "path": "certificates/formal_sources/MC-FC-WP00-NS-CI-001.json", "digest_algorithm": "git_blob_sha1", "digest": "6047ad774957974a6c2aa86bae72b51841e774a4"},
+      "blockers": ["NS-CI-T-000 and NS-A2 remain mathematically unproved.", "The continuation bridge remains an unproved one-way proposition.", "The Leray-Hopf, mixed-norm, and positive Clay predicates remain explicit imported domain axioms."],
+      "reopening_conditions": ["Update this route when the target quantifiers, exponent order, imported axiom set, handoff identity, or mathematical proof status changes."]
     },
     {
-      "route_id": "MC-ROUTE-HC-001",
-      "campaign_id": "HC-001",
-      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/23",
-      "source_manifest": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "campaign_manifests/HC-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "48e3a0c22299147fe48cb4288cda813d7cffdcb4"
-      },
-      "intake_status": "ready",
-      "intake_packet": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "cert_handoffs/HC-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "0c154af2e577e4367f9f5d0aeac5e15f9420172c"
-      },
-      "target_claim_ids": [
-        "HC-C001",
-        "HC-C002",
-        "HC-C003"
-      ],
-      "requested_modalities": [
-        "LEAN_FORMALIZATION",
-        "SEMANTIC_REPLAY",
-        "SPECIALIST_AUDIT_PENDING"
-      ],
-      "claim_boundary": "Statement consistency, semantic replay, and a negative source screen do not prove the Hodge conjecture.",
-      "cert_output": null,
-      "blockers": [
-        "The packet is accepted for intake only; the full Hodge conjecture remains open and no MATHCERT adjudication has been recorded."
-      ],
-      "reopening_conditions": [
-        "Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."
-      ]
+      "route_id": "MC-ROUTE-HC-001", "campaign_id": "HC-001", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/23",
+      "source_manifest": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "campaign_manifests/HC-001.json", "digest_algorithm": "git_blob_sha1", "digest": "48e3a0c22299147fe48cb4288cda813d7cffdcb4"},
+      "intake_status": "ready", "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "cert_handoffs/HC-001.json", "digest_algorithm": "git_blob_sha1", "digest": "0c154af2e577e4367f9f5d0aeac5e15f9420172c"},
+      "target_claim_ids": ["HC-C001", "HC-C002", "HC-C003"], "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "Statement consistency, semantic replay, and a negative source screen do not prove the Hodge conjecture.", "cert_output": null,
+      "blockers": ["The packet is accepted for intake only; the full Hodge conjecture remains open and no MATHCERT adjudication has been recorded."],
+      "reopening_conditions": ["Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."]
     },
     {
-      "route_id": "MC-ROUTE-BSD-001",
-      "campaign_id": "BSD-001",
-      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/26",
-      "source_manifest": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "campaign_manifests/BSD-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "3fb3b07400915d90047a06a353537cf2e1593b9e"
-      },
-      "intake_status": "pending",
-      "intake_packet": null,
-      "target_claim_ids": [
-        "BSD-R2-A1"
-      ],
-      "requested_modalities": [
-        "LEAN_FORMALIZATION",
-        "EXACT_RATIONAL_CERTIFICATE",
-        "SPECIALIST_AUDIT_PENDING"
-      ],
-      "claim_boundary": "Source adjacency and packet registration do not certify BSD or the selected unproved restricted target.",
-      "cert_output": null,
-      "blockers": [
-        "Historical Solve-owned work remains Programme-embedded.",
-        "BSD-R2-A1 is unproved and the pending packet is not accepted for adjudication."
-      ],
-      "reopening_conditions": [
-        "Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."
-      ]
+      "route_id": "MC-ROUTE-BSD-001", "campaign_id": "BSD-001", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/26",
+      "source_manifest": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "campaign_manifests/BSD-001.json", "digest_algorithm": "git_blob_sha1", "digest": "3fb3b07400915d90047a06a353537cf2e1593b9e"},
+      "intake_status": "pending", "intake_packet": null, "target_claim_ids": ["BSD-R2-A1"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "EXACT_RATIONAL_CERTIFICATE", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "Source adjacency and packet registration do not certify BSD or the selected unproved restricted target.", "cert_output": null,
+      "blockers": ["Historical Solve-owned work remains Programme-embedded.", "BSD-R2-A1 is unproved and the pending packet is not accepted for adjudication."],
+      "reopening_conditions": ["Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."]
     },
     {
-      "route_id": "MC-ROUTE-PNP-001",
-      "campaign_id": "PNP-001",
-      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/27",
-      "source_manifest": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "campaign_manifests/PNP-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "6ecdfa0714828518878ccaf2cdc65756a5955186"
-      },
-      "intake_status": "pending",
-      "intake_packet": null,
-      "target_claim_ids": [
-        "PNP-T-130"
-      ],
-      "requested_modalities": [
-        "LEAN_FORMALIZATION",
-        "SAT_SMT_CERTIFICATE",
-        "SEMANTIC_REPLAY",
-        "SPECIALIST_AUDIT_PENDING"
-      ],
-      "claim_boundary": "Class-symbol correspondence, finite encodings, and replay fixtures do not resolve P versus NP.",
-      "cert_output": null,
-      "blockers": [
-        "Definition-level concordance for P, NP, machines, encodings, totality, malformed inputs, and polynomial bounds remains open.",
-        "The pending packet is not accepted for adjudication."
-      ],
-      "reopening_conditions": [
-        "Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."
-      ]
+      "route_id": "MC-ROUTE-PNP-001", "campaign_id": "PNP-001", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/27",
+      "source_manifest": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "campaign_manifests/PNP-001.json", "digest_algorithm": "git_blob_sha1", "digest": "6ecdfa0714828518878ccaf2cdc65756a5955186"},
+      "intake_status": "pending", "intake_packet": null, "target_claim_ids": ["PNP-T-130"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "SAT_SMT_CERTIFICATE", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "Class-symbol correspondence, finite encodings, and replay fixtures do not resolve P versus NP.", "cert_output": null,
+      "blockers": ["Definition-level concordance for P, NP, machines, encodings, totality, malformed inputs, and polynomial bounds remains open.", "The pending packet is not accepted for adjudication."],
+      "reopening_conditions": ["Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."]
     },
     {
-      "route_id": "MC-ROUTE-RH-001",
-      "campaign_id": "RH-001",
-      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/28",
-      "source_manifest": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "campaign_manifests/RH-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "4ce2c5bcdc7bc1d0d63f7b2244898c8a651d5f64"
-      },
-      "intake_status": "qualified",
-      "intake_packet": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "cert_handoffs/RH-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "7304f185bd817bb67b77540513dc01d05f6fcd3a"
-      },
-      "target_claim_ids": [
-        "RH-T-000"
-      ],
-      "requested_modalities": [
-        "LEAN_FORMALIZATION",
-        "SEMANTIC_REPLAY",
-        "SPECIALIST_AUDIT_PENDING"
-      ],
+      "route_id": "MC-ROUTE-RH-001", "campaign_id": "RH-001", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/28",
+      "source_manifest": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "campaign_manifests/RH-001.json", "digest_algorithm": "git_blob_sha1", "digest": "4ce2c5bcdc7bc1d0d63f7b2244898c8a651d5f64"},
+      "intake_status": "qualified", "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "cert_handoffs/RH-001.json", "digest_algorithm": "git_blob_sha1", "digest": "7304f185bd817bb67b77540513dc01d05f6fcd3a"},
+      "target_claim_ids": ["RH-T-000"], "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
       "claim_boundary": "The exact RH statement interface and its definitional equality to mathlib RiemannHypothesis are qualified. The Riemann Hypothesis itself remains unproved.",
-      "cert_output": {
-        "repository": "grandchallenge/MATHCERT",
-        "commit_sha": "b1aa08001eb8537be8e204c3866aefd5f898252e",
-        "path": "certificates/formal_sources/MC-FC-WP00-RH-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "3668bbf792d994a6d8919101417f2f3cad342cdc"
-      },
-      "blockers": [
-        "RH-T-000 remains mathematically unproved.",
-        "This qualification applies only to statement identity and kernel-checked concordance."
-      ],
-      "reopening_conditions": [
-        "Update this route when the zeta carrier, zero taxonomy, handoff identity, mathlib identity, or mathematical proof status changes."
-      ]
+      "cert_output": {"repository": "grandchallenge/MATHCERT", "commit_sha": "b1aa08001eb8537be8e204c3866aefd5f898252e", "path": "certificates/formal_sources/MC-FC-WP00-RH-001.json", "digest_algorithm": "git_blob_sha1", "digest": "3668bbf792d994a6d8919101417f2f3cad342cdc"},
+      "blockers": ["RH-T-000 remains mathematically unproved.", "This qualification applies only to statement identity and kernel-checked concordance."],
+      "reopening_conditions": ["Update this route when the zeta carrier, zero taxonomy, handoff identity, mathlib identity, or mathematical proof status changes."]
     },
     {
-      "route_id": "MC-ROUTE-YM-001",
-      "campaign_id": "YM-001",
-      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/29",
-      "source_manifest": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "campaign_manifests/YM-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "733d11811d0226fa2b2467965c3655a7d0fad963"
-      },
-      "intake_status": "pending",
-      "intake_packet": null,
-      "target_claim_ids": [
-        "YM-WP02-C001",
-        "YM-WP02-C007"
-      ],
-      "requested_modalities": [
-        "LEAN_FORMALIZATION",
-        "INTERVAL_ARITHMETIC_CERTIFICATE",
-        "SEMANTIC_REPLAY",
-        "SPECIALIST_AUDIT_PENDING"
-      ],
-      "claim_boundary": "Lexical screening and finite or regulated certificates do not construct four-dimensional Yang-Mills theory or prove a mass gap.",
-      "cert_output": null,
-      "blockers": [
-        "Formal Conjectures inventory hits are lexical false positives, not Yang-Mills evidence.",
-        "Existence, reconstruction, regulator-survival, and mass-gap obligations remain open."
-      ],
-      "reopening_conditions": [
-        "Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."
-      ]
+      "route_id": "MC-ROUTE-YM-001", "campaign_id": "YM-001", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/29",
+      "source_manifest": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "campaign_manifests/YM-001.json", "digest_algorithm": "git_blob_sha1", "digest": "733d11811d0226fa2b2467965c3655a7d0fad963"},
+      "intake_status": "pending", "intake_packet": null, "target_claim_ids": ["YM-WP02-C001", "YM-WP02-C007"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "INTERVAL_ARITHMETIC_CERTIFICATE", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "Lexical screening and finite or regulated certificates do not construct four-dimensional Yang-Mills theory or prove a mass gap.", "cert_output": null,
+      "blockers": ["Formal Conjectures inventory hits are lexical false positives, not Yang-Mills evidence.", "Existence, reconstruction, regulator-survival, and mass-gap obligations remain open."],
+      "reopening_conditions": ["Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."]
     },
     {
-      "route_id": "MC-ROUTE-OZ-001",
-      "campaign_id": "OZ-001",
-      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/30",
-      "source_manifest": {
-        "repository": "grandchallenge/MATHSOLVE",
-        "commit_sha": "916f3434abcce29098ba7508a3b457a461461193",
-        "path": "campaign_manifests/OZ-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": "8b3164ab88a35ec9fba69013b44056573e846bfe"
-      },
-      "intake_status": "pending",
-      "intake_packet": null,
-      "target_claim_ids": [
-        "OZ-WP00-INTAKE-BOUNDARY",
-        "OZ-INTAKE-U006"
-      ],
-      "requested_modalities": [
-        "LEAN_FORMALIZATION",
-        "EXACT_RATIONAL_CERTIFICATE",
-        "SEMANTIC_REPLAY",
-        "SPECIALIST_AUDIT_PENDING"
-      ],
-      "claim_boundary": "Source-scope registration and theorem-lattice separation do not certify a new formula, novelty claim, or irrationality conclusion.",
+      "route_id": "MC-ROUTE-OZ-001", "campaign_id": "OZ-001", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/30",
+      "source_manifest": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "campaign_manifests/OZ-001.json", "digest_algorithm": "git_blob_sha1", "digest": "8b3164ab88a35ec9fba69013b44056573e846bfe"},
+      "intake_status": "pending", "intake_packet": null, "target_claim_ids": ["OZ-WP00-INTAKE-BOUNDARY", "OZ-INTAKE-U006"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "EXACT_RATIONAL_CERTIFICATE", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "Source-scope registration and theorem-lattice separation do not certify a new formula, novelty claim, or irrationality conclusion.", "cert_output": null,
+      "blockers": ["The eight odd-zeta source scopes remain noninterchangeable and create no new irrationality conclusion.", "T3 remains open, Sharp-12 remains gated, and the pending packet is not accepted for adjudication."],
+      "reopening_conditions": ["Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."]
+    },
+    {
+      "route_id": "MC-ROUTE-OTP-F-EHRHART", "campaign_id": "OTP-F-EHRHART", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/55",
+      "source_manifest": {"repository": "grandchallenge/MATHFORGE", "commit_sha": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15", "path": "provider_manifests/OPENAI-TEN-PROOFS-001.json", "digest_algorithm": "git_blob_sha1", "digest": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472"},
+      "intake_status": "submitted", "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab", "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-F-EHRHART.json", "digest_algorithm": "git_blob_sha1", "digest": "4653985d4980113514266c3c421804437bacb019"},
+      "target_claim_ids": ["Ehrhart.Volume.ehrhart_volume_inequality_for_sets", "Ehrhart.SimplexVolume.exists_centeredBody_sharp", "Ehrhart.SimplexVolume.barycenter_centeredSimplex", "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "This registered route is limited to the exact encoded Ehrhart family targets and recorded current-revision theorem locus. It does not classify all equality cases, compare the analytic proof body in full, adjudicate or prove the source theorem, issue a Cert output, or create an aggregate ten-proofs route.",
       "cert_output": null,
-      "blockers": [
-        "The eight odd-zeta source scopes remain noninterchangeable and create no new irrationality conclusion.",
-        "T3 remains open, Sharp-12 remains gated, and the pending packet is not accepted for adjudication."
-      ],
-      "reopening_conditions": [
-        "Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."
-      ]
+      "blockers": ["No MATHCERT adjudication has been authorized or recorded.", "Classification of all Ehrhart equality cases remains excluded.", "Whole-document manuscript equivalence and full proof-body comparison remain unestablished."],
+      "reopening_conditions": ["Update this route only through a separately authorized, exact-head reviewed MATHCERT adjudication or authority-repin operation."]
+    },
+    {
+      "route_id": "MC-ROUTE-OTP-J1-COMPACTNESS", "campaign_id": "OTP-J1-COMPACTNESS", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/55",
+      "source_manifest": {"repository": "grandchallenge/MATHFORGE", "commit_sha": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15", "path": "provider_manifests/OPENAI-TEN-PROOFS-001.json", "digest_algorithm": "git_blob_sha1", "digest": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472"},
+      "intake_status": "submitted", "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab", "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-J1-COMPACTNESS.json", "digest_algorithm": "git_blob_sha1", "digest": "2d9c6e555a03b71eb33c476321e7f2d311ed168f"},
+      "target_claim_ids": ["CompactnessConjecture.quantitativeCompactnessCounterexample", "CompactnessConjecture.compactnessCounterexample_bigO", "CompactnessConjecture.not_erdos_180"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "This registered route is limited to the exact corrected Compactness family targets and recorded current-revision theorem locus. It does not independently certify the explicit construction beyond the encoded targets, compare the proof body in full, adjudicate or prove the source theorem, issue a Cert output, or create an aggregate ten-proofs route.",
+      "cert_output": null,
+      "blockers": ["No MATHCERT adjudication has been authorized or recorded.", "The explicit construction is not independently certified beyond the encoded existential targets.", "Whole-document manuscript equivalence and full proof-body comparison remain unestablished."],
+      "reopening_conditions": ["Update this route only through a separately authorized, exact-head reviewed MATHCERT adjudication or authority-repin operation."]
+    },
+    {
+      "route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE", "campaign_id": "OTP-J2-TWO-DEGENERATE", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/55",
+      "source_manifest": {"repository": "grandchallenge/MATHFORGE", "commit_sha": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15", "path": "provider_manifests/OPENAI-TEN-PROOFS-001.json", "digest_algorithm": "git_blob_sha1", "digest": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472"},
+      "intake_status": "submitted", "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab", "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-J2-TWO-DEGENERATE.json", "digest_algorithm": "git_blob_sha1", "digest": "0d226492bf13e13bc1a437be01104db3d4c96f79"},
+      "target_claim_ids": ["TwoDegenerateGraphs.twoDegenerateExtremalCounterexample", "TwoDegenerateGraphs.not_erdos_146"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "This registered route is limited to the exact Two-degenerate family targets and recorded current-revision theorem locus. It does not attribute the stronger coloring-side property to the source theorem, independently certify the construction beyond the encoded targets, compare the proof body in full, adjudicate or prove the theorem, issue a Cert output, or create an aggregate ten-proofs route.",
+      "cert_output": null,
+      "blockers": ["No MATHCERT adjudication has been authorized or recorded.", "The stronger coloring-side property remains excluded from source attribution.", "Whole-document manuscript equivalence and full proof-body comparison remain unestablished."],
+      "reopening_conditions": ["Update this route only through a separately authorized, exact-head reviewed MATHCERT adjudication or authority-repin operation."]
     }
   ]
 }

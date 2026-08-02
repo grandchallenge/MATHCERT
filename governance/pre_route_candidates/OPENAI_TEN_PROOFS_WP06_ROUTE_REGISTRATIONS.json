@@ -1,0 +1,166 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_route_registration_registry",
+  "record_id": "MC-OPENAI-TEN-PROOFS-WP06-ROUTE-REGISTRATIONS",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/55",
+  "authority": {
+    "proposal_pr_head": "7b27d49c63dd126e6a18b80b340c71276bd71c84",
+    "proposal_merge": "e8d1e34509e640d82902ad0195560740b52bec0e",
+    "proposal_review": {
+      "reviewer": "jimsteeg",
+      "state": "APPROVED",
+      "submitted_at": "2026-08-02T04:16:37Z"
+    },
+    "proposal_registry": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "e8d1e34509e640d82902ad0195560740b52bec0e",
+      "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP05_ROUTE_PROPOSALS.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1883b29ec888ffc487c65b76b35cfcb122f47e51"
+    },
+    "registered_route_registry_before_blob": "5b3e8d48b9f6c5b03ed3dc439bf9e43876e017b1",
+    "registered_route_registry_blob": "b5541045591f8589130b1577c50d51d70c3b4337"
+  },
+  "state": {
+    "proposal_count": 3,
+    "registered_route_count": 3,
+    "submitted_route_count": 3,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "registrations": [
+    {
+      "result_family": "OTP-F-EHRHART",
+      "route_id": "MC-ROUTE-OTP-F-EHRHART",
+      "proposal": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "e8d1e34509e640d82902ad0195560740b52bec0e",
+        "path": "governance/result_family_route_proposals/OTP-F-EHRHART.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "7b069a003c84ef285259108076a55338fab0bc7f"
+      },
+      "source_manifest": {
+        "repository": "grandchallenge/MATHFORGE",
+        "commit_sha": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15",
+        "path": "provider_manifests/OPENAI-TEN-PROOFS-001.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472"
+      },
+      "intake_packet": {
+        "repository": "grandchallenge/MATHSOLVE",
+        "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+        "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-F-EHRHART.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "4653985d4980113514266c3c421804437bacb019"
+      },
+      "intake_status": "submitted",
+      "target_claim_ids": [
+        "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+        "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+        "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+        "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+      ],
+      "cert_output": null,
+      "may_adjudicate": false,
+      "mathematical_target_proved": false,
+      "may_promote_claim": false
+    },
+    {
+      "result_family": "OTP-J1-COMPACTNESS",
+      "route_id": "MC-ROUTE-OTP-J1-COMPACTNESS",
+      "proposal": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "e8d1e34509e640d82902ad0195560740b52bec0e",
+        "path": "governance/result_family_route_proposals/OTP-J1-COMPACTNESS.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "2e541ca5882873ee1c756814642994361b10c78c"
+      },
+      "source_manifest": {
+        "repository": "grandchallenge/MATHFORGE",
+        "commit_sha": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15",
+        "path": "provider_manifests/OPENAI-TEN-PROOFS-001.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472"
+      },
+      "intake_packet": {
+        "repository": "grandchallenge/MATHSOLVE",
+        "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+        "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-J1-COMPACTNESS.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "2d9c6e555a03b71eb33c476321e7f2d311ed168f"
+      },
+      "intake_status": "submitted",
+      "target_claim_ids": [
+        "CompactnessConjecture.quantitativeCompactnessCounterexample",
+        "CompactnessConjecture.compactnessCounterexample_bigO",
+        "CompactnessConjecture.not_erdos_180"
+      ],
+      "cert_output": null,
+      "may_adjudicate": false,
+      "mathematical_target_proved": false,
+      "may_promote_claim": false
+    },
+    {
+      "result_family": "OTP-J2-TWO-DEGENERATE",
+      "route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
+      "proposal": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "e8d1e34509e640d82902ad0195560740b52bec0e",
+        "path": "governance/result_family_route_proposals/OTP-J2-TWO-DEGENERATE.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "0692ac15c19328532bdcd3e73b3c8c4371647ac6"
+      },
+      "source_manifest": {
+        "repository": "grandchallenge/MATHFORGE",
+        "commit_sha": "0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15",
+        "path": "provider_manifests/OPENAI-TEN-PROOFS-001.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472"
+      },
+      "intake_packet": {
+        "repository": "grandchallenge/MATHSOLVE",
+        "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+        "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-J2-TWO-DEGENERATE.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "0d226492bf13e13bc1a437be01104db3d4c96f79"
+      },
+      "intake_status": "submitted",
+      "target_claim_ids": [
+        "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
+        "TwoDegenerateGraphs.not_erdos_146"
+      ],
+      "cert_output": null,
+      "may_adjudicate": false,
+      "mathematical_target_proved": false,
+      "may_promote_claim": false
+    }
+  ],
+  "preserved_limitations": {
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_bodies_compared_in_full": false,
+    "unexamined_result_family_count": 9,
+    "blocked_repair_lanes": [
+      "OTP-C-PERMANENT",
+      "OTP-H-GAPCVP"
+    ],
+    "all_lean_state": "failed_namespace_collision"
+  },
+  "route_controls": {
+    "registration_scope": "exact_three_result_families",
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "aggregate_route_prohibited": true,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact-head Cert checks, GCL conformance, non-author APPROVED specialist review, explicit exact-head Human Steward disposition, and protected MATHCERT merge",
+    "head_change_requires_reapproval": true,
+    "effect": "three_routes_registered_no_adjudication_no_outputs"
+  },
+  "claim_boundary": "This registry records registration of exactly three independent result-family routes after protected activation. Registration authorizes later family-specific adjudication design only. It does not adjudicate or prove any theorem, issue a Cert output, establish whole-document manuscript equivalence, compare proof bodies in full, clear the remaining nine families, repair Permanent, GapCVP, or All.lean, create an aggregate ten-proofs route, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
