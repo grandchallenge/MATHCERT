@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_ehrhart_adjudication",
+  "adjudication_id": "MC-OTP-F-EHRHART-ADJUDICATION-001",
+  "result_family": "OTP-F-EHRHART",
+  "route_id": "MC-ROUTE-OTP-F-EHRHART",
+  "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-F-EHRHART",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/64",
+  "authority": {
+    "contract_design_merge": "9f5ec626306092a352aa5ba8d9920b6ddb11b8bb",
+    "contract_blob": "6e1c210d82440210da71fd661daffe986df81f03",
+    "execution_candidate_head": "883a4ae09c6996367a601eed2b4719972b351aab",
+    "execution_candidate_merge": "0c11710965219d5a68968dda8ee6c8eceb20112d",
+    "execution_candidate_record_blob": "caff4c5b6f99cfbee373af1858174c9e1102d990",
+    "execution_candidate_manifest_blob": "6b1b3cf62df8e3005870a4468d2410b080ac3499",
+    "human_steward_authorization": {
+      "issue": "https://github.com/grandchallenge/MATHCERT/issues/62",
+      "comment_id": 5156788834,
+      "named_contract": "MC-OTP-ADJUDICATION-CONTRACT-F-EHRHART",
+      "named_candidate_head": "883a4ae09c6996367a601eed2b4719972b351aab",
+      "named_candidate_merge": "0c11710965219d5a68968dda8ee6c8eceb20112d"
+    }
+  },
+  "encoded_targets": [
+    "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+    "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+    "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+    "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+  ],
+  "raw_evidence_verification": {
+    "artifact_id": 8830320201,
+    "artifact_name": "otp-ehrhart-evidence-refresh",
+    "bytes": 16546,
+    "sha256": "7a433f6b7d4b9b641ae6ad1b3e42c5c40e57d53922fb758286e38a92ca8e69fb",
+    "sha256sums_verified": 13,
+    "bundle_manifest_present": true,
+    "verification_result": "pass"
+  },
+  "evidence_assessment": {
+    "authority_integrity": "clear",
+    "isolated_checker_replay": "clear_four_encoded_targets",
+    "lean_kernel": "accept",
+    "nanoda": "accept",
+    "theorem_axioms": "permitted_only_Classical.choice_Quot.sound_propext",
+    "trust_boundary": "clear_solution_no_placeholder_unsafe_or_custom_axiom",
+    "source_statement_concordance": "clear_at_chapter_8_theorem_1_1_for_encoded_scope_only",
+    "nonvacuity": "clear_for_named_centered_body_and_normalized_volume_witness_paths",
+    "construction_interpretation": "clear_as_sharpness_witness_only",
+    "equality_case_classification": "excluded",
+    "whole_document_equivalence": "not_established",
+    "proof_body_compared_in_full": false
+  },
+  "decision": {
+    "question": "Does the complete admissible evidence support a family-specific MATHCERT adjudication of only the exact encoded target set, with every recorded source-scope limitation preserved?",
+    "disposition": "adjudication_clear_encoded_targets_only",
+    "scope": "The exact four encoded Ehrhart targets and the admitted centered-simplex sharpness witness only.",
+    "rationale": [
+      "The content-addressed authority chain and protected execution-candidate identities are internally consistent.",
+      "The isolated replay accepts all four encoded targets under Comparator, the Lean kernel, and Nanoda with only the permitted axiom set.",
+      "The reacquired Chapter 8, Theorem 1.1 locus matches the normalized inequality and sharpness statement within the recorded scope.",
+      "The named witnesses establish nonvacuity for the positive-dimension, full-dimensional, centered-body, and normalized-volume paths.",
+      "The source explicitly leaves classification of all equality cases unresolved, and this adjudication preserves that exclusion."
+    ],
+    "binding_effect": "Binding only after exact-head checks, fresh non-author specialist approval, any required exact-head Human Steward merge disposition, and protected merge."
+  },
+  "review_gate": {
+    "fresh_non_author_specialist_review_required": true,
+    "minimum_reviewers": 1,
+    "required_state": "APPROVED",
+    "must_bind_exact_head": true,
+    "recorded_review": null
+  },
+  "state": {
+    "route_state": "submitted",
+    "adjudication_operation_authorized": true,
+    "adjudication_recorded_on_branch": true,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false
+  },
+  "preserved_limitations": {
+    "classification_or_uniqueness_of_all_equality_cases": "excluded",
+    "whole_document_byte_equivalence": "not_established_between_all_revisions",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false,
+    "other_family_adjudications_executed": false,
+    "unexamined_result_family_count": 9,
+    "blocked_repair_lanes": [
+      "OTP-C-PERMANENT",
+      "OTP-H-GAPCVP"
+    ],
+    "all_lean_state": "failed_namespace_collision"
+  },
+  "claim_boundary": "This bounded adjudication clears only the exact encoded OTP-F-EHRHART targets and admitted sharpness witness for MATHCERT route purposes. It does not classify or establish uniqueness of all equality cases, establish whole-document equivalence, compare the analytic proof body in full, issue a Cert output, mark the source theorem or any mathematical target proved, alter another result-family route, create aggregate ten-proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}
