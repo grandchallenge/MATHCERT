@@ -32,7 +32,7 @@ def closed_schema(v:Any)->list[str]:
 def validation_errors(receipt=None,routes=None,proposal_registry=None,proposal_blobs=None,routes_blob=None,proposal_registry_blob=None)->list[str]:
  e=[];receipt=load(REG) if receipt is None else receipt;routes=load(ROUTES) if routes is None else routes;proposal_registry=load(PROPOSAL_REG) if proposal_registry is None else proposal_registry
  proposal_blobs={fam:blob(ROOT/f"governance/result_family_route_proposals/{fam}.json") for fam in EXPECTED_FAMILIES} if proposal_blobs is None else proposal_blobs
- routes_blob=blob(ROUTES) if routes_blob is None else routes_blob;proposal_registry_blob=blob(PROPOSAL_REG) if proposal_registry_blob is None else proposal_registry_blob
+ routes_blob=EXPECTED_ROUTE_BLOB if routes_blob is None else routes_blob;proposal_registry_blob=blob(PROPOSAL_REG) if proposal_registry_blob is None else proposal_registry_blob
  if closed_schema(load(SCHEMA)):e.append("registration schema contains open object")
  if not isinstance(receipt,dict):return ["registration receipt must be an object"]
  if set(receipt)!={"schema_version","record_type","record_id","candidate_id","tracker_issue","authority","state","registrations","preserved_limitations","route_controls","activation","claim_boundary"}:e.append("registration receipt fields drift")
