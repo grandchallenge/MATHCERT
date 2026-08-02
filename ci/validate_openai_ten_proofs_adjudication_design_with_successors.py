@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 import validate_openai_ten_proofs_adjudication_contracts as design
+import validate_openai_ten_proofs_route_registrations as route_registration
 
 ROOT = Path(__file__).resolve().parents[1]
 ADJUDICATION_DIR = ROOT / "governance/result_family_adjudications"
@@ -12,8 +13,13 @@ CERT_DIR = ROOT / "certificates/openai_ten_proofs"
 ALLOWED_ADJUDICATIONS = {"OTP-F-EHRHART.json"}
 
 
+def design_routes_snapshot() -> dict:
+    return route_registration.registration_snapshot(design.load(design.D.ROUTES))
+
+
 def validation_errors() -> list[str]:
     errors = design.validation_errors(
+        routes=design_routes_snapshot(),
         executed_present=False,
         route_blob=design.D.ROUTE_REGISTRY_BLOB,
     )
@@ -29,7 +35,7 @@ def validation_errors() -> list[str]:
         path.name for path in CERT_DIR.glob("*.json") if path.is_file()
     } if CERT_DIR.is_dir() else set()
     if actual_outputs:
-        errors.append(f"unauthorized OTP Cert output artifacts exist: {sorted(actual_outputs)}")
+        errors.append(f"unauthorized legacy OTP Cert output artifacts exist: {sorted(actual_outputs)}")
     return errors
 
 
@@ -43,7 +49,9 @@ def main() -> int:
         )
         return 1
     print(
-        "validated three immutable design-only OTP adjudication contracts, exactly one separately governed Ehrhart adjudication record, and zero Cert outputs"
+        "validated immutable design-only adjudication contracts against their "
+        "submitted-route snapshot, exactly one separately governed Ehrhart "
+        "adjudication, and no legacy OTP output artifact"
     )
     return 0
 
