@@ -38,7 +38,7 @@ EXPECTED_TARGETS = [
     "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex",
 ]
 EXPECTED_BLOBS = {
-    "candidate_schema": "858f2ecefdc393d85ec88f8cfc5eaf0d4a5d0118",
+    "candidate_schema": "8fc02d4c7c78858688252e989c1547cf5df9fc7e",
     "transition_schema": "8a22bf22a09cbf5d802a95ffa8401246bf5519f3",
     "staged_certificate": "27a855c949b67e71372c7f0d6601d80125d33968",
     "transition": "2862950612fde71331cce92161ecf208f57f3eb9",
