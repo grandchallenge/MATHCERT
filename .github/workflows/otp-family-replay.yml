@@ -1,0 +1,141 @@
+name: OTP family replay
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-family-replay.yml"
+      - "ci/landrun_comparator_adapter.sh"
+      - "ci/run_openai_ten_proofs_family_replay.sh"
+      - "ci/validate_openai_ten_proofs_replay_execution.py"
+      - "ci/test_openai_ten_proofs_replay_execution.py"
+      - "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP03_REPLAY_EXECUTION.json"
+      - "schemas/openai_ten_proofs_replay_execution.schema.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  replay:
+    name: replay-${{ matrix.slug }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - slug: ehrhart
+            family: OTP-F-EHRHART
+            config: ComparatorChallenges/F_EhrhartVolumeInequality.json
+            solution: EhrhartVolumeInequality
+            challenge: ComparatorChallenges.F_EhrhartVolumeInequality
+          - slug: compactness
+            family: OTP-J1-COMPACTNESS
+            config: ComparatorChallenges/J_CompactnessConjecture.json
+            solution: CompactnessAndDegeneracy
+            challenge: ComparatorChallenges.J_CompactnessConjecture
+          - slug: two-degenerate
+            family: OTP-J2-TWO-DEGENERATE
+            config: ComparatorChallenges/J_TwoDegenerateGraphs.json
+            solution: CompactnessAndDegeneracy
+            challenge: ComparatorChallenges.J_TwoDegenerateGraphs
+    steps:
+      - name: Check out MATHCERT subject head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check out exact upstream formalization
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: openai/ten-proofs
+          ref: e62211d28e3a9131950c89caa6542cfe5eff3bca
+          path: upstream
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Forge semantic authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: cb0a203c36a9ef33270d62ab369df7bc27d3b242
+          path: forge
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Solve producer authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHSOLVE
+          ref: 443daf537dc7e4ee34ab43aeb01508d9177816ab
+          path: solve
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install Lean 4.32.0 and mathlib cache
+        uses: grandchallenge/lean-action@aa909e45950f6e5dd89e05dfed6b78e190ed99b8
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          lake-package-directory: upstream
+
+      - name: Build pinned Comparator toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p tools "$RUNNER_TEMP/otp-bin"
+
+          git clone --filter=blob:none https://github.com/leanprover/lean4export.git tools/lean4export
+          git -C tools/lean4export checkout --detach 4e7915201d3f9f04470d9eae002fa695f7cdc589
+          (cd tools/lean4export && lake build)
+
+          git clone --filter=blob:none https://github.com/ammkrn/nanoda_lib.git tools/nanoda
+          git -C tools/nanoda checkout --detach ddfac2bf5a7b56cb46e141494427ff3dd55963c7
+          (cd tools/nanoda && cargo build --release --locked)
+
+          GOBIN="$RUNNER_TEMP/otp-bin" go install github.com/zouuup/landrun/cmd/landrun@811cfff51ceaf3d9843708aa6d22e9b84ccac8b4d
+          mv "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
+          cp ci/landrun_comparator_adapter.sh "$RUNNER_TEMP/otp-bin/landrun"
+          chmod +x "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
+
+          echo "$RUNNER_TEMP/otp-bin" >> "$GITHUB_PATH"
+          echo "COMPARATOR_LANDRUN=$RUNNER_TEMP/otp-bin/landrun" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LANDRUN_REAL=$RUNNER_TEMP/otp-bin/landrun-real" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/tools/lean4export/.lake/build/bin/lean4export" >> "$GITHUB_ENV"
+          echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/tools/nanoda/target/release/nanoda_bin" >> "$GITHUB_ENV"
+
+      - name: Prepare upstream dependencies
+        shell: bash
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          lake exe cache get
+
+      - name: Execute isolated family replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x ci/run_openai_ten_proofs_family_replay.sh
+          ci/run_openai_ten_proofs_family_replay.sh \
+            "${{ matrix.family }}" \
+            "${{ matrix.config }}" \
+            "${{ matrix.solution }}" \
+            "${{ matrix.challenge }}" \
+            "evidence/${{ matrix.slug }}"
+
+      - name: Upload family evidence bundle
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: otp-${{ matrix.slug }}-evidence
+          path: evidence/${{ matrix.slug }}/
+          if-no-files-found: error
+          retention-days: 30
