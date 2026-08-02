@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_ehrhart_output_execution_post_merge_attestation",
+  "attestation_id": "MC-OTP-F-EHRHART-OUTPUT-EXEC-ATTEST-001-V1",
+  "attestation_version": 1,
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/81",
+  "implementation_authorization": {
+    "issue": "https://github.com/grandchallenge/MATHCERT/issues/81",
+    "comment_id": 5160815079,
+    "author": "jimsteeg",
+    "recording_capacity": "delegated_recording_authority",
+    "scope": "bounded_post_merge_output_execution_attestation"
+  },
+  "subject": {
+    "repository": "grandchallenge/MATHCERT",
+    "pull_request": 77,
+    "operation_id": "OTP-F-EHRHART-CERT-OUTPUT-EXEC-001",
+    "exact_reviewed_head": "5e1dfee97e952ca38cc9df1c3d3bf12895268378",
+    "merge_commit": "1d5b1e6514787005ed75e363df7ea953dcd9391a",
+    "merged_at": "2026-08-02T22:33:46Z"
+  },
+  "non_author_review": {
+    "reviewer": "jimsteeg",
+    "review_id": 4839871557,
+    "state": "APPROVED",
+    "submitted_at": "2026-08-02T22:33:24Z"
+  },
+  "human_steward_disposition": {
+    "pull_request_comment_id": 5160662599,
+    "comment_author": "jimsteeg",
+    "recorded_at": "2026-08-02T22:33:37Z",
+    "recorded_before_merge": true,
+    "recording_capacity": "delegated_recording_authority"
+  },
+  "exact_head_checks": {
+    "cert_checks": {
+      "run_id": 30769719257,
+      "conclusion": "success"
+    },
+    "gcl_conformance": {
+      "run_id": 30769719470,
+      "conclusion": "success"
+    },
+    "otp_ehrhart_adjudication": {
+      "run_id": 30769719253,
+      "conclusion": "success"
+    }
+  },
+  "execution_commits": {
+    "certificate_content_commit": "24d99cbdcd6da33ae2404c0f6034d503498d9a4b",
+    "route_transition_commit": "94f7e37abe56b9423396c3bc4b9da6c0d64aec51",
+    "ordinary_merge_commit_required": true,
+    "certificate_content_commit_preserved_as_ancestor": true,
+    "route_transition_commit_preserved_as_ancestor": true
+  },
+  "attestation_document": {
+    "path": "governance/post_merge_attestations/OTP-F-EHRHART-CERT-OUTPUT-EXEC-001.v1.md",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "032f5c1f1f252db5b73305e0974928729c6f7a9c"
+  },
+  "current_state_successor": {
+    "path": "governance/result_family_output_execution_closures/OTP-F-EHRHART.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "c50a397a84873b358a54db2e602058da103b75e8"
+  },
+  "historical_candidate": {
+    "path": "governance/result_family_output_candidates/OTP-F-EHRHART.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "38d6eb4a483387d04c25bd9f6991c54af67bd9c5",
+    "historical_execution_state": "output_execution_prepared_pending_protected_merge",
+    "historical_protected_main_effect": "none_until_merge",
+    "mutation_prohibited": true
+  },
+  "protected_outputs": {
+    "certificate": {
+      "certificate_id": "MC-OTP-F-EHRHART-QUAL-001",
+      "path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "27a855c949b67e71372c7f0d6601d80125d33968"
+    },
+    "route_registry": {
+      "path": "governance/certification_routes.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0487c3ebf702229741f16a544d68af25cf994e41"
+    },
+    "adjudication_record": {
+      "path": "governance/result_family_adjudications/OTP-F-EHRHART.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "dcea25320169b9309ebf6c7f48249df9a312555f"
+    }
+  },
+  "binding_disposition": {
+    "value": "qualified_encoded_targets_only",
+    "encoded_targets": [
+      "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
+      "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
+      "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
+      "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex"
+    ],
+    "sharpness_witness": "admitted_centered_simplex_sharpness_witness_only"
+  },
+  "current_otp_family_state": {
+    "families": [
+      {
+        "result_family": "OTP-F-EHRHART",
+        "route_state": "qualified",
+        "adjudication_count": 1,
+        "restricted_cert_output_count": 1
+      },
+      {
+        "result_family": "OTP-J1-COMPACTNESS",
+        "route_state": "submitted",
+        "adjudication_count": 0,
+        "restricted_cert_output_count": 0
+      },
+      {
+        "result_family": "OTP-J2-TWO-DEGENERATE",
+        "route_state": "submitted",
+        "adjudication_count": 0,
+        "restricted_cert_output_count": 0
+      }
+    ],
+    "aggregate_output_count": 0,
+    "mathematical_targets_marked_proved": 0
+  },
+  "preserved_limitations": {
+    "mathematical_target_proved": false,
+    "classification_or_uniqueness_of_all_equality_cases": "excluded",
+    "whole_document_byte_equivalence": "not_established_between_all_revisions",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false,
+    "other_otp_family_outputs_issued": false,
+    "blocked_repair_lanes": [
+      "OTP-C-PERMANENT",
+      "OTP-H-GAPCVP"
+    ],
+    "all_lean_state": "failed_namespace_collision",
+    "unexamined_result_family_count": 9,
+    "aggregate_ten_proofs_authority": false
+  },
+  "effect": "post_merge_documentary_attestation_no_new_qualification_authority",
+  "claim_boundary": "This versioned post-merge attestation binds the completed protected OTP-F-EHRHART restricted output execution at the exact reviewed head, non-author approval, Human Steward disposition, successful checks, ordered certificate-content and route-transition commits, protected merge, certificate blob, route-registry blob, immutable historical candidate, and current-state successor record. It records only qualified_encoded_targets_only for the exact four encoded targets and admitted centered-simplex sharpness witness. It does not create new qualification authority, mark the source theorem or any mathematical target proved, classify or establish uniqueness of all equality cases, establish whole-document equivalence, compare the analytic proof body in full, qualify Compactness, Two-degenerate, or another result family, repair Permanent, GapCVP, or All.lean, create aggregate ten-proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}
