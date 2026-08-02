@@ -58,10 +58,10 @@ ALLOWED_EXECUTION_FILES = {
     "ci/test_otp_ehrhart_output_contract.py",
     "ci/validate_openai_ten_proofs_route_registrations.py",
     "ci/validate_otp_ehrhart_adjudication.py",
-    "ci/test_otp_ehrhart_adjudication.py",
-    "ci/validate_otp_ehrhart_adjudication_post_merge_attestation.py",
-    "ci/test_otp_ehrhart_adjudication_post_merge_attestation.py",
+    "ci/validate_human_steward_post_merge_attestation.py",
+    "ci/test_human_steward_post_merge_attestation.py",
     "ci/validate_openai_ten_proofs_adjudication_design_with_successors.py",
+    "ci/test_openai_ten_proofs_adjudication_contracts.py",
 }
 
 
@@ -90,6 +90,25 @@ def run_git(*args: str) -> subprocess.CompletedProcess[bytes]:
     )
 
 
+def ensure_history() -> None:
+    shallow = run_git("rev-parse", "--is-shallow-repository")
+    if shallow.returncode == 0 and shallow.stdout.decode().strip() == "true":
+        result = run_git("fetch", "--no-tags", "--unshallow", "origin")
+        if result.returncode != 0:
+            raise RuntimeError(
+                "unable to unshallow repository for execution ancestry validation: "
+                + result.stderr.decode(errors="replace")
+            )
+    for commit in (CORRECTION_MERGE, CONTENT_COMMIT, ROUTE_COMMIT):
+        if run_git("cat-file", "-e", f"{commit}^{{commit}}").returncode != 0:
+            result = run_git("fetch", "--no-tags", "origin", commit)
+            if result.returncode != 0:
+                raise RuntimeError(
+                    f"unable to fetch governed commit {commit}: "
+                    + result.stderr.decode(errors="replace")
+                )
+
+
 def git_object_blob(commit: str, path: str) -> str | None:
     result = run_git("show", f"{commit}:{path}")
     return git_blob_bytes(result.stdout) if result.returncode == 0 else None
@@ -114,6 +133,7 @@ def is_ancestor(ancestor: str, descendant: str) -> bool:
 
 
 def actual_git_receipt() -> dict[str, Any]:
+    ensure_history()
     head_result = run_git("rev-parse", "HEAD")
     head = head_result.stdout.decode().strip() if head_result.returncode == 0 else ""
     return {
@@ -159,7 +179,11 @@ def validation_errors(
     future_schema = load(FUTURE_SCHEMA) if future_schema is None else future_schema
     routes = load(ROUTES) if routes is None else routes
     candidate_files = actual_candidate_files() if candidate_files is None else candidate_files
-    git_receipt = actual_git_receipt() if git_receipt is None else git_receipt
+    if git_receipt is None:
+        try:
+            git_receipt = actual_git_receipt()
+        except RuntimeError as exc:
+            return [str(exc)]
     if blobs is None:
         blobs = {
             "candidate": git_blob(CANDIDATE),
