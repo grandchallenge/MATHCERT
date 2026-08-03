@@ -36,12 +36,21 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
 
-      - name: Check out protected Forge source authority
+      - name: Check out protected Forge semantic authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: cb0a203c36a9ef33270d62ab369df7bc27d3b242
+          path: forge
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out protected Forge source-revision authority
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: grandchallenge/MATHFORGE
           ref: a498ef40b7652b55bf121b5682604e259b8d3073
-          path: forge
+          path: forge-audit
           fetch-depth: 1
           persist-credentials: false
 
@@ -129,39 +138,41 @@ jobs:
           import subprocess
           from pathlib import Path
 
+          def commit(repo: str) -> str:
+              return subprocess.check_output(["git", "-C", repo, "rev-parse", "HEAD"], text=True).strip()
+
+          def tree(repo: str) -> str:
+              return subprocess.check_output(["git", "-C", repo, "rev-parse", "HEAD^{tree}"], text=True).strip()
+
           def blob(repo: str, path: str) -> str:
-              return subprocess.check_output(
-                  ["git", "-C", repo, "rev-parse", f"HEAD:{path}"], text=True
-              ).strip()
+              return subprocess.check_output(["git", "-C", repo, "rev-parse", f"HEAD:{path}"], text=True).strip()
 
           source_audit_path = "sources/OPENAI-TEN-PROOFS-001/source_revision_audits/OTP-TRANCHE-001.json"
           semantic_path = "sources/OPENAI-TEN-PROOFS-001/semantic_audits/OTP-J1-COMPACTNESS.json"
           packet_path = "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-J1-COMPACTNESS.json"
-          audit = json.loads((Path("forge") / source_audit_path).read_text(encoding="utf-8"))
+          audit = json.loads((Path("forge-audit") / source_audit_path).read_text(encoding="utf-8"))
           compactness = next(item for item in audit["families"] if item["result_family"] == "OTP-J1-COMPACTNESS")
           receipt = {
               "schema_version": "1.0.0",
               "record_type": "otp_compactness_refresh_authority_receipt",
               "mathcert_execution_head": os.environ["MATHCERT_HEAD_SHA"],
-              "official_subject": {
-                  "commit": subprocess.check_output(["git", "-C", "upstream", "rev-parse", "HEAD"], text=True).strip(),
-                  "tree": subprocess.check_output(["git", "-C", "upstream", "rev-parse", "HEAD^{tree}"], text=True).strip(),
-              },
+              "official_subject": {"commit": commit("upstream"), "tree": tree("upstream")},
               "forge": {
-                  "commit": subprocess.check_output(["git", "-C", "forge", "rev-parse", "HEAD"], text=True).strip(),
-                  "source_revision_audit": {"path": source_audit_path, "blob": blob("forge", source_audit_path)},
+                  "semantic_commit": commit("forge"),
                   "semantic_record": {"path": semantic_path, "blob": blob("forge", semantic_path)},
+                  "source_revision_commit": commit("forge-audit"),
+                  "source_revision_audit": {"path": source_audit_path, "blob": blob("forge-audit", source_audit_path)}
               },
               "solve": {
-                  "commit": subprocess.check_output(["git", "-C", "solve", "rev-parse", "HEAD"], text=True).strip(),
-                  "producer_packet": {"path": packet_path, "blob": blob("solve", packet_path)},
+                  "commit": commit("solve"),
+                  "producer_packet": {"path": packet_path, "blob": blob("solve", packet_path)}
               },
               "source_locus": compactness["source_locus"],
               "current_revision_findings": compactness["current_revision_findings"],
               "current_revision_locus_concordance": "clear_after_protected_forge_activation",
               "whole_document_byte_equivalence": audit["disposition"]["whole_document_byte_equivalence"],
               "whole_document_semantic_equivalence": audit["disposition"]["whole_document_semantic_equivalence"],
-              "proof_body_compared_in_full": compactness["current_revision_findings"]["proof_body_compared_in_full"],
+              "proof_body_compared_in_full": compactness["current_revision_findings"]["proof_body_compared_in_full"]
           }
           out = Path("evidence/compactness-refresh/authority-receipt.json")
           out.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
