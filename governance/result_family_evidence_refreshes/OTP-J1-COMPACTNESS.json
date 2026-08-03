@@ -1,0 +1,314 @@
+{
+  "authority": {
+    "design_contract": {
+      "commit_sha": "9f5ec626306092a352aa5ba8d9920b6ddb11b8bb",
+      "digest": "4288cf2199603ffc90d897062a575a5865326d70",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "governance/result_family_adjudication_contracts/OTP-J1-COMPACTNESS.json",
+      "repository": "grandchallenge/MATHCERT"
+    },
+    "execution_candidate": {
+      "commit_sha": "73dfe0152744e59cbf579d3b203d85fc746371b8",
+      "digest": "074709d53f8e0fd672913b5890711d9093948e21",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "governance/result_family_evidence_refresh_execution_candidates/OTP-J1-COMPACTNESS.json",
+      "repository": "grandchallenge/MATHCERT"
+    },
+    "forge_semantic_record": {
+      "commit_sha": "cb0a203c36a9ef33270d62ab369df7bc27d3b242",
+      "digest": "659396358d0d999c00011645f72602f30ccf6b0e",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic_audits/OTP-J1-COMPACTNESS.json",
+      "repository": "grandchallenge/MATHFORGE"
+    },
+    "forge_source_revision_audit": {
+      "commit_sha": "a498ef40b7652b55bf121b5682604e259b8d3073",
+      "digest": "80d473b1b545fd9ca05fc5200bcf70ff5f9fcb05",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "sources/OPENAI-TEN-PROOFS-001/source_revision_audits/OTP-TRANCHE-001.json",
+      "repository": "grandchallenge/MATHFORGE"
+    },
+    "implementation_authorization": {
+      "author": "jimsteeg",
+      "comment_id": 5161082831,
+      "scope": "evidence_refresh_only_no_adjudication"
+    },
+    "official_subject": {
+      "archive_sha256": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f",
+      "commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca",
+      "repository": "openai/ten-proofs",
+      "tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365"
+    },
+    "prior_replay_evidence": {
+      "commit_sha": "563c29c9687aad1bd06330436e3056cce7745c93",
+      "digest": "5fe635510a0d2aa05da641e342078cf8b2b34aa6",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "governance/result_family_replay_evidence/OTP-J1-COMPACTNESS.json",
+      "repository": "grandchallenge/MATHCERT"
+    },
+    "protected_base": "150344d25b50895203c59f4193a8e97bb1cbbf81",
+    "route_registry": {
+      "commit_sha": "150344d25b50895203c59f4193a8e97bb1cbbf81",
+      "digest": "0487c3ebf702229741f16a544d68af25cf994e41",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "governance/certification_routes.json",
+      "repository": "grandchallenge/MATHCERT"
+    },
+    "solve_producer_packet": {
+      "commit_sha": "443daf537dc7e4ee34ab43aeb01508d9177816ab",
+      "digest": "2d9c6e555a03b71eb33c476321e7f2d311ed168f",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-J1-COMPACTNESS.json",
+      "repository": "grandchallenge/MATHSOLVE"
+    }
+  },
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "claim_boundary": "This evidence refresh does not adjudicate or qualify Compactness. It does not independently certify the explicit combinatorial construction or the asymptotic interpretation, issue a Cert output, set mathematical_target_proved to true, establish whole-document byte or semantic equivalence, compare the proof body in full, alter another result family, create aggregate ten-proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims.",
+  "current_state": {
+    "adjudication": null,
+    "aggregate_output": false,
+    "cert_output": null,
+    "families": [
+      {
+        "adjudication_count": 1,
+        "cert_output_count": 1,
+        "result_family": "OTP-F-EHRHART",
+        "route_state": "qualified"
+      },
+      {
+        "adjudication_count": 0,
+        "cert_output_count": 0,
+        "result_family": "OTP-J1-COMPACTNESS",
+        "route_state": "submitted"
+      },
+      {
+        "adjudication_count": 0,
+        "cert_output_count": 0,
+        "result_family": "OTP-J2-TWO-DEGENERATE",
+        "route_state": "submitted"
+      }
+    ],
+    "mathematical_target_proved": false,
+    "may_adjudicate": false,
+    "may_promote_claim": false,
+    "route_state": "submitted"
+  },
+  "disposition": {
+    "authority_integrity": "clear",
+    "blockers": [
+      "Independent certification of the source explicit combinatorial construction is absent.",
+      "Independent certification of the source asymptotic interpretation and construction-to-extremal-number argument is absent."
+    ],
+    "construction_and_interpretation": "not_independently_certified",
+    "encoded_nonvacuity": "clear",
+    "isolated_checker_replay": "clear",
+    "next_gate": "separate_evidence_completion_then_human_steward_adjudication_authorization",
+    "ready_to_request_adjudication": false,
+    "refresh_state": "complete_with_open_construction_and_interpretation_obligations",
+    "source_statement_concordance": "clear_at_recorded_locus_only"
+  },
+  "encoded_target_replay": {
+    "aggregate_all_import_used": false,
+    "challenge_build": "pass",
+    "comparator": "pass",
+    "lean_kernel": "accept",
+    "nanoda": "accept",
+    "nonvacuity_witnesses": [
+      "CompactnessConjecture.quantitativeCompactnessCounterexample",
+      "CompactnessConjecture.compactnessCounterexample_bigO"
+    ],
+    "permitted_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "solution_build": "pass",
+    "theorem_axiom_report": "permitted_only",
+    "theorem_names": [
+      "CompactnessConjecture.quantitativeCompactnessCounterexample",
+      "CompactnessConjecture.compactnessCounterexample_bigO",
+      "CompactnessConjecture.not_erdos_180"
+    ]
+  },
+  "execution": {
+    "artifact": {
+      "bytes": 8035,
+      "id": 8841786605,
+      "name": "otp-compactness-refresh-evidence",
+      "sha256": "d0f1fadda05b7d58e6ddd13fbe40b1e2ebb7da388e8c4afe86a7fbdd962e14c4"
+    },
+    "execution_head": "4711fbc2d3232cd2ccddbc85f032fda5c6a92b7f",
+    "execution_head_is_ancestor_of_record_head": true,
+    "job_id": 91568431665,
+    "repository_bundle": {
+      "decoded_bytes": 8035,
+      "decoded_format": "zip",
+      "decoded_sha256": "d0f1fadda05b7d58e6ddd13fbe40b1e2ebb7da388e8c4afe86a7fbdd962e14c4",
+      "encoded_git_blob_sha1": "de6b19210889b3230b42cc0720b4f0439e4bd9e5",
+      "encoding": "base64",
+      "files": [
+        {
+          "bytes": 950,
+          "name": "SHA256SUMS",
+          "sha256": "19aecfe7f175df1233d85296a5bada996169a862f8b069182ebcdbb6d9c35a10"
+        },
+        {
+          "bytes": 1767,
+          "name": "authority-receipt.json",
+          "sha256": "94fdcebfb78e3c9fbeea80b0d83c407b939a5034663fb5a0ae13ae9ad1479262"
+        },
+        {
+          "bytes": 702,
+          "name": "axiom-check.json",
+          "sha256": "a73c7b01fe00f52624c109dececaac4d8f35779d0ab005b25e3517e0f1d85a8a"
+        },
+        {
+          "bytes": 386,
+          "name": "challenge-build.log",
+          "sha256": "eb212d320b1c6a1b33e9ac8b18c123a0fe1eb37495a293354f7c3a0a04aa8132"
+        },
+        {
+          "bytes": 2278,
+          "name": "comparator.log",
+          "sha256": "4dabd556f61c658c3db46def674f841c87d264f12f051fc7532fde9a438d5b9b"
+        },
+        {
+          "bytes": 1412,
+          "name": "environment.txt",
+          "sha256": "09f14ab87ca1ad95368bd62697ac435d6485edb11124c39b8178bffbd2e145f1"
+        },
+        {
+          "bytes": 4147,
+          "name": "evidence-summary.json",
+          "sha256": "61393b62da6845c914f462c51ccf2c5dc398cf04a4dc9045ab72d99148face14"
+        },
+        {
+          "bytes": 96,
+          "name": "solution-build.log",
+          "sha256": "74ad61389987fe9d50a102d79db52edd9cda28c49f4ea0a306bd4688357d19dd"
+        },
+        {
+          "bytes": 1293,
+          "name": "source-identities.txt",
+          "sha256": "94a6d214459bcfb8b63d05ead7366c67bc5c2dc8acb5215e9b3a55c476ecf0b8"
+        },
+        {
+          "bytes": 595,
+          "name": "source-revision-report.txt",
+          "sha256": "a6c67c129e9cf794340bcc6ec00501a4da0dd70fcd42bc52817c5ef73c393c6a"
+        },
+        {
+          "bytes": 332,
+          "name": "theorem-axioms.log",
+          "sha256": "25ac1bc67334c2e783e5957dc9ef65a4643cc29c3d240fa34c68b227fc0b94fe"
+        },
+        {
+          "bytes": 162,
+          "name": "trust-boundary-scan.txt",
+          "sha256": "9ee8979d7ab41bd2710ca04c310533bafdf0f5e8e1303ca17bf1a0c5c3e0e61c"
+        }
+      ],
+      "path": "evidence/openai_ten_proofs/compactness_refresh/refresh_bundle.zip.b64"
+    },
+    "workflow_name": "OTP Compactness evidence refresh replay",
+    "workflow_run_id": 30774901934
+  },
+  "obligation_review": {
+    "asymptotic_interpretation": {
+      "boundary": "The asymptotic interpretation and construction-to-extremal-number argument require separate independent specialist evidence.",
+      "evidence": [
+        "statement-level exponent concordance",
+        "source proof body not compared in full"
+      ],
+      "status": "not_independently_certified"
+    },
+    "connectedness_and_bipartiteness": {
+      "boundary": "Memberwise connectedness and bipartiteness are statement-level clear only.",
+      "evidence": [
+        "Forge semantic record family member predicates",
+        "fresh encoded theorem replay"
+      ],
+      "status": "clear_from_protected_semantic_and_fresh_replay_evidence"
+    },
+    "corrected_cyclic_family_formulation": {
+      "boundary": "Clear only for the corrected cyclic-family theorem statement at the recorded locus; no historical formulation is admitted.",
+      "evidence": [
+        "Forge semantic record 659396358d0d999c00011645f72602f30ccf6b0e",
+        "Forge source-revision audit 80d473b1b545fd9ca05fc5200bcf70ff5f9fcb05",
+        "fresh replay artifact 8841786605"
+      ],
+      "status": "clear_from_protected_semantic_and_fresh_replay_evidence"
+    },
+    "cyclicity_and_family_nonemptiness": {
+      "boundary": "The encoded family is nonempty and cyclic in the checked targets; the paper construction is not independently reconstructed.",
+      "evidence": [
+        "Forge source-locus audit",
+        "encoded existential nonvacuity witnesses"
+      ],
+      "status": "clear_from_protected_semantic_and_fresh_replay_evidence"
+    },
+    "explicit_construction_nonvacuity": {
+      "boundary": "The existential Lean targets are nonvacuous, but the paper explicit combinatorial construction has not been independently reconstructed or certified.",
+      "evidence": [
+        "two kernel-accepted encoded nonvacuity witnesses",
+        "source scope exclusion in fresh replay artifact"
+      ],
+      "status": "encoded_nonvacuity_clear_source_construction_not_independently_certified"
+    },
+    "exponents": {
+      "boundary": "Exponent syntax and direction are concordant; independent asymptotic derivation remains outside this refresh.",
+      "evidence": [
+        "family upper exponent 4/3 - 1/48",
+        "memberwise lower exponent 4/3",
+        "fresh replay theorem membership"
+      ],
+      "status": "clear_from_protected_semantic_and_fresh_replay_evidence"
+    },
+    "finite_family_uniform_constant_interpretation": {
+      "boundary": "The uniform lower constant interpretation follows for a finite family at statement level; the source proof is not independently checked in full.",
+      "evidence": [
+        "Forge semantic equivalence finding",
+        "finite nonempty family hypothesis"
+      ],
+      "status": "clear_from_protected_semantic_and_fresh_replay_evidence"
+    },
+    "finite_graph_orientation_and_embeddings": {
+      "boundary": "FiniteGraph orientation and embedding conventions are concordant for encoded targets; this is not a full proof-body comparison.",
+      "evidence": [
+        "Forge semantic record definitions_and_hypotheses",
+        "fresh Comparator and kernel replay"
+      ],
+      "status": "clear_from_protected_semantic_and_fresh_replay_evidence"
+    }
+  },
+  "operation_id": "OTP-J1-COMPACTNESS-CERT-EVIDENCE-REFRESH-001",
+  "preserved_limitations": {
+    "aggregate_certification_permitted": false,
+    "all_lean_state": "failed_namespace_collision",
+    "blocked_repair_lanes": [
+      "OTP-C-PERMANENT",
+      "OTP-H-GAPCVP"
+    ],
+    "unexamined_result_family_count": 9
+  },
+  "record_type": "openai_ten_proofs_compactness_evidence_refresh",
+  "refresh_id": "MC-OTP-J1-COMPACTNESS-EVIDENCE-REFRESH-001",
+  "result_family": "OTP-J1-COMPACTNESS",
+  "route_id": "MC-ROUTE-OTP-J1-COMPACTNESS",
+  "schema_version": "1.0.0",
+  "source_statement": {
+    "current_revision_locus_concordance": "clear_at_recorded_locus_only",
+    "locus": {
+      "chapter": 10,
+      "pdf_page_index": 236,
+      "printed_page": 235,
+      "theorem": "Theorem 1.1"
+    },
+    "normalized_statement": "There exists a finite nonempty cyclic family of connected bipartite graphs whose family extremal number is O(n^(4/3 - 1/48)), while every member has extremal number Omega(n^(4/3)); the corrected cyclic-family formulation and quantifier order are preserved at the recorded current-revision theorem locus.",
+    "proof_body_compared_in_full": false,
+    "source_theorem": "Chapter 10, Theorem 1.1, parsed P236 L19757-L19791",
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established"
+  },
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/83"
+}

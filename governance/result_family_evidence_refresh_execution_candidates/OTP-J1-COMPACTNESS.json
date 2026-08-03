@@ -1,0 +1,39 @@
+{
+  "candidate_id": "MC-OTP-J1-COMPACTNESS-EVIDENCE-REFRESH-EXEC-001",
+  "claim_boundary": "This closed execution candidate binds the successful isolated OTP-J1-COMPACTNESS replay artifact for evidence refresh only. It does not adjudicate or qualify Compactness, certify the explicit combinatorial construction or asymptotic interpretation, issue a Cert output, promote a mathematical target, establish whole-document equivalence, create aggregate ten-proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims.",
+  "execution": {
+    "artifact": {
+      "bytes": 8035,
+      "id": 8841786605,
+      "name": "otp-compactness-refresh-evidence",
+      "sha256": "d0f1fadda05b7d58e6ddd13fbe40b1e2ebb7da388e8c4afe86a7fbdd962e14c4"
+    },
+    "execution_head": "4711fbc2d3232cd2ccddbc85f032fda5c6a92b7f",
+    "job_id": 91568431665,
+    "state": "artifact_ingested_evidence_refresh_nonadjudicative",
+    "workflow": "OTP Compactness evidence refresh replay",
+    "workflow_path": ".github/workflows/otp-compactness-evidence-refresh-replay.yml",
+    "workflow_run_id": 30774901934
+  },
+  "implementation_authorization": {
+    "authorized_base": "150344d25b50895203c59f4193a8e97bb1cbbf81",
+    "comment_id": 5161082831,
+    "contract_blob": "4288cf2199603ffc90d897062a575a5865326d70",
+    "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-J1-COMPACTNESS"
+  },
+  "operation_id": "OTP-J1-COMPACTNESS-CERT-EVIDENCE-REFRESH-001",
+  "record_type": "openai_ten_proofs_result_family_evidence_refresh_execution_candidate",
+  "required_state": {
+    "adjudication": null,
+    "aggregate_output": false,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_adjudicate": false,
+    "may_promote_claim": false,
+    "route_state": "submitted"
+  },
+  "result_family": "OTP-J1-COMPACTNESS",
+  "route_id": "MC-ROUTE-OTP-J1-COMPACTNESS",
+  "schema_version": "1.0.0",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/83"
+}
