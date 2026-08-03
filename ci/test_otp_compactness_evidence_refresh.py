@@ -14,7 +14,7 @@ class CompactnessEvidenceRefreshTests(unittest.TestCase):
  def rejected(self,mutate,token):
   a=self.args();mutate(a);e=M.validation_errors(**a);self.assertTrue(any(token in x for x in e),e)
  def test_valid(self):self.assertEqual(M.validation_errors(**self.args()),[])
- def test_contract_substitution(self):self.rejected(lambda a:a['record']['authority']['design_contract'].__setitem__('digest','0'*40),'schema violation')
+ def test_contract_substitution(self):self.rejected(lambda a:a['record']['authority']['design_contract'].__setitem__('digest','0'*40),'protected authority chain drift')
  def test_route_promotion(self):self.rejected(lambda a:a['record']['current_state'].__setitem__('route_state','qualified'),'schema violation')
  def test_adjudication_insertion(self):self.rejected(lambda a:a.__setitem__('other_adjudication_present',True),'Compactness adjudication inserted')
  def test_output_candidate(self):self.rejected(lambda a:a.__setitem__('output_candidate_present',True),'Compactness output candidate inserted')
