@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_result_family_evidence_refresh_execution_candidate",
+  "candidate_id": "MC-OTP-J1-COMPACTNESS-EVIDENCE-REFRESH-EXEC-001",
+  "operation_id": "OTP-J1-COMPACTNESS-CERT-EVIDENCE-REFRESH-001",
+  "result_family": "OTP-J1-COMPACTNESS",
+  "route_id": "MC-ROUTE-OTP-J1-COMPACTNESS",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/83",
+  "implementation_authorization": {
+    "comment_id": 5161082831,
+    "authorized_base": "150344d25b50895203c59f4193a8e97bb1cbbf81",
+    "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-J1-COMPACTNESS",
+    "contract_blob": "4288cf2199603ffc90d897062a575a5865326d70"
+  },
+  "execution": {
+    "workflow": ".github/workflows/otp-compactness-evidence-refresh-replay.yml",
+    "execution_head": "5a6f33d40978d5d534c57754c83a76ca580d9375",
+    "state": "isolated_replay_requested",
+    "artifact_name": "otp-compactness-refresh-evidence"
+  },
+  "required_state": {
+    "route_state": "submitted",
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_output": false
+  },
+  "claim_boundary": "This execution candidate requests a fresh isolated replay and authority receipt for OTP-J1-COMPACTNESS only. It does not adjudicate or qualify Compactness, certify the explicit construction or asymptotic interpretation, issue a Cert output, promote a mathematical target, establish whole-document equivalence, create aggregate authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}
