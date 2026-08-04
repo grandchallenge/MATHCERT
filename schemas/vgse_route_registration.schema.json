@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/vgse_route_registration.schema.json",
+  "title": "VGSE bounded route registration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "route_id",
+    "campaign_id",
+    "tracker_issue",
+    "registry_mode",
+    "base_registry",
+    "programme_authority",
+    "solve_activation",
+    "source_provenance",
+    "route_state",
+    "intake_status",
+    "may_adjudicate",
+    "cert_output",
+    "lanes",
+    "claim_boundary",
+    "activation_effect",
+    "reopening_conditions"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"const": "MC-VGSE-WP00-ROUTE-001"},
+    "route_id": {"const": "MC-ROUTE-VGSE-001"},
+    "campaign_id": {"const": "VGSE-001"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/41"},
+    "registry_mode": {"const": "additive_successor_overlay"},
+    "base_registry": {
+      "$ref": "#/$defs/baseRegistry"
+    },
+    "programme_authority": {
+      "$ref": "#/$defs/programmeAuthority"
+    },
+    "solve_activation": {
+      "$ref": "#/$defs/solveActivation"
+    },
+    "source_provenance": {
+      "$ref": "#/$defs/sourceProvenance"
+    },
+    "route_state": {"const": "registered_pending_evidence"},
+    "intake_status": {"const": "pending"},
+    "may_adjudicate": {"const": false},
+    "cert_output": {"type": "null"},
+    "lanes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algebraic", "planar_geometry"],
+      "properties": {
+        "algebraic": {
+          "$ref": "#/$defs/algebraicLane"
+        },
+        "planar_geometry": {
+          "$ref": "#/$defs/planarLane"
+        }
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bounded_algebraic_and_planar_intake_only",
+        "mathematical_target_proved",
+        "mechanical_claim_authorized",
+        "manufacturing_claim_authorized",
+        "novelty_or_priority_claim_authorized",
+        "patentability_claim_authorized",
+        "product_or_commercial_claim_authorized"
+      ],
+      "properties": {
+        "bounded_algebraic_and_planar_intake_only": {"const": true},
+        "mathematical_target_proved": {"const": false},
+        "mechanical_claim_authorized": {"const": false},
+        "manufacturing_claim_authorized": {"const": false},
+        "novelty_or_priority_claim_authorized": {"const": false},
+        "patentability_claim_authorized": {"const": false},
+        "product_or_commercial_claim_authorized": {"const": false}
+      }
+    },
+    "activation_effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mathcert_route_registered",
+        "mathcert_adjudication_authorized",
+        "certificate_output_authorized",
+        "programme_active_routing_changed",
+        "intellect_repin_effect"
+      ],
+      "properties": {
+        "mathcert_route_registered": {"const": true},
+        "mathcert_adjudication_authorized": {"const": false},
+        "certificate_output_authorized": {"const": false},
+        "programme_active_routing_changed": {"const": false},
+        "intellect_repin_effect": {"const": "none_until_separate_programme_activation"}
+      }
+    },
+    "reopening_conditions": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "digest_algorithm", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "digest_algorithm": {"const": "git_blob_sha1"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "baseRegistry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit_sha", "path", "digest_algorithm", "digest"],
+      "properties": {
+        "repository": {"const": "grandchallenge/MATHCERT"},
+        "commit_sha": {"const": "5fd92fdd9a17349ac7b804da706f34557cba4137"},
+        "path": {"const": "governance/certification_routes.json"},
+        "digest_algorithm": {"const": "git_blob_sha1"},
+        "digest": {"const": "0487c3ebf702229741f16a544d68af25cf994e41"}
+      }
+    },
+    "programmeAuthority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "issue", "decision_merge_commit", "disposition"],
+      "properties": {
+        "repository": {"const": "grandchallenge/MATH-PROGRAMME"},
+        "issue": {"const": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/170"},
+        "decision_merge_commit": {"const": "3e2c4148d4304b2446a84c1e9a414d4a976a0464"},
+        "disposition": {"const": "ADMIT_BOUNDED_PENDING_CROSS_REPOSITORY_ACTIVATION"}
+      }
+    },
+    "solveActivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "issue", "merge_commit", "source_manifest", "intake_packet"],
+      "properties": {
+        "repository": {"const": "grandchallenge/MATHSOLVE"},
+        "issue": {"const": "https://github.com/grandchallenge/MATHSOLVE/issues/98"},
+        "merge_commit": {"const": "1ebc9ace360e453fbc3707f6b23032b1c3c561eb"},
+        "source_manifest": {
+          "allOf": [
+            {"$ref": "#/$defs/artifact"},
+            {"properties": {"path": {"const": "campaign_manifests/VGSE-001.json"}, "digest": {"const": "3bb6b18052f5754e9ae9aa4f813d9b43dcd4e3b4"}}}
+          ]
+        },
+        "intake_packet": {
+          "allOf": [
+            {"$ref": "#/$defs/artifact"},
+            {"properties": {"path": {"const": "cert_handoffs/VGSE-001.json"}, "digest": {"const": "42cfa84978fd63c75f074b388afd8b1fcbd56091"}}}
+          ]
+        }
+      }
+    },
+    "sourceProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["forge_merge_commit", "provider_manifest_blob", "source_concordance_blob"],
+      "properties": {
+        "forge_merge_commit": {"const": "593afd971a53ca0285f8b94570997ed7c3d7c170"},
+        "provider_manifest_blob": {"const": "9cb5ac2d92b458f7f63e8a9811448f245a151ddd"},
+        "source_concordance_blob": {"const": "6685cd1b0ed4d759f7447fce4b217ef8a59f0f93"}
+      }
+    },
+    "lane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_claim_ids", "requested_modalities", "blockers"],
+      "properties": {
+        "target_claim_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "requested_modalities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "blockers": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "algebraicLane": {
+      "allOf": [
+        {"$ref": "#/$defs/lane"},
+        {"properties": {"target_claim_ids": {"const": ["VGSE-C00", "VGSE-C01"]}}}
+      ]
+    },
+    "planarLane": {
+      "allOf": [
+        {"$ref": "#/$defs/lane"},
+        {"properties": {"target_claim_ids": {"const": ["VGSE-C04", "VGSE-C05", "VGSE-C06"]}}}
+      ]
+    }
+  }
+}
