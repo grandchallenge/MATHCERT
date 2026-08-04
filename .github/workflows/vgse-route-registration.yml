@@ -1,0 +1,51 @@
+name: VGSE route registration
+
+on:
+  pull_request:
+    paths:
+      - "governance/certification_route_overlays/VGSE-001.json"
+      - "governance/certification_routes.json"
+      - "schemas/vgse_route_registration.schema.json"
+      - "ci/validate_vgse_route_registration.py"
+      - "ci/test_vgse_route_registration.py"
+      - "docs/work_packages/MC-VGSE-WP00-ROUTE-001.md"
+      - ".github/workflows/vgse-route-registration.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "governance/certification_route_overlays/VGSE-001.json"
+      - "governance/certification_routes.json"
+      - "schemas/vgse_route_registration.schema.json"
+      - "ci/validate_vgse_route_registration.py"
+      - "ci/test_vgse_route_registration.py"
+      - "docs/work_packages/MC-VGSE-WP00-ROUTE-001.md"
+      - ".github/workflows/vgse-route-registration.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Assert exact subject checkout
+        env:
+          SUBJECT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: test "$(git rev-parse HEAD)" = "$SUBJECT_SHA"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12.13"
+      - name: Install validation dependency
+        run: python -m pip install 'jsonschema>=4.23,<5'
+      - name: Validate bounded pending route
+        run: |
+          python ci/validate_vgse_route_registration.py
+          python -m unittest ci/test_vgse_route_registration.py -v
+          python -m json.tool governance/certification_route_overlays/VGSE-001.json >/dev/null
+          python -m json.tool schemas/vgse_route_registration.schema.json >/dev/null
