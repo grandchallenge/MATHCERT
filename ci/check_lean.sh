@@ -57,5 +57,7 @@ python3 ci/validate_otp_ehrhart_output_execution_post_merge_attestation.py
 python3 ci/test_otp_ehrhart_output_execution_post_merge_attestation.py
 python3 ci/validate_otp_compactness_evidence_refresh.py
 python3 ci/test_otp_compactness_evidence_refresh.py
+python3 ci/validate_vgse_route_registration.py
+python3 ci/test_vgse_route_registration.py
 python3 ci/audit_ci_reachability.py
 python3 ci/test_audit_ci_reachability.py
