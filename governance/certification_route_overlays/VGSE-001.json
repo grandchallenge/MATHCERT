@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-VGSE-WP00-ROUTE-001",
+  "route_id": "MC-ROUTE-VGSE-001",
+  "campaign_id": "VGSE-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/41",
+  "registry_mode": "additive_successor_overlay",
+  "base_registry": {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": "5fd92fdd9a17349ac7b804da706f34557cba4137",
+    "path": "governance/certification_routes.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "0487c3ebf702229741f16a544d68af25cf994e41"
+  },
+  "programme_authority": {
+    "repository": "grandchallenge/MATH-PROGRAMME",
+    "issue": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/170",
+    "decision_merge_commit": "3e2c4148d4304b2446a84c1e9a414d4a976a0464",
+    "disposition": "ADMIT_BOUNDED_PENDING_CROSS_REPOSITORY_ACTIVATION"
+  },
+  "solve_activation": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "issue": "https://github.com/grandchallenge/MATHSOLVE/issues/98",
+    "merge_commit": "1ebc9ace360e453fbc3707f6b23032b1c3c561eb",
+    "source_manifest": {
+      "path": "campaign_manifests/VGSE-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "3bb6b18052f5754e9ae9aa4f813d9b43dcd4e3b4"
+    },
+    "intake_packet": {
+      "path": "cert_handoffs/VGSE-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "42cfa84978fd63c75f074b388afd8b1fcbd56091"
+    }
+  },
+  "source_provenance": {
+    "forge_merge_commit": "593afd971a53ca0285f8b94570997ed7c3d7c170",
+    "provider_manifest_blob": "9cb5ac2d92b458f7f63e8a9811448f245a151ddd",
+    "source_concordance_blob": "6685cd1b0ed4d759f7447fce4b217ef8a59f0f93"
+  },
+  "route_state": "registered_pending_evidence",
+  "intake_status": "pending",
+  "may_adjudicate": false,
+  "cert_output": null,
+  "lanes": {
+    "algebraic": {
+      "target_claim_ids": [
+        "VGSE-C00",
+        "VGSE-C01"
+      ],
+      "requested_modalities": [
+        "EXACT_RATIONAL_CERTIFICATE",
+        "COMPUTER_ALGEBRA_CERTIFICATE_WITH_REPLAY",
+        "INTERVAL_ARITHMETIC_CERTIFICATE",
+        "SPECIALIST_AUDIT_PENDING"
+      ],
+      "blockers": [
+        "Independent saturation and divisor-exclusion evidence has not been admitted.",
+        "Exactly five isolated solutions away from every arrangement divisor has not been certified.",
+        "Certified root separation and residual bounds have not been admitted."
+      ]
+    },
+    "planar_geometry": {
+      "target_claim_ids": [
+        "VGSE-C04",
+        "VGSE-C05",
+        "VGSE-C06"
+      ],
+      "requested_modalities": [
+        "INTERVAL_ARITHMETIC_CERTIFICATE",
+        "SEMANTIC_REPLAY",
+        "SPECIALIST_AUDIT_PENDING"
+      ],
+      "blockers": [
+        "Positive graph weights and boundary measurement remain numerical rather than exact or interval-certified.",
+        "Discrete-holomorphic solves and planar inequalities remain uncertified.",
+        "The generated-to-source equivalence record remains open."
+      ]
+    }
+  },
+  "claim_boundary": {
+    "bounded_algebraic_and_planar_intake_only": true,
+    "mathematical_target_proved": false,
+    "mechanical_claim_authorized": false,
+    "manufacturing_claim_authorized": false,
+    "novelty_or_priority_claim_authorized": false,
+    "patentability_claim_authorized": false,
+    "product_or_commercial_claim_authorized": false
+  },
+  "activation_effect": {
+    "mathcert_route_registered": true,
+    "mathcert_adjudication_authorized": false,
+    "certificate_output_authorized": false,
+    "programme_active_routing_changed": false,
+    "intellect_repin_effect": "none_until_separate_programme_activation"
+  },
+  "reopening_conditions": [
+    "Update when the Solve manifest or handoff identity changes.",
+    "Update when any target claim, requested modality, blocker, or lane boundary changes.",
+    "Update through a separately reviewed operation before adjudication or certificate output.",
+    "Update when Programme active routing or any INTELLECT pin is changed."
+  ]
+}
