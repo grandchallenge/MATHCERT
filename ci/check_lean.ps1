@@ -61,5 +61,7 @@ Invoke-Control "ci/validate_otp_ehrhart_output_execution_post_merge_attestation.
 Invoke-Control "ci/test_otp_ehrhart_output_execution_post_merge_attestation.py"
 Invoke-Control "ci/validate_otp_compactness_evidence_refresh.py"
 Invoke-Control "ci/test_otp_compactness_evidence_refresh.py"
+Invoke-Control "ci/validate_vgse_route_registration.py"
+Invoke-Control "ci/test_vgse_route_registration.py"
 Invoke-Control "ci/audit_ci_reachability.py"
 Invoke-Control "ci/test_audit_ci_reachability.py"
