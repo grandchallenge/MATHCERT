@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EUCLID-GCD-E2E-001 MATHCERT output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "certificate_id",
+    "campaign_id",
+    "proposed_disposition",
+    "authority_state",
+    "upstream",
+    "independent_checker",
+    "formalization",
+    "accepted_claims",
+    "rejected_or_unclaimed",
+    "chaidez_documentary_continuity",
+    "protected_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "certificate_id": {"const": "MC-EUCLID-GCD-E2E-001"},
+    "campaign_id": {"const": "EUCLID-GCD-E2E-001"},
+    "proposed_disposition": {"const": "CERTIFIED_CHECKER_SOUNDNESS_AND_CONCRETE_GCD_INSTANCE"},
+    "authority_state": {"const": "candidate_certification_output_pending_protected_merge"},
+    "upstream": {"type": "object"},
+    "independent_checker": {"type": "object"},
+    "formalization": {"type": "object"},
+    "accepted_claims": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["claim_id", "disposition", "statement"]
+      }
+    },
+    "rejected_or_unclaimed": {
+      "type": "array",
+      "minItems": 5,
+      "items": {"type": "string", "minLength": 10}
+    },
+    "chaidez_documentary_continuity": {"type": "object"},
+    "protected_effect": {"const": "none_until_exact_head_review_human_steward_disposition_and_protected_merge"}
+  }
+}
