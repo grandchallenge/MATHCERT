@@ -1,0 +1,89 @@
+{
+  "authority_boundary": "The protected Solve package supplies deterministic candidate evidence only. MATHCERT independently checks both evidence forms and formalizes the admitted two-variable theorem.",
+  "campaign_id": "EUCLID-DIOPHANTINE-E2E-002",
+  "forge": {
+    "issue": 65,
+    "merge_commit": "af5398a05f17789a061ab0d23c2b47f0cc952fff",
+    "merge_parents": [
+      "3622bac82a39cdb9e82ec463919d9e6927c1ec0e",
+      "de661332d8d14693d53295a22276791565216e16"
+    ],
+    "package": {
+      "git_blob_sha1": "e89d5b7c611aaa4a7fdea716742e993eaa283da1",
+      "path": "sources/EUCLID-DIOPHANTINE-E2E-002/forge_package.json"
+    },
+    "provider_manifest": {
+      "git_blob_sha1": "de9dae12cd578ee98b58e6fc1b39365f8c1e7109",
+      "path": "provider_manifests/EUCLID-DIOPHANTINE-E2E-002.json"
+    },
+    "pull_request": 66,
+    "repository": "grandchallenge/MATHFORGE",
+    "reviewed_head": "de661332d8d14693d53295a22276791565216e16"
+  },
+  "programme": {
+    "issue": 238,
+    "protected_stage1_closeout": "183ff2a0adfbe5bd0ffd5f2e638089b94b868c54",
+    "repository": "grandchallenge/MATH-PROGRAMME"
+  },
+  "protected_stage1": {
+    "cert_merge_commit": "78b69e6a3461a83f4893d61c421b1570c08a9ba6",
+    "certification_output": {
+      "git_blob_sha1": "36c62434dbd19719d990e71ddc23729f0614ace7",
+      "path": "governance/certification_outputs/EUCLID-GCD-E2E-001.json"
+    },
+    "route_overlay": {
+      "git_blob_sha1": "0ada97db2673db819104320d128bd994e892f1a4",
+      "path": "governance/certification_route_overlays/EUCLID-GCD-E2E-001.json"
+    },
+    "solve_candidate": {
+      "git_blob_sha1": "af54ae9b9a047a36767b2599ebc649fb6fdaaa52",
+      "path": "certificates/EUCLID-GCD-E2E-001.json"
+    },
+    "solve_merge_commit": "3a8493aa322f0e640c921b8824c4d7f88a8c057d"
+  },
+  "schema_version": "1.0.0",
+  "solve": {
+    "candidate": {
+      "git_blob_sha1": "74703b449fa861b72be1eaf89fb1c39a943183ce",
+      "path": "certificates/EUCLID-DIOPHANTINE-E2E-002.json"
+    },
+    "claim_ledger": {
+      "git_blob_sha1": "e8371b64a350902d6fe16b57587a1a9de0090625",
+      "path": "campaign_ledgers/EUCLID-DIOPHANTINE-E2E-002/claim_ledger.json"
+    },
+    "failed_route_ledger": {
+      "git_blob_sha1": "2277b227d9b58f1afd678ef72dfd8bc259f9c73d",
+      "path": "campaign_ledgers/EUCLID-DIOPHANTINE-E2E-002/failed_route_ledger.json"
+    },
+    "handoff": {
+      "git_blob_sha1": "80a4bf5082ac9ed9459a1dbd7dbb77166e84764e",
+      "path": "cert_handoffs/EUCLID-DIOPHANTINE-E2E-002.json",
+      "status": "ready"
+    },
+    "issue": 103,
+    "manifest": {
+      "git_blob_sha1": "d4c3ced7eb3bbf4c3d865a847f9b701cf677cdf4",
+      "path": "campaign_manifests/EUCLID-DIOPHANTINE-E2E-002.json"
+    },
+    "merge_commit": "66d54d375ae4dfc148888325b6093818669e7c02",
+    "merge_parents": [
+      "3a8493aa322f0e640c921b8824c4d7f88a8c057d",
+      "d4bec98dfea28bb605b3f8c642e18dec697ee4a3"
+    ],
+    "producer": {
+      "git_blob_sha1": "5f4ffaf644da47cecd50fd3013a6412eb90ca555",
+      "path": "solve/euclid_diophantine.py"
+    },
+    "proof_obligation_dag": {
+      "git_blob_sha1": "919dcb58683f96f87e1d0c499e11e92fb3da34bc",
+      "path": "campaign_ledgers/EUCLID-DIOPHANTINE-E2E-002/proof_obligation_dag.json"
+    },
+    "pull_request": 104,
+    "repository": "grandchallenge/MATHSOLVE",
+    "resource_ledger": {
+      "git_blob_sha1": "4aae9e2e74ab9eb0e7d93de9c1cb9b73b770838a",
+      "path": "campaign_ledgers/EUCLID-DIOPHANTINE-E2E-002/resource_ledger.json"
+    },
+    "reviewed_head": "d4bec98dfea28bb605b3f8c642e18dec697ee4a3"
+  }
+}

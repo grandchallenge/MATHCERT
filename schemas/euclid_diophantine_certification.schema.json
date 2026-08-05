@@ -1,0 +1,191 @@
+{
+  "$defs": {
+    "artifact_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "git_blob_sha1": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "path": {
+          "minLength": 5,
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "git_blob_sha1"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accepted_claims": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "claim_id": {
+            "pattern": "^EUCLID-DIOPHANTINE-E2E-002-C00[1-4]$",
+            "type": "string"
+          },
+          "disposition": {
+            "const": "certified"
+          },
+          "statement": {
+            "minLength": 20,
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_id",
+          "disposition",
+          "statement"
+        ],
+        "type": "object"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array"
+    },
+    "authority_state": {
+      "const": "candidate_certification_output_pending_protected_merge"
+    },
+    "campaign_id": {
+      "const": "EUCLID-DIOPHANTINE-E2E-002"
+    },
+    "certificate_id": {
+      "const": "MC-EUCLID-DIOPHANTINE-E2E-002"
+    },
+    "chaidez_documentary_continuity": {
+      "type": "object"
+    },
+    "formalization": {
+      "additionalProperties": false,
+      "properties": {
+        "declarations": {
+          "items": {
+            "minLength": 10,
+            "type": "string"
+          },
+          "minItems": 6,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "lean_toolchain": {
+          "const": "leanprover/lean4:v4.29.1"
+        },
+        "local_axioms_allowed": {
+          "const": false
+        },
+        "path": {
+          "const": "MathCert/Domains/NumberTheory/EuclidDiophantine.lean"
+        },
+        "sorry_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "path",
+        "lean_toolchain",
+        "declarations",
+        "sorry_allowed",
+        "local_axioms_allowed"
+      ],
+      "type": "object"
+    },
+    "independent_checker": {
+      "additionalProperties": false,
+      "properties": {
+        "checks": {
+          "items": {
+            "minLength": 10,
+            "type": "string"
+          },
+          "minItems": 10,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "does_not_import_or_execute_solve_producer": {
+          "const": true
+        },
+        "path": {
+          "const": "work_packages/EUCLID_DIOPHANTINE_E2E_002/check_certificate.py"
+        }
+      },
+      "required": [
+        "path",
+        "does_not_import_or_execute_solve_producer",
+        "checks"
+      ],
+      "type": "object"
+    },
+    "proposed_disposition": {
+      "const": "CERTIFIED_LINEAR_DIOPHANTINE_EQUIVALENCE_AND_BOUNDED_EXEMPLARS"
+    },
+    "protected_effect": {
+      "const": "none_until_exact_head_review_human_steward_disposition_and_protected_merge"
+    },
+    "rejected_or_unclaimed": {
+      "items": {
+        "minLength": 10,
+        "type": "string"
+      },
+      "minItems": 6,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "upstream": {
+      "additionalProperties": false,
+      "properties": {
+        "protected_stage1_output": {
+          "$ref": "#/$defs/artifact_ref"
+        },
+        "receipt_path": {
+          "const": "evidence/euclid_diophantine/upstream_receipt.json"
+        },
+        "solve_candidate": {
+          "$ref": "#/$defs/artifact_ref"
+        },
+        "solve_handoff": {
+          "$ref": "#/$defs/artifact_ref"
+        },
+        "solve_manifest": {
+          "$ref": "#/$defs/artifact_ref"
+        },
+        "solve_merge_commit": {
+          "const": "66d54d375ae4dfc148888325b6093818669e7c02"
+        }
+      },
+      "required": [
+        "receipt_path",
+        "solve_merge_commit",
+        "solve_candidate",
+        "solve_handoff",
+        "solve_manifest",
+        "protected_stage1_output"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "certificate_id",
+    "campaign_id",
+    "proposed_disposition",
+    "authority_state",
+    "upstream",
+    "independent_checker",
+    "formalization",
+    "accepted_claims",
+    "rejected_or_unclaimed",
+    "chaidez_documentary_continuity",
+    "protected_effect"
+  ],
+  "title": "EUCLID-DIOPHANTINE-E2E-002 MATHCERT output",
+  "type": "object"
+}

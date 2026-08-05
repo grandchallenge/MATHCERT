@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "overlay_id": "MC-ROUTE-OVERLAY-EUCLID-DIOPHANTINE-E2E-002",
+  "recorded_at": "2026-08-05",
+  "base_registry": {
+    "path": "governance/certification_routes.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "0487c3ebf702229741f16a544d68af25cf994e41"
+  },
+  "prior_overlays": [
+    {
+      "path": "governance/certification_route_overlays/VGSE-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "de56bfb0544b27b6237a68ac87044d3f0ba2e445"
+    },
+    {
+      "path": "governance/certification_route_overlays/EUCLID-GCD-E2E-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0ada97db2673db819104320d128bd994e892f1a4"
+    }
+  ],
+  "route": {
+    "route_id": "MC-ROUTE-EUCLID-DIOPHANTINE-E2E-002",
+    "campaign_id": "EUCLID-DIOPHANTINE-E2E-002",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/89",
+    "source_manifest": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "66d54d375ae4dfc148888325b6093818669e7c02",
+      "path": "campaign_manifests/EUCLID-DIOPHANTINE-E2E-002.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "d4c3ced7eb3bbf4c3d865a847f9b701cf677cdf4"
+    },
+    "intake_status": "certified",
+    "intake_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "66d54d375ae4dfc148888325b6093818669e7c02",
+      "path": "cert_handoffs/EUCLID-DIOPHANTINE-E2E-002.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "80a4bf5082ac9ed9459a1dbd7dbb77166e84764e"
+    },
+    "target_claim_ids": [
+      "EUCLID-DIOPHANTINE-E2E-002-C001",
+      "EUCLID-DIOPHANTINE-E2E-002-C002",
+      "EUCLID-DIOPHANTINE-E2E-002-C003",
+      "EUCLID-DIOPHANTINE-E2E-002-C004"
+    ],
+    "requested_modalities": [
+      "EXACT_RATIONAL_CERTIFICATE",
+      "SEMANTIC_REPLAY",
+      "LEAN_FORMALIZATION"
+    ],
+    "claim_boundary": "Certified only for the admitted two-variable integer equivalence, the exact constructive witness for target 84, the exact divisibility obstruction for target 20, and the bounded independent evidence contract. This does not establish completeness for arbitrary Diophantine equations or historical verbatim equivalence.",
+    "cert_output": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "eb5f990436459a5d3f6aae1dc6c92a29e6f7bd46",
+      "path": "governance/certification_outputs/EUCLID-DIOPHANTINE-E2E-002.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "60bfb86980ef7c3b797b55c4932e469bfea767e5"
+    },
+    "qualification_scope": "certified_linear_diophantine_equivalence_and_bounded_exemplars",
+    "mathematical_target_proved": true,
+    "arbitrary_diophantine_completeness_proved": false,
+    "historical_verbatim_equivalence_established": false,
+    "novelty_or_priority_authorized": false,
+    "book_vii_stage_activated": false,
+    "blockers": [
+      "MATH-PROGRAMME Stage 2 protected closeout and public proof-trace receipt remain pending.",
+      "Stage 3 remains blocked pending exact historical source lock and separate authorization."
+    ],
+    "reopening_conditions": [
+      "Reopen if any protected Forge, Stage 1, or Stage 2 Solve identity, checker result, Lean declaration, route output, or claim boundary changes."
+    ]
+  },
+  "protected_effect": "none_until_exact_head_review_human_steward_disposition_and_protected_merge"
+}

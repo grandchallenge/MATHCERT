@@ -1,0 +1,109 @@
+{
+  "authority_state": "candidate_only",
+  "campaign_id": "EUCLID-DIOPHANTINE-E2E-002",
+  "candidate_scope": {
+    "arbitrary_diophantine_completeness_claimed": false,
+    "coefficient_family": "(abs(a),abs(b)) = (252,105)",
+    "target": "any integer c"
+  },
+  "cases": [
+    {
+      "case_id": "DIO-POS-252-105-84",
+      "constructive_solution": {
+        "base_bezout": {
+          "equation_value": 21,
+          "x": -2,
+          "y": 5
+        },
+        "equation_value": 84,
+        "scale_factor": 4,
+        "x": -8,
+        "y": 20
+      },
+      "decision_basis": "exact_divisibility_by_protected_gcd",
+      "divisibility_obstruction": null,
+      "evidence_type": "constructive_solution",
+      "inputs": {
+        "a": 252,
+        "b": 105,
+        "c": 84
+      },
+      "normalized_gcd": 21
+    },
+    {
+      "case_id": "DIO-NEG-252-105-20",
+      "constructive_solution": null,
+      "decision_basis": "exact_divisibility_by_protected_gcd",
+      "divisibility_obstruction": {
+        "absolute_target": 20,
+        "equation_value": 20,
+        "quotient": 0,
+        "remainder": 20,
+        "strict_nonzero_remainder": true
+      },
+      "evidence_type": "divisibility_obstruction",
+      "inputs": {
+        "a": 252,
+        "b": 105,
+        "c": 20
+      },
+      "normalized_gcd": 21
+    }
+  ],
+  "certificate_id": "MS-CANDIDATE-EUCLID-DIOPHANTINE-E2E-002",
+  "claim_boundary": {
+    "arbitrary_diophantine_completeness_claimed": false,
+    "constructive_witness_accepted": false,
+    "historical_verbatim_equivalence_claimed": false,
+    "novelty_claimed": false,
+    "priority_claimed": false,
+    "statement": "This deterministic Solve package emits bounded candidate evidence for independent MATHCERT checking. It has no certification effect.",
+    "theorem_certified": false,
+    "unsatisfiable_obstruction_accepted": false
+  },
+  "forge_input": {
+    "commit_sha": "af5398a05f17789a061ab0d23c2b47f0cc952fff",
+    "package": {
+      "digest": "e89d5b7c611aaa4a7fdea716742e993eaa283da1",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "sources/EUCLID-DIOPHANTINE-E2E-002/forge_package.json"
+    },
+    "provider_manifest": {
+      "digest": "de9dae12cd578ee98b58e6fc1b39365f8c1e7109",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "provider_manifests/EUCLID-DIOPHANTINE-E2E-002.json"
+    },
+    "repository": "grandchallenge/MATHFORGE"
+  },
+  "protected_stage1": {
+    "cert_merge_commit": "78b69e6a3461a83f4893d61c421b1570c08a9ba6",
+    "certification_output": {
+      "digest": "36c62434dbd19719d990e71ddc23729f0614ace7",
+      "digest_algorithm": "git_blob_sha1",
+      "disposition": "CERTIFIED_CHECKER_SOUNDNESS_AND_CONCRETE_GCD_INSTANCE",
+      "path": "governance/certification_outputs/EUCLID-GCD-E2E-001.json"
+    },
+    "normalized_gcd": 21,
+    "positive_bezout": {
+      "x": -2,
+      "y": 5
+    },
+    "solve_candidate": {
+      "digest": "af54ae9b9a047a36767b2599ebc649fb6fdaaa52",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "certificates/EUCLID-GCD-E2E-001.json"
+    },
+    "solve_merge_commit": "3a8493aa322f0e640c921b8824c4d7f88a8c057d"
+  },
+  "schema_version": "1.0.0",
+  "solver": {
+    "algorithm": "scale_protected_bezout_or_emit_divisibility_remainder",
+    "arithmetic": "unbounded_python_integers",
+    "canonical_command": "python solve/euclid_diophantine.py --output /tmp/euclid-diophantine.json",
+    "implementation_path": "solve/euclid_diophantine.py",
+    "network_used": false,
+    "randomness_used": false,
+    "recomputes_gcd": false,
+    "timeout_or_failed_search_used_as_unsat": false
+  }
+}

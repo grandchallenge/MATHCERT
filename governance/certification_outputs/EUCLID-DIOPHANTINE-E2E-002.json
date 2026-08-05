@@ -1,0 +1,104 @@
+{
+  "accepted_claims": [
+    {
+      "claim_id": "EUCLID-DIOPHANTINE-E2E-002-C001",
+      "disposition": "certified",
+      "statement": "The integers x = -8 and y = 20 satisfy 252x + 105y = 84 by scaling the protected Bezout witness by four."
+    },
+    {
+      "claim_id": "EUCLID-DIOPHANTINE-E2E-002-C002",
+      "disposition": "certified",
+      "statement": "The equality 20 = 0*21 + 20 with 0 < 20 < 21 is a valid divisibility obstruction for 252x + 105y = 20."
+    },
+    {
+      "claim_id": "EUCLID-DIOPHANTINE-E2E-002-C003",
+      "disposition": "certified",
+      "statement": "For the protected coefficient family, the two candidate evidence forms are independently checkable without executing the Solve producer."
+    },
+    {
+      "claim_id": "EUCLID-DIOPHANTINE-E2E-002-C004",
+      "disposition": "certified",
+      "statement": "For nonzero integer coefficient pairs, a two-variable linear equation is solvable exactly when the normalized integer gcd divides the absolute target."
+    }
+  ],
+  "authority_state": "candidate_certification_output_pending_protected_merge",
+  "campaign_id": "EUCLID-DIOPHANTINE-E2E-002",
+  "certificate_id": "MC-EUCLID-DIOPHANTINE-E2E-002",
+  "chaidez_documentary_continuity": {
+    "authoritative_surfaces": [
+      "typeset theorem",
+      "exact constructive witness",
+      "exact divisibility obstruction",
+      "independent checker contract",
+      "Lean declarations",
+      "source and artifact identities"
+    ],
+    "historical_modern_concordance_deferred_to_source_locked_book_vii_stage": true,
+    "illuminated_plates_authority": "pedagogical_orientation_only",
+    "object_construction_witness_certificate_separated": true,
+    "positive_witness_and_negative_obstruction_separated": true
+  },
+  "formalization": {
+    "declarations": [
+      "MathCert.NumberTheory.LinearDiophantineSolvable",
+      "MathCert.NumberTheory.linearDiophantine_iff_coeGcdDvd",
+      "MathCert.NumberTheory.linearDiophantine_iff_gcdDvdNatAbs",
+      "MathCert.NumberTheory.diophantine25210584",
+      "MathCert.NumberTheory.obstruction25210520",
+      "MathCert.NumberTheory.noDiophantine25210520",
+      "MathCert.NumberTheory.zeroTargetSolvable"
+    ],
+    "lean_toolchain": "leanprover/lean4:v4.29.1",
+    "local_axioms_allowed": false,
+    "path": "MathCert/Domains/NumberTheory/EuclidDiophantine.lean",
+    "sorry_allowed": false
+  },
+  "independent_checker": {
+    "checks": [
+      "exact Forge, Stage 1, and Stage 2 protected identities",
+      "candidate authority and claim boundaries",
+      "protected gcd and Bezout witness reuse without recomputation",
+      "positive scale factor and signed integer equation",
+      "negative quotient-remainder equation and strict bounds",
+      "divisibility obstruction by the protected gcd",
+      "explicit zero-target and signed-coefficient contract",
+      "timeout and failed-search prohibition for unsatisfiability",
+      "closed certification output schema",
+      "content-addressed route output and predecessor overlays"
+    ],
+    "does_not_import_or_execute_solve_producer": true,
+    "path": "work_packages/EUCLID_DIOPHANTINE_E2E_002/check_certificate.py"
+  },
+  "proposed_disposition": "CERTIFIED_LINEAR_DIOPHANTINE_EQUIVALENCE_AND_BOUNDED_EXEMPLARS",
+  "protected_effect": "none_until_exact_head_review_human_steward_disposition_and_protected_merge",
+  "rejected_or_unclaimed": [
+    "The MATHSOLVE producer certifies its own output.",
+    "The package proves completeness for arbitrary Diophantine equations.",
+    "A timeout or failed search is evidence of unsatisfiability.",
+    "The modern integer theorem is attributed verbatim to Euclid.",
+    "The work is novel, priority-establishing, or a first formalization.",
+    "The Book VII micro-edition or Stage 3 source lock is complete.",
+    "Stage 3 is automatically activated by this candidate output."
+  ],
+  "schema_version": "1.0.0",
+  "upstream": {
+    "protected_stage1_output": {
+      "git_blob_sha1": "36c62434dbd19719d990e71ddc23729f0614ace7",
+      "path": "governance/certification_outputs/EUCLID-GCD-E2E-001.json"
+    },
+    "receipt_path": "evidence/euclid_diophantine/upstream_receipt.json",
+    "solve_candidate": {
+      "git_blob_sha1": "74703b449fa861b72be1eaf89fb1c39a943183ce",
+      "path": "evidence/euclid_diophantine/solve_candidate.json"
+    },
+    "solve_handoff": {
+      "git_blob_sha1": "80a4bf5082ac9ed9459a1dbd7dbb77166e84764e",
+      "path": "cert_handoffs/EUCLID-DIOPHANTINE-E2E-002.json"
+    },
+    "solve_manifest": {
+      "git_blob_sha1": "d4c3ced7eb3bbf4c3d865a847f9b701cf677cdf4",
+      "path": "campaign_manifests/EUCLID-DIOPHANTINE-E2E-002.json"
+    },
+    "solve_merge_commit": "66d54d375ae4dfc148888325b6093818669e7c02"
+  }
+}
