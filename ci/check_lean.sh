@@ -7,6 +7,7 @@ lake build mathsolve/MathSolve
 lake env lean MathCert/FormalSources/RHNSReplay.lean
 lake env lean MathCert/FormalSources/UCRestrictedReplay.lean
 lake env lean MathCert/Domains/NumberTheory/EuclidGCD.lean
+lake env lean MathCert/Domains/NumberTheory/EuclidDiophantine.lean
 python3 ci/validate_certification_routes.py
 python3 ci/test_validate_certification_routes.py
 python3 ci/validate_formal_source_provenance.py
@@ -60,6 +61,8 @@ python3 ci/validate_otp_compactness_evidence_refresh.py
 python3 ci/test_otp_compactness_evidence_refresh.py
 python3 work_packages/EUCLID_GCD_E2E_001/check_certificate.py
 python3 work_packages/EUCLID_GCD_E2E_001/test_certificate.py
+python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/check_certificate.py
+python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/test_certificate.py
 python3 ci/validate_vgse_route_registration.py
 python3 ci/test_vgse_route_registration.py
 python3 ci/audit_ci_reachability.py
