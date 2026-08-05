@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "certificate_id": "MC-EUCLID-GCD-E2E-001",
+  "campaign_id": "EUCLID-GCD-E2E-001",
+  "proposed_disposition": "CERTIFIED_CHECKER_SOUNDNESS_AND_CONCRETE_GCD_INSTANCE",
+  "authority_state": "candidate_certification_output_pending_protected_merge",
+  "upstream": {
+    "receipt_path": "evidence/euclid_gcd/upstream_receipt.json",
+    "solve_merge_commit": "3a8493aa322f0e640c921b8824c4d7f88a8c057d",
+    "solve_candidate": {
+      "path": "evidence/euclid_gcd/solve_candidate.json",
+      "git_blob_sha1": "af54ae9b9a047a36767b2599ebc649fb6fdaaa52"
+    },
+    "solve_handoff": {
+      "path": "cert_handoffs/EUCLID-GCD-E2E-001.json",
+      "git_blob_sha1": "01a20512c428ce4384959064ab3343a1cbb0c7d2"
+    }
+  },
+  "independent_checker": {
+    "path": "work_packages/EUCLID_GCD_E2E_001/check_certificate.py",
+    "does_not_import_or_execute_solve_producer": true,
+    "checks": [
+      "exact upstream receipt and candidate Git blob identities",
+      "input concordance and exclusion of (0,0)",
+      "every Euclidean division equation and trace linkage",
+      "remainder bounds, strict descent, and terminal zero",
+      "positive normalized d and terminal positive divisor",
+      "d divides both inputs",
+      "integer Bezout equality",
+      "independent Python math.gcd replay",
+      "claim and authority boundaries"
+    ]
+  },
+  "formalization": {
+    "path": "MathCert/Domains/NumberTheory/EuclidGCD.lean",
+    "lean_toolchain": "leanprover/lean4:v4.29.1",
+    "declarations": [
+      "MathCert.NumberTheory.AcceptedGCDCertificate",
+      "MathCert.NumberTheory.acceptedGCDCertificate_sound",
+      "MathCert.NumberTheory.euclidTrace252105",
+      "MathCert.NumberTheory.bezout252105",
+      "MathCert.NumberTheory.gcd252105",
+      "MathCert.NumberTheory.accepted252105",
+      "MathCert.NumberTheory.accepted252105_sound"
+    ],
+    "sorry_allowed": false,
+    "local_axioms_allowed": false
+  },
+  "accepted_claims": [
+    {
+      "claim_id": "EUCLID-GCD-E2E-001-C001",
+      "disposition": "certified",
+      "statement": "For inputs 252 and 105, the reported normalized gcd is 21."
+    },
+    {
+      "claim_id": "EUCLID-GCD-E2E-001-C002",
+      "disposition": "certified",
+      "statement": "The three recorded Euclidean divisions are exact, linked, strictly descending, and terminal."
+    },
+    {
+      "claim_id": "EUCLID-GCD-E2E-001-C003",
+      "disposition": "certified",
+      "statement": "The coefficients x = -2 and y = 5 satisfy x*252 + y*105 = 21."
+    },
+    {
+      "claim_id": "EUCLID-GCD-E2E-001-C004",
+      "disposition": "certified",
+      "statement": "The admitted accepted-certificate predicate entails d = Nat.gcd a b."
+    }
+  ],
+  "rejected_or_unclaimed": [
+    "The Solve producer certifies its own output.",
+    "The implementation proves total correctness of every extended-Euclidean program.",
+    "The modern integer Bezout identity is attributed verbatim to Euclid.",
+    "The work is novel, priority-establishing, or a first formalization.",
+    "The linear Diophantine extension or Book VII micro-edition is complete."
+  ],
+  "chaidez_documentary_continuity": {
+    "object_construction_witness_certificate_separated": true,
+    "historical_modern_concordance_deferred_to_source_locked_book_vii_stage": true,
+    "illuminated_plates_authority": "pedagogical_orientation_only",
+    "authoritative_surfaces": [
+      "typeset theorem",
+      "exact trace",
+      "checker contract",
+      "Lean declarations",
+      "source and artifact identities"
+    ]
+  },
+  "protected_effect": "none_until_exact_head_review_human_steward_disposition_and_protected_merge"
+}
