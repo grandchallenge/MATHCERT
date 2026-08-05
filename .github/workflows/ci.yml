@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: grandchallenge/lean-action@aa909e45950f6e5dd89e05dfed6b78e190ed99b8
+      - uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v6
         with:
           python-version: "3.13"
