@@ -1,0 +1,68 @@
+{
+  "authority_state": "candidate_only",
+  "bezout_witness": {
+    "equation_value": 21,
+    "x": -2,
+    "y": 5
+  },
+  "campaign_id": "EUCLID-GCD-E2E-001",
+  "certificate_id": "MS-CANDIDATE-EUCLID-GCD-E2E-001",
+  "claim_boundary": {
+    "certificate_accepted": false,
+    "historical_verbatim_equivalence_claimed": false,
+    "novelty_claimed": false,
+    "priority_claimed": false,
+    "statement": "This deterministic Solve output is a candidate witness for independent MATHCERT checking. It has no certification effect.",
+    "theorem_certified": false
+  },
+  "euclidean_trace": [
+    {
+      "dividend": 252,
+      "divisor": 105,
+      "quotient": 2,
+      "remainder": 42
+    },
+    {
+      "dividend": 105,
+      "divisor": 42,
+      "quotient": 2,
+      "remainder": 21
+    },
+    {
+      "dividend": 42,
+      "divisor": 21,
+      "quotient": 2,
+      "remainder": 0
+    }
+  ],
+  "forge_input": {
+    "commit_sha": "3622bac82a39cdb9e82ec463919d9e6927c1ec0e",
+    "package": {
+      "digest": "079b68fb5651e0d2eee0a7b2002454d34673d84c",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "sources/EUCLID-GCD-E2E-001/forge_package.json"
+    },
+    "provider_manifest": {
+      "digest": "a103b2c85dbd67973da43656fed5af567c5b7074",
+      "digest_algorithm": "git_blob_sha1",
+      "path": "provider_manifests/EUCLID-GCD-E2E-001.json"
+    },
+    "repository": "grandchallenge/MATHFORGE"
+  },
+  "inputs": {
+    "a": 252,
+    "b": 105
+  },
+  "result": {
+    "d": 21
+  },
+  "schema_version": "1.0.0",
+  "solver": {
+    "algorithm": "deterministic_extended_euclid",
+    "arithmetic": "unbounded_python_integers",
+    "command": "python solve/euclid_gcd.py --a 252 --b 105",
+    "implementation_path": "solve/euclid_gcd.py",
+    "network_used": false,
+    "randomness_used": false
+  }
+}

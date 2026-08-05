@@ -23,3 +23,4 @@ import MathCert.Domains.UnionClosed.IdealFamilyDuality
 import MathCert.Domains.UnionClosed.SingletonCase
 import MathCert.Domains.UnionClosed.TwoElementCase
 import MathCert.FormalSources.UCRestrictedReplay
+import MathCert.Domains.NumberTheory.EuclidGCD

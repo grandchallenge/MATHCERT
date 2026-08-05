@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "EUCLID-GCD-E2E-001",
+  "programme": {
+    "repository": "grandchallenge/MATH-PROGRAMME",
+    "issue": 237
+  },
+  "forge": {
+    "repository": "grandchallenge/MATHFORGE",
+    "merge_commit": "3622bac82a39cdb9e82ec463919d9e6927c1ec0e",
+    "package": {
+      "path": "sources/EUCLID-GCD-E2E-001/forge_package.json",
+      "git_blob_sha1": "079b68fb5651e0d2eee0a7b2002454d34673d84c"
+    },
+    "provider_manifest": {
+      "path": "provider_manifests/EUCLID-GCD-E2E-001.json",
+      "git_blob_sha1": "a103b2c85dbd67973da43656fed5af567c5b7074"
+    }
+  },
+  "solve": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "issue": 101,
+    "pull_request": 102,
+    "reviewed_head": "cf2a46cb94419ed3ff9c0f078ee87e0e7ae0a9f8",
+    "merge_commit": "3a8493aa322f0e640c921b8824c4d7f88a8c057d",
+    "merge_parents": [
+      "00c9f924aa875ee1d43407845b1fa919807ec52b",
+      "cf2a46cb94419ed3ff9c0f078ee87e0e7ae0a9f8"
+    ],
+    "candidate": {
+      "path": "certificates/EUCLID-GCD-E2E-001.json",
+      "git_blob_sha1": "af54ae9b9a047a36767b2599ebc649fb6fdaaa52"
+    },
+    "handoff": {
+      "path": "cert_handoffs/EUCLID-GCD-E2E-001.json",
+      "git_blob_sha1": "01a20512c428ce4384959064ab3343a1cbb0c7d2",
+      "status": "ready"
+    },
+    "manifest": {
+      "path": "campaign_manifests/EUCLID-GCD-E2E-001.json",
+      "git_blob_sha1": "1cdb081595da2f8b21f60a192ec8cc83c20031ac"
+    },
+    "solver": {
+      "path": "solve/euclid_gcd.py",
+      "git_blob_sha1": "012a90e0cd84e4ad7f0fd3f1c9534a6673dc0f24"
+    }
+  },
+  "authority_boundary": "The protected Solve package supplies deterministic candidate evidence only. MATHCERT independently checks and formalizes the admitted claims."
+}
