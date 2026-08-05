@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "overlay_id": "MC-ROUTE-OVERLAY-EUCLID-GCD-E2E-001",
+  "recorded_at": "2026-08-05",
+  "base_registry": {
+    "path": "governance/certification_routes.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "0487c3ebf702229741f16a544d68af25cf994e41"
+  },
+  "prior_overlays": [
+    {
+      "path": "governance/certification_route_overlays/VGSE-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "de56bfb0544b27b6237a68ac87044d3f0ba2e445"
+    }
+  ],
+  "route": {
+    "route_id": "MC-ROUTE-EUCLID-GCD-E2E-001",
+    "campaign_id": "EUCLID-GCD-E2E-001",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/87",
+    "source_manifest": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "3a8493aa322f0e640c921b8824c4d7f88a8c057d",
+      "path": "campaign_manifests/EUCLID-GCD-E2E-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1cdb081595da2f8b21f60a192ec8cc83c20031ac"
+    },
+    "intake_status": "certified",
+    "intake_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "3a8493aa322f0e640c921b8824c4d7f88a8c057d",
+      "path": "cert_handoffs/EUCLID-GCD-E2E-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "01a20512c428ce4384959064ab3343a1cbb0c7d2"
+    },
+    "target_claim_ids": [
+      "EUCLID-GCD-E2E-001-C001",
+      "EUCLID-GCD-E2E-001-C002",
+      "EUCLID-GCD-E2E-001-C003",
+      "EUCLID-GCD-E2E-001-C004"
+    ],
+    "requested_modalities": [
+      "EXACT_RATIONAL_CERTIFICATE",
+      "SEMANTIC_REPLAY",
+      "LEAN_FORMALIZATION"
+    ],
+    "claim_boundary": "Certified only for the accepted-certificate soundness theorem and exact 252,105 fixture; no universal producer correctness or historical verbatim equivalence.",
+    "cert_output": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "9f55e7a5b9a4e082e18ccde927252ed79c11c11b",
+      "path": "governance/certification_outputs/EUCLID-GCD-E2E-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "36c62434dbd19719d990e71ddc23729f0614ace7"
+    },
+    "qualification_scope": "certified_gcd_certificate_soundness_and_concrete_fixture",
+    "mathematical_target_proved": true,
+    "universal_extended_euclid_program_correctness_proved": false,
+    "historical_verbatim_equivalence_established": false,
+    "novelty_or_priority_authorized": false,
+    "successor_stages_activated": false,
+    "blockers": [
+      "MATH-PROGRAMME protected closeout remains pending.",
+      "The linear Diophantine and Book VII successor stages remain separately gated."
+    ],
+    "reopening_conditions": [
+      "Reopen if any protected Forge or Solve identity, checker result, Lean declaration, route output, or claim boundary changes."
+    ]
+  },
+  "protected_effect": "none_until_exact_head_review_human_steward_disposition_and_protected_merge"
+}
