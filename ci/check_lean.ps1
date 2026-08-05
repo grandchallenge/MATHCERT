@@ -10,6 +10,8 @@ lake env lean MathCert/FormalSources/RHNSReplay.lean
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 lake env lean MathCert/FormalSources/UCRestrictedReplay.lean
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+lake env lean MathCert/Domains/NumberTheory/EuclidGCD.lean
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 Invoke-Control "ci/validate_certification_routes.py"
 Invoke-Control "ci/test_validate_certification_routes.py"
 Invoke-Control "ci/validate_formal_source_provenance.py"
@@ -61,6 +63,8 @@ Invoke-Control "ci/validate_otp_ehrhart_output_execution_post_merge_attestation.
 Invoke-Control "ci/test_otp_ehrhart_output_execution_post_merge_attestation.py"
 Invoke-Control "ci/validate_otp_compactness_evidence_refresh.py"
 Invoke-Control "ci/test_otp_compactness_evidence_refresh.py"
+Invoke-Control "work_packages/EUCLID_GCD_E2E_001/check_certificate.py"
+Invoke-Control "work_packages/EUCLID_GCD_E2E_001/test_certificate.py"
 Invoke-Control "ci/validate_vgse_route_registration.py"
 Invoke-Control "ci/test_vgse_route_registration.py"
 Invoke-Control "ci/audit_ci_reachability.py"
