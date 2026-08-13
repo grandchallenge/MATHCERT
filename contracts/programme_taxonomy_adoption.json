@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MATH-TAXONOMY-DOWNSTREAM-SYNC-001",
+  "consumer_repository": "grandchallenge/MATHCERT",
+  "programme_authority": {
+    "repository": "grandchallenge/MATH-PROGRAMME",
+    "issue": 469,
+    "pull_request": 470,
+    "reviewed_head": "e3bb2a50a684050fba02a3e0258e07ca0a942530",
+    "protected_merge": "f0e2d3b390b10770dd6388bf3588b89675e754c8",
+    "policy_id": "MATH-TAXONOMY-001",
+    "adr": "docs/decisions/ADR-0020_LAYERED_MATHEMATICS_TAXONOMY.md"
+  },
+  "adopted_artifacts": [
+    {
+      "path": "CLASSIFICATION_DISCOVERY_STANDARD.md",
+      "git_blob": "a369820c6de40d62c080e7d6b8c6802a302ec0b7",
+      "sha256": "3de756dd120d31df7e440e88318a4623b4d8abcf8f130a00687638c18b60f1c3"
+    },
+    {
+      "path": "DOMAIN_REGISTRY.yaml",
+      "git_blob": "7f9d0475cf51ab2fe7c421d7e1230499e8b8e351",
+      "sha256": "4b153d9f74daf9136c911966e201dad9e180c2b5d716bb4bf26108ba3ba054fc"
+    },
+    {
+      "path": "classification/source_registry.json",
+      "git_blob": "568442dbf454d804f3422f22f48f59c5874d8aee",
+      "sha256": "ec968355d66b1bc8a4ef1c48340732e30b2a80005d2787e30afed21e0cbdf1cf"
+    },
+    {
+      "path": "docs/decisions/ADR-0020_LAYERED_MATHEMATICS_TAXONOMY.md",
+      "git_blob": "b82ef02576016668ac6109c93acef2c8042e4459",
+      "sha256": "06a3ce7462700ba562663f075c90eb7d53a586ec09f285357b5243647647e406"
+    },
+    {
+      "path": "classification/mappings/birch_swinnerton_dyer.json",
+      "git_blob": "8d85b20e18c7cab5d57b30b8c3d26ec5d1f6adbc",
+      "sha256": "db89a252b6320ee5893945e0ef0d8b6202f48c53f07c9a6ee8c517a1bf53962a"
+    },
+    {
+      "path": "classification/mappings/hodge.json",
+      "git_blob": "0663bd5eef0794864a05f3818fb0829a84a79fe4",
+      "sha256": "a26410b34181bf499500d48e3d5050bd5d72c2b95ecd1d3e8ae547e03df4ed42"
+    },
+    {
+      "path": "classification/mappings/navier_stokes.json",
+      "git_blob": "9ea80ae05c09f92c6997733c60e02d45d7255856",
+      "sha256": "a6afa0c832d41091b7463e993f466a08879565fdcf6d248e8d072be9e2bb3341"
+    },
+    {
+      "path": "classification/mappings/p_vs_np.json",
+      "git_blob": "e48516432153f11204072cacfa61187a0760a21a",
+      "sha256": "d8d08825306b40e1f66d0b3aadcc7385185a7f7f7eedaa6ea107b88da307c75c"
+    },
+    {
+      "path": "classification/mappings/riemann_hypothesis.json",
+      "git_blob": "9ac7757d5bc0b829644a667e615c751c0a1cfa11",
+      "sha256": "e3367d66b10c737caaa2641e307600da52949058a2988bcb326378a92ebb5a0c"
+    },
+    {
+      "path": "classification/mappings/union_closed.json",
+      "git_blob": "b50f3766891a04f56da9dfe3419d5eb29006749a",
+      "sha256": "4907ee3717d3a7cdaa3ea5557b1a6506266fabb9f56f95297732470468fcdc79"
+    },
+    {
+      "path": "classification/mappings/yang_mills.json",
+      "git_blob": "a6fc301a773111962a6bdf50d7df3d4188f3a1b1",
+      "sha256": "3066ab5458965db15fcf98962d2292561e505816bb7353f6825dcb493e0643f1"
+    }
+  ],
+  "authority_boundary": {
+    "programme_policy_is_copied": false,
+    "programme_policy_is_superseded": false,
+    "mapping_fitness_is_redecided": false,
+    "serialization_is_certified": false,
+    "mathematics_is_certified": false,
+    "claim_status_changes": false
+  }
+}
