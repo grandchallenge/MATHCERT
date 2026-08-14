@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/mathcert/openai_ten_proofs_permanent_certification_work_package_registry.schema.json",
+  "title": "OpenAI Ten Proofs Permanent certification work-package successor registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","registry_id","candidate_id","authority","work_package","historical_three_family_registry","execution_state","scope","aggregate_integration","route_controls","claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_permanent_certification_work_package_registry"},
+    "registry_id": {"const": "MC-OTP-C-PERMANENT-CERT-WP01"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["cert_intake_merge","cert_intake_reviewed_head","cert_intake_review_id","cert_intake_disposition_comment","intake_record_blob"],
+      "properties": {
+        "cert_intake_merge": {"const": "59e678a5692c873cb7b12b8913231bf520571f51"},
+        "cert_intake_reviewed_head": {"const": "41d66d1c12c667059e5942e0f858056c4e8cf8fc"},
+        "cert_intake_review_id": {"const": 4941544685},
+        "cert_intake_disposition_comment": {"const": 5298682910},
+        "intake_record_blob": {"const": "80a9cf59ac4bad7cc08185e80b0d9ffe27b855e6"}
+      }
+    },
+    "work_package": {
+      "type": "object", "additionalProperties": false,
+      "required": ["result_family","work_package_id","tracker_issue","path","digest_algorithm","digest"],
+      "properties": {
+        "result_family": {"const": "OTP-C-PERMANENT"},
+        "work_package_id": {"const": "OTP-C-PERMANENT-CERT-WP01"},
+        "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/95"},
+        "path": {"const": "governance/result_family_work_packages/OTP-C-PERMANENT-CERT-WP01.json"},
+        "digest_algorithm": {"const": "git_blob_sha1"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "historical_three_family_registry": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path","git_blob_sha1","must_remain_byte_identical"],
+      "properties": {
+        "path": {"const": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP02_WORK_PACKAGES.json"},
+        "git_blob_sha1": {"const": "997f38fb60ef4d3a43801916113a8e2f1ae34264"},
+        "must_remain_byte_identical": {"const": true}
+      }
+    },
+    "execution_state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authorized_work_package_count_in_this_successor","executing_count","evidence_bundle_count","proposed_route_count","registered_route_count_created_by_this_operation","adjudication_count","cert_output_count","mathematical_target_proved_count"],
+      "properties": {
+        "authorized_work_package_count_in_this_successor": {"const": 1},
+        "executing_count": {"const": 0},
+        "evidence_bundle_count": {"const": 0},
+        "proposed_route_count": {"const": 0},
+        "registered_route_count_created_by_this_operation": {"const": 0},
+        "adjudication_count": {"const": 0},
+        "cert_output_count": {"const": 0},
+        "mathematical_target_proved_count": {"const": 0}
+      }
+    },
+    "scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["formula_target_count","circuit_target_count","gate_bounds_in_work_package","total_leaves_vertices_in_work_package","historical_pdf_byte_equivalence"],
+      "properties": {
+        "formula_target_count": {"const": 2},
+        "circuit_target_count": {"const": 0},
+        "gate_bounds_in_work_package": {"const": false},
+        "total_leaves_vertices_in_work_package": {"const": false},
+        "historical_pdf_byte_equivalence": {"const": false}
+      }
+    },
+    "aggregate_integration": {
+      "type": "object", "additionalProperties": false,
+      "required": ["all_lean_required","creates_aggregate_work_package","creates_aggregate_route","reopens_other_family_replay"],
+      "properties": {
+        "all_lean_required": {"const": false},
+        "creates_aggregate_work_package": {"const": false},
+        "creates_aggregate_route": {"const": false},
+        "reopens_other_family_replay": {"const": false}
+      }
+    },
+    "route_controls": {
+      "type": "object", "additionalProperties": false,
+      "required": ["global_certification_route_registry_modified","requested_future_route","route_proposal_created","route_registration_created","may_adjudicate","may_promote_claim"],
+      "properties": {
+        "global_certification_route_registry_modified": {"const": false},
+        "requested_future_route": {"const": "MC-ROUTE-OTP-C-PERMANENT-FORMULA"},
+        "route_proposal_created": {"const": false},
+        "route_registration_created": {"const": false},
+        "may_adjudicate": {"const": false},
+        "may_promote_claim": {"const": false}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 400}
+  }
+}
