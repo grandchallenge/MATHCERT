@@ -4,88 +4,70 @@
   "title": "OpenAI ten-proofs MATHCERT intake registry",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schema_version",
-    "record_id",
-    "candidate_id",
-    "state",
-    "tracker",
-    "authority",
-    "gate_state",
-    "intakes",
-    "blocked_repair_lanes",
-    "aggregate_integration",
-    "cert_state",
-    "activation",
-    "route_controls",
-    "supersedes_state_of",
-    "claim_boundary"
-  ],
+  "required": ["schema_version","record_id","candidate_id","state","tracker","authority","gate_state","intakes","blocked_repair_lanes","permanent_unaccepted_successors","aggregate_integration","cert_state","activation","route_controls","supersedes_state_of","claim_boundary"],
   "properties": {
-    "schema_version": {"const": "1.0.0"},
+    "schema_version": {"const": "1.1.0"},
     "record_id": {"const": "MC-OTP-CERT-INTAKE-001"},
     "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
-    "state": {"const": "three_intake_candidates_pending_cert_activation"},
-    "tracker": {"const": "https://github.com/grandchallenge/MATHCERT/issues/46"},
+    "state": {"const": "four_intake_candidates_pending_cert_activation"},
+    "tracker": {"const": "https://github.com/grandchallenge/MATHCERT/issues/93"},
     "authority": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["solve_handoff_merge", "solve_reviewed_head", "solve_review_id", "forge_semantic_merge", "cert_pre_route_merge"],
+      "type": "object", "additionalProperties": false,
+      "required": ["legacy_solve_handoff_merge","permanent_solve_handoff_merge","permanent_solve_reviewed_head","permanent_solve_review_node_id","legacy_forge_semantic_merge","permanent_forge_semantic_merge","cert_base"],
       "properties": {
-        "solve_handoff_merge": {"const": "443daf537dc7e4ee34ab43aeb01508d9177816ab"},
-        "solve_reviewed_head": {"const": "675706f5c0fe6fcbbcdf2998186fa10577fe05f5"},
-        "solve_review_id": {"const": 4835520166},
-        "forge_semantic_merge": {"const": "cb0a203c36a9ef33270d62ab369df7bc27d3b242"},
-        "cert_pre_route_merge": {"const": "993286f982c2fccc144475cdbf9a35d0c7f5f24c"}
+        "legacy_solve_handoff_merge": {"const": "443daf537dc7e4ee34ab43aeb01508d9177816ab"},
+        "permanent_solve_handoff_merge": {"const": "90f8a8544e546a603b34c9b27b2d6a4a68e06de8"},
+        "permanent_solve_reviewed_head": {"const": "d65430cc8c89b3fc4fa3c14de2734de6d6b95698"},
+        "permanent_solve_review_node_id": {"const": "PRR_kwDOSuU7KM8AAAABJlQtig"},
+        "legacy_forge_semantic_merge": {"const": "cb0a203c36a9ef33270d62ab369df7bc27d3b242"},
+        "permanent_forge_semantic_merge": {"const": "60f6e06c957139447bf5943eed731941b22ac608"},
+        "cert_base": {"const": "e3f5de92006686fe17cabe1e7e68fd5dacdf16d6"}
       }
     },
     "gate_state": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["kernel_replay_clear_count", "semantic_clear_count", "result_family_count", "clear_families", "solve_packet_count"],
+      "type": "object", "additionalProperties": false,
+      "required": ["kernel_replay_clear_count","semantic_clear_count","result_family_count","clear_families","solve_packet_count","permanent_scope"],
       "properties": {
         "kernel_replay_clear_count": {"const": 12},
-        "semantic_clear_count": {"const": 3},
+        "semantic_clear_count": {"const": 4},
         "result_family_count": {"const": 12},
         "clear_families": {
-          "type": "array",
+          "type": "array", "minItems": 4, "maxItems": 4,
           "prefixItems": [
             {"const": "OTP-F-EHRHART"},
             {"const": "OTP-J1-COMPACTNESS"},
-            {"const": "OTP-J2-TWO-DEGENERATE"}
-          ],
-          "items": false,
-          "minItems": 3,
-          "maxItems": 3
+            {"const": "OTP-J2-TWO-DEGENERATE"},
+            {"const": "OTP-C-PERMANENT"}
+          ], "items": false
         },
-        "solve_packet_count": {"const": 3}
+        "solve_packet_count": {"const": 4},
+        "permanent_scope": {"const": "two encoded variable-leaf targets only"}
       }
     },
     "intakes": {
-      "type": "array",
+      "type": "array", "minItems": 4, "maxItems": 4,
       "prefixItems": [
-        {"$ref": "#/$defs/intakeRef"},
-        {"$ref": "#/$defs/intakeRef"},
-        {"$ref": "#/$defs/intakeRef"}
-      ],
-      "items": false,
-      "minItems": 3,
-      "maxItems": 3
+        {"$ref": "#/$defs/intakeRef"}, {"$ref": "#/$defs/intakeRef"},
+        {"$ref": "#/$defs/intakeRef"}, {"$ref": "#/$defs/intakeRef"}
+      ], "items": false
     },
     "blocked_repair_lanes": {
-      "type": "array",
+      "type": "array", "minItems": 1, "maxItems": 1,
+      "prefixItems": [{"const": "OTP-H-GAPCVP"}], "items": false
+    },
+    "permanent_unaccepted_successors": {
+      "type": "array", "minItems": 5, "maxItems": 5,
       "prefixItems": [
-        {"const": "OTP-C-PERMANENT"},
-        {"const": "OTP-H-GAPCVP"}
-      ],
-      "items": false,
-      "minItems": 2,
-      "maxItems": 2
+        {"const": "source Theorem 1.1 arithmetic-circuit complexity"},
+        {"const": "Theorem 1.2 internal-gate bound with constant 256"},
+        {"const": "Theorem 1.3 internal-gate bound with constant 384"},
+        {"const": "Theorems 1.2/1.3 total-leaves and total-vertices consequences"},
+        {"const": "historical admitted-PDF byte equivalence"}
+      ], "items": false
     },
     "aggregate_integration": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["state", "failure", "reopens_family_replay", "reopens_semantic_gates", "creates_cert_route"],
+      "type": "object", "additionalProperties": false,
+      "required": ["state","failure","reopens_family_replay","reopens_semantic_gates","creates_cert_route"],
       "properties": {
         "state": {"const": "failed_separate_obligation"},
         "failure": {"const": "All.lean namespace collision on replicate_to_periodic_packing"},
@@ -95,11 +77,10 @@
       }
     },
     "cert_state": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["intake_candidate_count", "registered_route_count", "adjudication_count", "cert_output_count", "mathematical_target_proved_count"],
+      "type": "object", "additionalProperties": false,
+      "required": ["intake_candidate_count","registered_route_count","adjudication_count","cert_output_count","mathematical_target_proved_count"],
       "properties": {
-        "intake_candidate_count": {"const": 3},
+        "intake_candidate_count": {"const": 4},
         "registered_route_count": {"const": 0},
         "adjudication_count": {"const": 0},
         "cert_output_count": {"const": 0},
@@ -107,47 +88,37 @@
       }
     },
     "activation": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["condition", "head_change_requires_reapproval", "effect"],
+      "type": "object", "additionalProperties": false,
+      "required": ["condition","head_change_requires_reapproval","effect"],
       "properties": {
         "condition": {"const": "exact-head CI, non-author APPROVED review, and protected MATHCERT merge"},
         "head_change_requires_reapproval": {"const": true},
-        "effect": {"const": "three_independent_intakes_accepted_no_routes_no_adjudication"}
+        "effect": {"const": "four_independent_intakes_accepted_no_routes_no_adjudication"}
       }
     },
     "route_controls": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "global_certification_route_registry_modified",
-        "aggregate_intake",
-        "aggregate_route_prohibited",
-        "result_family_granularity",
-        "may_adjudicate",
-        "may_promote_claim"
-      ],
+      "type": "object", "additionalProperties": false,
+      "required": ["global_certification_route_registry_modified","aggregate_intake","aggregate_route_prohibited","result_family_granularity","permanent_subset_only","may_adjudicate","may_promote_claim","may_include_permanent_circuit_or_omitted_formula_conclusions"],
       "properties": {
         "global_certification_route_registry_modified": {"const": false},
         "aggregate_intake": {"type": "null"},
         "aggregate_route_prohibited": {"const": true},
         "result_family_granularity": {"const": true},
+        "permanent_subset_only": {"const": true},
         "may_adjudicate": {"const": false},
-        "may_promote_claim": {"const": false}
+        "may_promote_claim": {"const": false},
+        "may_include_permanent_circuit_or_omitted_formula_conclusions": {"const": false}
       }
     },
     "supersedes_state_of": {"const": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP00_SYNC.json"},
-    "claim_boundary": {"type": "string", "minLength": 180}
+    "claim_boundary": {"type": "string", "minLength": 400}
   },
   "$defs": {
     "intakeRef": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["result_family", "intake_id", "path", "digest_algorithm", "digest", "producer_packet_digest", "semantic_record_digest"],
+      "type": "object", "additionalProperties": false,
+      "required": ["result_family","intake_id","path","digest_algorithm","digest","producer_packet_digest","semantic_record_digest"],
       "properties": {
-        "result_family": {
-          "enum": ["OTP-F-EHRHART", "OTP-J1-COMPACTNESS", "OTP-J2-TWO-DEGENERATE"]
-        },
+        "result_family": {"enum": ["OTP-F-EHRHART","OTP-J1-COMPACTNESS","OTP-J2-TWO-DEGENERATE","OTP-C-PERMANENT"]},
         "intake_id": {"type": "string", "pattern": "^MC-OTP-INTAKE-[A-Z0-9-]+$"},
         "path": {"type": "string", "pattern": "^governance/result_family_intakes/.+\\.json$"},
         "digest_algorithm": {"const": "git_blob_sha1"},
