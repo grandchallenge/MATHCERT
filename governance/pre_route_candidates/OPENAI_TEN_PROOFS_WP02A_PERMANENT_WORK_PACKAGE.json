@@ -14,7 +14,7 @@
     "result_family": "OTP-C-PERMANENT",
     "work_package_id": "OTP-C-PERMANENT-CERT-WP01",
     "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/95",
-    "path": "governance/result_family_work_packages/OTP-C-PERMANENT-CERT-WP01.json",
+    "path": "governance/result_family_work_package_successors/OTP-C-PERMANENT-CERT-WP01.json",
     "digest_algorithm": "git_blob_sha1",
     "digest": "f3000340c2699ec819acbcd223c1ee4c63af1cc8"
   },
