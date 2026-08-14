@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_certification_work_package_registry",
+  "registry_id": "MC-OTP-C-PERMANENT-CERT-WP01",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "authority": {
+    "cert_intake_merge": "59e678a5692c873cb7b12b8913231bf520571f51",
+    "cert_intake_reviewed_head": "41d66d1c12c667059e5942e0f858056c4e8cf8fc",
+    "cert_intake_review_id": 4941544685,
+    "cert_intake_disposition_comment": 5298682910,
+    "intake_record_blob": "80a9cf59ac4bad7cc08185e80b0d9ffe27b855e6"
+  },
+  "work_package": {
+    "result_family": "OTP-C-PERMANENT",
+    "work_package_id": "OTP-C-PERMANENT-CERT-WP01",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/95",
+    "path": "governance/result_family_work_package_successors/OTP-C-PERMANENT-CERT-WP01.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "f3000340c2699ec819acbcd223c1ee4c63af1cc8"
+  },
+  "historical_three_family_registry": {
+    "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP02_WORK_PACKAGES.json",
+    "git_blob_sha1": "997f38fb60ef4d3a43801916113a8e2f1ae34264",
+    "must_remain_byte_identical": true
+  },
+  "execution_state": {
+    "authorized_work_package_count_in_this_successor": 1,
+    "executing_count": 0,
+    "evidence_bundle_count": 0,
+    "proposed_route_count": 0,
+    "registered_route_count_created_by_this_operation": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0
+  },
+  "scope": {
+    "formula_target_count": 2,
+    "circuit_target_count": 0,
+    "gate_bounds_in_work_package": false,
+    "total_leaves_vertices_in_work_package": false,
+    "historical_pdf_byte_equivalence": false
+  },
+  "aggregate_integration": {
+    "all_lean_required": false,
+    "creates_aggregate_work_package": false,
+    "creates_aggregate_route": false,
+    "reopens_other_family_replay": false
+  },
+  "route_controls": {
+    "global_certification_route_registry_modified": false,
+    "requested_future_route": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+    "route_proposal_created": false,
+    "route_registration_created": false,
+    "may_adjudicate": false,
+    "may_promote_claim": false
+  },
+  "claim_boundary": "This successor registry authorizes exactly one Permanent variable-leaf certification work package after protected intake. It preserves the historical three-family work-package registry byte-for-byte and records no replay evidence, proposed or registered Permanent route, adjudication, Cert output, proof promotion, circuit/gate/total-size authority, historical-PDF byte equivalence, aggregate Ten Proofs authority, novelty, priority, publication, patentability, product, or commercial claim."
+}
