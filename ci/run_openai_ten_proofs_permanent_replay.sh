@@ -228,10 +228,12 @@ for theorem in [x for x in os.environ["THEOREMS"].splitlines() if x]:
 Path(os.environ["AXIOM_REPORT"]).write_text(json.dumps({"permitted": sorted(allowed), "reports": reports}, indent=2) + "\n", encoding="utf-8")
 PY
 
+# Compiler elaboration of the exact protected witness file is authoritative. The
+# source is namespace-scoped, so text-presence checks use the bare declaration
+# identifiers rather than incorrectly requiring fully qualified source text.
 lake env lean "$forge/$witness_path" 2>&1 | tee "$output_dir/nonvacuity-replay.log"
-for witness in "${witness_names[@]}"; do
-  grep -Fq "$witness" "$forge/$witness_path" || { echo "missing named witness in protected witness file: $witness" >&2; exit 1; }
-done
+grep -Fq "permanent_divisionFree_formula_nonvacuous" "$forge/$witness_path"
+grep -Fq "permanent_rational_formula_nonvacuous" "$forge/$witness_path"
 
 grep -Fq "version 4.32.0" <(lean --version)
 lake exe comparator "$config" 2>&1 | tee "$output_dir/comparator.log"
