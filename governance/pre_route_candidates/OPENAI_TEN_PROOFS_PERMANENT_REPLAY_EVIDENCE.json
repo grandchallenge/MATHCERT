@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_cert_replay_evidence_registry",
+  "registry_id": "MC-OTP-PERMANENT-REPLAY-EVIDENCE-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-C-PERMANENT",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/97",
+  "historical_three_family_registry": {
+    "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP04_REPLAY_EVIDENCE.json",
+    "git_blob_sha1": "0d9b799181203a7cc38cd0d01ae297985c94cbbf",
+    "membership_unchanged": true
+  },
+  "successor_evidence": {
+    "path": "governance/result_family_replay_evidence_successors/OTP-C-PERMANENT.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "8141ee919813aec3eb04e4b58ec804cc90b457ba",
+    "bundle_path": "evidence/openai_ten_proofs/permanent.zip.b64",
+    "bundle_blob": "44adfbd80018dda202133e3c177050caa118da7c",
+    "decoded_zip_sha256": "9f04dbfd0fe6c52329b9905371d33faa44b2f96719485460c6290bc8a74fd507",
+    "artifact_id": 9237666071,
+    "artifact_sha256": "9f04dbfd0fe6c52329b9905371d33faa44b2f96719485460c6290bc8a74fd507"
+  },
+  "execution_state": {
+    "authorized_target_count": 2,
+    "circuit_target_count": 0,
+    "replay_evidence_bundle_count": 1,
+    "specialist_review_count": 0,
+    "route_proposal_count": 0,
+    "registered_route_count": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0
+  },
+  "scope": {
+    "coefficient_field": "complex",
+    "dimension_threshold": 32,
+    "log_base": 2,
+    "division_free_variable_leaf_constant": 128,
+    "rational_variable_leaf_constant": 192,
+    "gate_bounds_in_replay": false,
+    "total_leaves_vertices_in_replay": false,
+    "historical_pdf_byte_equivalence": false
+  },
+  "route_controls": {
+    "requested_future_route": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+    "route_proposal_created": false,
+    "route_registration_created": false,
+    "may_adjudicate": false,
+    "may_promote_claim": false,
+    "aggregate_route_prohibited": true
+  },
+  "candidate_disposition": "PERMANENT_FORMULA_CERT_REPLAY_EVIDENCE_CLEAR__ROUTE_PROPOSAL_NOT_YET_AUTHORIZED",
+  "claim_boundary": "This successor registry admits one repository-owned replay evidence bundle for the two protected Permanent formula variable-leaf targets only. It preserves the historical three-family replay-evidence registry byte-for-byte and creates no route proposal, route registration, adjudication, Cert output, proof promotion, circuit/gate/total-size authority, historical-PDF equivalence, or aggregate Ten Proofs authority."
+}
