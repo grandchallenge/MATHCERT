@@ -56,20 +56,27 @@ jobs:
     def test_current_repository_passes(self) -> None:
         self.assertEqual([], module.errors())
 
-    def test_unregistered_control_fails(self) -> None:
+    def test_unregistered_canonical_control_fails(self) -> None:
         root = self.build_root()
         (root / "ci" / "validate_orphan.py").write_text("# orphan\n", encoding="utf-8")
         self.assertTrue(any("unregistered CI control" in item for item in module.errors(root)))
 
-    def test_unregistered_producer_fails(self) -> None:
+    def test_unregistered_historical_builder_is_not_promoted(self) -> None:
         root = self.build_root()
-        (root / "ci" / "build_orphan.py").write_text("# orphan producer\n", encoding="utf-8")
-        self.assertTrue(any("unregistered CI control" in item for item in module.errors(root)))
+        (root / "ci" / "build_historical_candidate.py").write_text("# non-control utility\n", encoding="utf-8")
+        self.assertFalse(any("build_historical_candidate" in item for item in module.errors(root)))
 
-    def test_unregistered_verifier_fails(self) -> None:
+    def test_registered_producer_missing_fails(self) -> None:
         root = self.build_root()
-        (root / "ci" / "verify_orphan.py").write_text("# orphan verifier\n", encoding="utf-8")
-        self.assertTrue(any("unregistered CI control" in item for item in module.errors(root)))
+        path = root / "ci" / "build_otp_compactness_construction_evidence.py"
+        path.unlink()
+        self.assertTrue(any("registered CI control is missing" in item and "build_otp_compactness" in item for item in module.errors(root)))
+
+    def test_registered_verifier_missing_fails(self) -> None:
+        root = self.build_root()
+        path = root / "ci" / "verify_otp_compactness_construction_evidence.py"
+        path.unlink()
+        self.assertTrue(any("registered CI control is missing" in item and "verify_otp_compactness" in item for item in module.errors(root)))
 
     def test_omitted_direct_control_fails(self) -> None:
         root = self.build_root()
