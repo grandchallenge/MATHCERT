@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_route_registration",
+  "record_id": "MC-OTP-C-PERMANENT-ROUTE-REGISTRATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-C-PERMANENT",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/101",
+  "authority": {
+    "proposal_merge": "aa06d3d81d20f5878b8a05ac6e5f1b9ce2ba2ddc",
+    "proposal_reviewed_head": "7b527cac7fef0100a38763c110628b538c9bbe8f",
+    "proposal_review_id": 4942263873,
+    "proposal_reviewer": "jimsteeg",
+    "proposal_disposition_comment": 5299722269,
+    "proposal_record": {
+      "path": "governance/result_family_route_proposal_successors/OTP-C-PERMANENT.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "27eb80d2361a571fdebeec0e31faa69b6c307604"
+    },
+    "proposal_registry": {
+      "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_PERMANENT_ROUTE_PROPOSAL.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "6da927a836fee276323edc1e4e5e7fefe7669ba0"
+    },
+    "registered_route_registry_before_blob": "0487c3ebf702229741f16a544d68af25cf994e41",
+    "registered_route_registry_candidate_blob": "4b7f98414958999c8404e30a4a7c0a2a104578da",
+    "forge_semantic_merge": "60f6e06c957139447bf5943eed731941b22ac608",
+    "semantic_record_blob": "3e04bd16bd8a91eaf9b6702de89fcdcc72f61099",
+    "nonvacuity_witness_blob": "e756c8476bac1795f3fb8ca0b7235d3a4a5c59ea",
+    "solve_handoff_merge": "90f8a8544e546a603b34c9b27b2d6a4a68e06de8",
+    "producer_packet_blob": "a993c530880021930a2b468e76235b91122ca854",
+    "cert_intake_merge": "59e678a5692c873cb7b12b8913231bf520571f51",
+    "cert_intake_blob": "80a9cf59ac4bad7cc08185e80b0d9ffe27b855e6",
+    "cert_work_package_merge": "4b5d9e81afea50b5b51b4e390065f52275c886cd",
+    "cert_work_package_blob": "f3000340c2699ec819acbcd223c1ee4c63af1cc8",
+    "cert_replay_evidence_merge": "7f42194bfcfb5b28f2bdb1f5b3203650a6b5ff15",
+    "cert_replay_evidence_blob": "7b75a323b6d840730932bf90984f498b7d360cda",
+    "evidence_manifest_blob": "cbc185bd0cd182fddd3127d8373ae7a74f6389dd",
+    "evidence_manifest_sha256": "351ab107342d2fe72220098ae6e5dc600653e9b181119c99805182270559f969"
+  },
+  "registration": {
+    "route_status": "submitted",
+    "formula_target_count": 2,
+    "circuit_target_count": 0,
+    "target_claim_ids": [
+      "PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound",
+      "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound"
+    ],
+    "source_projection": {
+      "coefficient_field": "complex",
+      "dimension_threshold": 32,
+      "log_base": 2,
+      "division_free_variable_leaf_constant": 128,
+      "rational_variable_leaf_constant": 192,
+      "gate_bounds_in_route": false,
+      "total_leaves_vertices_in_route": false,
+      "historical_pdf_byte_equivalence": false
+    }
+  },
+  "state": {
+    "registered_route_count_created_by_this_operation": 1,
+    "submitted_route_count": 1,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "route_controls": {
+    "registration_scope": "exact_one_permanent_formula_route",
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "may_include_circuit_target": false,
+    "may_include_gate_bounds": false,
+    "may_include_total_size_consequences": false,
+    "historical_pdf_equivalence_established": false,
+    "aggregate_route_prohibited": true,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact-head Cert checks, GCL conformance, CodeQL, non-author APPROVED review, explicit exact-head Human Steward disposition, and protected MATHCERT merge",
+    "head_change_requires_reapproval": true,
+    "effect": "permanent_formula_route_registered_no_adjudication_no_output"
+  },
+  "candidate_disposition": "PERMANENT_FORMULA_CERT_ROUTE_REGISTERED__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY",
+  "claim_boundary": "This registration record registers only MC-ROUTE-OTP-C-PERMANENT-FORMULA for the two protected Permanent variable-leaf formula targets. It does not adjudicate or prove either theorem, issue a Cert output, import circuit Theorem 1.1, import the separate 256/384 gate bounds or total-leaf/vertex consequences, establish historical admitted-PDF byte equivalence, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
