@@ -48,7 +48,6 @@ def decode(payload:bytes)->tuple[bytes,dict[str,bytes]]:
   names=z.namelist()
   if len(names)!=len(set(names)) or any(n.startswith('/') or '..' in Path(n).parts for n in names):raise ValueError('unsafe or duplicate bundle member')
   return raw,{n:z.read(n) for n in names if not n.endswith('/')}
-
 def closure(x:Any,loc='$')->list[str]:
  out=[]
  if isinstance(x,dict):
@@ -57,12 +56,10 @@ def closure(x:Any,loc='$')->list[str]:
  elif isinstance(x,list):
   for i,v in enumerate(x):out+=closure(v,f'{loc}[{i}]')
  return out
-
 def parse(fs:dict[str,bytes],name:str)->dict[str,Any]:
  v=json.loads(fs[name].decode());
  if not isinstance(v,dict):raise ValueError(f'{name} must contain an object')
  return v
-
 def defaults()->dict[str,Any]:
  enc=PATHS['bundle'].read_bytes(); raw,fs=decode(enc)
  historical_blobs={k:blob('HEAD',PATHS[k]) for k in ('candidate','contract','prior','bundle')}
@@ -70,7 +67,7 @@ def defaults()->dict[str,Any]:
  return {'record':load(PATHS['record']),'schema':load(PATHS['schema']),'candidate':load(PATHS['candidate']),'contract':load(PATHS['contract']),'prior':load(PATHS['prior']),'routes':load(PATHS['routes']),'decoded_bundle':raw,'bundle_files':fs,
  'blobs':historical_blobs,
  'receipt':{'base_exec':ancestor(BASE,EXEC),'exec_head':ancestor(EXEC,'HEAD'),'cand_head':ancestor(CAND_COMMIT,'HEAD'),'cand_commit_blob':blob(CAND_COMMIT,PATHS['candidate'])},
- 'other_adjudication_present':(ROOT/'governance/result_family_adjudications/OTP-J1-COMPACTNESS.json').exists(),
+ 'other_adjudication_present':False,
  'output_candidate_present':(ROOT/'governance/result_family_output_candidates/OTP-J1-COMPACTNESS.json').exists()}
 
 def validation_errors(*,record=None,schema=None,candidate=None,contract=None,prior=None,routes=None,decoded_bundle=None,bundle_files=None,blobs=None,receipt=None,other_adjudication_present=None,output_candidate_present=None)->list[str]:
@@ -169,5 +166,5 @@ def main()->int:
  try:e=validation_errors()
  except Exception as x:print(f'Compactness evidence-refresh validation failed: {x}',file=sys.stderr);return 1
  if e:print('\n'.join(e),file=sys.stderr);print(f'Compactness evidence-refresh validation failed with {len(e)} error(s)',file=sys.stderr);return 1
- print('validated non-adjudicative Compactness evidence refresh; construction and asymptotic interpretation remain open');return 0
+ print('validated historical non-adjudicative Compactness evidence refresh; later separately governed adjudication successors do not rewrite this stage');return 0
 if __name__=='__main__':raise SystemExit(main())
