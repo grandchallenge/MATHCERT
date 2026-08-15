@@ -25,10 +25,12 @@ PREDECESSOR_BLOB="2d263779147d44d29b6b2e23e2135c947907266e"
 CONTRACT_COMMIT="9f5ec626306092a352aa5ba8d9920b6ddb11b8bb"
 CONTRACT_BLOB="4288cf2199603ffc90d897062a575a5865326d70"
 ROUTE_BLOB="aa460c1310a7c81b64b88013b7aa4cfdc056f37b"
-SOURCE_BLOB="2b47e7e4d86d7428f33bf2aec7e1b5f80dd25b4c"
-RECON_BLOB="faadc24b319c11e5b566d14de5c2e9afe8636ae5"
-CURRENT_BYTES=2266371
-CURRENT_SHA="64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6"
+SOURCE_BLOB="148ff82af760bba80c7d16a3a35c58d490dadc95"
+RECON_BLOB="ed79d855016a1e642d361e9162ed2b70d267b800"
+CURRENT_BYTES=2487031
+CURRENT_SHA="ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
+PRIOR_BYTES=2266371
+PRIOR_SHA="64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6"
 HISTORICAL_BYTES=2266052
 HISTORICAL_SHA="f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53"
 AUTH_COMMENT=5301501772
@@ -96,15 +98,18 @@ def validation_errors(*,record=None,schema=None,source=None,reconstruction=None,
     if a.get("predecessor_evidence_refresh",{}).get("digest")!=PREDECESSOR_BLOB:e.append("predecessor authority drift")
     if a.get("design_contract",{}).get("digest")!=CONTRACT_BLOB:e.append("contract authority drift")
     current=source.get("current_official_revision",{})
-    if (current.get("url"),current.get("expected_bytes"),current.get("expected_sha256"),current.get("page_count"),current.get("chapter"),current.get("theorem")) != (
-        "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",CURRENT_BYTES,CURRENT_SHA,249,10,"Theorem 1.1"):e.append("current source identity drift")
-    historical=source.get("historical_admitted_revision",{})
-    if historical != {"bytes":HISTORICAL_BYTES,"reacquirable_exact_bytes":False,"sha256":HISTORICAL_SHA,"status":"identity_preserved_but_bytes_not_retained","whole_document_equivalence_to_current":"not_established"}:e.append("historical admitted-source boundary drift")
+    if (current.get("url"),current.get("expected_bytes"),current.get("expected_sha256"),current.get("page_count"),current.get("chapter"),current.get("theorem"),current.get("release_note")) != (
+        "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",CURRENT_BYTES,CURRENT_SHA,253,10,"Theorem 1.1","Updated August 6, 2026"):e.append("current source identity drift")
+    historical=source.get("historical_source_identities",{})
+    if historical.get("admitted_original") != {"bytes":HISTORICAL_BYTES,"reacquirable_exact_bytes":False,"sha256":HISTORICAL_SHA,"status":"identity_preserved_but_bytes_not_retained"}:e.append("historical admitted-source boundary drift")
+    if historical.get("prior_current_observation") != {"bytes":PRIOR_BYTES,"sha256":PRIOR_SHA,"status":"protected_forge_source_revision_observation_superseded_by_current_public_release"}:e.append("prior current-observation boundary drift")
+    if historical.get("whole_document_equivalence")!="not_established":e.append("whole-document equivalence inflation")
     if source.get("reacquisition_gate",{}).get("required_in_dedicated_ci") is not True:e.append("source reacquisition gate removed")
     if source.get("primary_support",{}).get("arxiv_id")!="1706.06583":e.append("primary literature identity drift")
     release=reconstruction.get("source_release",{})
-    if (release.get("current_url"),release.get("current_expected_bytes"),release.get("current_expected_sha256"),release.get("historical_admitted_bytes"),release.get("historical_admitted_sha256"),release.get("historical_exact_bytes_reacquirable"),release.get("whole_document_equivalence_between_revisions")) != (
-        "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",CURRENT_BYTES,CURRENT_SHA,HISTORICAL_BYTES,HISTORICAL_SHA,False,"not_established"):e.append("reconstruction source-revision boundary drift")
+    expected_release=("https://cdn.openai.com/pdf/ten-proofs-oai.pdf",CURRENT_BYTES,CURRENT_SHA,253,"Updated August 6, 2026",HISTORICAL_BYTES,HISTORICAL_SHA,False,PRIOR_BYTES,PRIOR_SHA,"not_established")
+    actual_release=(release.get("current_url"),release.get("current_expected_bytes"),release.get("current_expected_sha256"),release.get("current_expected_page_count"),release.get("current_release_note"),release.get("historical_admitted_bytes"),release.get("historical_admitted_sha256"),release.get("historical_exact_bytes_reacquirable"),release.get("prior_current_observation_bytes"),release.get("prior_current_observation_sha256"),release.get("whole_document_equivalence_between_revisions"))
+    if actual_release!=expected_release:e.append("reconstruction source-revision boundary drift")
     e += [f"independent verifier: {x}" for x in VERIFIER.verify(reconstruction)]
     route=next((x for x in routes.get("routes",[]) if x.get("route_id")==ROUTE_ID),None)
     if route is None:e.append("Compactness route missing")
@@ -123,13 +128,14 @@ def validation_errors(*,record=None,schema=None,source=None,reconstruction=None,
         "construction_invariants":"independently_reconstructed_and_machine_checked",
         "upper_bound_bridge":"independently_reconstructed_with_exact_exponent_arithmetic_machine_checked",
         "lower_bound_bridge":"independently_reconstructed_with_exact_parameter_and_growth_arithmetic_machine_checked",
-        "source_to_encoded_concordance":"clear_for_exact_three_targets_at_current_revision_locus"}.items():
+        "source_to_encoded_concordance":"clear_for_exact_three_targets_at_exact_current_official_locus"}.items():
         if assessment.get(k)!=v:e.append(f"assessment drift: {k}")
     if assessment.get("proof_body_compared_in_full") is not False:e.append("proof-body inflation")
     if record.get("review_gate")!={"fresh_non_author_specialist_review_required":True,"minimum_binding_reviewers":1,"must_bind_exact_head":True,"recorded_review":None,"required_state":"APPROVED"}:e.append("review gate drift")
     limits=record.get("preserved_limitations",{})
     for k in ("historical_admitted_pdf_exact_bytes_reacquired","historical_compactness_formulations_admitted","other_result_families_modified","aggregate_openai_ten_proofs_authority","cert_output_authorized","mathematical_proof_promotion_authorized"):
         if limits.get(k) is not False:e.append(f"scope/authority inflation: {k}")
+    if limits.get("prior_revision_whole_document_equivalence")!="not_established":e.append("prior-revision equivalence inflation")
     boundary=record.get("claim_boundary","").lower()
     for token in ("does not adjudicate","issue a cert output","mathematical target proved","aggregate openai ten proofs","whole-document equivalence"):
         if token not in boundary:e.append(f"claim boundary missing {token}")
@@ -140,5 +146,5 @@ def main()->int:
     e=validation_errors()
     if e:
         print("\n".join(e),file=sys.stderr); print(f"Compactness construction-evidence validation failed with {len(e)} error(s)",file=sys.stderr); return 1
-    print("validated complete Compactness construction/asymptotic evidence at the current official locus with submitted route and no adjudication/output/proof authority"); return 0
+    print("validated complete Compactness construction/asymptotic evidence at exact current official locus with submitted route and no adjudication/output/proof authority"); return 0
 if __name__=="__main__":raise SystemExit(main())
