@@ -1,0 +1,73 @@
+{
+  "claim_boundary": "This manifest binds issue #91 to the exact current official Chapter 10 construction/proof locus observed on 2026-08-15 while preserving earlier source identities as historical observations. It does not establish whole-document equivalence among those revisions or create adjudication, output, or proof authority.",
+  "current_official_revision": {
+    "chapter": 10,
+    "construction_locator": "PDF pages 241-245 / printed pages 237-240",
+    "expected_bytes": 2487031,
+    "expected_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+    "page_count": 253,
+    "release_note": "Updated August 6, 2026",
+    "theorem": "Theorem 1.1",
+    "theorem_locator": "PDF page 240 / printed page 236; parsed P240 L19988-L19999",
+    "url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf"
+  },
+  "historical_source_identities": {
+    "admitted_original": {
+      "bytes": 2266052,
+      "reacquirable_exact_bytes": false,
+      "sha256": "f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53",
+      "status": "identity_preserved_but_bytes_not_retained"
+    },
+    "prior_current_observation": {
+      "bytes": 2266371,
+      "sha256": "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6",
+      "status": "protected_forge_source_revision_observation_superseded_by_current_public_release"
+    },
+    "whole_document_equivalence": "not_established"
+  },
+  "primary_support": {
+    "arxiv_id": "1706.06583",
+    "authors": [
+      "Daniele Bartoli",
+      "Tamás Héger",
+      "György Kiss",
+      "Marcella Takáts"
+    ],
+    "authority_role": "supporting independent cross-check only; the exact current official OpenAI Chapter 10 locus remains the governed construction source",
+    "load_bearing_crosschecks": [
+      "W(q) is a generalized quadrangle of order (q,q)",
+      "Q(4,q) is dual to W(q)",
+      "W(q) is self-dual for even q",
+      "for odd q every triad of Q(4,q) has zero or two centers"
+    ],
+    "title": "On the metric dimension of affine planes, biaffine planes and generalized quadrangles"
+  },
+  "protected_authority": {
+    "design_contract": {
+      "blob": "4288cf2199603ffc90d897062a575a5865326d70",
+      "commit": "9f5ec626306092a352aa5ba8d9920b6ddb11b8bb"
+    },
+    "forge_semantic": {
+      "blob": "659396358d0d999c00011645f72602f30ccf6b0e",
+      "commit": "cb0a203c36a9ef33270d62ab369df7bc27d3b242"
+    },
+    "forge_source_revision": {
+      "blob": "80d473b1b545fd9ca05fc5200bcf70ff5f9fcb05",
+      "commit": "a498ef40b7652b55bf121b5682604e259b8d3073",
+      "scope": "prior revision observation; not asserted to identify the 2026-08-15 current public bytes"
+    },
+    "predecessor_cert_evidence": {
+      "blob": "2d263779147d44d29b6b2e23e2135c947907266e",
+      "commit": "5fd92fdd9a17349ac7b804da706f34557cba4137"
+    }
+  },
+  "reacquisition_gate": {
+    "failure_effect": "fail closed; positive evidence disposition cannot bind",
+    "method": "download current_official_revision.url and require exact byte length and SHA-256 equality before evidence review; historical identities remain non-substitutable",
+    "required_in_dedicated_ci": true
+  },
+  "record_type": "otp_compactness_source_authority_manifest",
+  "result_family": "OTP-J1-COMPACTNESS",
+  "schema_version": "1.0.0",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/91"
+}

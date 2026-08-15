@@ -1,0 +1,178 @@
+{
+  "admissible_quotients": {
+    "K0_labelled_admissible_relation_count": {
+      "interpretation": "count of color-preserving labelled cross-copy partial matchings; not an isomorphism-class count of K",
+      "per_color_partial_bijections_6_to_9": 207775,
+      "two_color_product": 43170450625
+    },
+    "consequences": {
+      "J_and_K_are_finite": "finite vertex sets have finitely many equivalence relations",
+      "connectedness_preserved_from_connected_template": true,
+      "cycle_preserved_by_injected_S2_or_S3": true,
+      "distinguished_subdivisions_embed": true,
+      "identity_relation_is_admissible_J": true,
+      "identity_relation_is_admissible_K": true,
+      "quotients_are_simple_bipartite": true
+    },
+    "rules": [
+      "equivalent vertices must have the same source 2-color",
+      "each distinguished S2 or S3 copy is injective under the quotient",
+      "repeated quotient edges are suppressed",
+      "J additionally requires x and xp to remain inequivalent"
+    ]
+  },
+  "artifact_type": "otp_compactness_construction_reconstruction",
+  "forbidden_family": {
+    "all_members_bipartite": true,
+    "all_members_connected": true,
+    "all_members_contain_cycle": true,
+    "definition": "F = {C4,C6} union J union K",
+    "finite": true,
+    "nonempty": true
+  },
+  "lower_bound_bridge": {
+    "J_pattern_check": "For nonorthogonal y,z, U=<y,z> is a nondegenerate plane. Two common centers force any third base x into U; distinct projective points of U are nonorthogonal, so the required related x,x' pair cannot occur.",
+    "K_pattern_check": "An embedded K quotient would contain injected S3 patterns on both incidence sides; the odd-q Q(4,q) triad-center theorem excludes the line-side pattern.",
+    "construction": {
+      "ambient": "4-dimensional vector space with a nondegenerate alternating bilinear form",
+      "field": "F_q for prime-power q",
+      "incidence": "containment",
+      "incidence_graph": "I_q",
+      "lines": "2-dimensional totally isotropic subspaces",
+      "points": "1-dimensional subspaces"
+    },
+    "exact_parameters": {
+      "cubed_exact_form": "16 e_q^3 - n_q^4 = 32 q (q+1)^4 (q^2+1)^3 >= 0",
+      "edge_lower_bound": "e_q >= 2^(-4/3) n_q^(4/3)",
+      "edges_eq": "(q+1)^2(q^2+1)",
+      "lines": "(q+1)(q^2+1)",
+      "points": "(q+1)(q^2+1)",
+      "vertices_nq": "2(q+1)(q^2+1)"
+    },
+    "girth_eight_check": {
+      "no_C4": "two distinct projective points determine at most one totally isotropic 2-space",
+      "no_C6": "three distinct points on three distinct alternating incidence lines would span a 3-dimensional totally isotropic subspace, impossible in nondegenerate symplectic dimension 4"
+    },
+    "growth_and_padding": {
+      "exact_difference": "t^3(q+1)(q^2+1) - (tq+1)(t^2 q^2+1) = (t^3-t^2)q^2 + (t^3-t)q + (t^3-1) >= 0",
+      "largest_q_rule": "choose largest q=t^j with n_q<=n; then n_q>n/t^3",
+      "n_tq_upper": "n_(tq) <= t^3 n_q for t in {2,3}",
+      "padding": "add isolated vertices; every F is connected and has an edge, so F-freeness is preserved",
+      "uniform_lower_constant": "2^(-4/3)/81 is a valid common positive coefficient for both t=2 and t=3 classes"
+    },
+    "parity_split": {
+      "even_q": {
+        "choice": "q=2^j",
+        "fact": "W(q) is self-dual; the point-side J-pattern obstruction therefore holds on both sides",
+        "forbidden_classes": ["C4", "C6", "J"]
+      },
+      "odd_q": {
+        "choice": "q=3^j",
+        "fact": "Q(4,q), dual to W(q), has 0 or 2 centers for every triad; hence the line side has no S3-pattern",
+        "forbidden_classes": ["K"]
+      }
+    },
+    "primary_literature_crosscheck": {
+      "arxiv_id": "1706.06583",
+      "authors": ["Daniele Bartoli", "Tamás Héger", "György Kiss", "Marcella Takáts"],
+      "facts": [
+        "W(q) is a generalized quadrangle of order (q,q)",
+        "Q(4,q) is dual to W(q)",
+        "W(q) is self-dual for even q",
+        "for odd q every triad of Q(4,q) has 0 or 2 centers"
+      ],
+      "role": "independent supporting cross-check of classical finite-geometry facts, not replacement source authority",
+      "title": "On the metric dimension of affine planes, biaffine planes and generalized quadrangles"
+    }
+  },
+  "schema_version": "1.0.0",
+  "source_release": {
+    "chapter": 10,
+    "construction_locators": [
+      "PDF P241 / printed p237; Definitions 2.1-2.5; parsed P241 L20052-L20093",
+      "PDF P242-P244 / printed pp238-239; Lemmas 3.1-3.3 and Proposition 3.4; parsed P243 L20187-L20201 and surrounding proof",
+      "PDF P244-P245 / printed pp239-240; generalized-quadrangle construction and Propositions 4.2-4.3; parsed P245 L20364-L20375"
+    ],
+    "current_expected_bytes": 2487031,
+    "current_expected_page_count": 253,
+    "current_expected_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+    "current_release_note": "Updated August 6, 2026",
+    "current_url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",
+    "document": "Ten Advances in Mathematics and Theoretical Computer Science",
+    "historical_admitted_bytes": 2266052,
+    "historical_admitted_sha256": "f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53",
+    "historical_exact_bytes_reacquirable": false,
+    "prior_current_observation_bytes": 2266371,
+    "prior_current_observation_sha256": "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6",
+    "theorem": "Theorem 1.1",
+    "theorem_locator": "PDF P240 / printed p236; parsed P240 L19988-L19999",
+    "whole_document_equivalence_between_revisions": "not_established"
+  },
+  "source_to_encoded_concordance": {
+    "boundary": "The load-bearing 2026-08-15 current-release construction, structural invariants, upper-bound counting bridge, generalized-quadrangle lower-bound bridge, exponent arithmetic, quantifier directions, and finite-family uniformization are independently reconstructed. Earlier PDF identities remain preserved as historical observations, but whole-document equivalence among revisions is not established; this evidence is not a line-by-line certification of every prose sentence or bibliography item in Chapter 10.",
+    "exact_targets": [
+      "CompactnessConjecture.quantitativeCompactnessCounterexample",
+      "CompactnessConjecture.compactnessCounterexample_bigO",
+      "CompactnessConjecture.not_erdos_180"
+    ],
+    "failure_of_compactness": "upper exponent is strictly below 4/3 while every member has lower exponent 4/3, so no fixed family member controls ex(n,F) up to a constant factor",
+    "family_structure": "finite nonempty connected bipartite cyclic family reconstructed from source templates",
+    "family_upper": "source O(n^(21/16)) equals encoded O(n^(4/3-1/48))",
+    "member_lower": "source parity construction gives Omega(n^(4/3)) memberwise and supplies a common positive lower coefficient, consistent with the encoded uniform finite-family form",
+    "proof_body_compared_in_full": false
+  },
+  "templates": {
+    "J0": {
+      "generator": {
+        "all_other_copy_vertices_distinct": true,
+        "copies": [
+          {"bases": ["x", "y", "z"], "centers": ["c1", "c2"], "kind": "S2", "subdivision_prefix": "a_"},
+          {"bases": ["xp", "y", "z"], "centers": ["cp1", "cp2"], "kind": "S2", "subdivision_prefix": "b_"}
+        ],
+        "extra_vertex": {"color": 1, "name": "lambda", "neighbors": ["x", "xp"]},
+        "identified_before_quotient": ["y", "z"]
+      },
+      "metrics": {"connected": true, "cycle_rank": 6, "edges": 26, "proper_bipartite_coloring": true, "vertices": 21}
+    },
+    "K0": {
+      "generator": {
+        "bridge_edge": ["d1", "d2"],
+        "copies": [
+          {"bases": ["u1", "u2", "u3"], "centers": ["c1", "d1", "c3"], "kind": "S3", "reverse_coloring": false, "subdivision_prefix": "k1_"},
+          {"bases": ["up1", "up2", "up3"], "centers": ["cp1", "d2", "cp3"], "kind": "S3", "reverse_coloring": true, "subdivision_prefix": "k2_"}
+        ],
+        "copies_disjoint_before_bridge": true
+      },
+      "metrics": {"connected": true, "cycle_rank": 8, "edges": 37, "proper_bipartite_coloring": true, "vertices": 30}
+    },
+    "S2": {
+      "generator": {"base_graph": "K3,2", "bases": ["b1", "b2", "b3"], "centers": ["c1", "c2"], "operation": "subdivide every edge exactly once", "original_color": 0, "subdivision_color": 1},
+      "metrics": {"connected": true, "cycle_rank": 2, "edges": 12, "proper_bipartite_coloring": true, "vertices": 11}
+    },
+    "S3": {
+      "generator": {"base_graph": "K3,3", "bases": ["b1", "b2", "b3"], "centers": ["c1", "c2", "c3"], "operation": "subdivide every edge exactly once", "original_color": 0, "subdivision_color": 1},
+      "metrics": {"connected": true, "cycle_rank": 4, "edges": 18, "proper_bipartite_coloring": true, "vertices": 15}
+    }
+  },
+  "upper_bound_bridge": {
+    "exact_arithmetic": {
+      "contradiction_N_exponent": 5,
+      "contradiction_power": 16,
+      "difference_check": [63, 48, 21, 16],
+      "four_thirds_minus_one_over_48": "21/16",
+      "minimum_degree_exponent": "5/16"
+    },
+    "implicit_constants_boundary": "Only existence/positivity and dependency of absolute asymptotic constants are certified; no numerical value is promoted.",
+    "proof_dependencies": [
+      {"id": "U1", "statement": "In a C4/C6-free bipartite graph, a related pair has a unique common neighbor; three pairwise related vertices share that neighbor; S_k copies correspond to independent triples with at least k common centers.", "status": "independently_reconstructed"},
+      {"id": "U2", "statement": "For unrelated u,v, Z_uv is independent; with minimum degree d>=2, sum over unrelated v of |Z_uv| is at least d(d-1)^3 by nonbacktracking 4-edge walks.", "status": "independently_reconstructed"},
+      {"id": "U3", "statement": "A maximum-cut/pruning argument produces a nonempty bipartite B of order N<=n and minimum degree d with m<=2nd and Delta(B)(d-1)^2<=N.", "status": "independently_reconstructed"},
+      {"id": "U4", "statement": "Convexity applied to the Z_uv counts gives, for each center u, C_u >> d^12/N^2 copies of S2 centered at u.", "status": "independently_reconstructed"},
+      {"id": "U5", "statement": "Excluding J makes each A_yz independent with pairwise disjoint neighborhoods, so |A_yz|<=N/d and the number T_S of independent triples with at least two centers is at most N^3/(6d).", "status": "independently_reconstructed"},
+      {"id": "U6", "statement": "If U is the set of vertices that are not centers of any S3, then every counted triple at u in U has exactly two centers; U4 and U5 imply |U| << N^5/d^13.", "status": "independently_reconstructed"},
+      {"id": "U7", "statement": "Excluding K forces U to be a vertex cover. With Delta(B) << N/d^2, Nd <= 2e(B) <= 2|U|Delta(B) << N^6/d^15, hence d^16 << N^5.", "status": "independently_reconstructed"},
+      {"id": "U8", "statement": "If m >= C n^(21/16), then d >> C N^(5/16), so d^16 >> C^16 N^5, contradicting U7 for sufficiently large C.", "status": "independently_reconstructed"}
+    ],
+    "target": "ex(n,F) = O(n^(21/16)) = O(n^(4/3-1/48))"
+  }
+}

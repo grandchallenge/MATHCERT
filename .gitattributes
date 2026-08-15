@@ -7,3 +7,5 @@ ci/**/*.py text eol=lf
 certificates/formal_sources/*.json text eol=lf
 # Content-addressed Permanent evidence must retain generated LF bytes on all runners.
 evidence/openai_ten_proofs/permanent_candidate/** text eol=lf
+# Content-addressed Compactness construction evidence must retain repository LF bytes on all runners.
+evidence/openai_ten_proofs/compactness_construction/** text eol=lf
