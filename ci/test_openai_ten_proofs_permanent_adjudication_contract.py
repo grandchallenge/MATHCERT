@@ -99,6 +99,26 @@ class PermanentAdjudicationContractTests(unittest.TestCase):
         c["route_scope"]["registered_route_state"] = "qualified"
         self.assertTrue(self.errors(contract=c))
 
+    def test_routine_progression_gate_removed(self):
+        c = copy.deepcopy(self.contract)
+        c["execution_gate"]["routine_stage_progression_without_human_steward_intervention"] = False
+        self.assertTrue(self.errors(contract=c))
+
+    def test_control_plan_change_human_steward_gate_removed(self):
+        c = copy.deepcopy(self.contract)
+        c["execution_gate"]["human_steward_intervention_required_for_control_plan_change"] = False
+        self.assertTrue(self.errors(contract=c))
+
+    def test_old_human_steward_stage_reintroduced(self):
+        r = copy.deepcopy(self.registry)
+        r["successor_sequence"][2] = "human_steward_adjudication_authorization"
+        self.assertTrue(self.errors(registry=r))
+
+    def test_control_plan_rule_removed_from_evidence(self):
+        c = copy.deepcopy(self.contract)
+        c["decision_contract"]["required_evidence"][-1] = "Proceed without checking the approved control plan."
+        self.assertTrue(self.errors(contract=c))
+
     def test_live_route_output_insertion(self):
         routes = copy.deepcopy(self.routes)
         route = next(x for x in routes["routes"] if x.get("route_id") == M.ROUTE_ID)
