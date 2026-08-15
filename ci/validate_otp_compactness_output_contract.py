@@ -138,7 +138,7 @@ def validation_errors(*, contract=None, contract_schema=None, future_schema=None
     adjudication_state = adjudication.get("state", {})
     for key, value in {"route_state": "submitted", "cert_output": None, "mathematical_target_proved": False, "may_issue_output": False, "may_promote_claim": False, "aggregate_adjudication": False, "aggregate_output": False}.items():
         if adjudication_state.get(key) != value: errors.append(f"protected adjudication state drift: {key}")
-    if construction.get("disposition") != "CONSTRUCTION_EVIDENCE_COMPLETE_READY_TO_REQUEST_ADJUDICATION": errors.append("construction evidence disposition drift")
+    if construction.get("disposition", {}).get("evidence_disposition") != "CONSTRUCTION_EVIDENCE_COMPLETE_READY_TO_REQUEST_ADJUDICATION": errors.append("construction evidence disposition drift")
 
     if any((future_certificate_present, candidate_present, staged_certificate_present, staged_route_present)):
         errors.append("premature Compactness output artifact exists during design")
