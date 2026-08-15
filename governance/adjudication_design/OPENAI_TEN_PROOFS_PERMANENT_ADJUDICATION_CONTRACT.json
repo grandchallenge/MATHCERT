@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_adjudication_contract_registry",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/103",
+  "contract_count": 1,
+  "contracts": [
+    {
+      "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-C-PERMANENT-FORMULA",
+      "result_family": "OTP-C-PERMANENT",
+      "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+      "path": "governance/result_family_adjudication_contracts/OTP-C-PERMANENT.json",
+      "contract_state": "design_only"
+    }
+  ],
+  "state": {
+    "may_adjudicate": false,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_contract_count": 0
+  },
+  "successor_sequence": [
+    "evidence_execution_candidate",
+    "exact_head_specialist_review",
+    "control_plan_conformance_check",
+    "separate_adjudication_execution"
+  ],
+  "claim_boundary": "This registry admits one Permanent formula adjudication design contract only. It creates no adjudication, Cert output, proof promotion, circuit/gate/total-size authority, historical-PDF equivalence, or aggregate OpenAI Ten Proofs authority. Routine progression under the approved control plan does not require separate Human Steward intervention; a control-plan change does."
+}
