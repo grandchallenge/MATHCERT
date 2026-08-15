@@ -41,8 +41,20 @@ class CompactnessConstructionEvidenceTests(unittest.TestCase):
         source=copy.deepcopy(self.source); source["current_official_revision"]["expected_sha256"]="0"*64
         self.assertTrue(self.errors(source=source))
 
+    def test_current_page_count_drift(self):
+        source=copy.deepcopy(self.source); source["current_official_revision"]["page_count"]=249
+        self.assertTrue(self.errors(source=source))
+
     def test_historical_reacquisition_inflation(self):
-        source=copy.deepcopy(self.source); source["historical_admitted_revision"]["reacquirable_exact_bytes"]=True
+        source=copy.deepcopy(self.source); source["historical_source_identities"]["admitted_original"]["reacquirable_exact_bytes"]=True
+        self.assertTrue(self.errors(source=source))
+
+    def test_prior_current_substitution(self):
+        source=copy.deepcopy(self.source); source["historical_source_identities"]["prior_current_observation"]["sha256"]="0"*64
+        self.assertTrue(self.errors(source=source))
+
+    def test_whole_document_equivalence_inflation(self):
+        source=copy.deepcopy(self.source); source["historical_source_identities"]["whole_document_equivalence"]="established"
         self.assertTrue(self.errors(source=source))
 
     def test_construction_mutation(self):
