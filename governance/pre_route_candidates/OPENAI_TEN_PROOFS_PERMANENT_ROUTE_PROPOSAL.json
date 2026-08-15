@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_route_proposal_registry",
+  "registry_id": "MC-OTP-C-PERMANENT-ROUTE-PROPOSAL-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/99",
+  "authority": {
+    "cert_replay_evidence_merge": "7f42194bfcfb5b28f2bdb1f5b3203650a6b5ff15",
+    "cert_replay_evidence_record_blob": "7b75a323b6d840730932bf90984f498b7d360cda",
+    "global_registered_route_registry_blob": "0487c3ebf702229741f16a544d68af25cf994e41"
+  },
+  "proposal": {
+    "result_family": "OTP-C-PERMANENT",
+    "proposal_id": "MC-OTP-ROUTE-PROPOSAL-C-PERMANENT-FORMULA",
+    "requested_route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+    "path": "governance/result_family_route_proposal_successors/OTP-C-PERMANENT.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "27eb80d2361a571fdebeec0e31faa69b6c307604"
+  },
+  "state": {
+    "proposal_count": 1,
+    "registered_route_count_created_by_this_operation": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "scope": {
+    "formula_target_count": 2,
+    "circuit_target_count": 0,
+    "gate_bounds_in_route": false,
+    "total_leaves_vertices_in_route": false,
+    "historical_pdf_byte_equivalence": false
+  },
+  "route_controls": {
+    "global_registered_route_registry_modified": false,
+    "proposal_registry_separate": true,
+    "may_register_route": false,
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "aggregate_route_prohibited": true,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact-head Cert checks, GCL conformance, non-author APPROVED specialist review, explicit exact-head Human Steward disposition, and protected MATHCERT merge",
+    "head_change_requires_reapproval": true,
+    "effect": "one_permanent_formula_route_proposal_admitted_no_registration_no_adjudication"
+  },
+  "candidate_disposition": "PERMANENT_FORMULA_CERT_ROUTE_PROPOSAL_CLEAR__REGISTRATION_NOT_YET_AUTHORIZED",
+  "claim_boundary": "This successor registry admits only one proposed Permanent formula route after protected activation. It does not modify the global registered-route registry, register MC-ROUTE-OTP-C-PERMANENT-FORMULA, adjudicate or prove either target, issue a Cert output, import circuit/gate/total-size authority, establish historical-PDF byte equivalence, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
