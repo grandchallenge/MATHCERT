@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_staged_route_transition",
+  "result_family": "OTP-C-PERMANENT",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+  "route_transition": {
+    "from": "submitted",
+    "to": "qualified",
+    "certificate_content_commit": "1344220f0f61f9e637c5b1fc668c0a0eb7ab4133",
+    "route_transition_commit": "48941f6351071c07f9b4685577f98d8bbda03536",
+    "cert_output": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "1344220f0f61f9e637c5b1fc668c0a0eb7ab4133",
+      "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04"
+    }
+  },
+  "qualified_claim_boundary": "This restricted route qualification applies only to the exact two encoded OTP-C-PERMANENT variable-leaf formula targets under protected disposition qualified_encoded_targets_only, with complex coefficients, n >= 32, log base 2, and denominator constants 128/192. It does not mark either mathematical target proved, certify source Theorem 1.1 arithmetic-circuit complexity or any PermanentRollout circuit target, include the separate 256/384 gate bounds or total-leaf/total-vertex consequences, establish historical admitted-PDF byte equivalence, qualify another result family, or create aggregate OpenAI Ten Proofs authority.",
+  "preserved_blockers": [
+    "Source Theorem 1.1 arithmetic-circuit complexity and every PermanentRollout circuit target remain outside this restricted qualification.",
+    "The separate 256/384 gate bounds and total-leaf/total-vertex consequences remain outside this restricted qualification.",
+    "Historical admitted-PDF byte equivalence remains unestablished, and neither encoded mathematical target is marked proved."
+  ],
+  "protected_main_effect": "none_until_protected_merge"
+}
