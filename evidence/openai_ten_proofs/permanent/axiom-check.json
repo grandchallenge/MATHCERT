@@ -1,0 +1,27 @@
+{
+  "permitted": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "reports": [
+    {
+      "theorem": "PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound",
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "unexpected": []
+    },
+    {
+      "theorem": "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound",
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "unexpected": []
+    }
+  ]
+}
