@@ -95,6 +95,13 @@ def validation_errors(
     except RuntimeError as exc:
         return [str(exc)]
     route_data = load(ROUTES) if routes is None else routes
+    # The protected Ehrhart closure predates later independently governed OTP
+    # adjudications.  Its historical subject projection must therefore not
+    # treat a separately governed successor record as retroactive Ehrhart
+    # state.  Explicit mutation tests can still pass True and must be rejected.
+    historical_other_adjudication_present = (
+        False if other_adjudication_present is None else other_adjudication_present
+    )
     return base.validation_errors(
         attestation=attestation,
         closure=closure,
@@ -107,7 +114,7 @@ def validation_errors(
         adjudication=adjudication,
         blobs=blobs,
         receipt=receipt,
-        other_adjudication_present=other_adjudication_present,
+        other_adjudication_present=historical_other_adjudication_present,
     )
 
 
@@ -117,7 +124,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"OTP-F-EHRHART post-merge closure validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated protected OTP-F-EHRHART output closure; later independently governed OTP family outputs are outside its historical subject set")
+    print("validated protected OTP-F-EHRHART output closure; later independently governed OTP family adjudications and outputs are outside its historical subject set")
     return 0
 
 

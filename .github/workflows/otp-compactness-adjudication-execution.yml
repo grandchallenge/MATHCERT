@@ -1,0 +1,186 @@
+name: OTP Compactness adjudication execution
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - ".github/workflows/otp-compactness-adjudication-execution.yml"
+      - "governance/result_family_adjudication_execution_inputs/OTP-J1-COMPACTNESS.json"
+      - "schemas/openai_ten_proofs_compactness_adjudication_execution_input.schema.json"
+      - "ci/otp_compactness_adjudication_input_control.py"
+      - "ci/materialize_otp_compactness_adjudication_replay.py"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  execution-input-control:
+    name: execution-input-control (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    steps:
+      - name: Check out exact candidate head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v6.0.0
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - name: Install locked CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Validate frozen execution input and mutations
+        run: python ci/otp_compactness_adjudication_input_control.py --self-test
+      - name: Materialize replay recipe without executing it
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/.adjudication-tmp"
+          python ci/materialize_otp_compactness_adjudication_replay.py "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh"
+          grep -Fq 'current_official_revision_reacquired' "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh"
+          grep -Fq 'ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566' "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh"
+
+  authorized-fresh-replay:
+    name: authorized-fresh-replay
+    if: (github.event.action == 'ready_for_review' || github.event.action == 'synchronize') && github.event.pull_request.draft == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      MATHCERT_WORKFLOW_SHA: ${{ github.sha }}
+      AUTHORIZED_INPUT_HEAD: 28db9aad66381ff4f8b68a48c18090fa5c5b843b
+      AUTHORIZED_INPUT_BLOB: c9d8b31579e2bfdb93f99ff74d14f73a2fb603d7
+      AUTHORIZED_UPSTREAM_COMMIT: e62211d28e3a9131950c89caa6542cfe5eff3bca
+      AUTHORIZED_UPSTREAM_TREE: 2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365
+    steps:
+      - name: Check out descendant publication head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify Human Steward authorization ancestry and frozen input
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor "$AUTHORIZED_INPUT_HEAD" HEAD
+          test "$(git hash-object governance/result_family_adjudication_execution_inputs/OTP-J1-COMPACTNESS.json)" = "$AUTHORIZED_INPUT_BLOB"
+
+      - name: Check out exact authorized formalization from immutable mirror
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: fyremael/ten-proofs
+          ref: e62211d28e3a9131950c89caa6542cfe5eff3bca
+          path: upstream
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify mirrored subject identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C upstream rev-parse HEAD)" = "$AUTHORIZED_UPSTREAM_COMMIT"
+          test "$(git -C upstream rev-parse 'HEAD^{tree}')" = "$AUTHORIZED_UPSTREAM_TREE"
+
+      - name: Check out exact Forge semantic authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: cb0a203c36a9ef33270d62ab369df7bc27d3b242
+          path: forge
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Solve producer authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHSOLVE
+          ref: 443daf537dc7e4ee34ab43aeb01508d9177816ab
+          path: solve
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Bootstrap project dependencies
+        uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          lake-package-directory: upstream
+
+      - name: Activate governed Lean 4.32.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          elan toolchain list | grep -Fq 'leanprover/lean4:v4.32.0' || elan toolchain install leanprover/lean4:v4.32.0
+          elan run leanprover/lean4:v4.32.0 lean --version | grep -F "version 4.32.0"
+          echo "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0" >> "$GITHUB_ENV"
+
+      - name: Build pinned Comparator toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p tools "$RUNNER_TEMP/otp-bin"
+          git clone --filter=blob:none https://github.com/leanprover/lean4export.git tools/lean4export
+          git -C tools/lean4export checkout --detach 4e7915201d3f9f04470d9eae002fa695f7cdc589
+          (cd tools/lean4export && lake build)
+          git clone --filter=blob:none https://github.com/ammkrn/nanoda_lib.git tools/nanoda
+          git -C tools/nanoda checkout --detach ddfac2bf5a7b56cb46e141494427ff3dd55963c7
+          (cd tools/nanoda && cargo build --release --locked)
+          git clone --filter=blob:none https://github.com/Zouuup/landrun.git tools/landrun
+          git -C tools/landrun checkout --detach 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
+          (cd tools/landrun && go build -trimpath -o "$RUNNER_TEMP/otp-bin/landrun-real" ./cmd/landrun)
+          cp ci/landrun_comparator_adapter.sh "$RUNNER_TEMP/otp-bin/landrun"
+          chmod +x "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
+          echo "$RUNNER_TEMP/otp-bin" >> "$GITHUB_PATH"
+          echo "COMPARATOR_LANDRUN=$RUNNER_TEMP/otp-bin/landrun" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LANDRUN_REAL=$RUNNER_TEMP/otp-bin/landrun-real" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/tools/lean4export/.lake/build/bin/lean4export" >> "$GITHUB_ENV"
+          echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/tools/nanoda/target/release/nanoda_bin" >> "$GITHUB_ENV"
+
+      - name: Prepare upstream dependencies
+        shell: bash
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          lake exe cache get
+
+      - name: Materialize Compactness-only current-source replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/.adjudication-tmp"
+          python ci/materialize_otp_compactness_adjudication_replay.py "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh"
+          chmod +x "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh"
+
+      - name: Execute fresh isolated Compactness replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh" \
+            OTP-J1-COMPACTNESS \
+            ComparatorChallenges/J_CompactnessConjecture.json \
+            CompactnessAndDegeneracy \
+            ComparatorChallenges.J_CompactnessConjecture \
+            evidence/compactness-adjudication
+
+      - name: Upload exact authorized replay evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: otp-compactness-adjudication-replay
+          path: evidence/compactness-adjudication/
+          if-no-files-found: error
+          retention-days: 30
