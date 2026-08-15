@@ -1,0 +1,4 @@
+⚠ [8655/8655] Built ComparatorChallenges.C_PermanentFormulaLowerBound (3.8s)
+warning: ComparatorChallenges/C_PermanentFormulaLowerBound.lean:82:8: declaration uses `sorry`
+warning: ComparatorChallenges/C_PermanentFormulaLowerBound.lean:90:8: declaration uses `sorry`
+Build completed successfully (8655 jobs).
