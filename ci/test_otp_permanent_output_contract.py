@@ -77,6 +77,8 @@ class OTPPermanentOutputContractTests(unittest.TestCase):
         d=copy.deepcopy(self.contract); d["publication_protocol"]["route_transition_commit_must_descend_from_certificate_content_commit"]=False; self.assertTrue(self.errors(contract=d))
     def test_open_contract_schema_fails(self):
         s=copy.deepcopy(self.contract_schema); s["additionalProperties"]=True; self.assertTrue(self.errors(contract_schema=s))
+    def test_nested_contract_schema_closure_fails(self):
+        d=copy.deepcopy(self.contract); d["reviewer_requirements"]["unexpected_authority"]="inflated"; self.assertTrue(self.errors(contract=d))
     def test_open_future_schema_fails(self):
         s=copy.deepcopy(self.future_schema); s["additionalProperties"]=True; self.assertTrue(self.errors(future_schema=s))
     def test_premature_artifacts_fail(self):
