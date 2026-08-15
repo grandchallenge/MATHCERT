@@ -51,27 +51,45 @@ jobs:
 
   authorized-fresh-replay:
     name: authorized-fresh-replay
-    if: github.event.action == 'ready_for_review'
+    if: (github.event.action == 'ready_for_review' || github.event.action == 'synchronize') && github.event.pull_request.draft == false
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     env:
       MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
       MATHCERT_WORKFLOW_SHA: ${{ github.sha }}
+      AUTHORIZED_INPUT_HEAD: 28db9aad66381ff4f8b68a48c18090fa5c5b843b
+      AUTHORIZED_INPUT_BLOB: c9d8b31579e2bfdb93f99ff74d14f73a2fb603d7
+      AUTHORIZED_UPSTREAM_COMMIT: e62211d28e3a9131950c89caa6542cfe5eff3bca
+      AUTHORIZED_UPSTREAM_TREE: 2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365
     steps:
-      - name: Check out exact authorized input head
+      - name: Check out descendant publication head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Check out exact upstream formalization
+      - name: Verify Human Steward authorization ancestry and frozen input
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor "$AUTHORIZED_INPUT_HEAD" HEAD
+          test "$(git hash-object governance/result_family_adjudication_execution_inputs/OTP-J1-COMPACTNESS.json)" = "$AUTHORIZED_INPUT_BLOB"
+
+      - name: Check out exact authorized formalization from immutable mirror
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: openai/ten-proofs
+          repository: fyremael/ten-proofs
           ref: e62211d28e3a9131950c89caa6542cfe5eff3bca
           path: upstream
           fetch-depth: 1
           persist-credentials: false
+
+      - name: Verify mirrored subject identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C upstream rev-parse HEAD)" = "$AUTHORIZED_UPSTREAM_COMMIT"
+          test "$(git -C upstream rev-parse 'HEAD^{tree}')" = "$AUTHORIZED_UPSTREAM_TREE"
 
       - name: Check out exact Forge semantic authority
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
