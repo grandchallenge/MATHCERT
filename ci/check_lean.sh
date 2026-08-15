@@ -83,6 +83,8 @@ python3 ci/validate_otp_compactness_construction_evidence.py
 python3 ci/test_otp_compactness_construction_evidence.py
 python3 ci/validate_otp_compactness_output_contract.py
 python3 ci/test_otp_compactness_output_contract.py
+python3 ci/validate_otp_compactness_output_execution.py
+python3 ci/test_otp_compactness_output_execution.py
 python3 work_packages/EUCLID_GCD_E2E_001/check_certificate.py
 python3 work_packages/EUCLID_GCD_E2E_001/test_certificate.py
 python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/check_certificate.py
