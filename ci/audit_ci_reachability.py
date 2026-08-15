@@ -7,7 +7,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PREFIXES = ("audit_", "build_", "check_", "replay_", "test_", "validate_", "verify_")
+CANONICAL_PREFIXES = ("audit_", "check_", "replay_", "test_", "validate_")
+REGISTERED_EXECUTABLE_PREFIXES = ("build_", "verify_")
 
 
 def errors(root: Path = ROOT) -> list[str]:
@@ -23,12 +24,19 @@ def errors(root: Path = ROOT) -> list[str]:
     discovered = {
         f"ci/{path.name}"
         for path in (root / "ci").glob("*.py")
-        if path.name.startswith(PREFIXES)
+        if path.name.startswith(CANONICAL_PREFIXES)
     }
     for path in sorted(discovered - set(records)):
         found.append(f"unregistered CI control: {path}")
-    for path in sorted(set(records) - discovered):
-        found.append(f"registered CI control is missing: {path}")
+
+    for relative, record in sorted(records.items()):
+        path = root / relative
+        if not path.exists():
+            found.append(f"registered CI control is missing: {relative}")
+            continue
+        name = path.name
+        if not name.startswith(CANONICAL_PREFIXES + REGISTERED_EXECUTABLE_PREFIXES):
+            found.append(f"registered CI control has unsupported executable prefix: {relative}")
 
     texts: dict[str, str] = {}
     for relative in registry.get("orchestrators", []):
