@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import base64
 import hashlib
 import importlib.util
-import io
 import json
 import sys
-import zipfile
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
@@ -17,15 +14,16 @@ RECORD_PATH = ROOT / "governance/result_family_replay_evidence_successors/OTP-C-
 REGISTRY_PATH = ROOT / "governance/pre_route_candidates/OPENAI_TEN_PROOFS_PERMANENT_REPLAY_EVIDENCE.json"
 RECORD_SCHEMA_PATH = ROOT / "schemas/openai_ten_proofs_permanent_cert_replay_evidence.schema.json"
 REGISTRY_SCHEMA_PATH = ROOT / "schemas/openai_ten_proofs_permanent_cert_replay_evidence_registry.schema.json"
-BUNDLE_PATH = ROOT / "evidence/openai_ten_proofs/permanent.zip.b64"
+EVIDENCE_ROOT = ROOT / "evidence/openai_ten_proofs/permanent"
+LEGACY_WRAPPER = ROOT / "evidence/openai_ten_proofs/permanent.zip.b64"
 HISTORICAL_REGISTRY_PATH = ROOT / "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP04_REPLAY_EVIDENCE.json"
 ROUTE_REGISTRY_PATH = ROOT / "governance/certification_routes.json"
 
-RECORD_BLOB = "8141ee919813aec3eb04e4b58ec804cc90b457ba"
-BUNDLE_BLOB = "44adfbd80018dda202133e3c177050caa118da7c"
+RECORD_BLOB = "7b75a323b6d840730932bf90984f498b7d360cda"
 HISTORICAL_REGISTRY_BLOB = "0d9b799181203a7cc38cd0d01ae297985c94cbbf"
-DECODED_ZIP_SHA256 = "9f04dbfd0fe6c52329b9905371d33faa44b2f96719485460c6290bc8a74fd507"
-ENCODED_SHA256 = "b2fe4c0122c73f104da742a12236a5e920b4e8bb7551308e45a77c458a6af28d"
+MANIFEST_BLOB = "cbc185bd0cd182fddd3127d8373ae7a74f6389dd"
+MANIFEST_SHA256 = "351ab107342d2fe72220098ae6e5dc600653e9b181119c99805182270559f969"
+TRANSPORT_ZIP_SHA256 = "9f04dbfd0fe6c52329b9905371d33faa44b2f96719485460c6290bc8a74fd507"
 EXECUTION_HEAD = "adb5000e6e1353fea52a8d81f3415be1a8d52193"
 WORKFLOW_CHECKOUT = "dabf0eb117b48c03c6953a51e6b3a229a802b5b5"
 RUN_ID = 31851083366
@@ -39,7 +37,7 @@ WITNESSES = [
     "PermanentFormulaLowerBound.Nonvacuity.permanent_divisionFree_formula_nonvacuous",
     "PermanentFormulaLowerBound.Nonvacuity.permanent_rational_formula_nonvacuous",
 ]
-EXPECTED_ZIP_FILES = {
+EXPECTED_FILES = {
     "SHA256SUMS",
     "axiom-check.json",
     "challenge-build.log",
@@ -89,7 +87,7 @@ def historical_evidence_errors() -> list[str]:
 def validation_errors(
     record=None,
     registry=None,
-    encoded_bundle: bytes | None = None,
+    file_overrides: dict[str, bytes] | None = None,
     record_blob_override: str | None = None,
     historical_blob_override: str | None = None,
     **_,
@@ -97,7 +95,7 @@ def validation_errors(
     errors: list[str] = []
     record = load(RECORD_PATH) if record is None else record
     registry = load(REGISTRY_PATH) if registry is None else registry
-    encoded = BUNDLE_PATH.read_bytes() if encoded_bundle is None else encoded_bundle
+    overrides = {} if file_overrides is None else file_overrides
 
     errors.extend(schema_errors(record, RECORD_SCHEMA_PATH, "Permanent replay evidence"))
     errors.extend(schema_errors(registry, REGISTRY_SCHEMA_PATH, "Permanent replay evidence registry"))
@@ -117,83 +115,100 @@ def validation_errors(
     if historical_evidence_errors():
         errors.append("historical three-family replay-evidence validation failed")
 
-    if git_blob_sha1_bytes(encoded) != BUNDLE_BLOB:
-        errors.append("repository replay bundle git blob drift")
-    if sha256(encoded) != ENCODED_SHA256:
-        errors.append("repository replay bundle encoded SHA-256 drift")
-    if len(encoded) != 8753:
-        errors.append("repository replay bundle encoded byte length drift")
+    if LEGACY_WRAPPER.exists():
+        errors.append("obsolete encoded replay wrapper must not be retained")
+    if not EVIDENCE_ROOT.is_dir():
+        errors.append("repository replay evidence directory is missing")
+        actual_names: set[str] = set()
+    else:
+        actual_names = {p.name for p in EVIDENCE_ROOT.iterdir() if p.is_file()}
+    if actual_names != EXPECTED_FILES:
+        errors.append("repository replay evidence directory membership drift")
 
-    try:
-        decoded = base64.b64decode(encoded, validate=False)
-    except Exception as exc:
-        errors.append(f"repository replay bundle is not valid base64: {exc}")
-        decoded = b""
-    if len(decoded) != 6563:
-        errors.append("repository replay bundle decoded byte length drift")
-    if sha256(decoded) != DECODED_ZIP_SHA256:
-        errors.append("repository replay bundle decoded SHA-256 drift")
-    artifact = record.get("actions_artifact", {})
-    if artifact.get("sha256") != sha256(decoded) or artifact.get("bytes") != len(decoded):
-        errors.append("Actions artifact / repository bundle mismatch")
-    if artifact.get("artifact_id") != ARTIFACT_ID or artifact.get("source_run_id") != RUN_ID or artifact.get("source_head_sha") != EXECUTION_HEAD:
-        errors.append("Actions artifact provenance drift")
-
-    files: dict[str, bytes] = {}
-    if decoded:
-        try:
-            with zipfile.ZipFile(io.BytesIO(decoded)) as zf:
-                names = set(zf.namelist())
-                if names != EXPECTED_ZIP_FILES:
-                    errors.append("repository replay ZIP membership drift")
-                for name in names:
-                    if name.endswith("/"):
-                        errors.append("repository replay ZIP contains unexpected directory")
-                        continue
-                    files[name] = zf.read(name)
-        except Exception as exc:
-            errors.append(f"repository replay bundle is not a readable ZIP: {exc}")
-
-    evidence_meta = record.get("evidence_files", {})
-    if set(evidence_meta) != EXPECTED_ZIP_FILES:
+    meta = record.get("evidence_files", {})
+    if set(meta) != EXPECTED_FILES:
         errors.append("evidence-file inventory drift")
-    for name in EXPECTED_ZIP_FILES & files.keys():
-        data = files[name]
-        meta = evidence_meta.get(name, {})
-        if meta.get("bytes") != len(data): errors.append(f"{name} byte length drift")
-        if meta.get("sha256") != sha256(data): errors.append(f"{name} SHA-256 drift")
-        if meta.get("git_blob_sha1") != git_blob_sha1_bytes(data): errors.append(f"{name} Git blob drift")
 
-    if "evidence-summary.json" in files:
+    file_data: dict[str, bytes] = {}
+    for name in EXPECTED_FILES:
+        path = EVIDENCE_ROOT / name
+        if name in overrides:
+            data = overrides[name]
+        elif path.exists():
+            data = path.read_bytes()
+        else:
+            continue
+        file_data[name] = data
+        expected = meta.get(name, {})
+        if expected.get("bytes") != len(data): errors.append(f"{name} byte length drift")
+        if expected.get("sha256") != sha256(data): errors.append(f"{name} SHA-256 drift")
+        if expected.get("git_blob_sha1") != git_blob_sha1_bytes(data): errors.append(f"{name} Git blob drift")
+
+    if "SHA256SUMS" in file_data:
+        manifest = file_data["SHA256SUMS"]
+        if sha256(manifest) != MANIFEST_SHA256 or git_blob_sha1_bytes(manifest) != MANIFEST_BLOB:
+            errors.append("repository evidence manifest identity drift")
+        listed: dict[str, str] = {}
+        for line in manifest.decode("utf-8").splitlines():
+            digest, path = line.split(None, 1)
+            listed[Path(path.strip()).name] = digest
+        expected_listed = EXPECTED_FILES - {"SHA256SUMS"}
+        if set(listed) != expected_listed:
+            errors.append("repository evidence manifest membership drift")
+        for name in expected_listed & file_data.keys():
+            if listed.get(name) != sha256(file_data[name]):
+                errors.append(f"repository evidence manifest digest mismatch for {name}")
+
+    artifact = record.get("actions_artifact", {})
+    if artifact != {
+        "artifact_id": ARTIFACT_ID,
+        "name": "otp-permanent-evidence",
+        "bytes": 6563,
+        "sha256": TRANSPORT_ZIP_SHA256,
+        "source_run_id": RUN_ID,
+        "source_head_sha": EXECUTION_HEAD,
+    }:
+        errors.append("Actions artifact provenance drift")
+    bundle = record.get("repository_bundle", {})
+    if bundle != {
+        "root":"evidence/openai_ten_proofs/permanent",
+        "format":"content_addressed_directory",
+        "file_count":11,
+        "manifest_path":"evidence/openai_ten_proofs/permanent/SHA256SUMS",
+        "manifest_git_blob_sha1":MANIFEST_BLOB,
+        "manifest_sha256":MANIFEST_SHA256,
+        "transport_zip_bytes":6563,
+        "transport_zip_sha256":TRANSPORT_ZIP_SHA256,
+    }:
+        errors.append("repository evidence bundle contract drift")
+
+    if "evidence-summary.json" in file_data:
         try:
-            summary = json.loads(files["evidence-summary.json"].decode("utf-8"))
+            summary = json.loads(file_data["evidence-summary.json"].decode("utf-8"))
             execution = summary.get("execution", {})
             if execution.get("mathcert_head_sha") != EXECUTION_HEAD or execution.get("workflow_checkout_sha") != WORKFLOW_CHECKOUT:
                 errors.append("evidence summary execution identity drift")
             targets = summary.get("targets", {})
             if targets.get("theorem_names") != TARGETS or targets.get("nonvacuity_witnesses") != WITNESSES:
                 errors.append("evidence summary target/witness drift")
-            results = summary.get("results", {})
-            if results != {
+            if summary.get("results") != {
                 "solution_build":"pass","challenge_build":"pass","comparator":"pass","lean_kernel":"accept","nanoda":"accept","nonvacuity_replay":"pass","theorem_axiom_report":"permitted_only","trust_boundary_scan":"clear","semantic_concordance":"protected_predecessor_reconfirmed"
             }:
                 errors.append("evidence summary replay-result drift")
-            projection = summary.get("source_projection", {})
-            if projection != {
+            if summary.get("source_projection") != {
                 "formula_target_count":2,"circuit_target_count":0,"coefficient_field":"complex","dimension_threshold":32,"log_base":2,"division_free_variable_leaf_constant":128,"rational_variable_leaf_constant":192,"gate_bounds_in_replay":False,"total_leaves_vertices_in_replay":False,"historical_pdf_byte_equivalence":False
             }:
                 errors.append("evidence summary source projection drift")
-            route = summary.get("route_state", {})
-            if route != {
+            if summary.get("route_state") != {
                 "requested_future_route_id":"MC-ROUTE-OTP-C-PERMANENT-FORMULA","proposed_route_record":None,"registered_route":None,"may_adjudicate":False,"cert_output":None,"mathematical_target_proved":False,"may_promote_claim":False
             }:
                 errors.append("evidence summary route/proof authority inflation")
         except Exception as exc:
             errors.append(f"invalid evidence summary: {exc}")
 
-    if "axiom-check.json" in files:
+    if "axiom-check.json" in file_data:
         try:
-            ax = json.loads(files["axiom-check.json"].decode("utf-8"))
+            ax = json.loads(file_data["axiom-check.json"].decode("utf-8"))
             if ax.get("permitted") != ["Classical.choice", "Quot.sound", "propext"]:
                 errors.append("axiom permitted-set drift")
             reports = ax.get("reports", [])
@@ -205,12 +220,12 @@ def validation_errors(
         except Exception as exc:
             errors.append(f"invalid axiom report: {exc}")
 
-    if "comparator.log" in files:
-        text = files["comparator.log"].decode("utf-8", errors="replace")
+    if "comparator.log" in file_data:
+        text = file_data["comparator.log"].decode("utf-8", errors="replace")
         for marker in ["Nanoda kernel accepts the solution", "Lean default kernel accepts the solution", "Your solution is okay!"]:
             if marker not in text: errors.append(f"Comparator acceptance marker missing: {marker}")
-    if "trust-boundary-scan.txt" in files:
-        text = files["trust-boundary-scan.txt"].decode("utf-8", errors="replace")
+    if "trust-boundary-scan.txt" in file_data:
+        text = file_data["trust-boundary-scan.txt"].decode("utf-8", errors="replace")
         for marker in ["placeholder and unsafe/custom-axiom scan: clear", "aggregate All import scan: clear"]:
             if marker not in text: errors.append(f"trust-boundary marker missing: {marker}")
 
@@ -234,16 +249,14 @@ def validation_errors(
         "requested_future_route_id":"MC-ROUTE-OTP-C-PERMANENT-FORMULA","route_proposal_created":False,"registered_route":None,"may_adjudicate":False,"cert_output":None,"mathematical_target_proved":False,"may_promote_claim":False,"aggregate_route_prohibited":True
     }:
         errors.append("replay evidence route/adjudication/proof authority inflation")
-    review = record.get("review_state", {})
-    if review != {"specialist_review_required":True,"status":"pending_exact_head_non_author_review"}:
+    if record.get("review_state") != {"specialist_review_required":True,"status":"pending_exact_head_non_author_review"}:
         errors.append("specialist review state drift")
 
     routes = load(ROUTE_REGISTRY_PATH).get("routes", [])
     if any(r.get("route_id") == "MC-ROUTE-OTP-C-PERMANENT-FORMULA" for r in routes):
         errors.append("Permanent route registered before replay-evidence admission")
 
-    reg_state = registry.get("execution_state", {})
-    if reg_state != {"authorized_target_count":2,"circuit_target_count":0,"replay_evidence_bundle_count":1,"specialist_review_count":0,"route_proposal_count":0,"registered_route_count":0,"adjudication_count":0,"cert_output_count":0,"mathematical_target_proved_count":0}:
+    if registry.get("execution_state") != {"authorized_target_count":2,"circuit_target_count":0,"replay_evidence_bundle_count":1,"specialist_review_count":0,"route_proposal_count":0,"registered_route_count":0,"adjudication_count":0,"cert_output_count":0,"mathematical_target_proved_count":0}:
         errors.append("successor replay-evidence registry state inflation")
     if registry.get("route_controls") != {"requested_future_route":"MC-ROUTE-OTP-C-PERMANENT-FORMULA","route_proposal_created":False,"route_registration_created":False,"may_adjudicate":False,"may_promote_claim":False,"aggregate_route_prohibited":True}:
         errors.append("successor replay-evidence route controls drift")
@@ -256,7 +269,7 @@ def main() -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("validated Permanent exact-family replay evidence; repository bundle matches successful Actions artifact; historical three-family evidence preserved; no route, adjudication, output, proof, circuit, gate, total-size, PDF-equivalence, or aggregate authority created")
+    print("validated Permanent exact-family replay evidence directory; manifest and all file hashes match the successful Actions artifact; historical three-family evidence preserved; no route, adjudication, output, proof, circuit, gate, total-size, PDF-equivalence, or aggregate authority created")
     return 0
 
 
