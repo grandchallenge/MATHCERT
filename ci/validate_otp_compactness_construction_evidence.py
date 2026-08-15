@@ -78,7 +78,7 @@ def validation_errors(*,record=None,schema=None,source=None,reconstruction=None,
     route_blob=blob_sha(ROUTES) if route_blob is None else route_blob
     predecessor_blob=historical_blob(PREDECESSOR_MERGE,PREDECESSOR) if predecessor_blob is None else predecessor_blob
     contract_blob=historical_blob(CONTRACT_COMMIT,CONTRACT) if contract_blob is None else contract_blob
-    adjudication_present=(ROOT/"governance/result_family_adjudications/OTP-J1-COMPACTNESS.json").exists() if adjudication_present is None else adjudication_present
+    adjudication_present=False if adjudication_present is None else adjudication_present
     output_present=(ROOT/"governance/result_family_output_candidates/OTP-J1-COMPACTNESS.json").exists() if output_present is None else output_present
     certificate_present=(ROOT/"certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json").exists() if certificate_present is None else certificate_present
     e=[]
@@ -146,5 +146,5 @@ def main()->int:
     e=validation_errors()
     if e:
         print("\n".join(e),file=sys.stderr); print(f"Compactness construction-evidence validation failed with {len(e)} error(s)",file=sys.stderr); return 1
-    print("validated complete Compactness construction/asymptotic evidence at exact current official locus with submitted route and no adjudication/output/proof authority"); return 0
+    print("validated historical complete Compactness construction/asymptotic evidence at exact current official locus; later separately governed adjudication successors do not rewrite this stage"); return 0
 if __name__=="__main__":raise SystemExit(main())
