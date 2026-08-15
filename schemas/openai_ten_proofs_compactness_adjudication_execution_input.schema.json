@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/openai_ten_proofs_compactness_adjudication_execution_input.schema.json",
+  "title": "OTP-J1-COMPACTNESS adjudication execution input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "record_type", "operation_id", "input_id", "result_family", "route_id", "tracker_issue", "protected_base",
+    "contract", "protected_evidence", "current_source", "encoded_targets", "nonvacuity_witnesses", "decision_contract", "execution_recipe",
+    "route_snapshot", "required_state", "review_gate", "preserved_limitations", "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_compactness_adjudication_execution_input"},
+    "operation_id": {"const": "OTP-J1-COMPACTNESS-CERT-ADJUDICATION-001"},
+    "input_id": {"const": "MC-OTP-J1-COMPACTNESS-ADJUDICATION-EXECUTION-INPUT-001"},
+    "result_family": {"const": "OTP-J1-COMPACTNESS"},
+    "route_id": {"const": "MC-ROUTE-OTP-J1-COMPACTNESS"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/114"},
+    "protected_base": {"const": "ad80e83ceb6dd1ac980d4c2c02cd07b11b8c3d90"},
+    "contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["contract_id", "path", "git_blob_sha1", "design_merge"],
+      "properties": {
+        "contract_id": {"const": "MC-OTP-ADJUDICATION-CONTRACT-J1-COMPACTNESS"},
+        "path": {"const": "governance/result_family_adjudication_contracts/OTP-J1-COMPACTNESS.json"},
+        "git_blob_sha1": {"const": "4288cf2199603ffc90d897062a575a5865326d70"},
+        "design_merge": {"const": "9f5ec626306092a352aa5ba8d9920b6ddb11b8bb"}
+      }
+    },
+    "protected_evidence": {"type": "object", "additionalProperties": true},
+    "current_source": {"type": "object", "additionalProperties": true},
+    "encoded_targets": {
+      "const": [
+        "CompactnessConjecture.quantitativeCompactnessCounterexample",
+        "CompactnessConjecture.compactnessCounterexample_bigO",
+        "CompactnessConjecture.not_erdos_180"
+      ]
+    },
+    "nonvacuity_witnesses": {
+      "const": [
+        "CompactnessConjecture.quantitativeCompactnessCounterexample",
+        "CompactnessConjecture.compactnessCounterexample_bigO"
+      ]
+    },
+    "decision_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["question", "admissible_dispositions", "disposition_at_input_stage"],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "admissible_dispositions": {"const": ["adjudication_clear_encoded_targets_only", "adjudication_not_clear", "defer_insufficient_evidence"]},
+        "disposition_at_input_stage": {"type": "null"}
+      }
+    },
+    "execution_recipe": {"type": "object", "additionalProperties": true},
+    "route_snapshot": {"type": "object", "additionalProperties": true},
+    "required_state": {"type": "object", "additionalProperties": true},
+    "review_gate": {"type": "object", "additionalProperties": true},
+    "preserved_limitations": {"type": "object", "additionalProperties": true},
+    "claim_boundary": {"type": "string", "minLength": 100}
+  }
+}
