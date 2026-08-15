@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/openai_ten_proofs_permanent_cert_replay_evidence_registry.schema.json",
+  "title": "OpenAI Ten Proofs Permanent replay evidence successor registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","registry_id","candidate_id","result_family","tracker_issue","historical_three_family_registry","successor_evidence","execution_state","scope","route_controls","candidate_disposition","claim_boundary"],
+  "properties": {
+    "schema_version":{"const":"1.0.0"},
+    "record_type":{"const":"openai_ten_proofs_permanent_cert_replay_evidence_registry"},
+    "registry_id":{"const":"MC-OTP-PERMANENT-REPLAY-EVIDENCE-001"},
+    "candidate_id":{"const":"OPENAI-TEN-PROOFS-001"},
+    "result_family":{"const":"OTP-C-PERMANENT"},
+    "tracker_issue":{"const":"https://github.com/grandchallenge/MATHCERT/issues/97"},
+    "historical_three_family_registry":{"const":{"path":"governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP04_REPLAY_EVIDENCE.json","git_blob_sha1":"0d9b799181203a7cc38cd0d01ae297985c94cbbf","membership_unchanged":true}},
+    "successor_evidence":{"const":{"path":"governance/result_family_replay_evidence_successors/OTP-C-PERMANENT.json","digest_algorithm":"git_blob_sha1","digest":"7b75a323b6d840730932bf90984f498b7d360cda","bundle_root":"evidence/openai_ten_proofs/permanent","bundle_manifest_path":"evidence/openai_ten_proofs/permanent/SHA256SUMS","bundle_manifest_blob":"cbc185bd0cd182fddd3127d8373ae7a74f6389dd","bundle_manifest_sha256":"351ab107342d2fe72220098ae6e5dc600653e9b181119c99805182270559f969","artifact_id":9237666071,"artifact_sha256":"9f04dbfd0fe6c52329b9905371d33faa44b2f96719485460c6290bc8a74fd507"}},
+    "execution_state":{"const":{"authorized_target_count":2,"circuit_target_count":0,"replay_evidence_bundle_count":1,"specialist_review_count":0,"route_proposal_count":0,"registered_route_count":0,"adjudication_count":0,"cert_output_count":0,"mathematical_target_proved_count":0}},
+    "scope":{"const":{"coefficient_field":"complex","dimension_threshold":32,"log_base":2,"division_free_variable_leaf_constant":128,"rational_variable_leaf_constant":192,"gate_bounds_in_replay":false,"total_leaves_vertices_in_replay":false,"historical_pdf_byte_equivalence":false}},
+    "route_controls":{"const":{"requested_future_route":"MC-ROUTE-OTP-C-PERMANENT-FORMULA","route_proposal_created":false,"route_registration_created":false,"may_adjudicate":false,"may_promote_claim":false,"aggregate_route_prohibited":true}},
+    "candidate_disposition":{"const":"PERMANENT_FORMULA_CERT_REPLAY_EVIDENCE_CLEAR__ROUTE_PROPOSAL_NOT_YET_AUTHORIZED"},
+    "claim_boundary":{"type":"string","minLength":100}
+  }
+}

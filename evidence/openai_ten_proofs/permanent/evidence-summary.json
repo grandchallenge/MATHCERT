@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_cert_replay_execution_evidence",
+  "result_family": "OTP-C-PERMANENT",
+  "execution": {
+    "start_utc": "2026-08-14T23:41:49Z",
+    "end_utc": "2026-08-14T23:47:21Z",
+    "mathcert_head_sha": "adb5000e6e1353fea52a8d81f3415be1a8d52193",
+    "workflow_checkout_sha": "dabf0eb117b48c03c6953a51e6b3a229a802b5b5",
+    "clean_room_runner": true,
+    "isolated_family_replay": true,
+    "aggregate_all_import_used": false
+  },
+  "source_authority": {
+    "historical_repository": "openai/ten-proofs",
+    "historical_commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca",
+    "historical_tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365",
+    "gcl_archive_release_id": 370507312,
+    "gcl_archive_asset_id": 514295009,
+    "gcl_archive_sha256": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f",
+    "gcl_archive_bytes": 21022720
+  },
+  "targets": {
+    "config": "ComparatorChallenges/C_PermanentFormulaLowerBound.json",
+    "challenge_module": "ComparatorChallenges.C_PermanentFormulaLowerBound",
+    "solution_module": "Permanent",
+    "theorem_names": [
+      "PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound",
+      "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound"
+    ],
+    "nonvacuity_witnesses": [
+      "PermanentFormulaLowerBound.Nonvacuity.permanent_divisionFree_formula_nonvacuous",
+      "PermanentFormulaLowerBound.Nonvacuity.permanent_rational_formula_nonvacuous"
+    ]
+  },
+  "results": {
+    "solution_build": "pass",
+    "challenge_build": "pass",
+    "comparator": "pass",
+    "lean_kernel": "accept",
+    "nanoda": "accept",
+    "nonvacuity_replay": "pass",
+    "theorem_axiom_report": "permitted_only",
+    "trust_boundary_scan": "clear",
+    "semantic_concordance": "protected_predecessor_reconfirmed"
+  },
+  "source_projection": {
+    "formula_target_count": 2,
+    "circuit_target_count": 0,
+    "coefficient_field": "complex",
+    "dimension_threshold": 32,
+    "log_base": 2,
+    "division_free_variable_leaf_constant": 128,
+    "rational_variable_leaf_constant": 192,
+    "gate_bounds_in_replay": false,
+    "total_leaves_vertices_in_replay": false,
+    "historical_pdf_byte_equivalence": false
+  },
+  "route_state": {
+    "requested_future_route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+    "proposed_route_record": null,
+    "registered_route": null,
+    "may_adjudicate": false,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false
+  },
+  "files": {
+    "axiom-check.json": {
+      "sha256": "bc3040f16ad13fc344184fca8310a6a6743a4c127f918d7672f7b85bbe99d8d5",
+      "bytes": 562
+    },
+    "challenge-build.log": {
+      "sha256": "80b365a427820dea700da612d9a539d2ab77319bfebed75782d4af5fd6260024",
+      "bytes": 311
+    },
+    "comparator.log": {
+      "sha256": "13e0245cc73b6c837e34ada768b54035c7b483a05be7771c3aaf14f575cb6912",
+      "bytes": 2203
+    },
+    "environment.txt": {
+      "sha256": "d5ab27e03dce712074ed9e3e85e8c03532f9847ae5aa29bc1408dc5c3fb1e18d",
+      "bytes": 1426
+    },
+    "nonvacuity-replay.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "solution-build.log": {
+      "sha256": "294ac7bfd6b1a24282c34e8b5a668f677b9254a72a39193921199cb4fc17a31c",
+      "bytes": 81
+    },
+    "source-identities.txt": {
+      "sha256": "4fc046daabcb0496cb9c6cb09dc76e3095e14356b13dc683f83c34a98a5dc151",
+      "bytes": 1333
+    },
+    "theorem-axioms.log": {
+      "sha256": "3efbf04c402d7583bb612e1cf524f4d5ad267c6962bf53b922ea3f021e7f246d",
+      "bytes": 286
+    },
+    "trust-boundary-scan.txt": {
+      "sha256": "6578688b32859c07f27f1367848d8189a9f9ee83ce50e23837113ee166c998c9",
+      "bytes": 170
+    }
+  }
+}

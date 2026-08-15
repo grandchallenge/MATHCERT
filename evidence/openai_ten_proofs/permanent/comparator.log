@@ -1,0 +1,29 @@
+✔ [1/4] Built Comparator.Util (341ms)
+✔ [7/20] Built Comparator.Util:c.o (143ms)
+✔ [8/20] Built Lean4Checker.Replay (763ms)
+✔ [9/20] Built Lean4Checker.Replay:c.o (599ms)
+✔ [10/20] Built Export.Parse (1.8s)
+✔ [11/20] Built Comparator.Axioms (585ms)
+✔ [12/20] Built Comparator.Axioms:c.o (371ms)
+✔ [13/20] Built Comparator.Compare (725ms)
+✔ [14/20] Built Comparator (561ms)
+✔ [15/20] Built Comparator.Compare:c.o (573ms)
+✔ [16/20] Built Comparator:c.o (93ms)
+✔ [17/20] Built Main (1.8s)
+✔ [18/20] Built Export.Parse:c.o (3.7s)
+✔ [19/20] Built Main:c.o (605ms)
+✔ [20/20] Built comparator:exe (748ms)
+Building ComparatorChallenges.C_PermanentFormulaLowerBound
+⚠ [8655/8655] Replayed ComparatorChallenges.C_PermanentFormulaLowerBound
+warning: ComparatorChallenges/C_PermanentFormulaLowerBound.lean:82:8: declaration uses `sorry`
+warning: ComparatorChallenges/C_PermanentFormulaLowerBound.lean:90:8: declaration uses `sorry`
+Build completed successfully (8655 jobs).
+Exporting #[Nat, String, String.mk, Char, Char.ofNat, List, Quot, Quot.mk, Quot.lift, Quot.ind, PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound, PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList] from ComparatorChallenges.C_PermanentFormulaLowerBound
+Building Permanent
+Build completed successfully (8656 jobs).
+Exporting #[Nat, String, String.mk, Char, Char.ofNat, List, Quot, Quot.mk, Quot.lift, Quot.ind, PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound, PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList] from Permanent
+Running nanoda kernel on solution
+Nanoda kernel accepts the solution
+Running Lean default kernel on solution.
+Lean default kernel accepts the solution
+Your solution is okay!
