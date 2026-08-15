@@ -8,7 +8,10 @@ class RouteRegistrationTests(unittest.TestCase):
  def setUp(self):
   self.r=json.loads(M.REG.read_text());self.routes=json.loads(M.ROUTES.read_text());self.preg=json.loads(M.PROPOSAL_REG.read_text());self.pb={f:M.blob(ROOT/f"governance/result_family_route_proposals/{f}.json") for f in M.EXPECTED_FAMILIES};self.rb=M.EXPECTED_ROUTE_BLOB;self.prb=M.blob(M.PROPOSAL_REG)
  def errors(self,**k):return M.validation_errors(receipt=copy.deepcopy(k.get("receipt",self.r)),routes=copy.deepcopy(k.get("routes",self.routes)),proposal_registry=copy.deepcopy(k.get("proposal_registry",self.preg)),proposal_blobs=copy.deepcopy(k.get("proposal_blobs",self.pb)),routes_blob=k.get("routes_blob",self.rb),proposal_registry_blob=k.get("proposal_registry_blob",self.prb))
+ def historical_compactness_routes(self):
+  routes=copy.deepcopy(self.routes);r=next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J1-COMPACTNESS");r["intake_status"]="submitted";r["cert_output"]=None;r["claim_boundary"]=M.COMPACTNESS_HISTORICAL_BOUNDARY;r["blockers"]=copy.deepcopy(M.COMPACTNESS_HISTORICAL_BLOCKERS);r["reopening_conditions"]=copy.deepcopy(M.COMPACTNESS_HISTORICAL_REOPENING);return routes
  def test_current(self):self.assertEqual(self.errors(),[])
+ def test_historical_compactness_snapshot_passes(self):self.assertEqual(self.errors(routes=self.historical_compactness_routes()),[])
  def test_unrelated_uc_route_evolution_is_permitted(self):
   routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="UC-001")["reopening_conditions"].append("unrelated evolution");self.assertEqual(self.errors(routes=routes),[])
  def test_missing_registration(self):
@@ -30,8 +33,14 @@ class RouteRegistrationTests(unittest.TestCase):
   routes=copy.deepcopy(self.routes);x=copy.deepcopy(routes["routes"][-1]);x["campaign_id"]="OPENAI-TEN-PROOFS-001";x["route_id"]="MC-ROUTE-OPENAI-TEN-PROOFS-001";routes["routes"].append(x);self.assertTrue(self.errors(routes=routes))
  def test_route_omission(self):
   routes=copy.deepcopy(self.routes);routes["routes"]=[x for x in routes["routes"] if x["campaign_id"]!="OTP-F-EHRHART"];self.assertTrue(self.errors(routes=routes))
- def test_output_insertion(self):
-  routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J1-COMPACTNESS")["cert_output"]={"forged":True};self.assertTrue(self.errors(routes=routes))
+ def test_compactness_output_substitution(self):
+  routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J1-COMPACTNESS")["cert_output"]["digest"]="0"*40;self.assertTrue(any("live successor output identity drift" in x for x in self.errors(routes=routes)))
+ def test_compactness_invalid_state(self):
+  routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J1-COMPACTNESS")["intake_status"]="ready";self.assertTrue(any("live successor route is not qualified" in x for x in self.errors(routes=routes)))
+ def test_compactness_boundary_weakening(self):
+  routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J1-COMPACTNESS")["claim_boundary"]="qualified";self.assertTrue(any("live successor boundary missing" in x for x in self.errors(routes=routes)))
+ def test_output_insertion_into_historical_snapshot(self):
+  routes=self.historical_compactness_routes();next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J1-COMPACTNESS")["cert_output"]={"forged":True};self.assertTrue(self.errors(routes=routes))
  def test_otp_state_mutation_is_rejected(self):
   routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J2-TWO-DEGENERATE")["intake_status"]="qualified";self.assertTrue(self.errors(routes=routes))
  def test_limit_removal(self):
