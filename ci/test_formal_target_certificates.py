@@ -109,6 +109,24 @@ class FormalTargetCertificateTests(unittest.TestCase):
         )
         self.assertTrue(any("mathematical target must remain unproved" in error or "schema violation" in error for error in errors))
 
+    def test_compactness_target_omission_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-J1-COMPACTNESS-001.json"]["encoded_targets"].pop()
+        )
+        self.assertTrue(any("encoded target scope drift" in error or "schema violation" in error for error in errors))
+
+    def test_compactness_historical_formulation_inflation_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-J1-COMPACTNESS-001.json"]["preserved_limitations"].__setitem__("historical_compactness_formulations_admitted", True)
+        )
+        self.assertTrue(any("limitation inflated" in error or "schema violation" in error for error in errors))
+
+    def test_compactness_proof_promotion_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-J1-COMPACTNESS-001.json"]["state"].__setitem__("mathematical_target_proved", True)
+        )
+        self.assertTrue(any("mathematical target must remain unproved" in error or "schema violation" in error for error in errors))
+
     def test_permanent_route_output_drift_fails(self) -> None:
         registry = module.load_json(module.REGISTRY_PATH)
         route = next(route for route in registry["routes"] if route["campaign_id"] == "OTP-C-PERMANENT")
@@ -119,6 +137,17 @@ class FormalTargetCertificateTests(unittest.TestCase):
         finally:
             path.unlink(missing_ok=True)
         self.assertTrue(any("OTP-C-PERMANENT: route output identity drift" in error for error in errors))
+
+    def test_compactness_route_output_drift_fails(self) -> None:
+        registry = module.load_json(module.REGISTRY_PATH)
+        route = next(route for route in registry["routes"] if route["campaign_id"] == "OTP-J1-COMPACTNESS")
+        route["cert_output"]["digest"] = "0" * 40
+        path = self.write_registry(registry)
+        try:
+            errors = module.certificate_errors(registry_path=path)
+        finally:
+            path.unlink(missing_ok=True)
+        self.assertTrue(any("OTP-J1-COMPACTNESS: route output identity drift" in error for error in errors))
 
     def test_route_downgrade_fails(self) -> None:
         registry = module.load_json(module.REGISTRY_PATH)
