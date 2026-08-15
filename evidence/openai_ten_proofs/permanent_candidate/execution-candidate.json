@@ -1,0 +1,171 @@
+{
+  "authority": {
+    "cert_intake_merge": "59e678a5692c873cb7b12b8913231bf520571f51",
+    "cert_replay_evidence_merge": "7f42194bfcfb5b28f2bdb1f5b3203650a6b5ff15",
+    "cert_work_package_merge": "4b5d9e81afea50b5b51b4e390065f52275c886cd",
+    "contract_blob": "f9429395e7026f838ad6994b8f908a86506cfe06",
+    "design_merge_commit": "67d78a99942df2c864f51728d741118d64bba183",
+    "design_registry_blob": "2af852600796e35afe034bbaf9b9e13950055a29",
+    "design_review_id": 4942843996,
+    "design_reviewed_head": "00670367973730bc1136c650583dccab6cbfa9eb",
+    "forge_semantic_merge": "60f6e06c957139447bf5943eed731941b22ac608",
+    "mathcert_evidence_generation_head": "5b1f26662a9f355493f773d48c43aa54da57ca9c",
+    "registered_route_registry_blob": "4b7f98414958999c8404e30a4a7c0a2a104578da",
+    "retained_evidence_manifest_blob": "cbc185bd0cd182fddd3127d8373ae7a74f6389dd",
+    "retained_evidence_manifest_sha256": "351ab107342d2fe72220098ae6e5dc600653e9b181119c99805182270559f969",
+    "solve_handoff_merge": "90f8a8544e546a603b34c9b27b2d6a4a68e06de8",
+    "workflow_checkout_sha": "97c22a582769036193288e95618fceba7ccc99f1"
+  },
+  "candidate_id": "MC-OTP-C-PERMANENT-EXECUTION-CANDIDATE-001",
+  "candidate_state": "evidence_prepared",
+  "claim_boundary": "This evidence-prepared Permanent execution candidate does not adjudicate or prove either theorem, issue a Cert output, alter the submitted route, certify circuit complexity, certify 256/384 gate bounds or total-size consequences, establish historical admitted-PDF byte equivalence, create aggregate authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims. Routine progression may continue under the admitted control plan; Human Steward intervention is required only if that control plan changes.",
+  "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-C-PERMANENT-FORMULA",
+  "control_plan": {
+    "conformance": "within_admitted_contract",
+    "control_plan_change_requested": false,
+    "human_steward_intervention_required_only_for_control_plan_change": true,
+    "routine_stage_progression_without_human_steward_intervention": true
+  },
+  "encoded_targets": [
+    "PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound",
+    "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound"
+  ],
+  "nonvacuity": {
+    "replay": "pass",
+    "state": "candidate_clear_pending_non_author_specialist_review",
+    "witnesses": [
+      "PermanentFormulaLowerBound.Nonvacuity.permanent_divisionFree_formula_nonvacuous",
+      "PermanentFormulaLowerBound.Nonvacuity.permanent_rational_formula_nonvacuous"
+    ]
+  },
+  "preserved_limitations": {
+    "aggregate_openai_ten_proofs_authority": false,
+    "circuit_targets_in_scope": false,
+    "gate_bounds_in_scope": false,
+    "historical_pdf_byte_equivalence": "not_established",
+    "total_size_consequences_in_scope": false
+  },
+  "record_type": "openai_ten_proofs_permanent_execution_candidate",
+  "replay": {
+    "aggregate_all_import_used": false,
+    "challenge_build": "pass",
+    "clean_room": true,
+    "comparator": "pass",
+    "files": [
+      {
+        "bytes": 562,
+        "git_blob_sha1": "88c896b1b95895b65c8ad031963b65bd6391f366",
+        "name": "axiom-check.json",
+        "sha256": "bc3040f16ad13fc344184fca8310a6a6743a4c127f918d7672f7b85bbe99d8d5"
+      },
+      {
+        "bytes": 311,
+        "git_blob_sha1": "56bd3468ed560df54da319aaf4356bed1d57e663",
+        "name": "challenge-build.log",
+        "sha256": "87757e6bc2f970d49627e894827a4eb72ef044fb0748801aca33aa1b1e6a67d9"
+      },
+      {
+        "bytes": 2202,
+        "git_blob_sha1": "f3e4769527ddee261526f7b9e8f5c0c634c00058",
+        "name": "comparator.log",
+        "sha256": "5e6a5156dba899a27308085070df82cc3f98da4c64963b0df059c4b5100c7bfa"
+      },
+      {
+        "bytes": 1426,
+        "git_blob_sha1": "32e2c2a4c8182dfe74debd9794c4d394c1a76f5a",
+        "name": "environment.txt",
+        "sha256": "6656c65a4a5f7ed092b4dcdb303972dbdcf97d5c5a62042209831ce7cd5e40f5"
+      },
+      {
+        "bytes": 3826,
+        "git_blob_sha1": "be7fa0bcb85de92a3c8867e0ad1c2bff1a42f6ac",
+        "name": "evidence-summary.json",
+        "sha256": "1ba33a998ad3d145bbfa89b7df8e0e303b4ff5c906aa3c0ceff016ebd3bbf694"
+      },
+      {
+        "bytes": 0,
+        "git_blob_sha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+        "name": "nonvacuity-replay.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 81,
+        "git_blob_sha1": "06234a3bf971eb9b9af9cf99a7bd4a664107fb57",
+        "name": "solution-build.log",
+        "sha256": "610764aaeb981cb4c7dddb1ecd336c70c416ef8de587e5d065e9bdfb97ffb41d"
+      },
+      {
+        "bytes": 1333,
+        "git_blob_sha1": "51b9223a68c7d1b0479338e639f14c918b365e8c",
+        "name": "source-identities.txt",
+        "sha256": "4fc046daabcb0496cb9c6cb09dc76e3095e14356b13dc683f83c34a98a5dc151"
+      },
+      {
+        "bytes": 286,
+        "git_blob_sha1": "b64d1dc32de9621d17425d279b09782ab7b3075d",
+        "name": "theorem-axioms.log",
+        "sha256": "3efbf04c402d7583bb612e1cf524f4d5ad267c6962bf53b922ea3f021e7f246d"
+      },
+      {
+        "bytes": 170,
+        "git_blob_sha1": "1cde426493a9aef07f3cf1477738d7cc0fa18b28",
+        "name": "trust-boundary-scan.txt",
+        "sha256": "6578688b32859c07f27f1367848d8189a9f9ee83ce50e23837113ee166c998c9"
+      }
+    ],
+    "isolated_family_replay": true,
+    "lean_kernel": "accept",
+    "lean_version": "4.32.0",
+    "nanoda": "accept",
+    "nonvacuity_replay": "pass",
+    "solution_build": "pass",
+    "theorem_axiom_report": "permitted_only",
+    "trust_boundary_scan": "clear"
+  },
+  "result_family": "OTP-C-PERMANENT",
+  "retained_evidence_integrity": {
+    "manifest_blob": "cbc185bd0cd182fddd3127d8373ae7a74f6389dd",
+    "manifest_sha256": "351ab107342d2fe72220098ae6e5dc600653e9b181119c99805182270559f969",
+    "state": "reconfirmed"
+  },
+  "review_state": {
+    "fresh_non_author_specialist_review_required": true,
+    "specialist_review": null,
+    "status": "pending_exact_head_non_author_specialist_review"
+  },
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+  "schema_version": "1.0.0",
+  "source_projection": {
+    "circuit_target_count": 0,
+    "coefficient_field": "complex",
+    "dimension_threshold": 32,
+    "division_free_variable_leaf_constant": 128,
+    "formula_target_count": 2,
+    "gate_bounds_in_replay": false,
+    "historical_pdf_byte_equivalence": false,
+    "log_base": 2,
+    "rational_variable_leaf_constant": 192,
+    "total_leaves_vertices_in_replay": false
+  },
+  "state": {
+    "adjudication": null,
+    "aggregate_adjudication": false,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_adjudicate": false,
+    "may_issue_output": false,
+    "may_promote_claim": false,
+    "route_state": "submitted"
+  },
+  "statement_concordance": {
+    "circuit_gate_total_size_inference": false,
+    "coefficient_field": "complex",
+    "dimension_threshold": 32,
+    "division_free_variable_leaf_constant": 128,
+    "log_base": 2,
+    "rational_variable_leaf_constant": 192,
+    "scope": "two_encoded_variable_leaf_formula_targets_only",
+    "state": "candidate_clear_pending_non_author_specialist_review"
+  },
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/105"
+}
