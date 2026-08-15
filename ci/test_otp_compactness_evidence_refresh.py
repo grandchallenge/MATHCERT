@@ -13,11 +13,23 @@ class CompactnessEvidenceRefreshTests(unittest.TestCase):
  def args(self):return copy.deepcopy(self.base)
  def rejected(self,mutate,token):
   a=self.args();mutate(a);e=M.validation_errors(**a);self.assertTrue(any(token in x for x in e),e)
- def test_valid(self):self.assertEqual(M.validation_errors(**self.args()),[])
+ def test_valid_complete_successor(self):self.assertEqual(M.validation_errors(**self.args()),[])
+ def test_historical_design_snapshot(self):
+  a=self.args();a['output_candidate_present']=False
+  cr=next(x for x in a['routes']['routes'] if x.get('campaign_id')=='OTP-J1-COMPACTNESS');cr['intake_status']='submitted';cr['cert_output']=None
+  self.assertEqual(M.validation_errors(**a),[])
  def test_contract_substitution(self):self.rejected(lambda a:a['record']['authority']['design_contract'].__setitem__('digest','0'*40),'protected authority chain drift')
- def test_route_promotion(self):self.rejected(lambda a:a['record']['current_state'].__setitem__('route_state','qualified'),'schema violation')
+ def test_route_promotion_in_historical_snapshot(self):
+  def m(a):
+   a['output_candidate_present']=False
+   cr=next(x for x in a['routes']['routes'] if x.get('campaign_id')=='OTP-J1-COMPACTNESS');cr['intake_status']='qualified';cr['cert_output']=None
+  self.rejected(m,'Compactness route state inflation')
+ def test_output_successor_identity_drift(self):
+  def m(a):
+   cr=next(x for x in a['routes']['routes'] if x.get('campaign_id')=='OTP-J1-COMPACTNESS');cr['cert_output']['digest']='0'*40
+  self.rejected(m,'Compactness output successor identity drift')
+ def test_output_candidate_missing_for_qualified_route(self):self.rejected(lambda a:a.__setitem__('output_candidate_present',False),'Compactness route state inflation')
  def test_adjudication_insertion(self):self.rejected(lambda a:a.__setitem__('other_adjudication_present',True),'Compactness adjudication inserted')
- def test_output_candidate(self):self.rejected(lambda a:a.__setitem__('output_candidate_present',True),'Compactness output candidate inserted')
  def test_execution_head_substitution(self):self.rejected(lambda a:a['record']['execution'].__setitem__('execution_head','0'*40),'record execution receipt drift')
  def test_artifact_digest_substitution(self):self.rejected(lambda a:a['record']['execution']['artifact'].__setitem__('sha256','0'*64),'workflow artifact receipt drift')
  def test_bundle_mutation(self):self.rejected(lambda a:a.__setitem__('decoded_bundle',a['decoded_bundle']+b'x'),'decoded evidence bundle digest drift')
