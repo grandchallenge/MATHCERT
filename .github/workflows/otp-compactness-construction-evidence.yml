@@ -44,9 +44,9 @@ jobs:
           persist-credentials: false
       - name: Install locked CI dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
-      - name: Reacquire exact original source bytes
+      - name: Reacquire exact current official source bytes
         run: >-
-          python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai-original.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); assert len(b)==2266052, (len(b),'source byte length drift'); assert hashlib.sha256(b).hexdigest()=='f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53', 'source sha256 drift'; print('exact original source reacquired',len(b),hashlib.sha256(b).hexdigest())"
+          python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2266371, (len(b),'current source byte length drift'); assert h=='64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6', ('current source sha256 drift',h); print('exact current source reacquired',len(b),h); print('historical admitted identity retained only: 2266052 f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53; exact historical bytes not reacquired')"
       - name: Run deterministic construction producer
         run: python ci/build_otp_compactness_construction_evidence.py
       - name: Run independent construction verifier
