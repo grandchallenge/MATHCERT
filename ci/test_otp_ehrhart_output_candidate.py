@@ -64,14 +64,38 @@ class OTPEhrhartOutputExecutionTests(unittest.TestCase):
         route["cert_output"]["commit_sha"] = "0" * 40
         self.assertTrue(self.errors(routes=routes))
 
-    def test_other_family_output_fails(self):
+    def test_compactness_output_substitution_fails(self):
         routes = copy.deepcopy(self.routes)
         route = next(x for x in routes["routes"] if x["campaign_id"] == "OTP-J1-COMPACTNESS")
-        route["intake_status"] = "qualified"
+        route["cert_output"]["digest"] = "0" * 40
+        self.assertTrue(any("successor output identity drift" in x for x in self.errors(routes=routes)))
+
+    def test_compactness_invalid_state_fails(self):
+        routes = copy.deepcopy(self.routes)
+        route = next(x for x in routes["routes"] if x["campaign_id"] == "OTP-J1-COMPACTNESS")
+        route["intake_status"] = "ready"
+        self.assertTrue(any("invalid successor route state" in x for x in self.errors(routes=routes)))
+
+    def test_compactness_boundary_weakening_fails(self):
+        routes = copy.deepcopy(self.routes)
+        route = next(x for x in routes["routes"] if x["campaign_id"] == "OTP-J1-COMPACTNESS")
+        route["claim_boundary"] = "qualified"
+        self.assertTrue(any("successor boundary missing token" in x for x in self.errors(routes=routes)))
+
+    def test_other_family_output_substitution_fails(self):
+        routes = copy.deepcopy(self.routes)
+        route = next(x for x in routes["routes"] if x["campaign_id"] == "OTP-J1-COMPACTNESS")
         route["cert_output"] = copy.deepcopy(
             next(x for x in routes["routes"] if x["campaign_id"] == "OTP-F-EHRHART")["cert_output"]
         )
         self.assertTrue(self.errors(routes=routes))
+
+    def test_two_degenerate_output_fails(self):
+        routes = copy.deepcopy(self.routes)
+        route = next(x for x in routes["routes"] if x["campaign_id"] == "OTP-J2-TWO-DEGENERATE")
+        route["intake_status"] = "qualified"
+        route["cert_output"] = copy.deepcopy(M.COMPACTNESS_OUTPUT)
+        self.assertTrue(any("OTP-J2-TWO-DEGENERATE: unauthorized output promotion" in x for x in self.errors(routes=routes)))
 
     def test_uc_loss_fails(self):
         routes = copy.deepcopy(self.routes)
