@@ -23,7 +23,6 @@ class PermanentRouteProposalTests(unittest.TestCase):
         self.routes = json.loads(M.ROUTES.read_text(encoding="utf-8"))
         self.blobs = {
             "proposal": M.git_blob_sha1(M.PROPOSAL),
-            "routes": M.git_blob_sha1(M.ROUTES),
             "intake": M.git_blob_sha1(M.INTAKE),
             "work_package": M.git_blob_sha1(M.WORK_PACKAGE),
             "replay": M.git_blob_sha1(M.REPLAY),
@@ -45,8 +44,10 @@ class PermanentRouteProposalTests(unittest.TestCase):
         p = copy.deepcopy(self.proposal); p["proposal_state"] = "registered"
         self.assertTrue(self.errors(proposal=p))
 
-    def test_registered_route_insertion(self):
-        routes = copy.deepcopy(self.routes); routes["routes"].append({"route_id": M.ROUTE_ID})
+    def test_duplicate_registered_route_fails(self):
+        routes = copy.deepcopy(self.routes)
+        existing = next(r for r in routes["routes"] if r.get("route_id") == M.ROUTE_ID)
+        routes["routes"].append(copy.deepcopy(existing))
         self.assertTrue(self.errors(routes=routes))
 
     def test_may_register_inflation(self):
@@ -117,12 +118,12 @@ class PermanentRouteProposalTests(unittest.TestCase):
         p = copy.deepcopy(self.proposal); p["authority"]["cert_replay_evidence"]["record_blob"] = "0" * 40
         self.assertTrue(self.errors(proposal=p))
 
+    def test_historical_registered_registry_authority_drift(self):
+        p = copy.deepcopy(self.proposal); p["authority"]["global_registered_route_registry_blob"] = "0" * 40
+        self.assertTrue(self.errors(proposal=p))
+
     def test_manifest_drift(self):
         blobs = copy.deepcopy(self.blobs); blobs["manifest"] = "0" * 40
-        self.assertTrue(self.errors(local_blobs=blobs))
-
-    def test_registered_registry_drift(self):
-        blobs = copy.deepcopy(self.blobs); blobs["routes"] = "0" * 40
         self.assertTrue(self.errors(local_blobs=blobs))
 
     def test_proposal_blob_drift(self):
