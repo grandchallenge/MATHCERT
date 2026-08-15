@@ -38,7 +38,11 @@ class CompactnessConstructionEvidenceTests(unittest.TestCase):
     def test_current_passes(self): self.assertEqual(self.errors(), [])
 
     def test_source_substitution(self):
-        source=copy.deepcopy(self.source); source["official_original"]["expected_sha256"]="0"*64
+        source=copy.deepcopy(self.source); source["current_official_revision"]["expected_sha256"]="0"*64
+        self.assertTrue(self.errors(source=source))
+
+    def test_historical_reacquisition_inflation(self):
+        source=copy.deepcopy(self.source); source["historical_admitted_revision"]["reacquirable_exact_bytes"]=True
         self.assertTrue(self.errors(source=source))
 
     def test_construction_mutation(self):
