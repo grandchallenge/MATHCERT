@@ -25,6 +25,13 @@ EXPECTED_TARGETS = [
 EXPECTED_ADJUDICATION_BLOB = "233d3e92ceed6654e6f6759718adf32f1b6c5415"
 EXPECTED_FUTURE_SCHEMA_BLOB = "b3a9f0a10861b44f2fac7ad9094f976041562d0d"
 EXPECTED_CONTRACT_FILES = {"OTP-F-EHRHART.json", "OTP-C-PERMANENT.json"}
+EXPECTED_CERT_OUTPUT = {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": "1344220f0f61f9e637c5b1fc668c0a0eb7ab4133",
+    "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-001.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04",
+}
 EXPECTED_PUBLICATION = {
     "mode": "certificate_content_commit_then_route_transition_commit",
     "route_transition": {"from": "submitted", "to": "qualified"},
@@ -42,18 +49,21 @@ EXPECTED_PUBLICATION = {
     "registry_blockers_must_be_rewritten_to_preserved_qualification_boundaries": True,
 }
 
+
 def load(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
 
 def git_blob_sha1(path: Path) -> str:
     payload = path.read_bytes()
     return hashlib.sha1(f"blob {len(payload)}\0".encode("ascii") + payload, usedforsecurity=False).hexdigest()
 
+
 def validation_errors(*, contract=None, contract_schema=None, future_schema=None, routes=None,
                       adjudication=None, adjudication_blob=None, future_schema_blob=None,
                       future_certificate_present=None, candidate_present=None,
                       staged_certificate_present=None, staged_route_present=None,
-                      contract_files=None) -> list[str]:
+                      contract_files=None, successor_mode=None) -> list[str]:
     errors: list[str] = []
     contract = load(CONTRACT) if contract is None else contract
     contract_schema = load(CONTRACT_SCHEMA) if contract_schema is None else contract_schema
@@ -67,6 +77,8 @@ def validation_errors(*, contract=None, contract_schema=None, future_schema=None
     staged_certificate_present = STAGED_CERTIFICATE.exists() if staged_certificate_present is None else staged_certificate_present
     staged_route_present = STAGED_ROUTE.exists() if staged_route_present is None else staged_route_present
     contract_files = {p.name for p in CONTRACT.parent.glob("*.json")} if contract_files is None else contract_files
+    if successor_mode is None:
+        successor_mode = all((future_certificate_present, candidate_present, staged_certificate_present, staged_route_present))
 
     if contract_files != EXPECTED_CONTRACT_FILES:
         errors.append("output-contract membership drift")
@@ -157,15 +169,23 @@ def validation_errors(*, contract=None, contract_schema=None, future_schema=None
         "route_state": "submitted", "cert_output": None, "mathematical_target_proved": False,
         "may_issue_output": False, "may_promote_claim": False, "aggregate_output": False,
     }:
-        errors.append("design-only state drift or authority inflation")
+        errors.append("design-only contract state drift or authority inflation")
 
     route = next((r for r in routes.get("routes", []) if r.get("route_id") == "MC-ROUTE-OTP-C-PERMANENT-FORMULA"), None)
     if route is None:
         errors.append("Permanent route missing")
-    else:
-        if route.get("intake_status") != "submitted": errors.append("Permanent route changed before output execution")
-        if route.get("cert_output") is not None: errors.append("Permanent Cert output inserted during design")
+    elif successor_mode:
+        if route.get("intake_status") != "qualified": errors.append("authorized Permanent successor route is not qualified")
+        if route.get("cert_output") != EXPECTED_CERT_OUTPUT: errors.append("authorized Permanent successor output identity drift")
         if route.get("target_claim_ids") != EXPECTED_TARGETS: errors.append("Permanent registered targets drift")
+        if not all((future_certificate_present, candidate_present, staged_certificate_present, staged_route_present)):
+            errors.append("authorized Permanent successor artifact set incomplete")
+    else:
+        if route.get("intake_status") != "submitted": errors.append("Permanent route changed without governed output successor")
+        if route.get("cert_output") is not None: errors.append("Permanent Cert output inserted without governed output successor")
+        if route.get("target_claim_ids") != EXPECTED_TARGETS: errors.append("Permanent registered targets drift")
+        if any((future_certificate_present, candidate_present, staged_certificate_present, staged_route_present)):
+            errors.append("Permanent output artifact exists without complete governed successor")
 
     if adjudication.get("encoded_targets") != EXPECTED_TARGETS:
         errors.append("protected adjudication target drift")
@@ -194,11 +214,6 @@ def validation_errors(*, contract=None, contract_schema=None, future_schema=None
     if limitations.get("historical_pdf_byte_equivalence") != "not_established":
         errors.append("historical PDF equivalence inflated")
 
-    if future_certificate_present:
-        errors.append("future Cert output exists during design-only stage")
-    if candidate_present or staged_certificate_present or staged_route_present:
-        errors.append("Permanent output execution artifact exists during design-only stage")
-
     preserved = contract.get("preserved_limitations", {})
     for key in ("circuit_targets_in_scope", "gate_bounds_in_scope", "total_size_consequences_in_scope",
                 "unrestricted_source_theorem_proof_claim", "other_family_outputs_authorized",
@@ -214,14 +229,17 @@ def validation_errors(*, contract=None, contract_schema=None, future_schema=None
         if token not in boundary: errors.append(f"claim boundary missing token: {token}")
     return errors
 
+
 def main() -> int:
     errors = validation_errors()
     if errors:
         print("\n".join(errors), file=sys.stderr)
         print(f"OTP-C-PERMANENT output-contract validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated design-only OTP-C-PERMANENT output contract, exact two-target claim boundary, corrected non-self-referential publication protocol, and zero present output authority")
+    mode = "governed output-execution successor" if OUTPUT_CANDIDATE.exists() else "design-only pre-output state"
+    print(f"validated protected OTP-C-PERMANENT output contract and {mode}")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
