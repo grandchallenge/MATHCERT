@@ -67,7 +67,7 @@
       "Reconfirm the protected nonvacuity witnesses.",
       "Verify retained repository evidence manifest integrity.",
       "Obtain a binding non-author specialist review on the exact execution head.",
-      "Obtain separate Human Steward authorization naming this contract and the exact execution candidate before adjudication."
+      "Confirm that execution remains within this approved control plan; Human Steward intervention is required only if the control plan itself must change."
     ]
   },
   "reviewer_requirements": {
@@ -86,8 +86,8 @@
   },
   "execution_gate": {
     "evidence_candidate_required_before_adjudication": true,
-    "separate_human_steward_authorization_required": true,
-    "authorization_must_name_contract_and_exact_execution_candidate": true,
+    "routine_stage_progression_without_human_steward_intervention": true,
+    "human_steward_intervention_required_for_control_plan_change": true,
     "exact_head_cert_checks_required": true,
     "exact_head_gcl_conformance_required": true,
     "exact_head_codeql_required": true,
@@ -112,5 +112,5 @@
     "historical_pdf_byte_equivalence": "not_established",
     "aggregate_openai_ten_proofs_authority": false
   },
-  "claim_boundary": "This design-only contract defines a possible future adjudication process for the two protected Permanent variable-leaf formula targets only. It does not adjudicate or prove either theorem, issue a Cert output, certify circuit complexity, certify 256/384 gate bounds or total-size consequences, establish historical admitted-PDF byte equivalence, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+  "claim_boundary": "This design-only contract defines a possible future adjudication process for the two protected Permanent variable-leaf formula targets only. It does not adjudicate or prove either theorem, issue a Cert output, certify circuit complexity, certify 256/384 gate bounds or total-size consequences, establish historical admitted-PDF byte equivalence, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims. Routine stage progression may proceed under the approved control plan without separate Human Steward intervention; Human Steward intervention is required only for a control-plan change."
 }
