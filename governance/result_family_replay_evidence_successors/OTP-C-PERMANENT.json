@@ -111,13 +111,14 @@
     "source_head_sha": "adb5000e6e1353fea52a8d81f3415be1a8d52193"
   },
   "repository_bundle": {
-    "path": "evidence/openai_ten_proofs/permanent.zip.b64",
-    "encoding": "base64",
-    "encoded_git_blob_sha1": "44adfbd80018dda202133e3c177050caa118da7c",
-    "encoded_bytes": 8753,
-    "encoded_sha256": "b2fe4c0122c73f104da742a12236a5e920b4e8bb7551308e45a77c458a6af28d",
-    "decoded_zip_bytes": 6563,
-    "decoded_zip_sha256": "9f04dbfd0fe6c52329b9905371d33faa44b2f96719485460c6290bc8a74fd507"
+    "root": "evidence/openai_ten_proofs/permanent",
+    "format": "content_addressed_directory",
+    "file_count": 11,
+    "manifest_path": "evidence/openai_ten_proofs/permanent/SHA256SUMS",
+    "manifest_git_blob_sha1": "cbc185bd0cd182fddd3127d8373ae7a74f6389dd",
+    "manifest_sha256": "351ab107342d2fe72220098ae6e5dc600653e9b181119c99805182270559f969",
+    "transport_zip_bytes": 6563,
+    "transport_zip_sha256": "9f04dbfd0fe6c52329b9905371d33faa44b2f96719485460c6290bc8a74fd507"
   },
   "evidence_files": {
     "SHA256SUMS": {"bytes": 1406, "sha256": "351ab107342d2fe72220098ae6e5dc600653e9b181119c99805182270559f969", "git_blob_sha1": "cbc185bd0cd182fddd3127d8373ae7a74f6389dd"},
