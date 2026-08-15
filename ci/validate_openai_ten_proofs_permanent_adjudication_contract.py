@@ -44,6 +44,24 @@ EXPECTED_AUTHORITY = {
     "evidence_manifest_blob": "cbc185bd0cd182fddd3127d8373ae7a74f6389dd",
     "evidence_manifest_sha256": "351ab107342d2fe72220098ae6e5dc600653e9b181119c99805182270559f969",
 }
+EXPECTED_EXECUTION_GATE = {
+    "evidence_candidate_required_before_adjudication": True,
+    "routine_stage_progression_without_human_steward_intervention": True,
+    "human_steward_intervention_required_for_control_plan_change": True,
+    "exact_head_cert_checks_required": True,
+    "exact_head_gcl_conformance_required": True,
+    "exact_head_codeql_required": True,
+    "fresh_non_author_approval_required": True,
+    "protected_merge_required": True,
+    "head_change_requires_revalidation_and_reapproval": True,
+    "design_merge_effect": "contract_admitted_design_only_no_adjudication",
+}
+EXPECTED_SUCCESSOR_SEQUENCE = [
+    "evidence_execution_candidate",
+    "exact_head_specialist_review",
+    "control_plan_conformance_check",
+    "separate_adjudication_execution",
+]
 
 
 def load(path: Path) -> Any:
@@ -116,9 +134,16 @@ def validation_errors(
     if projection != expected_projection:
         errors.append("source projection drift")
 
-    dispositions = contract.get("decision_contract", {}).get("admissible_dispositions")
+    decision = contract.get("decision_contract", {})
+    dispositions = decision.get("admissible_dispositions")
     if dispositions != ["adjudication_clear_encoded_targets_only", "adjudication_not_clear", "defer_insufficient_evidence"]:
         errors.append("admissible disposition drift")
+    required_evidence = decision.get("required_evidence", [])
+    if not any("control plan" in str(item).lower() and "human steward" in str(item).lower() for item in required_evidence):
+        errors.append("streamlined control-plan intervention rule missing from required evidence")
+    if contract.get("execution_gate") != EXPECTED_EXECUTION_GATE:
+        errors.append("streamlined execution gate drift")
+
     state = contract.get("state", {})
     expected_state = {
         "may_adjudicate": False,
@@ -154,6 +179,8 @@ def validation_errors(
         "aggregate_contract_count": 0,
     }:
         errors.append("registry authority inflation")
+    if registry.get("successor_sequence") != EXPECTED_SUCCESSOR_SEQUENCE:
+        errors.append("streamlined successor sequence drift")
 
     route_list = routes.get("routes", [])
     route = next((r for r in route_list if isinstance(r, dict) and r.get("route_id") == ROUTE_ID), None)
@@ -178,7 +205,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"Permanent adjudication-contract validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated one design-only Permanent formula adjudication contract; route remains submitted with zero adjudication/output/proof authority")
+    print("validated one design-only Permanent formula adjudication contract with streamlined routine progression and Human Steward intervention reserved for control-plan changes")
     return 0
 
 
