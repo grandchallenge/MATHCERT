@@ -25,8 +25,12 @@ PREDECESSOR_BLOB="2d263779147d44d29b6b2e23e2135c947907266e"
 CONTRACT_COMMIT="9f5ec626306092a352aa5ba8d9920b6ddb11b8bb"
 CONTRACT_BLOB="4288cf2199603ffc90d897062a575a5865326d70"
 ROUTE_BLOB="aa460c1310a7c81b64b88013b7aa4cfdc056f37b"
-SOURCE_BLOB="a791e747e5009072099612354e9d5739beffba1f"
-RECON_BLOB="6265fb12d5a2b65849b75ec045764637bd181cec"
+SOURCE_BLOB="2b47e7e4d86d7428f33bf2aec7e1b5f80dd25b4c"
+RECON_BLOB="faadc24b319c11e5b566d14de5c2e9afe8636ae5"
+CURRENT_BYTES=2266371
+CURRENT_SHA="64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6"
+HISTORICAL_BYTES=2266052
+HISTORICAL_SHA="f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53"
 AUTH_COMMENT=5301501772
 ROUTE_ID="MC-ROUTE-OTP-J1-COMPACTNESS"
 TARGETS=["CompactnessConjecture.quantitativeCompactnessCounterexample","CompactnessConjecture.compactnessCounterexample_bigO","CompactnessConjecture.not_erdos_180"]
@@ -91,11 +95,16 @@ def validation_errors(*,record=None,schema=None,source=None,reconstruction=None,
     if a.get("human_steward_authorization")!={"comment_id":AUTH_COMMENT,"scope":"construction_and_asymptotic_evidence_only_no_adjudication"}:e.append("authorization receipt drift")
     if a.get("predecessor_evidence_refresh",{}).get("digest")!=PREDECESSOR_BLOB:e.append("predecessor authority drift")
     if a.get("design_contract",{}).get("digest")!=CONTRACT_BLOB:e.append("contract authority drift")
-    original=source.get("official_original",{})
-    if (original.get("url"),original.get("expected_bytes"),original.get("expected_sha256"),original.get("page_count"),original.get("chapter"),original.get("theorem")) != (
-        "https://cdn.openai.com/pdf/ten-proofs-oai-original.pdf",2266052,"f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53",249,10,"Theorem 1.1"):e.append("source identity drift")
+    current=source.get("current_official_revision",{})
+    if (current.get("url"),current.get("expected_bytes"),current.get("expected_sha256"),current.get("page_count"),current.get("chapter"),current.get("theorem")) != (
+        "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",CURRENT_BYTES,CURRENT_SHA,249,10,"Theorem 1.1"):e.append("current source identity drift")
+    historical=source.get("historical_admitted_revision",{})
+    if historical != {"bytes":HISTORICAL_BYTES,"reacquirable_exact_bytes":False,"sha256":HISTORICAL_SHA,"status":"identity_preserved_but_bytes_not_retained","whole_document_equivalence_to_current":"not_established"}:e.append("historical admitted-source boundary drift")
     if source.get("reacquisition_gate",{}).get("required_in_dedicated_ci") is not True:e.append("source reacquisition gate removed")
     if source.get("primary_support",{}).get("arxiv_id")!="1706.06583":e.append("primary literature identity drift")
+    release=reconstruction.get("source_release",{})
+    if (release.get("current_url"),release.get("current_expected_bytes"),release.get("current_expected_sha256"),release.get("historical_admitted_bytes"),release.get("historical_admitted_sha256"),release.get("historical_exact_bytes_reacquirable"),release.get("whole_document_equivalence_between_revisions")) != (
+        "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",CURRENT_BYTES,CURRENT_SHA,HISTORICAL_BYTES,HISTORICAL_SHA,False,"not_established"):e.append("reconstruction source-revision boundary drift")
     e += [f"independent verifier: {x}" for x in VERIFIER.verify(reconstruction)]
     route=next((x for x in routes.get("routes",[]) if x.get("route_id")==ROUTE_ID),None)
     if route is None:e.append("Compactness route missing")
@@ -114,14 +123,15 @@ def validation_errors(*,record=None,schema=None,source=None,reconstruction=None,
         "construction_invariants":"independently_reconstructed_and_machine_checked",
         "upper_bound_bridge":"independently_reconstructed_with_exact_exponent_arithmetic_machine_checked",
         "lower_bound_bridge":"independently_reconstructed_with_exact_parameter_and_growth_arithmetic_machine_checked",
-        "source_to_encoded_concordance":"clear_for_exact_three_targets"}.items():
+        "source_to_encoded_concordance":"clear_for_exact_three_targets_at_current_revision_locus"}.items():
         if assessment.get(k)!=v:e.append(f"assessment drift: {k}")
     if assessment.get("proof_body_compared_in_full") is not False:e.append("proof-body inflation")
     if record.get("review_gate")!={"fresh_non_author_specialist_review_required":True,"minimum_binding_reviewers":1,"must_bind_exact_head":True,"recorded_review":None,"required_state":"APPROVED"}:e.append("review gate drift")
     limits=record.get("preserved_limitations",{})
-    if any(limits.get(k) is not False for k in ("historical_compactness_formulations_admitted","other_result_families_modified","aggregate_openai_ten_proofs_authority","cert_output_authorized","mathematical_proof_promotion_authorized")):e.append("scope/authority inflation")
+    for k in ("historical_admitted_pdf_exact_bytes_reacquired","historical_compactness_formulations_admitted","other_result_families_modified","aggregate_openai_ten_proofs_authority","cert_output_authorized","mathematical_proof_promotion_authorized"):
+        if limits.get(k) is not False:e.append(f"scope/authority inflation: {k}")
     boundary=record.get("claim_boundary","").lower()
-    for token in ("does not adjudicate","issue a cert output","mathematical target proved","aggregate openai ten proofs"):
+    for token in ("does not adjudicate","issue a cert output","mathematical target proved","aggregate openai ten proofs","whole-document equivalence"):
         if token not in boundary:e.append(f"claim boundary missing {token}")
     return e
 
@@ -130,5 +140,5 @@ def main()->int:
     e=validation_errors()
     if e:
         print("\n".join(e),file=sys.stderr); print(f"Compactness construction-evidence validation failed with {len(e)} error(s)",file=sys.stderr); return 1
-    print("validated complete Compactness construction/asymptotic evidence with submitted route and no adjudication/output/proof authority"); return 0
+    print("validated complete Compactness construction/asymptotic evidence at the current official locus with submitted route and no adjudication/output/proof authority"); return 0
 if __name__=="__main__":raise SystemExit(main())
