@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "registry_id": "MC-CERTIFICATION-ROUTES",
   "provider_repository": "grandchallenge/MATHCERT",
-  "provider_base_commit": "e8d1e34509e640d82902ad0195560740b52bec0e",
+  "provider_base_commit": "aa06d3d81d20f5878b8a05ac6e5f1b9ce2ba2ddc",
   "programme_issue": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/123",
   "routes": [
     {
@@ -120,6 +120,17 @@
       "cert_output": null,
       "blockers": ["No MATHCERT adjudication has been authorized or recorded.", "The stronger coloring-side property remains excluded from source attribution.", "Whole-document manuscript equivalence and full proof-body comparison remain unestablished."],
       "reopening_conditions": ["Update this route only through a separately authorized, exact-head reviewed MATHCERT adjudication or authority-repin operation."]
+    },
+    {
+      "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA", "campaign_id": "OTP-C-PERMANENT", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/101",
+      "source_manifest": {"repository": "grandchallenge/MATHFORGE", "commit_sha": "60f6e06c957139447bf5943eed731941b22ac608", "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-C-PERMANENT/semantic_audit_record.json", "digest_algorithm": "git_blob_sha1", "digest": "3e04bd16bd8a91eaf9b6702de89fcdcc72f61099"},
+      "intake_status": "submitted", "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "90f8a8544e546a603b34c9b27b2d6a4a68e06de8", "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-C-PERMANENT.json", "digest_algorithm": "git_blob_sha1", "digest": "a993c530880021930a2b468e76235b91122ca854"},
+      "target_claim_ids": ["PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound", "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "This registered route is limited to the two protected Permanent formula variable-leaf targets with coefficient field complex, n >= 32, log base 2, and constants 128/192. It does not adjudicate or prove either theorem, issue a Cert output, include circuit Theorem 1.1, include the separate 256/384 gate bounds or total-leaf/vertex consequences, establish historical admitted-PDF byte equivalence, or create aggregate OpenAI Ten Proofs authority.",
+      "cert_output": null,
+      "blockers": ["No MATHCERT adjudication has been authorized or recorded.", "Circuit Theorem 1.1, separate 256/384 gate bounds, and total-leaf/vertex consequences remain outside this route.", "Historical admitted-PDF byte equivalence remains unestablished."],
+      "reopening_conditions": ["Update this route only through a separately authorized, exact-head reviewed MATHCERT adjudication, authority-repin, or scope-extension operation."]
     }
   ]
 }
