@@ -1,0 +1,154 @@
+from __future__ import annotations
+
+import copy
+import importlib.util
+import json
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+SPEC = importlib.util.spec_from_file_location(
+    "validate_openai_ten_proofs_permanent_route_registration",
+    ROOT / "ci/validate_openai_ten_proofs_permanent_route_registration.py",
+)
+assert SPEC and SPEC.loader
+M = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(M)
+
+
+class PermanentRouteRegistrationTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.receipt = json.loads(M.RECEIPT.read_text(encoding="utf-8"))
+        self.routes = json.loads(M.ROUTES.read_text(encoding="utf-8"))
+        self.blobs = {
+            "routes": M.git_blob_sha1(M.ROUTES),
+            "proposal": M.git_blob_sha1(M.PROPOSAL),
+            "proposal_registry": M.git_blob_sha1(M.PROPOSAL_REGISTRY),
+        }
+
+    def errors(self, **kwargs):
+        return M.validation_errors(
+            receipt=copy.deepcopy(kwargs.get("receipt", self.receipt)),
+            routes=copy.deepcopy(kwargs.get("routes", self.routes)),
+            local_blobs=copy.deepcopy(kwargs.get("local_blobs", self.blobs)),
+        )
+
+    def route(self, routes):
+        return next(r for r in routes["routes"] if r.get("route_id") == M.ROUTE_ID)
+
+    def test_current_passes(self):
+        self.assertEqual(self.errors(), [])
+
+    def test_missing_route(self):
+        routes = copy.deepcopy(self.routes)
+        routes["routes"] = [r for r in routes["routes"] if r.get("route_id") != M.ROUTE_ID]
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_duplicate_route(self):
+        routes = copy.deepcopy(self.routes)
+        routes["routes"].append(copy.deepcopy(self.route(routes)))
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_aggregate_route(self):
+        routes = copy.deepcopy(self.routes)
+        routes["routes"].append({"route_id": "MC-ROUTE-OPENAI-TEN-PROOFS-001"})
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_target_inflation(self):
+        routes = copy.deepcopy(self.routes)
+        self.route(routes)["target_claim_ids"].append("PermanentRollout.permanent_circuit_loglog_lower_bound")
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_gate_bound_inflation(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["registration"]["source_projection"]["gate_bounds_in_route"] = True
+        self.assertTrue(self.errors(receipt=receipt))
+
+    def test_total_size_inflation(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["registration"]["source_projection"]["total_leaves_vertices_in_route"] = True
+        self.assertTrue(self.errors(receipt=receipt))
+
+    def test_pdf_equivalence_inflation(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["registration"]["source_projection"]["historical_pdf_byte_equivalence"] = True
+        self.assertTrue(self.errors(receipt=receipt))
+
+    def test_cert_output_insertion(self):
+        routes = copy.deepcopy(self.routes)
+        self.route(routes)["cert_output"] = {"forged": True}
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_adjudication_authority_inflation(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["route_controls"]["may_adjudicate"] = True
+        self.assertTrue(self.errors(receipt=receipt))
+
+    def test_proof_promotion(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["route_controls"]["may_mark_target_proved"] = True
+        self.assertTrue(self.errors(receipt=receipt))
+
+    def test_proposal_merge_drift(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["authority"]["proposal_merge"] = "0" * 40
+        self.assertTrue(self.errors(receipt=receipt))
+
+    def test_proposal_head_drift(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["authority"]["proposal_reviewed_head"] = "0" * 40
+        self.assertTrue(self.errors(receipt=receipt))
+
+    def test_proposal_blob_drift(self):
+        blobs = copy.deepcopy(self.blobs)
+        blobs["proposal"] = "0" * 40
+        self.assertTrue(self.errors(local_blobs=blobs))
+
+    def test_proposal_registry_blob_drift(self):
+        blobs = copy.deepcopy(self.blobs)
+        blobs["proposal_registry"] = "0" * 40
+        self.assertTrue(self.errors(local_blobs=blobs))
+
+    def test_routes_blob_drift(self):
+        blobs = copy.deepcopy(self.blobs)
+        blobs["routes"] = "0" * 40
+        self.assertTrue(self.errors(local_blobs=blobs))
+
+    def test_source_manifest_substitution(self):
+        routes = copy.deepcopy(self.routes)
+        self.route(routes)["source_manifest"]["digest"] = "0" * 40
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_solve_packet_substitution(self):
+        routes = copy.deepcopy(self.routes)
+        self.route(routes)["intake_packet"]["digest"] = "0" * 40
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_status_inflation(self):
+        routes = copy.deepcopy(self.routes)
+        self.route(routes)["intake_status"] = "adjudicated"
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_blocker_removal(self):
+        routes = copy.deepcopy(self.routes)
+        self.route(routes)["blockers"] = ["all clear"]
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_claim_boundary_weakening(self):
+        routes = copy.deepcopy(self.routes)
+        self.route(routes)["claim_boundary"] = "Permanent is certified."
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_state_inflation(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["state"]["adjudication_count"] = 1
+        self.assertTrue(self.errors(receipt=receipt))
+
+    def test_aggregate_prohibition_removal(self):
+        receipt = copy.deepcopy(self.receipt)
+        receipt["route_controls"]["aggregate_route_prohibited"] = False
+        self.assertTrue(self.errors(receipt=receipt))
+
+
+if __name__ == "__main__":
+    unittest.main()
