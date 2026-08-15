@@ -81,6 +81,8 @@
     {"path":"ci/verify_otp_compactness_construction_evidence.py","mode":"direct"},
     {"path":"ci/validate_otp_compactness_construction_evidence.py","mode":"direct"},
     {"path":"ci/test_otp_compactness_construction_evidence.py","mode":"direct"},
+    {"path":"ci/validate_otp_compactness_output_contract.py","mode":"direct"},
+    {"path":"ci/test_otp_compactness_output_contract.py","mode":"direct"},
     {"path":"ci/validate_vgse_route_registration.py","mode":"direct"},
     {"path":"ci/test_vgse_route_registration.py","mode":"direct"},
     {"path":"ci/audit_ci_reachability.py","mode":"direct"},

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/otp_compactness_qualified_output.schema.json",
+  "title": "OTP-J1-COMPACTNESS Restricted Qualification Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "certificate_id", "result_family", "route_id", "source_authority", "encoded_targets", "qualification", "evidence_receipts", "axiom_report", "trust_boundary", "state", "preserved_limitations", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "otp_compactness_qualified_output"},
+    "certificate_id": {"const": "MC-OTP-J1-COMPACTNESS-QUAL-001"},
+    "result_family": {"const": "OTP-J1-COMPACTNESS"},
+    "route_id": {"const": "MC-ROUTE-OTP-J1-COMPACTNESS"},
+    "source_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adjudication", "output_contract"],
+      "properties": {
+        "adjudication": {"const": {"path": "governance/result_family_adjudications/OTP-J1-COMPACTNESS.json", "digest_algorithm": "git_blob_sha1", "digest": "175fb2d04c80de405655654d9024ffa6eb1f3b46", "disposition": "adjudication_clear_encoded_targets_only", "merge_commit": "bbaecbde892d1373f50fa45cd75a1d2712652611"}},
+        "output_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "digest_algorithm", "digest"],
+          "properties": {
+            "path": {"const": "governance/result_family_output_contracts/OTP-J1-COMPACTNESS.json"},
+            "digest_algorithm": {"const": "git_blob_sha1"},
+            "digest": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+          }
+        }
+      }
+    },
+    "encoded_targets": {"const": ["CompactnessConjecture.quantitativeCompactnessCounterexample", "CompactnessConjecture.compactnessCounterexample_bigO", "CompactnessConjecture.not_erdos_180"]},
+    "qualification": {"const": {"disposition": "qualified_encoded_targets_only", "scope": "Exactly the three encoded OTP-J1-COMPACTNESS targets at the protected corrected cyclic-family theorem locus.", "source_locus": "Chapter 10, Theorem 1.1, current official PDF P240 / printed p236"}},
+    "evidence_receipts": {"const": {"comparator": "pass", "lean_kernel": "accept", "nanoda": "accept", "source_statement_concordance": "clear_exact_current_corrected_cyclic_family_locus", "construction_and_asymptotic_bridge": "independently_reconstructed_and_machine_checked_under_protected_91_evidence", "nonvacuity": "clear_for_quantitative_and_bigO_protected_witnesses"}},
+    "axiom_report": {"const": {"permitted_axioms": ["Classical.choice", "Quot.sound", "propext"], "unexpected_axioms": [], "imported_domain_axioms": []}},
+    "trust_boundary": {"const": {"solution_placeholders": 0, "unsafe_declarations": 0, "custom_axioms": 0, "result": "clear"}},
+    "state": {"const": {"route_state": "qualified", "cert_output_inserted": true, "mathematical_target_proved": false, "may_promote_claim": false, "aggregate_output": false}},
+    "preserved_limitations": {"const": {"historical_compactness_formulations_admitted": false, "whole_document_byte_equivalence": "not_established", "whole_document_semantic_equivalence": "not_established", "proof_body_compared_in_full": false, "unrestricted_source_theorem_proof_claim": false, "other_family_outputs_authorized": false, "aggregate_openai_ten_proofs_authority": false}},
+    "claim_boundary": {"const": "This restricted qualification applies only to the exact three encoded OTP-J1-COMPACTNESS targets under the protected adjudication and output contract at the corrected current Chapter 10 theorem locus. It does not establish mathematical proof of the unrestricted source theorem, admit historical or stronger Compactness formulations, establish whole-document byte or semantic equivalence, compare the proof body in full, mark a mathematical target proved, authorize claim promotion, qualify another result family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."}
+  }
+}
