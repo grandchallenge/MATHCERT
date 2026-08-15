@@ -1,14 +1,21 @@
 {
-  "claim_boundary": "This manifest pins the exact original source release and supporting finite-geometry literature for issue #91. It does not establish whole-document equivalence to later mutable releases or create adjudication, output, or proof authority.",
-  "official_original": {
+  "claim_boundary": "This manifest binds issue #91 to the current official Chapter 10 construction/proof locus while preserving the earlier admitted PDF identity as historical, non-reacquirable authority. It does not establish whole-document equivalence between those revisions or create adjudication, output, or proof authority.",
+  "current_official_revision": {
     "chapter": 10,
     "construction_locator": "PDF page indices 237-241 / printed pages 236-240",
-    "expected_bytes": 2266052,
-    "expected_sha256": "f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53",
+    "expected_bytes": 2266371,
+    "expected_sha256": "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6",
     "page_count": 249,
     "theorem": "Theorem 1.1",
     "theorem_locator": "PDF page index 236 / printed page 235; parsed L19783-L19794",
-    "url": "https://cdn.openai.com/pdf/ten-proofs-oai-original.pdf"
+    "url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf"
+  },
+  "historical_admitted_revision": {
+    "bytes": 2266052,
+    "reacquirable_exact_bytes": false,
+    "sha256": "f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53",
+    "status": "identity_preserved_but_bytes_not_retained",
+    "whole_document_equivalence_to_current": "not_established"
   },
   "primary_support": {
     "arxiv_id": "1706.06583",
@@ -18,7 +25,7 @@
       "György Kiss",
       "Marcella Takáts"
     ],
-    "authority_role": "supporting independent cross-check only; the OpenAI original release remains the governed theorem source",
+    "authority_role": "supporting independent cross-check only; the current official OpenAI Chapter 10 locus remains the governed construction source",
     "load_bearing_crosschecks": [
       "W(q) is a generalized quadrangle of order (q,q)",
       "Q(4,q) is dual to W(q)",
@@ -47,7 +54,7 @@
   },
   "reacquisition_gate": {
     "failure_effect": "fail closed; positive evidence disposition cannot bind",
-    "method": "download exact official_original.url and require byte length and SHA-256 equality before evidence review",
+    "method": "download current_official_revision.url and require byte length and SHA-256 equality before evidence review; do not claim reacquisition of the historical admitted bytes",
     "required_in_dedicated_ci": true
   },
   "record_type": "otp_compactness_source_authority_manifest",
