@@ -1,0 +1,6 @@
+'PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
