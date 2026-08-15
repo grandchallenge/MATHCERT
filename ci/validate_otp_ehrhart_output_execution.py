@@ -36,6 +36,18 @@ TARGETS = [
     "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
     "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex",
 ]
+COMPACTNESS_TARGETS = [
+    "CompactnessConjecture.quantitativeCompactnessCounterexample",
+    "CompactnessConjecture.compactnessCounterexample_bigO",
+    "CompactnessConjecture.not_erdos_180",
+]
+COMPACTNESS_OUTPUT = {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": "9fba5a8e918028ecc2b4d72abc00b3b72a5194f5",
+    "path": "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "88531e28951854961e86eec0517356999a391759",
+}
 
 
 def load(path: Path) -> Any:
@@ -107,6 +119,40 @@ def git_receipt() -> dict[str, Any]:
         "content_files": commit_files(CONTENT_COMMIT),
         "route_files": commit_files(ROUTE_COMMIT),
     }
+
+
+def _compactness_successor_errors(route: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if route.get("target_claim_ids") != COMPACTNESS_TARGETS:
+        errors.append("OTP-J1-COMPACTNESS: target drift")
+    status = route.get("intake_status")
+    output = route.get("cert_output")
+    if status == "submitted" and output is None:
+        return errors
+    if status != "qualified":
+        errors.append("OTP-J1-COMPACTNESS: invalid successor route state")
+    if output != COMPACTNESS_OUTPUT:
+        errors.append("OTP-J1-COMPACTNESS: successor output identity drift")
+    boundary = str(route.get("claim_boundary", "")).lower()
+    blockers = " ".join(route.get("blockers", [])).lower()
+    for token in (
+        "qualified_encoded_targets_only",
+        "chapter 10",
+        "historical",
+        "whole-document",
+        "aggregate openai ten proofs",
+    ):
+        if token not in boundary:
+            errors.append(f"OTP-J1-COMPACTNESS: successor boundary missing token: {token}")
+    for token in (
+        "unrestricted chapter 10",
+        "historical or stronger",
+        "whole-document byte and semantic equivalence",
+        "proof body",
+    ):
+        if token not in blockers:
+            errors.append(f"OTP-J1-COMPACTNESS: successor blockers missing token: {token}")
+    return errors
 
 
 def validation_errors(
@@ -184,10 +230,12 @@ def validation_errors(
     uc = route_map.get("UC-001", {})
     if uc.get("intake_status") != "qualified" or uc.get("cert_output", {}).get("digest") != "265c185d6b2b2970dc675729efa3fc4860f29204":
         errors.append("protected UC qualification was not retained")
-    for family in ("OTP-J1-COMPACTNESS", "OTP-J2-TWO-DEGENERATE"):
-        route = route_map.get(family, {})
-        if route.get("intake_status") != "submitted" or route.get("cert_output") is not None:
-            errors.append(f"{family}: unauthorized output promotion")
+
+    compactness = route_map.get("OTP-J1-COMPACTNESS", {})
+    errors.extend(_compactness_successor_errors(compactness))
+    two_degenerate = route_map.get("OTP-J2-TWO-DEGENERATE", {})
+    if two_degenerate.get("intake_status") != "submitted" or two_degenerate.get("cert_output") is not None:
+        errors.append("OTP-J2-TWO-DEGENERATE: unauthorized output promotion")
     if "OPENAI-TEN-PROOFS-001" in route_map:
         errors.append("aggregate ten-proofs route inserted")
 
@@ -241,7 +289,7 @@ def validation_errors(
     if limitations.get("proof_body_compared_in_full") is not False:
         errors.append("proof-body comparison inflated")
     if limitations.get("other_family_outputs_issued") is not False:
-        errors.append("other-family output admitted")
+        errors.append("historical Ehrhart record was rewritten to claim other-family output")
     return errors
 
 
@@ -253,7 +301,7 @@ def main() -> int:
         return 1
     receipt = git_receipt()
     print(
-        "validated historical certificate-first OTP-F-EHRHART execution and separately governed live route successors: "
+        "validated historical certificate-first OTP-F-EHRHART execution and exact later Compactness successor: "
         f"content {CONTENT_COMMIT}, route {ROUTE_COMMIT}, head {receipt['head']}"
     )
     return 0
