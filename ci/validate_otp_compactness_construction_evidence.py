@@ -25,6 +25,7 @@ PREDECESSOR_BLOB="2d263779147d44d29b6b2e23e2135c947907266e"
 CONTRACT_COMMIT="9f5ec626306092a352aa5ba8d9920b6ddb11b8bb"
 CONTRACT_BLOB="4288cf2199603ffc90d897062a575a5865326d70"
 ROUTE_BLOB="aa460c1310a7c81b64b88013b7aa4cfdc056f37b"
+SUCCESSOR_ROUTE_BLOB="bc4640661443f1b3de213aaa82a333a4fdb6849b"
 SOURCE_BLOB="148ff82af760bba80c7d16a3a35c58d490dadc95"
 RECON_BLOB="ed79d855016a1e642d361e9162ed2b70d267b800"
 CURRENT_BYTES=2487031
@@ -37,6 +38,7 @@ AUTH_COMMENT=5301501772
 ROUTE_ID="MC-ROUTE-OTP-J1-COMPACTNESS"
 TARGETS=["CompactnessConjecture.quantitativeCompactnessCounterexample","CompactnessConjecture.compactnessCounterexample_bigO","CompactnessConjecture.not_erdos_180"]
 BOUNDARY={"route_state":"submitted","may_adjudicate":False,"adjudication":None,"cert_output":None,"mathematical_target_proved":False,"may_promote_claim":False,"aggregate_adjudication":False,"aggregate_output":False}
+SUCCESSOR_OUTPUT={"repository":"grandchallenge/MATHCERT","commit_sha":"9fba5a8e918028ecc2b4d72abc00b3b72a5194f5","path":"certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json","digest_algorithm":"git_blob_sha1","digest":"88531e28951854961e86eec0517356999a391759"}
 
 SPEC=importlib.util.spec_from_file_location("compactness_verify",ROOT/"ci/verify_otp_compactness_construction_evidence.py")
 assert SPEC and SPEC.loader
@@ -81,6 +83,8 @@ def validation_errors(*,record=None,schema=None,source=None,reconstruction=None,
     adjudication_present=False if adjudication_present is None else adjudication_present
     output_present=(ROOT/"governance/result_family_output_candidates/OTP-J1-COMPACTNESS.json").exists() if output_present is None else output_present
     certificate_present=(ROOT/"certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json").exists() if certificate_present is None else certificate_present
+    successor_absent=not output_present and not certificate_present
+    successor_complete=output_present and certificate_present
     e=[]
     if open_objects(schema):e.append("schema contains open object")
     try:
@@ -89,7 +93,11 @@ def validation_errors(*,record=None,schema=None,source=None,reconstruction=None,
     except Exception as x:e.append(f"schema invalid: {x}")
     if source_blob!=SOURCE_BLOB or record.get("source_authority",{}).get("manifest_digest")!=SOURCE_BLOB:e.append("source manifest digest drift")
     if reconstruction_blob!=RECON_BLOB or record.get("source_authority",{}).get("reconstruction_digest")!=RECON_BLOB:e.append("reconstruction digest drift")
-    if route_blob!=ROUTE_BLOB:e.append("route registry changed during evidence-only operation")
+    if successor_absent:
+        if route_blob!=ROUTE_BLOB:e.append("route registry changed during evidence-only operation")
+    elif successor_complete:
+        if route_blob!=SUCCESSOR_ROUTE_BLOB:e.append("governed Compactness output successor route-registry drift")
+    else:e.append("partial Compactness output successor state")
     if predecessor_blob!=PREDECESSOR_BLOB:e.append("protected predecessor blob drift")
     if contract_blob!=CONTRACT_BLOB:e.append("protected design-contract blob drift")
     a=record.get("authority",{})
@@ -114,12 +122,14 @@ def validation_errors(*,record=None,schema=None,source=None,reconstruction=None,
     route=next((x for x in routes.get("routes",[]) if x.get("route_id")==ROUTE_ID),None)
     if route is None:e.append("Compactness route missing")
     else:
-        if route.get("intake_status")!="submitted":e.append("Compactness route promoted")
         if route.get("target_claim_ids")!=TARGETS:e.append("Compactness target drift")
-        if route.get("cert_output") is not None:e.append("Compactness route gained Cert output")
+        if successor_absent:
+            if route.get("intake_status")!="submitted":e.append("Compactness route promoted")
+            if route.get("cert_output") is not None:e.append("Compactness route gained Cert output")
+        elif successor_complete:
+            if route.get("intake_status")!="qualified":e.append("Compactness output successor route is not qualified")
+            if route.get("cert_output")!=SUCCESSOR_OUTPUT:e.append("Compactness output successor identity drift")
     if adjudication_present:e.append("Compactness adjudication inserted")
-    if output_present:e.append("Compactness output candidate inserted")
-    if certificate_present:e.append("Compactness certificate inserted")
     if record.get("required_state")!=BOUNDARY:e.append("evidence-only state boundary drift")
     if record.get("disposition")!={"adjudication_authorized":False,"evidence_disposition":"CONSTRUCTION_EVIDENCE_COMPLETE_READY_TO_REQUEST_ADJUDICATION","next_gate":"separately_governed_compactness_adjudication_authorization_and_execution","ready_to_request_adjudication":True}:e.append("evidence disposition drift")
     assessment=record.get("evidence_assessment",{})
@@ -146,5 +156,5 @@ def main()->int:
     e=validation_errors()
     if e:
         print("\n".join(e),file=sys.stderr); print(f"Compactness construction-evidence validation failed with {len(e)} error(s)",file=sys.stderr); return 1
-    print("validated historical complete Compactness construction/asymptotic evidence at exact current official locus; later separately governed adjudication successors do not rewrite this stage"); return 0
+    print("validated historical complete Compactness construction/asymptotic evidence at exact current official locus; exact later adjudication/output successors do not rewrite this stage"); return 0
 if __name__=="__main__":raise SystemExit(main())

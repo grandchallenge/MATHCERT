@@ -28,14 +28,21 @@ class CompactnessConstructionEvidenceTests(unittest.TestCase):
             record=copy.deepcopy(self.record), schema=copy.deepcopy(self.schema),
             source=copy.deepcopy(self.source), reconstruction=copy.deepcopy(self.reconstruction),
             routes=copy.deepcopy(self.routes), source_blob=M.SOURCE_BLOB,
-            reconstruction_blob=M.RECON_BLOB, route_blob=M.ROUTE_BLOB,
+            reconstruction_blob=M.RECON_BLOB, route_blob=M.SUCCESSOR_ROUTE_BLOB,
             predecessor_blob=M.PREDECESSOR_BLOB, contract_blob=M.CONTRACT_BLOB,
-            adjudication_present=False, output_present=False, certificate_present=False,
+            adjudication_present=False, output_present=True, certificate_present=True,
         )
         defaults.update(kwargs)
         return M.validation_errors(**defaults)
 
-    def test_current_passes(self): self.assertEqual(self.errors(), [])
+    def historical_routes(self):
+        routes=copy.deepcopy(self.routes)
+        route=next(x for x in routes["routes"] if x["route_id"]==M.ROUTE_ID)
+        route["intake_status"]="submitted"; route["cert_output"]=None
+        return routes
+
+    def test_current_complete_successor_passes(self): self.assertEqual(self.errors(), [])
+    def test_historical_snapshot_passes(self): self.assertEqual(self.errors(routes=self.historical_routes(), route_blob=M.ROUTE_BLOB, output_present=False, certificate_present=False), [])
 
     def test_source_substitution(self):
         source=copy.deepcopy(self.source); source["current_official_revision"]["expected_sha256"]="0"*64
@@ -91,16 +98,20 @@ class CompactnessConstructionEvidenceTests(unittest.TestCase):
 
     def test_adjudication_insertion(self): self.assertTrue(self.errors(adjudication_present=True))
 
-    def test_output_insertion(self):
-        self.assertTrue(self.errors(output_present=True)); self.assertTrue(self.errors(certificate_present=True))
+    def test_partial_output_successor(self):
+        self.assertTrue(self.errors(output_present=True, certificate_present=False))
+        self.assertTrue(self.errors(output_present=False, certificate_present=True))
+
+    def test_output_successor_route_identity_drift(self):
+        routes=copy.deepcopy(self.routes); route=next(x for x in routes["routes"] if x["route_id"]==M.ROUTE_ID); route["cert_output"]["digest"]="0"*40
+        self.assertTrue(self.errors(routes=routes))
 
     def test_proof_promotion(self):
         record=copy.deepcopy(self.record); record["required_state"]["mathematical_target_proved"]=True
         self.assertTrue(self.errors(record=record))
 
-    def test_route_transition(self):
-        routes=copy.deepcopy(self.routes); route=next(x for x in routes["routes"] if x["route_id"]==M.ROUTE_ID); route["intake_status"]="qualified"
-        self.assertTrue(self.errors(routes=routes))
+    def test_route_transition_without_successor(self):
+        self.assertTrue(self.errors(output_present=False, certificate_present=False, route_blob=M.ROUTE_BLOB))
 
     def test_authorization_substitution(self):
         record=copy.deepcopy(self.record); record["authority"]["human_steward_authorization"]["comment_id"]=1

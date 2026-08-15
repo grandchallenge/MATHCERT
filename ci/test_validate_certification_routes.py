@@ -19,8 +19,10 @@ class CertificationRouteTests(unittest.TestCase):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="UC-001")["intake_packet"]=None;self.assertTrue(self.errors(d))
  def test_pending_route_cannot_claim_packet(self):
   d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OZ-001");r["intake_packet"]=copy.deepcopy(d["routes"][0]["intake_packet"]);self.assertTrue(any("pending route" in x for x in self.errors(d)))
- def test_submitted_is_not_an_adjudication(self):
-  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-J1-COMPACTNESS");r["cert_output"]=copy.deepcopy(next(x for x in d["routes"] if x["campaign_id"]=="OTP-F-EHRHART")["cert_output"]);self.assertTrue(any("intake-only" in x for x in self.errors(d)))
+ def test_compactness_output_pointer_drift_fails(self):
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-J1-COMPACTNESS");r["cert_output"]["digest"]="0"*40;self.assertTrue(any("output identity drift" in x for x in self.errors(d)))
+ def test_compactness_cannot_return_to_submitted(self):
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-J1-COMPACTNESS");r["intake_status"]="submitted";r["cert_output"]=None;self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
  def test_uc_cannot_return_to_ready(self):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="UC-001")["intake_status"]="ready";self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
  def test_ehrhart_output_pointer_drift_fails(self):

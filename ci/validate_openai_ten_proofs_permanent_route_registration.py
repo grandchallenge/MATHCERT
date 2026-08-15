@@ -18,7 +18,6 @@ ROUTE_SNAPSHOT_COMMIT = "2e2d4509c993b9ae4bd4aaab48ecced429813b83"
 GOVERNED_SUCCESSOR_COMMIT = "48941f6351071c07f9b4685577f98d8bbda03536"
 ROUTE_ID = "MC-ROUTE-OTP-C-PERMANENT-FORMULA"
 EXPECTED_ROUTES_BLOB = "4b7f98414958999c8404e30a4a7c0a2a104578da"
-SUCCESSOR_ROUTES_BLOB = "aa460c1310a7c81b64b88013b7aa4cfdc056f37b"
 
 RECEIPT = ROOT / "governance/pre_route_candidates/OPENAI_TEN_PROOFS_PERMANENT_ROUTE_REGISTRATION.json"
 ROUTES = ROOT / ROUTES_PATH
@@ -71,10 +70,16 @@ def _route(data: dict[str, Any]) -> dict[str, Any] | None:
     return next((r for r in data.get("routes", []) if isinstance(r, dict) and r.get("route_id") == ROUTE_ID), None)
 
 
-def normalize_routes(routes: dict[str, Any] | None) -> dict[str, Any]:
+def normalize_routes(routes: dict[str, Any] | None) -> tuple[dict[str, Any], bool]:
+    """Project only the exact governed Permanent successor back to its historical registration snapshot.
+
+    The full live route-registry blob may evolve as other result families are governed. Permanent registration
+    remains valid iff the live Permanent route itself is byte-for-byte semantically equal to its protected
+    qualified successor. Only then may it be projected back to the original submitted/null route for replay.
+    """
     historical = snapshot_routes()
     if routes is None:
-        return historical
+        return historical, False
     supplied = copy.deepcopy(routes)
     if _route(supplied) == _route(successor_routes()):
         historical_route = _route(historical)
@@ -82,7 +87,8 @@ def normalize_routes(routes: dict[str, Any] | None) -> dict[str, Any]:
             if isinstance(row, dict) and row.get("route_id") == ROUTE_ID:
                 supplied["routes"][index] = copy.deepcopy(historical_route)
                 break
-    return supplied
+        return supplied, True
+    return supplied, False
 
 
 def git_blob_sha1(path: Path) -> str:
@@ -97,7 +103,7 @@ def validation_errors(
 ) -> list[str]:
     try:
         base = protected_module()
-        governed_routes = normalize_routes(routes)
+        governed_routes, projected_successor = normalize_routes(routes)
     except RuntimeError as exc:
         return [str(exc)]
 
@@ -109,7 +115,10 @@ def validation_errors(
         }
     else:
         blobs = copy.deepcopy(local_blobs)
-        if blobs.get("routes") == SUCCESSOR_ROUTES_BLOB:
+        # Whole-registry identity is historical evidence, not a perpetual global lock.
+        # Once the exact Permanent successor route is independently recognized, later
+        # changes to unrelated routes cannot invalidate the protected Permanent receipt.
+        if projected_successor:
             blobs["routes"] = EXPECTED_ROUTES_BLOB
 
     return base.validation_errors(
@@ -125,7 +134,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"Permanent route registration validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated historical Permanent route registration against its submitted/null snapshot; later restricted qualification is separately governed")
+    print("validated historical Permanent route registration against its submitted/null snapshot; the exact Permanent successor is preserved while unrelated later route evolution is ignored")
     return 0
 
 

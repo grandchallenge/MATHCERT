@@ -21,6 +21,7 @@ PROVIDER=art("grandchallenge/MATHFORGE","0ea98866de3066e6a44ea1ca2cf93ade8a9e1c1
 PACKETS={"OTP-F-EHRHART":"4653985d4980113514266c3c421804437bacb019","OTP-J1-COMPACTNESS":"2d9c6e555a03b71eb33c476321e7f2d311ed168f","OTP-J2-TWO-DEGENERATE":"0d226492bf13e13bc1a437be01104db3d4c96f79"}
 for fam,digest in PACKETS.items():EXPECTED[fam]={"tracker":"https://github.com/grandchallenge/MATHCERT/issues/55","source":PROVIDER,"state":"submitted","packet":art("grandchallenge/MATHSOLVE","443daf537dc7e4ee34ab43aeb01508d9177816ab",f"work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/{fam}.json",digest),"output":None}
 EXPECTED["OTP-F-EHRHART"]["state"]="qualified";EXPECTED["OTP-F-EHRHART"]["output"]=art("grandchallenge/MATHCERT","24d99cbdcd6da33ae2404c0f6034d503498d9a4b","certificates/formal_sources/MC-OTP-F-EHRHART-001.json","27a855c949b67e71372c7f0d6601d80125d33968")
+EXPECTED["OTP-J1-COMPACTNESS"]["state"]="qualified";EXPECTED["OTP-J1-COMPACTNESS"]["output"]=art("grandchallenge/MATHCERT","9fba5a8e918028ecc2b4d72abc00b3b72a5194f5","certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json","88531e28951854961e86eec0517356999a391759")
 EXPECTED["OTP-C-PERMANENT"]={
  "route_id":"MC-ROUTE-OTP-C-PERMANENT-FORMULA",
  "tracker":"https://github.com/grandchallenge/MATHCERT/issues/101",
@@ -93,6 +94,6 @@ def route_errors(registry_path:Path=REGISTRY_PATH,schema_path:Path=SCHEMA_PATH)-
 def main()->int:
  e=route_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated twelve exact routes, including restricted OTP-F-EHRHART and OTP-C-PERMANENT qualifications with two submitted OTP routes")
+ print("validated twelve exact routes, including restricted OTP-F-EHRHART, OTP-J1-COMPACTNESS, and OTP-C-PERMANENT qualifications with OTP-J2-TWO-DEGENERATE still submitted")
  return 0
 if __name__=="__main__":raise SystemExit(main())

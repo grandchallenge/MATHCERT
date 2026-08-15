@@ -134,10 +134,16 @@ class OtpEhrhartOutputExecutionPostMergeAttestationTests(unittest.TestCase):
         route["cert_output"]["digest"] = "0" * 40
         self.assertTrue(self.errors(routes=routes))
 
-    def test_compactness_route_inflation_fails(self):
+    def test_compactness_output_substitution_fails(self):
         routes = copy.deepcopy(self.routes)
         route = next(x for x in routes["routes"] if x.get("campaign_id") == "OTP-J1-COMPACTNESS")
-        route["intake_status"] = "qualified"
+        route["cert_output"]["digest"] = "0" * 40
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_compactness_invalid_state_fails(self):
+        routes = copy.deepcopy(self.routes)
+        route = next(x for x in routes["routes"] if x.get("campaign_id") == "OTP-J1-COMPACTNESS")
+        route["intake_status"] = "ready"
         self.assertTrue(self.errors(routes=routes))
 
     def test_two_degenerate_output_fails(self):

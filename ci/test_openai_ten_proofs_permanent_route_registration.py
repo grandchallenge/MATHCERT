@@ -39,6 +39,17 @@ class PermanentRouteRegistrationTests(unittest.TestCase):
     def test_current_passes(self):
         self.assertEqual(self.errors(), [])
 
+    def test_unrelated_registry_blob_evolution_is_permitted(self):
+        blobs = copy.deepcopy(self.blobs)
+        blobs["routes"] = "0" * 40
+        self.assertEqual(self.errors(local_blobs=blobs), [])
+
+    def test_unrelated_route_evolution_is_permitted(self):
+        routes = copy.deepcopy(self.routes)
+        compactness = next(r for r in routes["routes"] if r.get("campaign_id") == "OTP-J1-COMPACTNESS")
+        compactness["reopening_conditions"].append("independent later evolution")
+        self.assertEqual(self.errors(routes=routes), [])
+
     def test_missing_route(self):
         routes = copy.deepcopy(self.routes)
         routes["routes"] = [r for r in routes["routes"] if r.get("route_id") != M.ROUTE_ID]
@@ -74,9 +85,15 @@ class PermanentRouteRegistrationTests(unittest.TestCase):
         receipt["registration"]["source_projection"]["historical_pdf_byte_equivalence"] = True
         self.assertTrue(self.errors(receipt=receipt))
 
-    def test_cert_output_insertion(self):
+    def test_cert_output_substitution(self):
         routes = copy.deepcopy(self.routes)
         self.route(routes)["cert_output"] = {"forged": True}
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_permanent_status_drift(self):
+        routes = copy.deepcopy(self.routes)
+        self.route(routes)["intake_status"] = "submitted"
+        self.route(routes)["cert_output"] = None
         self.assertTrue(self.errors(routes=routes))
 
     def test_adjudication_authority_inflation(self):
@@ -107,11 +124,6 @@ class PermanentRouteRegistrationTests(unittest.TestCase):
     def test_proposal_registry_blob_drift(self):
         blobs = copy.deepcopy(self.blobs)
         blobs["proposal_registry"] = "0" * 40
-        self.assertTrue(self.errors(local_blobs=blobs))
-
-    def test_routes_blob_drift(self):
-        blobs = copy.deepcopy(self.blobs)
-        blobs["routes"] = "0" * 40
         self.assertTrue(self.errors(local_blobs=blobs))
 
     def test_source_manifest_substitution(self):

@@ -20,6 +20,7 @@ CERT_DIR = ROOT / "certificates" / "formal_sources"
 SCHEMA_PATH = ROOT / "schemas" / "formal_target_certificate.schema.json"
 EHRHART_SCHEMA_PATH = ROOT / "schemas" / "otp_ehrhart_qualified_output.schema.json"
 PERMANENT_SCHEMA_PATH = ROOT / "schemas" / "otp_permanent_qualified_output.schema.json"
+COMPACTNESS_SCHEMA_PATH = ROOT / "schemas" / "otp_compactness_qualified_output.schema.json"
 REGISTRY_PATH = ROOT / "governance" / "certification_routes.json"
 EHRHART_FILE = "MC-OTP-F-EHRHART-001.json"
 EHRHART_BLOB = "27a855c949b67e71372c7f0d6601d80125d33968"
@@ -36,6 +37,14 @@ PERMANENT_CONTENT_COMMIT = "1344220f0f61f9e637c5b1fc668c0a0eb7ab4133"
 PERMANENT_TARGETS = [
     "PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound",
     "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound",
+]
+COMPACTNESS_FILE = "MC-OTP-J1-COMPACTNESS-001.json"
+COMPACTNESS_BLOB = "88531e28951854961e86eec0517356999a391759"
+COMPACTNESS_CONTENT_COMMIT = "9fba5a8e918028ecc2b4d72abc00b3b72a5194f5"
+COMPACTNESS_TARGETS = [
+    "CompactnessConjecture.quantitativeCompactnessCounterexample",
+    "CompactnessConjecture.compactnessCounterexample_bigO",
+    "CompactnessConjecture.not_erdos_180",
 ]
 LEGACY_FILES = {"MC-FC-WP00-RH-001.json", "MC-FC-WP00-NS-CI-001.json"}
 
@@ -125,6 +134,7 @@ def certificate_errors(
     root: Path = ROOT,
     ehrhart_schema_path: Path = EHRHART_SCHEMA_PATH,
     permanent_schema_path: Path = PERMANENT_SCHEMA_PATH,
+    compactness_schema_path: Path = COMPACTNESS_SCHEMA_PATH,
 ) -> list[str]:
     errors: list[str] = []
     try:
@@ -148,7 +158,7 @@ def certificate_errors(
         )
 
     actual = {path.name for path in directory.glob("*.json")}
-    expected = LEGACY_FILES | {EHRHART_FILE, PERMANENT_FILE}
+    expected = LEGACY_FILES | {EHRHART_FILE, PERMANENT_FILE, COMPACTNESS_FILE}
     for missing in sorted(expected - actual):
         errors.append(f"missing formal target certificate: {missing}")
     for unknown in sorted(actual - expected):
@@ -218,38 +228,50 @@ def certificate_errors(
         if limitations.get("historical_pdf_byte_equivalence") != "not_established":
             errors.append(f"{permanent_path}: historical PDF equivalence inflated")
 
-    registry = load_json(registry_path)
-    ehrhart_route = next(
-        (item for item in registry.get("routes", []) if item.get("campaign_id") == "OTP-F-EHRHART"),
-        {},
+    compactness_path = directory / COMPACTNESS_FILE
+    errors.extend(
+        _restricted_output_errors(
+            path=compactness_path,
+            schema_path=compactness_schema_path,
+            expected_blob=COMPACTNESS_BLOB,
+            certificate_id="MC-OTP-J1-COMPACTNESS-QUAL-001",
+            result_family="OTP-J1-COMPACTNESS",
+            route_id="MC-ROUTE-OTP-J1-COMPACTNESS",
+            targets=COMPACTNESS_TARGETS,
+        )
     )
-    if ehrhart_route.get("intake_status") != "qualified":
-        errors.append("OTP-F-EHRHART: route is not qualified")
-    if ehrhart_route.get("cert_output") != {
-        "repository": "grandchallenge/MATHCERT",
-        "commit_sha": EHRHART_CONTENT_COMMIT,
-        "path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": EHRHART_BLOB,
-    }:
+    if compactness_path.exists():
+        compactness = load_json(compactness_path)
+        if compactness.get("qualification", {}).get("source_locus") != "Chapter 10, Theorem 1.1, current official PDF P240 / printed p236":
+            errors.append(f"{compactness_path}: corrected source locus drift")
+        limitations = compactness.get("preserved_limitations", {})
+        for key in (
+            "historical_compactness_formulations_admitted", "proof_body_compared_in_full",
+            "unrestricted_source_theorem_proof_claim", "other_family_outputs_authorized",
+            "aggregate_openai_ten_proofs_authority",
+        ):
+            if limitations.get(key) is not False:
+                errors.append(f"{compactness_path}: limitation inflated: {key}")
+        if limitations.get("whole_document_byte_equivalence") != "not_established" or limitations.get("whole_document_semantic_equivalence") != "not_established":
+            errors.append(f"{compactness_path}: whole-document equivalence inflated")
+
+    registry = load_json(registry_path)
+    ehrhart_route = next((item for item in registry.get("routes", []) if item.get("campaign_id") == "OTP-F-EHRHART"), {})
+    if ehrhart_route.get("intake_status") != "qualified": errors.append("OTP-F-EHRHART: route is not qualified")
+    if ehrhart_route.get("cert_output") != {"repository": "grandchallenge/MATHCERT", "commit_sha": EHRHART_CONTENT_COMMIT, "path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json", "digest_algorithm": "git_blob_sha1", "digest": EHRHART_BLOB}:
         errors.append("OTP-F-EHRHART: route output identity drift")
 
-    permanent_route = next(
-        (item for item in registry.get("routes", []) if item.get("campaign_id") == "OTP-C-PERMANENT"),
-        {},
-    )
-    if permanent_route.get("intake_status") != "qualified":
-        errors.append("OTP-C-PERMANENT: route is not qualified")
-    if permanent_route.get("target_claim_ids") != PERMANENT_TARGETS:
-        errors.append("OTP-C-PERMANENT: route target scope drift")
-    if permanent_route.get("cert_output") != {
-        "repository": "grandchallenge/MATHCERT",
-        "commit_sha": PERMANENT_CONTENT_COMMIT,
-        "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-001.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": PERMANENT_BLOB,
-    }:
+    permanent_route = next((item for item in registry.get("routes", []) if item.get("campaign_id") == "OTP-C-PERMANENT"), {})
+    if permanent_route.get("intake_status") != "qualified": errors.append("OTP-C-PERMANENT: route is not qualified")
+    if permanent_route.get("target_claim_ids") != PERMANENT_TARGETS: errors.append("OTP-C-PERMANENT: route target scope drift")
+    if permanent_route.get("cert_output") != {"repository": "grandchallenge/MATHCERT", "commit_sha": PERMANENT_CONTENT_COMMIT, "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-001.json", "digest_algorithm": "git_blob_sha1", "digest": PERMANENT_BLOB}:
         errors.append("OTP-C-PERMANENT: route output identity drift")
+
+    compactness_route = next((item for item in registry.get("routes", []) if item.get("campaign_id") == "OTP-J1-COMPACTNESS"), {})
+    if compactness_route.get("intake_status") != "qualified": errors.append("OTP-J1-COMPACTNESS: route is not qualified")
+    if compactness_route.get("target_claim_ids") != COMPACTNESS_TARGETS: errors.append("OTP-J1-COMPACTNESS: route target scope drift")
+    if compactness_route.get("cert_output") != {"repository": "grandchallenge/MATHCERT", "commit_sha": COMPACTNESS_CONTENT_COMMIT, "path": "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json", "digest_algorithm": "git_blob_sha1", "digest": COMPACTNESS_BLOB}:
+        errors.append("OTP-J1-COMPACTNESS: route output identity drift")
     return errors
 
 
@@ -259,7 +281,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"formal target certificate validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated protected RH/NS qualifications and exact restricted OTP-F-EHRHART / OTP-C-PERMANENT outputs")
+    print("validated protected RH/NS qualifications and exact restricted OTP-F-EHRHART / OTP-C-PERMANENT / OTP-J1-COMPACTNESS outputs")
     return 0
 
 

@@ -32,14 +32,23 @@ class OTPCompactnessOutputContractTests(unittest.TestCase):
             adjudication_blob=kwargs.get("adjudication_blob", M.EXPECTED_ADJUDICATION_BLOB),
             construction_blob=kwargs.get("construction_blob", M.EXPECTED_CONSTRUCTION_BLOB),
             future_schema_blob=kwargs.get("future_schema_blob", M.EXPECTED_FUTURE_SCHEMA_BLOB),
-            future_certificate_present=kwargs.get("future_certificate_present", False),
-            candidate_present=kwargs.get("candidate_present", False),
-            staged_certificate_present=kwargs.get("staged_certificate_present", False),
-            staged_route_present=kwargs.get("staged_route_present", False),
+            future_certificate_present=kwargs.get("future_certificate_present", M.FUTURE_CERTIFICATE.exists()),
+            candidate_present=kwargs.get("candidate_present", M.OUTPUT_CANDIDATE.exists()),
+            staged_certificate_present=kwargs.get("staged_certificate_present", M.STAGED_CERTIFICATE.exists()),
+            staged_route_present=kwargs.get("staged_route_present", M.STAGED_ROUTE.exists()),
             contract_files=kwargs.get("contract_files", set(M.EXPECTED_CONTRACT_FILES)),
         )
 
-    def test_current_contract_passes(self): self.assertEqual([], self.errors())
+    def design_routes(self):
+        routes = copy.deepcopy(self.routes)
+        route = next(v for v in routes["routes"] if v["route_id"] == "MC-ROUTE-OTP-J1-COMPACTNESS")
+        route["intake_status"] = "submitted"
+        route["cert_output"] = None
+        return routes
+
+    def test_current_complete_successor_passes(self): self.assertEqual([], self.errors())
+    def test_historical_design_snapshot_passes(self):
+        self.assertEqual([], self.errors(routes=self.design_routes(), future_certificate_present=False, candidate_present=False, staged_certificate_present=False, staged_route_present=False))
     def test_authorization_drift_fails(self):
         d=copy.deepcopy(self.contract); d["implementation_authorization"]["comment_id"]=1; self.assertTrue(self.errors(contract=d))
     def test_adjudication_blob_drift_fails(self): self.assertTrue(self.errors(adjudication_blob="0"*40))
@@ -57,10 +66,12 @@ class OTPCompactnessOutputContractTests(unittest.TestCase):
         d=copy.deepcopy(self.contract); d["preserved_limitations"]["proof_body_compared_in_full"]=True; self.assertTrue(self.errors(contract=d))
     def test_proof_promotion_fails(self):
         d=copy.deepcopy(self.contract); d["state"]["mathematical_target_proved"]=True; self.assertTrue(self.errors(contract=d))
-    def test_route_promotion_in_design_fails(self):
-        r=copy.deepcopy(self.routes); x=next(v for v in r["routes"] if v["route_id"]=="MC-ROUTE-OTP-J1-COMPACTNESS"); x["intake_status"]="qualified"; self.assertTrue(self.errors(routes=r))
+    def test_route_promotion_without_successor_fails(self):
+        self.assertTrue(self.errors(routes=self.routes, future_certificate_present=False, candidate_present=False, staged_certificate_present=False, staged_route_present=False))
     def test_cert_output_in_design_fails(self):
-        r=copy.deepcopy(self.routes); x=next(v for v in r["routes"] if v["route_id"]=="MC-ROUTE-OTP-J1-COMPACTNESS"); x["cert_output"]={"repository":"x"}; self.assertTrue(self.errors(routes=r))
+        routes=self.design_routes(); route=next(v for v in routes["routes"] if v["route_id"]=="MC-ROUTE-OTP-J1-COMPACTNESS"); route["cert_output"]={"repository":"x"}; self.assertTrue(self.errors(routes=routes, future_certificate_present=False, candidate_present=False, staged_certificate_present=False, staged_route_present=False))
+    def test_successor_output_identity_drift_fails(self):
+        routes=copy.deepcopy(self.routes); route=next(v for v in routes["routes"] if v["route_id"]=="MC-ROUTE-OTP-J1-COMPACTNESS"); route["cert_output"]["digest"]="0"*40; self.assertTrue(self.errors(routes=routes))
     def test_aggregate_authority_fails(self):
         d=copy.deepcopy(self.contract); d["state"]["aggregate_output"]=True; self.assertTrue(self.errors(contract=d))
     def test_control_plan_change_fails(self):
@@ -75,8 +86,12 @@ class OTPCompactnessOutputContractTests(unittest.TestCase):
         d=copy.deepcopy(self.contract); d["publication_protocol"]["squash_merge_prohibited"]=False; self.assertTrue(self.errors(contract=d))
     def test_rebase_allowed_fails(self):
         d=copy.deepcopy(self.contract); d["publication_protocol"]["rebase_merge_prohibited"]=False; self.assertTrue(self.errors(contract=d))
-    def test_premature_artifacts_fail(self):
-        self.assertTrue(self.errors(future_certificate_present=True)); self.assertTrue(self.errors(candidate_present=True)); self.assertTrue(self.errors(staged_certificate_present=True)); self.assertTrue(self.errors(staged_route_present=True))
+    def test_partial_successor_artifacts_fail(self):
+        design=self.design_routes()
+        self.assertTrue(self.errors(routes=design, future_certificate_present=True, candidate_present=False, staged_certificate_present=False, staged_route_present=False))
+        self.assertTrue(self.errors(routes=design, future_certificate_present=False, candidate_present=True, staged_certificate_present=False, staged_route_present=False))
+        self.assertTrue(self.errors(routes=design, future_certificate_present=False, candidate_present=False, staged_certificate_present=True, staged_route_present=False))
+        self.assertTrue(self.errors(routes=design, future_certificate_present=False, candidate_present=False, staged_certificate_present=False, staged_route_present=True))
     def test_contract_membership_inflation_fails(self): self.assertTrue(self.errors(contract_files=set(M.EXPECTED_CONTRACT_FILES)|{"OTP-X.json"}))
     def test_contract_schema_weakening_fails(self):
         s=copy.deepcopy(self.contract_schema); s["const"]["contract_state"]="executed"; self.assertTrue(self.errors(contract_schema=s))
