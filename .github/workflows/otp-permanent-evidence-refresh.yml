@@ -1,0 +1,145 @@
+name: OTP Permanent evidence refresh
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-permanent-evidence-refresh.yml"
+      - "ci/build_otp_permanent_execution_candidate.py"
+      - "ci/run_openai_ten_proofs_permanent_replay.sh"
+      - "ci/landrun_comparator_adapter.sh"
+      - "governance/result_family_execution_candidates/OTP-C-PERMANENT.json"
+      - "governance/result_family_execution_candidate_manifests/OTP-C-PERMANENT.json"
+      - "schemas/openai_ten_proofs_permanent_execution_candidate*.json"
+      - "ci/validate_otp_permanent_execution_candidate.py"
+      - "ci/test_otp_permanent_execution_candidate.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  refresh-permanent-candidate:
+    name: refresh-permanent-candidate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      MATHCERT_WORKFLOW_SHA: ${{ github.sha }}
+    steps:
+      - name: Check out MATHCERT subject head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check out exact Forge semantic authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: 60f6e06c957139447bf5943eed731941b22ac608
+          path: forge
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Solve producer authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHSOLVE
+          ref: 90f8a8544e546a603b34c9b27b2d6a4a68e06de8
+          path: solve
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Reacquire protected GCL archival source
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/openai-ten-proofs-e62211d2.tar"
+          curl --fail --location --retry 4 --silent --show-error \
+            "https://github.com/grandchallenge/MATHFORGE/releases/download/otp-c-permanent-source-e62211d2-candidate-001/openai-ten-proofs-e62211d2.tar" \
+            -o "$archive"
+          test "$(stat -c '%s' "$archive")" = "21022720"
+          echo "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f  $archive" | sha256sum --check --strict
+          mkdir upstream
+          tar -xf "$archive" -C upstream --strip-components=1
+          test -f upstream/Permanent.lean
+          test -f upstream/ComparatorChallenges/C_PermanentFormulaLowerBound.json
+
+      - name: Bootstrap project dependencies
+        uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          lake-package-directory: upstream
+
+      - name: Activate governed Lean 4.32.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          elan toolchain list | grep -Fq 'leanprover/lean4:v4.32.0' || elan toolchain install leanprover/lean4:v4.32.0
+          elan run leanprover/lean4:v4.32.0 lean --version | grep -F "version 4.32.0"
+          echo "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0" >> "$GITHUB_ENV"
+
+      - name: Build pinned Comparator toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          lean --version | grep -F "version 4.32.0"
+          mkdir -p tools "$RUNNER_TEMP/otp-bin"
+
+          git clone --filter=blob:none https://github.com/leanprover/lean4export.git tools/lean4export
+          git -C tools/lean4export checkout --detach 4e7915201d3f9f04470d9eae002fa695f7cdc589
+          (cd tools/lean4export && lake build)
+
+          git clone --filter=blob:none https://github.com/ammkrn/nanoda_lib.git tools/nanoda
+          git -C tools/nanoda checkout --detach ddfac2bf5a7b56cb46e141494427ff3dd55963c7
+          (cd tools/nanoda && cargo build --release --locked)
+
+          git clone --filter=blob:none https://github.com/Zouuup/landrun.git tools/landrun
+          git -C tools/landrun checkout --detach 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
+          (cd tools/landrun && go build -trimpath -o "$RUNNER_TEMP/otp-bin/landrun-real" ./cmd/landrun)
+          cp ci/landrun_comparator_adapter.sh "$RUNNER_TEMP/otp-bin/landrun"
+          chmod +x "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
+
+          echo "$RUNNER_TEMP/otp-bin" >> "$GITHUB_PATH"
+          echo "COMPARATOR_LANDRUN=$RUNNER_TEMP/otp-bin/landrun" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LANDRUN_REAL=$RUNNER_TEMP/otp-bin/landrun-real" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/tools/lean4export/.lake/build/bin/lean4export" >> "$GITHUB_ENV"
+          echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/tools/nanoda/target/release/nanoda_bin" >> "$GITHUB_ENV"
+
+      - name: Prepare locked upstream dependencies
+        shell: bash
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          lean --version | grep -F "version 4.32.0"
+          lake exe cache get
+
+      - name: Execute isolated Permanent replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x ci/run_openai_ten_proofs_permanent_replay.sh
+          ci/run_openai_ten_proofs_permanent_replay.sh evidence/permanent_candidate
+
+      - name: Build execution candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 ci/build_otp_permanent_execution_candidate.py evidence/permanent_candidate
+
+      - name: Upload Permanent execution candidate evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: otp-permanent-execution-candidate
+          path: evidence/permanent_candidate/
+          if-no-files-found: warn
+          retention-days: 30
