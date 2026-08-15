@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_compactness_output_execution",
+  "execution_id": "MC-OTP-J1-COMPACTNESS-OUTPUT-EXEC-001",
+  "candidate_id": "MC-OTP-J1-COMPACTNESS-OUTPUT-CANDIDATE-001",
+  "result_family": "OTP-J1-COMPACTNESS",
+  "route_id": "MC-ROUTE-OTP-J1-COMPACTNESS",
+  "contract_id": "MC-OTP-J1-COMPACTNESS-OUTPUT-CONTRACT-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/118",
+  "protected_authority": {
+    "output_contract": {
+      "merge_commit": "85b8ee7cbb43e8494b88b1acc998a21ee4f99f23",
+      "path": "governance/result_family_output_contracts/OTP-J1-COMPACTNESS.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "45aa4a9ec32f56982fc2b5ef5515d53063d5c82b"
+    },
+    "adjudication": {
+      "merge_commit": "bbaecbde892d1373f50fa45cd75a1d2712652611",
+      "path": "governance/result_family_adjudications/OTP-J1-COMPACTNESS.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "175fb2d04c80de405655654d9024ffa6eb1f3b46",
+      "disposition": "adjudication_clear_encoded_targets_only"
+    },
+    "construction_evidence": {
+      "merge_commit": "ad80e83ceb6dd1ac980d4c2c02cd07b11b8c3d90",
+      "record_digest": "872cdf678412d63df22d1244b3b5c13185f29571",
+      "source_authority_digest": "148ff82af760bba80c7d16a3a35c58d490dadc95",
+      "reconstruction_digest": "ed79d855016a1e642d361e9162ed2b70d267b800",
+      "current_source_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
+    },
+    "control_plan": {
+      "conformance": "within_authorized_streamlined_design_plan",
+      "control_plan_change_requested": false,
+      "human_steward_intervention_required_only_for_control_plan_change": true,
+      "routine_stage_progression_without_human_steward_intervention": true
+    }
+  },
+  "execution_commits": {
+    "protected_base": "85b8ee7cbb43e8494b88b1acc998a21ee4f99f23",
+    "certificate_content_commit": "9fba5a8e918028ecc2b4d72abc00b3b72a5194f5",
+    "route_transition_commit": "53a4df433e7d44255a32a433d9c5e213c2732f19",
+    "certificate": {
+      "path": "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "88531e28951854961e86eec0517356999a391759",
+      "certificate_id": "MC-OTP-J1-COMPACTNESS-QUAL-001"
+    },
+    "route_registry_before": {
+      "path": "governance/certification_routes.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "aa460c1310a7c81b64b88013b7aa4cfdc056f37b"
+    },
+    "route_registry_after": {
+      "path": "governance/certification_routes.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "bc4640661443f1b3de213aaa82a333a4fdb6849b"
+    }
+  },
+  "staged_evidence": {
+    "certificate": {
+      "path": "governance/result_family_output_candidates/staged_certificates/MC-OTP-J1-COMPACTNESS-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "88531e28951854961e86eec0517356999a391759"
+    },
+    "route_transition": {
+      "path": "governance/result_family_output_candidates/staged_route_transitions/OTP-J1-COMPACTNESS.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1aef6ba851dff92bfb929c1851942099fdec07de"
+    }
+  },
+  "encoded_targets": [
+    "CompactnessConjecture.quantitativeCompactnessCounterexample",
+    "CompactnessConjecture.compactnessCounterexample_bigO",
+    "CompactnessConjecture.not_erdos_180"
+  ],
+  "qualification": {
+    "disposition": "qualified_encoded_targets_only",
+    "scope": "Exactly the three encoded OTP-J1-COMPACTNESS targets at the protected corrected cyclic-family theorem locus.",
+    "source_locus": "Chapter 10, Theorem 1.1, current official PDF P240 / printed p236",
+    "mathematical_target_proved": false
+  },
+  "candidate_state": "output_candidate_prepared_pending_execution",
+  "branch_execution_state": {
+    "execution_state": "output_execution_prepared_pending_protected_merge",
+    "route_state": "qualified",
+    "cert_output": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "9fba5a8e918028ecc2b4d72abc00b3b72a5194f5",
+      "path": "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "88531e28951854961e86eec0517356999a391759"
+    },
+    "live_certificate_present_on_execution_branch": true,
+    "protected_main_effect": "none_until_merge",
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_output": false
+  },
+  "publication_gate": {
+    "exact_head_cert_checks_required": true,
+    "exact_head_gcl_conformance_required": true,
+    "linux_windows_output_validation_required": true,
+    "codeql_no_new_alerts_required": true,
+    "fresh_non_author_specialist_approval_required": true,
+    "separate_human_steward_authorization_required": false,
+    "human_steward_intervention_required_only_for_control_plan_change": true,
+    "protected_merge_method": "merge",
+    "squash_merge_prohibited": true,
+    "rebase_merge_prohibited": true,
+    "expected_head_required": true,
+    "certificate_content_commit_must_remain_ancestor": true,
+    "route_transition_commit_must_remain_ancestor": true,
+    "protected_main_atomic_publication_required": true,
+    "partial_protected_main_state_prohibited": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "review_gate": {
+    "minimum_binding_non_author_reviewers": 1,
+    "required_review_state": "APPROVED",
+    "review_must_bind_exact_execution_head": true,
+    "recorded_review": null
+  },
+  "preserved_limitations": {
+    "historical_compactness_formulations_admitted": false,
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false,
+    "unrestricted_source_theorem_proof_claim": false,
+    "other_family_outputs_authorized": false,
+    "aggregate_openai_ten_proofs_authority": false
+  },
+  "claim_boundary": "This execution candidate may publish only certificate MC-OTP-J1-COMPACTNESS-QUAL-001 for the exact three encoded OTP-J1-COMPACTNESS targets under protected disposition qualified_encoded_targets_only at the corrected current Chapter 10 theorem locus. The candidate is bound to protected adjudication merge bbaecbde892d1373f50fa45cd75a1d2712652611, protected output-contract merge 85b8ee7cbb43e8494b88b1acc998a21ee4f99f23, certificate-content commit 9fba5a8e918028ecc2b4d72abc00b3b72a5194f5, and route-transition commit 53a4df433e7d44255a32a433d9c5e213c2732f19. It preserves the exact current source locus and the independently reconstructed construction/asymptotic evidence. It does not establish mathematical proof of the unrestricted Chapter 10 source theorem, admit historical or stronger Compactness formulations, establish whole-document byte or semantic equivalence, compare the proof body in full, mark any mathematical target proved, authorize claim promotion, qualify another result family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims. Protected publication remains atomic and ancestry-preserving: the certificate-content commit precedes the route-transition commit, both must remain ancestors of the exact reviewed head, and protected main receives the qualified route and certificate together only through a normal expected-head merge; squash, rebase, self-reference, and partial protected-main publication are prohibited."
+}

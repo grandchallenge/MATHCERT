@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_compactness_staged_route_transition",
+  "result_family": "OTP-J1-COMPACTNESS",
+  "route_id": "MC-ROUTE-OTP-J1-COMPACTNESS",
+  "route_transition": {
+    "from": "submitted",
+    "to": "qualified",
+    "certificate_content_commit": "9fba5a8e918028ecc2b4d72abc00b3b72a5194f5",
+    "route_transition_commit": "53a4df433e7d44255a32a433d9c5e213c2732f19",
+    "cert_output": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "9fba5a8e918028ecc2b4d72abc00b3b72a5194f5",
+      "path": "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "88531e28951854961e86eec0517356999a391759"
+    }
+  },
+  "qualified_claim_boundary": "This restricted route qualification applies only to the exact three encoded OTP-J1-COMPACTNESS targets under protected disposition qualified_encoded_targets_only at the corrected current Chapter 10 theorem locus. It does not establish mathematical proof of the unrestricted source theorem, admit historical or stronger Compactness formulations, establish whole-document byte or semantic equivalence, compare the proof body in full, mark a mathematical target proved, qualify another result family, or create aggregate OpenAI Ten Proofs authority.",
+  "preserved_blockers": [
+    "The unrestricted Chapter 10 source theorem and its proof body are not mathematically proved by this restricted qualification.",
+    "Historical or stronger Compactness formulations remain outside this restricted qualification.",
+    "Whole-document byte and semantic equivalence remain unestablished, and the proof body has not been compared in full."
+  ],
+  "protected_main_effect": "none_until_protected_merge"
+}

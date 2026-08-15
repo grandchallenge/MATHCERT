@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/otp_compactness_output_execution.schema.json",
+  "title": "OTP-J1-COMPACTNESS restricted qualification execution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "execution_id", "candidate_id", "result_family", "route_id", "contract_id", "tracker_issue", "protected_authority", "execution_commits", "staged_evidence", "encoded_targets", "qualification", "candidate_state", "branch_execution_state", "publication_gate", "review_gate", "preserved_limitations", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "otp_compactness_output_execution"},
+    "execution_id": {"const": "MC-OTP-J1-COMPACTNESS-OUTPUT-EXEC-001"},
+    "candidate_id": {"const": "MC-OTP-J1-COMPACTNESS-OUTPUT-CANDIDATE-001"},
+    "result_family": {"const": "OTP-J1-COMPACTNESS"},
+    "route_id": {"const": "MC-ROUTE-OTP-J1-COMPACTNESS"},
+    "contract_id": {"const": "MC-OTP-J1-COMPACTNESS-OUTPUT-CONTRACT-001"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/118"},
+    "protected_authority": {"type": "object"},
+    "execution_commits": {"type": "object"},
+    "staged_evidence": {"type": "object"},
+    "encoded_targets": {"const": ["CompactnessConjecture.quantitativeCompactnessCounterexample", "CompactnessConjecture.compactnessCounterexample_bigO", "CompactnessConjecture.not_erdos_180"]},
+    "qualification": {"const": {"disposition": "qualified_encoded_targets_only", "scope": "Exactly the three encoded OTP-J1-COMPACTNESS targets at the protected corrected cyclic-family theorem locus.", "source_locus": "Chapter 10, Theorem 1.1, current official PDF P240 / printed p236", "mathematical_target_proved": false}},
+    "candidate_state": {"const": "output_candidate_prepared_pending_execution"},
+    "branch_execution_state": {"type": "object"},
+    "publication_gate": {"type": "object"},
+    "review_gate": {"const": {"minimum_binding_non_author_reviewers": 1, "required_review_state": "APPROVED", "review_must_bind_exact_execution_head": true, "recorded_review": null}},
+    "preserved_limitations": {"const": {"historical_compactness_formulations_admitted": false, "whole_document_byte_equivalence": "not_established", "whole_document_semantic_equivalence": "not_established", "proof_body_compared_in_full": false, "unrestricted_source_theorem_proof_claim": false, "other_family_outputs_authorized": false, "aggregate_openai_ten_proofs_authority": false}},
+    "claim_boundary": {"type": "string", "minLength": 900}
+  }
+}

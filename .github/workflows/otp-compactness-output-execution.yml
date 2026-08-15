@@ -1,0 +1,51 @@
+name: OTP Compactness output execution
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-compactness-output-execution.yml"
+      - "requirements-ci.txt"
+      - "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json"
+      - "governance/result_family_output_candidates/OTP-J1-COMPACTNESS.json"
+      - "governance/result_family_output_candidates/staged_certificates/MC-OTP-J1-COMPACTNESS-001.json"
+      - "governance/result_family_output_candidates/staged_route_transitions/OTP-J1-COMPACTNESS.json"
+      - "schemas/otp_compactness_output_execution.schema.json"
+      - "schemas/otp_compactness_qualified_output.schema.json"
+      - "ci/validate_otp_compactness_output_execution.py"
+      - "ci/test_otp_compactness_output_execution.py"
+      - "governance/result_family_output_contracts/OTP-J1-COMPACTNESS.json"
+      - "governance/result_family_adjudications/OTP-J1-COMPACTNESS.json"
+      - "governance/certification_routes.json"
+      - "governance/ci_control_registry.json"
+      - "ci/check_lean.sh"
+      - "ci/check_lean.ps1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  output-execution-control:
+    name: output-execution-control (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out exact output-execution head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install locked CI dependencies
+        shell: bash
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Validate Compactness output execution
+        run: python ci/validate_otp_compactness_output_execution.py
+      - name: Run adversarial mutations
+        run: python ci/test_otp_compactness_output_execution.py
