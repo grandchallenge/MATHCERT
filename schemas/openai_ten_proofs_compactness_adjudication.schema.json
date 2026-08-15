@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/openai_ten_proofs_compactness_adjudication.schema.json",
+  "title": "OTP-J1-COMPACTNESS bounded adjudication",
+  "const": {
+    "schema_version": "1.0.0",
+    "record_type": "openai_ten_proofs_compactness_adjudication",
+    "adjudication_id": "MC-OTP-J1-COMPACTNESS-ADJUDICATION-001",
+    "result_family": "OTP-J1-COMPACTNESS",
+    "route_id": "MC-ROUTE-OTP-J1-COMPACTNESS",
+    "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-J1-COMPACTNESS",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/114",
+    "authority": {
+      "contract": {"design_merge": "9f5ec626306092a352aa5ba8d9920b6ddb11b8bb", "git_blob_sha1": "4288cf2199603ffc90d897062a575a5865326d70"},
+      "human_steward_execution_authorization": {"comment_id": 5302142079, "authorized_input_head": "28db9aad66381ff4f8b68a48c18090fa5c5b843b", "authorized_input_git_blob_sha1": "c9d8b31579e2bfdb93f99ff74d14f73a2fb603d7"},
+      "construction_evidence": {"merge_commit": "ad80e83ceb6dd1ac980d4c2c02cd07b11b8c3d90", "reviewed_head": "be69ff52f2cdab2e47edffc691f179c158f4498c", "binding_review_id": 4943560012, "record_git_blob_sha1": "872cdf678412d63df22d1244b3b5c13185f29571", "source_manifest_git_blob_sha1": "148ff82af760bba80c7d16a3a35c58d490dadc95", "reconstruction_git_blob_sha1": "ed79d855016a1e642d361e9162ed2b70d267b800"},
+      "route_registry_git_blob_sha1": "aa460c1310a7c81b64b88013b7aa4cfdc056f37b"
+    },
+    "encoded_targets": ["CompactnessConjecture.quantitativeCompactnessCounterexample", "CompactnessConjecture.compactnessCounterexample_bigO", "CompactnessConjecture.not_erdos_180"],
+    "execution": {
+      "authorized_input_head": "28db9aad66381ff4f8b68a48c18090fa5c5b843b",
+      "successful_execution_head": "17c081e6a1dbde9716e9e41e9960a90d37b31fb7",
+      "workflow_run_id": 31884102412,
+      "job_id": 95010735590,
+      "workflow_checkout_sha": "054f1b44624527ab6758d969bd781e245492d49a",
+      "artifact": {"id": 9246868586, "name": "otp-compactness-adjudication-replay", "bytes": 7081, "sha256": "985832cb7471b9e666643466ce4dc4aa815e10c86f2123ef0d41f12ebed39e48"},
+      "transport_recovery": {"official_subject_repository": "openai/ten-proofs", "official_subject_commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca", "official_subject_tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365", "historical_mirror_repository": "fyremael/ten-proofs", "mirror_commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca", "mirror_tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365", "mirror_role": "byte_transport_only_no_new_subject_authority", "initial_checkout_failure_run": 31883751780, "initial_checkout_failure_job": 95009855965, "workspace_path_repair_failure_run": 31883945913, "workspace_path_repair_failure_job": 95010356073}
+    },
+    "retained_replay_evidence": {
+      "path": "evidence/openai_ten_proofs/compactness_adjudication.zip.b64",
+      "format": "base64_encoded_exact_actions_zip",
+      "decoded_bytes": 7081,
+      "decoded_sha256": "985832cb7471b9e666643466ce4dc4aa815e10c86f2123ef0d41f12ebed39e48",
+      "files": {
+        "SHA256SUMS": {"sha256": "789cf36fb51ed97ed81765a969f0283ed726ac68e12677745a44cfeb47bdca82", "bytes": 1561},
+        "axiom-check.json": {"sha256": "a73c7b01fe00f52624c109dececaac4d8f35779d0ab005b25e3517e0f1d85a8a", "bytes": 702},
+        "challenge-build.log": {"sha256": "665730c8bdad0399fafcbef574feb200bd6d179afa0356b493bfb6543dca1f7f", "bytes": 386},
+        "comparator.log": {"sha256": "70073ae75b8748cda6dba69161c13f38641dc2af2e14a8360ec94a1b54dad31e", "bytes": 2279},
+        "environment.txt": {"sha256": "9225f0fd30eabab93c26fe29c676697a8294944dfa17c239585dc57a026420b5", "bytes": 1404},
+        "evidence-summary.json": {"sha256": "2a09d2fa51903b7dbf13c64ac29a6d0993979499780f85d265e54932e3d5abe6", "bytes": 4223},
+        "solution-build.log": {"sha256": "ae1e9d97bf81d334c66a08e8d2791d333646eb5d0bf39bd3e48ff0651272d6f3", "bytes": 96},
+        "source-identities.txt": {"sha256": "2d27ed2c84ebae6c2be86bbfd8072bfa92d311025fc91ec6fef5c789108f5f9b", "bytes": 1299},
+        "source-revision-report.txt": {"sha256": "c2ab4982c2ec4f6ad11d2b202bfb20b10170476f3e8c9c1e4de182876bea519d", "bytes": 601},
+        "theorem-axioms.log": {"sha256": "25ac1bc67334c2e783e5957dc9ef65a4643cc29c3d240fa34c68b227fc0b94fe", "bytes": 332},
+        "trust-boundary-scan.txt": {"sha256": "9ee8979d7ab41bd2710ca04c310533bafdf0f5e8e1303ca17bf1a0c5c3e0e61c", "bytes": 162}
+      }
+    },
+    "source_assessment": {"current_official_url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf", "current_bytes": 2487031, "current_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566", "theorem_locus": "Chapter 10, Theorem 1.1, current official PDF P240 / printed p236", "current_locus_concordance": "clear_for_exact_current_locus_under_protected_91_evidence", "whole_document_byte_equivalence": "not_established", "whole_document_semantic_equivalence": "not_established"},
+    "evidence_assessment": {"authority_integrity": "clear", "isolated_checker_replay": "clear_exact_three_encoded_targets", "challenge_build": "pass", "solution_build": "pass", "comparator": "pass", "lean_kernel": "accept", "nanoda": "accept", "theorem_axioms": "permitted_only_Classical.choice_Quot.sound_propext", "trust_boundary": "clear_solution_no_placeholder_unsafe_custom_axiom_or_aggregate_All_import", "nonvacuity": "clear_for_quantitative_and_bigO_protected_witnesses", "source_statement_concordance": "clear_exact_current_corrected_cyclic_family_locus", "explicit_construction": "independently_reconstructed_and_machine_checked_under_protected_91_evidence", "construction_invariants": "independently_reconstructed_and_machine_checked_under_protected_91_evidence", "upper_bound_bridge": "independently_reconstructed_with_exact_exponent_arithmetic_machine_checked", "lower_bound_bridge": "independently_reconstructed_with_exact_parameter_and_growth_arithmetic_machine_checked", "proof_body_compared_in_full": false},
+    "decision": {"question": "Does the complete admissible evidence support a family-specific MATHCERT adjudication of only the exact encoded target set, with every recorded source-scope limitation preserved?", "disposition": "adjudication_clear_encoded_targets_only", "scope": "Exactly the three registered OTP-J1-COMPACTNESS targets at the protected corrected cyclic-family theorem locus.", "rationale": ["The Human Steward authorization binds the admitted Compactness adjudication contract to the immutable execution-input head, and the publication lineage remains descended from that head with the frozen input bytes unchanged.", "The exact historical formal subject commit and tree were recovered from an immutable mirror after the official repository was recreated; commit and tree identities match the protected subject exactly, so the mirror supplies transport only and does not substitute a new formalization.", "A fresh isolated replay reacquired the exact current official source bytes and accepted all three encoded targets under Comparator, the Lean default kernel, and Nanoda; theorem-level axiom reports contain only Classical.choice, Quot.sound, and propext, and the solution trust-boundary scan is clear.", "Protected issue #91 evidence independently reconstructs and machine-checks the explicit construction, construction invariants, source-to-encoded concordance, and both upper- and lower-bound asymptotic bridges required by the adjudication contract.", "Whole-document equivalence among manuscript revisions, historical compactness formulations, full proof-body comparison, Cert output, mathematical-proof promotion, other result families, and aggregate OpenAI Ten Proofs authority remain excluded."], "binding_effect": "Binding only after exact-head machine gates, a fresh binding non-author specialist APPROVED review, and protected merge/readback."},
+    "review_gate": {"fresh_non_author_specialist_review_required": true, "minimum_reviewers": 1, "required_state": "APPROVED", "must_bind_exact_publication_head": true, "recorded_review": null},
+    "state": {"route_state": "submitted", "adjudication_operation_authorized": true, "adjudication_recorded_on_branch": true, "cert_output": null, "mathematical_target_proved": false, "may_issue_output": false, "may_promote_claim": false, "aggregate_adjudication": false, "aggregate_output": false},
+    "preserved_limitations": {"whole_document_byte_equivalence": "not_established", "whole_document_semantic_equivalence": "not_established", "proof_body_compared_in_full": false, "historical_compactness_formulations_admitted": false, "cert_output_authorized": false, "mathematical_proof_promotion_authorized": false, "other_result_families_modified": false, "aggregate_openai_ten_proofs_authority": false},
+    "claim_boundary": "This bounded adjudication clears only the exact three encoded OTP-J1-COMPACTNESS targets for MATHCERT route purposes at the protected corrected cyclic-family theorem locus. It does not issue a Cert output, qualify or transition the submitted route, mark any mathematical target proved, establish whole-document equivalence among source revisions, admit historical compactness formulations, establish full proof-body equivalence, alter another result family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+  }
+}
