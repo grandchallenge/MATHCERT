@@ -184,9 +184,18 @@ def validation_errors(record=None, registry=None, record_blob_override=None, his
     if registry.get("aggregate_integration") != {"all_lean_required":False,"creates_aggregate_work_package":False,"creates_aggregate_route":False,"reopens_other_family_replay":False}: errors.append("Permanent aggregate integration inflation")
     if registry.get("route_controls") != {"global_certification_route_registry_modified":False,"requested_future_route":"MC-ROUTE-OTP-C-PERMANENT-FORMULA","route_proposal_created":False,"route_registration_created":False,"may_adjudicate":False,"may_promote_claim":False}: errors.append("Permanent successor route authority inflation")
 
+    # The work-package record is an immutable predecessor. Its own route_state and
+    # successor-registry counters above must remain zero, but a later separately
+    # governed registration may now exist in the live route registry. Reject only
+    # duplicate live registrations here; exact successor authority is validated by
+    # validate_openai_ten_proofs_permanent_route_registration.py.
     routes = load(ROUTE_REGISTRY_PATH).get("routes", [])
-    if any(r.get("route_id") == "MC-ROUTE-OTP-C-PERMANENT-FORMULA" for r in routes):
-        errors.append("Permanent route registered prematurely")
+    permanent_route_count = sum(
+        1 for r in routes
+        if isinstance(r, dict) and r.get("route_id") == "MC-ROUTE-OTP-C-PERMANENT-FORMULA"
+    )
+    if permanent_route_count > 1:
+        errors.append("duplicate Permanent route registration")
 
     return errors
 
@@ -196,7 +205,7 @@ def main() -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("validated bounded Permanent certification work package; historical three-family work packages preserved; no replay evidence, route, adjudication, output, or proof authority created")
+    print("validated immutable bounded Permanent certification work package; later route registration is separately governed and no work-package adjudication/output/proof authority was created")
     return 0
 
 
