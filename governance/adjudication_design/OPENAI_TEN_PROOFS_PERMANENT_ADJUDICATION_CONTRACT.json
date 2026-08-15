@@ -23,8 +23,8 @@
   "successor_sequence": [
     "evidence_execution_candidate",
     "exact_head_specialist_review",
-    "human_steward_adjudication_authorization",
+    "control_plan_conformance_check",
     "separate_adjudication_execution"
   ],
-  "claim_boundary": "This registry admits one Permanent formula adjudication design contract only. It creates no adjudication, Cert output, proof promotion, circuit/gate/total-size authority, historical-PDF equivalence, or aggregate OpenAI Ten Proofs authority."
+  "claim_boundary": "This registry admits one Permanent formula adjudication design contract only. It creates no adjudication, Cert output, proof promotion, circuit/gate/total-size authority, historical-PDF equivalence, or aggregate OpenAI Ten Proofs authority. Routine progression under the approved control plan does not require separate Human Steward intervention; a control-plan change does."
 }
