@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","contract_id","candidate_id","result_family","route_id","contract_state","tracker_issue","authority","route_scope","decision_contract","reviewer_requirements","execution_gate","state","preserved_limitations","claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_permanent_adjudication_contract"},
+    "contract_id": {"const": "MC-OTP-ADJUDICATION-CONTRACT-C-PERMANENT-FORMULA"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const": "OTP-C-PERMANENT"},
+    "route_id": {"const": "MC-ROUTE-OTP-C-PERMANENT-FORMULA"},
+    "contract_state": {"const": "design_only"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/103"},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["registration_reviewed_head","registration_merge","registration_review_id","registration_reviewer","registration_disposition_comment","registered_route_registry_blob","forge_semantic_merge","semantic_record_blob","nonvacuity_witness_blob","solve_handoff_merge","producer_packet_blob","cert_intake_merge","cert_intake_blob","cert_work_package_merge","cert_work_package_blob","cert_replay_evidence_merge","cert_replay_evidence_blob","evidence_manifest_blob","evidence_manifest_sha256"],
+      "properties": {
+        "registration_reviewed_head":{"type":"string"},"registration_merge":{"type":"string"},"registration_review_id":{"type":"integer"},"registration_reviewer":{"type":"string"},"registration_disposition_comment":{"type":"integer"},"registered_route_registry_blob":{"type":"string"},"forge_semantic_merge":{"type":"string"},"semantic_record_blob":{"type":"string"},"nonvacuity_witness_blob":{"type":"string"},"solve_handoff_merge":{"type":"string"},"producer_packet_blob":{"type":"string"},"cert_intake_merge":{"type":"string"},"cert_intake_blob":{"type":"string"},"cert_work_package_merge":{"type":"string"},"cert_work_package_blob":{"type":"string"},"cert_replay_evidence_merge":{"type":"string"},"cert_replay_evidence_blob":{"type":"string"},"evidence_manifest_blob":{"type":"string"},"evidence_manifest_sha256":{"type":"string"}
+      }
+    },
+    "route_scope": {
+      "type":"object","additionalProperties":false,
+      "required":["registered_route_state","target_claim_ids","source_projection","scope_exclusions"],
+      "properties": {
+        "registered_route_state":{"const":"submitted"},
+        "target_claim_ids":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"string"}},
+        "source_projection":{"type":"object","additionalProperties":false,"required":["coefficient_field","dimension_threshold","log_base","division_free_variable_leaf_constant","rational_variable_leaf_constant","formula_target_count","circuit_target_count"],"properties":{"coefficient_field":{"const":"complex"},"dimension_threshold":{"const":32},"log_base":{"const":2},"division_free_variable_leaf_constant":{"const":128},"rational_variable_leaf_constant":{"const":192},"formula_target_count":{"const":2},"circuit_target_count":{"const":0}}},
+        "scope_exclusions":{"type":"array","minItems":5,"items":{"type":"string"}}
+      }
+    },
+    "decision_contract": {
+      "type":"object","additionalProperties":false,
+      "required":["decision_question","admissible_dispositions","required_evidence"],
+      "properties":{"decision_question":{"type":"string"},"admissible_dispositions":{"type":"array","minItems":3,"maxItems":3,"items":{"enum":["adjudication_clear_encoded_targets_only","adjudication_not_clear","defer_insufficient_evidence"]},"uniqueItems":true},"required_evidence":{"type":"array","minItems":9,"items":{"type":"string"}}}
+    },
+    "reviewer_requirements": {
+      "type":"object","additionalProperties":false,
+      "required":["minimum_binding_non_author_reviewers","required_review_state","review_must_bind_exact_execution_head","competence","independence"],
+      "properties":{"minimum_binding_non_author_reviewers":{"const":1},"required_review_state":{"const":"APPROVED"},"review_must_bind_exact_execution_head":{"const":true},"competence":{"type":"array","minItems":3,"items":{"type":"string"}},"independence":{"type":"array","minItems":2,"items":{"type":"string"}}}
+    },
+    "execution_gate": {
+      "type":"object","additionalProperties":false,
+      "required":["evidence_candidate_required_before_adjudication","separate_human_steward_authorization_required","authorization_must_name_contract_and_exact_execution_candidate","exact_head_cert_checks_required","exact_head_gcl_conformance_required","exact_head_codeql_required","fresh_non_author_approval_required","protected_merge_required","head_change_requires_revalidation_and_reapproval","design_merge_effect"],
+      "properties":{"evidence_candidate_required_before_adjudication":{"const":true},"separate_human_steward_authorization_required":{"const":true},"authorization_must_name_contract_and_exact_execution_candidate":{"const":true},"exact_head_cert_checks_required":{"const":true},"exact_head_gcl_conformance_required":{"const":true},"exact_head_codeql_required":{"const":true},"fresh_non_author_approval_required":{"const":true},"protected_merge_required":{"const":true},"head_change_requires_revalidation_and_reapproval":{"const":true},"design_merge_effect":{"const":"contract_admitted_design_only_no_adjudication"}}
+    },
+    "state": {
+      "type":"object","additionalProperties":false,
+      "required":["may_adjudicate","adjudication","cert_output","mathematical_target_proved","may_issue_output","may_promote_claim","aggregate_adjudication"],
+      "properties":{"may_adjudicate":{"const":false},"adjudication":{"type":"null"},"cert_output":{"type":"null"},"mathematical_target_proved":{"const":false},"may_issue_output":{"const":false},"may_promote_claim":{"const":false},"aggregate_adjudication":{"const":false}}
+    },
+    "preserved_limitations": {
+      "type":"object","additionalProperties":false,
+      "required":["circuit_targets_in_scope","gate_bounds_in_scope","total_size_consequences_in_scope","historical_pdf_byte_equivalence","aggregate_openai_ten_proofs_authority"],
+      "properties":{"circuit_targets_in_scope":{"const":false},"gate_bounds_in_scope":{"const":false},"total_size_consequences_in_scope":{"const":false},"historical_pdf_byte_equivalence":{"const":"not_established"},"aggregate_openai_ten_proofs_authority":{"const":false}}
+    },
+    "claim_boundary":{"type":"string"}
+  }
+}
