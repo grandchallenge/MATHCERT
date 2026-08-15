@@ -16,7 +16,8 @@
       "commit_sha": "a498ef40b7652b55bf121b5682604e259b8d3073",
       "digest": "80d473b1b545fd9ca05fc5200bcf70ff5f9fcb05",
       "digest_algorithm": "git_blob_sha1",
-      "path": "sources/OPENAI-TEN-PROOFS-001/source_revision_audits/OTP-TRANCHE-001.json"
+      "path": "sources/OPENAI-TEN-PROOFS-001/source_revision_audits/OTP-TRANCHE-001.json",
+      "scope": "prior revision observation only; current public bytes are independently pinned by this evidence operation"
     },
     "human_steward_authorization": {
       "comment_id": 5301501772,
@@ -43,7 +44,7 @@
       "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-J1-COMPACTNESS.json"
     }
   },
-  "claim_boundary": "This record completes only the construction/asymptotic evidence prerequisite for the exact OTP-J1-COMPACTNESS targets at the protected current-revision source locus. It does not adjudicate or qualify Compactness, alter the submitted route, issue a Cert output, mark any mathematical target proved, establish whole-document equivalence between the historical admitted and current official PDFs, admit a historical compactness formulation, affect another result family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims.",
+  "claim_boundary": "This record completes only the construction/asymptotic evidence prerequisite for the exact OTP-J1-COMPACTNESS targets at the exact current official source locus observed on 2026-08-15. It does not adjudicate or qualify Compactness, alter the submitted route, issue a Cert output, mark any mathematical target proved, establish whole-document equivalence among historical and current PDFs, admit a historical compactness formulation, affect another result family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims.",
   "disposition": {
     "adjudication_authorized": false,
     "evidence_disposition": "CONSTRUCTION_EVIDENCE_COMPLETE_READY_TO_REQUEST_ADJUDICATION",
@@ -56,7 +57,7 @@
     "finite_geometry_classical_facts": "independently_crosschecked_against_primary_literature_and_direct_linear_algebra_where_applicable",
     "lower_bound_bridge": "independently_reconstructed_with_exact_parameter_and_growth_arithmetic_machine_checked",
     "proof_body_compared_in_full": false,
-    "source_to_encoded_concordance": "clear_for_exact_three_targets_at_current_revision_locus",
+    "source_to_encoded_concordance": "clear_for_exact_three_targets_at_exact_current_official_locus",
     "upper_bound_bridge": "independently_reconstructed_with_exact_exponent_arithmetic_machine_checked"
   },
   "evidence_id": "MC-OTP-J1-COMPACTNESS-CONSTRUCTION-EVIDENCE-001",
@@ -68,6 +69,7 @@
     "historical_compactness_formulations_admitted": false,
     "mathematical_proof_promotion_authorized": false,
     "other_result_families_modified": false,
+    "prior_revision_whole_document_equivalence": "not_established",
     "proof_body_compared_in_full": false,
     "whole_document_byte_equivalence": "not_established",
     "whole_document_semantic_equivalence": "not_established"
@@ -94,20 +96,24 @@
   "route_id": "MC-ROUTE-OTP-J1-COMPACTNESS",
   "schema_version": "1.0.0",
   "source_authority": {
-    "construction_locus": "current official PDF P237-P241 / printed pp236-240",
-    "current_expected_bytes": 2266371,
-    "current_expected_sha256": "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6",
+    "construction_locus": "current official PDF P241-P245 / printed pp237-240",
+    "current_expected_bytes": 2487031,
+    "current_expected_page_count": 253,
+    "current_expected_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
     "current_official_url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",
+    "current_release_note": "Updated August 6, 2026",
     "historical_admitted_bytes": 2266052,
     "historical_admitted_exact_bytes_reacquirable": false,
     "historical_admitted_sha256": "f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53",
-    "manifest_digest": "2b47e7e4d86d7428f33bf2aec7e1b5f80dd25b4c",
+    "manifest_digest": "148ff82af760bba80c7d16a3a35c58d490dadc95",
     "manifest_digest_algorithm": "git_blob_sha1",
     "manifest_path": "evidence/openai_ten_proofs/compactness_construction/source_authority.json",
-    "reconstruction_digest": "faadc24b319c11e5b566d14de5c2e9afe8636ae5",
+    "prior_current_observation_bytes": 2266371,
+    "prior_current_observation_sha256": "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6",
+    "reconstruction_digest": "ed79d855016a1e642d361e9162ed2b70d267b800",
     "reconstruction_digest_algorithm": "git_blob_sha1",
     "reconstruction_path": "evidence/openai_ten_proofs/compactness_construction/reconstruction.json",
-    "theorem_locus": "Chapter 10, Theorem 1.1, current official PDF P236 / printed p235",
+    "theorem_locus": "Chapter 10, Theorem 1.1, current official PDF P240 / printed p236",
     "whole_document_equivalence_between_revisions": "not_established"
   },
   "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/91"
