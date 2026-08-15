@@ -56,10 +56,7 @@ def load(path: Path) -> Any:
 
 
 def git_blob_bytes(data: bytes) -> str:
-    return hashlib.sha1(
-        f"blob {len(data)}\0".encode("ascii") + data,
-        usedforsecurity=False,
-    ).hexdigest()
+    return hashlib.sha1(f"blob {len(data)}\0".encode("ascii") + data, usedforsecurity=False).hexdigest()
 
 
 def git_blob(path: Path) -> str:
@@ -67,10 +64,7 @@ def git_blob(path: Path) -> str:
 
 
 def git(*args: str) -> subprocess.CompletedProcess[bytes]:
-    return subprocess.run(
-        ["git", *args], cwd=ROOT, stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE, check=False,
-    )
+    return subprocess.run(["git", *args], cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
 
 
 def ensure_history() -> None:
@@ -101,20 +95,18 @@ def object_json(commit: str, path: str) -> Any | None:
     return json.loads(data.decode("utf-8")) if data is not None else None
 
 
-def is_ancestor(ancestor: str, descendant: str) -> bool:
-    return git("merge-base", "--is-ancestor", ancestor, descendant).returncode == 0
-
-
 def parent(commit: str) -> str:
     result = git("rev-parse", f"{commit}^")
     return result.stdout.decode().strip() if result.returncode == 0 else ""
 
 
+def is_ancestor(ancestor: str, descendant: str) -> bool:
+    return git("merge-base", "--is-ancestor", ancestor, descendant).returncode == 0
+
+
 def commit_files(commit: str) -> list[str]:
     result = git("diff-tree", "--no-commit-id", "--name-only", "-r", commit)
-    if result.returncode != 0:
-        return []
-    return [line for line in result.stdout.decode().splitlines() if line]
+    return [x for x in result.stdout.decode().splitlines() if x] if result.returncode == 0 else []
 
 
 def receipt() -> dict[str, Any]:
@@ -143,24 +135,15 @@ def receipt() -> dict[str, Any]:
 
 
 def permanent_route(routes: dict[str, Any]) -> dict[str, Any]:
-    return next((r for r in routes.get("routes", []) if r.get("route_id") == PERMANENT_ROUTE), {})
+    return next((r for r in routes.get("routes", []) if isinstance(r, dict) and r.get("route_id") == PERMANENT_ROUTE), {})
 
 
 def non_permanent_routes(routes: dict[str, Any]) -> list[dict[str, Any]]:
-    return [r for r in routes.get("routes", []) if r.get("route_id") != PERMANENT_ROUTE]
+    return [r for r in routes.get("routes", []) if isinstance(r, dict) and r.get("route_id") != PERMANENT_ROUTE]
 
 
-def validation_errors(
-    *,
-    record: dict[str, Any] | None = None,
-    schema: dict[str, Any] | None = None,
-    certificate: dict[str, Any] | None = None,
-    staged_certificate: dict[str, Any] | None = None,
-    staged_route: dict[str, Any] | None = None,
-    routes: dict[str, Any] | None = None,
-    history: dict[str, Any] | None = None,
-    blobs: dict[str, str | None] | None = None,
-) -> list[str]:
+def validation_errors(*, record=None, schema=None, certificate=None, staged_certificate=None,
+                      staged_route=None, routes=None, history=None, blobs=None) -> list[str]:
     record = load(RECORD) if record is None else record
     schema = load(SCHEMA) if schema is None else schema
     certificate = load(CERTIFICATE) if certificate is None else certificate
@@ -173,35 +156,25 @@ def validation_errors(
         except RuntimeError as exc:
             return [str(exc)]
     blobs = blobs or {
-        "record": git_blob(RECORD),
-        "schema": git_blob(SCHEMA),
-        "certificate": git_blob(CERTIFICATE),
-        "staged_certificate": git_blob(STAGED_CERTIFICATE),
-        "staged_route": git_blob(STAGED_ROUTE),
-        "contract": git_blob(CONTRACT),
-        "adjudication": git_blob(ADJUDICATION),
-        "certificate_schema": git_blob(CERTIFICATE_SCHEMA),
+        "record": git_blob(RECORD), "schema": git_blob(SCHEMA),
+        "certificate": git_blob(CERTIFICATE), "staged_certificate": git_blob(STAGED_CERTIFICATE),
+        "staged_route": git_blob(STAGED_ROUTE), "contract": git_blob(CONTRACT),
+        "adjudication": git_blob(ADJUDICATION), "certificate_schema": git_blob(CERTIFICATE_SCHEMA),
         "routes_after": git_blob(ROUTES),
     }
     errors: list[str] = []
 
     if schema.get("additionalProperties") is not False:
         errors.append("execution schema must remain closed")
-    errors.extend(
-        f"execution schema violation: {error.message}"
-        for error in Draft202012Validator(schema).iter_errors(record)
-    )
-    for name in ("record", "schema", "certificate", "staged_route", "contract", "adjudication", "certificate_schema", "routes_after"):
-        if blobs.get(name) != EXPECTED[name]:
-            errors.append(f"{name} blob drift")
+    errors.extend(f"execution schema violation: {e.message}" for e in Draft202012Validator(schema).iter_errors(record))
+    for key in ("record", "schema", "certificate", "staged_route", "contract", "adjudication", "certificate_schema", "routes_after"):
+        if blobs.get(key) != EXPECTED[key]:
+            errors.append(f"{key} blob drift")
     if blobs.get("staged_certificate") != EXPECTED["certificate"]:
         errors.append("staged certificate blob drift")
 
-    certificate_schema = load(CERTIFICATE_SCHEMA)
-    errors.extend(
-        f"certificate schema violation: {error.message}"
-        for error in Draft202012Validator(certificate_schema).iter_errors(certificate)
-    )
+    cert_schema = load(CERTIFICATE_SCHEMA)
+    errors.extend(f"certificate schema violation: {e.message}" for e in Draft202012Validator(cert_schema).iter_errors(certificate))
     if certificate != staged_certificate:
         errors.append("live certificate differs from staged certificate bytes")
     if certificate.get("encoded_targets") != TARGETS:
@@ -209,16 +182,18 @@ def validation_errors(
     if certificate.get("qualification", {}).get("disposition") != "qualified_encoded_targets_only":
         errors.append("certificate disposition inflation")
     state = certificate.get("state", {})
-    if state.get("mathematical_target_proved") is not False or state.get("may_promote_claim") is not False or state.get("aggregate_output") is not False:
+    if any(state.get(k) is not False for k in ("mathematical_target_proved", "may_promote_claim", "aggregate_output")):
         errors.append("certificate state authority inflation")
-    limitations = certificate.get("preserved_limitations", {})
-    for key in ("circuit_targets_in_scope", "gate_bounds_in_scope", "total_size_consequences_in_scope", "unrestricted_source_theorem_proof_claim", "other_family_outputs_authorized", "aggregate_openai_ten_proofs_authority"):
-        if limitations.get(key) is not False:
+    limits = certificate.get("preserved_limitations", {})
+    for key in ("circuit_targets_in_scope", "gate_bounds_in_scope", "total_size_consequences_in_scope",
+                "unrestricted_source_theorem_proof_claim", "other_family_outputs_authorized",
+                "aggregate_openai_ten_proofs_authority"):
+        if limits.get(key) is not False:
             errors.append(f"certificate limitation inflated: {key}")
-    if limitations.get("historical_pdf_byte_equivalence") != "not_established":
+    if limits.get("historical_pdf_byte_equivalence") != "not_established":
         errors.append("historical PDF equivalence inflated")
-    certificate_text = CERTIFICATE.read_text(encoding="utf-8")
-    if CONTENT_COMMIT in certificate_text or ROUTE_COMMIT in certificate_text:
+    text = CERTIFICATE.read_text(encoding="utf-8")
+    if CONTENT_COMMIT in text or ROUTE_COMMIT in text:
         errors.append("certificate improperly names publication commit identity")
 
     route = permanent_route(routes)
@@ -229,11 +204,13 @@ def validation_errors(
     if route.get("target_claim_ids") != TARGETS:
         errors.append("Permanent route target drift")
     boundary = str(route.get("claim_boundary", "")).lower()
-    for token in ("qualified_encoded_targets_only", "n >= 32", "128/192", "theorem 1.1", "256/384", "historical admitted-pdf byte equivalence", "aggregate openai ten proofs"):
+    for token in ("qualified_encoded_targets_only", "n >= 32", "128/192", "theorem 1.1", "256/384",
+                  "historical admitted-pdf byte equivalence", "aggregate openai ten proofs"):
         if token not in boundary:
             errors.append(f"qualified route boundary missing token: {token}")
     blockers = " ".join(route.get("blockers", [])).lower()
-    for token in ("permanentrollout", "256/384", "total-leaf/total-vertex", "historical admitted-pdf byte equivalence", "not marked proved"):
+    for token in ("permanentrollout", "256/384", "total-leaf/total-vertex",
+                  "historical admitted-pdf byte equivalence", "neither encoded mathematical target is marked proved"):
         if token not in blockers:
             errors.append(f"qualified route blockers missing token: {token}")
 
@@ -249,19 +226,30 @@ def validation_errors(
 
     if record.get("candidate_state") != "output_candidate_prepared_pending_execution":
         errors.append("candidate state drift")
-    if record.get("execution_commits", {}).get("certificate_content_commit") != CONTENT_COMMIT:
+    commits = record.get("execution_commits", {})
+    if commits.get("certificate_content_commit") != CONTENT_COMMIT:
         errors.append("certificate-content commit drift")
-    if record.get("execution_commits", {}).get("route_transition_commit") != ROUTE_COMMIT:
+    if commits.get("route_transition_commit") != ROUTE_COMMIT:
         errors.append("route-transition commit drift")
     branch = record.get("branch_execution_state", {})
-    if branch.get("cert_output") != EXPECTED_OUTPUT or branch.get("route_state") != "qualified":
+    if branch.get("route_state") != "qualified" or branch.get("cert_output") != EXPECTED_OUTPUT:
         errors.append("branch execution state drift")
-    if branch.get("mathematical_target_proved") is not False or branch.get("may_promote_claim") is not False or branch.get("aggregate_output") is not False:
+    if any(branch.get(k) is not False for k in ("mathematical_target_proved", "may_promote_claim", "aggregate_output")):
         errors.append("branch execution authority inflation")
     if record.get("review_gate", {}).get("recorded_review") is not None:
         errors.append("pre-merge execution record must not prepopulate binding review")
     gate = record.get("publication_gate", {})
-    for key in ("exact_head_cert_checks_required", "exact_head_gcl_conformance_required", "linux_windows_output_validation_required", "codeql_no_new_alerts_required", "fresh_non_author_specialist_approval_required", "human_steward_intervention_required_only_for_control_plan_change", "squash_merge_prohibited", "rebase_merge_prohibited", "expected_head_required", "certificate_content_commit_must_remain_ancestor", "route_transition_commit_must_remain_ancestor", "protected_main_atomic_publication_required", "partial_protected_main_state_prohibited", "head_change_requires_revalidation_and_reapproval"):
+    required_true = (
+        "exact_head_cert_checks_required", "exact_head_gcl_conformance_required",
+        "linux_windows_output_validation_required", "codeql_no_new_alerts_required",
+        "fresh_non_author_specialist_approval_required",
+        "human_steward_intervention_required_only_for_control_plan_change",
+        "squash_merge_prohibited", "rebase_merge_prohibited", "expected_head_required",
+        "certificate_content_commit_must_remain_ancestor", "route_transition_commit_must_remain_ancestor",
+        "protected_main_atomic_publication_required", "partial_protected_main_state_prohibited",
+        "head_change_requires_revalidation_and_reapproval",
+    )
+    for key in required_true:
         if gate.get(key) is not True:
             errors.append(f"publication gate disabled: {key}")
     if gate.get("separate_human_steward_authorization_required") is not False:
@@ -269,13 +257,12 @@ def validation_errors(
     if gate.get("protected_merge_method") != "merge":
         errors.append("merge-only publication requirement removed")
 
-    checks = {
+    for key, message in {
         "base_is_ancestor": "protected output-contract base is not ancestor of exact head",
         "content_is_ancestor_of_route": "certificate-content commit does not precede route transition",
         "content_is_ancestor_of_head": "certificate-content commit is not ancestor of exact head",
         "route_is_ancestor_of_head": "route-transition commit is not ancestor of exact head",
-    }
-    for key, message in checks.items():
+    }.items():
         if history.get(key) is not True:
             errors.append(message)
     if history.get("content_parent") != BASE_COMMIT:
@@ -306,10 +293,8 @@ def validation_errors(
     before_perm = permanent_route(before)
     if before_perm.get("intake_status") != "submitted" or before_perm.get("cert_output") is not None:
         errors.append("pre-transition Permanent route was not submitted/null")
-    after_perm = permanent_route(after)
-    if after_perm != route:
+    if permanent_route(after) != route:
         errors.append("live Permanent route differs from historical transition result")
-
     return errors
 
 
@@ -320,10 +305,7 @@ def main() -> int:
         print(f"OTP-C-PERMANENT output execution validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     r = receipt()
-    print(
-        "validated certificate-first OTP-C-PERMANENT restricted output execution: "
-        f"content {CONTENT_COMMIT}, route {ROUTE_COMMIT}, head {r['head']}"
-    )
+    print(f"validated certificate-first OTP-C-PERMANENT restricted output execution: content {CONTENT_COMMIT}, route {ROUTE_COMMIT}, head {r['head']}")
     return 0
 
 
