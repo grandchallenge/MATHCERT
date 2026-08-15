@@ -61,6 +61,16 @@ jobs:
         (root / "ci" / "validate_orphan.py").write_text("# orphan\n", encoding="utf-8")
         self.assertTrue(any("unregistered CI control" in item for item in module.errors(root)))
 
+    def test_unregistered_producer_fails(self) -> None:
+        root = self.build_root()
+        (root / "ci" / "build_orphan.py").write_text("# orphan producer\n", encoding="utf-8")
+        self.assertTrue(any("unregistered CI control" in item for item in module.errors(root)))
+
+    def test_unregistered_verifier_fails(self) -> None:
+        root = self.build_root()
+        (root / "ci" / "verify_orphan.py").write_text("# orphan verifier\n", encoding="utf-8")
+        self.assertTrue(any("unregistered CI control" in item for item in module.errors(root)))
+
     def test_omitted_direct_control_fails(self) -> None:
         root = self.build_root()
         shell = root / "ci" / "check_lean.sh"
