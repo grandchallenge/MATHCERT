@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_output_contract",
+  "contract_id": "MC-OTP-C-PERMANENT-OUTPUT-CONTRACT-001",
+  "result_family": "OTP-C-PERMANENT",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/109",
+  "contract_state": "design_only",
+  "protected_authority": {
+    "adjudication": {
+      "merge_commit": "685faa7730b7147ba70ae0d0bb5fdd916b68c1a7",
+      "record": {"path": "governance/result_family_adjudications/OTP-C-PERMANENT.json", "digest_algorithm": "git_blob_sha1", "digest": "233d3e92ceed6654e6f6759718adf32f1b6c5415"},
+      "disposition": "adjudication_clear_encoded_targets_only",
+      "exact_reviewed_head": "e1deff40163730d61b974a8fdbee1d15466a23b9",
+      "binding_review": {"reviewer": "jimsteeg", "review_id": 4943110222, "state": "APPROVED"},
+      "review_packet_comment_id": 5300816794,
+      "closure_comment_id": 5301025261
+    },
+    "control_plan": {
+      "conformance": "within_admitted_contract",
+      "control_plan_change_requested": false,
+      "human_steward_intervention_required_only_for_control_plan_change": true,
+      "routine_stage_progression_without_human_steward_intervention": true
+    }
+  },
+  "output_scope": {
+    "encoded_targets": ["PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound", "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound"],
+    "source_locus": "Chapter 5, Theorems 1.2 and 1.3, variable-leaf lower-bound conclusions only.",
+    "source_projection": {"coefficient_field": "complex", "dimension_threshold": 32, "log_base": 2, "division_free_variable_leaf_constant": 128, "rational_variable_leaf_constant": 192, "formula_target_count": 2, "circuit_target_count": 0},
+    "scope_rule": "No output may exceed the exact two encoded variable-leaf formula targets cleared by the protected adjudication."
+  },
+  "qualification_semantics": {
+    "permitted_disposition": "qualified_encoded_targets_only",
+    "means": ["The exact two encoded Permanent variable-leaf formula targets are qualified under the admitted Comparator, Lean kernel, Nanoda, axiom, trust-boundary, source-concordance, and nonvacuity evidence.", "The qualification preserves complex coefficients, n >= 32, logarithm base 2, and variable-leaf denominator constants 128 and 192."],
+    "does_not_mean": ["Source Theorem 1.1 arithmetic-circuit complexity is certified.", "The separate 256 or 384 internal-gate bounds or total-leaf/total-vertex consequences are certified.", "Historical admitted-PDF byte equivalence is established.", "The broader source theorem is mathematically proved by MATHCERT.", "Another result family or the aggregate OpenAI Ten Proofs corpus is qualified."]
+  },
+  "future_certificate": {
+    "certificate_id": "MC-OTP-C-PERMANENT-QUAL-001",
+    "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-001.json",
+    "schema": {"path": "schemas/otp_permanent_qualified_output.schema.json", "digest_algorithm": "git_blob_sha1", "digest": "b3a9f0a10861b44f2fac7ad9094f976041562d0d"},
+    "record_type": "otp_permanent_qualified_output",
+    "disposition": "qualified_encoded_targets_only",
+    "mathematical_target_proved": false
+  },
+  "publication_protocol": {
+    "mode": "certificate_content_commit_then_route_transition_commit",
+    "route_transition": {"from": "submitted", "to": "qualified"},
+    "certificate_insertion": "exactly_one",
+    "certificate_content_commit_first": true,
+    "route_transition_commit_must_descend_from_certificate_content_commit": true,
+    "final_reviewed_head_must_descend_from_certificate_content_commit": true,
+    "cert_output_commit_sha_must_equal_certificate_content_commit": true,
+    "cert_output_digest_must_equal_certificate_blob": true,
+    "certificate_must_not_name_its_own_containing_commit": true,
+    "protected_merge_method": "merge",
+    "squash_merge_prohibited": true,
+    "rebase_merge_prohibited": true,
+    "partial_state_on_protected_main_prohibited": true,
+    "registry_blockers_must_be_rewritten_to_preserved_qualification_boundaries": true
+  },
+  "execution_candidate_requirements": {
+    "candidate_record_path": "governance/result_family_output_candidates/OTP-C-PERMANENT.json",
+    "staged_certificate_path": "governance/result_family_output_candidates/staged_certificates/MC-OTP-C-PERMANENT-001.json",
+    "staged_route_transition_path": "governance/result_family_output_candidates/staged_route_transitions/OTP-C-PERMANENT.json",
+    "candidate_state": "output_candidate_prepared_pending_execution",
+    "must_include": ["the fully rendered future certificate", "the certificate-content commit and exact certificate blob identity", "the descendant route-transition commit or exact staged transition that points to the certificate-content commit", "the protected output-contract merge and exact contract blob identity", "exact-head validator and adversarial mutation-test results"],
+    "protected_effect_before_execution": "none"
+  },
+  "execution_gate": {
+    "protected_contract_merge_and_blob_required": true,
+    "exact_head_cert_checks_required": true,
+    "exact_head_gcl_conformance_required": true,
+    "linux_windows_output_validation_required": true,
+    "codeql_no_new_alerts_required": true,
+    "fresh_non_author_specialist_approval_required": true,
+    "protected_merge_required": true,
+    "protected_merge_method_must_preserve_ancestry": true,
+    "head_change_requires_revalidation_and_reapproval": true,
+    "separate_human_steward_authorization_required": false,
+    "human_steward_intervention_required_only_for_control_plan_change": true
+  },
+  "reviewer_requirements": {
+    "minimum_binding_non_author_reviewers": 1,
+    "required_review_state": "APPROVED",
+    "review_must_bind_exact_execution_head": true,
+    "competence": ["Lean 4 kernel replay, theorem-level axiom analysis, and trust-boundary inspection", "algebraic-complexity formula lower bounds, source-to-formal concordance, and nonvacuity", "MATHCERT restricted-output and route-transition governance"],
+    "independence": ["Reviewer must not be the output execution author.", "Reviewer must disclose any material conflict affecting mathematical or evidence judgment."]
+  },
+  "state": {"route_state": "submitted", "cert_output": null, "mathematical_target_proved": false, "may_issue_output": false, "may_promote_claim": false, "aggregate_output": false},
+  "preserved_limitations": {"circuit_targets_in_scope": false, "gate_bounds_in_scope": false, "total_size_consequences_in_scope": false, "historical_pdf_byte_equivalence": "not_established", "unrestricted_source_theorem_proof_claim": false, "other_family_outputs_authorized": false, "aggregate_openai_ten_proofs_authority": false},
+  "claim_boundary": "This design-only contract defines a possible future restricted qualification output for exactly the two encoded OTP-C-PERMANENT variable-leaf formula targets. It does not issue a certificate, alter the submitted route, insert a cert_output, or mark any mathematical target proved. It does not certify source Theorem 1.1 arithmetic-circuit complexity, any PermanentRollout circuit target, the separate 256/384 internal-gate bounds, total-leaf or total-vertex consequences, historical admitted-PDF byte equivalence, or an unrestricted broader source theorem. It creates no authority for another result family, aggregate OpenAI Ten Proofs output, novelty, priority, publication, patentability, product, or commercial claims. Future publication must use a certificate-content commit followed by a descendant route-transition commit and a normal ancestry-preserving protected merge; squash, rebase, self-referential commit identity, and partial protected-main state are prohibited."
+}
