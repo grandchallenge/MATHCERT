@@ -10,7 +10,11 @@ import validate_openai_ten_proofs_route_registrations as route_registration
 ROOT = Path(__file__).resolve().parents[1]
 ADJUDICATION_DIR = ROOT / "governance/result_family_adjudications"
 CERT_DIR = ROOT / "certificates/openai_ten_proofs"
-ALLOWED_ADJUDICATIONS = {"OTP-F-EHRHART.json", "OTP-C-PERMANENT.json"}
+ALLOWED_ADJUDICATIONS = {
+    "OTP-F-EHRHART.json",
+    "OTP-C-PERMANENT.json",
+    "OTP-J1-COMPACTNESS.json",
+}
 
 
 def design_routes_snapshot() -> dict:
@@ -50,8 +54,8 @@ def main() -> int:
         return 1
     print(
         "validated immutable design-only adjudication contracts against their "
-        "submitted-route snapshot, exactly the separately governed Ehrhart and "
-        "Permanent adjudication records, and no legacy OTP output artifact"
+        "submitted-route snapshot, exactly the separately governed Ehrhart, Permanent, "
+        "and Compactness adjudication records, and no legacy OTP output artifact"
     )
     return 0
 
