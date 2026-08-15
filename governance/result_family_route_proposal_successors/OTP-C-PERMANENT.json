@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_route_proposal",
+  "proposal_id": "MC-OTP-ROUTE-PROPOSAL-C-PERMANENT-FORMULA",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-C-PERMANENT",
+  "requested_route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+  "proposal_state": "proposed_only",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/99",
+  "authority": {
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca",
+      "tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365",
+      "archive_sha256": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f"
+    },
+    "forge_semantic": {
+      "merge": "60f6e06c957139447bf5943eed731941b22ac608",
+      "semantic_record_blob": "3e04bd16bd8a91eaf9b6702de89fcdcc72f61099",
+      "nonvacuity_witness_blob": "e756c8476bac1795f3fb8ca0b7235d3a4a5c59ea"
+    },
+    "solve_handoff": {
+      "merge": "90f8a8544e546a603b34c9b27b2d6a4a68e06de8",
+      "producer_packet_blob": "a993c530880021930a2b468e76235b91122ca854"
+    },
+    "cert_intake": {
+      "merge": "59e678a5692c873cb7b12b8913231bf520571f51",
+      "record_blob": "80a9cf59ac4bad7cc08185e80b0d9ffe27b855e6"
+    },
+    "cert_work_package": {
+      "merge": "4b5d9e81afea50b5b51b4e390065f52275c886cd",
+      "record_blob": "f3000340c2699ec819acbcd223c1ee4c63af1cc8"
+    },
+    "cert_replay_evidence": {
+      "merge": "7f42194bfcfb5b28f2bdb1f5b3203650a6b5ff15",
+      "admitted_head": "6b86532820e5a7004fad6dbddc6fd8b01200776b",
+      "record_blob": "7b75a323b6d840730932bf90984f498b7d360cda",
+      "successor_registry_blob": "8cba28b623e2fac0aebacdcb12fe4f269c471ada",
+      "evidence_root": "evidence/openai_ten_proofs/permanent/",
+      "manifest_blob": "cbc185bd0cd182fddd3127d8373ae7a74f6389dd",
+      "manifest_sha256": "351ab107342d2fe72220098ae6e5dc600653e9b181119c99805182270559f969",
+      "transport_artifact_id": 9237666071,
+      "transport_sha256": "9f04dbfd0fe6c52329b9905371d33faa44b2f96719485460c6290bc8a74fd507"
+    },
+    "global_registered_route_registry_blob": "0487c3ebf702229741f16a544d68af25cf994e41"
+  },
+  "target_scope": {
+    "source_theorem": "Chapter 5, Theorems 1.2 and 1.3, restricted to the two protected variable-leaf lower-bound conclusions.",
+    "lean_theorems": [
+      "PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound",
+      "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound"
+    ],
+    "nonvacuity_witnesses": [
+      "PermanentFormulaLowerBound.Nonvacuity.permanent_divisionFree_formula_nonvacuous",
+      "PermanentFormulaLowerBound.Nonvacuity.permanent_rational_formula_nonvacuous"
+    ],
+    "source_projection": {
+      "formula_target_count": 2,
+      "circuit_target_count": 0,
+      "coefficient_field": "complex",
+      "dimension_threshold": 32,
+      "log_base": 2,
+      "division_free_variable_leaf_constant": 128,
+      "rational_variable_leaf_constant": 192,
+      "gate_bounds_in_route": false,
+      "total_leaves_vertices_in_route": false,
+      "historical_pdf_byte_equivalence": false
+    },
+    "scope_exclusions": [
+      "Source Theorem 1.1 arithmetic-circuit complexity is not proposed on this route.",
+      "The separate internal-gate constants 256 and 384 are not proposed on this route.",
+      "The total-leaf and total-vertex consequences are not proposed on this route.",
+      "Historical admitted-PDF byte equivalence remains unestablished.",
+      "No aggregate OpenAI Ten Proofs route or adjudication is proposed."
+    ]
+  },
+  "evidence_disposition": {
+    "protected_archive_identity": "clear",
+    "solution_build": "pass",
+    "challenge_build": "pass_with_expected_comparator_boundary_sorries",
+    "nonvacuity_replay": "pass",
+    "comparator": "pass",
+    "lean_kernel": "accept",
+    "nanoda": "accept",
+    "theorem_axiom_report": "permitted_only",
+    "trust_boundary_scan": "clear",
+    "semantic_concordance": "protected_predecessor_reconfirmed",
+    "aggregate_all_dependency": "absent"
+  },
+  "route_controls": {
+    "global_registered_route_registry_modified": false,
+    "route_registry_entry": null,
+    "may_register_route": false,
+    "may_adjudicate": false,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_route": false,
+    "aggregate_adjudication": false
+  },
+  "activation": {
+    "condition": "exact-head Cert checks, GCL conformance, non-author APPROVED specialist review, explicit exact-head Human Steward disposition, and protected MATHCERT merge",
+    "head_change_requires_reapproval": true,
+    "effect": "permanent_formula_route_proposal_admitted_no_registration_no_adjudication"
+  },
+  "candidate_disposition": "PERMANENT_FORMULA_CERT_ROUTE_PROPOSAL_CLEAR__REGISTRATION_NOT_YET_AUTHORIZED",
+  "claim_boundary": "This record proposes only MC-ROUTE-OTP-C-PERMANENT-FORMULA for the two protected Permanent variable-leaf formula targets. It does not register the route, adjudicate or prove either theorem, issue a Cert output, import circuit Theorem 1.1, import the separate 256/384 gate bounds or total-size consequences, establish historical admitted-PDF byte equivalence, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
