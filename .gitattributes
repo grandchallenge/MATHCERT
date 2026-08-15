@@ -3,3 +3,5 @@ governance/**/*.json text eol=lf
 governance/post_merge_attestations/*.md text eol=lf
 schemas/**/*.json text eol=lf
 ci/**/*.py text eol=lf
+# Content-addressed Permanent evidence must retain generated LF bytes on all runners.
+evidence/openai_ten_proofs/permanent_candidate/** text eol=lf
