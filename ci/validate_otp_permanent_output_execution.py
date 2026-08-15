@@ -160,14 +160,13 @@ def validation_errors(*, record=None, schema=None, certificate=None, staged_cert
         "certificate": git_blob(CERTIFICATE), "staged_certificate": git_blob(STAGED_CERTIFICATE),
         "staged_route": git_blob(STAGED_ROUTE), "contract": git_blob(CONTRACT),
         "adjudication": git_blob(ADJUDICATION), "certificate_schema": git_blob(CERTIFICATE_SCHEMA),
-        "routes_after": git_blob(ROUTES),
     }
     errors: list[str] = []
 
     if schema.get("additionalProperties") is not False:
         errors.append("execution schema must remain closed")
     errors.extend(f"execution schema violation: {e.message}" for e in Draft202012Validator(schema).iter_errors(record))
-    for key in ("record", "schema", "certificate", "staged_route", "contract", "adjudication", "certificate_schema", "routes_after"):
+    for key in ("record", "schema", "certificate", "staged_route", "contract", "adjudication", "certificate_schema"):
         if blobs.get(key) != EXPECTED[key]:
             errors.append(f"{key} blob drift")
     if blobs.get("staged_certificate") != EXPECTED["certificate"]:
@@ -276,8 +275,8 @@ def validation_errors(*, record=None, schema=None, certificate=None, staged_cert
             errors.append(f"certificate bytes not preserved: {key}")
     if history.get("routes_at_content") != EXPECTED["routes_before"]:
         errors.append("route registry changed in certificate-content commit")
-    if history.get("routes_at_route") != EXPECTED["routes_after"] or history.get("routes_at_head") != EXPECTED["routes_after"]:
-        errors.append("route registry bytes drift after transition")
+    if history.get("routes_at_route") != EXPECTED["routes_after"]:
+        errors.append("historical Permanent route-transition registry bytes drift")
     if history.get("content_files") != [CERT_PATH]:
         errors.append("certificate-content commit scope drift")
     if history.get("route_files") != [ROUTES_PATH]:
@@ -305,7 +304,7 @@ def main() -> int:
         print(f"OTP-C-PERMANENT output execution validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     r = receipt()
-    print(f"validated certificate-first OTP-C-PERMANENT restricted output execution: content {CONTENT_COMMIT}, route {ROUTE_COMMIT}, head {r['head']}")
+    print(f"validated certificate-first OTP-C-PERMANENT restricted output execution with independent later route evolution: content {CONTENT_COMMIT}, route {ROUTE_COMMIT}, head {r['head']}")
     return 0
 
 
