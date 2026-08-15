@@ -15,6 +15,23 @@ PROPOSAL_REG = ROOT / "governance" / "pre_route_candidates" / "OPENAI_TEN_PROOFS
 SCHEMA = ROOT / "schemas" / "openai_ten_proofs_route_registration_registry.schema.json"
 TRANSITION = ROOT / "governance" / "result_family_output_candidates" / "staged_route_transitions" / "OTP-F-EHRHART.json"
 CONTENT_COMMIT = "24d99cbdcd6da33ae2404c0f6034d503498d9a4b"
+COMPACTNESS_CONTENT_COMMIT = "9fba5a8e918028ecc2b4d72abc00b3b72a5194f5"
+COMPACTNESS_OUTPUT = {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": COMPACTNESS_CONTENT_COMMIT,
+    "path": "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "88531e28951854961e86eec0517356999a391759",
+}
+COMPACTNESS_HISTORICAL_BOUNDARY = "This registered route is limited to the exact corrected Compactness family targets and recorded current-revision theorem locus. It does not independently certify the explicit construction beyond the encoded targets, compare the proof body in full, adjudicate or prove the source theorem, issue a Cert output, or create an aggregate ten-proofs route."
+COMPACTNESS_HISTORICAL_BLOCKERS = [
+    "No MATHCERT adjudication has been authorized or recorded.",
+    "The explicit construction is not independently certified beyond the encoded existential targets.",
+    "Whole-document manuscript equivalence and full proof-body comparison remain unestablished.",
+]
+COMPACTNESS_HISTORICAL_REOPENING = [
+    "Update this route only through a separately authorized, exact-head reviewed MATHCERT adjudication or authority-repin operation."
+]
 EXPECTED_FAMILIES = ["OTP-F-EHRHART", "OTP-J1-COMPACTNESS", "OTP-J2-TWO-DEGENERATE"]
 EXPECTED_PROPOSALS = {
     "OTP-F-EHRHART": "7b069a003c84ef285259108076a55338fab0bc7f",
@@ -85,6 +102,50 @@ def closed_schema(value: Any) -> list[str]:
     return errors
 
 
+def _compactness_successor_errors(routes: dict[str, Any]) -> list[str]:
+    route = next(
+        (
+            row
+            for row in routes.get("routes", [])
+            if isinstance(row, dict) and row.get("campaign_id") == "OTP-J1-COMPACTNESS"
+        ),
+        None,
+    )
+    if route is None:
+        return ["OTP-J1-COMPACTNESS: live route missing"]
+    errors: list[str] = []
+    if route.get("target_claim_ids") != EXPECTED_CLAIMS["OTP-J1-COMPACTNESS"]:
+        errors.append("OTP-J1-COMPACTNESS: live successor target drift")
+    status = route.get("intake_status")
+    output = route.get("cert_output")
+    if status == "submitted" and output is None:
+        return errors
+    if status != "qualified":
+        errors.append("OTP-J1-COMPACTNESS: live successor route is not qualified")
+    if output != COMPACTNESS_OUTPUT:
+        errors.append("OTP-J1-COMPACTNESS: live successor output identity drift")
+    boundary = str(route.get("claim_boundary", "")).lower()
+    blockers = " ".join(route.get("blockers", [])).lower()
+    for token in (
+        "qualified_encoded_targets_only",
+        "chapter 10",
+        "historical",
+        "whole-document",
+        "aggregate openai ten proofs",
+    ):
+        if token not in boundary:
+            errors.append(f"OTP-J1-COMPACTNESS: live successor boundary missing {token}")
+    for token in (
+        "unrestricted chapter 10",
+        "historical or stronger",
+        "whole-document byte and semantic equivalence",
+        "proof body",
+    ):
+        if token not in blockers:
+            errors.append(f"OTP-J1-COMPACTNESS: live successor blockers missing {token}")
+    return errors
+
+
 def registration_snapshot(routes: dict[str, Any]) -> dict[str, Any]:
     """Map later governed successors back to the protected three-route registration snapshot."""
     snapshot = copy.deepcopy(routes)
@@ -97,6 +158,20 @@ def registration_snapshot(routes: dict[str, Any]) -> dict[str, Any]:
         if route == expected_successor:
             snapshot["routes"][index] = copy.deepcopy(transition["before"])
         break
+
+    for index, route in enumerate(snapshot.get("routes", [])):
+        if not isinstance(route, dict) or route.get("campaign_id") != "OTP-J1-COMPACTNESS":
+            continue
+        if route.get("intake_status") == "qualified":
+            historical = copy.deepcopy(route)
+            historical["intake_status"] = "submitted"
+            historical["cert_output"] = None
+            historical["claim_boundary"] = COMPACTNESS_HISTORICAL_BOUNDARY
+            historical["blockers"] = copy.deepcopy(COMPACTNESS_HISTORICAL_BLOCKERS)
+            historical["reopening_conditions"] = copy.deepcopy(COMPACTNESS_HISTORICAL_REOPENING)
+            snapshot["routes"][index] = historical
+        break
+
     snapshot["routes"] = [
         route for route in snapshot.get("routes", [])
         if not (isinstance(route, dict) and route.get("campaign_id") == "OTP-C-PERMANENT")
@@ -115,6 +190,7 @@ def validation_errors(
     errors: list[str] = []
     receipt = load(REG) if receipt is None else receipt
     live_routes = load(ROUTES) if routes is None else routes
+    errors.extend(_compactness_successor_errors(live_routes))
     routes = registration_snapshot(live_routes)
     proposal_registry = load(PROPOSAL_REG) if proposal_registry is None else proposal_registry
     proposal_blobs = (
@@ -301,7 +377,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"route registration validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated protected three-route registration snapshot; later separately governed Permanent registration is validated by its successor control")
+    print("validated protected three-route registration snapshot; later separately governed Ehrhart, Compactness, and Permanent successors are validated before historical projection")
     return 0
 
 
