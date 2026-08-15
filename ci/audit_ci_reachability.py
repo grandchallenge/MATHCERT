@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PREFIXES = ("audit_", "check_", "replay_", "test_", "validate_")
+PREFIXES = ("audit_", "build_", "check_", "replay_", "test_", "validate_", "verify_")
 
 
 def errors(root: Path = ROOT) -> list[str]:
