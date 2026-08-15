@@ -16,7 +16,7 @@ SCHEMA_PATH = ROOT / "schemas" / "vgse_route_registration.schema.json"
 BASE_REGISTRY_PATH = ROOT / "governance" / "certification_routes.json"
 DOC_PATH = ROOT / "docs" / "work_packages" / "MC-VGSE-WP00-ROUTE-001.md"
 
-EXPECTED_BASE_BLOB = "0487c3ebf702229741f16a544d68af25cf994e41"
+EXPECTED_BASE_BLOB = "4b7f98414958999c8404e30a4a7c0a2a104578da"
 EXPECTED_ALGEBRAIC = ["VGSE-C00", "VGSE-C01"]
 EXPECTED_PLANAR = ["VGSE-C04", "VGSE-C05", "VGSE-C06"]
 EXPECTED_ALGEBRAIC_MODALITIES = {
