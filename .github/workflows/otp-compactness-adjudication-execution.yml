@@ -45,9 +45,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python ci/materialize_otp_compactness_adjudication_replay.py "$RUNNER_TEMP/compactness-adjudication-replay.sh"
-          grep -Fq 'current_official_revision_reacquired' "$RUNNER_TEMP/compactness-adjudication-replay.sh"
-          grep -Fq 'ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566' "$RUNNER_TEMP/compactness-adjudication-replay.sh"
+          mkdir -p "$GITHUB_WORKSPACE/.adjudication-tmp"
+          python ci/materialize_otp_compactness_adjudication_replay.py "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh"
+          grep -Fq 'current_official_revision_reacquired' "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh"
+          grep -Fq 'ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566' "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh"
 
   authorized-fresh-replay:
     name: authorized-fresh-replay
@@ -160,14 +161,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python ci/materialize_otp_compactness_adjudication_replay.py "$RUNNER_TEMP/compactness-adjudication-replay.sh"
-          chmod +x "$RUNNER_TEMP/compactness-adjudication-replay.sh"
+          mkdir -p "$GITHUB_WORKSPACE/.adjudication-tmp"
+          python ci/materialize_otp_compactness_adjudication_replay.py "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh"
+          chmod +x "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh"
 
       - name: Execute fresh isolated Compactness replay
         shell: bash
         run: |
           set -euo pipefail
-          "$RUNNER_TEMP/compactness-adjudication-replay.sh" \
+          "$GITHUB_WORKSPACE/.adjudication-tmp/compactness-adjudication-replay.sh" \
             OTP-J1-COMPACTNESS \
             ComparatorChallenges/J_CompactnessConjecture.json \
             CompactnessAndDegeneracy \
