@@ -89,24 +89,27 @@
   "source_release": {
     "chapter": 10,
     "construction_locators": [
-      "PDF P237 / printed p236; Definitions 2.1-2.5; parsed L19847-L19888",
-      "PDF P238-P240 / printed pp237-239; Lemmas 3.1-3.3 and Proposition 3.4",
-      "PDF P240-P241 / printed pp239-240; symplectic generalized quadrangle construction and Propositions 4.2-4.3"
+      "PDF P241 / printed p237; Definitions 2.1-2.5; parsed P241 L20052-L20093",
+      "PDF P242-P244 / printed pp238-239; Lemmas 3.1-3.3 and Proposition 3.4; parsed P243 L20187-L20201 and surrounding proof",
+      "PDF P244-P245 / printed pp239-240; generalized-quadrangle construction and Propositions 4.2-4.3; parsed P245 L20364-L20375"
     ],
-    "current_expected_bytes": 2266371,
-    "current_expected_page_count": 249,
-    "current_expected_sha256": "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6",
+    "current_expected_bytes": 2487031,
+    "current_expected_page_count": 253,
+    "current_expected_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+    "current_release_note": "Updated August 6, 2026",
     "current_url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",
     "document": "Ten Advances in Mathematics and Theoretical Computer Science",
     "historical_admitted_bytes": 2266052,
     "historical_admitted_sha256": "f318c6508c9d49ef876a5a26cd73928705f96c07bb43e92a0cb35bd3f666ea53",
     "historical_exact_bytes_reacquirable": false,
+    "prior_current_observation_bytes": 2266371,
+    "prior_current_observation_sha256": "64b900d5fae6fe22f2ae1b8e3b712d20055194a6c81cf343a2455e5898ac7dd6",
     "theorem": "Theorem 1.1",
-    "theorem_locator": "PDF P236 / printed p235; parsed L19783-L19794",
+    "theorem_locator": "PDF P240 / printed p236; parsed P240 L19988-L19999",
     "whole_document_equivalence_between_revisions": "not_established"
   },
   "source_to_encoded_concordance": {
-    "boundary": "The load-bearing current-revision construction, structural invariants, upper-bound counting bridge, generalized-quadrangle lower-bound bridge, exponent arithmetic, quantifier directions, and finite-family uniformization are independently reconstructed. The historical admitted PDF identity remains preserved but its bytes are not available for whole-document comparison; this evidence is not a line-by-line certification of every prose sentence or bibliography item in Chapter 10.",
+    "boundary": "The load-bearing 2026-08-15 current-release construction, structural invariants, upper-bound counting bridge, generalized-quadrangle lower-bound bridge, exponent arithmetic, quantifier directions, and finite-family uniformization are independently reconstructed. Earlier PDF identities remain preserved as historical observations, but whole-document equivalence among revisions is not established; this evidence is not a line-by-line certification of every prose sentence or bibliography item in Chapter 10.",
     "exact_targets": [
       "CompactnessConjecture.quantitativeCompactnessCounterexample",
       "CompactnessConjecture.compactnessCounterexample_bigO",
