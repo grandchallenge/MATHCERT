@@ -30,6 +30,13 @@ EXPECTED_ADJUDICATION_BLOB = "175fb2d04c80de405655654d9024ffa6eb1f3b46"
 EXPECTED_CONSTRUCTION_BLOB = "872cdf678412d63df22d1244b3b5c13185f29571"
 EXPECTED_FUTURE_SCHEMA_BLOB = "1a96dc9e4e1fe0aabdf82067a829076ce25acff0"
 EXPECTED_CONTRACT_FILES = {"OTP-F-EHRHART.json", "OTP-C-PERMANENT.json", "OTP-J1-COMPACTNESS.json"}
+EXPECTED_SUCCESSOR_OUTPUT = {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": "9fba5a8e918028ecc2b4d72abc00b3b72a5194f5",
+    "path": "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "88531e28951854961e86eec0517356999a391759",
+}
 EXPECTED_PUBLICATION = {
     "mode": "certificate_content_commit_then_route_transition_commit",
     "route_transition": {"from": "submitted", "to": "qualified"},
@@ -125,13 +132,23 @@ def validation_errors(*, contract=None, contract_schema=None, future_schema=None
     if contract.get("state") != {"route_state": "submitted", "cert_output": None, "mathematical_target_proved": False, "may_issue_output": False, "may_promote_claim": False, "aggregate_output": False}:
         errors.append("design-only state drift/authority inflation")
 
+    successor_flags = (future_certificate_present, candidate_present, staged_certificate_present, staged_route_present)
+    successor_absent = not any(successor_flags)
+    successor_complete = all(successor_flags)
+    if not successor_absent and not successor_complete:
+        errors.append("partial Compactness output successor state")
+
     route = next((r for r in routes.get("routes", []) if r.get("route_id") == "MC-ROUTE-OTP-J1-COMPACTNESS"), None)
     if route is None:
         errors.append("Compactness route missing")
     else:
-        if route.get("intake_status") != "submitted": errors.append("Compactness route changed during design")
-        if route.get("cert_output") is not None: errors.append("Compactness Cert output inserted during design")
         if route.get("target_claim_ids") != EXPECTED_TARGETS: errors.append("Compactness registered targets drift")
+        if successor_absent:
+            if route.get("intake_status") != "submitted": errors.append("Compactness route changed during design")
+            if route.get("cert_output") is not None: errors.append("Compactness Cert output inserted during design")
+        elif successor_complete:
+            if route.get("intake_status") != "qualified": errors.append("complete Compactness successor route is not qualified")
+            if route.get("cert_output") != EXPECTED_SUCCESSOR_OUTPUT: errors.append("complete Compactness successor output identity drift")
 
     if adjudication.get("encoded_targets") != EXPECTED_TARGETS: errors.append("protected adjudication target drift")
     if adjudication.get("decision", {}).get("disposition") != "adjudication_clear_encoded_targets_only": errors.append("protected adjudication decision drift")
@@ -140,8 +157,6 @@ def validation_errors(*, contract=None, contract_schema=None, future_schema=None
         if adjudication_state.get(key) != value: errors.append(f"protected adjudication state drift: {key}")
     if construction.get("disposition", {}).get("evidence_disposition") != "CONSTRUCTION_EVIDENCE_COMPLETE_READY_TO_REQUEST_ADJUDICATION": errors.append("construction evidence disposition drift")
 
-    if any((future_certificate_present, candidate_present, staged_certificate_present, staged_route_present)):
-        errors.append("premature Compactness output artifact exists during design")
     props = future_schema.get("properties", {})
     if props.get("encoded_targets", {}).get("const") != EXPECTED_TARGETS: errors.append("future certificate target drift")
     if props.get("qualification", {}).get("const", {}).get("disposition") != "qualified_encoded_targets_only": errors.append("future certificate disposition drift")
@@ -162,7 +177,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"OTP-J1-COMPACTNESS output-contract validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated design-only OTP-J1-COMPACTNESS output contract")
+    print("validated historical design-only OTP-J1-COMPACTNESS output contract and its complete governed successor state")
     return 0
 
 
