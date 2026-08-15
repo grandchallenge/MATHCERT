@@ -85,6 +85,41 @@ class FormalTargetCertificateTests(unittest.TestCase):
         )
         self.assertTrue(any("concordance disposition drift" in error for error in errors))
 
+    def test_permanent_target_omission_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-C-PERMANENT-001.json"]["encoded_targets"].pop()
+        )
+        self.assertTrue(any("encoded target scope drift" in error or "schema violation" in error for error in errors))
+
+    def test_permanent_circuit_scope_inflation_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-C-PERMANENT-001.json"]["qualification"]["source_projection"].__setitem__("circuit_target_count", 1)
+        )
+        self.assertTrue(any("source projection or scope inflation" in error or "schema violation" in error for error in errors))
+
+    def test_permanent_gate_scope_inflation_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-C-PERMANENT-001.json"]["preserved_limitations"].__setitem__("gate_bounds_in_scope", True)
+        )
+        self.assertTrue(any("limitation inflated" in error or "schema violation" in error for error in errors))
+
+    def test_permanent_proof_promotion_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-C-PERMANENT-001.json"]["state"].__setitem__("mathematical_target_proved", True)
+        )
+        self.assertTrue(any("mathematical target must remain unproved" in error or "schema violation" in error for error in errors))
+
+    def test_permanent_route_output_drift_fails(self) -> None:
+        registry = module.load_json(module.REGISTRY_PATH)
+        route = next(route for route in registry["routes"] if route["campaign_id"] == "OTP-C-PERMANENT")
+        route["cert_output"]["digest"] = "0" * 40
+        path = self.write_registry(registry)
+        try:
+            errors = module.certificate_errors(registry_path=path)
+        finally:
+            path.unlink(missing_ok=True)
+        self.assertTrue(any("OTP-C-PERMANENT: route output identity drift" in error for error in errors))
+
     def test_route_downgrade_fails(self) -> None:
         registry = module.load_json(module.REGISTRY_PATH)
         rh = next(route for route in registry["routes"] if route["campaign_id"] == "RH-001")
