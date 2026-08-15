@@ -86,7 +86,7 @@ def closed_schema(value: Any) -> list[str]:
 
 
 def registration_snapshot(routes: dict[str, Any]) -> dict[str, Any]:
-    """Map only the exact authorized Ehrhart successor to its protected registration predecessor."""
+    """Map later governed successors back to the protected three-route registration snapshot."""
     snapshot = copy.deepcopy(routes)
     transition = load(TRANSITION)
     expected_successor = copy.deepcopy(transition["after_template"])
@@ -97,6 +97,10 @@ def registration_snapshot(routes: dict[str, Any]) -> dict[str, Any]:
         if route == expected_successor:
             snapshot["routes"][index] = copy.deepcopy(transition["before"])
         break
+    snapshot["routes"] = [
+        route for route in snapshot.get("routes", [])
+        if not (isinstance(route, dict) and route.get("campaign_id") == "OTP-C-PERMANENT")
+    ]
     return snapshot
 
 
@@ -297,7 +301,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"route registration validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated protected three-route registration snapshot; exact authorized Ehrhart successor is governed separately")
+    print("validated protected three-route registration snapshot; later separately governed Permanent registration is validated by its successor control")
     return 0
 
 

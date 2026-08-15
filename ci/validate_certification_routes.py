@@ -21,6 +21,13 @@ PROVIDER=art("grandchallenge/MATHFORGE","0ea98866de3066e6a44ea1ca2cf93ade8a9e1c1
 PACKETS={"OTP-F-EHRHART":"4653985d4980113514266c3c421804437bacb019","OTP-J1-COMPACTNESS":"2d9c6e555a03b71eb33c476321e7f2d311ed168f","OTP-J2-TWO-DEGENERATE":"0d226492bf13e13bc1a437be01104db3d4c96f79"}
 for fam,digest in PACKETS.items():EXPECTED[fam]={"tracker":"https://github.com/grandchallenge/MATHCERT/issues/55","source":PROVIDER,"state":"submitted","packet":art("grandchallenge/MATHSOLVE","443daf537dc7e4ee34ab43aeb01508d9177816ab",f"work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/{fam}.json",digest),"output":None}
 EXPECTED["OTP-F-EHRHART"]["state"]="qualified";EXPECTED["OTP-F-EHRHART"]["output"]=art("grandchallenge/MATHCERT","24d99cbdcd6da33ae2404c0f6034d503498d9a4b","certificates/formal_sources/MC-OTP-F-EHRHART-001.json","27a855c949b67e71372c7f0d6601d80125d33968")
+EXPECTED["OTP-C-PERMANENT"]={
+ "route_id":"MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+ "tracker":"https://github.com/grandchallenge/MATHCERT/issues/101",
+ "source":art("grandchallenge/MATHFORGE","60f6e06c957139447bf5943eed731941b22ac608","sources/OPENAI-TEN-PROOFS-001/semantic/OTP-C-PERMANENT/semantic_audit_record.json","3e04bd16bd8a91eaf9b6702de89fcdcc72f61099"),
+ "state":"submitted",
+ "packet":art("grandchallenge/MATHSOLVE","90f8a8544e546a603b34c9b27b2d6a4a68e06de8","work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-C-PERMANENT.json","a993c530880021930a2b468e76235b91122ca854"),
+ "output":None}
 ADJUDICATED={"certified","qualified","rejected","proof_debt"};INTAKE_ONLY={"ready","submitted"};ALL_STATES={"pending"}|INTAKE_ONLY|ADJUDICATED
 HEX40=re.compile(r"^[0-9a-f]{40}$");HEX64=re.compile(r"^[0-9a-f]{64}$");ARTIFACT_KEYS={"repository","commit_sha","path","digest_algorithm","digest"};ROUTE_KEYS={"route_id","campaign_id","tracker_issue","source_manifest","intake_status","intake_packet","target_claim_ids","requested_modalities","claim_boundary","cert_output","blockers","reopening_conditions"}
 def load_json(path:Path)->Any:return json.loads(path.read_text(encoding="utf-8"))
@@ -55,7 +62,7 @@ def route_errors(registry_path:Path=REGISTRY_PATH,schema_path:Path=SCHEMA_PATH)-
   r=route_map.get(cid)
   if not isinstance(r,dict):continue
   if set(r)!=ROUTE_KEYS:e.append(f"{cid}: route fields drift")
-  if r.get("route_id")!=f"MC-ROUTE-{cid}":e.append(f"{cid}: route_id is not canonical")
+  if r.get("route_id")!=exp.get("route_id",f"MC-ROUTE-{cid}"):e.append(f"{cid}: route_id is not canonical")
   if r.get("tracker_issue")!=exp["tracker"]:e.append(f"{cid}: tracker drift")
   src=r.get("source_manifest");e.extend(artifact_errors(src,f"{cid}.source_manifest"))
   if src!=exp["source"]:e.append(f"{cid}: manifest identity drift")
@@ -79,12 +86,13 @@ def route_errors(registry_path:Path=REGISTRY_PATH,schema_path:Path=SCHEMA_PATH)-
   if not str(r.get("claim_boundary","")).strip():e.append(f"{cid}: empty claim boundary")
   if not isinstance(r.get("blockers"),list) or not r["blockers"]:e.append(f"{cid}: blockers required")
   if not isinstance(r.get("reopening_conditions"),list) or not r["reopening_conditions"]:e.append(f"{cid}: reopening conditions required")
- otp={"OTP-F-EHRHART","OTP-J1-COMPACTNESS","OTP-J2-TWO-DEGENERATE"}
+ otp={"OTP-F-EHRHART","OTP-J1-COMPACTNESS","OTP-J2-TWO-DEGENERATE","OTP-C-PERMANENT"}
  if {cid for cid,r in route_map.items() if str(r.get("route_id","")).startswith("MC-ROUTE-OTP-")}!=otp:e.append("OTP route membership drift")
  if "OPENAI-TEN-PROOFS-001" in route_map:e.append("aggregate ten-proofs route prohibited")
  return e
 def main()->int:
  e=route_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated eleven exact routes, including UC and OTP-F-EHRHART restricted qualifications with two submitted OTP routes");return 0
+ print("validated twelve exact routes, including UC and OTP-F-EHRHART restricted qualifications with three submitted OTP routes")
+ return 0
 if __name__=="__main__":raise SystemExit(main())

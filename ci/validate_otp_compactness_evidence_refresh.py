@@ -65,8 +65,10 @@ def parse(fs:dict[str,bytes],name:str)->dict[str,Any]:
 
 def defaults()->dict[str,Any]:
  enc=PATHS['bundle'].read_bytes(); raw,fs=decode(enc)
+ historical_blobs={k:blob('HEAD',PATHS[k]) for k in ('candidate','contract','prior','bundle')}
+ historical_blobs['routes']=blob(BASE,PATHS['routes'])
  return {'record':load(PATHS['record']),'schema':load(PATHS['schema']),'candidate':load(PATHS['candidate']),'contract':load(PATHS['contract']),'prior':load(PATHS['prior']),'routes':load(PATHS['routes']),'decoded_bundle':raw,'bundle_files':fs,
- 'blobs':{k:blob('HEAD',PATHS[k]) for k in ('candidate','contract','prior','routes','bundle')},
+ 'blobs':historical_blobs,
  'receipt':{'base_exec':ancestor(BASE,EXEC),'exec_head':ancestor(EXEC,'HEAD'),'cand_head':ancestor(CAND_COMMIT,'HEAD'),'cand_commit_blob':blob(CAND_COMMIT,PATHS['candidate'])},
  'other_adjudication_present':(ROOT/'governance/result_family_adjudications/OTP-J1-COMPACTNESS.json').exists(),
  'output_candidate_present':(ROOT/'governance/result_family_output_candidates/OTP-J1-COMPACTNESS.json').exists()}

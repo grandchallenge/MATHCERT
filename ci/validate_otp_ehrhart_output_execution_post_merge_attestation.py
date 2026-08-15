@@ -167,7 +167,7 @@ def validation_errors(
         "closure": tracked_blob(CLOSURE),
         "closure_schema": tracked_blob(CLOSURE_SCHEMA),
         "historical_candidate": tracked_blob(HISTORICAL_CANDIDATE),
-        "routes": tracked_blob(ROUTES),
+        "routes": object_blob(COMMITS["merge"], "governance/certification_routes.json"),
         "certificate": tracked_blob(CERTIFICATE),
         "adjudication": tracked_blob(ADJUDICATION),
     } if blobs is None else blobs

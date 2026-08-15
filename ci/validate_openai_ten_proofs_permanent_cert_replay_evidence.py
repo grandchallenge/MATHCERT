@@ -252,9 +252,17 @@ def validation_errors(
     if record.get("review_state") != {"specialist_review_required":True,"status":"pending_exact_head_non_author_review"}:
         errors.append("specialist review state drift")
 
+    # Replay evidence is an immutable predecessor. It must continue to state that
+    # its own operation created no route, while a later separately governed route
+    # may exist in the live registry. Exact successor registration authority is
+    # validated by validate_openai_ten_proofs_permanent_route_registration.py.
     routes = load(ROUTE_REGISTRY_PATH).get("routes", [])
-    if any(r.get("route_id") == "MC-ROUTE-OTP-C-PERMANENT-FORMULA" for r in routes):
-        errors.append("Permanent route registered before replay-evidence admission")
+    permanent_route_count = sum(
+        1 for r in routes
+        if isinstance(r, dict) and r.get("route_id") == "MC-ROUTE-OTP-C-PERMANENT-FORMULA"
+    )
+    if permanent_route_count > 1:
+        errors.append("duplicate Permanent route registration")
 
     if registry.get("execution_state") != {"authorized_target_count":2,"circuit_target_count":0,"replay_evidence_bundle_count":1,"specialist_review_count":0,"route_proposal_count":0,"registered_route_count":0,"adjudication_count":0,"cert_output_count":0,"mathematical_target_proved_count":0}:
         errors.append("successor replay-evidence registry state inflation")
@@ -269,7 +277,7 @@ def main() -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("validated Permanent exact-family replay evidence directory; manifest and all file hashes match the successful Actions artifact; historical three-family evidence preserved; no route, adjudication, output, proof, circuit, gate, total-size, PDF-equivalence, or aggregate authority created")
+    print("validated immutable Permanent exact-family replay evidence; later route registration is separately governed and no replay-stage adjudication/output/proof/circuit/gate/total-size/PDF-equivalence/aggregate authority was created")
     return 0
 
 

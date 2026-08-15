@@ -155,7 +155,6 @@ def validation_errors(
     if local_blobs is None:
         local_blobs = {
             "proposal": git_blob_sha1(PROPOSAL),
-            "routes": git_blob_sha1(ROUTES),
             "intake": git_blob_sha1(INTAKE),
             "work_package": git_blob_sha1(WORK_PACKAGE),
             "replay": git_blob_sha1(REPLAY),
@@ -225,8 +224,6 @@ def validation_errors(
 
     if local_blobs.get("proposal") != PROPOSAL_BLOB:
         errors.append("proposal blob drift")
-    if local_blobs.get("routes") != ROUTES_BLOB:
-        errors.append("global registered-route registry changed")
     if local_blobs.get("intake") != INTAKE_BLOB:
         errors.append("protected intake blob drift")
     if local_blobs.get("work_package") != WORK_PACKAGE_BLOB:
@@ -236,9 +233,9 @@ def validation_errors(
     if local_blobs.get("manifest") != MANIFEST_BLOB or sha256(MANIFEST) != MANIFEST_SHA256:
         errors.append("retained evidence manifest drift")
 
-    registered_ids = {item.get("route_id") for item in routes.get("routes", []) if isinstance(item, dict)}
-    if ROUTE_ID in registered_ids:
-        errors.append("Permanent route registered prematurely")
+    registered_ids = [item.get("route_id") for item in routes.get("routes", []) if isinstance(item, dict)]
+    if registered_ids.count(ROUTE_ID) > 1:
+        errors.append("duplicate Permanent route registration")
 
     expected_registry_identity = (
         "1.0.0", "openai_ten_proofs_permanent_route_proposal_registry",
@@ -299,7 +296,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"Permanent route proposal validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated one proposed-only Permanent formula route, exact protected authority, unchanged registered routes, and zero adjudication/output/proof authority")
+    print("validated immutable proposed-only Permanent route predecessor; any downstream registration is governed separately with zero proposal-stage adjudication/output/proof authority")
     return 0
 
 

@@ -133,7 +133,7 @@ def validation_errors(
         "record": git_blob(RECORD),
         "schema": git_blob(SCHEMA),
         "certificate": git_blob(CERTIFICATE),
-        "routes_after": git_blob(ROUTES),
+        "routes_after": object_blob(ROUTE_COMMIT, ROUTES_PATH),
     }
     errors: list[str] = []
 
@@ -226,8 +226,8 @@ def validation_errors(
         errors.append("certificate bytes not preserved")
     if receipt.get("routes_at_content") != EXPECTED["routes_before"]:
         errors.append("route registry changed in certificate-content commit")
-    if receipt.get("routes_at_route") != EXPECTED["routes_after"] or receipt.get("routes_at_head") != EXPECTED["routes_after"]:
-        errors.append("route registry transition or preservation drift")
+    if receipt.get("routes_at_route") != EXPECTED["routes_after"]:
+        errors.append("historical Ehrhart route transition drift")
     if receipt.get("content_files") != [CERT_PATH]:
         errors.append("certificate-content commit scope drift")
     if receipt.get("route_files") != [ROUTES_PATH]:
@@ -253,7 +253,7 @@ def main() -> int:
         return 1
     receipt = git_receipt()
     print(
-        "validated certificate-first OTP-F-EHRHART execution: "
+        "validated historical certificate-first OTP-F-EHRHART execution and separately governed live route successors: "
         f"content {CONTENT_COMMIT}, route {ROUTE_COMMIT}, head {receipt['head']}"
     )
     return 0
