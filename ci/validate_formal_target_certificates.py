@@ -19,15 +19,23 @@ SOURCE_PATH = "ci/validate_formal_target_certificates.py"
 CERT_DIR = ROOT / "certificates" / "formal_sources"
 SCHEMA_PATH = ROOT / "schemas" / "formal_target_certificate.schema.json"
 EHRHART_SCHEMA_PATH = ROOT / "schemas" / "otp_ehrhart_qualified_output.schema.json"
+PERMANENT_SCHEMA_PATH = ROOT / "schemas" / "otp_permanent_qualified_output.schema.json"
 REGISTRY_PATH = ROOT / "governance" / "certification_routes.json"
 EHRHART_FILE = "MC-OTP-F-EHRHART-001.json"
 EHRHART_BLOB = "27a855c949b67e71372c7f0d6601d80125d33968"
-CONTENT_COMMIT = "24d99cbdcd6da33ae2404c0f6034d503498d9a4b"
-TARGETS = [
+EHRHART_CONTENT_COMMIT = "24d99cbdcd6da33ae2404c0f6034d503498d9a4b"
+EHRHART_TARGETS = [
     "Ehrhart.Volume.ehrhart_volume_inequality_for_sets",
     "Ehrhart.SimplexVolume.exists_centeredBody_sharp",
     "Ehrhart.SimplexVolume.barycenter_centeredSimplex",
     "Ehrhart.SimplexVolume.normalizedVolume_centeredSimplex",
+]
+PERMANENT_FILE = "MC-OTP-C-PERMANENT-001.json"
+PERMANENT_BLOB = "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04"
+PERMANENT_CONTENT_COMMIT = "1344220f0f61f9e637c5b1fc668c0a0eb7ab4133"
+PERMANENT_TARGETS = [
+    "PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound",
+    "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound",
 ]
 LEGACY_FILES = {"MC-FC-WP00-RH-001.json", "MC-FC-WP00-NS-CI-001.json"}
 
@@ -70,12 +78,53 @@ def protected_module() -> types.ModuleType:
     return module
 
 
+def _restricted_output_errors(
+    *,
+    path: Path,
+    schema_path: Path,
+    expected_blob: str,
+    certificate_id: str,
+    result_family: str,
+    route_id: str,
+    targets: list[str],
+) -> list[str]:
+    errors: list[str] = []
+    if not path.exists():
+        return errors
+    data = load_json(path)
+    schema = load_json(schema_path)
+    if schema.get("additionalProperties") is not False:
+        errors.append(f"{result_family}: qualification schema must remain closed")
+    errors.extend(
+        f"{path}: {result_family} schema violation: {error.message}"
+        for error in Draft202012Validator(schema).iter_errors(data)
+    )
+    if git_blob(path) != expected_blob:
+        errors.append(f"{path}: certificate blob identity drift")
+    if data.get("certificate_id") != certificate_id:
+        errors.append(f"{path}: certificate identity drift")
+    if data.get("result_family") != result_family or data.get("route_id") != route_id:
+        errors.append(f"{path}: family/route identity drift")
+    if data.get("encoded_targets") != targets:
+        errors.append(f"{path}: encoded target scope drift")
+    qualification = data.get("qualification", {})
+    if qualification.get("disposition") != "qualified_encoded_targets_only":
+        errors.append(f"{path}: disposition inflation")
+    state = data.get("state", {})
+    if state.get("mathematical_target_proved") is not False:
+        errors.append(f"{path}: mathematical target must remain unproved")
+    if state.get("may_promote_claim") is not False or state.get("aggregate_output") is not False:
+        errors.append(f"{path}: state inflation")
+    return errors
+
+
 def certificate_errors(
     directory: Path = CERT_DIR,
     schema_path: Path = SCHEMA_PATH,
     registry_path: Path = REGISTRY_PATH,
     root: Path = ROOT,
     ehrhart_schema_path: Path = EHRHART_SCHEMA_PATH,
+    permanent_schema_path: Path = PERMANENT_SCHEMA_PATH,
 ) -> list[str]:
     errors: list[str] = []
     try:
@@ -99,62 +148,108 @@ def certificate_errors(
         )
 
     actual = {path.name for path in directory.glob("*.json")}
-    expected = LEGACY_FILES | {EHRHART_FILE}
+    expected = LEGACY_FILES | {EHRHART_FILE, PERMANENT_FILE}
     for missing in sorted(expected - actual):
         errors.append(f"missing formal target certificate: {missing}")
     for unknown in sorted(actual - expected):
         errors.append(f"unregistered formal target certificate: {unknown}")
 
     ehrhart_path = directory / EHRHART_FILE
-    if not ehrhart_path.exists():
-        return errors
-    data = load_json(ehrhart_path)
-    schema = load_json(ehrhart_schema_path)
-    if schema.get("additionalProperties") is not False:
-        errors.append("Ehrhart qualification schema must remain closed")
     errors.extend(
-        f"{ehrhart_path}: Ehrhart schema violation: {error.message}"
-        for error in Draft202012Validator(schema).iter_errors(data)
+        _restricted_output_errors(
+            path=ehrhart_path,
+            schema_path=ehrhart_schema_path,
+            expected_blob=EHRHART_BLOB,
+            certificate_id="MC-OTP-F-EHRHART-QUAL-001",
+            result_family="OTP-F-EHRHART",
+            route_id="MC-ROUTE-OTP-F-EHRHART",
+            targets=EHRHART_TARGETS,
+        )
     )
-    if git_blob(ehrhart_path) != EHRHART_BLOB:
-        errors.append(f"{ehrhart_path}: certificate blob identity drift")
-    if data.get("certificate_id") != "MC-OTP-F-EHRHART-QUAL-001":
-        errors.append(f"{ehrhart_path}: certificate identity drift")
-    if data.get("result_family") != "OTP-F-EHRHART" or data.get("route_id") != "MC-ROUTE-OTP-F-EHRHART":
-        errors.append(f"{ehrhart_path}: family/route identity drift")
-    if data.get("encoded_targets") != TARGETS:
-        errors.append(f"{ehrhart_path}: encoded target scope drift")
-    qualification = data.get("qualification", {})
-    if qualification.get("disposition") != "qualified_encoded_targets_only":
-        errors.append(f"{ehrhart_path}: disposition inflation")
-    if qualification.get("source_theorem_mathematically_proved") is not False:
-        errors.append(f"{ehrhart_path}: mathematical target must remain unproved")
-    if qualification.get("equality_case_classification") != "excluded":
-        errors.append(f"{ehrhart_path}: equality-case inflation")
-    if data.get("state") != {
-        "route_state": "qualified",
-        "cert_output_inserted": True,
-        "mathematical_target_proved": False,
-        "may_promote_claim": False,
-        "aggregate_output": False,
-    }:
-        errors.append(f"{ehrhart_path}: state inflation")
+    if ehrhart_path.exists():
+        ehrhart = load_json(ehrhart_path)
+        qualification = ehrhart.get("qualification", {})
+        if qualification.get("source_theorem_mathematically_proved") is not False:
+            errors.append(f"{ehrhart_path}: mathematical target must remain unproved")
+        if qualification.get("equality_case_classification") != "excluded":
+            errors.append(f"{ehrhart_path}: equality-case inflation")
+        if ehrhart.get("state") != {
+            "route_state": "qualified",
+            "cert_output_inserted": True,
+            "mathematical_target_proved": False,
+            "may_promote_claim": False,
+            "aggregate_output": False,
+        }:
+            errors.append(f"{ehrhart_path}: state inflation")
+
+    permanent_path = directory / PERMANENT_FILE
+    errors.extend(
+        _restricted_output_errors(
+            path=permanent_path,
+            schema_path=permanent_schema_path,
+            expected_blob=PERMANENT_BLOB,
+            certificate_id="MC-OTP-C-PERMANENT-QUAL-001",
+            result_family="OTP-C-PERMANENT",
+            route_id="MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+            targets=PERMANENT_TARGETS,
+        )
+    )
+    if permanent_path.exists():
+        permanent = load_json(permanent_path)
+        qualification = permanent.get("qualification", {})
+        if qualification.get("source_projection") != {
+            "coefficient_field": "complex",
+            "dimension_threshold": 32,
+            "log_base": 2,
+            "division_free_variable_leaf_constant": 128,
+            "rational_variable_leaf_constant": 192,
+            "formula_target_count": 2,
+            "circuit_target_count": 0,
+        }:
+            errors.append(f"{permanent_path}: source projection or scope inflation")
+        limitations = permanent.get("preserved_limitations", {})
+        for key in (
+            "circuit_targets_in_scope", "gate_bounds_in_scope", "total_size_consequences_in_scope",
+            "unrestricted_source_theorem_proof_claim", "other_family_outputs_authorized",
+            "aggregate_openai_ten_proofs_authority",
+        ):
+            if limitations.get(key) is not False:
+                errors.append(f"{permanent_path}: limitation inflated: {key}")
+        if limitations.get("historical_pdf_byte_equivalence") != "not_established":
+            errors.append(f"{permanent_path}: historical PDF equivalence inflated")
 
     registry = load_json(registry_path)
-    route = next(
+    ehrhart_route = next(
         (item for item in registry.get("routes", []) if item.get("campaign_id") == "OTP-F-EHRHART"),
         {},
     )
-    if route.get("intake_status") != "qualified":
+    if ehrhart_route.get("intake_status") != "qualified":
         errors.append("OTP-F-EHRHART: route is not qualified")
-    if route.get("cert_output") != {
+    if ehrhart_route.get("cert_output") != {
         "repository": "grandchallenge/MATHCERT",
-        "commit_sha": CONTENT_COMMIT,
+        "commit_sha": EHRHART_CONTENT_COMMIT,
         "path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json",
         "digest_algorithm": "git_blob_sha1",
         "digest": EHRHART_BLOB,
     }:
         errors.append("OTP-F-EHRHART: route output identity drift")
+
+    permanent_route = next(
+        (item for item in registry.get("routes", []) if item.get("campaign_id") == "OTP-C-PERMANENT"),
+        {},
+    )
+    if permanent_route.get("intake_status") != "qualified":
+        errors.append("OTP-C-PERMANENT: route is not qualified")
+    if permanent_route.get("target_claim_ids") != PERMANENT_TARGETS:
+        errors.append("OTP-C-PERMANENT: route target scope drift")
+    if permanent_route.get("cert_output") != {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": PERMANENT_CONTENT_COMMIT,
+        "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-001.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": PERMANENT_BLOB,
+    }:
+        errors.append("OTP-C-PERMANENT: route output identity drift")
     return errors
 
 
@@ -164,7 +259,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"formal target certificate validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated protected RH/NS qualifications and exact OTP-F-EHRHART restricted output")
+    print("validated protected RH/NS qualifications and exact restricted OTP-F-EHRHART / OTP-C-PERMANENT outputs")
     return 0
 
 

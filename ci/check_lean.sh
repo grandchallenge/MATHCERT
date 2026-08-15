@@ -60,6 +60,8 @@ python3 ci/validate_otp_permanent_adjudication.py
 python3 ci/test_otp_permanent_adjudication.py
 python3 ci/validate_otp_permanent_output_contract.py
 python3 ci/test_otp_permanent_output_contract.py
+python3 ci/validate_otp_permanent_output_execution.py
+python3 ci/test_otp_permanent_output_execution.py
 python3 ci/validate_human_steward_post_merge_attestation.py
 python3 ci/test_human_steward_post_merge_attestation.py
 python3 ci/validate_openai_ten_proofs_adjudication_design_with_successors.py

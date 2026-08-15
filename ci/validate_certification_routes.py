@@ -25,9 +25,9 @@ EXPECTED["OTP-C-PERMANENT"]={
  "route_id":"MC-ROUTE-OTP-C-PERMANENT-FORMULA",
  "tracker":"https://github.com/grandchallenge/MATHCERT/issues/101",
  "source":art("grandchallenge/MATHFORGE","60f6e06c957139447bf5943eed731941b22ac608","sources/OPENAI-TEN-PROOFS-001/semantic/OTP-C-PERMANENT/semantic_audit_record.json","3e04bd16bd8a91eaf9b6702de89fcdcc72f61099"),
- "state":"submitted",
+ "state":"qualified",
  "packet":art("grandchallenge/MATHSOLVE","90f8a8544e546a603b34c9b27b2d6a4a68e06de8","work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-C-PERMANENT.json","a993c530880021930a2b468e76235b91122ca854"),
- "output":None}
+ "output":art("grandchallenge/MATHCERT","1344220f0f61f9e637c5b1fc668c0a0eb7ab4133","certificates/formal_sources/MC-OTP-C-PERMANENT-001.json","ad10c427270cb1c747ebcacbc5c37e4c1ed1df04")}
 ADJUDICATED={"certified","qualified","rejected","proof_debt"};INTAKE_ONLY={"ready","submitted"};ALL_STATES={"pending"}|INTAKE_ONLY|ADJUDICATED
 HEX40=re.compile(r"^[0-9a-f]{40}$");HEX64=re.compile(r"^[0-9a-f]{64}$");ARTIFACT_KEYS={"repository","commit_sha","path","digest_algorithm","digest"};ROUTE_KEYS={"route_id","campaign_id","tracker_issue","source_manifest","intake_status","intake_packet","target_claim_ids","requested_modalities","claim_boundary","cert_output","blockers","reopening_conditions"}
 def load_json(path:Path)->Any:return json.loads(path.read_text(encoding="utf-8"))
@@ -93,6 +93,6 @@ def route_errors(registry_path:Path=REGISTRY_PATH,schema_path:Path=SCHEMA_PATH)-
 def main()->int:
  e=route_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated twelve exact routes, including UC and OTP-F-EHRHART restricted qualifications with three submitted OTP routes")
+ print("validated twelve exact routes, including restricted OTP-F-EHRHART and OTP-C-PERMANENT qualifications with two submitted OTP routes")
  return 0
 if __name__=="__main__":raise SystemExit(main())

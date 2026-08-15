@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_qualified_output",
+  "certificate_id": "MC-OTP-C-PERMANENT-QUAL-001",
+  "result_family": "OTP-C-PERMANENT",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+  "source_authority": {
+    "adjudication": {
+      "path": "governance/result_family_adjudications/OTP-C-PERMANENT.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "233d3e92ceed6654e6f6759718adf32f1b6c5415",
+      "disposition": "adjudication_clear_encoded_targets_only",
+      "merge_commit": "685faa7730b7147ba70ae0d0bb5fdd916b68c1a7"
+    },
+    "output_contract": {
+      "path": "governance/result_family_output_contracts/OTP-C-PERMANENT.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "b40762d73ecbd5a7f3238e04cc2351e9fdfade2f"
+    }
+  },
+  "encoded_targets": [
+    "PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound",
+    "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound"
+  ],
+  "qualification": {
+    "disposition": "qualified_encoded_targets_only",
+    "scope": "The exact two encoded Permanent variable-leaf formula targets only.",
+    "source_projection": {
+      "coefficient_field": "complex",
+      "dimension_threshold": 32,
+      "log_base": 2,
+      "division_free_variable_leaf_constant": 128,
+      "rational_variable_leaf_constant": 192,
+      "formula_target_count": 2,
+      "circuit_target_count": 0
+    }
+  },
+  "evidence_receipts": {
+    "comparator": "pass",
+    "lean_kernel": "accept",
+    "nanoda": "accept",
+    "source_statement_concordance": "clear_for_complex_n_ge_32_log2_variable_leaf_constants_128_192",
+    "nonvacuity": "clear_for_both_protected_formula_witnesses"
+  },
+  "axiom_report": {
+    "permitted_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "unexpected_axioms": [],
+    "imported_domain_axioms": []
+  },
+  "trust_boundary": {
+    "solution_placeholders": 0,
+    "unsafe_declarations": 0,
+    "custom_axioms": 0,
+    "result": "clear"
+  },
+  "state": {
+    "route_state": "qualified",
+    "cert_output_inserted": true,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_output": false
+  },
+  "preserved_limitations": {
+    "circuit_targets_in_scope": false,
+    "gate_bounds_in_scope": false,
+    "total_size_consequences_in_scope": false,
+    "historical_pdf_byte_equivalence": "not_established",
+    "unrestricted_source_theorem_proof_claim": false,
+    "other_family_outputs_authorized": false,
+    "aggregate_openai_ten_proofs_authority": false
+  },
+  "claim_boundary": "This restricted qualification certifies only the exact two encoded OTP-C-PERMANENT variable-leaf formula targets under the protected adjudication and output contract. It does not certify source Theorem 1.1 arithmetic-circuit complexity, any PermanentRollout circuit target, the separate 256/384 internal-gate bounds, total-leaf or total-vertex consequences, historical admitted-PDF byte equivalence, or an unrestricted broader source theorem; it does not mark a mathematical target proved, authorize claim promotion, qualify another result family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}

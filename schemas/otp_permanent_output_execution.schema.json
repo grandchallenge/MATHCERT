@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/otp_permanent_output_execution.schema.json",
+  "title": "OTP-C-PERMANENT restricted qualification execution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "execution_id", "candidate_id", "result_family", "route_id", "contract_id", "tracker_issue", "protected_authority", "execution_commits", "staged_evidence", "encoded_targets", "qualification", "candidate_state", "branch_execution_state", "publication_gate", "review_gate", "preserved_limitations", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "otp_permanent_output_execution"},
+    "execution_id": {"const": "MC-OTP-C-PERMANENT-OUTPUT-EXEC-001"},
+    "candidate_id": {"const": "MC-OTP-C-PERMANENT-OUTPUT-CANDIDATE-001"},
+    "result_family": {"const": "OTP-C-PERMANENT"},
+    "route_id": {"const": "MC-ROUTE-OTP-C-PERMANENT-FORMULA"},
+    "contract_id": {"const": "MC-OTP-C-PERMANENT-OUTPUT-CONTRACT-001"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/111"},
+    "protected_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["output_contract", "adjudication", "control_plan"],
+      "properties": {
+        "output_contract": {"const": {"merge_commit": "2e2d4509c993b9ae4bd4aaab48ecced429813b83", "path": "governance/result_family_output_contracts/OTP-C-PERMANENT.json", "digest_algorithm": "git_blob_sha1", "digest": "b40762d73ecbd5a7f3238e04cc2351e9fdfade2f"}},
+        "adjudication": {"const": {"merge_commit": "685faa7730b7147ba70ae0d0bb5fdd916b68c1a7", "path": "governance/result_family_adjudications/OTP-C-PERMANENT.json", "digest_algorithm": "git_blob_sha1", "digest": "233d3e92ceed6654e6f6759718adf32f1b6c5415", "disposition": "adjudication_clear_encoded_targets_only"}},
+        "control_plan": {"const": {"conformance": "within_admitted_contract", "control_plan_change_requested": false, "human_steward_intervention_required_only_for_control_plan_change": true, "routine_stage_progression_without_human_steward_intervention": true}}
+      }
+    },
+    "execution_commits": {
+      "const": {
+        "protected_base": "2e2d4509c993b9ae4bd4aaab48ecced429813b83",
+        "certificate_content_commit": "1344220f0f61f9e637c5b1fc668c0a0eb7ab4133",
+        "route_transition_commit": "48941f6351071c07f9b4685577f98d8bbda03536",
+        "certificate": {"path": "certificates/formal_sources/MC-OTP-C-PERMANENT-001.json", "digest_algorithm": "git_blob_sha1", "digest": "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04", "certificate_id": "MC-OTP-C-PERMANENT-QUAL-001"},
+        "route_registry_before": {"path": "governance/certification_routes.json", "digest_algorithm": "git_blob_sha1", "digest": "4b7f98414958999c8404e30a4a7c0a2a104578da"},
+        "route_registry_after": {"path": "governance/certification_routes.json", "digest_algorithm": "git_blob_sha1", "digest": "aa460c1310a7c81b64b88013b7aa4cfdc056f37b"}
+      }
+    },
+    "staged_evidence": {
+      "const": {
+        "certificate": {"path": "governance/result_family_output_candidates/staged_certificates/MC-OTP-C-PERMANENT-001.json", "digest_algorithm": "git_blob_sha1", "digest": "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04"},
+        "route_transition": {"path": "governance/result_family_output_candidates/staged_route_transitions/OTP-C-PERMANENT.json", "digest_algorithm": "git_blob_sha1", "digest": "cb85830a973e08444554e56703b8103d70e7c958"}
+      }
+    },
+    "encoded_targets": {"const": ["PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound", "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound"]},
+    "qualification": {
+      "const": {
+        "disposition": "qualified_encoded_targets_only",
+        "scope": "The exact two encoded Permanent variable-leaf formula targets only.",
+        "source_projection": {"coefficient_field": "complex", "dimension_threshold": 32, "log_base": 2, "division_free_variable_leaf_constant": 128, "rational_variable_leaf_constant": 192, "formula_target_count": 2, "circuit_target_count": 0},
+        "mathematical_target_proved": false
+      }
+    },
+    "candidate_state": {"const": "output_candidate_prepared_pending_execution"},
+    "branch_execution_state": {
+      "const": {
+        "execution_state": "output_execution_prepared_pending_protected_merge",
+        "route_state": "qualified",
+        "cert_output": {"repository": "grandchallenge/MATHCERT", "commit_sha": "1344220f0f61f9e637c5b1fc668c0a0eb7ab4133", "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-001.json", "digest_algorithm": "git_blob_sha1", "digest": "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04"},
+        "live_certificate_present_on_execution_branch": true,
+        "protected_main_effect": "none_until_merge",
+        "mathematical_target_proved": false,
+        "may_promote_claim": false,
+        "aggregate_output": false
+      }
+    },
+    "publication_gate": {
+      "const": {
+        "exact_head_cert_checks_required": true,
+        "exact_head_gcl_conformance_required": true,
+        "linux_windows_output_validation_required": true,
+        "codeql_no_new_alerts_required": true,
+        "fresh_non_author_specialist_approval_required": true,
+        "separate_human_steward_authorization_required": false,
+        "human_steward_intervention_required_only_for_control_plan_change": true,
+        "protected_merge_method": "merge",
+        "squash_merge_prohibited": true,
+        "rebase_merge_prohibited": true,
+        "expected_head_required": true,
+        "certificate_content_commit_must_remain_ancestor": true,
+        "route_transition_commit_must_remain_ancestor": true,
+        "protected_main_atomic_publication_required": true,
+        "partial_protected_main_state_prohibited": true,
+        "head_change_requires_revalidation_and_reapproval": true
+      }
+    },
+    "review_gate": {"const": {"minimum_binding_non_author_reviewers": 1, "required_review_state": "APPROVED", "review_must_bind_exact_execution_head": true, "recorded_review": null}},
+    "preserved_limitations": {"const": {"circuit_targets_in_scope": false, "gate_bounds_in_scope": false, "total_size_consequences_in_scope": false, "historical_pdf_byte_equivalence": "not_established", "unrestricted_source_theorem_proof_claim": false, "other_family_outputs_authorized": false, "aggregate_openai_ten_proofs_authority": false}},
+    "claim_boundary": {"type": "string", "minLength": 900}
+  }
+}
