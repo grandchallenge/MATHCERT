@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_adjudication",
+  "adjudication_id": "MC-OTP-C-PERMANENT-ADJUDICATION-001",
+  "result_family": "OTP-C-PERMANENT",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+  "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-C-PERMANENT-FORMULA",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/107",
+  "authority": {
+    "contract_design_merge": "67d78a99942df2c864f51728d741118d64bba183",
+    "contract_blob": "f9429395e7026f838ad6994b8f908a86506cfe06",
+    "adjudication_design_registry_blob": "2af852600796e35afe034bbaf9b9e13950055a29",
+    "execution_candidate_head": "08ab265158e6165a1de59452d33d26b9e9b8fd54",
+    "execution_candidate_merge": "9406c91990a43880070d3a8bd468b4586fa94aef",
+    "execution_candidate_record_blob": "c9c764d6bffa580ff5a0f2229350b093ec5a3694",
+    "execution_candidate_manifest_blob": "5b9ba2b7d2caf00063c38d4a9d8ccbfed334a4b8",
+    "evidence_candidate_review": {
+      "reviewer": "jimsteeg",
+      "review_id": 4942963925,
+      "reviewed_head": "08ab265158e6165a1de59452d33d26b9e9b8fd54",
+      "state": "APPROVED"
+    },
+    "control_plan": {
+      "conformance": "within_admitted_contract",
+      "control_plan_change_requested": false,
+      "human_steward_intervention_required_only_for_control_plan_change": true,
+      "routine_stage_progression_without_human_steward_intervention": true
+    }
+  },
+  "encoded_targets": [
+    "PermanentFormulaLowerBound.permanent_divisionFree_formula_logarithmic_lower_bound",
+    "PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound"
+  ],
+  "raw_evidence_verification": {
+    "artifact_id": 9241937165,
+    "artifact_name": "otp-permanent-execution-candidate",
+    "bytes": 10913,
+    "sha256": "13126f10d7976cacb933c58aa5607db03c753370035988827d94c47fce93df0a",
+    "raw_execution_candidate_sha256": "c5f109008c87710dbf1c7e49800b6be8ca730a684b0d13201f2b0a1dcfe14ee7",
+    "raw_bundle_manifest_sha256": "dfa3443ed4197fae90676ad21093109214cda34e9c495ef1998c1da8d3b0d369",
+    "retained_manifest_verified": true,
+    "verification_result": "pass"
+  },
+  "evidence_assessment": {
+    "authority_integrity": "clear",
+    "isolated_checker_replay": "clear_two_encoded_formula_targets",
+    "lean_kernel": "accept",
+    "nanoda": "accept",
+    "theorem_axioms": "permitted_only_Classical.choice_Quot.sound_propext",
+    "trust_boundary": "clear_solution_and_witness_no_placeholder_unsafe_or_custom_axiom",
+    "source_statement_concordance": "clear_for_complex_n_ge_32_log2_variable_leaf_constants_128_192",
+    "nonvacuity": "clear_for_both_protected_formula_witnesses",
+    "circuit_targets_in_scope": false,
+    "gate_bounds_in_scope": false,
+    "total_size_consequences_in_scope": false,
+    "historical_pdf_byte_equivalence": "not_established"
+  },
+  "decision": {
+    "question": "Does the complete admissible evidence support a family-specific MATHCERT adjudication of only the two exact encoded Permanent variable-leaf formula targets, with every recorded source-scope and authority limitation preserved?",
+    "disposition": "adjudication_clear_encoded_targets_only",
+    "scope": "The exact two encoded Permanent variable-leaf formula targets only.",
+    "rationale": [
+      "The content-addressed authority chain, protected adjudication contract, and protected execution-candidate identities are internally consistent.",
+      "The isolated clean-room replay accepts both encoded targets under Comparator, the default Lean kernel, and Nanoda.",
+      "The theorem-level axiom reports contain only Classical.choice, Quot.sound, and propext, and the solution/witness trust-boundary scan is clear.",
+      "The retained evidence reconfirms source-to-formal concordance for complex coefficients, n >= 32, logarithm base 2, variable-leaf constants 128 and 192, and both protected nonvacuity witnesses.",
+      "Circuit targets, separate 256/384 gate bounds, total-size consequences, historical admitted-PDF byte equivalence, and aggregate OpenAI Ten Proofs authority remain explicitly excluded."
+    ],
+    "binding_effect": "Binding only after exact-head machine gates, a fresh binding non-author specialist APPROVED review, control-plan conformance, and protected merge/readback."
+  },
+  "review_gate": {
+    "fresh_non_author_specialist_review_required": true,
+    "minimum_reviewers": 1,
+    "required_state": "APPROVED",
+    "must_bind_exact_head": true,
+    "recorded_review": null
+  },
+  "state": {
+    "route_state": "submitted",
+    "adjudication_operation_authorized": true,
+    "adjudication_recorded_on_branch": true,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_issue_output": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false,
+    "aggregate_output": false
+  },
+  "preserved_limitations": {
+    "circuit_targets_in_scope": false,
+    "gate_bounds_in_scope": false,
+    "total_size_consequences_in_scope": false,
+    "historical_pdf_byte_equivalence": "not_established",
+    "aggregate_openai_ten_proofs_authority": false,
+    "unrestricted_source_theorem_proof_claim": false
+  },
+  "claim_boundary": "This bounded adjudication clears only the exact two encoded OTP-C-PERMANENT variable-leaf formula targets for MATHCERT route purposes. It does not certify circuit complexity, the separate 256/384 gate bounds, total-leaf or total-vertex consequences, historical admitted-PDF byte equivalence, an unrestricted source theorem, issue a Cert output, mark any mathematical target proved, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}

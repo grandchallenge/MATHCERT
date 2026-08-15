@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/openai_ten_proofs_permanent_adjudication.schema.json",
+  "title": "OpenAI Ten Proofs Permanent formula adjudication",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "adjudication_id",
+    "result_family",
+    "route_id",
+    "contract_id",
+    "tracker_issue",
+    "authority",
+    "encoded_targets",
+    "raw_evidence_verification",
+    "evidence_assessment",
+    "decision",
+    "review_gate",
+    "state",
+    "preserved_limitations",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_permanent_adjudication"},
+    "adjudication_id": {"const": "MC-OTP-C-PERMANENT-ADJUDICATION-001"},
+    "result_family": {"const": "OTP-C-PERMANENT"},
+    "route_id": {"const": "MC-ROUTE-OTP-C-PERMANENT-FORMULA"},
+    "contract_id": {"const": "MC-OTP-ADJUDICATION-CONTRACT-C-PERMANENT-FORMULA"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/107"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_design_merge", "contract_blob", "adjudication_design_registry_blob", "execution_candidate_head", "execution_candidate_merge", "execution_candidate_record_blob", "execution_candidate_manifest_blob", "evidence_candidate_review", "control_plan"],
+      "properties": {
+        "contract_design_merge": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "contract_blob": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "adjudication_design_registry_blob": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "execution_candidate_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "execution_candidate_merge": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "execution_candidate_record_blob": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "execution_candidate_manifest_blob": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "evidence_candidate_review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reviewer", "review_id", "reviewed_head", "state"],
+          "properties": {
+            "reviewer": {"const": "jimsteeg"},
+            "review_id": {"const": 4942963925},
+            "reviewed_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "state": {"const": "APPROVED"}
+          }
+        },
+        "control_plan": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["conformance", "control_plan_change_requested", "human_steward_intervention_required_only_for_control_plan_change", "routine_stage_progression_without_human_steward_intervention"],
+          "properties": {
+            "conformance": {"const": "within_admitted_contract"},
+            "control_plan_change_requested": {"const": false},
+            "human_steward_intervention_required_only_for_control_plan_change": {"const": true},
+            "routine_stage_progression_without_human_steward_intervention": {"const": true}
+          }
+        }
+      }
+    },
+    "encoded_targets": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "raw_evidence_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "artifact_name", "bytes", "sha256", "raw_execution_candidate_sha256", "raw_bundle_manifest_sha256", "retained_manifest_verified", "verification_result"],
+      "properties": {
+        "artifact_id": {"type": "integer", "minimum": 1},
+        "artifact_name": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "raw_execution_candidate_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "raw_bundle_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "retained_manifest_verified": {"type": "boolean"},
+        "verification_result": {"enum": ["pass", "fail"]}
+      }
+    },
+    "evidence_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority_integrity", "isolated_checker_replay", "lean_kernel", "nanoda", "theorem_axioms", "trust_boundary", "source_statement_concordance", "nonvacuity", "circuit_targets_in_scope", "gate_bounds_in_scope", "total_size_consequences_in_scope", "historical_pdf_byte_equivalence"],
+      "properties": {
+        "authority_integrity": {"type": "string", "minLength": 1},
+        "isolated_checker_replay": {"type": "string", "minLength": 1},
+        "lean_kernel": {"type": "string", "minLength": 1},
+        "nanoda": {"type": "string", "minLength": 1},
+        "theorem_axioms": {"type": "string", "minLength": 1},
+        "trust_boundary": {"type": "string", "minLength": 1},
+        "source_statement_concordance": {"type": "string", "minLength": 1},
+        "nonvacuity": {"type": "string", "minLength": 1},
+        "circuit_targets_in_scope": {"type": "boolean"},
+        "gate_bounds_in_scope": {"type": "boolean"},
+        "total_size_consequences_in_scope": {"type": "boolean"},
+        "historical_pdf_byte_equivalence": {"type": "string", "minLength": 1}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "disposition", "scope", "rationale", "binding_effect"],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "disposition": {"enum": ["adjudication_clear_encoded_targets_only", "adjudication_not_clear", "defer_insufficient_evidence"]},
+        "scope": {"type": "string", "minLength": 1},
+        "rationale": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"type": "string", "minLength": 1}},
+        "binding_effect": {"type": "string", "minLength": 1}
+      }
+    },
+    "review_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fresh_non_author_specialist_review_required", "minimum_reviewers", "required_state", "must_bind_exact_head", "recorded_review"],
+      "properties": {
+        "fresh_non_author_specialist_review_required": {"type": "boolean"},
+        "minimum_reviewers": {"type": "integer", "minimum": 1},
+        "required_state": {"type": "string", "minLength": 1},
+        "must_bind_exact_head": {"type": "boolean"},
+        "recorded_review": {"type": "null"}
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["route_state", "adjudication_operation_authorized", "adjudication_recorded_on_branch", "cert_output", "mathematical_target_proved", "may_issue_output", "may_promote_claim", "aggregate_adjudication", "aggregate_output"],
+      "properties": {
+        "route_state": {"type": "string", "minLength": 1},
+        "adjudication_operation_authorized": {"type": "boolean"},
+        "adjudication_recorded_on_branch": {"type": "boolean"},
+        "cert_output": {"type": "null"},
+        "mathematical_target_proved": {"type": "boolean"},
+        "may_issue_output": {"type": "boolean"},
+        "may_promote_claim": {"type": "boolean"},
+        "aggregate_adjudication": {"type": "boolean"},
+        "aggregate_output": {"type": "boolean"}
+      }
+    },
+    "preserved_limitations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["circuit_targets_in_scope", "gate_bounds_in_scope", "total_size_consequences_in_scope", "historical_pdf_byte_equivalence", "aggregate_openai_ten_proofs_authority", "unrestricted_source_theorem_proof_claim"],
+      "properties": {
+        "circuit_targets_in_scope": {"type": "boolean"},
+        "gate_bounds_in_scope": {"type": "boolean"},
+        "total_size_consequences_in_scope": {"type": "boolean"},
+        "historical_pdf_byte_equivalence": {"type": "string", "minLength": 1},
+        "aggregate_openai_ten_proofs_authority": {"type": "boolean"},
+        "unrestricted_source_theorem_proof_claim": {"type": "boolean"}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}
