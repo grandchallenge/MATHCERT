@@ -57,6 +57,8 @@
     {"path":"ci/test_otp_permanent_adjudication.py","mode":"direct"},
     {"path":"ci/validate_otp_permanent_output_contract.py","mode":"direct"},
     {"path":"ci/test_otp_permanent_output_contract.py","mode":"direct"},
+    {"path":"ci/validate_otp_permanent_output_execution.py","mode":"direct"},
+    {"path":"ci/test_otp_permanent_output_execution.py","mode":"direct"},
     {"path":"ci/validate_human_steward_post_merge_attestation.py","mode":"direct"},
     {"path":"ci/test_human_steward_post_merge_attestation.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_adjudication_contracts.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_adjudication_design_with_successors.py"},
