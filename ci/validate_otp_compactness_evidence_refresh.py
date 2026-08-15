@@ -26,6 +26,7 @@ THEOREMS=['CompactnessConjecture.quantitativeCompactnessCounterexample','Compact
 WITNESSES=THEOREMS[:2]; AXIOMS=['Classical.choice','Quot.sound','propext']
 FAMILIES=[{'result_family':'OTP-F-EHRHART','route_state':'qualified','adjudication_count':1,'cert_output_count':1},{'result_family':'OTP-J1-COMPACTNESS','route_state':'submitted','adjudication_count':0,'cert_output_count':0},{'result_family':'OTP-J2-TWO-DEGENERATE','route_state':'submitted','adjudication_count':0,'cert_output_count':0}]
 FILES={'SHA256SUMS','authority-receipt.json','axiom-check.json','challenge-build.log','comparator.log','environment.txt','evidence-summary.json','solution-build.log','source-identities.txt','source-revision-report.txt','theorem-axioms.log','trust-boundary-scan.txt'}
+SUCCESSOR_OUTPUT={'repository':'grandchallenge/MATHCERT','commit_sha':'9fba5a8e918028ecc2b4d72abc00b3b72a5194f5','path':'certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json','digest_algorithm':'git_blob_sha1','digest':'88531e28951854961e86eec0517356999a391759'}
 
 
 def load(p:Path)->Any:return json.loads(p.read_text(encoding='utf-8'))
@@ -140,10 +141,13 @@ def validation_errors(*,record=None,schema=None,candidate=None,contract=None,pri
  if authority.get('source_locus')!={'chapter':10,'theorem':'Theorem 1.1','pdf_page_index':236,'printed_page':235} or authority.get('current_revision_locus_concordance')!='clear_after_protected_forge_activation':e.append('source-locus receipt drift')
  if authority.get('whole_document_byte_equivalence')!='not_established' or authority.get('whole_document_semantic_equivalence')!='not_established' or authority.get('proof_body_compared_in_full') is not False:e.append('whole-document or proof-body limitation drift')
  rm={x.get('campaign_id'):x for x in routes.get('routes',[])}; cr=rm.get('OTP-J1-COMPACTNESS',{})
- if cr.get('intake_status')!='submitted':e.append('Compactness route state inflation')
- if cr.get('cert_output') is not None:e.append('Compactness Cert output inserted')
+ if output_candidate_present:
+  if cr.get('intake_status')!='qualified':e.append('Compactness output successor route is not qualified')
+  if cr.get('cert_output')!=SUCCESSOR_OUTPUT:e.append('Compactness output successor identity drift')
+ else:
+  if cr.get('intake_status')!='submitted':e.append('Compactness route state inflation')
+  if cr.get('cert_output') is not None:e.append('Compactness Cert output inserted')
  if other_adjudication_present:e.append('Compactness adjudication inserted')
- if output_candidate_present:e.append('Compactness output candidate inserted')
  state=record.get('current_state',{})
  if state.get('families')!=FAMILIES:e.append('OTP family state drift')
  for k,v in boundary.items():
@@ -166,5 +170,5 @@ def main()->int:
  try:e=validation_errors()
  except Exception as x:print(f'Compactness evidence-refresh validation failed: {x}',file=sys.stderr);return 1
  if e:print('\n'.join(e),file=sys.stderr);print(f'Compactness evidence-refresh validation failed with {len(e)} error(s)',file=sys.stderr);return 1
- print('validated historical non-adjudicative Compactness evidence refresh; later separately governed adjudication successors do not rewrite this stage');return 0
+ print('validated historical non-adjudicative Compactness evidence refresh; exact later adjudication/output successors do not rewrite this stage');return 0
 if __name__=='__main__':raise SystemExit(main())
