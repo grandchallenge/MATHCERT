@@ -123,6 +123,9 @@ def verify(data: dict[str, Any]) -> list[str]:
 
     concordance=data.get("source_to_encoded_concordance",{})
     if concordance.get("exact_targets") != ["CompactnessConjecture.quantitativeCompactnessCounterexample","CompactnessConjecture.compactnessCounterexample_bigO","CompactnessConjecture.not_erdos_180"]: errors.append("encoded target set drift")
+    if concordance.get("family_upper") != "source O(n^(21/16)) equals encoded O(n^(4/3-1/48))": errors.append("family upper-bound concordance drift")
+    if concordance.get("member_lower") != "source parity construction gives Omega(n^(4/3)) memberwise and supplies a common positive lower coefficient, consistent with the encoded uniform finite-family form": errors.append("memberwise universal lower-bound quantifier drift")
+    if concordance.get("failure_of_compactness") != "upper exponent is strictly below 4/3 while every member has lower exponent 4/3, so no fixed family member controls ex(n,F) up to a constant factor": errors.append("construction-to-extremal implication drift")
     if concordance.get("proof_body_compared_in_full") is not False: errors.append("full proof-body comparison inflation")
     return errors
 
