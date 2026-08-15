@@ -22,7 +22,6 @@ def require_rejected(label: str, **kwargs) -> None:
 def main() -> int:
     baseline_record = v.load(v.RECORD_PATH)
     baseline_registry = v.load(v.REGISTRY_PATH)
-    baseline_bundle = v.BUNDLE_PATH.read_bytes()
     baseline_errors = v.validation_errors()
     if baseline_errors:
         raise AssertionError("baseline replay evidence is invalid:\n" + "\n".join(baseline_errors))
@@ -33,8 +32,8 @@ def main() -> int:
     require_rejected("workflow run drift", record=r)
     r = copy.deepcopy(baseline_record); r["actions_artifact"]["sha256"] = "0" * 64
     require_rejected("artifact digest drift", record=r)
-    r = copy.deepcopy(baseline_record); r["repository_bundle"]["decoded_zip_sha256"] = "0" * 64
-    require_rejected("decoded bundle digest drift", record=r)
+    r = copy.deepcopy(baseline_record); r["repository_bundle"]["manifest_sha256"] = "0" * 64
+    require_rejected("manifest digest drift", record=r)
     r = copy.deepcopy(baseline_record); r["target_scope"]["circuit_target_count"] = 1
     require_rejected("circuit target insertion", record=r)
     r = copy.deepcopy(baseline_record); r["target_scope"]["theorems"].append("PermanentRollout.permanent_circuit_loglog_lower_bound")
@@ -58,8 +57,13 @@ def main() -> int:
     r = copy.deepcopy(baseline_record); r["review_state"]["status"] = "approved"
     require_rejected("premature specialist-review clearance", record=r)
 
-    bad_bundle = bytearray(baseline_bundle); bad_bundle[0] = ord("A") if bad_bundle[0] != ord("A") else ord("B")
-    require_rejected("repository evidence bundle mutation", encoded_bundle=bytes(bad_bundle))
+    comparator = (v.EVIDENCE_ROOT / "comparator.log").read_bytes()
+    bad_comparator = bytearray(comparator)
+    bad_comparator[0] ^= 1
+    require_rejected("repository evidence file mutation", file_overrides={"comparator.log": bytes(bad_comparator)})
+    manifest = (v.EVIDENCE_ROOT / "SHA256SUMS").read_bytes()
+    bad_manifest = manifest.replace(b"13e0245c", b"03e0245c", 1)
+    require_rejected("repository evidence manifest mutation", file_overrides={"SHA256SUMS": bad_manifest})
     require_rejected("record blob drift", record_blob_override="0" * 40)
     require_rejected("historical evidence registry drift", historical_blob_override="0" * 40)
 
