@@ -13,10 +13,11 @@
   "successor_evidence": {
     "path": "governance/result_family_replay_evidence_successors/OTP-C-PERMANENT.json",
     "digest_algorithm": "git_blob_sha1",
-    "digest": "8141ee919813aec3eb04e4b58ec804cc90b457ba",
-    "bundle_path": "evidence/openai_ten_proofs/permanent.zip.b64",
-    "bundle_blob": "44adfbd80018dda202133e3c177050caa118da7c",
-    "decoded_zip_sha256": "9f04dbfd0fe6c52329b9905371d33faa44b2f96719485460c6290bc8a74fd507",
+    "digest": "7b75a323b6d840730932bf90984f498b7d360cda",
+    "bundle_root": "evidence/openai_ten_proofs/permanent",
+    "bundle_manifest_path": "evidence/openai_ten_proofs/permanent/SHA256SUMS",
+    "bundle_manifest_blob": "cbc185bd0cd182fddd3127d8373ae7a74f6389dd",
+    "bundle_manifest_sha256": "351ab107342d2fe72220098ae6e5dc600653e9b181119c99805182270559f969",
     "artifact_id": 9237666071,
     "artifact_sha256": "9f04dbfd0fe6c52329b9905371d33faa44b2f96719485460c6290bc8a74fd507"
   },
@@ -50,5 +51,5 @@
     "aggregate_route_prohibited": true
   },
   "candidate_disposition": "PERMANENT_FORMULA_CERT_REPLAY_EVIDENCE_CLEAR__ROUTE_PROPOSAL_NOT_YET_AUTHORIZED",
-  "claim_boundary": "This successor registry admits one repository-owned replay evidence bundle for the two protected Permanent formula variable-leaf targets only. It preserves the historical three-family replay-evidence registry byte-for-byte and creates no route proposal, route registration, adjudication, Cert output, proof promotion, circuit/gate/total-size authority, historical-PDF equivalence, or aggregate Ten Proofs authority."
+  "claim_boundary": "This successor registry admits one repository-owned replay evidence directory for the two protected Permanent formula variable-leaf targets only. It preserves the historical three-family replay-evidence registry byte-for-byte and creates no route proposal, route registration, adjudication, Cert output, proof promotion, circuit/gate/total-size authority, historical-PDF equivalence, or aggregate Ten Proofs authority."
 }
