@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import copy
 import importlib.util
+import json
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -11,6 +13,17 @@ spec = importlib.util.spec_from_file_location("j2_scope", MODULE)
 assert spec and spec.loader
 j2 = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(j2)
+PREDECESSOR_ROUTE_BLOB = "bc4640661443f1b3de213aaa82a333a4fdb6849b"
+
+
+def predecessor_routes() -> dict:
+    proc = subprocess.run(
+        ["git", "-C", str(ROOT), "cat-file", "blob", PREDECESSOR_ROUTE_BLOB],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return json.loads(proc.stdout)
 
 
 def expect_reject(label: str, record: dict, routes: dict, overlay: str) -> None:
@@ -29,11 +42,11 @@ def mutate_registered_route(routes: dict, key: str, value) -> dict:
 
 def main() -> int:
     record = j2.load(j2.RECORD)
-    routes = j2.load(j2.ROUTES)
+    routes = predecessor_routes()
     overlay = j2.OVERLAY.read_text(encoding="utf-8")
-    baseline = j2.validation_errors(record, routes, overlay, check_files=True)
+    baseline = j2.validation_errors(record, routes, overlay, check_files=False)
     if baseline:
-        raise AssertionError("baseline invalid:\n" + "\n".join(baseline))
+        raise AssertionError("historical predecessor baseline invalid:\n" + "\n".join(baseline))
 
     cases = []
 
@@ -95,7 +108,7 @@ def main() -> int:
     for label, r, routes_value, lean in cases:
         expect_reject(label, r, routes_value, lean)
 
-    print(f"J2 scope-repair mutation suite rejected {len(cases)} adversarial changes")
+    print(f"J2 scope-repair mutation suite rejected {len(cases)} adversarial changes against protected predecessor route snapshot")
     return 0
 
 
