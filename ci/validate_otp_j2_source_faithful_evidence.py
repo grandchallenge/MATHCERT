@@ -27,6 +27,8 @@ EXPECTED = {
     "projection_blob": "ac1ec20e95d6acbcd1c3a111afe28bca92a43377",
     "source_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
     "source_bytes": 2487031,
+    "theorem_locus": "Chapter 10, Theorem 1.2, current official PDF P240-P241 / printed pp236-237",
+    "construction_locus": "Chapter 10 sections 6-8 and proof of Theorem 1.2, current official PDF P248-P251 / printed pp244-248",
 }
 HISTORICAL_TARGETS = [
     "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
@@ -132,6 +134,12 @@ def validation_errors(record: dict[str, Any] | None = None, routes: dict[str, An
     source = record.get("source_assessment", {})
     if source.get("current_official_source_sha256") != EXPECTED["source_sha256"] or source.get("current_official_source_bytes") != EXPECTED["source_bytes"]:
         errors.append("current official source identity drift")
+    if source.get("theorem_locus") != EXPECTED["theorem_locus"]:
+        errors.append("Theorem 1.2 source locus drift")
+    if source.get("construction_locus") != EXPECTED["construction_locus"]:
+        errors.append("Theorem 1.2 construction locus drift")
+    if source.get("statement_concordance") != "clear_for_source_faithful_projection_only":
+        errors.append("source-faithful statement-concordance boundary drift")
     if source.get("stronger_coloring_property_source_authorized") is not False:
         errors.append("stronger coloring property source-authorized")
     if source.get("whole_document_equivalence") != "not_established" or source.get("proof_body_compared_in_full") is not False:
