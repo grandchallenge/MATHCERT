@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grandchallenge/MATHCERT/schemas/openai_ten_proofs_j2_route_target_successor.schema.json",
+  "title": "OTP J2 source-faithful route-target successor receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "successor_id", "operation_id", "candidate_id", "result_family", "route_id", "tracker_issue", "successor_kind", "authority", "predecessor_live_target_claim_ids", "successor_live_target_claim_ids", "historical_target_treatment", "transition_reason", "route_state_after_successor", "successor_contract", "streamlined_control_plan", "required_state", "publication_gate", "disposition", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_j2_route_target_successor"},
+    "successor_id": {"const": "MC-OTP-J2-TWO-DEGENERATE-ROUTE-TARGET-SUCCESSOR-001"},
+    "operation_id": {"const": "OTP-J2-TWO-DEGENERATE-ROUTE-TARGET-SUCCESSOR-001"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const": "OTP-J2-TWO-DEGENERATE"},
+    "route_id": {"const": "MC-ROUTE-OTP-J2-TWO-DEGENERATE"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/124"},
+    "successor_kind": {"const": "explicit_governed_live_target_replacement"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protected_predecessor_main", "path_a_authorization", "predecessor_route_registry", "predecessor_adjudication_contract", "scope_repair", "completed_evidence", "official_source", "formal_subject"],
+      "properties": {
+        "protected_predecessor_main": {"const": "a2b1a464ac992b9807061e8ede9d2f7c42ad4cf6"},
+        "path_a_authorization": {"type": "object", "additionalProperties": false, "required": ["issue", "comment_id", "scope"], "properties": {"issue": {"const": 120}, "comment_id": {"const": 5305021852}, "scope": {"type": "string"}}},
+        "predecessor_route_registry": {"type": "object", "additionalProperties": false, "required": ["path", "digest_algorithm", "digest"], "properties": {"path": {"const": "governance/certification_routes.json"}, "digest_algorithm": {"const": "git_blob_sha1"}, "digest": {"const": "bc4640661443f1b3de213aaa82a333a4fdb6849b"}}},
+        "predecessor_adjudication_contract": {"type": "object", "additionalProperties": false, "required": ["path", "digest_algorithm", "digest"], "properties": {"path": {"const": "governance/result_family_adjudication_contracts/OTP-J2-TWO-DEGENERATE.json"}, "digest_algorithm": {"const": "git_blob_sha1"}, "digest": {"const": "2bb9d70b931ea0a07487664c112644f990527760"}}},
+        "scope_repair": {"type": "object", "additionalProperties": false, "required": ["merge_commit", "record_path", "record_git_blob_sha1", "projection_path", "projection_git_blob_sha1"], "properties": {"merge_commit": {"const": "2106840fe2daf8b2492f52473465f531e7e2ef21"}, "record_path": {"const": "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json"}, "record_git_blob_sha1": {"const": "5884bc57ba4e9c1d4576b96793f7e78009223b15"}, "projection_path": {"const": "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean"}, "projection_git_blob_sha1": {"const": "ac1ec20e95d6acbcd1c3a111afe28bca92a43377"}}},
+        "completed_evidence": {"type": "object", "additionalProperties": false, "required": ["merge_commit", "record_path", "record_git_blob_sha1", "disposition"], "properties": {"merge_commit": {"const": "a2b1a464ac992b9807061e8ede9d2f7c42ad4cf6"}, "record_path": {"const": "governance/result_family_construction_evidence/OTP-J2-TWO-DEGENERATE.json"}, "record_git_blob_sha1": {"const": "e1bc1f04daf28b04a85e92e605732f466ab1e2d6"}, "disposition": {"const": "J2_SOURCE_FAITHFUL_EVIDENCE_COMPLETE_READY_FOR_ROUTE_TARGET_SUCCESSOR"}}},
+        "official_source": {"type": "object", "additionalProperties": false, "required": ["url", "sha256", "bytes", "locus"], "properties": {"url": {"const": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf"}, "sha256": {"const": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"}, "bytes": {"const": 2487031}, "locus": {"const": "Chapter 10, Theorem 1.2"}}},
+        "formal_subject": {"type": "object", "additionalProperties": false, "required": ["repository", "commit", "tree", "lean_version", "lake_manifest_git_blob_sha1", "comparator_config_git_blob_sha1", "challenge_git_blob_sha1", "solution_git_blob_sha1"], "properties": {"repository": {"const": "openai/ten-proofs"}, "commit": {"const": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"}, "tree": {"const": "174289e4d4958cb0509874e6e53400e098213de7"}, "lean_version": {"const": "4.32.0"}, "lake_manifest_git_blob_sha1": {"const": "046e8de7f46832fbf092e3fb815efae01e4a2129"}, "comparator_config_git_blob_sha1": {"const": "d8a542b5ce620b686cb24a6756360e76c5d2b1c1"}, "challenge_git_blob_sha1": {"const": "dd22ce141dd0a860ecdccfda291c0f3a480a1d70"}, "solution_git_blob_sha1": {"const": "0e973d50014e8c800af597ef699ef29b81e42fc6"}}}
+      }
+    },
+    "predecessor_live_target_claim_ids": {"const": ["TwoDegenerateGraphs.twoDegenerateExtremalCounterexample", "TwoDegenerateGraphs.not_erdos_146"]},
+    "successor_live_target_claim_ids": {"const": ["TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample", "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146"]},
+    "historical_target_treatment": {"type": "object", "additionalProperties": false, "required": ["preserved_as_predecessor_evidence", "remain_live_adjudication_targets", "historical_records_rewritten", "derivation_carrier_use_preserved"], "properties": {"preserved_as_predecessor_evidence": {"const": true}, "remain_live_adjudication_targets": {"const": false}, "historical_records_rewritten": {"const": false}, "derivation_carrier_use_preserved": {"const": true}}},
+    "transition_reason": {"type": "string", "minLength": 100},
+    "route_state_after_successor": {"const": "submitted"},
+    "successor_contract": {"type": "object", "additionalProperties": false, "required": ["path", "contract_id", "contract_state"], "properties": {"path": {"const": "governance/result_family_adjudication_contract_successors/OTP-J2-TWO-DEGENERATE.json"}, "contract_id": {"const": "MC-OTP-ADJUDICATION-CONTRACT-J2-TWO-DEGENERATE-SOURCE-FAITHFUL-001"}, "contract_state": {"const": "design_only"}}},
+    "streamlined_control_plan": {"type": "object", "additionalProperties": false, "required": ["applies", "separate_human_steward_authorization_required_for_this_stage", "human_steward_intervention_required_only_for_control_plan_change", "stop_conditions"], "properties": {"applies": {"const": true}, "separate_human_steward_authorization_required_for_this_stage": {"const": false}, "human_steward_intervention_required_only_for_control_plan_change": {"const": true}, "stop_conditions": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "string"}, "uniqueItems": true}}},
+    "required_state": {"type": "object", "additionalProperties": false, "required": ["route_state", "may_adjudicate", "adjudication", "cert_output", "mathematical_target_proved", "may_promote_claim", "aggregate_authority", "stronger_coloring_property_source_authorized", "stronger_coloring_property_certified"], "properties": {"route_state": {"const": "submitted"}, "may_adjudicate": {"const": false}, "adjudication": {"type": "null"}, "cert_output": {"type": "null"}, "mathematical_target_proved": {"const": false}, "may_promote_claim": {"const": false}, "aggregate_authority": {"const": false}, "stronger_coloring_property_source_authorized": {"const": false}, "stronger_coloring_property_certified": {"const": false}}},
+    "publication_gate": {"type": "object", "additionalProperties": false, "required": ["fresh_current_source_reacquisition_required", "exact_source_faithful_replay_required", "exact_head_cert_checks_required", "exact_head_gcl_conformance_required", "cross_platform_controls_required", "codeql_no_new_alerts_required", "fresh_non_author_approved_review_required", "review_must_bind_exact_final_head", "protected_expected_head_merge_required", "protected_main_readback_required"], "properties": {"fresh_current_source_reacquisition_required": {"const": true}, "exact_source_faithful_replay_required": {"const": true}, "exact_head_cert_checks_required": {"const": true}, "exact_head_gcl_conformance_required": {"const": true}, "cross_platform_controls_required": {"const": true}, "codeql_no_new_alerts_required": {"const": true}, "fresh_non_author_approved_review_required": {"const": true}, "review_must_bind_exact_final_head": {"const": true}, "protected_expected_head_merge_required": {"const": true}, "protected_main_readback_required": {"const": true}}},
+    "disposition": {"const": "SOURCE_FAITHFUL_ROUTE_TARGET_SUCCESSOR_CANDIDATE__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY"},
+    "claim_boundary": {"type": "string", "minLength": 100}
+  }
+}
