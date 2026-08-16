@@ -92,18 +92,32 @@
       "required": true,
       "status": "clear",
       "workflow_name": "OTP J2 source-faithful evidence refresh",
-      "workflow_run_id": 31921405987,
-      "artifact_id": 9256527089,
-      "artifact_sha256": "7a004143eeb0f6f66c1dc6713f245a2f48959a6340fe9fd823dbc75edd151d12",
-      "execution_head": "4eadd7a73c58b9125598dd808e91bc1b53e68be1",
+      "workflow_run_id": 31921827626,
+      "artifact_id": 9256655146,
+      "artifact_sha256": "3da0f00ff095c4b84ce83e74d572f42d128069e060738c73f5948b11036a879c",
+      "execution_head": "f19110844f07bd3045dcc1102fe3e427a05eeb26",
+      "literal_head_checkout_verified": true,
       "comparator": "pass_derivation_carrier_only",
       "lean_kernel": "accept",
       "nanoda": "accept",
       "source_faithful_projection": "accept",
       "dependency_separation": "accept",
       "theorem_axiom_report": "permitted_only",
-      "trust_scan": "clear"
+      "trust_scan": "clear",
+      "construction_verifier": "clear",
+      "adversarial_mutations_rejected": 39
     },
+    "superseded_runtime_evidence": [
+      {
+        "workflow_run_id": 31921405987,
+        "artifact_id": 9256527089,
+        "artifact_sha256": "7a004143eeb0f6f66c1dc6713f245a2f48959a6340fe9fd823dbc75edd151d12",
+        "reported_pr_head": "4eadd7a73c58b9125598dd808e91bc1b53e68be1",
+        "actual_checkout": "b08050ca2799e2adf60559e2ecea859395399e20",
+        "disposition": "SUPERSEDED_NONBINDING_SYNTHETIC_MERGE_REF_REPLAY",
+        "reason": "The run was green but default actions/checkout selected GitHub's synthetic pull-request merge ref rather than the literal PR head. It is retained as diagnostic history and supplies no binding exact-head evidence authority."
+      }
+    ],
     "disposition": {
       "evidence_disposition": "J2_SOURCE_FAITHFUL_EVIDENCE_COMPLETE_READY_FOR_ROUTE_TARGET_SUCCESSOR",
       "ready_for_route_target_successor": true,
@@ -136,6 +150,6 @@
       "other_result_family_modified": false,
       "aggregate_openai_ten_proofs_authority": false
     },
-    "claim_boundary": "This completed evidence record binds fresh exact-source J2 replay and independently reconstructed source-faithful construction/extremal evidence for the prospective MATHCERT projection targets. It is ready only for a separately governed route-target and adjudication-contract successor. The live registered route and historical target list remain unchanged; the stronger coloring-side property is neither source-authorized nor certified; adjudication, qualification, Cert output, mathematical-proof promotion, aggregate authority, whole-document equivalence, and full proof-body equivalence remain prohibited."
+    "claim_boundary": "This completed evidence record binds a literal-head, fresh exact-source J2 replay and independently reconstructed source-faithful construction/extremal evidence for the prospective MATHCERT projection targets. It is ready only for a separately governed route-target and adjudication-contract successor. The live registered route and historical target list remain unchanged; the stronger coloring-side property is neither source-authorized nor certified; adjudication, qualification, Cert output, mathematical-proof promotion, aggregate authority, whole-document equivalence, and full proof-body equivalence remain prohibited. The earlier synthetic-merge-ref replay is preserved only as superseded diagnostic history."
   }
 }
