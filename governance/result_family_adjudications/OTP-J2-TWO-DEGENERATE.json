@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_j2_source_faithful_adjudication",
+  "adjudication_id": "MC-OTP-J2-TWO-DEGENERATE-ADJUDICATION-001",
+  "operation_id": "OTP-J2-TWO-DEGENERATE-ADJUDICATION-EXECUTION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-J2-TWO-DEGENERATE",
+  "route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/126",
+  "authority": {
+    "execution_input": {
+      "path": "governance/result_family_adjudication_execution_inputs/OTP-J2-TWO-DEGENERATE.json",
+      "git_blob_sha1": "bd18b84bc257b7f06b875a6cf5fa4c038eb7c3cd"
+    },
+    "protected_contract": {
+      "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-J2-TWO-DEGENERATE-SOURCE-FAITHFUL-001",
+      "path": "governance/result_family_adjudication_contract_successors/OTP-J2-TWO-DEGENERATE.json",
+      "git_blob_sha1": "1feaeac515beb792c5552bc795826bd999f4e535",
+      "streamlined_control_plan_applies": true,
+      "separate_human_steward_authorization_required": false,
+      "execution_authorized_by_protected_contract": true,
+      "human_steward_intervention_required_only_for_control_plan_change": true
+    },
+    "route_target_successor": {
+      "path": "governance/result_family_route_target_successors/OTP-J2-TWO-DEGENERATE.json",
+      "git_blob_sha1": "5b72e13448cdbea88e0f2cf1e637c2d787b297a6",
+      "merge_commit": "ca66279862dcec276d2280749e6fae45f6e1e7a0",
+      "reviewed_head": "7508ea96dc71b9d1e44bba3006dcfd8d3bead4f7"
+    },
+    "route_registry": {
+      "path": "governance/certification_routes.json",
+      "git_blob_sha1": "eb2ad35f73ec1f7a29c7432aa9e5ad299116dbfe"
+    },
+    "protected_evidence": {
+      "record_path": "governance/result_family_construction_evidence/OTP-J2-TWO-DEGENERATE.json",
+      "record_git_blob_sha1": "e1bc1f04daf28b04a85e92e605732f466ab1e2d6",
+      "source_manifest_git_blob_sha1": "956320bfc94760d408c7f1a6af9bb6a8e8e1d1fc",
+      "reconstruction_git_blob_sha1": "3905455458f247b768353bc0b082ecbf7c8dd0ff",
+      "dependency_ledger_git_blob_sha1": "0d81c00d9d190e92ed6f30de867e940bc03b2237",
+      "projection_git_blob_sha1": "ac1ec20e95d6acbcd1c3a111afe28bca92a43377"
+    }
+  },
+  "encoded_targets": [
+    "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+    "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146"
+  ],
+  "historical_predecessor_targets": [
+    "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
+    "TwoDegenerateGraphs.not_erdos_146"
+  ],
+  "source_assessment": {
+    "official_source_url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",
+    "current_bytes": 2487031,
+    "current_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+    "release_note": "Updated August 6, 2026",
+    "theorem_locus": "Chapter 10, Theorem 1.2",
+    "statement_concordance": "clear_for_exact_source_faithful_theorem_1_2_core",
+    "stronger_coloring_property_source_authorized": false,
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false
+  },
+  "formal_subject": {
+    "repository": "openai/ten-proofs",
+    "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+    "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+    "lean_version": "4.32.0"
+  },
+  "fresh_execution": {
+    "execution_head": "863447a7b6abeeee6b113e27057730036318ea0f",
+    "workflow_name": "OTP J2 source-faithful adjudication",
+    "workflow_run_id": 31928781876,
+    "replay_job_id": 95120424098,
+    "artifact_id": 9258729796,
+    "artifact_name": "otp-j2-source-faithful-adjudication-runtime",
+    "artifact_bytes": 9942,
+    "artifact_sha256": "eca8e392bc620e5da0e7e709dfd0733a9797a679cc520ec69e38312851868853",
+    "literal_head_checkout_verified": true,
+    "current_source_reacquired": true,
+    "construction_reverified": true,
+    "nonvacuity": "clear_both_source_faithful_declarations_accept_and_refutation_uses_source_core_only",
+    "comparator": "pass_derivation_carrier_only",
+    "lean_kernel": "accept",
+    "nanoda": "accept",
+    "source_faithful_projection": "accept",
+    "dependency_separation": "accept",
+    "theorem_axioms": ["propext", "Classical.choice", "Quot.sound"],
+    "trust_boundary": "clear",
+    "input_mutations_rejected": 24
+  },
+  "construction_assessment": {
+    "parameter_window_nonempty": "clear",
+    "fixed_layered_graph": "clear",
+    "connectedness": "clear",
+    "bipartiteness": "clear",
+    "two_degeneracy": "clear",
+    "sampled_hamming_ball_host": "clear",
+    "entropy_potential_dependency_chain": "clear_with_source_internal_lemmas_explicitly_ledgered",
+    "vertex_edge_concentration": "clear",
+    "exact_exponent_bridge": "clear",
+    "subsequence_to_all_n_padding": "clear",
+    "extremal_number_interpretation": "clear",
+    "source_internal_entropy_lemmas_reformalized": false,
+    "substantive_mathematical_gap_found": false
+  },
+  "decision": {
+    "question": "Does the complete admissible evidence support a family-specific MATHCERT adjudication of exactly the two source-faithful J2 targets while preserving every recorded source-scope limitation?",
+    "disposition": "adjudication_clear_source_faithful_targets_only",
+    "scope": "exact_two_source_faithful_targets_only",
+    "stronger_coloring_property_excluded": true,
+    "reason": "Fresh exact-source, exact-formal-subject, construction, nonvacuity, kernel, Comparator, Nanoda, axiom, trust, and authority evidence are clear for exactly the source-authorized Chapter 10 Theorem 1.2 core; the stronger coloring-side conjunct remains excluded."
+  },
+  "state": {
+    "route_state": "submitted",
+    "adjudication_operation_authorized": true,
+    "adjudication_authority_source": "protected_streamlined_successor_contract",
+    "adjudication_recorded_on_branch": true,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_issue_output": false,
+    "may_promote_claim": false,
+    "stronger_coloring_property_certified": false,
+    "aggregate_adjudication": false,
+    "aggregate_output": false
+  },
+  "review_gate": {
+    "fresh_non_author_specialist_review_required": true,
+    "minimum_binding_reviewers": 1,
+    "required_state": "APPROVED",
+    "must_bind_exact_final_publication_head": true,
+    "recorded_review": null
+  },
+  "preserved_limitations": {
+    "historical_records_rewritten": false,
+    "stronger_coloring_property_source_authorized": false,
+    "stronger_coloring_property_certified": false,
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false,
+    "source_internal_entropy_lemmas_reformalized": false,
+    "other_result_families_modified": false,
+    "aggregate_openai_ten_proofs_authority": false,
+    "mathematical_proof_promotion_authorized": false,
+    "cert_output_authorized": false,
+    "route_transition_authorized": false
+  },
+  "claim_boundary": "This adjudication clears only the exact two source-faithful J2 declarations for family-specific MATHCERT adjudication purposes under the protected streamlined successor contract. It does not issue a Cert output, transition the submitted route, mark a mathematical target proved, source-authorize or certify the stronger coloring-side property, establish whole-document or full proof-body equivalence, alter another result family, or create aggregate OpenAI Ten Proofs authority. Publication still requires exact final-head machine gates, fresh non-author APPROVED review, protected expected-head merge, and protected-main readback."
+}
