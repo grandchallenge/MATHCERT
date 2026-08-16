@@ -5,6 +5,8 @@ import importlib.util
 import unittest
 from pathlib import Path
 
+import validate_otp_j2_route_target_successor as j2
+
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
     "validate_otp_ehrhart_output_execution",
@@ -21,7 +23,9 @@ class OTPEhrhartOutputExecutionTests(unittest.TestCase):
         self.schema = M.load(M.SCHEMA)
         self.certificate = M.load(M.CERTIFICATE)
         self.staged = M.load(M.STAGED_CERTIFICATE)
-        self.routes = M.load(M.ROUTES)
+        # Preserve the historical Ehrhart candidate mutation surface against
+        # the exact route state before the separately governed J2 output.
+        self.routes = j2.pre_output_routes()
         self.receipt = M.git_receipt()
 
     def errors(self, **kwargs):
@@ -37,6 +41,9 @@ class OTPEhrhartOutputExecutionTests(unittest.TestCase):
 
     def test_current_execution_passes(self):
         self.assertEqual([], self.errors())
+
+    def test_live_j2_output_successor_passes_separately(self):
+        self.assertEqual([], j2.live_output_successor_errors())
 
     def test_authorization_drift_fails(self):
         data = copy.deepcopy(self.record)
@@ -90,7 +97,7 @@ class OTPEhrhartOutputExecutionTests(unittest.TestCase):
         )
         self.assertTrue(self.errors(routes=routes))
 
-    def test_two_degenerate_output_fails(self):
+    def test_two_degenerate_output_fails_in_historical_snapshot(self):
         routes = copy.deepcopy(self.routes)
         route = next(x for x in routes["routes"] if x["campaign_id"] == "OTP-J2-TWO-DEGENERATE")
         route["intake_status"] = "qualified"
