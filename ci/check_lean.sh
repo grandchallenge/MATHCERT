@@ -85,6 +85,10 @@ python3 ci/validate_otp_compactness_output_contract.py
 python3 ci/test_otp_compactness_output_contract.py
 python3 ci/validate_otp_compactness_output_execution.py
 python3 ci/test_otp_compactness_output_execution.py
+python3 ci/build_otp_j2_construction_evidence.py
+python3 ci/verify_otp_j2_construction_evidence.py
+python3 ci/validate_otp_j2_source_faithful_evidence.py
+python3 ci/test_otp_j2_source_faithful_evidence.py
 python3 ci/validate_otp_j2_scope_repair.py
 python3 ci/test_otp_j2_scope_repair.py
 python3 work_packages/EUCLID_GCD_E2E_001/check_certificate.py

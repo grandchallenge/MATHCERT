@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "operation_id": "OTP-J2-TWO-DEGENERATE-CERT-EVIDENCE-REFRESH-001",
+  "result_family": "OTP-J2-TWO-DEGENERATE",
+  "official_source": {
+    "url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",
+    "release_note": "Updated August 6, 2026",
+    "page_count": 253,
+    "bytes": 2487031,
+    "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
+  },
+  "indexing_note": "pdf_page_indices are zero-based visual PDF/screenshot indices; parsed_line_locus uses the text parser's page labels and is retained separately.",
+  "theorem": {
+    "chapter": 10,
+    "number": "1.2",
+    "title": "Failure of the 2-degenerate bound",
+    "pdf_page_indices": [236, 237],
+    "printed_pages": [235, 236],
+    "parsed_line_locus": "parser P240 L20027-L20030",
+    "normalized_statement": "There exist a fixed connected bipartite 2-degenerate graph H and constants c, epsilon > 0 such that ex(n,H) >= c*n^(3/2+epsilon) for all sufficiently large n."
+  },
+  "construction_loci": [
+    {
+      "section": "6. The layered graph and the parameter thresholds",
+      "pdf_page_index": 244,
+      "printed_page": 243,
+      "parsed_line_locus": "parser P248 L20747-L20801",
+      "content": "A(tau), C(tau), delta/L0/s thresholds, layered graph H, connected/bipartite/2-degenerate fact"
+    },
+    {
+      "section": "7. A sampled Hamming-ball graph",
+      "pdf_page_index": 244,
+      "printed_page": 243,
+      "parsed_line_locus": "parser P248 L20802 onward",
+      "content": "Q=2^m, p=2^(-beta m), k=floor(tau m), sampled bipartite Hamming-ball host"
+    },
+    {
+      "section": "8. Excluding the forbidden graph",
+      "pdf_page_indices": [245, 246],
+      "printed_pages": [244, 245],
+      "parsed_line_locus": "parser P250 L20959-L20977 and continuation",
+      "content": "low-entropy exclusion, entropy-potential increment contradiction, and H-free probability"
+    },
+    {
+      "section": "Proof of Theorem 1.2",
+      "pdf_page_indices": [246, 247],
+      "printed_pages": [245, 246],
+      "parsed_line_locus": "parser P250 L20978 through P251 L21121",
+      "content": "Hamming-ball asymptotics, concentration, extremal lower bound, exponent gain, padding, parameter-window positivity"
+    }
+  ],
+  "source_authorized_core": [
+    "H is one fixed finite graph",
+    "H is connected",
+    "H is bipartite",
+    "H is 2-degenerate",
+    "c is a positive real constant",
+    "epsilon is a positive real constant",
+    "for all sufficiently large n, ex(n,H) >= c*n^(3/2+epsilon)"
+  ],
+  "explicitly_not_source_authorized": [
+    "every side of every proper two-coloring contains a vertex of degree greater than two"
+  ],
+  "formal_subject": {
+    "repository": "openai/ten-proofs",
+    "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+    "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+    "lean_toolchain": "leanprover/lean4:v4.32.0",
+    "lake_manifest_git_blob_sha1": "046e8de7f46832fbf092e3fb815efae01e4a2129",
+    "j2_comparator_config_git_blob_sha1": "d8a542b5ce620b686cb24a6756360e76c5d2b1c1",
+    "j2_challenge_git_blob_sha1": "dd22ce141dd0a860ecdccfda291c0f3a480a1d70",
+    "solution_git_blob_sha1": "0e973d50014e8c800af597ef699ef29b81e42fc6"
+  },
+  "mathcert_projection": {
+    "path": "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean",
+    "git_blob_sha1": "ac1ec20e95d6acbcd1c3a111afe28bca92a43377",
+    "source_faithful_theorem": "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+    "dependency_separation_theorem": "TwoDegenerateGraphs.mathcert_not_erdos_146_from_sourceFaithfulCore",
+    "source_faithful_refutation": "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146"
+  },
+  "scope_boundary": "The manifest binds only the current official Chapter 10 Theorem 1.2 locus and the source-faithful MATHCERT projection. It does not establish whole-document equivalence, full proof-body equivalence, or source authority for the stronger coloring-side conjunct."
+}

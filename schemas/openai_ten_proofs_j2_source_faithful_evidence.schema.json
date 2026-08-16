@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grandchallenge/MATHCERT/schemas/openai_ten_proofs_j2_source_faithful_evidence.schema.json",
+  "title": "OTP J2 source-faithful construction evidence",
+  "const": {
+    "schema_version": "1.0.0",
+    "record_type": "openai_ten_proofs_j2_source_faithful_construction_evidence",
+    "evidence_id": "MC-OTP-J2-TWO-DEGENERATE-SOURCE-FAITHFUL-EVIDENCE-001",
+    "operation_id": "OTP-J2-TWO-DEGENERATE-CERT-EVIDENCE-REFRESH-001",
+    "candidate_id": "OPENAI-TEN-PROOFS-001",
+    "result_family": "OTP-J2-TWO-DEGENERATE",
+    "route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/122",
+    "candidate_state": "evidence_complete_ready_for_route_target_successor",
+    "authority": {
+      "protected_base": "2106840fe2daf8b2492f52473465f531e7e2ef21",
+      "path_a_authorization": {
+        "issue": 120,
+        "comment_id": 5305021852,
+        "scope": "source_faithful_scope_repair_and_successor_evidence_preparation_only_no_adjudication_no_output"
+      },
+      "scope_repair": {
+        "merge_commit": "2106840fe2daf8b2492f52473465f531e7e2ef21",
+        "reviewed_head": "7e8c2922214b944967f8d0359e5762f178103597",
+        "review": 4945157418,
+        "path": "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "5884bc57ba4e9c1d4576b96793f7e78009223b15"
+      },
+      "route_registry": {
+        "commit_sha": "2106840fe2daf8b2492f52473465f531e7e2ef21",
+        "path": "governance/certification_routes.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "bc4640661443f1b3de213aaa82a333a4fdb6849b",
+        "must_remain_byte_identical": true
+      },
+      "source_authority": {
+        "path": "evidence/openai_ten_proofs/two_degenerate_construction/source_authority.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "956320bfc94760d408c7f1a6af9bb6a8e8e1d1fc"
+      },
+      "reconstruction": {
+        "path": "evidence/openai_ten_proofs/two_degenerate_construction/reconstruction.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "3905455458f247b768353bc0b082ecbf7c8dd0ff"
+      },
+      "proof_dependency_ledger": {
+        "path": "evidence/openai_ten_proofs/two_degenerate_construction/proof_dependency_ledger.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "0d81c00d9d190e92ed6f30de867e940bc03b2237"
+      },
+      "source_faithful_projection": {
+        "path": "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "ac1ec20e95d6acbcd1c3a111afe28bca92a43377"
+      }
+    },
+    "evidence_subjects": [
+      "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+      "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146"
+    ],
+    "historical_registered_targets": [
+      "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
+      "TwoDegenerateGraphs.not_erdos_146"
+    ],
+    "source_assessment": {
+      "current_official_source_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+      "current_official_source_bytes": 2487031,
+      "theorem_locus": "Chapter 10, Theorem 1.2, current official PDF pageno 236-237 / printed pp235-236",
+      "construction_locus": "Chapter 10 sections 6-8 and proof of Theorem 1.2, current official PDF pageno 244-247 / printed pp243-246",
+      "statement_concordance": "clear_for_source_faithful_projection_only",
+      "stronger_coloring_property_source_authorized": false,
+      "whole_document_equivalence": "not_established",
+      "proof_body_compared_in_full": false
+    },
+    "construction_assessment": {
+      "fixed_graph_construction": "independently_reconstructed",
+      "connectedness": "independently_reconstructed_and_machine_sample_checked",
+      "bipartiteness": "independently_reconstructed_and_machine_sample_checked",
+      "two_degeneracy": "independently_reconstructed_and_machine_sample_checked",
+      "parameter_window_nonempty": "independently_reconstructed_with_exact_positivity_reduction",
+      "sampled_hamming_ball_host": "independently_reconstructed",
+      "entropy_exclusion_argument": "independently_reconstructed_with_source_internal_entropy_lemmas_explicitly_ledgered",
+      "vertex_edge_concentration": "independently_reconstructed",
+      "exponent_bridge": "independently_reconstructed_and_machine_checked",
+      "subsequence_to_all_n_padding": "independently_reconstructed_and_machine_checked",
+      "extremal_interpretation": "independently_reconstructed",
+      "source_internal_entropy_lemmas_reformalized": false,
+      "substantive_mathematical_gap_found": false
+    },
+    "fresh_runtime_replay": {
+      "required": true,
+      "status": "clear",
+      "workflow_name": "OTP J2 source-faithful evidence refresh",
+      "workflow_run_id": 31921827626,
+      "artifact_id": 9256655146,
+      "artifact_sha256": "3da0f00ff095c4b84ce83e74d572f42d128069e060738c73f5948b11036a879c",
+      "execution_head": "f19110844f07bd3045dcc1102fe3e427a05eeb26",
+      "literal_head_checkout_verified": true,
+      "comparator": "pass_derivation_carrier_only",
+      "lean_kernel": "accept",
+      "nanoda": "accept",
+      "source_faithful_projection": "accept",
+      "dependency_separation": "accept",
+      "theorem_axiom_report": "permitted_only",
+      "trust_scan": "clear",
+      "construction_verifier": "clear",
+      "adversarial_mutations_rejected": 39
+    },
+    "superseded_runtime_evidence": [
+      {
+        "workflow_run_id": 31921405987,
+        "artifact_id": 9256527089,
+        "artifact_sha256": "7a004143eeb0f6f66c1dc6713f245a2f48959a6340fe9fd823dbc75edd151d12",
+        "reported_pr_head": "4eadd7a73c58b9125598dd808e91bc1b53e68be1",
+        "actual_checkout": "b08050ca2799e2adf60559e2ecea859395399e20",
+        "disposition": "SUPERSEDED_NONBINDING_SYNTHETIC_MERGE_REF_REPLAY",
+        "reason": "The run was green but default actions/checkout selected GitHub's synthetic pull-request merge ref rather than the literal PR head. It is retained as diagnostic history and supplies no binding exact-head evidence authority."
+      }
+    ],
+    "disposition": {
+      "evidence_disposition": "J2_SOURCE_FAITHFUL_EVIDENCE_COMPLETE_READY_FOR_ROUTE_TARGET_SUCCESSOR",
+      "ready_for_route_target_successor": true,
+      "adjudication_authorized": false,
+      "next_gate": "separately_governed_route_target_and_adjudication_contract_successor"
+    },
+    "review_gate": {
+      "fresh_non_author_specialist_review_required": true,
+      "minimum_binding_reviewers": 1,
+      "must_bind_exact_final_head": true,
+      "required_state": "APPROVED",
+      "recorded_review": null
+    },
+    "required_state": {
+      "route_state": "submitted",
+      "live_route_target_list_changed": false,
+      "may_adjudicate": false,
+      "adjudication": null,
+      "cert_output": null,
+      "mathematical_target_proved": false,
+      "may_promote_claim": false,
+      "aggregate_authority": false
+    },
+    "preserved_limitations": {
+      "stronger_coloring_property_certified": false,
+      "historical_records_rewritten": false,
+      "whole_document_byte_equivalence": "not_established",
+      "whole_document_semantic_equivalence": "not_established",
+      "proof_body_compared_in_full": false,
+      "other_result_family_modified": false,
+      "aggregate_openai_ten_proofs_authority": false
+    },
+    "claim_boundary": "This completed evidence record binds a literal-head, fresh exact-source J2 replay and independently reconstructed source-faithful construction/extremal evidence for the prospective MATHCERT projection targets. It is ready only for a separately governed route-target and adjudication-contract successor. The live registered route and historical target list remain unchanged; the stronger coloring-side property is neither source-authorized nor certified; adjudication, qualification, Cert output, mathematical-proof promotion, aggregate authority, whole-document equivalence, and full proof-body equivalence remain prohibited. The earlier synthetic-merge-ref replay is preserved only as superseded diagnostic history."
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.0.0",
+  "operation_id": "OTP-J2-TWO-DEGENERATE-CERT-EVIDENCE-REFRESH-001",
+  "result_family": "OTP-J2-TWO-DEGENERATE",
+  "reconstruction_kind": "independent_source_argument_reconstruction_with_bounded_machine_checks",
+  "source_scope": "Chapter 10 Theorem 1.2 only",
+  "parameter_layer": {
+    "binary_entropy": "h(t)=-t*log2(t)-(1-t)*log2(1-t)",
+    "kappa": "3/2-(3/4)*log2(3)",
+    "A_tau": "kappa+tau*log2(3)",
+    "C_tau": "2*h(tau)-1",
+    "domain": "0<tau<1/2 and 0<beta<1",
+    "window": "A(tau)<beta<C(tau)",
+    "window_nonempty_proof": {
+      "optimizer": "tau=1/(1+sqrt(3))",
+      "r": "sqrt(3)",
+      "width": "f(tau)=C(tau)-A(tau)",
+      "exact_positive_form": "f(tau)=(1/2)*log2(1+(r-1)^4/(8*r*(1+r^2)))",
+      "positivity_reason": "r=sqrt(3)>1, so (r-1)^4>0 and 8*r*(1+r^2)>0; hence the log2 argument is >1",
+      "consequence": "there exists beta strictly between A(tau) and C(tau)"
+    },
+    "secondary_parameters": {
+      "delta": "choose 0<delta<(beta-A(tau))/4",
+      "L0": "choose an integer L0>=4 large enough for eta(L)<delta and the source finite-size error inequality for every L>=L0",
+      "s": "choose integer s>=2 with 2*s*(beta-A(tau)-2*delta)>1",
+      "existence": "strict positivity beta-A(tau)>0 and delta<(beta-A(tau))/4 imply beta-A(tau)-2*delta>(beta-A(tau))/2>0, so such s exists"
+    }
+  },
+  "fixed_forbidden_graph": {
+    "layers": "take disjoint finite layers V0,...,Vs with |V0|=L0 and Vi=choose(Vi-1,2) for 1<=i<=s",
+    "vertices": "a vertex in Vi for i>=1 is an unordered pair {a,b} of distinct vertices of V(i-1)",
+    "edges": "join each child {a,b} in Vi to exactly its two parents a,b in V(i-1)",
+    "finite": "L0 and s are fixed finite integers; recursive finite pair formation therefore gives a fixed finite graph H",
+    "connected": {
+      "proof": "Every two distinct vertices of V0 share a child in V1, so V0 lies in one connected component. Every vertex in Vi for i>=1 has parent edges descending to V0, hence all layers lie in that component.",
+      "required_condition": "L0>=2; the source has L0>=4"
+    },
+    "bipartite": {
+      "proof": "Every edge joins consecutive layers. Color a vertex by the parity of its layer index; every edge changes parity.",
+      "color_classes": "union of even-index layers versus union of odd-index layers"
+    },
+    "two_degenerate": {
+      "proof": "Order vertices by decreasing layer index. When a vertex of Vi, i>=1, is considered, all children in V(i+1) have already been removed and only its two parents can remain. Vertices of V0 are considered last. Thus every nonempty induced remainder has a vertex of degree at most 2.",
+      "scope": "establishes 2-degeneracy; no coloring-side maximum-degree property is used"
+    }
+  },
+  "sampled_host": {
+    "dimension": "m>=1",
+    "cube": "U={0,1}^m",
+    "cube_size": "Q=2^m",
+    "sampling_probability": "p=2^(-beta*m)",
+    "hamming_radius": "k=floor(tau*m)",
+    "base_host": "two disjoint copies U_L,U_R; join opposite-side words when Hamming distance is at most k",
+    "random_host": "retain each vertex independently with probability p and take the induced bipartite subgraph G_m",
+    "hamming_ball_degree": "D_m=sum_{j=0}^{floor(tau*m)} binom(m,j)=2^((h(tau)+o(1))*m)"
+  },
+  "exclusion_argument": {
+    "source_dependencies": [
+      "Chapter 10 Lemma 5.1: entropy inequality for a parent pair and child",
+      "Chapter 10 Lemma 5.2: finite-array approximation of the entropy inequality",
+      "Chapter 10 Lemma 7.1: with probability at least 1-2*s*2^(-m), no retained transition array has conditional entropy E(u,z)<=beta-delta"
+    ],
+    "embedding_setup": "Assume the Lemma 7.1 event and an embedding iota:H->G_m. Because H is connected and bipartite, consecutive layers occupy opposite host sides.",
+    "entropy_potential": "Phi_i=(1/m)*sum_j h((1/L_i)*sum_{z in iota(V_i)} z(j)); therefore 0<=Phi_i<=1",
+    "transition_lower_bound": "Lemma 7.1 gives E_i>beta-delta for each layer transition",
+    "transition_upper_bound": "Lemma 5.2 plus the Hamming-radius condition gives E_i<=A(tau)+(Phi_i-Phi_(i-1))/2+eta(L_(i-1))",
+    "finite_size_control": "the choice of L0 and recursive growth L_i>=L0 makes eta(L_(i-1))<delta and absorbs the finite collision/profile term used in the source",
+    "increment": "combining the lower and upper bounds gives Phi_i-Phi_(i-1)>2*(beta-A(tau)-2*delta)",
+    "contradiction": "s transitions give Phi_s-Phi_0>2*s*(beta-A(tau)-2*delta)>1, contradicting 0<=Phi_i<=1",
+    "conclusion": "P(H subseteq G_m)<=2*s*2^(-m)=o(1), so G_m is H-free with probability 1-o(1)",
+    "independent_assessment": "The dependency chain and inequality directions were reconstructed independently. This evidence does not claim a new formal proof of Lemmas 5.1, 5.2, or 7.1; their source proofs remain part of the admitted theorem proof body."
+  },
+  "host_size_and_edge_count": {
+    "vertices": {
+      "random_variable": "W_m=|V(G_m)|",
+      "expectation": "E[W_m]=2*p*Q",
+      "variance_bound": "Var(W_m)<=2*p*Q",
+      "high_probability_bound": "W_m<=3*p*Q with probability 1-o(1)"
+    },
+    "edges": {
+      "random_variable": "e_m=e(G_m)",
+      "expectation": "E[e_m]=p^2*Q*D_m",
+      "variance_bound": "Var(e_m)<=p^2*Q*D_m+2*p^3*Q*D_m^2",
+      "high_probability_bound": "e_m>=(1/2)*p^2*Q*D_m with probability 1-o(1)"
+    },
+    "growth_checks": {
+      "vertex_expectation_exponent": "1-beta>0 because beta<C(tau)<1",
+      "edge_expectation_exponent": "1+h(tau)-2*beta>0; beta<C(tau)=2h(tau)-1 implies this exponent is >3*(1-beta)/2>0"
+    },
+    "simultaneous_positive_probability": "The H-free event and both concentration events each have probability 1-o(1), so for all sufficiently large m an H-free realization satisfies both size bounds."
+  },
+  "extremal_bridge": {
+    "padded_size": "N_m=ceil(3*2^((1-beta)*m))",
+    "padding_reason": "an H-free realization has W_m<=3*p*Q<=N_m vertices; add isolated vertices to reach N_m without adding edges or creating H",
+    "subsequence_lower_bound": "ex(N_m,H)>=(1/2)*p^2*Q*D_m",
+    "edge_growth_exponent_in_m": "1+h(tau)-2*beta",
+    "vertex_growth_exponent_in_m": "1-beta",
+    "exact_exponent_identity": "(1+h(tau)-2*beta)/(1-beta)=3/2+(C(tau)-beta)/(2*(1-beta))",
+    "strict_gain": "C(tau)-beta>0 and 1-beta>0, so the exponent ratio is strictly greater than 3/2",
+    "epsilon": "choose any 0<epsilon<(C(tau)-beta)/(2*(1-beta))",
+    "subsequence_consequence": "for all sufficiently large m, ex(N_m,H)>=N_m^(3/2+epsilon) after absorbing fixed/subexponential factors into the strict exponent slack",
+    "successive_size_ratio": "since a=2^(1-beta)<2 and N_m=ceil(3*a^m), N_(m+1)=ceil(a*(3*a^m))<=2*ceil(3*a^m)=2*N_m",
+    "all_n_padding": "for every sufficiently large n choose m with N_m<=n<N_(m+1)<=2*N_m; pad an H-free N_m-vertex graph with isolated vertices to n vertices",
+    "final_constant": "c=2^(-3/2-epsilon)>0",
+    "final_bound": "ex(n,H)>=c*n^(3/2+epsilon) for all sufficiently large n",
+    "interpretation": "An H-free graph on n vertices with at least c*n^(3/2+epsilon) edges is exactly a lower-bound witness for the extremal number ex(n,H)."
+  },
+  "refutation_bridge": {
+    "conjectured_r2_bound": "every fixed bipartite 2-degenerate H has ex(n,H)=O(n^(3/2))",
+    "source_lower_bound": "for the fixed H above, ex(n,H)>=c*n^(3/2+epsilon) eventually with c,epsilon>0",
+    "contradiction": "n^epsilon is unbounded, so no fixed O(n^(3/2)) constant can dominate c*n^(3/2+epsilon) for all sufficiently large n",
+    "coloring_property_needed": false
+  },
+  "machine_check_contract": {
+    "producer_checks": [
+      "construct a finite layered exemplar and compute connectedness/bipartiteness/2-degeneracy by graph algorithms",
+      "verify the exact exponent identity by coefficient arithmetic",
+      "verify the exact parameter-window positivity reduction at r^2=3",
+      "verify positivity implications for delta/s/epsilon/c and the successive-size padding inequality"
+    ],
+    "independent_verifier_checks": [
+      "recompute layered exemplar invariants independently",
+      "rederive exponent identity by cross multiplication",
+      "check source-authority and source-faithful projection exclusions",
+      "reject any dependency on the stronger coloring-side property"
+    ],
+    "not_claimed": [
+      "a standalone formalization of all entropy lemmas",
+      "whole-document semantic equivalence",
+      "line-by-line proof-body equivalence",
+      "source authority for the stronger coloring-side property"
+    ]
+  },
+  "assessment": {
+    "fixed_graph_construction": "independently_reconstructed",
+    "connected_bipartite_two_degenerate": "independently_reconstructed_and_machine_sample_checked",
+    "parameter_window": "independently_reconstructed_with_exact_positivity_reduction",
+    "H_free_host_argument": "independently_reconstructed_with_source_entropy_lemmas_explicitly_ledgered",
+    "concentration_and_growth": "independently_reconstructed",
+    "exponent_arithmetic": "independently_reconstructed_and_machine_checked",
+    "subsequence_to_all_n": "independently_reconstructed_and_machine_checked",
+    "extremal_interpretation": "independently_reconstructed",
+    "stronger_coloring_property": "not_used_not_source_attributed",
+    "substantive_mathematical_gap_found": false,
+    "proof_body_compared_in_full": false
+  }
+}
