@@ -21,6 +21,7 @@ SCHEMA_PATH = ROOT / "schemas" / "formal_target_certificate.schema.json"
 EHRHART_SCHEMA_PATH = ROOT / "schemas" / "otp_ehrhart_qualified_output.schema.json"
 PERMANENT_SCHEMA_PATH = ROOT / "schemas" / "otp_permanent_qualified_output.schema.json"
 COMPACTNESS_SCHEMA_PATH = ROOT / "schemas" / "otp_compactness_qualified_output.schema.json"
+J2_SCHEMA_PATH = ROOT / "schemas" / "otp_j2_source_faithful_qualified_output.schema.json"
 REGISTRY_PATH = ROOT / "governance" / "certification_routes.json"
 EHRHART_FILE = "MC-OTP-F-EHRHART-001.json"
 EHRHART_BLOB = "27a855c949b67e71372c7f0d6601d80125d33968"
@@ -45,6 +46,13 @@ COMPACTNESS_TARGETS = [
     "CompactnessConjecture.quantitativeCompactnessCounterexample",
     "CompactnessConjecture.compactnessCounterexample_bigO",
     "CompactnessConjecture.not_erdos_180",
+]
+J2_FILE = "MC-OTP-J2-TWO-DEGENERATE-001.json"
+J2_BLOB = "308a2eb7087fb24a07a6ae8c93a83b593468d2f7"
+J2_CONTENT_COMMIT = "24cff6e55709c067c7f966c1a533255af707bec0"
+J2_TARGETS = [
+    "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+    "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146",
 ]
 LEGACY_FILES = {"MC-FC-WP00-RH-001.json", "MC-FC-WP00-NS-CI-001.json"}
 
@@ -96,6 +104,7 @@ def _restricted_output_errors(
     result_family: str,
     route_id: str,
     targets: list[str],
+    disposition: str = "qualified_encoded_targets_only",
 ) -> list[str]:
     errors: list[str] = []
     if not path.exists():
@@ -117,7 +126,7 @@ def _restricted_output_errors(
     if data.get("encoded_targets") != targets:
         errors.append(f"{path}: encoded target scope drift")
     qualification = data.get("qualification", {})
-    if qualification.get("disposition") != "qualified_encoded_targets_only":
+    if qualification.get("disposition") != disposition:
         errors.append(f"{path}: disposition inflation")
     state = data.get("state", {})
     if state.get("mathematical_target_proved") is not False:
@@ -135,6 +144,7 @@ def certificate_errors(
     ehrhart_schema_path: Path = EHRHART_SCHEMA_PATH,
     permanent_schema_path: Path = PERMANENT_SCHEMA_PATH,
     compactness_schema_path: Path = COMPACTNESS_SCHEMA_PATH,
+    j2_schema_path: Path = J2_SCHEMA_PATH,
 ) -> list[str]:
     errors: list[str] = []
     try:
@@ -158,7 +168,7 @@ def certificate_errors(
         )
 
     actual = {path.name for path in directory.glob("*.json")}
-    expected = LEGACY_FILES | {EHRHART_FILE, PERMANENT_FILE, COMPACTNESS_FILE}
+    expected = LEGACY_FILES | {EHRHART_FILE, PERMANENT_FILE, COMPACTNESS_FILE, J2_FILE}
     for missing in sorted(expected - actual):
         errors.append(f"missing formal target certificate: {missing}")
     for unknown in sorted(actual - expected):
@@ -255,6 +265,56 @@ def certificate_errors(
         if limitations.get("whole_document_byte_equivalence") != "not_established" or limitations.get("whole_document_semantic_equivalence") != "not_established":
             errors.append(f"{compactness_path}: whole-document equivalence inflated")
 
+    j2_path = directory / J2_FILE
+    errors.extend(
+        _restricted_output_errors(
+            path=j2_path,
+            schema_path=j2_schema_path,
+            expected_blob=J2_BLOB,
+            certificate_id="MC-OTP-J2-TWO-DEGENERATE-QUAL-001",
+            result_family="OTP-J2-TWO-DEGENERATE",
+            route_id="MC-ROUTE-OTP-J2-TWO-DEGENERATE",
+            targets=J2_TARGETS,
+            disposition="qualified_source_faithful_targets_only",
+        )
+    )
+    if j2_path.exists():
+        j2 = load_json(j2_path)
+        qualification = j2.get("qualification", {})
+        if qualification.get("source_locus") != "Current Chapter 10, Theorem 1.2 core only.":
+            errors.append(f"{j2_path}: source-faithful theorem locus drift")
+        projection = qualification.get("source_projection", {})
+        if projection != {
+            "fixed_finite_graph": True,
+            "connected": True,
+            "bipartite": True,
+            "two_degenerate": True,
+            "positive_c": True,
+            "positive_epsilon": True,
+            "eventual_extremal_lower_bound_above_three_halves": True,
+            "source_core_refutes_r2_degeneracy_bound": True,
+            "stronger_coloring_side_property_in_scope": False,
+        }:
+            errors.append(f"{j2_path}: source-faithful projection or scope inflation")
+        state = j2.get("state", {})
+        if state.get("stronger_coloring_property_certified") is not False:
+            errors.append(f"{j2_path}: stronger coloring property certification inflation")
+        limitations = j2.get("preserved_limitations", {})
+        for key in (
+            "historical_stronger_targets_qualified",
+            "stronger_coloring_property_source_authorized",
+            "stronger_coloring_property_certified",
+            "proof_body_compared_in_full",
+            "source_internal_entropy_lemmas_reformalized",
+            "unrestricted_source_theorem_proof_claim",
+            "other_family_outputs_authorized",
+            "aggregate_openai_ten_proofs_authority",
+        ):
+            if limitations.get(key) is not False:
+                errors.append(f"{j2_path}: limitation inflated: {key}")
+        if limitations.get("whole_document_byte_equivalence") != "not_established" or limitations.get("whole_document_semantic_equivalence") != "not_established":
+            errors.append(f"{j2_path}: whole-document equivalence inflated")
+
     registry = load_json(registry_path)
     ehrhart_route = next((item for item in registry.get("routes", []) if item.get("campaign_id") == "OTP-F-EHRHART"), {})
     if ehrhart_route.get("intake_status") != "qualified": errors.append("OTP-F-EHRHART: route is not qualified")
@@ -272,6 +332,12 @@ def certificate_errors(
     if compactness_route.get("target_claim_ids") != COMPACTNESS_TARGETS: errors.append("OTP-J1-COMPACTNESS: route target scope drift")
     if compactness_route.get("cert_output") != {"repository": "grandchallenge/MATHCERT", "commit_sha": COMPACTNESS_CONTENT_COMMIT, "path": "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json", "digest_algorithm": "git_blob_sha1", "digest": COMPACTNESS_BLOB}:
         errors.append("OTP-J1-COMPACTNESS: route output identity drift")
+
+    j2_route = next((item for item in registry.get("routes", []) if item.get("campaign_id") == "OTP-J2-TWO-DEGENERATE"), {})
+    if j2_route.get("intake_status") != "qualified": errors.append("OTP-J2-TWO-DEGENERATE: route is not qualified")
+    if j2_route.get("target_claim_ids") != J2_TARGETS: errors.append("OTP-J2-TWO-DEGENERATE: route target scope drift")
+    if j2_route.get("cert_output") != {"repository": "grandchallenge/MATHCERT", "commit_sha": J2_CONTENT_COMMIT, "path": "certificates/formal_sources/MC-OTP-J2-TWO-DEGENERATE-001.json", "digest_algorithm": "git_blob_sha1", "digest": J2_BLOB}:
+        errors.append("OTP-J2-TWO-DEGENERATE: route output identity drift")
     return errors
 
 
@@ -281,7 +347,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         print(f"formal target certificate validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated protected RH/NS qualifications and exact restricted OTP-F-EHRHART / OTP-C-PERMANENT / OTP-J1-COMPACTNESS outputs")
+    print("validated protected RH/NS qualifications and exact restricted OTP-F-EHRHART / OTP-C-PERMANENT / OTP-J1-COMPACTNESS / OTP-J2-TWO-DEGENERATE outputs")
     return 0
 
 
