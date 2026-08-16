@@ -1,0 +1,161 @@
+name: OTP J2 source-faithful adjudication
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-j2-adjudication.yml"
+      - "requirements-ci.txt"
+      - "ci/validate_otp_j2_adjudication_input.py"
+      - "ci/test_otp_j2_adjudication_input.py"
+      - "ci/run_otp_j2_adjudication_replay.sh"
+      - "ci/run_otp_j2_evidence_refresh_replay.sh"
+      - "ci/run_otp_j2_scope_repair_replay.sh"
+      - "ci/validate_otp_j2_route_target_successor.py"
+      - "ci/validate_otp_j2_scope_repair_with_successor.py"
+      - "ci/validate_otp_j2_source_faithful_evidence_with_successor.py"
+      - "ci/build_otp_j2_construction_evidence.py"
+      - "ci/verify_otp_j2_construction_evidence.py"
+      - "governance/certification_routes.json"
+      - "governance/result_family_adjudication_execution_inputs/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_adjudication_contract_successors/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_route_target_successors/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_construction_evidence/OTP-J2-TWO-DEGENERATE.json"
+      - "schemas/openai_ten_proofs_j2_adjudication_execution_input.schema.json"
+      - "evidence/openai_ten_proofs/two_degenerate_construction/**"
+      - "evidence/openai_ten_proofs/two_degenerate_scope_repair/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  adjudication-input-control:
+    name: adjudication-input-control (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out literal adjudication head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify literal adjudication head
+        shell: bash
+        if: runner.os != 'Windows'
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - name: Verify literal adjudication head (Windows)
+        shell: pwsh
+        if: runner.os == 'Windows'
+        run: |
+          if ((git rev-parse HEAD) -ne $env:MATHCERT_HEAD_SHA) { throw "MATHCERT adjudication checkout is not the literal PR head" }
+      - name: Install locked CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Reacquire exact current official source bytes
+        run: >-
+          python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h)"
+      - name: Validate adjudication execution input
+        run: |
+          python ci/validate_otp_j2_adjudication_input.py
+          python ci/test_otp_j2_adjudication_input.py
+          python ci/validate_otp_j2_route_target_successor.py
+          python ci/validate_otp_j2_scope_repair_with_successor.py
+          python ci/validate_otp_j2_source_faithful_evidence_with_successor.py
+          python ci/build_otp_j2_construction_evidence.py >/dev/null
+          python ci/verify_otp_j2_construction_evidence.py
+
+  replay:
+    name: exact-j2-source-faithful-adjudication-replay
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out literal MATHCERT adjudication head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify literal adjudication head
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - name: Install locked MATHCERT CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Check out exact current formal subject
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: openai/ten-proofs
+          ref: 94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6
+          path: upstream-j2
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Bootstrap exact formal dependencies
+        uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          lake-package-directory: upstream-j2
+      - name: Activate Lean 4.32.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          elan toolchain list | grep -Fq 'leanprover/lean4:v4.32.0' || elan toolchain install leanprover/lean4:v4.32.0
+          elan run leanprover/lean4:v4.32.0 lean --version | grep -F 'version 4.32.0'
+          echo "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0" >> "$GITHUB_ENV"
+      - name: Build pinned Comparator auxiliary kernels
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p tools "$RUNNER_TEMP/otp-bin"
+          git clone --filter=blob:none https://github.com/leanprover/lean4export.git tools/lean4export
+          git -C tools/lean4export checkout --detach 4e7915201d3f9f04470d9eae002fa695f7cdc589
+          (cd tools/lean4export && lake build)
+          git clone --filter=blob:none https://github.com/ammkrn/nanoda_lib.git tools/nanoda
+          git -C tools/nanoda checkout --detach ddfac2bf5a7b56cb46e141494427ff3dd55963c7
+          (cd tools/nanoda && cargo build --release --locked)
+          git clone --filter=blob:none https://github.com/Zouuup/landrun.git tools/landrun
+          git -C tools/landrun checkout --detach 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
+          (cd tools/landrun && go build -trimpath -o "$RUNNER_TEMP/otp-bin/landrun-real" ./cmd/landrun)
+          cp ci/landrun_comparator_adapter.sh "$RUNNER_TEMP/otp-bin/landrun"
+          chmod +x "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
+          echo "$RUNNER_TEMP/otp-bin" >> "$GITHUB_PATH"
+          echo "COMPARATOR_LANDRUN=$RUNNER_TEMP/otp-bin/landrun" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LANDRUN_REAL=$RUNNER_TEMP/otp-bin/landrun-real" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/tools/lean4export/.lake/build/bin/lean4export" >> "$GITHUB_ENV"
+          echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/tools/nanoda/target/release/nanoda_bin" >> "$GITHUB_ENV"
+      - name: Restore exact formal dependency cache
+        shell: bash
+        working-directory: upstream-j2
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"
+          test "$(git rev-parse 'HEAD:lake-manifest.json')" = "046e8de7f46832fbf092e3fb815efae01e4a2129"
+          lake exe cache get
+      - name: Execute exact J2 adjudication replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+          chmod +x ci/run_otp_j2_scope_repair_replay.sh ci/run_otp_j2_evidence_refresh_replay.sh ci/run_otp_j2_adjudication_replay.sh
+          ci/run_otp_j2_adjudication_replay.sh evidence/j2-adjudication-runtime
+      - name: Upload bounded J2 adjudication replay evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: otp-j2-source-faithful-adjudication-runtime
+          path: evidence/j2-adjudication-runtime/
+          if-no-files-found: warn
+          retention-days: 30
