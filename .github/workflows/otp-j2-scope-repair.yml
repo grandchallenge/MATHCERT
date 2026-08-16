@@ -4,9 +4,13 @@ on:
   pull_request:
     paths:
       - ".github/workflows/otp-j2-scope-repair.yml"
+      - "requirements-ci.txt"
       - "ci/run_otp_j2_scope_repair_replay.sh"
       - "ci/validate_otp_j2_scope_repair.py"
       - "ci/test_otp_j2_scope_repair.py"
+      - "ci/check_lean.sh"
+      - "ci/check_lean.ps1"
+      - "governance/ci_control_registry.json"
       - "evidence/openai_ten_proofs/two_degenerate_scope_repair/**"
       - "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json"
       - "schemas/openai_ten_proofs_j2_scope_repair.schema.json"
@@ -39,10 +43,10 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Install locked CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
       - name: Validate source-faithful scope repair
-        shell: bash
         run: |
-          set -euo pipefail
           python ci/validate_otp_j2_scope_repair.py
           python ci/test_otp_j2_scope_repair.py
 
@@ -58,6 +62,8 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Install locked MATHCERT CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
 
       - name: Check out exact current formal subject
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
