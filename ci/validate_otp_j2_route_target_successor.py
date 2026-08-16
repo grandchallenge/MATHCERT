@@ -25,6 +25,18 @@ EVIDENCE_BLOB = "e1bc1f04daf28b04a85e92e605732f466ab1e2d6"
 PROJECTION_BLOB = "ac1ec20e95d6acbcd1c3a111afe28bca92a43377"
 SOURCE_AUTHORITY_BLOB = "956320bfc94760d408c7f1a6af9bb6a8e8e1d1fc"
 PROTECTED_PREDECESSOR_MAIN = "a2b1a464ac992b9807061e8ede9d2f7c42ad4cf6"
+OUTPUT_CONTRACT_MERGE = "d1f0d69e145029e8b7bc29c0ec60543f7db29272"
+OUTPUT_CERTIFICATE_COMMIT = "24cff6e55709c067c7f966c1a533255af707bec0"
+OUTPUT_ROUTE_COMMIT = "15559390e2489ae73d872f389a9601c7412b77ed"
+OUTPUT_CERTIFICATE_BLOB = "308a2eb7087fb24a07a6ae8c93a83b593468d2f7"
+OUTPUT_CERTIFICATE_PATH = "certificates/formal_sources/MC-OTP-J2-TWO-DEGENERATE-001.json"
+OUTPUT_CERT = {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": OUTPUT_CERTIFICATE_COMMIT,
+    "path": OUTPUT_CERTIFICATE_PATH,
+    "digest_algorithm": "git_blob_sha1",
+    "digest": OUTPUT_CERTIFICATE_BLOB,
+}
 OLD_TARGETS = [
     "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
     "TwoDegenerateGraphs.not_erdos_146",
@@ -69,6 +81,10 @@ def blob_json(blob: str) -> Any:
     return json.loads(git("cat-file", "blob", blob).stdout)
 
 
+def commit_json(commit: str, rel: str) -> Any:
+    return json.loads(git("show", f"{commit}:{rel}").stdout)
+
+
 def is_ancestor(older: str, newer: str = "HEAD") -> bool:
     return git("merge-base", "--is-ancestor", older, newer, check=False).returncode == 0
 
@@ -82,6 +98,44 @@ def find_route(routes: dict[str, Any], route_id: str = ROUTE_ID) -> dict[str, An
 
 def route_map(routes: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {route["route_id"]: route for route in routes.get("routes", [])}
+
+
+def pre_output_routes() -> dict[str, Any]:
+    """Exact route registry at the certificate-content commit, before J2 route transition."""
+    return commit_json(OUTPUT_CERTIFICATE_COMMIT, "governance/certification_routes.json")
+
+
+def live_output_successor_errors(routes: dict[str, Any] | None = None) -> list[str]:
+    """Validate only the separately governed live J2 output successor state."""
+    routes = load(ROUTES) if routes is None else routes
+    errors: list[str] = []
+    live = find_route(routes)
+    if live is None:
+        return ["live J2 route missing"]
+    if live.get("campaign_id") != "OTP-J2-TWO-DEGENERATE":
+        errors.append("J2 campaign identity drift")
+    if live.get("target_claim_ids") != NEW_TARGETS:
+        errors.append("J2 live target set is not exactly the source-faithful pair")
+    if live.get("intake_status") != "qualified":
+        errors.append("governed J2 output successor is not qualified")
+    if live.get("cert_output") != OUTPUT_CERT:
+        errors.append("governed J2 output successor Cert output identity drift")
+    boundary = str(live.get("claim_boundary", "")).lower()
+    for token in (
+        "qualified_source_faithful_targets_only",
+        "stronger coloring-side",
+        "historical stronger",
+        "aggregate openai ten proofs",
+    ):
+        if token not in boundary:
+            errors.append(f"governed J2 output successor boundary missing {token}")
+    if not is_ancestor(OUTPUT_CONTRACT_MERGE):
+        errors.append("protected J2 output-contract merge is not an ancestor")
+    if not is_ancestor(OUTPUT_CERTIFICATE_COMMIT):
+        errors.append("J2 certificate-content commit is not an ancestor")
+    if not is_ancestor(OUTPUT_ROUTE_COMMIT):
+        errors.append("J2 route-transition commit is not an ancestor")
+    return errors
 
 
 def schema_errors(instance: Any, schema_path: Path, label: str) -> list[str]:
@@ -102,6 +156,7 @@ def validation_errors(
     routes: dict[str, Any] | None = None,
     check_files: bool = True,
 ) -> list[str]:
+    """Validate the immutable route-target successor at its pre-output state."""
     errors: list[str] = []
     receipt = load(RECEIPT) if receipt is None else receipt
     contract = load(CONTRACT) if contract is None else contract
@@ -242,15 +297,21 @@ def validation_errors(
 
 
 def main() -> int:
-    errors = validation_errors()
+    live_routes = load(ROUTES)
+    live = find_route(live_routes)
+    if live is not None and live.get("intake_status") == "qualified":
+        errors = validation_errors(routes=pre_output_routes(), check_files=True)
+        errors.extend(live_output_successor_errors(live_routes))
+        mode = "historical source-faithful successor plus governed restricted output successor"
+    else:
+        errors = validation_errors(routes=live_routes, check_files=True)
+        mode = "source-faithful route-target successor"
     if errors:
         print("\n".join(errors), file=sys.stderr)
         print(f"J2 route-target successor validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     print(
-        "validated J2 source-faithful route-target successor: exact two-target live replacement, "
-        "historical predecessor objects frozen, design-only contract aligned, streamlined control "
-        "plan preserved, and adjudication/output authority absent"
+        f"validated J2 {mode}: exact source-faithful target pair and historical authority preserved"
     )
     return 0
 
