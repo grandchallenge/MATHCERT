@@ -64,18 +64,20 @@ cp "$root/evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulP
 cd "$upstream"
 lake build CompactnessAndDegeneracy 2>&1 | tee "$out/solution-build.log"
 lake build ComparatorChallenges.J_TwoDegenerateGraphs 2>&1 | tee "$out/challenge-build.log"
-lake env lean -o MATHCERTJ2SourceFaithfulProjection.olean \
-  MATHCERTJ2SourceFaithfulProjection.lean 2>&1 | tee "$out/projection-build.log"
+lake env lean MATHCERTJ2SourceFaithfulProjection.lean 2>&1 | tee "$out/projection-build.log"
 
-cat > MATHCERTJ2Axioms.lean <<'EOF'
-import MATHCERTJ2SourceFaithfulProjection
+{
+  cat MATHCERTJ2SourceFaithfulProjection.lean
+  cat <<'EOF'
+
 #print axioms TwoDegenerateGraphs.twoDegenerateExtremalCounterexample
 #print axioms TwoDegenerateGraphs.not_erdos_146
 #print axioms TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample
 #print axioms TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146
 EOF
-lake env lean MATHCERTJ2Axioms.lean 2>&1 | tee "$out/theorem-axioms.log"
-rm -f MATHCERTJ2Axioms.lean
+} > MATHCERTJ2ProjectionAndAxioms.lean
+lake env lean MATHCERTJ2ProjectionAndAxioms.lean 2>&1 | tee "$out/theorem-axioms.log"
+rm -f MATHCERTJ2ProjectionAndAxioms.lean
 
 lake exe comparator ComparatorChallenges/J_TwoDegenerateGraphs.json 2>&1 | tee "$out/comparator.log"
 grep -Fq "Lean default kernel accepts the solution" "$out/comparator.log"
