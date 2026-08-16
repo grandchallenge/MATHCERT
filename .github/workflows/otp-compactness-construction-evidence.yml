@@ -12,6 +12,7 @@ on:
       - "ci/build_otp_compactness_construction_evidence.py"
       - "ci/verify_otp_compactness_construction_evidence.py"
       - "ci/validate_otp_compactness_construction_evidence.py"
+      - "ci/validate_otp_compactness_construction_evidence_with_j2_output.py"
       - "ci/test_otp_compactness_construction_evidence.py"
       - "governance/result_family_evidence_refreshes/OTP-J1-COMPACTNESS.json"
       - "governance/result_family_adjudication_contracts/OTP-J1-COMPACTNESS.json"
@@ -52,6 +53,6 @@ jobs:
       - name: Run independent construction verifier
         run: python ci/verify_otp_compactness_construction_evidence.py
       - name: Validate governed construction evidence
-        run: python ci/validate_otp_compactness_construction_evidence.py
+        run: python ci/validate_otp_compactness_construction_evidence_with_j2_output.py
       - name: Run adversarial mutations
         run: python ci/test_otp_compactness_construction_evidence.py
