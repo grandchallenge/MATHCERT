@@ -70,7 +70,7 @@ jobs:
           python ci/validate_otp_j2_route_target_successor.py
           python ci/validate_otp_j2_scope_repair_with_successor.py
           python ci/validate_otp_j2_source_faithful_evidence_with_successor.py
-          python ci/build_otp_j2_construction_evidence.py >/dev/null
+          python ci/build_otp_j2_construction_evidence.py
           python ci/verify_otp_j2_construction_evidence.py
 
   replay:
