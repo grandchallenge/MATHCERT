@@ -127,6 +127,36 @@ class FormalTargetCertificateTests(unittest.TestCase):
         )
         self.assertTrue(any("mathematical target must remain unproved" in error or "schema violation" in error for error in errors))
 
+    def test_j2_target_omission_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-J2-TWO-DEGENERATE-001.json"]["encoded_targets"].pop()
+        )
+        self.assertTrue(any("encoded target scope drift" in error or "schema violation" in error for error in errors))
+
+    def test_j2_historical_target_reinsertion_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-J2-TWO-DEGENERATE-001.json"]["encoded_targets"].__setitem__(0, "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample")
+        )
+        self.assertTrue(any("encoded target scope drift" in error or "schema violation" in error for error in errors))
+
+    def test_j2_stronger_coloring_scope_inflation_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-J2-TWO-DEGENERATE-001.json"]["qualification"]["source_projection"].__setitem__("stronger_coloring_side_property_in_scope", True)
+        )
+        self.assertTrue(any("source-faithful projection or scope inflation" in error or "schema violation" in error for error in errors))
+
+    def test_j2_stronger_coloring_certification_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-J2-TWO-DEGENERATE-001.json"]["state"].__setitem__("stronger_coloring_property_certified", True)
+        )
+        self.assertTrue(any("stronger coloring property certification inflation" in error or "schema violation" in error for error in errors))
+
+    def test_j2_proof_promotion_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-J2-TWO-DEGENERATE-001.json"]["state"].__setitem__("mathematical_target_proved", True)
+        )
+        self.assertTrue(any("mathematical target must remain unproved" in error or "schema violation" in error for error in errors))
+
     def test_permanent_route_output_drift_fails(self) -> None:
         registry = module.load_json(module.REGISTRY_PATH)
         route = next(route for route in registry["routes"] if route["campaign_id"] == "OTP-C-PERMANENT")
@@ -148,6 +178,17 @@ class FormalTargetCertificateTests(unittest.TestCase):
         finally:
             path.unlink(missing_ok=True)
         self.assertTrue(any("OTP-J1-COMPACTNESS: route output identity drift" in error for error in errors))
+
+    def test_j2_route_output_drift_fails(self) -> None:
+        registry = module.load_json(module.REGISTRY_PATH)
+        route = next(route for route in registry["routes"] if route["campaign_id"] == "OTP-J2-TWO-DEGENERATE")
+        route["cert_output"]["digest"] = "0" * 40
+        path = self.write_registry(registry)
+        try:
+            errors = module.certificate_errors(registry_path=path)
+        finally:
+            path.unlink(missing_ok=True)
+        self.assertTrue(any("OTP-J2-TWO-DEGENERATE: route output identity drift" in error for error in errors))
 
     def test_route_downgrade_fails(self) -> None:
         registry = module.load_json(module.REGISTRY_PATH)
