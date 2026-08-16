@@ -21,14 +21,14 @@ PROJECTION = ROOT / "evidence/openai_ten_proofs/two_degenerate_scope_repair/Sour
 EXPECTED = {
     "route_blob": "bc4640661443f1b3de213aaa82a333a4fdb6849b",
     "scope_repair_blob": "5884bc57ba4e9c1d4576b96793f7e78009223b15",
-    "source_blob": "221c46be31ef4b77cfc46780cfaa8e3a0440cf8c",
+    "source_blob": "956320bfc94760d408c7f1a6af9bb6a8e8e1d1fc",
     "recon_blob": "3905455458f247b768353bc0b082ecbf7c8dd0ff",
     "ledger_blob": "0d81c00d9d190e92ed6f30de867e940bc03b2237",
     "projection_blob": "ac1ec20e95d6acbcd1c3a111afe28bca92a43377",
     "source_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
     "source_bytes": 2487031,
-    "theorem_locus": "Chapter 10, Theorem 1.2, current official PDF P240-P241 / printed pp236-237",
-    "construction_locus": "Chapter 10 sections 6-8 and proof of Theorem 1.2, current official PDF P248-P251 / printed pp244-248",
+    "theorem_locus": "Chapter 10, Theorem 1.2, current official PDF pageno 236-237 / printed pp235-236",
+    "construction_locus": "Chapter 10 sections 6-8 and proof of Theorem 1.2, current official PDF pageno 244-247 / printed pp243-246",
 }
 HISTORICAL_TARGETS = [
     "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
