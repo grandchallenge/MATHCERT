@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grandchallenge/MATHCERT/schemas/openai_ten_proofs_j2_source_faithful_evidence.schema.json",
+  "title": "OTP J2 source-faithful construction evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "record_type", "evidence_id", "operation_id", "candidate_id",
+    "result_family", "route_id", "tracker_issue", "candidate_state", "authority",
+    "evidence_subjects", "historical_registered_targets", "source_assessment",
+    "construction_assessment", "fresh_runtime_replay", "disposition", "review_gate",
+    "required_state", "preserved_limitations", "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_j2_source_faithful_construction_evidence"},
+    "evidence_id": {"const": "MC-OTP-J2-TWO-DEGENERATE-SOURCE-FAITHFUL-EVIDENCE-001"},
+    "operation_id": {"const": "OTP-J2-TWO-DEGENERATE-CERT-EVIDENCE-REFRESH-001"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const": "OTP-J2-TWO-DEGENERATE"},
+    "route_id": {"const": "MC-ROUTE-OTP-J2-TWO-DEGENERATE"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/122"},
+    "candidate_state": {"enum": ["evidence_prepared_pending_fresh_runtime_replay", "evidence_complete_ready_for_route_target_successor"]},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["protected_base", "path_a_authorization", "scope_repair", "route_registry", "source_authority", "reconstruction", "proof_dependency_ledger", "source_faithful_projection"],
+      "properties": {
+        "protected_base": {"const": "2106840fe2daf8b2492f52473465f531e7e2ef21"},
+        "path_a_authorization": {"type":"object"},
+        "scope_repair": {"type":"object"},
+        "route_registry": {"type":"object"},
+        "source_authority": {"type":"object"},
+        "reconstruction": {"type":"object"},
+        "proof_dependency_ledger": {"type":"object"},
+        "source_faithful_projection": {"type":"object"}
+      }
+    },
+    "evidence_subjects": {
+      "const": [
+        "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+        "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146"
+      ]
+    },
+    "historical_registered_targets": {
+      "const": [
+        "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
+        "TwoDegenerateGraphs.not_erdos_146"
+      ]
+    },
+    "source_assessment": {"type":"object"},
+    "construction_assessment": {"type":"object"},
+    "fresh_runtime_replay": {
+      "type": "object",
+      "required": ["required", "status", "workflow_name", "workflow_run_id", "artifact_id", "artifact_sha256", "execution_head", "comparator", "lean_kernel", "nanoda", "source_faithful_projection", "dependency_separation", "theorem_axiom_report", "trust_scan"],
+      "additionalProperties": false,
+      "properties": {
+        "required": {"const": true},
+        "status": {"enum": ["pending", "clear"]},
+        "workflow_name": {"const": "OTP J2 source-faithful evidence refresh"},
+        "workflow_run_id": {"type": ["integer", "null"]},
+        "artifact_id": {"type": ["integer", "null"]},
+        "artifact_sha256": {"anyOf": [{"type":"null"}, {"type":"string", "pattern":"^[0-9a-f]{64}$"}]},
+        "execution_head": {"anyOf": [{"type":"null"}, {"type":"string", "pattern":"^[0-9a-f]{40}$"}]},
+        "comparator": {"type": ["string", "null"]},
+        "lean_kernel": {"type": ["string", "null"]},
+        "nanoda": {"type": ["string", "null"]},
+        "source_faithful_projection": {"type": ["string", "null"]},
+        "dependency_separation": {"type": ["string", "null"]},
+        "theorem_axiom_report": {"type": ["string", "null"]},
+        "trust_scan": {"type": ["string", "null"]}
+      }
+    },
+    "disposition": {"type":"object"},
+    "review_gate": {"type":"object"},
+    "required_state": {"type":"object"},
+    "preserved_limitations": {"type":"object"},
+    "claim_boundary": {"type":"string", "minLength": 100}
+  }
+}
