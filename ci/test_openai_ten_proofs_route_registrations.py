@@ -2,7 +2,7 @@ from __future__ import annotations
 import copy,importlib.util,json,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-S=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proofs_route_registrations.py");assert S and S.loader
+S=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py");assert S and S.loader
 M=importlib.util.module_from_spec(S);S.loader.exec_module(M)
 class RouteRegistrationTests(unittest.TestCase):
  def setUp(self):
@@ -43,6 +43,8 @@ class RouteRegistrationTests(unittest.TestCase):
   routes=self.historical_compactness_routes();next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J1-COMPACTNESS")["cert_output"]={"forged":True};self.assertTrue(self.errors(routes=routes))
  def test_otp_state_mutation_is_rejected(self):
   routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J2-TWO-DEGENERATE")["intake_status"]="qualified";self.assertTrue(self.errors(routes=routes))
+ def test_j2_mixed_target_successor_is_rejected(self):
+  routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J2-TWO-DEGENERATE")["target_claim_ids"]=["TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample","TwoDegenerateGraphs.not_erdos_146"];self.assertTrue(self.errors(routes=routes))
  def test_limit_removal(self):
   r=copy.deepcopy(self.r);r["preserved_limitations"]["proof_bodies_compared_in_full"]=True;self.assertTrue(self.errors(receipt=r))
  def test_blocker_removal(self):
