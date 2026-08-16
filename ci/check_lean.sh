@@ -93,8 +93,10 @@ python3 ci/validate_otp_j2_adjudication_input.py
 python3 ci/test_otp_j2_adjudication_input.py
 python3 ci/validate_otp_j2_adjudication.py
 python3 ci/test_otp_j2_adjudication.py
-python3 ci/validate_otp_j2_output_contract.py
+python3 ci/validate_otp_j2_output_contract_with_execution.py
 python3 ci/test_otp_j2_output_contract.py
+python3 ci/validate_otp_j2_output_execution.py
+python3 ci/test_otp_j2_output_execution.py
 python3 ci/validate_otp_j2_source_faithful_evidence_with_successor.py
 python3 ci/test_otp_j2_source_faithful_evidence.py
 python3 ci/validate_otp_j2_scope_repair_with_successor.py
