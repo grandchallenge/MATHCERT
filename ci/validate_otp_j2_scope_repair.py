@@ -15,6 +15,8 @@ SCHEMA = ROOT / "schemas/openai_ten_proofs_j2_scope_repair.schema.json"
 ROUTES = ROOT / "governance/certification_routes.json"
 OVERLAY = ROOT / "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean"
 
+EXPECTED_ROUTE_REGISTRY_BLOB = "bc4640661443f1b3de213aaa82a333a4fdb6849b"
+EXPECTED_OVERLAY_BLOB = "252b24691b5368e561a8b492e12331f73ca7b6ec"
 EXPECTED_HISTORICAL_BLOBS = {
     "governance/result_family_intakes/OTP-J2-TWO-DEGENERATE.json": "6e9cfee8f988e357aabdd53e2883220d170b7e60",
     "governance/result_family_work_packages/OTP-J2-TWO-DEGENERATE-CERT-WP01.json": "dbbc4ab59f21b3f5cb2f313c51f754b9b306389c",
@@ -34,6 +36,10 @@ EXPECTED_SOURCE_SHA256 = "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f56
 EXPECTED_SOURCE_BYTES = 2487031
 EXPECTED_FORMAL_COMMIT = "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"
 EXPECTED_FORMAL_TREE = "174289e4d4958cb0509874e6e53400e098213de7"
+EXPECTED_LAKE_MANIFEST_BLOB = "046e8de7f46832fbf092e3fb815efae01e4a2129"
+EXPECTED_CONFIG_BLOB = "d8a542b5ce620b686cb24a6756360e76c5d2b1c1"
+EXPECTED_CHALLENGE_BLOB = "dd22ce141dd0a860ecdccfda291c0f3a480a1d70"
+EXPECTED_SOLUTION_BLOB = "0e973d50014e8c800af597ef699ef29b81e42fc6"
 EXPECTED_AUTH_COMMENT = 5305021852
 
 
@@ -118,6 +124,8 @@ def validation_errors(
         errors.append("Path A decision drift")
     if auth.get("protected_base") != "76c818cbabc4bc320d5865d2f896bbd17cba8a4e":
         errors.append("protected base drift")
+    if auth.get("route_registry", {}).get("digest") != EXPECTED_ROUTE_REGISTRY_BLOB:
+        errors.append("protected route-registry authority drift")
 
     source = record.get("current_source", {})
     if source.get("sha256") != EXPECTED_SOURCE_SHA256 or source.get("bytes") != EXPECTED_SOURCE_BYTES:
@@ -129,9 +137,15 @@ def validation_errors(
     formal = record.get("current_formal_subject", {})
     if formal.get("commit") != EXPECTED_FORMAL_COMMIT or formal.get("tree") != EXPECTED_FORMAL_TREE:
         errors.append("current formal subject identity drift")
-    if formal.get("comparator_config", {}).get("digest") != "d8a542b5ce620b686cb24a6756360e76c5d2b1c1":
+    if formal.get("lake_manifest", {}).get("digest") != EXPECTED_LAKE_MANIFEST_BLOB:
+        errors.append("current lake-manifest identity drift")
+    if formal.get("comparator_config", {}).get("digest") != EXPECTED_CONFIG_BLOB:
         errors.append("J2 Comparator config identity drift")
-    if formal.get("solution", {}).get("digest") != "0e973d50014e8c800af597ef699ef29b81e42fc6":
+    if formal.get("challenge", {}).get("digest") != EXPECTED_CHALLENGE_BLOB:
+        errors.append("current J2 challenge identity drift")
+    if formal.get("challenge", {}).get("historical_stronger_target") != EXPECTED_REGISTERED_TARGETS[0]:
+        errors.append("historical stronger target identity drift")
+    if formal.get("solution", {}).get("digest") != EXPECTED_SOLUTION_BLOB:
         errors.append("current J2 solution identity drift")
 
     if record.get("historical_registered_targets") != EXPECTED_REGISTERED_TARGETS:
@@ -148,6 +162,9 @@ def validation_errors(
             errors.append(f"historical target treatment must keep {key}=false")
 
     projection = record.get("source_faithful_projection", {})
+    artifact = projection.get("overlay_artifact", {})
+    if artifact.get("digest") != EXPECTED_OVERLAY_BLOB:
+        errors.append("source-faithful projection artifact identity drift")
     if projection.get("future_certification_scope") != EXPECTED_FUTURE_SCOPE:
         errors.append("source-faithful future scope drift")
     if projection.get("registered_route_mutation_required_before_adjudication") is not True:
@@ -209,6 +226,10 @@ def validation_errors(
     if check_files:
         if not SCHEMA.is_file():
             errors.append("closed scope-repair schema missing")
+        if git_blob_sha1(ROUTES) != EXPECTED_ROUTE_REGISTRY_BLOB:
+            errors.append("route registry changed during scope-repair operation")
+        if git_blob_sha1(OVERLAY) != EXPECTED_OVERLAY_BLOB:
+            errors.append("source-faithful projection artifact changed after content addressing")
         for rel, expected in EXPECTED_HISTORICAL_BLOBS.items():
             path = ROOT / rel
             if not path.is_file():
@@ -227,7 +248,8 @@ def main() -> int:
         return 1
     print(
         "validated Path A J2 source-faithful projection, immutable historical J2 evidence, "
-        "submitted route/no output state, stronger-coloring exclusion, and dependency separation"
+        "unchanged submitted route/no output state, complete formal identities, stronger-coloring "
+        "exclusion, and dependency separation"
     )
     return 0
 
