@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import copy
 import hashlib
 import importlib.util
 import json
@@ -9,6 +10,8 @@ import sys
 from pathlib import Path
 from typing import Any
 from jsonschema import Draft202012Validator
+
+import validate_otp_j2_route_target_successor as j2
 
 ROOT=Path(__file__).resolve().parents[1]
 RECORD=ROOT/"governance/result_family_construction_evidence/OTP-J1-COMPACTNESS.json"
@@ -75,9 +78,11 @@ def validation_errors(*,record=None,schema=None,source=None,reconstruction=None,
     source=load(SOURCE) if source is None else source
     reconstruction=load(RECONSTRUCTION) if reconstruction is None else reconstruction
     routes=load(ROUTES) if routes is None else routes
+    j2_errors=j2.validation_errors(routes=copy.deepcopy(routes),check_files=False)
+    j2_successor_active=not j2_errors and j2.find_route(routes).get("target_claim_ids")==j2.NEW_TARGETS
     source_blob=blob_sha(SOURCE) if source_blob is None else source_blob
     reconstruction_blob=blob_sha(RECONSTRUCTION) if reconstruction_blob is None else reconstruction_blob
-    route_blob=blob_sha(ROUTES) if route_blob is None else route_blob
+    route_blob=(SUCCESSOR_ROUTE_BLOB if j2_successor_active else blob_sha(ROUTES)) if route_blob is None else route_blob
     predecessor_blob=historical_blob(PREDECESSOR_MERGE,PREDECESSOR) if predecessor_blob is None else predecessor_blob
     contract_blob=historical_blob(CONTRACT_COMMIT,CONTRACT) if contract_blob is None else contract_blob
     adjudication_present=False if adjudication_present is None else adjudication_present
@@ -85,7 +90,7 @@ def validation_errors(*,record=None,schema=None,source=None,reconstruction=None,
     certificate_present=(ROOT/"certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json").exists() if certificate_present is None else certificate_present
     successor_absent=not output_present and not certificate_present
     successor_complete=output_present and certificate_present
-    e=[]
+    e=list(j2_errors)
     if open_objects(schema):e.append("schema contains open object")
     try:
         Draft202012Validator.check_schema(schema)
@@ -156,5 +161,5 @@ def main()->int:
     e=validation_errors()
     if e:
         print("\n".join(e),file=sys.stderr); print(f"Compactness construction-evidence validation failed with {len(e)} error(s)",file=sys.stderr); return 1
-    print("validated historical complete Compactness construction/asymptotic evidence at exact current official locus; exact later adjudication/output successors do not rewrite this stage"); return 0
+    print("validated historical complete Compactness construction/asymptotic evidence at exact current official locus; explicit J2 route successor does not rewrite this stage"); return 0
 if __name__=="__main__":raise SystemExit(main())
