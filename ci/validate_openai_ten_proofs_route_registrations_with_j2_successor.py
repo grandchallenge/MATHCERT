@@ -55,11 +55,17 @@ def validation_errors(
     proposal_registry_blob=None,
 ) -> list[str]:
     live = historical.load(historical.ROUTES) if routes is None else routes
-    errors = j2.validation_errors(routes=copy.deepcopy(live), check_files=False)
+    live_j2 = j2.find_route(live)
+    output_active = live_j2 is not None and live_j2.get("intake_status") == "qualified"
+    governed_pre_output = j2.pre_output_routes() if output_active else live
+
+    errors = j2.validation_errors(routes=copy.deepcopy(governed_pre_output), check_files=False)
+    if output_active:
+        errors.extend(j2.live_output_successor_errors(live))
     errors.extend(
         historical.validation_errors(
             receipt=receipt,
-            routes=j2_predecessor_snapshot(live),
+            routes=j2_predecessor_snapshot(governed_pre_output),
             proposal_registry=proposal_registry,
             proposal_blobs=proposal_blobs,
             routes_blob=routes_blob,
@@ -67,7 +73,9 @@ def validation_errors(
         )
     )
     if routes is None:
-        errors.extend(j2.validation_errors())
+        errors.extend(j2.validation_errors(routes=j2.pre_output_routes(), check_files=True) if output_active else j2.validation_errors())
+        if output_active:
+            errors.extend(j2.live_output_successor_errors(live))
     return errors
 
 
@@ -78,8 +86,8 @@ def main() -> int:
         print(f"J2-successor-aware OTP route-registration validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     print(
-        "validated historical OTP route registration against its predecessor J2 snapshot and separately "
-        "validated the explicit source-faithful J2 live target successor"
+        "validated historical OTP route registration against protected J2 predecessor/pre-output snapshots and "
+        "separately validated the explicit live source-faithful restricted output successor"
     )
     return 0
 
