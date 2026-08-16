@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import copy
 import importlib.util
+import json
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -11,6 +13,17 @@ spec = importlib.util.spec_from_file_location("j2ev", MODULE)
 assert spec and spec.loader
 j2 = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(j2)
+PREDECESSOR_ROUTE_BLOB = "bc4640661443f1b3de213aaa82a333a4fdb6849b"
+
+
+def predecessor_routes() -> dict:
+    proc = subprocess.run(
+        ["git", "-C", str(ROOT), "cat-file", "blob", PREDECESSOR_ROUTE_BLOB],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return json.loads(proc.stdout)
 
 
 def reject(label: str, record: dict, routes: dict) -> None:
@@ -29,10 +42,10 @@ def mutate_route(routes: dict, key: str, value) -> dict:
 
 def main() -> int:
     record = j2.load(j2.RECORD)
-    routes = j2.load(j2.ROUTES)
-    baseline = j2.validation_errors(record, routes, check_files=True)
+    routes = predecessor_routes()
+    baseline = j2.validation_errors(record, routes, check_files=False)
     if baseline:
-        raise AssertionError("baseline invalid:\n" + "\n".join(baseline))
+        raise AssertionError("historical predecessor baseline invalid:\n" + "\n".join(baseline))
 
     cases: list[tuple[str, dict, dict]] = []
 
@@ -85,7 +98,7 @@ def main() -> int:
     for label, candidate, route_value in cases:
         reject(label, candidate, route_value)
 
-    print(f"J2 source-faithful evidence mutation suite rejected {len(cases)} adversarial changes")
+    print(f"J2 source-faithful evidence mutation suite rejected {len(cases)} adversarial changes against protected predecessor route snapshot")
     return 0
 
 

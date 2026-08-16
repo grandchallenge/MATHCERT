@@ -10,7 +10,7 @@ def load(p):return json.loads(p.read_text())
 def blob(p):
  b=p.read_bytes();return hashlib.sha1(f"blob {len(b)}\0".encode()+b,usedforsecurity=False).hexdigest()
 def registration_errors():
- s=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proofs_route_registrations.py");assert s and s.loader;m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m.validation_errors()
+ s=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py");assert s and s.loader;m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m.validation_errors()
 def validation_errors(registry=None,packages=None,package_blobs=None,**_):
  e=[];registry=load(REGISTRY_PATH) if registry is None else registry
  packages={p.stem.replace("-CERT-WP01",""):load(p) for p in PACKAGE_DIR.glob("*.json")} if packages is None else packages
@@ -35,5 +35,5 @@ def validation_errors(registry=None,packages=None,package_blobs=None,**_):
 def main():
  e=validation_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated immutable three-family work packages and their separately governed current route registrations");return 0
+ print("validated immutable three-family work packages and their separately governed current route registrations, including the explicit J2 source-faithful successor");return 0
 if __name__=="__main__":raise SystemExit(main())

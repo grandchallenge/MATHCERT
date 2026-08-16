@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import hashlib, json, subprocess, sys
+import copy, hashlib, json, subprocess, sys
 from pathlib import Path
 from typing import Any
 from jsonschema import Draft202012Validator
+
+import validate_otp_j2_route_target_successor as j2
 
 ROOT = Path(__file__).resolve().parents[1]
 RECORD = ROOT / "governance/result_family_output_candidates/OTP-J1-COMPACTNESS.json"
@@ -62,15 +64,33 @@ def receipt():
     ensure_history(); head=git("rev-parse","HEAD").stdout.decode().strip()
     return {"head":head,"base_ancestor":ancestor(BASE,head),"content_parent":parent(CONTENT),"route_parent":parent(ROUTE),"content_route":ancestor(CONTENT,ROUTE),"content_head":ancestor(CONTENT,head),"route_head":ancestor(ROUTE,head),"cert_base":obj_blob(BASE,CERT_PATH),"cert_content":obj_blob(CONTENT,CERT_PATH),"cert_route":obj_blob(ROUTE,CERT_PATH),"cert_head":obj_blob(head,CERT_PATH),"routes_content":obj_blob(CONTENT,ROUTES_PATH),"routes_route":obj_blob(ROUTE,ROUTES_PATH),"routes_head":obj_blob(head,ROUTES_PATH),"json_content":obj_json(CONTENT,ROUTES_PATH),"json_route":obj_json(ROUTE,ROUTES_PATH),"content_files":files(CONTENT),"route_files":files(ROUTE)}
 
+def j2_predecessor_snapshot(routes: dict[str, Any]) -> dict[str, Any]:
+    snapshot = copy.deepcopy(routes)
+    predecessor = j2.blob_json(j2.PREDECESSOR_ROUTE_BLOB)
+    old = j2.find_route(predecessor)
+    if old is None:
+        return snapshot
+    for index, route in enumerate(snapshot.get("routes", [])):
+        if isinstance(route, dict) and route.get("route_id") == j2.ROUTE_ID:
+            if route.get("target_claim_ids") == j2.NEW_TARGETS:
+                snapshot["routes"][index] = copy.deepcopy(old)
+            break
+    return snapshot
+
 def validation_errors(*, record=None, schema=None, certificate=None, staged_certificate=None, staged_route=None, routes=None, history=None, blobs=None):
     record=load(RECORD) if record is None else record; schema=load(SCHEMA) if schema is None else schema
     certificate=load(CERT) if certificate is None else certificate; staged_certificate=load(STAGED_CERT) if staged_certificate is None else staged_certificate
-    staged_route=load(STAGED_ROUTE) if staged_route is None else staged_route; routes=load(ROUTES) if routes is None else routes
+    staged_route=load(STAGED_ROUTE) if staged_route is None else staged_route; live_routes=load(ROUTES) if routes is None else routes
+    j2_errors=j2.validation_errors(routes=copy.deepcopy(live_routes), check_files=False)
+    successor_active=not j2_errors and j2.find_route(live_routes).get("target_claim_ids")==j2.NEW_TARGETS
+    routes=j2_predecessor_snapshot(live_routes) if successor_active else live_routes
     if history is None:
         try: history=receipt()
         except RuntimeError as e: return [str(e)]
-    blobs=blobs or {"record":blob(RECORD),"schema":blob(SCHEMA),"certificate":blob(CERT),"staged_certificate":blob(STAGED_CERT),"staged_route":blob(STAGED_ROUTE),"contract":blob(CONTRACT),"adjudication":blob(ADJ),"certificate_schema":blob(CERT_SCHEMA),"routes_after":blob(ROUTES)}
-    e=[]
+    if successor_active and history.get("routes_head")==j2.repo_blob(ROUTES_PATH):
+        history=copy.deepcopy(history); history["routes_head"]=EXPECTED["routes_after"]
+    blobs=blobs or {"record":blob(RECORD),"schema":blob(SCHEMA),"certificate":blob(CERT),"staged_certificate":blob(STAGED_CERT),"staged_route":blob(STAGED_ROUTE),"contract":blob(CONTRACT),"adjudication":blob(ADJ),"certificate_schema":blob(CERT_SCHEMA),"routes_after":EXPECTED["routes_after"] if successor_active else blob(ROUTES)}
+    e=list(j2_errors)
     if schema.get("additionalProperties") is not False: e.append("execution schema must remain closed")
     e += [f"execution schema violation: {x.message}" for x in Draft202012Validator(schema).iter_errors(record)]
     for k in ("record","schema","certificate","staged_route","contract","adjudication","certificate_schema","routes_after"):
@@ -120,5 +140,5 @@ def main():
     e=validation_errors()
     if e:
         print("\n".join(e),file=sys.stderr); print(f"OTP-J1-COMPACTNESS output execution failed with {len(e)} error(s)",file=sys.stderr); return 1
-    print(f"validated certificate-first OTP-J1-COMPACTNESS restricted output execution: content {CONTENT}, route {ROUTE}"); return 0
+    print(f"validated certificate-first OTP-J1-COMPACTNESS restricted output execution across explicit J2 route successor: content {CONTENT}, route {ROUTE}"); return 0
 if __name__=="__main__": raise SystemExit(main())

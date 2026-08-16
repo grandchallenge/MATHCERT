@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 import validate_openai_ten_proofs_adjudication_contracts as design
-import validate_openai_ten_proofs_route_registrations as route_registration
+import validate_openai_ten_proofs_route_registrations_with_j2_successor as route_registration
 
 ROOT = Path(__file__).resolve().parents[1]
 ADJUDICATION_DIR = ROOT / "governance/result_family_adjudications"
@@ -53,9 +53,9 @@ def main() -> int:
         )
         return 1
     print(
-        "validated immutable design-only adjudication contracts against their "
-        "submitted-route snapshot, exactly the separately governed Ehrhart, Permanent, "
-        "and Compactness adjudication records, and no legacy OTP output artifact"
+        "validated immutable design-only adjudication contracts against their historical registration "
+        "snapshots, including the explicit J2 source-faithful route successor, exactly the separately "
+        "governed Ehrhart, Permanent, and Compactness adjudication records, and no legacy OTP output artifact"
     )
     return 0
 

@@ -48,7 +48,7 @@ python3 ci/validate_openai_ten_proofs_route_proposals.py
 python3 ci/test_openai_ten_proofs_route_proposals.py
 python3 ci/validate_openai_ten_proofs_permanent_route_proposal.py
 python3 ci/test_openai_ten_proofs_permanent_route_proposal.py
-python3 ci/validate_openai_ten_proofs_route_registrations.py
+python3 ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py
 python3 ci/test_openai_ten_proofs_route_registrations.py
 python3 ci/validate_openai_ten_proofs_permanent_route_registration.py
 python3 ci/test_openai_ten_proofs_permanent_route_registration.py
@@ -87,9 +87,11 @@ python3 ci/validate_otp_compactness_output_execution.py
 python3 ci/test_otp_compactness_output_execution.py
 python3 ci/build_otp_j2_construction_evidence.py
 python3 ci/verify_otp_j2_construction_evidence.py
-python3 ci/validate_otp_j2_source_faithful_evidence.py
+python3 ci/validate_otp_j2_route_target_successor.py
+python3 ci/test_otp_j2_route_target_successor.py
+python3 ci/validate_otp_j2_source_faithful_evidence_with_successor.py
 python3 ci/test_otp_j2_source_faithful_evidence.py
-python3 ci/validate_otp_j2_scope_repair.py
+python3 ci/validate_otp_j2_scope_repair_with_successor.py
 python3 ci/test_otp_j2_scope_repair.py
 python3 work_packages/EUCLID_GCD_E2E_001/check_certificate.py
 python3 work_packages/EUCLID_GCD_E2E_001/test_certificate.py

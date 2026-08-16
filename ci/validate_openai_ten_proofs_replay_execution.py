@@ -6,7 +6,7 @@ def load(p):return json.loads(p.read_text())
 def blob(p):
  d=p.read_bytes();return hashlib.sha1(f"blob {len(d)}\0".encode()+d,usedforsecurity=False).hexdigest()
 def registration_errors():
- s=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proofs_route_registrations.py");m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m.validation_errors()
+ s=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py");assert s and s.loader;m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m.validation_errors()
 def validation_errors(record=None,wp_blob=None,**_):
  r=load(R) if record is None else record;e=[]
  expected={"state":"formal_replay_completed_pending_source_revision_and_specialist_review","submitted_family_count":3,"completed_family_count":3,"evidence_bundle_count":3,"proposed_route_count":0,"registered_route_count":0,"adjudication_count":0,"cert_output_count":0,"mathematical_target_proved_count":0}
@@ -19,5 +19,5 @@ def validation_errors(record=None,wp_blob=None,**_):
 def main():
  e=validation_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated immutable replay-execution history and separately governed current route registrations");return 0
+ print("validated immutable replay-execution history and J2-successor-aware separately governed current route registrations");return 0
 if __name__=="__main__":raise SystemExit(main())

@@ -8,7 +8,7 @@ def load(p):return json.loads(p.read_text())
 def blob(p):
  b=p.read_bytes();return hashlib.sha1(f"blob {len(b)}\0".encode()+b,usedforsecurity=False).hexdigest()
 def registration_errors():
- s=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proofs_route_registrations.py");m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m.validation_errors()
+ s=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py");assert s and s.loader;m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m.validation_errors()
 def validation_errors(proposals=None,registry=None,proposal_blobs=None,registry_blob=None,**_):
  e=[];proposals={p.stem:load(p) for p in P.glob("*.json")} if proposals is None else proposals;registry=load(R) if registry is None else registry;proposal_blobs={p.stem:blob(p) for p in P.glob("*.json")} if proposal_blobs is None else proposal_blobs;registry_blob=blob(R) if registry_blob is None else registry_blob
  if set(proposals)!=set(EXPECTED):e.append("proposal membership drift")
@@ -29,5 +29,5 @@ def validation_errors(proposals=None,registry=None,proposal_blobs=None,registry_
 def main():
  e=validation_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated immutable proposed-only records and their separately governed registered routes");return 0
+ print("validated immutable proposed-only records against J2-successor-aware separately governed registered routes");return 0
 if __name__=="__main__":raise SystemExit(main())

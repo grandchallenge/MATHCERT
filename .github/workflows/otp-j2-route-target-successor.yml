@@ -1,30 +1,29 @@
-name: OTP J2 source-faithful scope repair
+name: OTP J2 source-faithful route-target successor
 
 on:
   pull_request:
     paths:
+      - ".github/workflows/otp-j2-route-target-successor.yml"
       - ".github/workflows/otp-j2-scope-repair.yml"
+      - ".github/workflows/otp-j2-evidence-refresh.yml"
       - "requirements-ci.txt"
-      - "ci/run_otp_j2_scope_repair_replay.sh"
-      - "ci/validate_otp_j2_scope_repair.py"
-      - "ci/validate_otp_j2_scope_repair_with_successor.py"
       - "ci/validate_otp_j2_route_target_successor.py"
       - "ci/test_otp_j2_route_target_successor.py"
+      - "ci/validate_otp_j2_scope_repair_with_successor.py"
+      - "ci/validate_otp_j2_source_faithful_evidence_with_successor.py"
+      - "ci/run_otp_j2_scope_repair_replay.sh"
       - "ci/check_lean.sh"
       - "ci/check_lean.ps1"
       - "governance/ci_control_registry.json"
-      - "evidence/openai_ten_proofs/two_degenerate_scope_repair/**"
-      - "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json"
       - "governance/certification_routes.json"
       - "governance/result_family_route_target_successors/OTP-J2-TWO-DEGENERATE.json"
       - "governance/result_family_adjudication_contract_successors/OTP-J2-TWO-DEGENERATE.json"
       - "schemas/openai_ten_proofs_j2_route_target_successor.schema.json"
       - "schemas/openai_ten_proofs_j2_adjudication_contract_successor.schema.json"
-      - "governance/result_family_intakes/OTP-J2-TWO-DEGENERATE.json"
-      - "governance/result_family_work_packages/OTP-J2-TWO-DEGENERATE-CERT-WP01.json"
-      - "governance/result_family_replay_evidence/OTP-J2-TWO-DEGENERATE.json"
-      - "governance/result_family_route_proposals/OTP-J2-TWO-DEGENERATE.json"
-      - "governance/result_family_adjudication_contracts/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_construction_evidence/OTP-J2-TWO-DEGENERATE.json"
+      - "evidence/openai_ten_proofs/two_degenerate_scope_repair/**"
+      - "evidence/openai_ten_proofs/two_degenerate_construction/**"
   workflow_dispatch:
 
 permissions:
@@ -35,8 +34,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  governance:
-    name: scope-controls-${{ matrix.os }}
+  successor-control:
+    name: successor-control (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
@@ -45,46 +44,47 @@ jobs:
     env:
       MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
-      - name: Check out literal MATHCERT subject head
+      - name: Check out literal successor head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ env.MATHCERT_HEAD_SHA }}
           fetch-depth: 0
           persist-credentials: false
-      - name: Verify literal scope head
+      - name: Verify literal successor head
         shell: bash
         if: runner.os != 'Windows'
         run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
-      - name: Verify literal scope head (Windows)
+      - name: Verify literal successor head (Windows)
         shell: pwsh
         if: runner.os == 'Windows'
         run: |
-          if ((git rev-parse HEAD) -ne $env:MATHCERT_HEAD_SHA) { throw "MATHCERT scope checkout is not the literal PR head" }
+          if ((git rev-parse HEAD) -ne $env:MATHCERT_HEAD_SHA) { throw "MATHCERT successor checkout is not the literal PR head" }
       - name: Install locked CI dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
       - name: Reacquire exact current official source bytes
         run: >-
-          python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h); print('stronger coloring-side property remains excluded from source attribution')"
-      - name: Validate immutable scope repair under successor
+          python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h)"
+      - name: Validate explicit route-target successor
         run: |
-          python ci/validate_otp_j2_scope_repair_with_successor.py
           python ci/validate_otp_j2_route_target_successor.py
           python ci/test_otp_j2_route_target_successor.py
+          python ci/validate_otp_j2_scope_repair_with_successor.py
+          python ci/validate_otp_j2_source_faithful_evidence_with_successor.py
 
   replay:
-    name: exact-j2-source-faithful-replay
+    name: exact-j2-route-target-successor-replay
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     env:
       MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
-      - name: Check out literal MATHCERT subject head
+      - name: Check out literal MATHCERT successor head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ env.MATHCERT_HEAD_SHA }}
           fetch-depth: 0
           persist-credentials: false
-      - name: Verify literal scope head
+      - name: Verify literal successor head
         shell: bash
         run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
       - name: Install locked MATHCERT CI dependencies
@@ -142,21 +142,22 @@ jobs:
           test "$(git rev-parse HEAD)" = "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"
           test "$(git rev-parse 'HEAD:lake-manifest.json')" = "046e8de7f46832fbf092e3fb815efae01e4a2129"
           lake exe cache get
-      - name: Execute exact J2 Path A replay under successor
+      - name: Execute exact source-faithful successor replay
         shell: bash
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
-          python ci/validate_otp_j2_scope_repair_with_successor.py
           python ci/validate_otp_j2_route_target_successor.py
           python ci/test_otp_j2_route_target_successor.py
+          python ci/validate_otp_j2_scope_repair_with_successor.py
+          python ci/validate_otp_j2_source_faithful_evidence_with_successor.py
           chmod +x ci/run_otp_j2_scope_repair_replay.sh
-          ci/run_otp_j2_scope_repair_replay.sh evidence/j2-scope-repair-runtime
-      - name: Upload bounded J2 replay evidence
+          ci/run_otp_j2_scope_repair_replay.sh evidence/j2-route-target-successor-runtime
+      - name: Upload bounded successor replay evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: otp-j2-scope-repair-runtime
-          path: evidence/j2-scope-repair-runtime/
+          name: otp-j2-route-target-successor-runtime
+          path: evidence/j2-route-target-successor-runtime/
           if-no-files-found: warn
           retention-days: 30
