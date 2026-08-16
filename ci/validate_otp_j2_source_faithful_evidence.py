@@ -21,10 +21,15 @@ EXPECTED = {
     "recon_blob": "3905455458f247b768353bc0b082ecbf7c8dd0ff",
     "ledger_blob": "0d81c00d9d190e92ed6f30de867e940bc03b2237",
     "projection_blob": "ac1ec20e95d6acbcd1c3a111afe28bca92a43377",
-    "runtime_run": 31921405987,
-    "runtime_artifact": 9256527089,
-    "runtime_digest": "7a004143eeb0f6f66c1dc6713f245a2f48959a6340fe9fd823dbc75edd151d12",
-    "runtime_head": "4eadd7a73c58b9125598dd808e91bc1b53e68be1",
+    "runtime_run": 31921827626,
+    "runtime_artifact": 9256655146,
+    "runtime_digest": "3da0f00ff095c4b84ce83e74d572f42d128069e060738c73f5948b11036a879c",
+    "runtime_head": "f19110844f07bd3045dcc1102fe3e427a05eeb26",
+    "superseded_run": 31921405987,
+    "superseded_artifact": 9256527089,
+    "superseded_digest": "7a004143eeb0f6f66c1dc6713f245a2f48959a6340fe9fd823dbc75edd151d12",
+    "superseded_reported_head": "4eadd7a73c58b9125598dd808e91bc1b53e68be1",
+    "superseded_actual_checkout": "b08050ca2799e2adf60559e2ecea859395399e20",
 }
 HISTORICAL_TARGETS = [
     "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
@@ -124,6 +129,7 @@ def validation_errors(
         "artifact_id": EXPECTED["runtime_artifact"],
         "artifact_sha256": EXPECTED["runtime_digest"],
         "execution_head": EXPECTED["runtime_head"],
+        "literal_head_checkout_verified": True,
         "comparator": "pass_derivation_carrier_only",
         "lean_kernel": "accept",
         "nanoda": "accept",
@@ -131,10 +137,29 @@ def validation_errors(
         "dependency_separation": "accept",
         "theorem_axiom_report": "permitted_only",
         "trust_scan": "clear",
+        "construction_verifier": "clear",
+        "adversarial_mutations_rejected": 39,
     }
     for key, expected in exact_runtime.items():
         if runtime.get(key) != expected:
             errors.append(f"runtime provenance/result drift: {key}")
+
+    superseded = record.get("superseded_runtime_evidence", [])
+    if len(superseded) != 1:
+        errors.append("superseded runtime history must contain exactly the retained non-binding merge-ref run")
+    else:
+        old = superseded[0]
+        expected_old = {
+            "workflow_run_id": EXPECTED["superseded_run"],
+            "artifact_id": EXPECTED["superseded_artifact"],
+            "artifact_sha256": EXPECTED["superseded_digest"],
+            "reported_pr_head": EXPECTED["superseded_reported_head"],
+            "actual_checkout": EXPECTED["superseded_actual_checkout"],
+            "disposition": "SUPERSEDED_NONBINDING_SYNTHETIC_MERGE_REF_REPLAY",
+        }
+        for key, expected in expected_old.items():
+            if old.get(key) != expected:
+                errors.append(f"superseded runtime history drift: {key}")
 
     disposition = record.get("disposition", {})
     if disposition.get("evidence_disposition") != "J2_SOURCE_FAITHFUL_EVIDENCE_COMPLETE_READY_FOR_ROUTE_TARGET_SUCCESSOR":
@@ -174,7 +199,9 @@ def validation_errors(
             if repo_blob(rel) != expected:
                 errors.append(f"repository object identity drift: {rel}")
         if not is_ancestor(EXPECTED["runtime_head"]):
-            errors.append("bound runtime head is not an ancestor of the current evidence head")
+            errors.append("bound literal runtime head is not an ancestor of the current evidence head")
+        if EXPECTED["runtime_head"] == EXPECTED["superseded_actual_checkout"]:
+            errors.append("binding runtime accidentally aliases superseded synthetic merge checkout")
 
     return errors
 
@@ -186,8 +213,9 @@ def main() -> int:
         print(f"J2 source-faithful evidence validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     print(
-        "validated completed J2 source-faithful evidence: exact runtime artifact bound, "
-        "runtime head ancestral, route unchanged/submitted, and adjudication/output authority absent"
+        "validated completed J2 source-faithful evidence: literal-head runtime artifact bound, "
+        "superseded merge-ref run preserved as non-binding history, route unchanged/submitted, "
+        "and adjudication/output authority absent"
     )
     return 0
 
