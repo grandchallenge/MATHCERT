@@ -87,8 +87,8 @@ def validation_errors(*, record=None, schema=None, certificate=None, staged_cert
     if history is None:
         try: history=receipt()
         except RuntimeError as e: return [str(e)]
-        if successor_active:
-            history=copy.deepcopy(history); history["routes_head"]=EXPECTED["routes_after"]
+    if successor_active and history.get("routes_head")==j2.repo_blob(ROUTES_PATH):
+        history=copy.deepcopy(history); history["routes_head"]=EXPECTED["routes_after"]
     blobs=blobs or {"record":blob(RECORD),"schema":blob(SCHEMA),"certificate":blob(CERT),"staged_certificate":blob(STAGED_CERT),"staged_route":blob(STAGED_ROUTE),"contract":blob(CONTRACT),"adjudication":blob(ADJ),"certificate_schema":blob(CERT_SCHEMA),"routes_after":EXPECTED["routes_after"] if successor_active else blob(ROUTES)}
     e=list(j2_errors)
     if schema.get("additionalProperties") is not False: e.append("execution schema must remain closed")
