@@ -1,0 +1,81 @@
+name: OTP J2 source-faithful output execution
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-j2-output-execution.yml"
+      - "requirements-ci.txt"
+      - "certificates/formal_sources/MC-OTP-J2-TWO-DEGENERATE-001.json"
+      - "governance/result_family_output_candidates/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_output_candidates/staged_certificates/MC-OTP-J2-TWO-DEGENERATE-001.json"
+      - "governance/result_family_output_candidates/staged_route_transitions/OTP-J2-TWO-DEGENERATE.json"
+      - "schemas/otp_j2_source_faithful_output_execution.schema.json"
+      - "schemas/otp_j2_source_faithful_qualified_output.schema.json"
+      - "ci/validate_otp_j2_output_execution.py"
+      - "ci/test_otp_j2_output_execution.py"
+      - "ci/validate_otp_j2_output_contract_with_execution.py"
+      - "ci/validate_otp_j2_route_target_successor.py"
+      - "ci/test_otp_j2_route_target_successor.py"
+      - "ci/validate_otp_j2_adjudication.py"
+      - "ci/test_otp_j2_adjudication.py"
+      - "ci/validate_otp_j2_source_faithful_evidence_with_successor.py"
+      - "ci/validate_otp_j2_scope_repair_with_successor.py"
+      - "governance/result_family_output_contracts/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_adjudications/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/certification_routes.json"
+      - "governance/ci_control_registry.json"
+      - "ci/check_lean.sh"
+      - "ci/check_lean.ps1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  output-execution-control:
+    name: output-execution-control (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out literal output-execution head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify literal output-execution head
+        shell: bash
+        if: runner.os != 'Windows'
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - name: Verify literal output-execution head (Windows)
+        shell: pwsh
+        if: runner.os == 'Windows'
+        run: |
+          if ((git rev-parse HEAD) -ne $env:MATHCERT_HEAD_SHA) { throw "MATHCERT J2 output-execution checkout is not the literal PR head" }
+      - name: Install locked CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Reacquire exact current official J2 source
+        run: >-
+          python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h)"
+      - name: Validate certificate-first J2 output execution
+        run: python ci/validate_otp_j2_output_execution.py
+      - name: Run J2 output execution adversarial mutations
+        run: python ci/test_otp_j2_output_execution.py
+      - name: Validate historical-to-output compatibility
+        run: |
+          python ci/validate_otp_j2_output_contract_with_execution.py
+          python ci/validate_otp_j2_route_target_successor.py
+          python ci/test_otp_j2_route_target_successor.py
+          python ci/validate_otp_j2_adjudication.py
+          python ci/test_otp_j2_adjudication.py
+          python ci/validate_otp_j2_source_faithful_evidence_with_successor.py
+          python ci/validate_otp_j2_scope_repair_with_successor.py

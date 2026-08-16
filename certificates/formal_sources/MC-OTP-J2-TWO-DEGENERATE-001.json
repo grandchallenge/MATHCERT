@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_j2_source_faithful_qualified_output",
+  "certificate_id": "MC-OTP-J2-TWO-DEGENERATE-QUAL-001",
+  "result_family": "OTP-J2-TWO-DEGENERATE",
+  "route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
+  "source_authority": {
+    "adjudication": {
+      "path": "governance/result_family_adjudications/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "87286722951770b3383de2eedba30f2b53e0dabc",
+      "disposition": "adjudication_clear_source_faithful_targets_only",
+      "merge_commit": "60c8aef1ce29373e879fedc549219f459f32a608"
+    },
+    "output_contract": {
+      "path": "governance/result_family_output_contracts/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "4f5a03ff588cd6890c45482cf2d77522dc70756d"
+    }
+  },
+  "encoded_targets": [
+    "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+    "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146"
+  ],
+  "qualification": {
+    "disposition": "qualified_source_faithful_targets_only",
+    "scope": "The exact two source-faithful OTP-J2-TWO-DEGENERATE projection declarations only.",
+    "source_locus": "Current Chapter 10, Theorem 1.2 core only.",
+    "source_projection": {
+      "fixed_finite_graph": true,
+      "connected": true,
+      "bipartite": true,
+      "two_degenerate": true,
+      "positive_c": true,
+      "positive_epsilon": true,
+      "eventual_extremal_lower_bound_above_three_halves": true,
+      "source_core_refutes_r2_degeneracy_bound": true,
+      "stronger_coloring_side_property_in_scope": false
+    }
+  },
+  "evidence_receipts": {
+    "current_source_statement_concordance": "clear_for_exact_source_faithful_theorem_1_2_core",
+    "construction_extremal_reconstruction": "clear",
+    "nonvacuity": "clear_both_source_faithful_declarations_accept_and_refutation_uses_source_core_only",
+    "source_faithful_projection": "accept",
+    "comparator": "pass_derivation_carrier_only",
+    "lean_kernel": "accept",
+    "nanoda": "accept"
+  },
+  "axiom_report": {
+    "permitted_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "unexpected_axioms": [],
+    "imported_domain_axioms": []
+  },
+  "trust_boundary": {
+    "source_faithful_solution_placeholders": 0,
+    "unsafe_declarations": 0,
+    "custom_axioms": 0,
+    "stronger_coloring_side_property_used_for_qualification": false,
+    "result": "clear"
+  },
+  "state": {
+    "route_state": "qualified",
+    "cert_output_inserted": true,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "stronger_coloring_property_certified": false,
+    "aggregate_output": false
+  },
+  "preserved_limitations": {
+    "historical_stronger_targets_qualified": false,
+    "stronger_coloring_property_source_authorized": false,
+    "stronger_coloring_property_certified": false,
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false,
+    "source_internal_entropy_lemmas_reformalized": false,
+    "unrestricted_source_theorem_proof_claim": false,
+    "other_family_outputs_authorized": false,
+    "aggregate_openai_ten_proofs_authority": false
+  },
+  "claim_boundary": "This restricted qualification certifies only the exact two source-faithful OTP-J2-TWO-DEGENERATE projection declarations under the protected adjudication and output contract. It does not qualify the historical stronger declarations, source-authorize or certify the stronger coloring-side property, establish whole-document byte or semantic equivalence, compare the proof body in full, reformalize source-internal entropy lemmas, or mark a mathematical target proved. It does not authorize claim promotion, qualify another result family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}

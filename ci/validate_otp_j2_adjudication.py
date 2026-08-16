@@ -18,12 +18,25 @@ TARGETS = [
     "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
     "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146",
 ]
+OUTPUT_CONTRACT_MERGE = "d1f0d69e145029e8b7bc29c0ec60543f7db29272"
+OUTPUT_CERTIFICATE_COMMIT = "24cff6e55709c067c7f966c1a533255af707bec0"
+OUTPUT_ROUTE_COMMIT = "15559390e2489ae73d872f389a9601c7412b77ed"
+OUTPUT_CERTIFICATE_BLOB = "308a2eb7087fb24a07a6ae8c93a83b593468d2f7"
+OUTPUT_CERTIFICATE_PATH = "certificates/formal_sources/MC-OTP-J2-TWO-DEGENERATE-001.json"
+OUTPUT_CERT = {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": OUTPUT_CERTIFICATE_COMMIT,
+    "path": OUTPUT_CERTIFICATE_PATH,
+    "digest_algorithm": "git_blob_sha1",
+    "digest": OUTPUT_CERTIFICATE_BLOB,
+}
 EXPECTED = {
     "record_blob": "87286722951770b3383de2eedba30f2b53e0dabc",
     "input_blob": "bd18b84bc257b7f06b875a6cf5fa4c038eb7c3cd",
     "contract_blob": "1feaeac515beb792c5552bc795826bd999f4e535",
     "successor_blob": "5b72e13448cdbea88e0f2cf1e637c2d787b297a6",
-    "route_blob": "eb2ad35f73ec1f7a29c7432aa9e5ad299116dbfe",
+    "historical_route_blob": "eb2ad35f73ec1f7a29c7432aa9e5ad299116dbfe",
+    "live_route_blob": "2d17473b4731aa9d9c630b1e7777ad4bd794d993",
     "evidence_blob": "e1bc1f04daf28b04a85e92e605732f466ab1e2d6",
     "runtime_head": "863447a7b6abeeee6b113e27057730036318ea0f",
     "runtime_run": 31928781876,
@@ -36,7 +49,6 @@ OBJECTS = {
     "governance/result_family_adjudication_execution_inputs/OTP-J2-TWO-DEGENERATE.json": EXPECTED["input_blob"],
     "governance/result_family_adjudication_contract_successors/OTP-J2-TWO-DEGENERATE.json": EXPECTED["contract_blob"],
     "governance/result_family_route_target_successors/OTP-J2-TWO-DEGENERATE.json": EXPECTED["successor_blob"],
-    "governance/certification_routes.json": EXPECTED["route_blob"],
     "governance/result_family_construction_evidence/OTP-J2-TWO-DEGENERATE.json": EXPECTED["evidence_blob"],
 }
 
@@ -51,6 +63,10 @@ def git(*args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
 
 def repo_blob(rel: str) -> str:
     return git("rev-parse", f"HEAD:{rel}").stdout.strip()
+
+
+def commit_blob(commit: str, rel: str) -> str:
+    return git("rev-parse", f"{commit}:{rel}").stdout.strip()
 
 
 def is_ancestor(sha: str) -> bool:
@@ -143,6 +159,8 @@ def validation_errors(record: dict[str, Any] | None = None, *, check_repository:
     if construction.get("source_internal_entropy_lemmas_reformalized") is not False:
         errors.append("entropy-lemma formalization overclaim")
 
+    # This is the immutable adjudication state. It intentionally remains
+    # submitted/no-output even after a separately governed output successor.
     state = record.get("state", {})
     expected_state = {
         "route_state": "submitted",
@@ -190,21 +208,41 @@ def validation_errors(record: dict[str, Any] | None = None, *, check_repository:
             continue
         if actual != expected:
             errors.append(f"protected object drift: {rel}: {actual}")
+
+    # Preserve exact historical route authority at the certificate-content
+    # commit, while separately requiring the authorized live output successor.
+    if commit_blob(OUTPUT_CERTIFICATE_COMMIT, "governance/certification_routes.json") != EXPECTED["historical_route_blob"]:
+        errors.append("historical adjudication route-registry snapshot drift")
+    if repo_blob("governance/certification_routes.json") != EXPECTED["live_route_blob"]:
+        errors.append("live J2 output route-registry blob drift")
+
     if not is_ancestor(EXPECTED["runtime_head"]):
         errors.append("fresh execution head is not an ancestor of current publication head")
     if not is_ancestor("ca66279862dcec276d2280749e6fae45f6e1e7a0"):
         errors.append("protected route-target successor merge is not an ancestor")
+    for sha, label in (
+        (OUTPUT_CONTRACT_MERGE, "protected J2 output-contract merge"),
+        (OUTPUT_CERTIFICATE_COMMIT, "J2 certificate-content commit"),
+        (OUTPUT_ROUTE_COMMIT, "J2 route-transition commit"),
+    ):
+        if not is_ancestor(sha):
+            errors.append(f"{label} is not an ancestor")
 
     route = find_route(load(ROUTES), "MC-ROUTE-OTP-J2-TWO-DEGENERATE")
     if route is None:
         errors.append("live J2 route missing")
     else:
-        if route.get("intake_status") != "submitted":
-            errors.append("live J2 route transitioned")
+        if route.get("intake_status") != "qualified":
+            errors.append("live J2 governed output successor is not qualified")
         if route.get("target_claim_ids") != TARGETS:
             errors.append("live J2 targets drifted")
-        if route.get("cert_output") is not None:
-            errors.append("live J2 route gained Cert output")
+        if route.get("cert_output") != OUTPUT_CERT:
+            errors.append("live J2 Cert output identity drift")
+        boundary = str(route.get("claim_boundary", "")).lower()
+        if "qualified_source_faithful_targets_only" not in boundary:
+            errors.append("live J2 restricted qualification disposition missing from boundary")
+        if "stronger coloring-side" not in boundary:
+            errors.append("live J2 stronger-coloring exclusion missing")
 
     return errors
 
@@ -214,7 +252,10 @@ def main() -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("validated narrow J2 source-faithful adjudication: fresh execution bound, exact targets clear, route submitted, and no output/proof/aggregate authority created")
+    print(
+        "validated immutable narrow J2 source-faithful adjudication at submitted/no-output state and "
+        "separately validated the governed restricted output successor"
+    )
     return 0
 
 

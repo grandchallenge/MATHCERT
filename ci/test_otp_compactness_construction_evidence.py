@@ -5,6 +5,8 @@ import importlib.util
 import unittest
 from pathlib import Path
 
+import validate_otp_j2_route_target_successor as j2
+
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
     "validate_otp_compactness_construction_evidence",
@@ -21,7 +23,9 @@ class CompactnessConstructionEvidenceTests(unittest.TestCase):
         self.schema = M.load(M.SCHEMA)
         self.source = M.load(M.SOURCE)
         self.reconstruction = M.load(M.RECONSTRUCTION)
-        self.routes = M.load(M.ROUTES)
+        # Preserve this historical mutation suite against the exact route state
+        # immediately before the separately governed J2 output transition.
+        self.routes = j2.pre_output_routes()
 
     def errors(self, **kwargs):
         defaults = dict(
@@ -43,6 +47,7 @@ class CompactnessConstructionEvidenceTests(unittest.TestCase):
 
     def test_current_complete_successor_passes(self): self.assertEqual(self.errors(), [])
     def test_historical_snapshot_passes(self): self.assertEqual(self.errors(routes=self.historical_routes(), route_blob=M.ROUTE_BLOB, output_present=False, certificate_present=False), [])
+    def test_live_j2_output_successor_passes_separately(self): self.assertEqual(j2.live_output_successor_errors(), [])
 
     def test_source_substitution(self):
         source=copy.deepcopy(self.source); source["current_official_revision"]["expected_sha256"]="0"*64

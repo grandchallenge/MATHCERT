@@ -27,7 +27,10 @@ def validation_errors() -> list[str]:
     errors = historical.validation_errors(record, predecessor_routes(), check_files=False)
     if successor.repo_blob("governance/result_family_construction_evidence/OTP-J2-TWO-DEGENERATE.json") != successor.EVIDENCE_BLOB:
         errors.append("protected completed J2 evidence record was rewritten")
-    errors.extend(successor.validation_errors())
+    errors.extend(successor.validation_errors(routes=successor.pre_output_routes(), check_files=True))
+    live = successor.load(successor.ROUTES)
+    if successor.find_route(live).get("intake_status") == "qualified":
+        errors.extend(successor.live_output_successor_errors(live))
     return errors
 
 
@@ -38,8 +41,8 @@ def main() -> int:
         print(f"successor-aware J2 evidence compatibility failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     print(
-        "validated immutable completed J2 source-faithful evidence against its protected predecessor-route "
-        "snapshot and separately validated the explicit live route-target successor"
+        "validated immutable completed J2 source-faithful evidence against protected predecessor and pre-output "
+        "route snapshots, with the separately governed live restricted output successor validated independently"
     )
     return 0
 

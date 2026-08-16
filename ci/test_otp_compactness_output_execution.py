@@ -2,15 +2,17 @@
 from __future__ import annotations
 import copy, unittest
 import validate_otp_compactness_output_execution as v
+import validate_otp_j2_route_target_successor as j2
 
 class Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.record=v.load(v.RECORD); cls.schema=v.load(v.SCHEMA); cls.cert=v.load(v.CERT); cls.staged_cert=v.load(v.STAGED_CERT); cls.staged_route=v.load(v.STAGED_ROUTE); cls.routes=v.load(v.ROUTES); cls.history=v.receipt()
+        cls.record=v.load(v.RECORD); cls.schema=v.load(v.SCHEMA); cls.cert=v.load(v.CERT); cls.staged_cert=v.load(v.STAGED_CERT); cls.staged_route=v.load(v.STAGED_ROUTE); cls.routes=j2.pre_output_routes(); cls.history=v.receipt()
     def errors(self, **kw):
         args=dict(record=copy.deepcopy(self.record), schema=copy.deepcopy(self.schema), certificate=copy.deepcopy(self.cert), staged_certificate=copy.deepcopy(self.staged_cert), staged_route=copy.deepcopy(self.staged_route), routes=copy.deepcopy(self.routes), history=copy.deepcopy(self.history))
         args.update(kw); return v.validation_errors(**args)
     def test_baseline(self): self.assertEqual(self.errors(), [])
+    def test_live_j2_output_successor_passes_separately(self): self.assertEqual(j2.live_output_successor_errors(), [])
     def test_target_inflation_rejected(self):
         c=copy.deepcopy(self.cert); c["encoded_targets"].append("X"); self.assertTrue(self.errors(certificate=c))
     def test_proof_promotion_rejected(self):

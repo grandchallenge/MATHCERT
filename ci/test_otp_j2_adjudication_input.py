@@ -15,7 +15,7 @@ spec.loader.exec_module(mod)
 
 def main() -> int:
     base = mod.load(mod.INPUT)
-    baseline = mod.validation_errors(base, check_repository=True)
+    baseline = mod.compatibility_errors(base)
     if baseline:
         raise AssertionError("baseline invalid: " + "; ".join(baseline))
 
@@ -54,7 +54,7 @@ def main() -> int:
         errors = mod.validation_errors(value, check_repository=False)
         if not errors:
             raise AssertionError(f"mutation accepted: {label}")
-    print(f"J2 adjudication input mutation suite rejected {len(mutations)} adversarial changes")
+    print(f"J2 adjudication input mutation suite rejected {len(mutations)} adversarial changes; live output successor validated separately")
     return 0
 
 

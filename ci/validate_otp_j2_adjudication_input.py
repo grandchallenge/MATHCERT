@@ -9,6 +9,8 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
+import validate_otp_j2_route_target_successor as j2
+
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / "governance/result_family_adjudication_execution_inputs/OTP-J2-TWO-DEGENERATE.json"
 SCHEMA = ROOT / "schemas/openai_ten_proofs_j2_adjudication_execution_input.schema.json"
@@ -42,6 +44,12 @@ def repo_blob(rel: str) -> str:
     ).strip()
 
 
+def commit_blob(commit: str, rel: str) -> str:
+    return subprocess.check_output(
+        ["git", "-C", str(ROOT), "rev-parse", f"{commit}:{rel}"], text=True
+    ).strip()
+
+
 def is_ancestor(sha: str) -> bool:
     return subprocess.run(
         ["git", "-C", str(ROOT), "merge-base", "--is-ancestor", sha, "HEAD"]
@@ -65,6 +73,7 @@ def find_route(node: Any, route_id: str) -> dict[str, Any] | None:
 
 
 def validation_errors(record: dict[str, Any] | None = None, *, check_repository: bool = True) -> list[str]:
+    """Validate the immutable adjudication input in its historical submitted/null state."""
     errors: list[str] = []
     record = load(INPUT) if record is None else record
     schema = load(SCHEMA)
@@ -138,12 +147,71 @@ def validation_errors(record: dict[str, Any] | None = None, *, check_repository:
     return errors
 
 
+def compatibility_errors(record: dict[str, Any] | None = None) -> list[str]:
+    """Preserve the immutable input while validating the separately governed output descendant."""
+    errors = validation_errors(record, check_repository=False)
+
+    if not is_ancestor("ca66279862dcec276d2280749e6fae45f6e1e7a0"):
+        errors.append("protected route-target successor merge is not an ancestor")
+
+    for rel, expected in EXPECTED_BLOBS.items():
+        if rel == "governance/certification_routes.json":
+            continue
+        try:
+            actual = repo_blob(rel)
+        except subprocess.CalledProcessError:
+            errors.append(f"missing protected object: {rel}")
+            continue
+        if actual != expected:
+            errors.append(f"protected object drift: {rel}: {actual}")
+
+    try:
+        pre_output_blob = commit_blob(
+            j2.OUTPUT_CERTIFICATE_COMMIT,
+            "governance/certification_routes.json",
+        )
+    except subprocess.CalledProcessError:
+        pre_output_blob = ""
+    if pre_output_blob != EXPECTED_BLOBS["governance/certification_routes.json"]:
+        errors.append("historical adjudication-input route snapshot drift")
+
+    contract = load(CONTRACT)
+    gate = contract.get("execution_gate", {})
+    if gate.get("streamlined_control_plan_applies") is not True:
+        errors.append("protected contract does not authorize streamlined progression")
+    if gate.get("separate_human_steward_authorization_required") is not False:
+        errors.append("protected contract unexpectedly requires separate Human Steward authorization")
+    if gate.get("human_steward_intervention_required_only_for_control_plan_change") is not True:
+        errors.append("protected contract intervention boundary drift")
+    if contract.get("route_scope", {}).get("target_claim_ids") != TARGETS:
+        errors.append("contract target scope drift")
+    if contract.get("state", {}).get("cert_output") is not None:
+        errors.append("immutable adjudication contract gained Cert output")
+
+    errors.extend(j2.live_output_successor_errors(load(ROUTES)))
+
+    projection = (ROOT / "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean").read_text(encoding="utf-8")
+    signature = projection.split("theorem mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample", 1)[1].split(":= by", 1)[0]
+    if "Coloring" in signature:
+        errors.append("excluded coloring property leaked into source-faithful target signature")
+    return errors
+
+
 def main() -> int:
-    errors = validation_errors()
+    route = find_route(load(ROUTES), "MC-ROUTE-OTP-J2-TWO-DEGENERATE")
+    if route is not None and route.get("intake_status") == "qualified":
+        errors = compatibility_errors()
+        label = "immutable J2 adjudication execution input plus governed restricted output successor"
+    else:
+        errors = validation_errors()
+        label = "J2 adjudication execution input"
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("validated J2 adjudication execution input: protected contract authority, exact source-faithful targets, submitted route, no output or redundant Human Steward gate")
+    print(
+        f"validated {label}: protected contract authority, exact source-faithful targets, "
+        "no redundant Human Steward gate, and stronger-coloring exclusion preserved"
+    )
     return 0
 
 

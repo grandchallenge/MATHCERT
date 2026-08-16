@@ -9,12 +9,18 @@ on:
       - "schemas/otp_j2_source_faithful_output_contract.schema.json"
       - "schemas/otp_j2_source_faithful_qualified_output.schema.json"
       - "ci/validate_otp_j2_output_contract.py"
+      - "ci/validate_otp_j2_output_contract_with_execution.py"
+      - "ci/validate_otp_j2_output_execution.py"
       - "ci/test_otp_j2_output_contract.py"
       - "ci/validate_otp_permanent_output_contract.py"
       - "ci/validate_otp_compactness_output_contract.py"
       - "governance/result_family_adjudications/OTP-J2-TWO-DEGENERATE.json"
       - "governance/result_family_route_target_successors/OTP-J2-TWO-DEGENERATE.json"
       - "governance/certification_routes.json"
+      - "certificates/formal_sources/MC-OTP-J2-TWO-DEGENERATE-001.json"
+      - "governance/result_family_output_candidates/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_output_candidates/staged_certificates/MC-OTP-J2-TWO-DEGENERATE-001.json"
+      - "governance/result_family_output_candidates/staged_route_transitions/OTP-J2-TWO-DEGENERATE.json"
       - "governance/ci_control_registry.json"
       - "ci/check_lean.sh"
       - "ci/check_lean.ps1"
@@ -58,8 +64,8 @@ jobs:
       - name: Reacquire exact current official J2 source
         run: >-
           python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h)"
-      - name: Validate J2 output design contract
-        run: python ci/validate_otp_j2_output_contract.py
+      - name: Validate immutable J2 output design contract and complete successor
+        run: python ci/validate_otp_j2_output_contract_with_execution.py
       - name: Run J2 output design adversarial mutations
         run: python ci/test_otp_j2_output_contract.py
       - name: Revalidate predecessor output contracts

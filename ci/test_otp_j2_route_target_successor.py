@@ -22,10 +22,18 @@ def reject(label: str, receipt: dict, contract: dict, routes: dict) -> None:
 def main() -> int:
     receipt = j2.load(j2.RECEIPT)
     contract = j2.load(j2.CONTRACT)
-    routes = j2.load(j2.ROUTES)
+    # The immutable route-target successor is judged at the exact route state
+    # immediately before the separately governed output transition.
+    routes = j2.pre_output_routes()
     baseline = j2.validation_errors(receipt, contract, routes, check_files=True)
     if baseline:
         raise AssertionError("baseline invalid:\n" + "\n".join(baseline))
+
+    # The live branch may now contain the separately governed restricted output,
+    # but it must match that output successor exactly.
+    live_errors = j2.live_output_successor_errors()
+    if live_errors:
+        raise AssertionError("live output successor invalid:\n" + "\n".join(live_errors))
 
     cases: list[tuple[str, dict, dict, dict]] = []
 
@@ -82,15 +90,15 @@ def main() -> int:
     route_case("live old targets retained", lambda x: x.__setitem__("target_claim_ids", j2.OLD_TARGETS))
     route_case("live mixed targets", lambda x: x.__setitem__("target_claim_ids", [j2.NEW_TARGETS[0], j2.OLD_TARGETS[1]]))
     route_case("live target inflation", lambda x: x["target_claim_ids"].append("Other.target"))
-    route_case("live route qualification", lambda x: x.__setitem__("intake_status", "qualified"))
-    route_case("live output insertion", lambda x: x.__setitem__("cert_output", {"repository": "x/y"}))
+    route_case("historical successor route qualification", lambda x: x.__setitem__("intake_status", "qualified"))
+    route_case("historical successor output insertion", lambda x: x.__setitem__("cert_output", {"repository": "x/y"}))
     route_case("live route id drift", lambda x: x.__setitem__("route_id", "MC-ROUTE-OTP-J2-OTHER"))
     route_case("live coloring exclusion removed", lambda x: x.__setitem__("claim_boundary", "source-faithful only"))
 
     for label, r, c, rs in cases:
         reject(label, r, c, rs)
 
-    print(f"J2 route-target successor mutation suite rejected {len(cases)} adversarial changes")
+    print(f"J2 route-target successor mutation suite rejected {len(cases)} adversarial changes against exact pre-output snapshot")
     return 0
 
 

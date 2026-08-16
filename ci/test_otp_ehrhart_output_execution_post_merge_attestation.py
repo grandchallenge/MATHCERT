@@ -5,6 +5,8 @@ import importlib.util
 import unittest
 from pathlib import Path
 
+import validate_otp_j2_route_target_successor as j2
+
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
     "validate_otp_ehrhart_output_execution_post_merge_attestation",
@@ -22,7 +24,10 @@ class OtpEhrhartOutputExecutionPostMergeAttestationTests(unittest.TestCase):
         self.attestation_schema = M.load(M.ATTESTATION_SCHEMA)
         self.closure_schema = M.load(M.CLOSURE_SCHEMA)
         self.historical_candidate = M.load(M.HISTORICAL_CANDIDATE)
-        self.routes = M.load(M.ROUTES)
+        # The protected Ehrhart closure predates the separately governed J2
+        # output. Exercise its mutation surface against the exact route state
+        # immediately before that J2 output transition.
+        self.routes = j2.pre_output_routes()
         self.certificate = M.load(M.CERTIFICATE)
         self.adjudication = M.load(M.ADJUDICATION)
         self.receipt = {
@@ -56,6 +61,9 @@ class OtpEhrhartOutputExecutionPostMergeAttestationTests(unittest.TestCase):
 
     def test_current_closure_passes(self):
         self.assertEqual([], self.errors())
+
+    def test_live_j2_output_successor_passes_separately(self):
+        self.assertEqual([], j2.live_output_successor_errors())
 
     def test_reviewed_head_drift_fails(self):
         data = copy.deepcopy(self.attestation)

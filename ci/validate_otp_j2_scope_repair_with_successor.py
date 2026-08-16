@@ -24,7 +24,10 @@ def predecessor_routes() -> dict:
 
 def validation_errors() -> list[str]:
     errors = historical.validation_errors(routes=predecessor_routes(), check_files=False)
-    errors.extend(successor.validation_errors())
+    errors.extend(successor.validation_errors(routes=successor.pre_output_routes(), check_files=True))
+    live = successor.load(successor.ROUTES)
+    if successor.find_route(live).get("intake_status") == "qualified":
+        errors.extend(successor.live_output_successor_errors(live))
     return errors
 
 
@@ -35,8 +38,8 @@ def main() -> int:
         print(f"successor-aware J2 scope-repair compatibility failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     print(
-        "validated immutable J2 scope-repair record against its protected predecessor-route snapshot "
-        "and separately validated the explicit source-faithful live route successor"
+        "validated immutable J2 scope repair against protected predecessor and pre-output route snapshots, "
+        "with the separately governed live restricted output successor validated independently"
     )
     return 0
 
