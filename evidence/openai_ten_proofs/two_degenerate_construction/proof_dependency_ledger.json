@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "operation_id": "OTP-J2-TWO-DEGENERATE-CERT-EVIDENCE-REFRESH-001",
+  "result_family": "OTP-J2-TWO-DEGENERATE",
+  "purpose": "Distinguish independently reconstructed implications from source-internal lemmas and standard asymptotic inputs without silently promoting the evidence operation into a full proof-body formalization.",
+  "dependencies": [
+    {
+      "id": "binary_entropy_range",
+      "kind": "standard_analytic_fact",
+      "statement": "For x in [0,1], binary entropy h(x) lies in [0,1].",
+      "used_for": "0<=Phi_i<=1",
+      "evidence_status": "direct_standard_fact_rechecked"
+    },
+    {
+      "id": "entropy_parent_child_inequality",
+      "kind": "source_internal_lemma",
+      "source_label": "Chapter 10 Lemma 5.1",
+      "used_for": "one-coordinate entropy upper bound",
+      "evidence_status": "statement_and_role_reconstructed_source_proof_not_reformalized_here"
+    },
+    {
+      "id": "finite_array_entropy_approximation",
+      "kind": "source_internal_lemma",
+      "source_label": "Chapter 10 Lemma 5.2",
+      "used_for": "E_i<=A(tau)+(Phi_i-Phi_(i-1))/2+eta(L_(i-1))",
+      "evidence_status": "statement_and_role_reconstructed_source_proof_not_reformalized_here"
+    },
+    {
+      "id": "low_entropy_array_exclusion",
+      "kind": "source_internal_lemma",
+      "source_label": "Chapter 10 Lemma 7.1",
+      "used_for": "E_i>beta-delta simultaneously across all transitions with high probability",
+      "evidence_status": "counting_union_bound_argument_reconstructed_source_proof_not_reformalized_here"
+    },
+    {
+      "id": "layered_graph_exclusion",
+      "kind": "source_internal_proposition",
+      "source_label": "Chapter 10 Proposition 8.1",
+      "used_for": "P(H subseteq G_m)=o(1)",
+      "evidence_status": "independently_reconstructed_from_ledgered_entropy_dependencies"
+    },
+    {
+      "id": "hamming_ball_asymptotic",
+      "kind": "standard_asymptotic_fact",
+      "statement": "sum_{j<=tau m} binom(m,j)=2^((h(tau)+o(1))m) for fixed 0<tau<1/2",
+      "used_for": "edge expectation exponent",
+      "evidence_status": "standard_fact_scope_and_direction_rechecked"
+    },
+    {
+      "id": "second_moment_concentration",
+      "kind": "standard_probability_argument",
+      "statement": "The displayed expectation/variance bounds and diverging expectations imply W_m<=3pQ and e_m>=(1/2)p^2QD_m with probability 1-o(1).",
+      "used_for": "existence of a dense H-free sampled host",
+      "evidence_status": "inequality_directions_and_exponent_conditions_rechecked"
+    },
+    {
+      "id": "parameter_window",
+      "kind": "source_endgame_algebra",
+      "statement": "C(tau)-A(tau)>0 at tau=1/(1+sqrt(3)).",
+      "used_for": "choose A(tau)<beta<C(tau)",
+      "evidence_status": "independently_reconstructed_and_machine_checked_exact_positivity_reduction"
+    },
+    {
+      "id": "exponent_bridge",
+      "kind": "source_endgame_algebra",
+      "statement": "(1+h(tau)-2beta)/(1-beta)=3/2+(C(tau)-beta)/(2(1-beta)).",
+      "used_for": "strict exponent gain over 3/2",
+      "evidence_status": "independently_reconstructed_and_machine_checked"
+    },
+    {
+      "id": "padding_bridge",
+      "kind": "elementary_extremal_argument",
+      "statement": "N_(m+1)<=2N_m and isolated-vertex padding transfer the subsequence lower bound to all sufficiently large n.",
+      "used_for": "eventual all-n theorem statement",
+      "evidence_status": "independently_reconstructed_and_machine_checked"
+    }
+  ],
+  "formal_projection_dependency": {
+    "source_faithful_projection": "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+    "source_faithful_refutation": "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146",
+    "stronger_coloring_conjunct_used": false,
+    "stronger_upstream_theorem_role": "derivation carrier for the source-faithful projection only; its extra coloring conjunct is discarded and receives no source authority"
+  },
+  "boundary": {
+    "proof_body_compared_in_full": false,
+    "whole_document_equivalence_established": false,
+    "all_source_internal_entropy_lemmas_reformalized": false,
+    "construction_and_extremal_argument_reconstructed_to_theorem_boundary": true,
+    "substantive_gap_identified": false
+  }
+}
