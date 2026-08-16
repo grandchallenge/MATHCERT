@@ -9,7 +9,7 @@ def blob_bytes(b):return hashlib.sha1(f"blob {len(b)}\0".encode()+b,usedforsecur
 def blob(p):return blob_bytes(p.read_bytes())
 def decode_base64(data):return base64.b64decode(b"".join(data.split()),validate=True)
 def registration_errors():
- s=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proofs_route_registrations.py");m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m.validation_errors()
+ s=importlib.util.spec_from_file_location("reg",ROOT/"ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py");assert s and s.loader;m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m.validation_errors()
 def validation_errors(records=None,registry=None,record_blobs=None,bundle_bytes=None,**_):
  e=[];records={p.stem:load(p) for p in RECORD_ROOT.glob("*.json")} if records is None else records;registry=load(REGISTRY) if registry is None else registry;record_blobs={p.stem:blob(p) for p in RECORD_ROOT.glob("*.json")} if record_blobs is None else record_blobs
  if set(records)!=set(EXPECTED):e.append("evidence membership drift")
@@ -37,5 +37,5 @@ def validation_errors(records=None,registry=None,record_blobs=None,bundle_bytes=
 def main():
  e=validation_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated immutable replay evidence bundles and separately governed current route registrations");return 0
+ print("validated immutable replay evidence bundles and J2-successor-aware separately governed current route registrations");return 0
 if __name__=="__main__":raise SystemExit(main())
