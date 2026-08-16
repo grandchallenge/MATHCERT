@@ -128,7 +128,7 @@
     "overlay_artifact": {
       "path": "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean",
       "digest_algorithm": "git_blob_sha1",
-      "digest": "252b24691b5368e561a8b492e12331f73ca7b6ec"
+      "digest": "ac1ec20e95d6acbcd1c3a111afe28bca92a43377"
     },
     "projection_theorem": "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
     "dependency_separation_theorem": "TwoDegenerateGraphs.mathcert_not_erdos_146_from_sourceFaithfulCore",
