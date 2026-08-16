@@ -41,8 +41,10 @@ class RouteRegistrationTests(unittest.TestCase):
   routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J1-COMPACTNESS")["claim_boundary"]="qualified";self.assertTrue(any("live successor boundary missing" in x for x in self.errors(routes=routes)))
  def test_output_insertion_into_historical_snapshot(self):
   routes=self.historical_compactness_routes();next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J1-COMPACTNESS")["cert_output"]={"forged":True};self.assertTrue(self.errors(routes=routes))
- def test_otp_state_mutation_is_rejected(self):
-  routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J2-TWO-DEGENERATE")["intake_status"]="qualified";self.assertTrue(self.errors(routes=routes))
+ def test_j2_state_regression_is_rejected(self):
+  routes=copy.deepcopy(self.routes);r=next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J2-TWO-DEGENERATE");r["intake_status"]="submitted";r["cert_output"]=None;self.assertTrue(self.errors(routes=routes))
+ def test_j2_output_substitution_is_rejected(self):
+  routes=copy.deepcopy(self.routes);r=next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J2-TWO-DEGENERATE");r["cert_output"]["digest"]="0"*40;self.assertTrue(any("output identity drift" in x.lower() for x in self.errors(routes=routes)))
  def test_j2_mixed_target_successor_is_rejected(self):
   routes=copy.deepcopy(self.routes);next(x for x in routes["routes"] if x["campaign_id"]=="OTP-J2-TWO-DEGENERATE")["target_claim_ids"]=["TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample","TwoDegenerateGraphs.not_erdos_146"];self.assertTrue(self.errors(routes=routes))
  def test_limit_removal(self):
