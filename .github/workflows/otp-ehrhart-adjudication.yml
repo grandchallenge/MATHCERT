@@ -23,6 +23,7 @@ on:
       - "schemas/otp_ehrhart_output_execution_closure.schema.json"
       - "schemas/otp_ehrhart_output_execution_post_merge_attestation.schema.json"
       - "ci/validate_otp_ehrhart_output_execution_post_merge_attestation.py"
+      - "ci/validate_otp_ehrhart_output_execution_post_merge_attestation_with_j2_output.py"
       - "ci/test_otp_ehrhart_output_execution_post_merge_attestation.py"
   workflow_dispatch:
 
@@ -55,6 +56,6 @@ jobs:
       - name: Run adversarial mutations
         run: python ci/test_otp_ehrhart_adjudication.py
       - name: Validate Ehrhart output execution closure
-        run: python ci/validate_otp_ehrhart_output_execution_post_merge_attestation.py
+        run: python ci/validate_otp_ehrhart_output_execution_post_merge_attestation_with_j2_output.py
       - name: Run output execution closure mutations
         run: python ci/test_otp_ehrhart_output_execution_post_merge_attestation.py
