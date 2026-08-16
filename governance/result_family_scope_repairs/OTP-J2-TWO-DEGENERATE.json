@@ -90,6 +90,11 @@
     "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
     "tree": "174289e4d4958cb0509874e6e53400e098213de7",
     "lean_toolchain": "leanprover/lean4:v4.32.0",
+    "lake_manifest": {
+      "path": "lake-manifest.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "046e8de7f46832fbf092e3fb815efae01e4a2129"
+    },
     "comparator_config": {
       "path": "ComparatorChallenges/J_TwoDegenerateGraphs.json",
       "digest_algorithm": "git_blob_sha1",
@@ -97,6 +102,8 @@
     },
     "challenge": {
       "path": "ComparatorChallenges/J_TwoDegenerateGraphs.lean",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "dd22ce141dd0a860ecdccfda291c0f3a480a1d70",
       "historical_stronger_target": "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample"
     },
     "solution": {
