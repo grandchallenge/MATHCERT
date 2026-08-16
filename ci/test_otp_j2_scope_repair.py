@@ -18,6 +18,15 @@ def expect_reject(label: str, record: dict, routes: dict, overlay: str) -> None:
         raise AssertionError(f"mutation accepted: {label}")
 
 
+def mutate_registered_route(routes: dict, key: str, value) -> dict:
+    changed = copy.deepcopy(routes)
+    route = j2.find_route(changed, "MC-ROUTE-OTP-J2-TWO-DEGENERATE")
+    if route is None:
+        raise AssertionError("baseline J2 route missing")
+    route[key] = value
+    return changed
+
+
 def main() -> int:
     record = j2.load(j2.RECORD)
     routes = j2.load(j2.ROUTES)
@@ -50,8 +59,24 @@ def main() -> int:
     cases.append(("stronger target reintroduction", m, routes, overlay))
     m = copy.deepcopy(record); m["source_faithful_projection"]["may_silently_replace_registered_target_identity"] = True
     cases.append(("silent target replacement", m, routes, overlay))
+    m = copy.deepcopy(record); m["source_faithful_projection"]["overlay_artifact"]["digest"] = "0" * 40
+    cases.append(("projection artifact substitution", m, routes, overlay))
     m = copy.deepcopy(record); m["dependency_audit"]["stronger_coloring_conjunct_used"] = True
     cases.append(("dependency broadening", m, routes, overlay))
+    m = copy.deepcopy(record); m["current_formal_subject"]["challenge"]["digest"] = "0" * 40
+    cases.append(("challenge substitution", m, routes, overlay))
+    m = copy.deepcopy(record); m["current_formal_subject"]["lake_manifest"]["digest"] = "0" * 40
+    cases.append(("dependency-manifest substitution", m, routes, overlay))
+
+    changed_routes = mutate_registered_route(routes, "intake_status", "qualified")
+    cases.append(("route transition", record, changed_routes, overlay))
+    changed_routes = mutate_registered_route(routes, "cert_output", {"path": "inserted.json"})
+    cases.append(("route output insertion", record, changed_routes, overlay))
+    changed_routes = mutate_registered_route(routes, "target_claim_ids", [
+        "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+        "TwoDegenerateGraphs.not_erdos_146",
+    ])
+    cases.append(("silent registered-target replacement", record, changed_routes, overlay))
 
     changed = overlay.replace(
         "H.IsBipartite ∧\n      IsTwoDegenerate H ∧\n      ∃ c ε",
