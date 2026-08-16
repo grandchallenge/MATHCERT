@@ -100,6 +100,8 @@
     {"path":"ci/test_otp_j2_adjudication_input.py","mode":"direct"},
     {"path":"ci/validate_otp_j2_adjudication.py","mode":"direct"},
     {"path":"ci/test_otp_j2_adjudication.py","mode":"direct"},
+    {"path":"ci/validate_otp_j2_output_contract.py","mode":"direct"},
+    {"path":"ci/test_otp_j2_output_contract.py","mode":"direct"},
     {"path":"ci/validate_vgse_route_registration.py","mode":"direct"},
     {"path":"ci/test_vgse_route_registration.py","mode":"direct"},
     {"path":"ci/audit_ci_reachability.py","mode":"direct"},

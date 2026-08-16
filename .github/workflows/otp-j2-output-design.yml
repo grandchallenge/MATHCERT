@@ -1,0 +1,68 @@
+name: OTP J2 source-faithful output design
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-j2-output-design.yml"
+      - "requirements-ci.txt"
+      - "governance/result_family_output_contracts/OTP-J2-TWO-DEGENERATE.json"
+      - "schemas/otp_j2_source_faithful_output_contract.schema.json"
+      - "schemas/otp_j2_source_faithful_qualified_output.schema.json"
+      - "ci/validate_otp_j2_output_contract.py"
+      - "ci/test_otp_j2_output_contract.py"
+      - "ci/validate_otp_permanent_output_contract.py"
+      - "ci/validate_otp_compactness_output_contract.py"
+      - "governance/result_family_adjudications/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_route_target_successors/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/certification_routes.json"
+      - "governance/ci_control_registry.json"
+      - "ci/check_lean.sh"
+      - "ci/check_lean.ps1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  output-design-control:
+    name: output-design-control (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out literal output-design head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify literal output-design head
+        shell: bash
+        if: runner.os != 'Windows'
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - name: Verify literal output-design head (Windows)
+        shell: pwsh
+        if: runner.os == 'Windows'
+        run: |
+          if ((git rev-parse HEAD) -ne $env:MATHCERT_HEAD_SHA) { throw "MATHCERT J2 output-design checkout is not the literal PR head" }
+      - name: Install locked CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Reacquire exact current official J2 source
+        run: >-
+          python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h)"
+      - name: Validate J2 output design contract
+        run: python ci/validate_otp_j2_output_contract.py
+      - name: Run J2 output design adversarial mutations
+        run: python ci/test_otp_j2_output_contract.py
+      - name: Revalidate predecessor output contracts
+        run: |
+          python ci/validate_otp_permanent_output_contract.py
+          python ci/validate_otp_compactness_output_contract.py
