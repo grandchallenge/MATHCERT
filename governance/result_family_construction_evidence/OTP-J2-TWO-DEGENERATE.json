@@ -33,7 +33,7 @@
     "source_authority": {
       "path": "evidence/openai_ten_proofs/two_degenerate_construction/source_authority.json",
       "digest_algorithm": "git_blob_sha1",
-      "digest": "221c46be31ef4b77cfc46780cfaa8e3a0440cf8c"
+      "digest": "956320bfc94760d408c7f1a6af9bb6a8e8e1d1fc"
     },
     "reconstruction": {
       "path": "evidence/openai_ten_proofs/two_degenerate_construction/reconstruction.json",
@@ -62,8 +62,8 @@
   "source_assessment": {
     "current_official_source_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
     "current_official_source_bytes": 2487031,
-    "theorem_locus": "Chapter 10, Theorem 1.2, current official PDF P240-P241 / printed pp236-237",
-    "construction_locus": "Chapter 10 sections 6-8 and proof of Theorem 1.2, current official PDF P248-P251 / printed pp244-248",
+    "theorem_locus": "Chapter 10, Theorem 1.2, current official PDF pageno 236-237 / printed pp235-236",
+    "construction_locus": "Chapter 10 sections 6-8 and proof of Theorem 1.2, current official PDF pageno 244-247 / printed pp243-246",
     "statement_concordance": "clear_for_source_faithful_projection_only",
     "stronger_coloring_property_source_authorized": false,
     "whole_document_equivalence": "not_established",
