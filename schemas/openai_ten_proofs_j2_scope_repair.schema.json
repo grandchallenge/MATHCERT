@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grandchallenge/MATHCERT/schemas/openai_ten_proofs_j2_scope_repair.schema.json",
+  "title": "OpenAI Ten Proofs J2 source-faithful scope repair",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "record_type", "operation_id", "candidate_id",
+    "result_family", "route_id", "repair_path", "status", "authority",
+    "current_source", "current_formal_subject", "historical_registered_targets",
+    "historical_target_treatment", "source_faithful_projection", "dependency_audit",
+    "required_replay_controls", "current_state", "successor_effect", "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_result_family_scope_repair"},
+    "operation_id": {"const": "OTP-J2-TWO-DEGENERATE-SCOPE-REPAIR-001"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const": "OTP-J2-TWO-DEGENERATE"},
+    "route_id": {"const": "MC-ROUTE-OTP-J2-TWO-DEGENERATE"},
+    "repair_path": {"const": "path_a_source_faithful_projection"},
+    "status": {"const": "implementation_candidate_no_route_effect"},
+    "authority": {"type": "object"},
+    "current_source": {"type": "object"},
+    "current_formal_subject": {"type": "object"},
+    "historical_registered_targets": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample"},
+        {"const": "TwoDegenerateGraphs.not_erdos_146"}
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "historical_target_treatment": {"type": "object"},
+    "source_faithful_projection": {"type": "object"},
+    "dependency_audit": {"type": "object"},
+    "required_replay_controls": {"type": "object"},
+    "current_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_state", "may_adjudicate", "adjudication", "cert_output",
+        "mathematical_target_proved", "may_promote_claim", "aggregate_authority"
+      ],
+      "properties": {
+        "route_state": {"const": "submitted"},
+        "may_adjudicate": {"const": false},
+        "adjudication": {"type": "null"},
+        "cert_output": {"type": "null"},
+        "mathematical_target_proved": {"const": false},
+        "may_promote_claim": {"const": false},
+        "aggregate_authority": {"const": false}
+      }
+    },
+    "successor_effect": {"type": "object"},
+    "claim_boundary": {"type": "string", "minLength": 200}
+  }
+}
