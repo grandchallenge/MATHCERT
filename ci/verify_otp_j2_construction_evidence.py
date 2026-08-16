@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from collections import defaultdict
 from pathlib import Path
 
@@ -9,7 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "evidence/openai_ten_proofs/two_degenerate_construction/source_authority.json"
 RECON = ROOT / "evidence/openai_ten_proofs/two_degenerate_construction/reconstruction.json"
 LEDGER = ROOT / "evidence/openai_ten_proofs/two_degenerate_construction/proof_dependency_ledger.json"
-PROJECTION = ROOT / "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean"
+PROJECTION_REL = "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean"
+PROJECTION = ROOT / PROJECTION_REL
 
 EXPECTED_SOURCE_SHA256 = "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
 EXPECTED_SOURCE_BYTES = 2487031
@@ -20,10 +22,14 @@ EXPECTED_THEOREMS = [
 ]
 
 
-def git_blob_sha1(path: Path) -> str:
-    import hashlib
-    data = path.read_bytes()
-    return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
+def repository_blob_sha1(rel: str) -> str:
+    proc = subprocess.run(
+        ["git", "-C", str(ROOT), "rev-parse", f"HEAD:{rel}"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return proc.stdout.strip()
 
 
 def independent_layer_check(l0: int = 4, depth: int = 2) -> dict:
@@ -87,8 +93,8 @@ def main() -> int:
         raise SystemExit("theorem-locus drift")
     if source["mathcert_projection"]["git_blob_sha1"] != EXPECTED_PROJECTION_BLOB:
         raise SystemExit("projection authority drift")
-    if git_blob_sha1(PROJECTION) != EXPECTED_PROJECTION_BLOB:
-        raise SystemExit("projection bytes drift")
+    if repository_blob_sha1(PROJECTION_REL) != EXPECTED_PROJECTION_BLOB:
+        raise SystemExit("projection repository-object drift")
 
     unauthorized = source["explicitly_not_source_authorized"]
     if len(unauthorized) != 1 or "two-coloring" not in unauthorized[0]:
