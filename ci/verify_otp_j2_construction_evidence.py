@@ -42,7 +42,6 @@ def independent_layer_check(l0: int = 4, depth: int = 2) -> dict:
         layers.append(current)
     vertices = {v for layer in layers for v in layer}
 
-    # Connectivity independently via repeated closure.
     closure = {layers[0][0]}
     changed = True
     while changed:
@@ -60,7 +59,6 @@ def independent_layer_check(l0: int = 4, depth: int = 2) -> dict:
             if abs(layer_index[v] - layer_index[w]) != 1:
                 parity_ok = False
 
-    # Degeneracy independently via the equivalent iterative <=2 peeling criterion.
     remaining = set(vertices)
     while remaining:
         candidate = next((v for v in remaining if len(adj[v] & remaining) <= 2), None)
@@ -109,8 +107,6 @@ def main() -> int:
     if not all((layer["connected"], layer["edges_only_between_consecutive_layers"], layer["two_degenerate_by_peeling"])):
         raise SystemExit(f"independent layered-graph check failed: {layer}")
 
-    # Independent literal algebra audit of the source identity after clearing 2(1-beta).
-    # LHS = 2 + 2h - 4b; RHS = 3 - 3b + 2h - 1 - b.
     lhs = (2, 2, -4)
     rhs = (3 - 1, 2, -3 - 1)
     if lhs != rhs:
@@ -124,7 +120,7 @@ def main() -> int:
 
     if recon["extremal_bridge"]["final_constant"] != "c=2^(-3/2-epsilon)>0":
         raise SystemExit("padding constant drift")
-    if "N_(m+1)<=2N_m" not in recon["extremal_bridge"]["all_n_padding"]:
+    if "N_(m+1)<=2*N_m" not in recon["extremal_bridge"]["all_n_padding"]:
         raise SystemExit("all-n padding bridge missing")
     if recon["assessment"]["substantive_mathematical_gap_found"] is not False:
         raise SystemExit("candidate cannot be clear with a substantive mathematical gap")
