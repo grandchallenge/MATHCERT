@@ -5,6 +5,8 @@ import importlib.util
 import unittest
 from pathlib import Path
 
+import validate_otp_j2_route_target_successor as j2
+
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
     "validate_otp_j2_output_contract",
@@ -20,7 +22,9 @@ class OTPJ2OutputContractTests(unittest.TestCase):
         self.contract = M.load(M.CONTRACT)
         self.contract_schema = M.load(M.CONTRACT_SCHEMA)
         self.future_schema = M.load(M.FUTURE_SCHEMA)
-        self.routes = M.load(M.ROUTES)
+        # The protected design contract is immutable and is tested against the
+        # exact route state immediately before the separately governed output.
+        self.routes = j2.pre_output_routes()
         self.adjudication = M.load(M.ADJUDICATION)
 
     def errors(self, **kwargs):
@@ -46,6 +50,9 @@ class OTPJ2OutputContractTests(unittest.TestCase):
 
     def test_current_contract_passes(self):
         self.assertEqual([], self.errors())
+
+    def test_live_output_successor_passes_separately(self):
+        self.assertEqual([], j2.live_output_successor_errors())
 
     def test_authorization_comment_drift_fails(self):
         d=self.mutate_contract(lambda x: x["implementation_authorization"].update(comment_id=0)); self.assertTrue(self.errors(contract=d))
