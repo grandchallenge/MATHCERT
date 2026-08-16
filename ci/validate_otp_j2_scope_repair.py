@@ -7,6 +7,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from jsonschema import Draft202012Validator
+
 ROOT = Path(__file__).resolve().parents[1]
 RECORD = ROOT / "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json"
 SCHEMA = ROOT / "schemas/openai_ten_proofs_j2_scope_repair.schema.json"
@@ -62,7 +64,7 @@ def find_route(node: Any, route_id: str) -> dict[str, Any] | None:
 
 
 def route_targets(route: dict[str, Any]) -> list[str] | None:
-    for key in ("target_theorems", "target_ids", "lean_theorems", "targets"):
+    for key in ("target_claim_ids", "target_theorems", "target_ids", "lean_theorems", "targets"):
         value = route.get(key)
         if isinstance(value, list) and all(isinstance(x, str) for x in value):
             return value
@@ -84,6 +86,16 @@ def validation_errors(
     record = load(RECORD) if record is None else record
     routes = load(ROUTES) if routes is None else routes
     overlay_text = OVERLAY.read_text(encoding="utf-8") if overlay_text is None else overlay_text
+
+    schema = load(SCHEMA)
+    try:
+        Draft202012Validator.check_schema(schema)
+    except Exception as exc:
+        errors.append(f"invalid closed J2 scope-repair schema: {exc}")
+    else:
+        for err in sorted(Draft202012Validator(schema).iter_errors(record), key=lambda e: list(e.path)):
+            location = ".".join(str(part) for part in err.path) or "$"
+            errors.append(f"schema violation at {location}: {err.message}")
 
     exact = {
         "record_type": "openai_ten_proofs_result_family_scope_repair",
