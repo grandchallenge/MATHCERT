@@ -12,7 +12,6 @@ The upstream theorem `twoDegenerateExtremalCounterexample` is intentionally stro
 it also proves a coloring-side maximum-degree property.  That conjunct is discarded here
 and is not part of this projection's source attribution.
 -/
-open Classical in
 theorem mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample :
     ∃ (q : ℕ) (H : SimpleGraph (Fin q)),
       H.Connected ∧
