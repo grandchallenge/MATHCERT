@@ -18,7 +18,7 @@ OVERLAY_REL = "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFait
 OVERLAY = ROOT / OVERLAY_REL
 
 EXPECTED_ROUTE_REGISTRY_BLOB = "bc4640661443f1b3de213aaa82a333a4fdb6849b"
-EXPECTED_OVERLAY_BLOB = "252b24691b5368e561a8b492e12331f73ca7b6ec"
+EXPECTED_OVERLAY_BLOB = "ac1ec20e95d6acbcd1c3a111afe28bca92a43377"
 EXPECTED_HISTORICAL_BLOBS = {
     "governance/result_family_intakes/OTP-J2-TWO-DEGENERATE.json": "6e9cfee8f988e357aabdd53e2883220d170b7e60",
     "governance/result_family_work_packages/OTP-J2-TWO-DEGENERATE-CERT-WP01.json": "dbbc4ab59f21b3f5cb2f313c51f754b9b306389c",
