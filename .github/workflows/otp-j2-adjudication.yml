@@ -7,6 +7,8 @@ on:
       - "requirements-ci.txt"
       - "ci/validate_otp_j2_adjudication_input.py"
       - "ci/test_otp_j2_adjudication_input.py"
+      - "ci/validate_otp_j2_adjudication.py"
+      - "ci/test_otp_j2_adjudication.py"
       - "ci/run_otp_j2_adjudication_replay.sh"
       - "ci/run_otp_j2_evidence_refresh_replay.sh"
       - "ci/run_otp_j2_scope_repair_replay.sh"
@@ -17,10 +19,12 @@ on:
       - "ci/verify_otp_j2_construction_evidence.py"
       - "governance/certification_routes.json"
       - "governance/result_family_adjudication_execution_inputs/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_adjudications/OTP-J2-TWO-DEGENERATE.json"
       - "governance/result_family_adjudication_contract_successors/OTP-J2-TWO-DEGENERATE.json"
       - "governance/result_family_route_target_successors/OTP-J2-TWO-DEGENERATE.json"
       - "governance/result_family_construction_evidence/OTP-J2-TWO-DEGENERATE.json"
       - "schemas/openai_ten_proofs_j2_adjudication_execution_input.schema.json"
+      - "schemas/openai_ten_proofs_j2_adjudication.schema.json"
       - "evidence/openai_ten_proofs/two_degenerate_construction/**"
       - "evidence/openai_ten_proofs/two_degenerate_scope_repair/**"
   workflow_dispatch:
@@ -63,10 +67,12 @@ jobs:
       - name: Reacquire exact current official source bytes
         run: >-
           python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h)"
-      - name: Validate adjudication execution input
+      - name: Validate adjudication input and final record
         run: |
           python ci/validate_otp_j2_adjudication_input.py
           python ci/test_otp_j2_adjudication_input.py
+          python ci/validate_otp_j2_adjudication.py
+          python ci/test_otp_j2_adjudication.py
           python ci/validate_otp_j2_route_target_successor.py
           python ci/validate_otp_j2_scope_repair_with_successor.py
           python ci/validate_otp_j2_source_faithful_evidence_with_successor.py
@@ -144,11 +150,13 @@ jobs:
           test "$(git rev-parse HEAD)" = "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"
           test "$(git rev-parse 'HEAD:lake-manifest.json')" = "046e8de7f46832fbf092e3fb815efae01e4a2129"
           lake exe cache get
-      - name: Execute exact J2 adjudication replay
+      - name: Validate final adjudication and execute exact replay
         shell: bash
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+          python ci/validate_otp_j2_adjudication.py
+          python ci/test_otp_j2_adjudication.py
           chmod +x ci/run_otp_j2_scope_repair_replay.sh ci/run_otp_j2_evidence_refresh_replay.sh ci/run_otp_j2_adjudication_replay.sh
           ci/run_otp_j2_adjudication_replay.sh evidence/j2-adjudication-runtime
       - name: Upload bounded J2 adjudication replay evidence
