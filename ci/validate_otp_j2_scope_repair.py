@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -13,7 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 RECORD = ROOT / "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json"
 SCHEMA = ROOT / "schemas/openai_ten_proofs_j2_scope_repair.schema.json"
 ROUTES = ROOT / "governance/certification_routes.json"
-OVERLAY = ROOT / "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean"
+OVERLAY_REL = "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean"
+OVERLAY = ROOT / OVERLAY_REL
 
 EXPECTED_ROUTE_REGISTRY_BLOB = "bc4640661443f1b3de213aaa82a333a4fdb6849b"
 EXPECTED_OVERLAY_BLOB = "252b24691b5368e561a8b492e12331f73ca7b6ec"
@@ -51,6 +53,18 @@ def git_blob_sha1(path: Path) -> str:
     data = path.read_bytes()
     header = f"blob {len(data)}\0".encode("ascii")
     return hashlib.sha1(header + data).hexdigest()
+
+
+def repository_blob_sha1(rel: str) -> str:
+    if (ROOT / ".git").exists():
+        proc = subprocess.run(
+            ["git", "-C", str(ROOT), "rev-parse", f"HEAD:{rel}"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        return proc.stdout.strip()
+    return git_blob_sha1(ROOT / rel)
 
 
 def find_route(node: Any, route_id: str) -> dict[str, Any] | None:
@@ -226,15 +240,15 @@ def validation_errors(
     if check_files:
         if not SCHEMA.is_file():
             errors.append("closed scope-repair schema missing")
-        if git_blob_sha1(ROUTES) != EXPECTED_ROUTE_REGISTRY_BLOB:
+        if repository_blob_sha1("governance/certification_routes.json") != EXPECTED_ROUTE_REGISTRY_BLOB:
             errors.append("route registry changed during scope-repair operation")
-        if git_blob_sha1(OVERLAY) != EXPECTED_OVERLAY_BLOB:
+        if repository_blob_sha1(OVERLAY_REL) != EXPECTED_OVERLAY_BLOB:
             errors.append("source-faithful projection artifact changed after content addressing")
         for rel, expected in EXPECTED_HISTORICAL_BLOBS.items():
             path = ROOT / rel
             if not path.is_file():
                 errors.append(f"historical J2 artifact missing: {rel}")
-            elif git_blob_sha1(path) != expected:
+            elif repository_blob_sha1(rel) != expected:
                 errors.append(f"historical J2 artifact rewritten: {rel}")
 
     return errors
