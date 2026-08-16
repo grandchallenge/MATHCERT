@@ -7,7 +7,7 @@
   "result_family": "OTP-J2-TWO-DEGENERATE",
   "route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
   "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/122",
-  "candidate_state": "evidence_prepared_pending_fresh_runtime_replay",
+  "candidate_state": "evidence_complete_ready_for_route_target_successor",
   "authority": {
     "protected_base": "2106840fe2daf8b2492f52473465f531e7e2ef21",
     "path_a_authorization": {
@@ -86,25 +86,25 @@
   },
   "fresh_runtime_replay": {
     "required": true,
-    "status": "pending",
+    "status": "clear",
     "workflow_name": "OTP J2 source-faithful evidence refresh",
-    "workflow_run_id": null,
-    "artifact_id": null,
-    "artifact_sha256": null,
-    "execution_head": null,
-    "comparator": null,
-    "lean_kernel": null,
-    "nanoda": null,
-    "source_faithful_projection": null,
-    "dependency_separation": null,
-    "theorem_axiom_report": null,
-    "trust_scan": null
+    "workflow_run_id": 31921405987,
+    "artifact_id": 9256527089,
+    "artifact_sha256": "7a004143eeb0f6f66c1dc6713f245a2f48959a6340fe9fd823dbc75edd151d12",
+    "execution_head": "4eadd7a73c58b9125598dd808e91bc1b53e68be1",
+    "comparator": "pass_derivation_carrier_only",
+    "lean_kernel": "accept",
+    "nanoda": "accept",
+    "source_faithful_projection": "accept",
+    "dependency_separation": "accept",
+    "theorem_axiom_report": "permitted_only",
+    "trust_scan": "clear"
   },
   "disposition": {
-    "evidence_disposition": "PENDING_FRESH_EXACT_HEAD_RUNTIME_REPLAY",
-    "ready_for_route_target_successor": false,
+    "evidence_disposition": "J2_SOURCE_FAITHFUL_EVIDENCE_COMPLETE_READY_FOR_ROUTE_TARGET_SUCCESSOR",
+    "ready_for_route_target_successor": true,
     "adjudication_authorized": false,
-    "next_gate": "fresh_exact_head_j2_replay_then_materialize_content_addressed_runtime_receipt"
+    "next_gate": "separately_governed_route_target_and_adjudication_contract_successor"
   },
   "review_gate": {
     "fresh_non_author_specialist_review_required": true,
@@ -132,5 +132,5 @@
     "other_result_family_modified": false,
     "aggregate_openai_ten_proofs_authority": false
   },
-  "claim_boundary": "This candidate records independently reconstructed source-faithful J2 construction and extremal evidence while awaiting a fresh exact-head runtime replay. It leaves the live registered route and its historical target list unchanged, does not source-authorize or certify the stronger coloring-side property, does not adjudicate or qualify J2, does not issue a Cert output, does not mark a mathematical target proved, does not create aggregate authority, and does not claim whole-document or full proof-body equivalence."
+  "claim_boundary": "This completed evidence record binds fresh exact-source J2 replay and independently reconstructed source-faithful construction/extremal evidence for the prospective MATHCERT projection targets. It is ready only for a separately governed route-target and adjudication-contract successor. The live registered route and historical target list remain unchanged; the stronger coloring-side property is neither source-authorized nor certified; adjudication, qualification, Cert output, mathematical-proof promotion, aggregate authority, whole-document equivalence, and full proof-body equivalence remain prohibited."
 }
