@@ -3,8 +3,11 @@ from __future__ import annotations
 import copy
 import importlib.util
 import json
+import subprocess
 import unittest
 from pathlib import Path
+
+import validate_otp_j2_route_target_successor as j2
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
@@ -19,7 +22,13 @@ SPEC.loader.exec_module(M)
 class HumanStewardPostMergeAttestationTests(unittest.TestCase):
     def setUp(self) -> None:
         self.attestation = json.loads(M.ATTESTATION.read_text(encoding="utf-8"))
-        self.routes = M.historical_routes(json.loads(M.ROUTES.read_text(encoding="utf-8")))
+        proc = subprocess.run(
+            ["git", "-C", str(ROOT), "cat-file", "blob", M.HISTORICAL_ROUTE_BLOB],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        self.routes = json.loads(proc.stdout)
         self.schema = json.loads(M.SCHEMA.read_text(encoding="utf-8"))
 
     def errors(self, **kwargs):
@@ -35,6 +44,9 @@ class HumanStewardPostMergeAttestationTests(unittest.TestCase):
 
     def test_current_attestation_passes(self) -> None:
         self.assertEqual([], self.errors())
+
+    def test_live_j2_output_successor_passes_separately(self) -> None:
+        self.assertEqual([], j2.live_output_successor_errors())
 
     def test_unrelated_uc_route_evolution_is_permitted(self) -> None:
         routes = copy.deepcopy(self.routes)
