@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_j2_source_faithful_staged_route_transition",
+  "result_family": "OTP-J2-TWO-DEGENERATE",
+  "route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
+  "route_transition": {
+    "from": "submitted",
+    "to": "qualified",
+    "certificate_content_commit": "24cff6e55709c067c7f966c1a533255af707bec0",
+    "route_transition_commit": "15559390e2489ae73d872f389a9601c7412b77ed",
+    "cert_output": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "24cff6e55709c067c7f966c1a533255af707bec0",
+      "path": "certificates/formal_sources/MC-OTP-J2-TWO-DEGENERATE-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "308a2eb7087fb24a07a6ae8c93a83b593468d2f7"
+    }
+  },
+  "qualified_claim_boundary": "This restricted route qualification applies only to the exact two source-faithful OTP-J2-TWO-DEGENERATE projection declarations under protected disposition qualified_source_faithful_targets_only at current Chapter 10, Theorem 1.2 core. The historical stronger declarations remain predecessor/derivation-carrier evidence only. It does not source-authorize or certify the stronger coloring-side property, establish whole-document byte or semantic equivalence, compare the proof body in full, reformalize source-internal entropy lemmas, mark any mathematical target proved, qualify another result family, or create aggregate OpenAI Ten Proofs authority.",
+  "preserved_blockers": [
+    "The unrestricted Chapter 10 source theorem and its proof body are not mathematically proved by this restricted qualification.",
+    "The historical stronger declarations and stronger coloring-side property remain outside source attribution and certification.",
+    "Whole-document byte and semantic equivalence remain unestablished, and the proof body has not been compared in full."
+  ],
+  "protected_main_effect": "none_until_protected_merge"
+}
