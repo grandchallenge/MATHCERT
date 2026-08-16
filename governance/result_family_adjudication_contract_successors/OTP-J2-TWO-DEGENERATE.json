@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_j2_adjudication_contract_successor",
+  "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-J2-TWO-DEGENERATE-SOURCE-FAITHFUL-001",
+  "predecessor_contract_id": "MC-OTP-ADJUDICATION-CONTRACT-J2-TWO-DEGENERATE",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-J2-TWO-DEGENERATE",
+  "route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
+  "contract_state": "design_only",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/124",
+  "authority": {
+    "path_a_authorization": {
+      "issue": 120,
+      "comment_id": 5305021852
+    },
+    "predecessor_contract": {
+      "path": "governance/result_family_adjudication_contracts/OTP-J2-TWO-DEGENERATE.json",
+      "git_blob_sha1": "2bb9d70b931ea0a07487664c112644f990527760"
+    },
+    "predecessor_route_registry": {
+      "path": "governance/certification_routes.json",
+      "git_blob_sha1": "bc4640661443f1b3de213aaa82a333a4fdb6849b"
+    },
+    "route_target_successor_receipt": {
+      "path": "governance/result_family_route_target_successors/OTP-J2-TWO-DEGENERATE.json"
+    },
+    "scope_repair": {
+      "merge_commit": "2106840fe2daf8b2492f52473465f531e7e2ef21",
+      "record_path": "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json",
+      "record_git_blob_sha1": "5884bc57ba4e9c1d4576b96793f7e78009223b15",
+      "projection_path": "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean",
+      "projection_git_blob_sha1": "ac1ec20e95d6acbcd1c3a111afe28bca92a43377"
+    },
+    "completed_evidence": {
+      "merge_commit": "a2b1a464ac992b9807061e8ede9d2f7c42ad4cf6",
+      "record_path": "governance/result_family_construction_evidence/OTP-J2-TWO-DEGENERATE.json",
+      "record_git_blob_sha1": "e1bc1f04daf28b04a85e92e605732f466ab1e2d6",
+      "disposition": "J2_SOURCE_FAITHFUL_EVIDENCE_COMPLETE_READY_FOR_ROUTE_TARGET_SUCCESSOR"
+    },
+    "official_source": {
+      "url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+      "bytes": 2487031,
+      "theorem_locus": "Chapter 10, Theorem 1.2"
+    },
+    "formal_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "lean_version": "4.32.0"
+    }
+  },
+  "route_scope": {
+    "registered_route_state": "submitted",
+    "target_claim_ids": [
+      "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+      "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146"
+    ],
+    "historical_predecessor_target_claim_ids": [
+      "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
+      "TwoDegenerateGraphs.not_erdos_146"
+    ],
+    "source_theorem": "Chapter 10, Theorem 1.2",
+    "normalized_statement": "There exist a fixed finite connected bipartite 2-degenerate graph H and positive real constants c and epsilon such that ex(n,H) is at least c*n^(3/2+epsilon) for all sufficiently large n, refuting the conjectured O(n^(3/2)) bound and the r=2 case of the general degeneracy conjecture.",
+    "nonvacuity_witnesses": [
+      "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+      "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146"
+    ],
+    "scope_exclusions": [
+      "The stronger two-coloring side-degree property is not source-authorized and is not a live certification target.",
+      "The historical stronger Lean declaration is preserved only as predecessor and derivation-carrier evidence.",
+      "Whole-document byte or semantic equivalence is not established.",
+      "The source proof body has not been compared line by line in full.",
+      "This design-only successor does not adjudicate J2 or issue a Cert output."
+    ]
+  },
+  "decision_contract": {
+    "decision_question": "At a later separately governed adjudication stage, does the complete admissible evidence support a family-specific MATHCERT adjudication of exactly the two source-faithful J2 targets while preserving every recorded source-scope limitation?",
+    "admissible_dispositions": [
+      "adjudication_clear_source_faithful_targets_only",
+      "adjudication_not_clear",
+      "defer_insufficient_evidence"
+    ],
+    "required_evidence": [
+      {
+        "evidence_id": "authority_integrity",
+        "requirement": "Reverify the source-faithful successor receipt, protected scope repair, completed construction evidence, current official source, and exact formal subject.",
+        "execution_status": "must_refresh_at_execution"
+      },
+      {
+        "evidence_id": "exact_source_faithful_replay",
+        "requirement": "Run a literal-head isolated replay of the exact source-faithful projection declarations under the pinned Lean and Comparator toolchain with theorem-level axiom reports.",
+        "execution_status": "must_refresh_at_execution"
+      },
+      {
+        "evidence_id": "source_statement_concordance",
+        "requirement": "Reacquire the current Chapter 10, Theorem 1.2 source and independently reconfirm the source-faithful statement boundary without importing the stronger coloring-side property.",
+        "execution_status": "must_refresh_at_execution"
+      },
+      {
+        "evidence_id": "construction_and_extremal_interpretation",
+        "requirement": "Revalidate the protected independent reconstruction and dependency ledger for the fixed graph construction, parameter window, exponent bridge, padding, and extremal interpretation.",
+        "execution_status": "must_refresh_at_execution"
+      },
+      {
+        "evidence_id": "nonvacuity",
+        "requirement": "Replay the source-faithful existential theorem and source-core refutation and reject vacuous or weakened encodings.",
+        "execution_status": "must_refresh_at_execution"
+      },
+      {
+        "evidence_id": "control_plan_conformance",
+        "requirement": "Verify that route identity and submitted state are unchanged, live targets remain exactly the source-faithful pair, and no stronger-coloring, output, promotion, or aggregate authority has appeared.",
+        "execution_status": "must_refresh_at_execution"
+      },
+      {
+        "evidence_id": "independent_specialist_review",
+        "requirement": "Obtain a fresh binding non-author APPROVED review on the exact adjudication execution head.",
+        "execution_status": "future_gate"
+      }
+    ],
+    "family_obligations": {
+      "semantic_concordance": [
+        "Reconfirm fixed finite connected bipartite 2-degenerate H, positive c and epsilon, and the sufficiently-large-n quantifier order.",
+        "Reject any reintroduction of the stronger coloring-side degree property into the source-authorized target scope."
+      ],
+      "nonvacuity": [
+        "Confirm that the source-faithful existential theorem is genuinely inhabited.",
+        "Confirm that the r=2 refutation depends only on the source-authorized core and not the excluded coloring conjunct."
+      ],
+      "construction_and_interpretation": [
+        "Retain independent construction/extremal evidence as required for any positive adjudication.",
+        "Do not treat Comparator or kernel acceptance alone as independent certification of the combinatorial construction."
+      ],
+      "source_concordance": [
+        "Reacquire the current official Chapter 10, Theorem 1.2 source before adjudication execution.",
+        "Preserve the explicit exclusion of whole-document equivalence and full proof-body comparison."
+      ]
+    },
+    "family_boundary": "A future adjudication is limited to the exact source-faithful projection targets and must distinguish formal derivation-carrier acceptance from independent construction and source-concordance evidence."
+  },
+  "reviewer_requirements": {
+    "minimum_binding_non_author_reviewers": 1,
+    "required_review_state": "APPROVED",
+    "review_must_bind_exact_execution_head": true,
+    "competence": [
+      "extremal graph theory, graph degeneracy, asymptotic lower bounds, and Lean formalization",
+      "Lean 4 kernel replay and theorem-level axiom analysis",
+      "source-to-formal statement concordance and nonvacuity review"
+    ],
+    "independence": [
+      "Reviewer must not be the implementation author.",
+      "Reviewer must not self-approve an execution they authored.",
+      "Reviewer must disclose any material conflict affecting mathematical or evidence judgment."
+    ]
+  },
+  "execution_gate": {
+    "streamlined_control_plan_applies": true,
+    "separate_human_steward_authorization_required": false,
+    "human_steward_intervention_required_only_for_control_plan_change": true,
+    "exact_head_cert_checks_required": true,
+    "exact_head_gcl_conformance_required": true,
+    "fresh_non_author_approval_required": true,
+    "protected_expected_head_merge_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true,
+    "design_merge_effect": "source_faithful_contract_successor_admitted_design_only_no_adjudication"
+  },
+  "state": {
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false
+  },
+  "preserved_limitations": {
+    "stronger_coloring_property_source_authorized": false,
+    "stronger_coloring_property_certified": false,
+    "historical_records_rewritten": false,
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false,
+    "other_result_family_modified": false,
+    "aggregate_openai_ten_proofs_authority": false
+  },
+  "claim_boundary": "This design-only successor contract governs only a possible future adjudication of the exact two source-faithful J2 projection targets under the protected Path A control plan. It does not itself adjudicate or qualify J2, issue a Cert output, mark a mathematical target proved, attribute or certify the stronger coloring-side property, rewrite historical records, affect another result family, establish whole-document or full proof-body equivalence, or create aggregate OpenAI Ten Proofs authority."
+}
