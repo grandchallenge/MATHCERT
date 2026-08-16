@@ -14,6 +14,7 @@ ALLOWED_ADJUDICATIONS = {
     "OTP-F-EHRHART.json",
     "OTP-C-PERMANENT.json",
     "OTP-J1-COMPACTNESS.json",
+    "OTP-J2-TWO-DEGENERATE.json",
 }
 
 
@@ -55,7 +56,8 @@ def main() -> int:
     print(
         "validated immutable design-only adjudication contracts against their historical registration "
         "snapshots, including the explicit J2 source-faithful route successor, exactly the separately "
-        "governed Ehrhart, Permanent, and Compactness adjudication records, and no legacy OTP output artifact"
+        "governed Ehrhart, Permanent, Compactness, and J2 source-faithful adjudication records, and no "
+        "legacy OTP output artifact"
     )
     return 0
 
