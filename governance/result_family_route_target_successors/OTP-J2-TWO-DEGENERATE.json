@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_j2_route_target_successor",
+  "successor_id": "MC-OTP-J2-TWO-DEGENERATE-ROUTE-TARGET-SUCCESSOR-001",
+  "operation_id": "OTP-J2-TWO-DEGENERATE-ROUTE-TARGET-SUCCESSOR-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-J2-TWO-DEGENERATE",
+  "route_id": "MC-ROUTE-OTP-J2-TWO-DEGENERATE",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/124",
+  "successor_kind": "explicit_governed_live_target_replacement",
+  "authority": {
+    "protected_predecessor_main": "a2b1a464ac992b9807061e8ede9d2f7c42ad4cf6",
+    "path_a_authorization": {
+      "issue": 120,
+      "comment_id": 5305021852,
+      "scope": "source_faithful_scope_repair_successor_governance_and_evidence_under_fail_closed_no_adjudication_no_output_boundaries"
+    },
+    "predecessor_route_registry": {
+      "path": "governance/certification_routes.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "bc4640661443f1b3de213aaa82a333a4fdb6849b"
+    },
+    "predecessor_adjudication_contract": {
+      "path": "governance/result_family_adjudication_contracts/OTP-J2-TWO-DEGENERATE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "2bb9d70b931ea0a07487664c112644f990527760"
+    },
+    "scope_repair": {
+      "merge_commit": "2106840fe2daf8b2492f52473465f531e7e2ef21",
+      "record_path": "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json",
+      "record_git_blob_sha1": "5884bc57ba4e9c1d4576b96793f7e78009223b15",
+      "projection_path": "evidence/openai_ten_proofs/two_degenerate_scope_repair/SourceFaithfulProjection.lean",
+      "projection_git_blob_sha1": "ac1ec20e95d6acbcd1c3a111afe28bca92a43377"
+    },
+    "completed_evidence": {
+      "merge_commit": "a2b1a464ac992b9807061e8ede9d2f7c42ad4cf6",
+      "record_path": "governance/result_family_construction_evidence/OTP-J2-TWO-DEGENERATE.json",
+      "record_git_blob_sha1": "e1bc1f04daf28b04a85e92e605732f466ab1e2d6",
+      "disposition": "J2_SOURCE_FAITHFUL_EVIDENCE_COMPLETE_READY_FOR_ROUTE_TARGET_SUCCESSOR"
+    },
+    "official_source": {
+      "url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+      "bytes": 2487031,
+      "locus": "Chapter 10, Theorem 1.2"
+    },
+    "formal_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "lean_version": "4.32.0",
+      "lake_manifest_git_blob_sha1": "046e8de7f46832fbf092e3fb815efae01e4a2129",
+      "comparator_config_git_blob_sha1": "d8a542b5ce620b686cb24a6756360e76c5d2b1c1",
+      "challenge_git_blob_sha1": "dd22ce141dd0a860ecdccfda291c0f3a480a1d70",
+      "solution_git_blob_sha1": "0e973d50014e8c800af597ef699ef29b81e42fc6"
+    }
+  },
+  "predecessor_live_target_claim_ids": [
+    "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample",
+    "TwoDegenerateGraphs.not_erdos_146"
+  ],
+  "successor_live_target_claim_ids": [
+    "TwoDegenerateGraphs.mathcert_sourceFaithfulTwoDegenerateExtremalCounterexample",
+    "TwoDegenerateGraphs.mathcert_sourceFaithfulNotErdos146"
+  ],
+  "historical_target_treatment": {
+    "preserved_as_predecessor_evidence": true,
+    "remain_live_adjudication_targets": false,
+    "historical_records_rewritten": false,
+    "derivation_carrier_use_preserved": true
+  },
+  "transition_reason": "The historical first target contains a stronger coloring-side degree conjunct that is proved in Lean but is not source-authorized by the current Chapter 10, Theorem 1.2 statement. Path A introduced source-faithful projection declarations and completed independent construction evidence. This explicit successor replaces only the live prospective certification target set and preserves all historical identities as predecessor evidence.",
+  "route_state_after_successor": "submitted",
+  "successor_contract": {
+    "path": "governance/result_family_adjudication_contract_successors/OTP-J2-TWO-DEGENERATE.json",
+    "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-J2-TWO-DEGENERATE-SOURCE-FAITHFUL-001",
+    "contract_state": "design_only"
+  },
+  "streamlined_control_plan": {
+    "applies": true,
+    "separate_human_steward_authorization_required_for_this_stage": false,
+    "human_steward_intervention_required_only_for_control_plan_change": true,
+    "stop_conditions": [
+      "target scope changes beyond the exact two source-faithful declarations",
+      "route identity or route-versioning model changes",
+      "route state changes",
+      "admissible dispositions or adjudication scope changes",
+      "evidence or reviewer requirements change",
+      "authority, sequencing, publication, or claim boundaries change"
+    ]
+  },
+  "required_state": {
+    "route_state": "submitted",
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_authority": false,
+    "stronger_coloring_property_source_authorized": false,
+    "stronger_coloring_property_certified": false
+  },
+  "publication_gate": {
+    "fresh_current_source_reacquisition_required": true,
+    "exact_source_faithful_replay_required": true,
+    "exact_head_cert_checks_required": true,
+    "exact_head_gcl_conformance_required": true,
+    "cross_platform_controls_required": true,
+    "codeql_no_new_alerts_required": true,
+    "fresh_non_author_approved_review_required": true,
+    "review_must_bind_exact_final_head": true,
+    "protected_expected_head_merge_required": true,
+    "protected_main_readback_required": true
+  },
+  "disposition": "SOURCE_FAITHFUL_ROUTE_TARGET_SUCCESSOR_CANDIDATE__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY",
+  "claim_boundary": "This successor explicitly changes only the live prospective J2 target set from the historical derivation-carrier declarations to the two source-faithful MATHCERT projection declarations. It preserves the route identity and submitted state, freezes predecessor evidence, and creates no adjudication, qualification, Cert output, mathematical-proof promotion, stronger-coloring certification or attribution, other-family authority, or aggregate OpenAI Ten Proofs authority."
+}
