@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_circuit_qualified_output_candidate",
+  "certificate_id": "MC-OTP-C-PERMANENT-CIRCUIT-QUAL-001",
+  "result_family": "OTP-C-PERMANENT",
+  "surface_id": "OTP-C-PERMANENT-CIRCUIT",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT",
+  "source_authority": {
+    "forge_semantic_blob": "d47a50df90174ed03669b11b8469dc1c0788a1ea",
+    "solve_packet_blob": "f8443c47cee03890ca52af3e0cd39f1a54b5fc71",
+    "overlay_json_blob": "1c2aad24890425ef82f8e45fa654de32dc0e2659",
+    "overlay_lean_blob": "18fc438580bab2bc003d4d3cfd9fa283da421b04"
+  },
+  "encoded_targets": [
+    "PermanentRollout.permanent_circuit_loglog_lower_bound",
+    "PermanentRollout.permanent_circuit_loglog_bigOmega",
+    "PermanentRollout.permanent_complexity_ratio_tendsto_atTop"
+  ],
+  "qualification": {
+    "disposition": "qualified_encoded_targets_only",
+    "scope": "The exact three protected Permanent Theorem 1.1 arithmetic-circuit targets only.",
+    "source_projection": {
+      "coefficient_field": "complex",
+      "model": "division_free_arithmetic_circuit_dag",
+      "input_gates": ["matrix_variable", "arbitrary_complex_scalar"],
+      "arithmetic_gates": ["add", "sub", "mul"],
+      "division_allowed": false,
+      "fanout_reuse_allowed": true,
+      "size_counts_arithmetic_gates_only": true,
+      "input_gates_counted": false,
+      "depth_restriction": false,
+      "degree_restriction": false,
+      "fanout_restriction": false,
+      "cancellation_restriction": false,
+      "dimension_threshold": 65536,
+      "finite_bound_denominator": 144,
+      "finite_bound": "n^2 * (log_2(log_2 n) - 3) / 144 <= circuitComplexity(permanent_n)",
+      "bigomega_consequence": "circuitComplexity(permanent_n) = Omega(n^2 log_2 log_2 n)",
+      "ratio_divergence_consequence": "circuitComplexity(permanent_n) / n^2 tends to +infinity",
+      "formula_target_count": 0,
+      "circuit_target_count": 3
+    }
+  },
+  "axiom_report": {
+    "permitted_axioms": ["Classical.choice", "Quot.sound", "propext"],
+    "unexpected_axioms": [],
+    "imported_domain_axioms": []
+  },
+  "state": {
+    "candidate_only": true,
+    "route_state": "submitted",
+    "cert_output_inserted": false,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "formula_targets_certified": false,
+    "aggregate_output": false
+  },
+  "claim_boundary": "This staged candidate is not a live certificate. If output execution is later authorized and all exact-head gates remain clear, the permitted restricted output is confined to the exact three encoded circuit targets under the protected division-free DAG semantics. It does not mutate either formula certificate, establish historical PDF equivalence, mark a mathematical target proved, authorize claim promotion, qualify another family, or create aggregate OpenAI Ten Proofs authority."
+}
