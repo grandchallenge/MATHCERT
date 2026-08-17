@@ -58,7 +58,7 @@ python3 ci/validate_otp_permanent_execution_candidate.py
 python3 ci/test_otp_permanent_execution_candidate.py
 python3 ci/validate_otp_permanent_adjudication.py
 python3 ci/test_otp_permanent_adjudication.py
-python3 ci/validate_otp_permanent_output_contract.py
+python3 ci/validate_otp_permanent_output_contract_with_full_formula_successor.py
 python3 ci/test_otp_permanent_output_contract.py
 python3 ci/validate_otp_permanent_output_execution.py
 python3 ci/test_otp_permanent_output_execution.py
@@ -81,7 +81,7 @@ python3 ci/build_otp_compactness_construction_evidence.py
 python3 ci/verify_otp_compactness_construction_evidence.py
 python3 ci/validate_otp_compactness_construction_evidence_with_j2_output.py
 python3 ci/test_otp_compactness_construction_evidence.py
-python3 ci/validate_otp_compactness_output_contract.py
+python3 ci/validate_otp_compactness_output_contract_with_full_formula_successor.py
 python3 ci/test_otp_compactness_output_contract.py
 python3 ci/validate_otp_compactness_output_execution_with_j2_output.py
 python3 ci/test_otp_compactness_output_execution.py
