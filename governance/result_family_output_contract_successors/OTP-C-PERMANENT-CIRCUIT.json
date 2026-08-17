@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_circuit_output_contract_successor",
+  "surface_id": "OTP-C-PERMANENT-CIRCUIT",
+  "result_family": "OTP-C-PERMANENT",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT",
+  "adjudication_disposition_required": "adjudication_clear_encoded_targets_only",
+  "permitted_output": {
+    "certificate_id": "MC-OTP-C-PERMANENT-CIRCUIT-QUAL-001",
+    "certificate_path": "certificates/formal_sources/MC-OTP-C-PERMANENT-CIRCUIT-001.json",
+    "encoded_targets": [
+      "PermanentRollout.permanent_circuit_loglog_lower_bound",
+      "PermanentRollout.permanent_circuit_loglog_bigOmega",
+      "PermanentRollout.permanent_complexity_ratio_tendsto_atTop"
+    ],
+    "qualification_disposition": "qualified_encoded_targets_only"
+  },
+  "publication_order": {
+    "candidate_authorization_before_execution": true,
+    "certificate_content_commit_before_route_transition": true,
+    "route_transition_must_be_direct_child_of_certificate_content_commit": true,
+    "final_review_after_execution": true,
+    "ordinary_ancestry_preserving_merge_required": true,
+    "squash_prohibited": true,
+    "rebase_prohibited": true,
+    "protected_main_readback_required": true
+  },
+  "preserved_limitations": {
+    "historical_variable_leaf_certificate_mutable": false,
+    "full_formula_certificate_mutable": false,
+    "formula_targets_in_scope": false,
+    "historical_pdf_byte_equivalence": "not_established",
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "other_family_outputs_authorized": false,
+    "aggregate_openai_ten_proofs_authority": false
+  }
+}
