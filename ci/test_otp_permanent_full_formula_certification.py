@@ -13,7 +13,7 @@ assert SPEC.loader is not None
 SPEC.loader.exec_module(validator)
 
 
-class FullFormulaCertificationMutations(unittest.TestCase):
+class FullFormulaOutputExecutionMutations(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.records = validator.records_from_disk()
@@ -31,12 +31,12 @@ class FullFormulaCertificationMutations(unittest.TestCase):
 
     def test_constant_drift_rejected(self):
         r = copy.deepcopy(self.records)
-        r["intake"]["target_scope"]["source_projection"]["division_free"]["internal_gates"] = 255
+        r["certificate"]["qualification"]["source_projection"]["division_free"]["internal_gates"] = 255
         self.assertTrue(self.errors(r))
 
     def test_circuit_insertion_rejected(self):
         r = copy.deepcopy(self.records)
-        r["proposal"]["route_contract"]["target_claim_ids"].append("PermanentRollout.permanent_circuit_loglog_lower_bound")
+        r["route"]["route"]["target_claim_ids"].append("PermanentRollout.permanent_circuit_loglog_lower_bound")
         self.assertTrue(self.errors(r))
 
     def test_source_substitution_rejected(self):
@@ -49,24 +49,24 @@ class FullFormulaCertificationMutations(unittest.TestCase):
         r["intake"]["authority"]["comparator_overlay"]["lean_digest"] = "0" * 40
         self.assertTrue(self.errors(r))
 
-    def test_route_prepopulation_rejected(self):
+    def test_route_demotion_rejected(self):
         r = copy.deepcopy(self.records)
-        r["route"]["route"]["intake_status"] = "qualified"
+        r["route"]["route"]["intake_status"] = "submitted"
         self.assertTrue(self.errors(r))
 
-    def test_route_output_prepopulation_rejected(self):
+    def test_route_output_substitution_rejected(self):
         r = copy.deepcopy(self.records)
-        r["route"]["route"]["cert_output"] = {"fake": True}
+        r["route"]["route"]["cert_output"]["digest"] = "0" * 40
         self.assertTrue(self.errors(r))
 
     def test_review_gate_removal_rejected(self):
         r = copy.deepcopy(self.records)
-        r["contract"]["positive_gate"]["fresh_non_author_specialist_review_required"] = False
+        r["transition"]["publication_constraints"]["fresh_non_author_algebraic_complexity_specialist_approved_review_required"] = False
         self.assertTrue(self.errors(r))
 
     def test_replay_gate_removal_rejected(self):
         r = copy.deepcopy(self.records)
-        r["adjudication"]["basis"]["fresh_exact_head_replay_required"] = False
+        r["transition"]["publication_constraints"]["fresh_exact_head_replay_required"] = False
         self.assertTrue(self.errors(r))
 
     def test_proof_promotion_rejected(self):
@@ -74,14 +74,34 @@ class FullFormulaCertificationMutations(unittest.TestCase):
         r["certificate"]["state"]["mathematical_target_proved"] = True
         self.assertTrue(self.errors(r))
 
+    def test_claim_promotion_rejected(self):
+        r = copy.deepcopy(self.records)
+        r["certificate"]["state"]["may_promote_claim"] = True
+        self.assertTrue(self.errors(r))
+
     def test_aggregate_authority_rejected(self):
         r = copy.deepcopy(self.records)
         r["transition"]["post_transition"]["aggregate_output"] = True
         self.assertTrue(self.errors(r))
 
+    def test_circuit_authority_rejected(self):
+        r = copy.deepcopy(self.records)
+        r["certificate"]["state"]["circuit_targets_certified"] = True
+        self.assertTrue(self.errors(r))
+
     def test_certificate_order_drift_rejected(self):
         r = copy.deepcopy(self.records)
-        r["transition"]["certificate_content"]["content_commit"] = "0" * 40
+        r["transition"]["executed_certificate"]["certificate_content_commit"] = "0" * 40
+        self.assertTrue(self.errors(r))
+
+    def test_route_transition_drift_rejected(self):
+        r = copy.deepcopy(self.records)
+        r["transition"]["route_transition"]["route_transition_commit"] = "0" * 40
+        self.assertTrue(self.errors(r))
+
+    def test_candidate_authorization_drift_rejected(self):
+        r = copy.deepcopy(self.records)
+        r["transition"]["candidate_authorization_review"]["state"] = "COMMENTED"
         self.assertTrue(self.errors(r))
 
     def test_historical_pdf_inflation_rejected(self):
