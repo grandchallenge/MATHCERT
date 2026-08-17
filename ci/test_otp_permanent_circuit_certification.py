@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import copy
 import json
 import tempfile
 from pathlib import Path
 
 import validate_otp_permanent_circuit_certification as V
-import validate_otp_permanent_circuit_execution_history as H
-import validate_otp_permanent_circuit_output_execution as O
+import otp_permanent_circuit_execution_history as H
+import otp_permanent_circuit_output_execution as O
 
 
 def write_json(payload) -> Path:
