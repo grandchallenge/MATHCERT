@@ -15,7 +15,7 @@
       "disposition": "adjudication_clear_encoded_targets_only"
     },
     "output_contract": {
-      "path": "governance/result_family_output_contracts/OTP-C-PERMANENT-FULL-FORMULA.json",
+      "path": "governance/result_family_output_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
       "digest_algorithm": "git_blob_sha1",
       "digest": "e234a4bcf55353ed6519e54a41d479b51d93c82c"
     },
