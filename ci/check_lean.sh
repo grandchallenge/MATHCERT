@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
+trap 'status=$?; echo "::error title=MATHCERT canonical control failed::command=${BASH_COMMAND}; exit=${status}"; exit "$status"' ERR
 if ! command -v lake >/dev/null 2>&1; then echo "lake is not installed; cannot certify Lean files." >&2; exit 1; fi
 cd "$(dirname "$0")/.."
 lake build
