@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/mathcert/otp_permanent_circuit_certification.schema.json",
+  "title": "OTP Permanent circuit restricted qualification candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","certificate_id","result_family","surface_id","route_id","source_authority","encoded_targets","qualification","axiom_report","state","claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "otp_permanent_circuit_qualified_output_candidate"},
+    "certificate_id": {"const": "MC-OTP-C-PERMANENT-CIRCUIT-QUAL-001"},
+    "result_family": {"const": "OTP-C-PERMANENT"},
+    "surface_id": {"const": "OTP-C-PERMANENT-CIRCUIT"},
+    "route_id": {"const": "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT"},
+    "source_authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["forge_semantic_blob","solve_packet_blob","overlay_json_blob","overlay_lean_blob"],
+      "properties": {
+        "forge_semantic_blob": {"const": "d47a50df90174ed03669b11b8469dc1c0788a1ea"},
+        "solve_packet_blob": {"const": "f8443c47cee03890ca52af3e0cd39f1a54b5fc71"},
+        "overlay_json_blob": {"const": "1c2aad24890425ef82f8e45fa654de32dc0e2659"},
+        "overlay_lean_blob": {"const": "18fc438580bab2bc003d4d3cfd9fa283da421b04"}
+      }
+    },
+    "encoded_targets": {
+      "const": [
+        "PermanentRollout.permanent_circuit_loglog_lower_bound",
+        "PermanentRollout.permanent_circuit_loglog_bigOmega",
+        "PermanentRollout.permanent_complexity_ratio_tendsto_atTop"
+      ]
+    },
+    "qualification": {"type": "object"},
+    "axiom_report": {"type": "object"},
+    "state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["candidate_only","route_state","cert_output_inserted","mathematical_target_proved","may_promote_claim","formula_targets_certified","aggregate_output"],
+      "properties": {
+        "candidate_only": {"const": true},
+        "route_state": {"const": "submitted"},
+        "cert_output_inserted": {"const": false},
+        "mathematical_target_proved": {"const": false},
+        "may_promote_claim": {"const": false},
+        "formula_targets_certified": {"const": false},
+        "aggregate_output": {"const": false}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 300}
+  }
+}
