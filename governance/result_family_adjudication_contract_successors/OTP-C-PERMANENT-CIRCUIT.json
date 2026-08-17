@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_circuit_adjudication_contract_successor",
+  "surface_id": "OTP-C-PERMANENT-CIRCUIT",
+  "result_family": "OTP-C-PERMANENT",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT",
+  "exact_targets": [
+    "PermanentRollout.permanent_circuit_loglog_lower_bound",
+    "PermanentRollout.permanent_circuit_loglog_bigOmega",
+    "PermanentRollout.permanent_complexity_ratio_tendsto_atTop"
+  ],
+  "admissible_dispositions": [
+    "adjudication_clear_encoded_targets_only",
+    "adjudication_not_clear",
+    "defer_insufficient_evidence"
+  ],
+  "positive_gate": {
+    "exact_source_and_solve_identity_required": true,
+    "exact_model_threshold_denominator_required": true,
+    "all_three_targets_required": true,
+    "fresh_exact_head_replay_required": true,
+    "lean_4_32_0_required": true,
+    "comparator_default_kernel_required": true,
+    "nanoda_required": true,
+    "named_nonvacuity_replay_required": true,
+    "theorem_level_axiom_reports_required": true,
+    "linux_windows_governance_required": true,
+    "trust_boundary_scan_required": true,
+    "fresh_non_author_specialist_review_required": true,
+    "review_must_bind_exact_subject_head": true
+  },
+  "publication_gate": {
+    "candidate_authorization_required_before_live_output_execution": true,
+    "certificate_content_commit_before_route_transition": true,
+    "fresh_final_head_review_required": true,
+    "head_change_requires_revalidation_and_reapproval": true,
+    "ordinary_ancestry_preserving_merge_required": true,
+    "squash_prohibited": true,
+    "rebase_prohibited": true,
+    "expected_head_required": true,
+    "protected_main_readback_required": true
+  },
+  "prohibited_inferences": [
+    "formula target certification",
+    "historical formula certificate mutation",
+    "historical PDF equivalence",
+    "mathematical target proved",
+    "claim promotion",
+    "other-family qualification",
+    "aggregate OpenAI Ten Proofs authority"
+  ]
+}
