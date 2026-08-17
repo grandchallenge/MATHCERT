@@ -9,6 +9,8 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
+import otp_full_formula_contract_membership as membership
+
 ROOT = Path(__file__).resolve().parents[1]
 TARGETS = [
     "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
@@ -23,6 +25,12 @@ PROJECTION = {
     "formula_target_count": 2,
     "circuit_target_count": 0,
 }
+EXPECTED_HISTORICAL_CONTRACT_FILES = {
+    "OTP-F-EHRHART.json",
+    "OTP-C-PERMANENT.json",
+    "OTP-J1-COMPACTNESS.json",
+    "OTP-J2-TWO-DEGENERATE.json",
+}
 PATHS = {
     "intake": ROOT / "governance/result_family_intake_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
     "wp": ROOT / "governance/result_family_work_package_successors/OTP-C-PERMANENT-FULL-FORMULA-CERT-WP01.json",
@@ -31,7 +39,7 @@ PATHS = {
     "route": ROOT / "governance/certification_route_overlays/OTP-C-PERMANENT-FULL-FORMULA.json",
     "contract": ROOT / "governance/result_family_adjudication_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
     "adjudication": ROOT / "governance/result_family_adjudications/OTP-C-PERMANENT-FULL-FORMULA.json",
-    "output_contract": ROOT / "governance/result_family_output_contracts/OTP-C-PERMANENT-FULL-FORMULA.json",
+    "output_contract": ROOT / "governance/result_family_output_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
     "certificate": ROOT / "governance/result_family_output_candidates/staged_certificates/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
     "transition": ROOT / "governance/result_family_output_candidates/staged_route_transitions/OTP-C-PERMANENT-FULL-FORMULA.json",
 }
@@ -41,8 +49,9 @@ ACTUAL_NEW_CERT = ROOT / "certificates/formal_sources/MC-OTP-C-PERMANENT-FULL-FO
 GLOBAL_ROUTES = ROOT / "governance/certification_routes.json"
 EXPECTED_PREDECESSOR_CERT_BLOB = "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04"
 EXPECTED_GLOBAL_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
-EXPECTED_STAGED_CERT_BLOB = "8e7e9ca9dc3c25bcafc663f48c61cc778bb1ab66"
-EXPECTED_STAGED_CERT_COMMIT = "f346a4459c51b0970159665c0215a153e23a7325"
+EXPECTED_OUTPUT_CONTRACT_BLOB = "e234a4bcf55353ed6519e54a41d479b51d93c82c"
+EXPECTED_STAGED_CERT_BLOB = "f5b44312672b8c38383d55bd5c41bbdcbafe28fe"
+EXPECTED_STAGED_CERT_COMMIT = "cb67f6b22f5257afd4ecc66cfe3c1d46cfa1be8c"
 
 
 def load(path: Path):
@@ -68,11 +77,11 @@ def validation_errors(records=None, *, check_git=True):
     if errors:
         return errors
 
-    # Closed staged-certificate schema.
+    errors.extend(membership.membership_errors(ROOT, EXPECTED_HISTORICAL_CONTRACT_FILES))
+
     schema = load(SCHEMA)
     errors.extend(f"certificate schema: {e.message}" for e in Draft202012Validator(schema).iter_errors(r["certificate"]))
 
-    # Exact identity and scope across every stage.
     for name, rec in r.items():
         if name == "route":
             surface = rec.get("route", {}).get("campaign_id")
@@ -176,6 +185,12 @@ def validation_errors(records=None, *, check_git=True):
     csp = cert.get("qualification", {}).get("source_projection", {})
     if csp != PROJECTION:
         errors.append("staged certificate source projection drift")
+    if cert.get("source_authority", {}).get("output_contract") != {
+        "path": "governance/result_family_output_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": EXPECTED_OUTPUT_CONTRACT_BLOB,
+    }:
+        errors.append("staged certificate output-contract authority drift")
     if cert.get("state", {}).get("mathematical_target_proved") is not False or cert.get("state", {}).get("aggregate_output") is not False:
         errors.append("staged certificate proof/aggregate inflation")
     if cert.get("protected_effect") != "none_until_exact_head_gates_fresh_non_author_specialist_approval_and_protected_publication":
@@ -200,6 +215,8 @@ def validation_errors(records=None, *, check_git=True):
                 errors.append("historical Permanent certificate mutated")
             if git_blob(GLOBAL_ROUTES) != EXPECTED_GLOBAL_ROUTES_BLOB:
                 errors.append("global certification route registry mutated")
+            if git_blob(PATHS["output_contract"]) != EXPECTED_OUTPUT_CONTRACT_BLOB:
+                errors.append("canonical successor output-contract blob drift")
             if git_blob(PATHS["certificate"]) != EXPECTED_STAGED_CERT_BLOB:
                 errors.append("staged certificate blob drift")
             subprocess.check_call(["git", "-C", str(ROOT), "merge-base", "--is-ancestor", EXPECTED_STAGED_CERT_COMMIT, "HEAD"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
