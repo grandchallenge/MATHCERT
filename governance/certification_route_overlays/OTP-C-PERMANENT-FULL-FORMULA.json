@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "overlay_id": "MC-ROUTE-OVERLAY-OTP-C-PERMANENT-FULL-FORMULA",
+  "base_registry": {
+    "path": "governance/certification_routes.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
+  },
+  "route": {
+    "route_id": "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA",
+    "campaign_id": "OTP-C-PERMANENT-FULL-FORMULA",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/132",
+    "source_manifest": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "26309b3aa1ce21e8d74683235de76b491f62f17c",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-C-PERMANENT-FULL-FORMULA-CONSEQUENCES/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "520bdaa3bba075e411f7a0a2b8422e9c9d42c818"
+    },
+    "intake_status": "submitted",
+    "intake_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "bebc35818c6d3b79ddc7e348c9bffd328279cd24",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-C-PERMANENT-FULL-FORMULA.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "8755a1067963e5b46555872cb46025fff2625295"
+    },
+    "target_claim_ids": [
+      "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
+      "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound"
+    ],
+    "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+    "claim_boundary": "Submitted route for exactly the two protected Permanent full-formula conjunction targets with complex coefficients, n >= 32, log base 2, 128/256 and 192/384 projections. Submission creates no certification, proof promotion, circuit authority, historical-PDF equivalence, other-family qualification, or aggregate authority.",
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_output": false,
+    "blockers": [
+      "Fresh exact-head MATHCERT replay must pass.",
+      "Fresh non-author algebraic-complexity specialist APPROVED review is required before protected publication.",
+      "Certificate content must precede any qualified route transition."
+    ],
+    "reopening_conditions": [
+      "Reopen on target, constants, source, Solve packet, overlay, toolchain, adjudication, certificate, historical-PDF, circuit-boundary, or mathematical-proof-status drift."
+    ]
+  },
+  "preserved_predecessor": {
+    "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+    "certificate_id": "MC-OTP-C-PERMANENT-QUAL-001",
+    "mutable": false
+  },
+  "protected_effect": "none_until_exact_head_machine_gates_fresh_non_author_specialist_approval_and_protected_merge"
+}
