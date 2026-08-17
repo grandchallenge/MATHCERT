@@ -1,46 +1,73 @@
 {
   "schema_version": "1.0.0",
-  "record_type": "otp_permanent_full_formula_staged_route_transition",
+  "record_type": "otp_permanent_full_formula_executed_route_transition_receipt",
   "route_id": "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA",
   "surface_id": "OTP-C-PERMANENT-FULL-FORMULA",
   "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/132",
-  "protected_effect": "none_until_exact_head_gates_fresh_non_author_specialist_approval_and_protected_publication",
+  "reviewed_candidate_head": "6aac1679196f7a1fae6aa43318e8f046401f4471",
+  "candidate_authorization_review": {
+    "reviewer": "jimsteeg",
+    "state": "APPROVED",
+    "review_id": "PRR_kwDOSuU7Ic8AAAABJxbnnQ",
+    "submitted_at": "2026-08-17T10:45:45Z"
+  },
   "pre_transition": {
     "overlay_path": "governance/certification_route_overlays/OTP-C-PERMANENT-FULL-FORMULA.json",
+    "overlay_blob": "ba5bf3c44c68776a0dc4c7e961785dc8629fc6af",
     "intake_status": "submitted",
     "cert_output": null
   },
-  "certificate_content": {
-    "staged_path": "governance/result_family_output_candidates/staged_certificates/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
+  "candidate_certificate": {
+    "path": "governance/result_family_output_candidates/staged_certificates/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
     "digest_algorithm": "git_blob_sha1",
     "digest": "f5b44312672b8c38383d55bd5c41bbdcbafe28fe",
     "content_commit": "cb67f6b22f5257afd4ecc66cfe3c1d46cfa1be8c",
-    "must_precede_transition": true
+    "candidate_only": true
   },
-  "post_transition": {
-    "intake_status": "qualified",
+  "executed_certificate": {
+    "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "2940f551805794b96c7b0793bfe0d14e9fcd9954",
+    "certificate_content_commit": "1abf088387cbfc33a17fb34e99d23437a6b56164",
+    "certificate_id": "MC-OTP-C-PERMANENT-FULL-FORMULA-QUAL-001"
+  },
+  "route_transition": {
+    "overlay_path": "governance/certification_route_overlays/OTP-C-PERMANENT-FULL-FORMULA.json",
+    "route_transition_commit": "3fe4d77aabd7a2c58480b264577f07871802d92e",
+    "overlay_blob_after": "3a208d3391514de74853f4ad182e26c74f631913",
+    "from": "submitted",
+    "to": "qualified",
     "cert_output": {
       "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "1abf088387cbfc33a17fb34e99d23437a6b56164",
       "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
       "digest_algorithm": "git_blob_sha1",
-      "digest_must_equal_staged_certificate": true
-    },
+      "digest": "2940f551805794b96c7b0793bfe0d14e9fcd9954"
+    }
+  },
+  "post_transition": {
     "target_claim_ids": [
       "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
       "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound"
     ],
     "qualification_disposition": "qualified_encoded_targets_only",
     "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "circuit_targets_certified": false,
     "aggregate_output": false
   },
   "publication_constraints": {
     "fresh_exact_head_replay_required": true,
     "fresh_non_author_algebraic_complexity_specialist_approved_review_required": true,
+    "review_must_bind_final_execution_head": true,
+    "head_change_requires_revalidation_and_reapproval": true,
     "ordinary_ancestry_preserving_merge_required": true,
     "squash_prohibited": true,
     "rebase_prohibited": true,
+    "expected_head_required": true,
     "protected_main_readback_required": true,
     "partial_publication_prohibited": true
   },
-  "claim_boundary": "This record stages, but does not execute, the transition of MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA from submitted/no-output to the restricted qualified output. The canonical staged certificate bytes were committed first. No transition is authorized before exact-head machine replay, fresh non-author specialist approval, protected publication, and readback; no mathematical-target proof, predecessor rewrite, circuit authority, historical-PDF equivalence, other-family qualification, or aggregate authority is created here."
+  "protected_effect": "none_until_ordinary_protected_merge_and_readback",
+  "claim_boundary": "This receipt records output execution on the review branch only. The fresh review at 6aac1679 authorized entry into output execution; it does not substitute for the required fresh non-author APPROVED review at the final execution head. The certificate-content commit 1abf0883 precedes the direct-child route transition 3fe4d77a. Neither commit changes the predecessor Permanent certificate or the global route registry. Protected main receives no authority before ordinary expected-head merge and readback. The executed scope remains exactly the two full-formula conjunction targets; circuit authority, historical-PDF equivalence, mathematical-target proof, claim promotion, other-family qualification, and aggregate OpenAI Ten Proofs authority remain excluded."
 }
