@@ -16,6 +16,21 @@ CERT_BLOB = "9d0eb4a83df73440b17cb6809ede5cdcc0a8e385"
 ROUTE_BLOB = "29946eeefce2bd9873b3e6265b8d4983a033781d"
 REVIEW_ID = "PRR_kwDOSuU7Ic8AAAABJ1A1JQ"
 PINNED_COMMITS = (CANDIDATE_HEAD, PREP_HEAD, CERT_COMMIT, ROUTE_COMMIT)
+PUBLICATION_CONSTRAINTS = (
+    "candidate_review_required_before_execution",
+    "certificate_content_commit_before_route_transition",
+    "route_transition_direct_child_required",
+    "fresh_exact_head_replay_required",
+    "fresh_non_author_algebraic_complexity_specialist_approved_review_required",
+    "review_must_bind_final_execution_head",
+    "head_change_requires_revalidation_and_reapproval",
+    "ordinary_ancestry_preserving_merge_required",
+    "squash_prohibited",
+    "rebase_prohibited",
+    "expected_head_required",
+    "protected_main_readback_required",
+    "partial_publication_prohibited",
+)
 
 
 def git(*args: str) -> subprocess.CompletedProcess[str]:
@@ -132,6 +147,13 @@ def validation_errors() -> list[str]:
         errors.append("receipt route path drift")
     if ancestry.get("route_transition_is_direct_child_of_certificate_commit") is not True:
         errors.append("receipt direct-child assertion lost")
+
+    constraints = receipt.get("publication_constraints", {})
+    for key in PUBLICATION_CONSTRAINTS:
+        if constraints.get(key) is not True:
+            errors.append(f"execution publication constraint removed: {key}")
+    if set(constraints) != set(PUBLICATION_CONSTRAINTS):
+        errors.append("execution publication constraint membership drift")
 
     boundary = receipt.get("authority_boundary", {})
     for key in ("mathematical_target_proved", "may_promote_claim", "formula_targets_certified", "aggregate_output"):
