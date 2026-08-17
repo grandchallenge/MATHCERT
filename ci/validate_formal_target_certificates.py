@@ -14,49 +14,33 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE_COMMIT = "2270241c9715287bd306cc0e6eaf962ccab33541"
+PRE_CIRCUIT_COMMIT = "809fcbc3704f146fbb9992f03b3b1851ba2fe59b"
 SOURCE_PATH = "ci/validate_formal_target_certificates.py"
 CERT_DIR = ROOT / "certificates" / "formal_sources"
 SCHEMA_PATH = ROOT / "schemas" / "formal_target_certificate.schema.json"
 REGISTRY_PATH = ROOT / "governance" / "certification_routes.json"
 FULL_FORMULA_SCHEMA_PATH = ROOT / "schemas" / "otp_permanent_full_formula_qualified_output.schema.json"
 FULL_FORMULA_ROUTE_PATH = ROOT / "governance" / "certification_route_overlays" / "OTP-C-PERMANENT-FULL-FORMULA.json"
+CIRCUIT_SCHEMA_PATH = ROOT / "schemas" / "otp_permanent_circuit_qualified_output.schema.json"
+CIRCUIT_ROUTE_PATH = ROOT / "governance" / "certification_route_overlays" / "OTP-C-PERMANENT-CIRCUIT.json"
 
-FULL_FORMULA_FILE = "MC-OTP-C-PERMANENT-FULL-FORMULA-001.json"
-FULL_FORMULA_BLOB = "2940f551805794b96c7b0793bfe0d14e9fcd9954"
-FULL_FORMULA_CONTENT_COMMIT = "1abf088387cbfc33a17fb34e99d23437a6b56164"
-FULL_FORMULA_ROUTE_ID = "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA"
-FULL_FORMULA_ROUTE_BLOB = "3a208d3391514de74853f4ad182e26c74f631913"
+CIRCUIT_FILE = "MC-OTP-C-PERMANENT-CIRCUIT-001.json"
+CIRCUIT_BLOB = "9d0eb4a83df73440b17cb6809ede5cdcc0a8e385"
+CIRCUIT_CONTENT_COMMIT = "b90305e91a7162a6dbc017e647d7a2d7272e1eef"
+CIRCUIT_ROUTE_ID = "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT"
+CIRCUIT_ROUTE_BLOB = "29946eeefce2bd9873b3e6265b8d4983a033781d"
 GLOBAL_REGISTRY_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
-FULL_FORMULA_TARGETS = [
-    "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
-    "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound",
+CIRCUIT_TARGETS = [
+    "PermanentRollout.permanent_circuit_loglog_lower_bound",
+    "PermanentRollout.permanent_circuit_loglog_bigOmega",
+    "PermanentRollout.permanent_complexity_ratio_tendsto_atTop",
 ]
-FULL_FORMULA_OUTPUT = {
+CIRCUIT_OUTPUT = {
     "repository": "grandchallenge/MATHCERT",
-    "commit_sha": FULL_FORMULA_CONTENT_COMMIT,
-    "path": f"certificates/formal_sources/{FULL_FORMULA_FILE}",
+    "commit_sha": CIRCUIT_CONTENT_COMMIT,
+    "path": f"certificates/formal_sources/{CIRCUIT_FILE}",
     "digest_algorithm": "git_blob_sha1",
-    "digest": FULL_FORMULA_BLOB,
-}
-FULL_FORMULA_PROJECTION = {
-    "coefficient_field": "complex",
-    "dimension_threshold": 32,
-    "log_base": 2,
-    "division_free": {
-        "variable_leaves": 128,
-        "total_leaves": 128,
-        "vertices": 128,
-        "internal_gates": 256,
-    },
-    "rational": {
-        "variable_leaves": 192,
-        "total_leaves": 192,
-        "vertices": 192,
-        "internal_gates": 384,
-    },
-    "formula_target_count": 2,
-    "circuit_target_count": 0,
+    "digest": CIRCUIT_BLOB,
 }
 
 
@@ -79,124 +63,112 @@ def git(*args: str) -> subprocess.CompletedProcess[bytes]:
     )
 
 
-def protected_module() -> types.ModuleType:
+def predecessor_module() -> types.ModuleType:
     shallow = git("rev-parse", "--is-shallow-repository")
     if shallow.returncode == 0 and shallow.stdout.decode().strip() == "true":
         result = git("fetch", "--no-tags", "--unshallow", "origin")
         if result.returncode != 0:
-            raise RuntimeError("unable to unshallow predecessor formal-certificate history")
-    if git("cat-file", "-e", f"{BASE_COMMIT}^{{commit}}").returncode != 0:
-        result = git("fetch", "--no-tags", "origin", BASE_COMMIT)
+            raise RuntimeError("unable to unshallow pre-circuit formal-certificate history")
+    if git("cat-file", "-e", f"{PRE_CIRCUIT_COMMIT}^{{commit}}").returncode != 0:
+        result = git("fetch", "--no-tags", "origin", PRE_CIRCUIT_COMMIT)
         if result.returncode != 0:
-            raise RuntimeError("unable to fetch predecessor formal-certificate validator")
-    result = git("show", f"{BASE_COMMIT}:{SOURCE_PATH}")
+            raise RuntimeError("unable to fetch pre-circuit formal-certificate validator")
+    result = git("show", f"{PRE_CIRCUIT_COMMIT}:{SOURCE_PATH}")
     if result.returncode != 0:
-        raise RuntimeError("unable to read predecessor formal-certificate validator")
-    module = types.ModuleType("pre_full_formula_formal_target_certificates")
+        raise RuntimeError("unable to read pre-circuit formal-certificate validator")
+    module = types.ModuleType("pre_circuit_formal_target_certificates")
     module.__file__ = str(ROOT / SOURCE_PATH)
     exec(compile(result.stdout.decode("utf-8"), module.__file__, "exec"), module.__dict__)
     return module
 
 
-def _full_formula_certificate_errors(path: Path, schema_path: Path) -> list[str]:
+def _circuit_certificate_errors(path: Path, schema_path: Path) -> list[str]:
     errors: list[str] = []
     if not path.exists():
-        return [f"missing formal target certificate: {FULL_FORMULA_FILE}"]
+        return [f"missing formal target certificate: {CIRCUIT_FILE}"]
     data = load_json(path)
     schema = load_json(schema_path)
     if schema.get("additionalProperties") is not False:
-        errors.append("OTP-C-PERMANENT-FULL-FORMULA: qualification schema must remain closed")
+        errors.append("OTP-C-PERMANENT-CIRCUIT: qualification schema must remain closed")
     errors.extend(
-        f"{path}: OTP-C-PERMANENT-FULL-FORMULA schema violation: {error.message}"
+        f"{path}: OTP-C-PERMANENT-CIRCUIT schema violation: {error.message}"
         for error in Draft202012Validator(schema).iter_errors(data)
     )
-    if git_blob(path) != FULL_FORMULA_BLOB:
+    if git_blob(path) != CIRCUIT_BLOB:
         errors.append(f"{path}: certificate blob identity drift")
-    if data.get("certificate_id") != "MC-OTP-C-PERMANENT-FULL-FORMULA-QUAL-001":
+    if data.get("certificate_id") != "MC-OTP-C-PERMANENT-CIRCUIT-QUAL-001":
         errors.append(f"{path}: certificate identity drift")
-    if data.get("result_family") != "OTP-C-PERMANENT" or data.get("surface_id") != "OTP-C-PERMANENT-FULL-FORMULA":
+    if data.get("result_family") != "OTP-C-PERMANENT" or data.get("surface_id") != "OTP-C-PERMANENT-CIRCUIT":
         errors.append(f"{path}: family/surface identity drift")
-    if data.get("route_id") != FULL_FORMULA_ROUTE_ID:
+    if data.get("route_id") != CIRCUIT_ROUTE_ID:
         errors.append(f"{path}: route identity drift")
-    if data.get("encoded_targets") != FULL_FORMULA_TARGETS:
+    if data.get("encoded_targets") != CIRCUIT_TARGETS:
         errors.append(f"{path}: encoded target scope drift")
     qualification = data.get("qualification", {})
     if qualification.get("disposition") != "qualified_encoded_targets_only":
         errors.append(f"{path}: disposition inflation")
-    if qualification.get("source_projection") != FULL_FORMULA_PROJECTION:
-        errors.append(f"{path}: full-formula projection or scope inflation")
-    if data.get("source_authority") != {
-        "adjudication": {
-            "path": "governance/result_family_adjudications/OTP-C-PERMANENT-FULL-FORMULA.json",
-            "digest_algorithm": "git_blob_sha1",
-            "digest": "2b5f0cd02b53365a8504a325594a7fc366682db0",
-            "disposition": "adjudication_clear_encoded_targets_only",
-        },
-        "output_contract": {
-            "path": "governance/result_family_output_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
-            "digest_algorithm": "git_blob_sha1",
-            "digest": "e234a4bcf55353ed6519e54a41d479b51d93c82c",
-        },
-        "forge_semantic_blob": "520bdaa3bba075e411f7a0a2b8422e9c9d42c818",
-        "solve_packet_blob": "8755a1067963e5b46555872cb46025fff2625295",
-        "overlay_json_blob": "ad102cacd81736f154437826ddefff1cef648f13",
-        "overlay_lean_blob": "8846ebdbae05e31d7d69f0e751a677e927023e48",
-        "nonvacuity_witness_blob": "e756c8476bac1795f3fb8ca0b7235d3a4a5c59ea",
-    }:
-        errors.append(f"{path}: protected source authority drift")
     if data.get("state") != {
         "route_state": "qualified",
         "cert_output_inserted": True,
         "mathematical_target_proved": False,
         "may_promote_claim": False,
-        "circuit_targets_certified": False,
+        "formula_targets_certified": False,
         "aggregate_output": False,
     }:
         errors.append(f"{path}: state inflation")
-    if data.get("preserved_limitations") != {
-        "historical_variable_leaf_certificate_mutated": False,
-        "circuit_targets_in_scope": False,
-        "historical_pdf_byte_equivalence": "not_established",
-        "unrestricted_source_theorem_proof_claim": False,
-        "other_family_outputs_authorized": False,
-        "aggregate_openai_ten_proofs_authority": False,
-    }:
-        errors.append(f"{path}: limitation inflation")
+    limitations = data.get("preserved_limitations", {})
+    if limitations.get("historical_variable_leaf_certificate_mutated") is not False:
+        errors.append(f"{path}: variable-leaf predecessor mutation inflation")
+    if limitations.get("full_formula_certificate_mutated") is not False:
+        errors.append(f"{path}: full-formula predecessor mutation inflation")
+    if limitations.get("formula_targets_in_scope") is not False:
+        errors.append(f"{path}: formula scope inflation")
+    if limitations.get("historical_pdf_byte_equivalence") != "not_established":
+        errors.append(f"{path}: historical PDF equivalence inflation")
+    if limitations.get("unrestricted_source_theorem_proof_claim") is not False:
+        errors.append(f"{path}: unrestricted proof claim inflation")
+    if limitations.get("other_family_outputs_authorized") is not False:
+        errors.append(f"{path}: other-family authority inflation")
+    if limitations.get("aggregate_openai_ten_proofs_authority") is not False:
+        errors.append(f"{path}: aggregate authority inflation")
     return errors
 
 
-def _full_formula_route_errors(path: Path) -> list[str]:
+def _circuit_route_errors(path: Path) -> list[str]:
     errors: list[str] = []
     if not path.exists():
-        return ["OTP-C-PERMANENT-FULL-FORMULA: missing qualified successor route overlay"]
-    route_overlay = load_json(path)
-    if git_blob(path) != FULL_FORMULA_ROUTE_BLOB:
-        errors.append("OTP-C-PERMANENT-FULL-FORMULA: qualified route overlay blob drift")
-    if route_overlay.get("overlay_id") != "MC-ROUTE-OVERLAY-OTP-C-PERMANENT-FULL-FORMULA":
-        errors.append("OTP-C-PERMANENT-FULL-FORMULA: route overlay identity drift")
-    if route_overlay.get("base_registry") != {
+        return ["OTP-C-PERMANENT-CIRCUIT: missing qualified successor route overlay"]
+    overlay = load_json(path)
+    if git_blob(path) != CIRCUIT_ROUTE_BLOB:
+        errors.append("OTP-C-PERMANENT-CIRCUIT: qualified route overlay blob drift")
+    if overlay.get("overlay_id") != "MC-ROUTE-OVERLAY-OTP-C-PERMANENT-CIRCUIT":
+        errors.append("OTP-C-PERMANENT-CIRCUIT: route overlay identity drift")
+    if overlay.get("base_registry") != {
         "path": "governance/certification_routes.json",
         "digest_algorithm": "git_blob_sha1",
         "digest": GLOBAL_REGISTRY_BLOB,
     }:
-        errors.append("OTP-C-PERMANENT-FULL-FORMULA: base registry identity drift")
-    route = route_overlay.get("route", {})
-    if route.get("route_id") != FULL_FORMULA_ROUTE_ID or route.get("campaign_id") != "OTP-C-PERMANENT-FULL-FORMULA":
-        errors.append("OTP-C-PERMANENT-FULL-FORMULA: route identity drift")
+        errors.append("OTP-C-PERMANENT-CIRCUIT: base registry identity drift")
+    route = overlay.get("route", {})
+    if route.get("route_id") != CIRCUIT_ROUTE_ID or route.get("campaign_id") != "OTP-C-PERMANENT-CIRCUIT":
+        errors.append("OTP-C-PERMANENT-CIRCUIT: route identity drift")
     if route.get("intake_status") != "qualified":
-        errors.append("OTP-C-PERMANENT-FULL-FORMULA: route is not qualified")
-    if route.get("target_claim_ids") != FULL_FORMULA_TARGETS:
-        errors.append("OTP-C-PERMANENT-FULL-FORMULA: route target scope drift")
-    if route.get("cert_output") != FULL_FORMULA_OUTPUT:
-        errors.append("OTP-C-PERMANENT-FULL-FORMULA: route output identity drift")
+        errors.append("OTP-C-PERMANENT-CIRCUIT: route is not qualified")
+    if route.get("target_claim_ids") != CIRCUIT_TARGETS:
+        errors.append("OTP-C-PERMANENT-CIRCUIT: route target scope drift")
+    if route.get("cert_output") != CIRCUIT_OUTPUT:
+        errors.append("OTP-C-PERMANENT-CIRCUIT: route output identity drift")
     if route.get("mathematical_target_proved") is not False or route.get("aggregate_output") is not False:
-        errors.append("OTP-C-PERMANENT-FULL-FORMULA: route authority inflation")
-    if route_overlay.get("preserved_predecessor") != {
-        "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
-        "certificate_id": "MC-OTP-C-PERMANENT-QUAL-001",
+        errors.append("OTP-C-PERMANENT-CIRCUIT: route authority inflation")
+    preserved = overlay.get("preserved_formula_authority", {})
+    if preserved != {
+        "variable_leaf_certificate_id": "MC-OTP-C-PERMANENT-QUAL-001",
+        "variable_leaf_certificate_blob": "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04",
+        "full_formula_certificate_id": "MC-OTP-C-PERMANENT-FULL-FORMULA-QUAL-001",
+        "full_formula_certificate_blob": "2940f551805794b96c7b0793bfe0d14e9fcd9954",
         "mutable": False,
     }:
-        errors.append("OTP-C-PERMANENT-FULL-FORMULA: predecessor preservation drift")
+        errors.append("OTP-C-PERMANENT-CIRCUIT: formula predecessor preservation drift")
     return errors
 
 
@@ -207,20 +179,19 @@ def certificate_errors(
     root: Path = ROOT,
     full_formula_schema_path: Path = FULL_FORMULA_SCHEMA_PATH,
     full_formula_route_path: Path = FULL_FORMULA_ROUTE_PATH,
+    circuit_schema_path: Path = CIRCUIT_SCHEMA_PATH,
+    circuit_route_path: Path = CIRCUIT_ROUTE_PATH,
 ) -> list[str]:
     errors: list[str] = []
     try:
-        base = protected_module()
+        base = predecessor_module()
     except RuntimeError as exc:
         return [str(exc)]
 
-    # Replay the entire predecessor validator against exactly the predecessor
-    # certificate surface. The new full-formula certificate is admitted only
-    # by the bounded successor checks below; all historical checks stay intact.
     with tempfile.TemporaryDirectory() as temporary:
         predecessor_dir = Path(temporary)
         for source in directory.glob("*.json"):
-            if source.name != FULL_FORMULA_FILE:
+            if source.name != CIRCUIT_FILE:
                 shutil.copyfile(source, predecessor_dir / source.name)
         errors.extend(
             base.certificate_errors(
@@ -228,24 +199,13 @@ def certificate_errors(
                 schema_path=schema_path,
                 registry_path=registry_path,
                 root=root,
+                full_formula_schema_path=full_formula_schema_path,
+                full_formula_route_path=full_formula_route_path,
             )
         )
 
-    expected = set(base.LEGACY_FILES) | {
-        base.EHRHART_FILE,
-        base.PERMANENT_FILE,
-        base.COMPACTNESS_FILE,
-        base.J2_FILE,
-        FULL_FORMULA_FILE,
-    }
-    actual = {path.name for path in directory.glob("*.json")}
-    for missing in sorted(expected - actual):
-        errors.append(f"missing formal target certificate: {missing}")
-    for unknown in sorted(actual - expected):
-        errors.append(f"unregistered formal target certificate: {unknown}")
-
-    errors.extend(_full_formula_certificate_errors(directory / FULL_FORMULA_FILE, full_formula_schema_path))
-    errors.extend(_full_formula_route_errors(full_formula_route_path))
+    errors.extend(_circuit_certificate_errors(directory / CIRCUIT_FILE, circuit_schema_path))
+    errors.extend(_circuit_route_errors(circuit_route_path))
     return errors
 
 
@@ -257,7 +217,7 @@ def main() -> int:
         return 1
     print(
         "validated protected predecessor certificates plus exact restricted "
-        "OTP-C-PERMANENT-FULL-FORMULA qualified successor output"
+        "OTP-C-PERMANENT-FULL-FORMULA and OTP-C-PERMANENT-CIRCUIT qualified successor outputs"
     )
     return 0
 

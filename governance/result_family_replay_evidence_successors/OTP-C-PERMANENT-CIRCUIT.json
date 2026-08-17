@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_circuit_replay_evidence_successor",
+  "surface_id": "OTP-C-PERMANENT-CIRCUIT",
+  "result_family": "OTP-C-PERMANENT",
+  "protected_producer_replay": {
+    "run": 31809287009,
+    "job": 94795718599,
+    "lean_version": "4.32.0",
+    "lean_default_kernel": "accepted",
+    "nanoda_kernel": "accepted",
+    "comparator": "accepted",
+    "permitted_axioms": ["propext", "Classical.choice", "Quot.sound"],
+    "target_count": 3,
+    "immutable_archive_modified": false
+  },
+  "fresh_cert_replay": {
+    "exact_head_required": true,
+    "state": "must_pass_on_literal_candidate_and_final_execution_heads",
+    "clean_room_required": true,
+    "evidence_artifact_required": true,
+    "comparator_default_kernel_required": true,
+    "nanoda_required": true,
+    "nonvacuity_replay_required": true,
+    "theorem_level_axiom_report_required": true
+  },
+  "targets": [
+    "PermanentRollout.permanent_circuit_loglog_lower_bound",
+    "PermanentRollout.permanent_circuit_loglog_bigOmega",
+    "PermanentRollout.permanent_complexity_ratio_tendsto_atTop"
+  ],
+  "nonvacuity_witnesses": [
+    "PermanentRollout.exists_arithmeticCircuit_polynomial",
+    "PermanentRollout.permanent_representable",
+    "PermanentRollout.circuitComplexity_attained"
+  ],
+  "source_projection": {
+    "coefficient_field": "complex",
+    "model": "division_free_arithmetic_circuit_dag",
+    "division_allowed": false,
+    "fanout_reuse_allowed": true,
+    "size_counts_arithmetic_gates_only": true,
+    "input_gates_counted": false,
+    "dimension_threshold": 65536,
+    "finite_bound_denominator": 144,
+    "finite_bound": "n^2 * (log_2(log_2 n) - 3) / 144 <= circuitComplexity(permanent_n)",
+    "bigomega_consequence": "circuitComplexity(permanent_n) = Omega(n^2 log_2 log_2 n)",
+    "ratio_divergence_consequence": "circuitComplexity(permanent_n) / n^2 tends to +infinity"
+  },
+  "authority_boundary": {
+    "evidence_only": true,
+    "mathematical_target_proved": false,
+    "claim_promotion_authorized": false,
+    "formula_targets_certified": false,
+    "aggregate_authority": false
+  }
+}

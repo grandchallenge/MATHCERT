@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "overlay_id": "MC-ROUTE-OVERLAY-OTP-C-PERMANENT-CIRCUIT",
+  "base_registry": {
+    "path": "governance/certification_routes.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
+  },
+  "route": {
+    "route_id": "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT",
+    "campaign_id": "OTP-C-PERMANENT-CIRCUIT",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/133",
+    "source_manifest": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "20a4cb716dba2586931e3eaebb079890c66044bd",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-C-PERMANENT-CIRCUIT/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "d47a50df90174ed03669b11b8469dc1c0788a1ea"
+    },
+    "intake_status": "qualified",
+    "intake_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "7d1f9edf16558ba4c4396126e24fd2c9ae4826f7",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-C-PERMANENT-CIRCUIT.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "f8443c47cee03890ca52af3e0cd39f1a54b5fc71"
+    },
+    "target_claim_ids": [
+      "PermanentRollout.permanent_circuit_loglog_lower_bound",
+      "PermanentRollout.permanent_circuit_loglog_bigOmega",
+      "PermanentRollout.permanent_complexity_ratio_tendsto_atTop"
+    ],
+    "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+    "claim_boundary": "Restricted qualification for exactly the three protected Permanent Theorem 1.1 arithmetic-circuit targets under the complex division-free arithmetic-circuit DAG model, with variable and arbitrary complex-scalar inputs, add/sub/mul arithmetic gates, fanout reuse, arithmetic-gate-only size accounting, n >= 65536, denominator 144 finite bound, Omega consequence, and ratio divergence. This route does not mutate either formula qualification, certify formula Theorems 1.2 or 1.3, establish historical admitted-PDF equivalence, mark a mathematical target proved, qualify another family, or create aggregate OpenAI Ten Proofs authority.",
+    "cert_output": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "b90305e91a7162a6dbc017e647d7a2d7272e1eef",
+      "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-CIRCUIT-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "9d0eb4a83df73440b17cb6809ede5cdcc0a8e385"
+    },
+    "mathematical_target_proved": false,
+    "aggregate_output": false,
+    "blockers": [
+      "Formula Theorems 1.2 and 1.3 and both protected formula qualifications remain outside this restricted circuit qualification.",
+      "Historical admitted-PDF byte equivalence remains unestablished.",
+      "None of the three encoded mathematical targets is marked proved; this qualification is restricted to the exact protected circuit projection."
+    ],
+    "reopening_conditions": [
+      "Reopen on target, constants, source, Solve packet, overlay, toolchain, adjudication, certificate, circuit-model, historical-PDF, formula-boundary, or mathematical-proof-status drift."
+    ]
+  },
+  "preserved_formula_authority": {
+    "variable_leaf_certificate_id": "MC-OTP-C-PERMANENT-QUAL-001",
+    "variable_leaf_certificate_blob": "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04",
+    "full_formula_certificate_id": "MC-OTP-C-PERMANENT-FULL-FORMULA-QUAL-001",
+    "full_formula_certificate_blob": "2940f551805794b96c7b0793bfe0d14e9fcd9954",
+    "mutable": false
+  },
+  "protected_effect": "qualified_on_execution_branch_only_until_ordinary_protected_merge_and_readback"
+}

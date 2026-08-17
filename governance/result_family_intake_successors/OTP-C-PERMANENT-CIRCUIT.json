@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_circuit_intake_successor",
+  "surface_id": "OTP-C-PERMANENT-CIRCUIT",
+  "result_family": "OTP-C-PERMANENT",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/133",
+  "authority": {
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "7d1f9edf16558ba4c4396126e24fd2c9ae4826f7",
+      "reviewed_head": "245bfc57a898697db9a3c2a6a651b8d70a23518f",
+      "review_node_id": "PRR_kwDOSuU7KM8AAAABJuNjyw",
+      "reviewer": "jimsteeg",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/OTP-C-PERMANENT-CIRCUIT.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "f8443c47cee03890ca52af3e0cd39f1a54b5fc71"
+    },
+    "semantic_record": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "20a4cb716dba2586931e3eaebb079890c66044bd",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-C-PERMANENT-CIRCUIT/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "d47a50df90174ed03669b11b8469dc1c0788a1ea"
+    },
+    "comparator_overlay": {
+      "json_path": "sources/OPENAI-TEN-PROOFS-001/target_overlays/OTP-C-PERMANENT-CIRCUIT/GCL_C_PermanentCircuit.json",
+      "json_digest": "1c2aad24890425ef82f8e45fa654de32dc0e2659",
+      "lean_path": "sources/OPENAI-TEN-PROOFS-001/target_overlays/OTP-C-PERMANENT-CIRCUIT/GCL_C_PermanentCircuit.lean",
+      "lean_digest": "18fc438580bab2bc003d4d3cfd9fa283da421b04"
+    },
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "e62211d28e3a9131950c89caa6542cfe5eff3bca",
+      "tree": "2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365",
+      "archive_sha256": "3022e62ffbed8f5f74d232034a703dc645e6b301879dff1e87df72979914294f",
+      "permanent_lean_sha256": "3bd469c20bc2277a13be3f9353ce47ad0c2070a330355daa78a9e59f1ca1d3c6"
+    }
+  },
+  "target_scope": {
+    "lean_theorems": [
+      "PermanentRollout.permanent_circuit_loglog_lower_bound",
+      "PermanentRollout.permanent_circuit_loglog_bigOmega",
+      "PermanentRollout.permanent_complexity_ratio_tendsto_atTop"
+    ],
+    "nonvacuity_witnesses": [
+      "PermanentRollout.exists_arithmeticCircuit_polynomial",
+      "PermanentRollout.permanent_representable",
+      "PermanentRollout.circuitComplexity_attained"
+    ],
+    "source_projection": {
+      "formula_target_count": 0,
+      "circuit_target_count": 3,
+      "coefficient_field": "complex",
+      "model": "division_free_arithmetic_circuit_dag",
+      "input_gates": ["matrix_variable", "arbitrary_complex_scalar"],
+      "arithmetic_gates": ["add", "sub", "mul"],
+      "division_allowed": false,
+      "fanout_reuse_allowed": true,
+      "size_counts_arithmetic_gates_only": true,
+      "input_gates_counted": false,
+      "depth_restriction": false,
+      "degree_restriction": false,
+      "fanout_restriction": false,
+      "cancellation_restriction": false,
+      "dimension_threshold": 65536,
+      "finite_bound_denominator": 144,
+      "finite_bound": "n^2 * (log_2(log_2 n) - 3) / 144 <= circuitComplexity(permanent_n)",
+      "bigomega_consequence": "circuitComplexity(permanent_n) = Omega(n^2 log_2 log_2 n)",
+      "ratio_divergence_consequence": "circuitComplexity(permanent_n) / n^2 tends to +infinity",
+      "historical_pdf_byte_equivalence": false
+    }
+  },
+  "state": {
+    "intake": "accepted_for_bounded_candidate_certification",
+    "route_registered": false,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "claim_promotion_authorized": false,
+    "aggregate_authority": false
+  },
+  "preserved_boundaries": {
+    "historical_variable_leaf_certificate_mutable": false,
+    "full_formula_certificate_mutable": false,
+    "formula_targets_in_scope": false,
+    "historical_pdf_byte_equivalence_established": false,
+    "other_family_outputs_authorized": false
+  }
+}
