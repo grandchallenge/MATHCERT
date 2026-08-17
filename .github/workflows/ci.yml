@@ -26,9 +26,27 @@ jobs:
           cache-dependency-path: requirements-ci.txt
       - name: Install locked CI dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Capture canonical lake build diagnostic
+        shell: bash
+        run: |
+          mkdir -p diagnostics
+          set +e
+          lake build > diagnostics/lake-build.log 2>&1
+          status=$?
+          printf '%s\n' "$status" > diagnostics/lake-build.status
+          cat diagnostics/lake-build.log
+          exit 0
       - name: Run certification checks
         shell: bash
         run: |
           set -Eeuo pipefail
           trap 'status=$?; echo "::error title=MATHCERT canonical control failed::command=${BASH_COMMAND}; exit=${status}"; exit "$status"' ERR
           source ./ci/check_lean.sh
+      - name: Upload canonical build diagnostic
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: cert-canonical-lake-build-diagnostic
+          path: diagnostics/
+          if-no-files-found: error
+          retention-days: 7
