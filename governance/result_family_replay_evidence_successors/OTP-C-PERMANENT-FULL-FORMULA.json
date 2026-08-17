@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_full_formula_cert_replay_evidence",
+  "evidence_id": "MC-OTP-REPLAY-C-PERMANENT-FULL-FORMULA",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-C-PERMANENT",
+  "surface_id": "OTP-C-PERMANENT-FULL-FORMULA",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/132",
+  "status": "candidate_evidence_bound_fresh_exact_head_replay_required",
+  "authority": {
+    "work_package_commit": "2622262486d13b4b7602094d9bc1bffd366ae91c",
+    "work_package_blob": "770dd679bbf08d77fa790fac6befef73080982ce",
+    "forge_semantic_merge": "26309b3aa1ce21e8d74683235de76b491f62f17c",
+    "forge_semantic_blob": "520bdaa3bba075e411f7a0a2b8422e9c9d42c818",
+    "solve_handoff_merge": "bebc35818c6d3b79ddc7e348c9bffd328279cd24",
+    "solve_packet_blob": "8755a1067963e5b46555872cb46025fff2625295",
+    "overlay_json_blob": "ad102cacd81736f154437826ddefff1cef648f13",
+    "overlay_lean_blob": "8846ebdbae05e31d7d69f0e751a677e927023e48",
+    "nonvacuity_witness_blob": "e756c8476bac1795f3fb8ca0b7235d3a4a5c59ea"
+  },
+  "protected_predecessor_replay": {
+    "run": 31807864648,
+    "job": 94791029992,
+    "lean_version": "4.32.0",
+    "lean_default_kernel": "accepted",
+    "nanoda_kernel": "accepted",
+    "comparator": "accepted",
+    "axioms": ["propext", "Classical.choice", "Quot.sound"],
+    "ephemeral_overlay_only": true,
+    "immutable_archive_modified": false
+  },
+  "fresh_cert_replay": {
+    "workflow": ".github/workflows/otp-permanent-full-formula-cert.yml",
+    "runner": "ubuntu-24.04",
+    "script": "ci/run_openai_ten_proofs_permanent_full_formula_replay.sh",
+    "exact_head_required": true,
+    "linux_replay_required": true,
+    "windows_reachability_required": true,
+    "required_receipts": [
+      "solution_build",
+      "overlay_challenge_build",
+      "comparator_pass",
+      "lean_default_kernel_accept",
+      "nanoda_accept",
+      "nonvacuity_replay",
+      "theorem_axiom_report_permitted_only",
+      "trust_boundary_scan_clear",
+      "source_projection_exact"
+    ]
+  },
+  "target_scope": {
+    "lean_theorems": [
+      "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
+      "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound"
+    ],
+    "source_projection": {
+      "coefficient_field": "complex",
+      "dimension_threshold": 32,
+      "log_base": 2,
+      "division_free": {"variable_leaves":128,"total_leaves":128,"vertices":128,"internal_gates":256},
+      "rational": {"variable_leaves":192,"total_leaves":192,"vertices":192,"internal_gates":384},
+      "formula_target_count": 2,
+      "circuit_target_count": 0,
+      "historical_pdf_byte_equivalence": false
+    }
+  },
+  "state": {
+    "route_registered": false,
+    "may_adjudicate_after_fresh_replay": true,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_authority": false
+  },
+  "claim_boundary": "This record binds the protected predecessor replay and requires a fresh exact-head MATHCERT clean-room replay before positive adjudication may be relied upon. It does not itself assert that the candidate branch replay has passed, register a route, adjudicate a theorem, issue a certificate, mark a mathematical target proved, alter the predecessor Permanent qualification, admit circuit targets, establish historical PDF equivalence, or create aggregate authority."
+}
