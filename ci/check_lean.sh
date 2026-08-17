@@ -107,5 +107,7 @@ python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/check_certificate.py
 python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/test_certificate.py
 python3 ci/validate_vgse_route_registration.py
 python3 ci/test_vgse_route_registration.py
+python3 ci/validate_otp_permanent_full_formula_certification.py
+python3 ci/test_otp_permanent_full_formula_certification.py
 python3 ci/audit_ci_reachability.py
 python3 ci/test_audit_ci_reachability.py
