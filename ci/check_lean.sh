@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
+trap 'status=$?; echo "::error title=MATHCERT canonical control failed::command=${BASH_COMMAND}; exit=${status}"; exit "$status"' ERR
 if ! command -v lake >/dev/null 2>&1; then echo "lake is not installed; cannot certify Lean files." >&2; exit 1; fi
 cd "$(dirname "$0")/.."
 lake build
@@ -46,8 +47,8 @@ python3 ci/validate_openai_ten_proofs_permanent_cert_replay_evidence.py
 python3 ci/test_openai_ten_proofs_permanent_cert_replay_evidence.py
 python3 ci/validate_openai_ten_proofs_route_proposals.py
 python3 ci/test_openai_ten_proofs_route_proposals.py
-python3 ci/validate_openai_ten_proofs_permanent_route_proposal.py
-python3 ci/test_openai_ten_proofs_permanent_route_proposal.py
+python3 ci/validate_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py
+python3 ci/test_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py
 python3 ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py
 python3 ci/test_openai_ten_proofs_route_registrations.py
 python3 ci/validate_openai_ten_proofs_permanent_route_registration.py
@@ -58,7 +59,7 @@ python3 ci/validate_otp_permanent_execution_candidate.py
 python3 ci/test_otp_permanent_execution_candidate.py
 python3 ci/validate_otp_permanent_adjudication.py
 python3 ci/test_otp_permanent_adjudication.py
-python3 ci/validate_otp_permanent_output_contract.py
+python3 ci/validate_otp_permanent_output_contract_with_full_formula_successor.py
 python3 ci/test_otp_permanent_output_contract.py
 python3 ci/validate_otp_permanent_output_execution.py
 python3 ci/test_otp_permanent_output_execution.py
@@ -81,7 +82,7 @@ python3 ci/build_otp_compactness_construction_evidence.py
 python3 ci/verify_otp_compactness_construction_evidence.py
 python3 ci/validate_otp_compactness_construction_evidence_with_j2_output.py
 python3 ci/test_otp_compactness_construction_evidence.py
-python3 ci/validate_otp_compactness_output_contract.py
+python3 ci/validate_otp_compactness_output_contract_with_full_formula_successor.py
 python3 ci/test_otp_compactness_output_contract.py
 python3 ci/validate_otp_compactness_output_execution_with_j2_output.py
 python3 ci/test_otp_compactness_output_execution.py
@@ -107,5 +108,7 @@ python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/check_certificate.py
 python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/test_certificate.py
 python3 ci/validate_vgse_route_registration.py
 python3 ci/test_vgse_route_registration.py
+python3 ci/validate_otp_permanent_full_formula_certification.py
+python3 ci/test_otp_permanent_full_formula_certification.py
 python3 ci/audit_ci_reachability.py
 python3 ci/test_audit_ci_reachability.py

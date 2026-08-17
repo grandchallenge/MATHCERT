@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_full_formula_output_contract",
+  "contract_id": "MC-OTP-OUTPUT-CONTRACT-C-PERMANENT-FULL-FORMULA-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-C-PERMANENT",
+  "surface_id": "OTP-C-PERMANENT-FULL-FORMULA",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/132",
+  "state": "candidate_output_contract_pending_exact_head_gates_review_and_protected_merge",
+  "authority": {
+    "adjudication_path": "governance/result_family_adjudications/OTP-C-PERMANENT-FULL-FORMULA.json",
+    "adjudication_digest_algorithm": "git_blob_sha1",
+    "adjudication_digest": "2b5f0cd02b53365a8504a325594a7fc366682db0",
+    "required_disposition": "adjudication_clear_encoded_targets_only"
+  },
+  "permitted_output": {
+    "certificate_id": "MC-OTP-C-PERMANENT-FULL-FORMULA-QUAL-001",
+    "certificate_path": "certificates/formal_sources/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
+    "qualification_disposition": "qualified_encoded_targets_only",
+    "encoded_targets": [
+      "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
+      "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound"
+    ],
+    "source_projection": {
+      "coefficient_field": "complex",
+      "dimension_threshold": 32,
+      "log_base": 2,
+      "division_free": {"variable_leaves":128,"total_leaves":128,"vertices":128,"internal_gates":256},
+      "rational": {"variable_leaves":192,"total_leaves":192,"vertices":192,"internal_gates":384},
+      "formula_target_count": 2,
+      "circuit_target_count": 0
+    }
+  },
+  "publication_order": {
+    "certificate_content_commit_before_route_transition": true,
+    "route_transition_must_be_direct_descendant": true,
+    "route_pre_transition_state": "submitted",
+    "route_post_transition_state": "qualified",
+    "ordinary_merge_required": true,
+    "squash_prohibited": true,
+    "rebase_prohibited": true,
+    "partial_publication_prohibited": true
+  },
+  "required_final_gates": [
+    "exact_head_cert_checks",
+    "exact_head_gcl_conformance",
+    "exact_head_security",
+    "exact_head_codeql_no_new_alerts",
+    "linux_full_formula_replay",
+    "windows_validator_reachability",
+    "fresh_non_author_algebraic_complexity_specialist_approved_review"
+  ],
+  "prohibited_output": [
+    "historical_variable_leaf_certificate_rewrite",
+    "source_theorem_1_1_circuit_authority",
+    "historical_pdf_byte_or_semantic_equivalence",
+    "mathematical_target_proved_true",
+    "claim_promotion_authority",
+    "another_result_family_qualification",
+    "aggregate_openai_ten_proofs_authority"
+  ],
+  "claim_boundary": "This contract permits publication only of the requested restricted certificate for the exact two full-formula conjunction targets, and only after the candidate positive adjudication is supported by exact-head replay and independent review. The certificate-content commit must precede the qualified route transition. No predecessor rewrite, circuit authority, historical-PDF equivalence, mathematical-proof promotion, other-family qualification, or aggregate authority is permitted."
+}

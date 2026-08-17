@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_full_formula_qualified_output_candidate",
+  "certificate_id": "MC-OTP-C-PERMANENT-FULL-FORMULA-QUAL-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-C-PERMANENT",
+  "surface_id": "OTP-C-PERMANENT-FULL-FORMULA",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA",
+  "protected_effect": "none_until_exact_head_gates_fresh_non_author_specialist_approval_and_protected_publication",
+  "source_authority": {
+    "adjudication": {
+      "path": "governance/result_family_adjudications/OTP-C-PERMANENT-FULL-FORMULA.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "2b5f0cd02b53365a8504a325594a7fc366682db0",
+      "disposition": "adjudication_clear_encoded_targets_only"
+    },
+    "output_contract": {
+      "path": "governance/result_family_output_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "e234a4bcf55353ed6519e54a41d479b51d93c82c"
+    },
+    "forge_semantic_blob": "520bdaa3bba075e411f7a0a2b8422e9c9d42c818",
+    "solve_packet_blob": "8755a1067963e5b46555872cb46025fff2625295",
+    "overlay_json_blob": "ad102cacd81736f154437826ddefff1cef648f13",
+    "overlay_lean_blob": "8846ebdbae05e31d7d69f0e751a677e927023e48",
+    "nonvacuity_witness_blob": "e756c8476bac1795f3fb8ca0b7235d3a4a5c59ea"
+  },
+  "encoded_targets": [
+    "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
+    "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound"
+  ],
+  "qualification": {
+    "disposition": "qualified_encoded_targets_only",
+    "scope": "The exact two protected Permanent full-formula conjunction targets only.",
+    "source_projection": {
+      "coefficient_field": "complex",
+      "dimension_threshold": 32,
+      "log_base": 2,
+      "division_free": {"variable_leaves":128,"total_leaves":128,"vertices":128,"internal_gates":256},
+      "rational": {"variable_leaves":192,"total_leaves":192,"vertices":192,"internal_gates":384},
+      "formula_target_count": 2,
+      "circuit_target_count": 0
+    }
+  },
+  "evidence_receipts": {
+    "protected_predecessor_replay": {"run":31807864648,"job":94791029992,"comparator":"accepted","lean_kernel":"accepted","nanoda":"accepted"},
+    "fresh_exact_head_cert_replay": "required_before_publication",
+    "source_statement_concordance": "clear_for_exact_full_formula_conjunctions",
+    "nonvacuity": "clear_for_both_protected_formula_witnesses",
+    "specialist_review": "fresh_non_author_algebraic_complexity_APPROVED_required_before_publication"
+  },
+  "axiom_report": {
+    "permitted_axioms": ["Classical.choice", "Quot.sound", "propext"],
+    "unexpected_axioms": [],
+    "imported_domain_axioms": []
+  },
+  "state": {
+    "candidate_only": true,
+    "route_state_after_protected_transition": "qualified",
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_output": false
+  },
+  "preserved_limitations": {
+    "historical_variable_leaf_certificate_mutated": false,
+    "circuit_targets_in_scope": false,
+    "historical_pdf_byte_equivalence": "not_established",
+    "unrestricted_source_theorem_proof_claim": false,
+    "other_family_outputs_authorized": false,
+    "aggregate_openai_ten_proofs_authority": false
+  },
+  "claim_boundary": "This is staged certificate content only. It has no protected certification effect before exact-head machine gates, fresh non-author algebraic-complexity specialist APPROVED review, ordinary protected publication, and protected-main readback. Its prospective qualification is confined to the exact two encoded full-formula conjunction targets and does not broaden the predecessor Permanent certificate, admit circuit targets, establish historical PDF equivalence, mark a mathematical target proved, authorize claim promotion, qualify another family, or create aggregate authority."
+}

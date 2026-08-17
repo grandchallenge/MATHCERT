@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_full_formula_certification_work_package",
+  "work_package_id": "OTP-C-PERMANENT-FULL-FORMULA-CERT-WP01",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-C-PERMANENT",
+  "surface_id": "OTP-C-PERMANENT-FULL-FORMULA",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/132",
+  "status": "authorized_on_candidate_branch_pending_protected_merge",
+  "authority": {
+    "intake_commit": "f4e41c409a4f410fc40b45175f4520c8ef3a4f4c",
+    "intake_record": {
+      "path": "governance/result_family_intake_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "ded64e542e42945fca15de7dee451ab5f2063f03"
+    },
+    "solve_handoff_merge": "bebc35818c6d3b79ddc7e348c9bffd328279cd24",
+    "producer_packet_digest": "8755a1067963e5b46555872cb46025fff2625295",
+    "forge_semantic_merge": "26309b3aa1ce21e8d74683235de76b491f62f17c",
+    "semantic_record_digest": "520bdaa3bba075e411f7a0a2b8422e9c9d42c818",
+    "overlay_json_digest": "ad102cacd81736f154437826ddefff1cef648f13",
+    "overlay_lean_digest": "8846ebdbae05e31d7d69f0e751a677e927023e48"
+  },
+  "toolchain": {
+    "lean": "leanprover/lean4:v4.32.0",
+    "comparator_commit": "07bc4ea40f2266dcb861820a2ec1fa3244ed307f",
+    "mathlib_commit": "81a5d257c8e410db227a6665ed08f64fea08e997",
+    "lean4export_commit": "4e7915201d3f9f04470d9eae002fa695f7cdc589",
+    "lean4checker_commit": "b7398199245524275543dec6113229c9bb4902e5",
+    "nanoda_commit": "ddfac2bf5a7b56cb46e141494427ff3dd55963c7",
+    "landrun_commit": "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4"
+  },
+  "execution": {
+    "isolated_family_replay_required": true,
+    "clean_room_environment_required": true,
+    "aggregate_import_required": false,
+    "immutable_archive_overlay_mode": "copy_protected_forge_overlay_into_ephemeral_worktree",
+    "solution_module": "Permanent",
+    "challenge_module": "ComparatorChallenges.GCL_C_PermanentFormulaFullConsequences",
+    "comparator_config": "ComparatorChallenges/GCL_C_PermanentFormulaFullConsequences.json",
+    "required_steps": [
+      "verify_content_addressed_authority",
+      "reacquire_exact_protected_archive",
+      "verify_archive_and_protected_file_hashes",
+      "copy_content_addressed_forge_overlay_to_ephemeral_worktree",
+      "restore_locked_dependencies",
+      "build_solution_and_overlay_challenge",
+      "replay_comparator_default_kernel_and_nanoda",
+      "replay_named_nonvacuity_witnesses",
+      "record_theorem_level_axiom_reports",
+      "scan_placeholders_unsafe_custom_axioms_and_aggregate_imports",
+      "validate_exact_source_projection"
+    ]
+  },
+  "target_scope": {
+    "lean_theorems": [
+      "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
+      "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound"
+    ],
+    "nonvacuity_witnesses": [
+      "PermanentFormulaLowerBound.Nonvacuity.permanent_divisionFree_formula_nonvacuous",
+      "PermanentFormulaLowerBound.Nonvacuity.permanent_rational_formula_nonvacuous"
+    ],
+    "source_projection": {
+      "coefficient_field": "complex",
+      "dimension_threshold": 32,
+      "log_base": 2,
+      "division_free": {"variable_leaves":128,"total_leaves":128,"vertices":128,"internal_gates":256},
+      "rational": {"variable_leaves":192,"total_leaves":192,"vertices":192,"internal_gates":384},
+      "formula_target_count": 2,
+      "circuit_target_count": 0,
+      "historical_pdf_byte_equivalence": false
+    }
+  },
+  "route_state": {
+    "requested_route_id": "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA",
+    "route_registered": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_authority": false
+  },
+  "claim_boundary": "This work package authorizes exact clean-room replay for only the two protected Permanent full-formula conjunction targets. The protected Forge overlay is copied into an ephemeral replay worktree without changing the immutable source archive identity. Successful replay remains evidence only until independently governed route registration, adjudication, output-contract execution, specialist review, and protected merge. The existing variable-leaf certificate, circuit surface, historical PDF status, mathematical-target proof state, other result families, and aggregate OpenAI Ten Proofs authority remain unchanged."
+}

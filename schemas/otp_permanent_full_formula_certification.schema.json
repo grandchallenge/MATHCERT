@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/mathcert/otp_permanent_full_formula_certification.schema.json",
+  "title": "OTP Permanent full-formula staged qualification candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","certificate_id","candidate_id","result_family","surface_id","route_id","protected_effect","source_authority","encoded_targets","qualification","evidence_receipts","axiom_report","state","preserved_limitations","claim_boundary"],
+  "properties": {
+    "schema_version": {"const":"1.0.0"},
+    "record_type": {"const":"otp_permanent_full_formula_qualified_output_candidate"},
+    "certificate_id": {"const":"MC-OTP-C-PERMANENT-FULL-FORMULA-QUAL-001"},
+    "candidate_id": {"const":"OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const":"OTP-C-PERMANENT"},
+    "surface_id": {"const":"OTP-C-PERMANENT-FULL-FORMULA"},
+    "route_id": {"const":"MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA"},
+    "protected_effect": {"const":"none_until_exact_head_gates_fresh_non_author_specialist_approval_and_protected_publication"},
+    "source_authority": {"type":"object"},
+    "encoded_targets": {
+      "const": [
+        "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
+        "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound"
+      ]
+    },
+    "qualification": {"type":"object"},
+    "evidence_receipts": {"type":"object"},
+    "axiom_report": {"type":"object"},
+    "state": {
+      "type":"object",
+      "required":["candidate_only","route_state_after_protected_transition","mathematical_target_proved","may_promote_claim","aggregate_output"],
+      "properties": {
+        "candidate_only":{"const":true},
+        "route_state_after_protected_transition":{"const":"qualified"},
+        "mathematical_target_proved":{"const":false},
+        "may_promote_claim":{"const":false},
+        "aggregate_output":{"const":false}
+      },
+      "additionalProperties":false
+    },
+    "preserved_limitations": {"type":"object"},
+    "claim_boundary": {"type":"string","minLength":300}
+  }
+}
