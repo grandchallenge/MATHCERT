@@ -1,28 +1,48 @@
 {
   "schema_version": "1.0.0",
-  "record_type": "otp_permanent_circuit_staged_route_transition",
+  "record_type": "otp_permanent_circuit_executed_route_transition",
   "surface_id": "OTP-C-PERMANENT-CIRCUIT",
   "route_id": "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT",
-  "status": "planned_not_executed",
+  "status": "executed_on_branch_pending_final_review_and_protected_merge",
   "candidate_authorization": {
-    "reviewed_candidate_head": null,
-    "reviewer": null,
-    "review_id": null,
-    "state": "pending"
+    "reviewed_candidate_head": "9c87c89842387af419e825da18be0070e28a3932",
+    "reviewer": "jimsteeg",
+    "review_id": "PRR_kwDOSuU7Ic8AAAABJ1A1JQ",
+    "review_state": "APPROVED",
+    "submitted_at": "2026-08-17T21:01:29Z",
+    "state": "authorized_for_bounded_output_execution"
   },
   "planned_certificate": {
     "certificate_id": "MC-OTP-C-PERMANENT-CIRCUIT-QUAL-001",
     "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-CIRCUIT-001.json",
-    "certificate_content_commit": null,
-    "digest": null
+    "certificate_content_commit": "b90305e91a7162a6dbc017e647d7a2d7272e1eef",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "9d0eb4a83df73440b17cb6809ede5cdcc0a8e385"
   },
   "planned_route_transition": {
     "overlay_path": "governance/certification_route_overlays/OTP-C-PERMANENT-CIRCUIT.json",
-    "route_transition_commit": null,
+    "route_transition_commit": "dffc19e45665790954b0d686da147c73bede84ce",
+    "route_overlay_digest_algorithm": "git_blob_sha1",
+    "route_overlay_digest": "29946eeefce2bd9873b3e6265b8d4983a033781d",
     "state_before": "submitted",
     "state_after": "qualified",
     "cert_output_before": null,
-    "cert_output_after": null
+    "cert_output_after": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "b90305e91a7162a6dbc017e647d7a2d7272e1eef",
+      "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-CIRCUIT-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "9d0eb4a83df73440b17cb6809ede5cdcc0a8e385"
+    }
+  },
+  "execution_ancestry": {
+    "candidate_reviewed_head": "9c87c89842387af419e825da18be0070e28a3932",
+    "execution_prep_head": "809fcbc3704f146fbb9992f03b3b1851ba2fe59b",
+    "certificate_content_commit": "b90305e91a7162a6dbc017e647d7a2d7272e1eef",
+    "route_transition_commit": "dffc19e45665790954b0d686da147c73bede84ce",
+    "certificate_commit_changed_paths": ["certificates/formal_sources/MC-OTP-C-PERMANENT-CIRCUIT-001.json"],
+    "route_transition_changed_paths": ["governance/certification_route_overlays/OTP-C-PERMANENT-CIRCUIT.json"],
+    "route_transition_is_direct_child_of_certificate_commit": true
   },
   "publication_constraints": {
     "candidate_review_required_before_execution": true,
