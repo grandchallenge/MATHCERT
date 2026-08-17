@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_circuit_staged_route_transition",
+  "surface_id": "OTP-C-PERMANENT-CIRCUIT",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT",
+  "status": "planned_not_executed",
+  "candidate_authorization": {
+    "reviewed_candidate_head": null,
+    "reviewer": null,
+    "review_id": null,
+    "state": "pending"
+  },
+  "planned_certificate": {
+    "certificate_id": "MC-OTP-C-PERMANENT-CIRCUIT-QUAL-001",
+    "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-CIRCUIT-001.json",
+    "certificate_content_commit": null,
+    "digest": null
+  },
+  "planned_route_transition": {
+    "overlay_path": "governance/certification_route_overlays/OTP-C-PERMANENT-CIRCUIT.json",
+    "route_transition_commit": null,
+    "state_before": "submitted",
+    "state_after": "qualified",
+    "cert_output_before": null,
+    "cert_output_after": null
+  },
+  "publication_constraints": {
+    "candidate_review_required_before_execution": true,
+    "certificate_content_commit_before_route_transition": true,
+    "route_transition_direct_child_required": true,
+    "fresh_exact_head_replay_required": true,
+    "fresh_non_author_algebraic_complexity_specialist_approved_review_required": true,
+    "review_must_bind_final_execution_head": true,
+    "head_change_requires_revalidation_and_reapproval": true,
+    "ordinary_ancestry_preserving_merge_required": true,
+    "squash_prohibited": true,
+    "rebase_prohibited": true,
+    "expected_head_required": true,
+    "protected_main_readback_required": true,
+    "partial_publication_prohibited": true
+  },
+  "authority_boundary": {
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "formula_targets_certified": false,
+    "aggregate_output": false
+  }
+}
