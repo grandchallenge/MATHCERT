@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_circuit_certification_work_package",
+  "work_package_id": "OTP-C-PERMANENT-CIRCUIT-CERT-WP01",
+  "surface_id": "OTP-C-PERMANENT-CIRCUIT",
+  "result_family": "OTP-C-PERMANENT",
+  "requested_route_id": "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT",
+  "requested_certificate_id": "MC-OTP-C-PERMANENT-CIRCUIT-QUAL-001",
+  "authority": {
+    "forge_commit": "20a4cb716dba2586931e3eaebb079890c66044bd",
+    "forge_semantic_blob": "d47a50df90174ed03669b11b8469dc1c0788a1ea",
+    "solve_commit": "7d1f9edf16558ba4c4396126e24fd2c9ae4826f7",
+    "solve_packet_blob": "f8443c47cee03890ca52af3e0cd39f1a54b5fc71",
+    "solve_reviewed_head": "245bfc57a898697db9a3c2a6a651b8d70a23518f",
+    "solve_review": "PRR_kwDOSuU7KM8AAAABJuNjyw"
+  },
+  "target_scope": {
+    "lean_theorems": [
+      "PermanentRollout.permanent_circuit_loglog_lower_bound",
+      "PermanentRollout.permanent_circuit_loglog_bigOmega",
+      "PermanentRollout.permanent_complexity_ratio_tendsto_atTop"
+    ],
+    "nonvacuity_witnesses": [
+      "PermanentRollout.exists_arithmeticCircuit_polynomial",
+      "PermanentRollout.permanent_representable",
+      "PermanentRollout.circuitComplexity_attained"
+    ],
+    "source_projection": {
+      "formula_target_count": 0,
+      "circuit_target_count": 3,
+      "coefficient_field": "complex",
+      "model": "division_free_arithmetic_circuit_dag",
+      "input_gates": ["matrix_variable", "arbitrary_complex_scalar"],
+      "arithmetic_gates": ["add", "sub", "mul"],
+      "division_allowed": false,
+      "fanout_reuse_allowed": true,
+      "size_counts_arithmetic_gates_only": true,
+      "input_gates_counted": false,
+      "depth_restriction": false,
+      "degree_restriction": false,
+      "fanout_restriction": false,
+      "cancellation_restriction": false,
+      "dimension_threshold": 65536,
+      "finite_bound_denominator": 144,
+      "finite_bound": "n^2 * (log_2(log_2 n) - 3) / 144 <= circuitComplexity(permanent_n)",
+      "bigomega_consequence": "circuitComplexity(permanent_n) = Omega(n^2 log_2 log_2 n)",
+      "ratio_divergence_consequence": "circuitComplexity(permanent_n) / n^2 tends to +infinity",
+      "historical_pdf_byte_equivalence": false
+    }
+  },
+  "execution": {
+    "isolated_family_replay_required": true,
+    "clean_room_environment_required": true,
+    "aggregate_import_required": false,
+    "lean_version": "4.32.0",
+    "comparator_default_kernel_required": true,
+    "nanoda_required": true,
+    "theorem_level_axiom_reports_required": true,
+    "nonvacuity_replay_required": true,
+    "linux_and_windows_governance_required": true,
+    "trust_boundary_scan_required": true,
+    "required_steps": [
+      "verify_content_addressed_authority",
+      "reacquire_exact_protected_archive",
+      "verify_archive_and Permanent.lean hashes",
+      "copy_content_addressed_forge_overlay_to_ephemeral_challenge_slot",
+      "restore_locked_dependencies",
+      "build_solution_and_overlay_challenge",
+      "replay_comparator_default_kernel_and_nanoda",
+      "replay_named_nonvacuity_witnesses",
+      "record_theorem_level_axiom_reports",
+      "reject_formula_target_insertion_and_model_drift"
+    ]
+  },
+  "route_state": {
+    "route_registered": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_authority": false
+  },
+  "claim_boundary": "This work package authorizes exact clean-room replay only for the three protected Permanent Theorem 1.1 circuit targets under the exact division-free arithmetic-circuit DAG semantics. Successful replay remains evidence only until independently governed route registration, adjudication, output execution, specialist review, ordinary protected merge, and protected-main readback. Formula Theorems 1.2/1.3, both existing formula certificates, historical PDF equivalence, proof or claim promotion, other result families, and aggregate OpenAI Ten Proofs authority remain outside scope."
+}
