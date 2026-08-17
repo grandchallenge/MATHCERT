@@ -6,9 +6,13 @@ on:
       - ".github/workflows/otp-compactness-output-design.yml"
       - "requirements-ci.txt"
       - "governance/result_family_output_contracts/OTP-J1-COMPACTNESS.json"
+      - "governance/result_family_output_contracts/OTP-C-PERMANENT-FULL-FORMULA.json"
+      - "governance/result_family_output_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json"
       - "schemas/otp_compactness_output_contract.schema.json"
       - "schemas/otp_compactness_qualified_output.schema.json"
+      - "ci/otp_full_formula_contract_membership.py"
       - "ci/validate_otp_compactness_output_contract.py"
+      - "ci/validate_otp_compactness_output_contract_with_full_formula_successor.py"
       - "ci/test_otp_compactness_output_contract.py"
       - "governance/result_family_adjudications/OTP-J1-COMPACTNESS.json"
       - "governance/result_family_construction_evidence/OTP-J1-COMPACTNESS.json"
@@ -47,7 +51,7 @@ jobs:
           cache-dependency-path: requirements-ci.txt
       - name: Install locked CI dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
-      - name: Validate Compactness output contract
-        run: python ci/validate_otp_compactness_output_contract.py
+      - name: Validate Compactness output contract with full-formula successor
+        run: python ci/validate_otp_compactness_output_contract_with_full_formula_successor.py
       - name: Run adversarial mutations
         run: python ci/test_otp_compactness_output_contract.py
