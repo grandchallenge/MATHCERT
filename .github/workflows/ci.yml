@@ -37,11 +37,7 @@ jobs:
           cat diagnostics/lake-build.log
           exit 0
       - name: Run certification checks
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          trap 'status=$?; echo "::error title=MATHCERT canonical control failed::command=${BASH_COMMAND}; exit=${status}"; exit "$status"' ERR
-          source ./ci/check_lean.sh
+        run: bash ./ci/check_lean.sh
       - name: Upload canonical build diagnostic
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
