@@ -40,27 +40,64 @@ PATHS = {
     "contract": ROOT / "governance/result_family_adjudication_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
     "adjudication": ROOT / "governance/result_family_adjudications/OTP-C-PERMANENT-FULL-FORMULA.json",
     "output_contract": ROOT / "governance/result_family_output_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
-    "certificate": ROOT / "governance/result_family_output_candidates/staged_certificates/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
+    "staged_certificate": ROOT / "governance/result_family_output_candidates/staged_certificates/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
     "transition": ROOT / "governance/result_family_output_candidates/staged_route_transitions/OTP-C-PERMANENT-FULL-FORMULA.json",
+    "certificate": ROOT / "certificates/formal_sources/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
 }
 SCHEMA = ROOT / "schemas/otp_permanent_full_formula_certification.schema.json"
 PREDECESSOR_CERT = ROOT / "certificates/formal_sources/MC-OTP-C-PERMANENT-001.json"
-ACTUAL_NEW_CERT = ROOT / "certificates/formal_sources/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json"
 GLOBAL_ROUTES = ROOT / "governance/certification_routes.json"
 EXPECTED_PREDECESSOR_CERT_BLOB = "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04"
 EXPECTED_GLOBAL_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
 EXPECTED_OUTPUT_CONTRACT_BLOB = "e234a4bcf55353ed6519e54a41d479b51d93c82c"
 EXPECTED_STAGED_CERT_BLOB = "f5b44312672b8c38383d55bd5c41bbdcbafe28fe"
-EXPECTED_STAGED_CERT_COMMIT = "cb67f6b22f5257afd4ecc66cfe3c1d46cfa1be8c"
+EXPECTED_CERT_BLOB = "2940f551805794b96c7b0793bfe0d14e9fcd9954"
+EXPECTED_ROUTE_BLOB = "3a208d3391514de74853f4ad182e26c74f631913"
+REVIEWED_CANDIDATE_HEAD = "6aac1679196f7a1fae6aa43318e8f046401f4471"
+CONTENT_COMMIT = "1abf088387cbfc33a17fb34e99d23437a6b56164"
+ROUTE_COMMIT = "3fe4d77aabd7a2c58480b264577f07871802d92e"
+CANDIDATE_ROUTE_BLOB = "ba5bf3c44c68776a0dc4c7e961785dc8629fc6af"
+CERT_PATH = "certificates/formal_sources/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json"
+ROUTE_PATH = "governance/certification_route_overlays/OTP-C-PERMANENT-FULL-FORMULA.json"
+EXPECTED_OUTPUT = {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": CONTENT_COMMIT,
+    "path": CERT_PATH,
+    "digest_algorithm": "git_blob_sha1",
+    "digest": EXPECTED_CERT_BLOB,
+}
 
 
 def load(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def git(*args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(["git", "-C", str(ROOT), *args], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+
+
 def git_blob(path: Path) -> str:
     rel = path.relative_to(ROOT).as_posix()
     return subprocess.check_output(["git", "-C", str(ROOT), "rev-parse", f"HEAD:{rel}"], text=True).strip()
+
+
+def obj_blob(commit: str, path: str) -> str | None:
+    r = git("rev-parse", f"{commit}:{path}")
+    return r.stdout.strip() if r.returncode == 0 else None
+
+
+def parent(commit: str) -> str:
+    r = git("rev-parse", f"{commit}^")
+    return r.stdout.strip() if r.returncode == 0 else ""
+
+
+def files(commit: str) -> list[str]:
+    r = git("diff-tree", "--no-commit-id", "--name-only", "-r", commit)
+    return r.stdout.splitlines() if r.returncode == 0 else []
+
+
+def ancestor(older: str, newer: str) -> bool:
+    return git("merge-base", "--is-ancestor", older, newer).returncode == 0
 
 
 def records_from_disk():
@@ -70,7 +107,6 @@ def records_from_disk():
 def validation_errors(records=None, *, check_git=True):
     r = records_from_disk() if records is None else records
     errors: list[str] = []
-
     for name in PATHS:
         if name not in r:
             errors.append(f"missing record: {name}")
@@ -79,19 +115,9 @@ def validation_errors(records=None, *, check_git=True):
 
     errors.extend(membership.membership_errors(ROOT, EXPECTED_HISTORICAL_CONTRACT_FILES))
 
+    staged = r["staged_certificate"]
     schema = load(SCHEMA)
-    errors.extend(f"certificate schema: {e.message}" for e in Draft202012Validator(schema).iter_errors(r["certificate"]))
-
-    for name, rec in r.items():
-        if name == "route":
-            surface = rec.get("route", {}).get("campaign_id")
-            if surface != "OTP-C-PERMANENT-FULL-FORMULA":
-                errors.append("route campaign drift")
-            continue
-        if rec.get("surface_id") != "OTP-C-PERMANENT-FULL-FORMULA":
-            errors.append(f"{name}: surface drift")
-        if rec.get("result_family", "OTP-C-PERMANENT") != "OTP-C-PERMANENT":
-            errors.append(f"{name}: result family drift")
+    errors.extend(f"candidate certificate schema: {e.message}" for e in Draft202012Validator(schema).iter_errors(staged))
 
     intake = r["intake"]
     if intake.get("authority", {}).get("producer_packet", {}).get("digest") != "8755a1067963e5b46555872cb46025fff2625295":
@@ -108,20 +134,12 @@ def validation_errors(records=None, *, check_git=True):
     isp = copy.deepcopy(intake.get("target_scope", {}).get("source_projection", {}))
     if isp.pop("historical_pdf_byte_equivalence", None) is not False or isp != PROJECTION:
         errors.append("intake source projection drift")
-    state = intake.get("state", {})
-    if state.get("route_registered") is not False or state.get("adjudication") is not None or state.get("cert_output") is not None:
-        errors.append("intake authority inflation")
 
     wp = r["wp"]
     if wp.get("target_scope", {}).get("lean_theorems") != TARGETS:
         errors.append("work-package target drift")
-    wsp = copy.deepcopy(wp.get("target_scope", {}).get("source_projection", {}))
-    if wsp.pop("historical_pdf_byte_equivalence", None) is not False or wsp != PROJECTION:
-        errors.append("work-package source projection drift")
     if wp.get("execution", {}).get("aggregate_import_required") is not False:
         errors.append("aggregate import enabled")
-    if wp.get("execution", {}).get("immutable_archive_overlay_mode") != "copy_protected_forge_overlay_into_ephemeral_worktree":
-        errors.append("overlay execution mode drift")
 
     replay = r["replay"]
     pr = replay.get("protected_predecessor_replay", {})
@@ -133,39 +151,20 @@ def validation_errors(records=None, *, check_git=True):
         errors.append("fresh exact-head replay not required")
 
     proposal = r["proposal"]
-    if proposal.get("requested_route_id") != "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA":
-        errors.append("route proposal id drift")
-    if proposal.get("route_contract", {}).get("target_claim_ids") != TARGETS:
-        errors.append("route proposal target drift")
+    if proposal.get("requested_route_id") != "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA" or proposal.get("route_contract", {}).get("target_claim_ids") != TARGETS:
+        errors.append("route proposal drift")
     if proposal.get("route_contract", {}).get("cert_output_initial") is not None:
         errors.append("route proposal prepopulates cert output")
-
-    route = r["route"]
-    route_body = route.get("route", {})
-    if route.get("base_registry", {}).get("digest") != EXPECTED_GLOBAL_ROUTES_BLOB:
-        errors.append("route overlay base-registry substitution")
-    if route_body.get("route_id") != "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA":
-        errors.append("route id drift")
-    if route_body.get("intake_status") != "submitted" or route_body.get("cert_output") is not None:
-        errors.append("live candidate route must remain submitted/no-output")
-    if route_body.get("target_claim_ids") != TARGETS:
-        errors.append("registered route target drift")
-    if route_body.get("mathematical_target_proved") is not False or route_body.get("aggregate_output") is not False:
-        errors.append("route proof/aggregate inflation")
 
     contract = r["contract"]
     if contract.get("admissible_dispositions") != ["adjudication_clear_encoded_targets_only", "adjudication_not_clear", "defer_insufficient_evidence"]:
         errors.append("adjudication vocabulary drift")
-    if contract.get("exact_targets") != TARGETS:
-        errors.append("adjudication contract target drift")
-    if contract.get("positive_gate", {}).get("fresh_non_author_specialist_review_required") is not True:
-        errors.append("specialist review gate removed")
+    if contract.get("exact_targets") != TARGETS or contract.get("positive_gate", {}).get("fresh_non_author_specialist_review_required") is not True:
+        errors.append("adjudication contract scope/gate drift")
 
     adjudication = r["adjudication"]
-    if adjudication.get("disposition") != "adjudication_clear_encoded_targets_only":
-        errors.append("unexpected candidate adjudication disposition")
-    if adjudication.get("encoded_targets") != TARGETS:
-        errors.append("adjudication target drift")
+    if adjudication.get("disposition") != "adjudication_clear_encoded_targets_only" or adjudication.get("encoded_targets") != TARGETS:
+        errors.append("adjudication drift")
     if adjudication.get("judgment", {}).get("mathematical_target_proved") is not False:
         errors.append("adjudication proof promotion")
     if adjudication.get("basis", {}).get("fresh_exact_head_replay_required") is not True or adjudication.get("basis", {}).get("fresh_non_author_specialist_review_required") is not True:
@@ -179,35 +178,66 @@ def validation_errors(records=None, *, check_git=True):
     if order.get("certificate_content_commit_before_route_transition") is not True or order.get("squash_prohibited") is not True or order.get("rebase_prohibited") is not True:
         errors.append("publication ordering weakened")
 
+    if staged.get("record_type") != "otp_permanent_full_formula_qualified_output_candidate" or staged.get("encoded_targets") != TARGETS:
+        errors.append("candidate certificate drift")
+    if staged.get("qualification", {}).get("source_projection") != PROJECTION:
+        errors.append("candidate projection drift")
+    if staged.get("state", {}).get("candidate_only") is not True:
+        errors.append("candidate certificate lost candidate-only boundary")
+
     cert = r["certificate"]
-    if cert.get("encoded_targets") != TARGETS:
-        errors.append("staged certificate target drift")
-    csp = cert.get("qualification", {}).get("source_projection", {})
-    if csp != PROJECTION:
-        errors.append("staged certificate source projection drift")
-    if cert.get("source_authority", {}).get("output_contract") != {
-        "path": "governance/result_family_output_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
-        "digest_algorithm": "git_blob_sha1",
-        "digest": EXPECTED_OUTPUT_CONTRACT_BLOB,
-    }:
-        errors.append("staged certificate output-contract authority drift")
-    if cert.get("state", {}).get("mathematical_target_proved") is not False or cert.get("state", {}).get("aggregate_output") is not False:
-        errors.append("staged certificate proof/aggregate inflation")
-    if cert.get("protected_effect") != "none_until_exact_head_gates_fresh_non_author_specialist_approval_and_protected_publication":
-        errors.append("staged certificate protected-effect inflation")
+    if cert.get("record_type") != "otp_permanent_full_formula_qualified_output":
+        errors.append("live certificate record type drift")
+    if cert.get("certificate_id") != "MC-OTP-C-PERMANENT-FULL-FORMULA-QUAL-001" or cert.get("encoded_targets") != TARGETS:
+        errors.append("live certificate identity/target drift")
+    if cert.get("qualification", {}).get("source_projection") != PROJECTION:
+        errors.append("live certificate projection drift")
+    if cert.get("source_authority", {}).get("output_contract", {}).get("digest") != EXPECTED_OUTPUT_CONTRACT_BLOB:
+        errors.append("live certificate output-contract authority drift")
+    state = cert.get("state", {})
+    if state.get("route_state") != "qualified" or state.get("cert_output_inserted") is not True:
+        errors.append("live certificate state drift")
+    for key in ("mathematical_target_proved", "may_promote_claim", "circuit_targets_certified", "aggregate_output"):
+        if state.get(key) is not False:
+            errors.append(f"live certificate authority inflation: {key}")
+
+    route = r["route"]
+    body = route.get("route", {})
+    if route.get("base_registry", {}).get("digest") != EXPECTED_GLOBAL_ROUTES_BLOB:
+        errors.append("route overlay base-registry substitution")
+    if body.get("route_id") != "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA" or body.get("intake_status") != "qualified":
+        errors.append("executed route state drift")
+    if body.get("target_claim_ids") != TARGETS or body.get("cert_output") != EXPECTED_OUTPUT:
+        errors.append("executed route target/output drift")
+    if body.get("mathematical_target_proved") is not False or body.get("aggregate_output") is not False:
+        errors.append("route proof/aggregate inflation")
+    if route.get("preserved_predecessor", {}).get("mutable") is not False:
+        errors.append("predecessor route mutation enabled")
 
     transition = r["transition"]
-    if transition.get("certificate_content", {}).get("digest") != EXPECTED_STAGED_CERT_BLOB:
-        errors.append("staged transition certificate digest drift")
-    if transition.get("certificate_content", {}).get("content_commit") != EXPECTED_STAGED_CERT_COMMIT:
-        errors.append("staged transition certificate commit drift")
-    if transition.get("post_transition", {}).get("target_claim_ids") != TARGETS:
-        errors.append("staged transition target drift")
-    if transition.get("post_transition", {}).get("mathematical_target_proved") is not False or transition.get("post_transition", {}).get("aggregate_output") is not False:
-        errors.append("staged transition proof/aggregate inflation")
-
-    if ACTUAL_NEW_CERT.exists():
-        errors.append("protected certificate path populated before publication authorization")
+    if transition.get("record_type") != "otp_permanent_full_formula_executed_route_transition_receipt":
+        errors.append("execution receipt type drift")
+    if transition.get("reviewed_candidate_head") != REVIEWED_CANDIDATE_HEAD:
+        errors.append("candidate authorization head drift")
+    review = transition.get("candidate_authorization_review", {})
+    if review.get("reviewer") != "jimsteeg" or review.get("state") != "APPROVED" or review.get("review_id") != "PRR_kwDOSuU7Ic8AAAABJxbnnQ":
+        errors.append("candidate authorization review drift")
+    executed = transition.get("executed_certificate", {})
+    if executed.get("certificate_content_commit") != CONTENT_COMMIT or executed.get("digest") != EXPECTED_CERT_BLOB:
+        errors.append("execution receipt certificate drift")
+    rt = transition.get("route_transition", {})
+    if rt.get("route_transition_commit") != ROUTE_COMMIT or rt.get("overlay_blob_after") != EXPECTED_ROUTE_BLOB or rt.get("cert_output") != EXPECTED_OUTPUT:
+        errors.append("execution receipt route transition drift")
+    post = transition.get("post_transition", {})
+    if post.get("target_claim_ids") != TARGETS:
+        errors.append("execution receipt target drift")
+    for key in ("mathematical_target_proved", "may_promote_claim", "circuit_targets_certified", "aggregate_output"):
+        if post.get(key) is not False:
+            errors.append(f"execution receipt authority inflation: {key}")
+    gates = transition.get("publication_constraints", {})
+    for key in ("fresh_exact_head_replay_required", "fresh_non_author_algebraic_complexity_specialist_approved_review_required", "review_must_bind_final_execution_head", "head_change_requires_revalidation_and_reapproval", "ordinary_ancestry_preserving_merge_required", "squash_prohibited", "rebase_prohibited", "expected_head_required", "protected_main_readback_required", "partial_publication_prohibited"):
+        if gates.get(key) is not True:
+            errors.append(f"publication gate disabled: {key}")
 
     if check_git:
         try:
@@ -217,9 +247,33 @@ def validation_errors(records=None, *, check_git=True):
                 errors.append("global certification route registry mutated")
             if git_blob(PATHS["output_contract"]) != EXPECTED_OUTPUT_CONTRACT_BLOB:
                 errors.append("canonical successor output-contract blob drift")
-            if git_blob(PATHS["certificate"]) != EXPECTED_STAGED_CERT_BLOB:
-                errors.append("staged certificate blob drift")
-            subprocess.check_call(["git", "-C", str(ROOT), "merge-base", "--is-ancestor", EXPECTED_STAGED_CERT_COMMIT, "HEAD"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            if git_blob(PATHS["staged_certificate"]) != EXPECTED_STAGED_CERT_BLOB:
+                errors.append("candidate certificate blob drift")
+            if git_blob(PATHS["certificate"]) != EXPECTED_CERT_BLOB:
+                errors.append("live certificate blob drift")
+            if git_blob(PATHS["route"]) != EXPECTED_ROUTE_BLOB:
+                errors.append("qualified route overlay blob drift")
+            head = git("rev-parse", "HEAD").stdout.strip()
+            if parent(CONTENT_COMMIT) != REVIEWED_CANDIDATE_HEAD:
+                errors.append("certificate-content commit is not direct child of reviewed candidate head")
+            if parent(ROUTE_COMMIT) != CONTENT_COMMIT:
+                errors.append("route transition is not direct child of certificate-content commit")
+            if files(CONTENT_COMMIT) != [CERT_PATH]:
+                errors.append("certificate-content commit changed paths outside certificate")
+            if files(ROUTE_COMMIT) != [ROUTE_PATH]:
+                errors.append("route-transition commit changed paths outside successor route overlay")
+            if not ancestor(REVIEWED_CANDIDATE_HEAD, CONTENT_COMMIT) or not ancestor(CONTENT_COMMIT, ROUTE_COMMIT) or not ancestor(ROUTE_COMMIT, head):
+                errors.append("output execution ancestry broken")
+            if obj_blob(REVIEWED_CANDIDATE_HEAD, CERT_PATH) is not None:
+                errors.append("live certificate existed at reviewed candidate head")
+            if obj_blob(CONTENT_COMMIT, CERT_PATH) != EXPECTED_CERT_BLOB or obj_blob(ROUTE_COMMIT, CERT_PATH) != EXPECTED_CERT_BLOB or obj_blob(head, CERT_PATH) != EXPECTED_CERT_BLOB:
+                errors.append("certificate bytes drift across execution history")
+            if obj_blob(REVIEWED_CANDIDATE_HEAD, ROUTE_PATH) != CANDIDATE_ROUTE_BLOB:
+                errors.append("candidate route overlay history drift")
+            if obj_blob(CONTENT_COMMIT, ROUTE_PATH) != CANDIDATE_ROUTE_BLOB:
+                errors.append("route changed in certificate-content commit")
+            if obj_blob(ROUTE_COMMIT, ROUTE_PATH) != EXPECTED_ROUTE_BLOB or obj_blob(head, ROUTE_PATH) != EXPECTED_ROUTE_BLOB:
+                errors.append("qualified route overlay bytes drift")
         except (subprocess.CalledProcessError, OSError) as exc:
             errors.append(f"git ancestry/blob validation failed: {exc}")
 
@@ -231,7 +285,7 @@ def main() -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("OTP Permanent full-formula certification candidate validates fail-closed")
+    print("OTP Permanent full-formula output execution validates fail-closed")
     return 0
 
 
