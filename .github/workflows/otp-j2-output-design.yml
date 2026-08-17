@@ -6,14 +6,19 @@ on:
       - ".github/workflows/otp-j2-output-design.yml"
       - "requirements-ci.txt"
       - "governance/result_family_output_contracts/OTP-J2-TWO-DEGENERATE.json"
+      - "governance/result_family_output_contracts/OTP-C-PERMANENT-FULL-FORMULA.json"
+      - "governance/result_family_output_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json"
       - "schemas/otp_j2_source_faithful_output_contract.schema.json"
       - "schemas/otp_j2_source_faithful_qualified_output.schema.json"
+      - "ci/otp_full_formula_contract_membership.py"
       - "ci/validate_otp_j2_output_contract.py"
       - "ci/validate_otp_j2_output_contract_with_execution.py"
       - "ci/validate_otp_j2_output_execution.py"
       - "ci/test_otp_j2_output_contract.py"
       - "ci/validate_otp_permanent_output_contract.py"
+      - "ci/validate_otp_permanent_output_contract_with_full_formula_successor.py"
       - "ci/validate_otp_compactness_output_contract.py"
+      - "ci/validate_otp_compactness_output_contract_with_full_formula_successor.py"
       - "governance/result_family_adjudications/OTP-J2-TWO-DEGENERATE.json"
       - "governance/result_family_route_target_successors/OTP-J2-TWO-DEGENERATE.json"
       - "governance/certification_routes.json"
@@ -70,5 +75,5 @@ jobs:
         run: python ci/test_otp_j2_output_contract.py
       - name: Revalidate predecessor output contracts
         run: |
-          python ci/validate_otp_permanent_output_contract.py
-          python ci/validate_otp_compactness_output_contract.py
+          python ci/validate_otp_permanent_output_contract_with_full_formula_successor.py
+          python ci/validate_otp_compactness_output_contract_with_full_formula_successor.py
