@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_full_formula_staged_route_transition",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA",
+  "surface_id": "OTP-C-PERMANENT-FULL-FORMULA",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/132",
+  "protected_effect": "none_until_exact_head_gates_fresh_non_author_specialist_approval_and_protected_publication",
+  "pre_transition": {
+    "overlay_path": "governance/certification_route_overlays/OTP-C-PERMANENT-FULL-FORMULA.json",
+    "intake_status": "submitted",
+    "cert_output": null
+  },
+  "certificate_content": {
+    "staged_path": "governance/result_family_output_candidates/staged_certificates/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "8e7e9ca9dc3c25bcafc663f48c61cc778bb1ab66",
+    "content_commit": "f346a4459c51b0970159665c0215a153e23a7325",
+    "must_precede_transition": true
+  },
+  "post_transition": {
+    "intake_status": "qualified",
+    "cert_output": {
+      "repository": "grandchallenge/MATHCERT",
+      "path": "certificates/formal_sources/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest_must_equal_staged_certificate": true
+    },
+    "target_claim_ids": [
+      "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
+      "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound"
+    ],
+    "qualification_disposition": "qualified_encoded_targets_only",
+    "mathematical_target_proved": false,
+    "aggregate_output": false
+  },
+  "publication_constraints": {
+    "fresh_exact_head_replay_required": true,
+    "fresh_non_author_algebraic_complexity_specialist_approved_review_required": true,
+    "ordinary_ancestry_preserving_merge_required": true,
+    "squash_prohibited": true,
+    "rebase_prohibited": true,
+    "protected_main_readback_required": true,
+    "partial_publication_prohibited": true
+  },
+  "claim_boundary": "This record stages, but does not execute, the transition of MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA from submitted/no-output to the restricted qualified output. The staged certificate bytes were committed first. No transition is authorized before exact-head machine replay, fresh non-author specialist approval, protected publication, and readback; no mathematical-target proof, predecessor rewrite, circuit authority, historical-PDF equivalence, other-family qualification, or aggregate authority is created here."
+}
