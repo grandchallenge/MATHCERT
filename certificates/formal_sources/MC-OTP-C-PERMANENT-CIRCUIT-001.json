@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_circuit_qualified_output",
+  "certificate_id": "MC-OTP-C-PERMANENT-CIRCUIT-QUAL-001",
+  "result_family": "OTP-C-PERMANENT",
+  "surface_id": "OTP-C-PERMANENT-CIRCUIT",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT",
+  "source_authority": {
+    "adjudication": {
+      "path": "governance/result_family_adjudications/OTP-C-PERMANENT-CIRCUIT.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "6d984e4595da02648d3db110ba1ff6a1a268e4ae",
+      "disposition": "adjudication_clear_encoded_targets_only"
+    },
+    "output_contract": {
+      "path": "governance/result_family_output_contract_successors/OTP-C-PERMANENT-CIRCUIT.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0481f5539d8a9bd72fbb3644ba8481a672eb1d7a"
+    },
+    "forge_semantic_blob": "d47a50df90174ed03669b11b8469dc1c0788a1ea",
+    "solve_packet_blob": "f8443c47cee03890ca52af3e0cd39f1a54b5fc71",
+    "overlay_json_blob": "1c2aad24890425ef82f8e45fa654de32dc0e2659",
+    "overlay_lean_blob": "18fc438580bab2bc003d4d3cfd9fa283da421b04"
+  },
+  "encoded_targets": [
+    "PermanentRollout.permanent_circuit_loglog_lower_bound",
+    "PermanentRollout.permanent_circuit_loglog_bigOmega",
+    "PermanentRollout.permanent_complexity_ratio_tendsto_atTop"
+  ],
+  "qualification": {
+    "disposition": "qualified_encoded_targets_only",
+    "scope": "The exact three protected Permanent Theorem 1.1 arithmetic-circuit targets only.",
+    "source_projection": {
+      "coefficient_field": "complex",
+      "model": "division_free_arithmetic_circuit_dag",
+      "input_gates": [
+        "matrix_variable",
+        "arbitrary_complex_scalar"
+      ],
+      "arithmetic_gates": [
+        "add",
+        "sub",
+        "mul"
+      ],
+      "division_allowed": false,
+      "fanout_reuse_allowed": true,
+      "size_counts_arithmetic_gates_only": true,
+      "input_gates_counted": false,
+      "depth_restriction": false,
+      "degree_restriction": false,
+      "fanout_restriction": false,
+      "cancellation_restriction": false,
+      "dimension_threshold": 65536,
+      "finite_bound_denominator": 144,
+      "finite_bound": "n^2 * (log_2(log_2 n) - 3) / 144 <= circuitComplexity(permanent_n)",
+      "bigomega_consequence": "circuitComplexity(permanent_n) = Omega(n^2 log_2 log_2 n)",
+      "ratio_divergence_consequence": "circuitComplexity(permanent_n) / n^2 tends to +infinity",
+      "formula_target_count": 0,
+      "circuit_target_count": 3
+    }
+  },
+  "evidence_receipts": {
+    "protected_producer_replay": {
+      "run": 31809287009,
+      "job": 94795718599,
+      "comparator": "accepted",
+      "lean_kernel": "accepted",
+      "nanoda": "accepted"
+    },
+    "fresh_candidate_replay": {
+      "run": 32031490736,
+      "job": 95392369253,
+      "artifact_id": 9289397987,
+      "artifact_sha256": "6522cae10f4176589fcf8c6834ddb8129be5a58a37599dcd2fbcc0556f68614c"
+    },
+    "source_statement_concordance": "clear_for_full_theorem_1_1_circuit_surface",
+    "nonvacuity": "clear_for_three_named_circuit_witnesses",
+    "fresh_exact_head_replay": "accepted_before_output_execution",
+    "comparator": "pass",
+    "lean_kernel": "accept",
+    "nanoda": "accept"
+  },
+  "axiom_report": {
+    "permitted_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "unexpected_axioms": [],
+    "imported_domain_axioms": []
+  },
+  "trust_boundary": {
+    "solution_placeholders": 0,
+    "unsafe_declarations": 0,
+    "custom_axioms": 0,
+    "result": "clear"
+  },
+  "state": {
+    "route_state": "qualified",
+    "cert_output_inserted": true,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "formula_targets_certified": false,
+    "aggregate_output": false
+  },
+  "preserved_limitations": {
+    "historical_variable_leaf_certificate_mutated": false,
+    "full_formula_certificate_mutated": false,
+    "formula_targets_in_scope": false,
+    "historical_pdf_byte_equivalence": "not_established",
+    "unrestricted_source_theorem_proof_claim": false,
+    "other_family_outputs_authorized": false,
+    "aggregate_openai_ten_proofs_authority": false
+  },
+  "claim_boundary": "This restricted qualification certifies only the exact three encoded OTP-C-PERMANENT-CIRCUIT targets under the protected adjudication and successor output contract: the finite arithmetic-circuit lower bound, its Omega(n^2 log_2 log_2 n) consequence, and divergence of circuitComplexity(permanent_n) / n^2, over complex coefficients in the division-free arithmetic-circuit DAG model with variable and arbitrary complex-scalar inputs, add/sub/mul gates, fanout reuse, arithmetic-gate-only size accounting, n >= 65536, and finite-bound denominator 144. It does not mutate or broaden either Permanent formula certificate, certify formula Theorems 1.2 or 1.3, establish historical admitted-PDF byte equivalence, mark a mathematical target proved, authorize claim promotion, qualify another result family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}
