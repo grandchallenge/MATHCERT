@@ -5,6 +5,7 @@ on:
     paths:
       - ".github/workflows/otp-permanent-full-formula-cert.yml"
       - "ci/run_openai_ten_proofs_permanent_full_formula_replay.sh"
+      - "ci/otp_full_formula_contract_membership.py"
       - "ci/validate_otp_permanent_full_formula_certification.py"
       - "ci/test_otp_permanent_full_formula_certification.py"
       - "schemas/otp_permanent_full_formula_certification.schema.json"
@@ -16,6 +17,7 @@ on:
       - "governance/result_family_adjudication_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json"
       - "governance/result_family_adjudications/OTP-C-PERMANENT-FULL-FORMULA.json"
       - "governance/result_family_output_contracts/OTP-C-PERMANENT-FULL-FORMULA.json"
+      - "governance/result_family_output_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json"
       - "governance/result_family_output_candidates/staged_certificates/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json"
       - "governance/result_family_output_candidates/staged_route_transitions/OTP-C-PERMANENT-FULL-FORMULA.json"
   workflow_dispatch:
