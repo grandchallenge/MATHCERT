@@ -12,11 +12,12 @@ on:
       - "governance/result_family_work_package_successors/OTP-C-PERMANENT-FULL-FORMULA-CERT-WP01.json"
       - "governance/result_family_replay_evidence_successors/OTP-C-PERMANENT-FULL-FORMULA.json"
       - "governance/result_family_route_proposal_successors/OTP-C-PERMANENT-FULL-FORMULA.json"
+      - "governance/certification_route_overlays/OTP-C-PERMANENT-FULL-FORMULA.json"
       - "governance/result_family_adjudication_contract_successors/OTP-C-PERMANENT-FULL-FORMULA.json"
       - "governance/result_family_adjudications/OTP-C-PERMANENT-FULL-FORMULA.json"
       - "governance/result_family_output_contracts/OTP-C-PERMANENT-FULL-FORMULA.json"
-      - "certificates/formal_sources/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json"
-      - "governance/certification_routes.json"
+      - "governance/result_family_output_candidates/staged_certificates/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json"
+      - "governance/result_family_output_candidates/staged_route_transitions/OTP-C-PERMANENT-FULL-FORMULA.json"
   workflow_dispatch:
 
 permissions:
@@ -27,19 +28,57 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  replay-and-validate:
-    name: replay-and-validate
+  governance-control:
+    name: governance-control (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out literal candidate head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify literal candidate head
+        shell: bash
+        if: runner.os != 'Windows'
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - name: Verify literal candidate head (Windows)
+        shell: pwsh
+        if: runner.os == 'Windows'
+        run: |
+          if ((git rev-parse HEAD) -ne $env:MATHCERT_HEAD_SHA) { throw "MATHCERT checkout is not the literal PR head" }
+      - name: Install locked CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Validate fail-closed successor chain
+        run: |
+          python ci/validate_otp_permanent_full_formula_certification.py
+          python ci/test_otp_permanent_full_formula_certification.py
+
+  replay:
+    name: exact-full-formula-replay
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
       MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
       MATHCERT_WORKFLOW_SHA: ${{ github.sha }}
     steps:
-      - name: Check out MATHCERT subject head
+      - name: Check out literal MATHCERT subject head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
           fetch-depth: 0
           persist-credentials: false
+      - name: Verify literal candidate head
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - name: Install locked MATHCERT CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
 
       - name: Check out exact Forge authority
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
