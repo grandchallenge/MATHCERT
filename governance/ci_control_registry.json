@@ -111,6 +111,8 @@
     {"path":"ci/test_otp_j2_output_execution.py","mode":"direct"},
     {"path":"ci/validate_vgse_route_registration.py","mode":"direct"},
     {"path":"ci/test_vgse_route_registration.py","mode":"direct"},
+    {"path":"ci/validate_otp_permanent_full_formula_certification.py","mode":"direct"},
+    {"path":"ci/test_otp_permanent_full_formula_certification.py","mode":"direct"},
     {"path":"ci/audit_ci_reachability.py","mode":"direct"},
     {"path":"ci/test_audit_ci_reachability.py","mode":"direct"}
   ],
