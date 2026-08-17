@@ -3,8 +3,8 @@ from __future__ import annotations
 
 import sys
 
-import validate_otp_permanent_circuit_execution_history as history
-import validate_otp_permanent_circuit_output_execution as output
+import otp_permanent_circuit_execution_history as history
+import otp_permanent_circuit_output_execution as output
 
 TARGETS = output.TARGETS
 
