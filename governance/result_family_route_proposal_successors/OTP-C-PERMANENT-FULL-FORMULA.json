@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_full_formula_route_proposal",
+  "proposal_id": "MC-OTP-ROUTE-PROPOSAL-C-PERMANENT-FULL-FORMULA",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-C-PERMANENT",
+  "surface_id": "OTP-C-PERMANENT-FULL-FORMULA",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/132",
+  "requested_route_id": "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA",
+  "proposal_status": "proposed_on_candidate_branch",
+  "authority": {
+    "intake_path": "governance/result_family_intake_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
+    "work_package_path": "governance/result_family_work_package_successors/OTP-C-PERMANENT-FULL-FORMULA-CERT-WP01.json",
+    "replay_evidence_path": "governance/result_family_replay_evidence_successors/OTP-C-PERMANENT-FULL-FORMULA.json",
+    "solve_packet_blob": "8755a1067963e5b46555872cb46025fff2625295",
+    "forge_semantic_blob": "520bdaa3bba075e411f7a0a2b8422e9c9d42c818"
+  },
+  "route_contract": {
+    "campaign_id": "OTP-C-PERMANENT-FULL-FORMULA",
+    "initial_intake_status": "submitted",
+    "target_claim_ids": [
+      "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
+      "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound"
+    ],
+    "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+    "cert_output_initial": null,
+    "mathematical_target_proved": false,
+    "aggregate_route": false
+  },
+  "source_projection": {
+    "coefficient_field": "complex",
+    "dimension_threshold": 32,
+    "log_base": 2,
+    "division_free": {"variable_leaves":128,"total_leaves":128,"vertices":128,"internal_gates":256},
+    "rational": {"variable_leaves":192,"total_leaves":192,"vertices":192,"internal_gates":384},
+    "formula_target_count": 2,
+    "circuit_target_count": 0,
+    "historical_pdf_byte_equivalence": false
+  },
+  "preserved_predecessor": {
+    "route_id": "MC-ROUTE-OTP-C-PERMANENT-FORMULA",
+    "certificate_id": "MC-OTP-C-PERMANENT-QUAL-001",
+    "mutable": false
+  },
+  "claim_boundary": "This proposal requests one new independent MATHCERT route for the two protected full-formula conjunction targets only. It does not mutate or enlarge MC-ROUTE-OTP-C-PERMANENT-FORMULA, import source Theorem 1.1 circuit targets, adjudicate the proposed route, create a Cert output, establish historical PDF byte equivalence, mark a mathematical target proved, or create aggregate OpenAI Ten Proofs authority."
+}
