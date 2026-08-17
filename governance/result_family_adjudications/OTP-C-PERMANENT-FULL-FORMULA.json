@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_permanent_full_formula_adjudication",
+  "adjudication_id": "MC-OTP-ADJUDICATION-C-PERMANENT-FULL-FORMULA-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-C-PERMANENT",
+  "surface_id": "OTP-C-PERMANENT-FULL-FORMULA",
+  "route_id": "MC-ROUTE-OTP-C-PERMANENT-FULL-FORMULA",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/132",
+  "state": "candidate_disposition_pending_exact_head_gates_review_and_protected_merge",
+  "disposition": "adjudication_clear_encoded_targets_only",
+  "basis": {
+    "protected_forge_semantic_disposition": "PERMANENT_FORMULA_FULL_SOURCE_CONSEQUENCES_CLEAR__128_256_192_384_AND_LEAF_VERTEX_BOUNDS_ENCODED__CIRCUIT_SEPARATE",
+    "protected_forge_semantic_blob": "520bdaa3bba075e411f7a0a2b8422e9c9d42c818",
+    "protected_solve_packet_blob": "8755a1067963e5b46555872cb46025fff2625295",
+    "protected_overlay_json_blob": "ad102cacd81736f154437826ddefff1cef648f13",
+    "protected_overlay_lean_blob": "8846ebdbae05e31d7d69f0e751a677e927023e48",
+    "protected_nonvacuity_blob": "e756c8476bac1795f3fb8ca0b7235d3a4a5c59ea",
+    "protected_predecessor_replay_run": 31807864648,
+    "protected_predecessor_replay_job": 94791029992,
+    "fresh_exact_head_replay_required": true,
+    "fresh_exact_head_workflow": "OTP Permanent full-formula certification / replay-and-validate",
+    "fresh_non_author_specialist_review_required": true
+  },
+  "encoded_targets": [
+    "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
+    "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound"
+  ],
+  "source_projection": {
+    "coefficient_field": "complex",
+    "dimension_threshold": 32,
+    "log_base": 2,
+    "division_free": {"variable_leaves":128,"total_leaves":128,"vertices":128,"internal_gates":256},
+    "rational": {"variable_leaves":192,"total_leaves":192,"vertices":192,"internal_gates":384},
+    "formula_target_count": 2,
+    "circuit_target_count": 0,
+    "historical_pdf_byte_equivalence": false
+  },
+  "judgment": {
+    "source_concordance": "clear_for_exact_full_formula_conjunctions",
+    "formal_replay": "clear_in_protected_predecessor_and_must_replay_at_exact_candidate_head",
+    "nonvacuity": "clear_for_both_protected_formula_witnesses",
+    "unexpected_axioms": [],
+    "mathematical_target_proved": false,
+    "claim_promotion_authorized": false,
+    "aggregate_authority": false
+  },
+  "preserved_limitations": [
+    "The candidate disposition becomes MATHCERT authority only after all exact-head gates, fresh non-author specialist APPROVED review, and protected merge/readback.",
+    "The existing variable-leaf Permanent certificate is not rewritten or broadened.",
+    "Source Theorem 1.1 arithmetic-circuit complexity remains separately governed.",
+    "Historical admitted-PDF byte equivalence remains unestablished.",
+    "No mathematical target is marked proved and no aggregate OpenAI Ten Proofs authority is created."
+  ],
+  "claim_boundary": "The proposed adjudication is positive only for the exact two encoded full-formula conjunction targets and remains candidate-branch state until the required exact-head replay, independent specialist approval, and protected merge/readback occur. It does not constitute a proof of the unrestricted source theorems, alter the predecessor Permanent qualification, import circuit authority, establish historical PDF equivalence, authorize claim promotion, qualify another family, or create aggregate OpenAI Ten Proofs authority."
+}
