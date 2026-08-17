@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_permanent_circuit_route_proposal_successor",
+  "surface_id": "OTP-C-PERMANENT-CIRCUIT",
+  "result_family": "OTP-C-PERMANENT",
+  "requested_route_id": "MC-ROUTE-OTP-C-PERMANENT-CIRCUIT",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/133",
+  "route_contract": {
+    "target_claim_ids": [
+      "PermanentRollout.permanent_circuit_loglog_lower_bound",
+      "PermanentRollout.permanent_circuit_loglog_bigOmega",
+      "PermanentRollout.permanent_complexity_ratio_tendsto_atTop"
+    ],
+    "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+    "initial_route_state": "submitted",
+    "cert_output_initial": null,
+    "mathematical_target_proved": false,
+    "aggregate_output": false
+  },
+  "authority": {
+    "forge_semantic_blob": "d47a50df90174ed03669b11b8469dc1c0788a1ea",
+    "solve_packet_blob": "f8443c47cee03890ca52af3e0cd39f1a54b5fc71",
+    "overlay_json_blob": "1c2aad24890425ef82f8e45fa654de32dc0e2659",
+    "overlay_lean_blob": "18fc438580bab2bc003d4d3cfd9fa283da421b04"
+  },
+  "source_projection": {
+    "coefficient_field": "complex",
+    "model": "division_free_arithmetic_circuit_dag",
+    "input_gates": ["matrix_variable", "arbitrary_complex_scalar"],
+    "arithmetic_gates": ["add", "sub", "mul"],
+    "division_allowed": false,
+    "fanout_reuse_allowed": true,
+    "size_counts_arithmetic_gates_only": true,
+    "input_gates_counted": false,
+    "dimension_threshold": 65536,
+    "finite_bound_denominator": 144,
+    "finite_bound": "n^2 * (log_2(log_2 n) - 3) / 144 <= circuitComplexity(permanent_n)",
+    "bigomega_consequence": "circuitComplexity(permanent_n) = Omega(n^2 log_2 log_2 n)",
+    "ratio_divergence_consequence": "circuitComplexity(permanent_n) / n^2 tends to +infinity",
+    "historical_pdf_byte_equivalence": false
+  },
+  "fail_closed": [
+    "formula target insertion",
+    "threshold or denominator drift",
+    "division enabled",
+    "fanout/model/size-accounting drift",
+    "omission of either asymptotic consequence",
+    "source Solve overlay or toolchain substitution",
+    "formula certificate mutation",
+    "historical PDF equivalence inflation",
+    "mathematical proof or claim promotion",
+    "other-family mutation",
+    "aggregate authority"
+  ]
+}
