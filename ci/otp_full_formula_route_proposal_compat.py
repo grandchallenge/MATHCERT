@@ -11,6 +11,11 @@ FULL_FORMULA_TARGETS = [
     "PermanentFormulaLowerBound.permanent_divisionFree_formula_lower_bound",
     "PermanentFormulaLowerBound.permanent_rational_formula_lower_bound",
 ]
+# Historical compatibility aliases consumed by the existing mutation suite.
+SUCCESSOR_NAME = FULL_FORMULA_NAME
+EXPECTED_SUCCESSOR_BLOB = EXPECTED_FULL_FORMULA_BLOB
+EXPECTED_TARGETS = FULL_FORMULA_TARGETS
+
 CIRCUIT_NAME = "OTP-C-PERMANENT-CIRCUIT.json"
 EXPECTED_CIRCUIT_BLOB = "c5449d45d230143835bd7695755df256b215ad06"
 CIRCUIT_TARGETS = [
