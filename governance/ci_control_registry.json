@@ -43,6 +43,8 @@
     {"path":"ci/test_openai_ten_proofs_certification_work_packages.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_permanent_certification_work_package.py","mode":"direct"},
     {"path":"ci/test_openai_ten_proofs_permanent_certification_work_package.py","mode":"direct"},
+    {"path":"ci/validate_openai_ten_proofs_sphere_packing_certification_work_package.py","mode":"direct"},
+    {"path":"ci/test_openai_ten_proofs_sphere_packing_certification_work_package.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_replay_execution.py","mode":"direct"},
     {"path":"ci/test_openai_ten_proofs_replay_execution.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_replay_evidence.py","mode":"direct"},

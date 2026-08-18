@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/openai_ten_proofs_sphere_packing_certification_work_package.schema.json",
+  "title": "OpenAI Ten Proofs Sphere Packing Certification Work Package",
+  "description": "Closed exact schema for OTP-A-SPHERE-PACKING-CERT-WP-001. The const intentionally prevents any authority or scope drift.",
+  "const": {
+    "schema_version": "1.0.0",
+    "record_type": "openai_ten_proofs_sphere_packing_certification_work_package",
+    "work_package_id": "OTP-A-SPHERE-PACKING-CERT-WP-001",
+    "candidate_id": "OPENAI-TEN-PROOFS-001",
+    "result_family": "OTP-A-SPHERE-PACKING",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/146",
+    "status": "authorized_after_protected_mathcert_merge",
+    "authority": {
+      "protected_mathcert_base": "9d3af5503f06e1a564562a49ce9f5b439a3d9364",
+      "cert_intake_merge": "947b3bed0effa79c2472dddc37d6c463f79c3126",
+      "cert_intake_reviewed_head": "3507df42b7302456ac5fec05e7d102d19979601a",
+      "cert_intake_review": {
+        "review_id": "PRR_kwDOSuU7Ic8AAAABJ3zLwQ",
+        "reviewer": "jimsteeg",
+        "state": "APPROVED",
+        "submitted_at": "2026-08-18T05:13:08Z"
+      },
+      "intake_record": {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": "947b3bed0effa79c2472dddc37d6c463f79c3126",
+        "path": "governance/result_family_intake_successors/OTP-A-SPHERE-PACKING.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "294c9f7d6cceb1cdf7ec4c8e73255dd1ba130670"
+      },
+      "solve_handoff_merge": "c19735edf4c16ac9765bb66c7209bbf11bf1312e",
+      "producer_packet": {
+        "repository": "grandchallenge/MATHSOLVE",
+        "commit_sha": "c19735edf4c16ac9765bb66c7209bbf11bf1312e",
+        "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-A-SPHERE-PACKING.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "9e3b46972bf01ac3d24c6a0ae5f522799335ecd1"
+      },
+      "forge_composite_semantic": {
+        "repository": "grandchallenge/MATHFORGE",
+        "commit_sha": "706d0291370bf3f14aa37be0823e33d06f7343b0",
+        "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-A-SPHERE-PACKING-COMPOSITE/audit_record.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "b2e309ad96e750651fc7149a6bad54c6bf99015b"
+      },
+      "forge_bridge_semantic": {
+        "repository": "grandchallenge/MATHFORGE",
+        "commit_sha": "5a0cb9a7b7eef210dd0fce5c527d09b6eef3bc12",
+        "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-A-SPHERE-PACKING-BRIDGE/audit_record.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "7858b156fc4490ecc6e3572dcf449d84dcc99f93"
+      },
+      "source_pdf": {
+        "revision": "2026-08-06",
+        "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+        "byte_length": 2487031,
+        "successor_record_blob": "02d1748abed36717afba46451330be165c076737"
+      },
+      "official_subject": {
+        "repository": "openai/ten-proofs",
+        "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+        "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+        "formal_successor_record_blob": "6993ce9fac2c65ffae7f2a0c7d728aab828ed532",
+        "config_path": "ComparatorChallenges/A_SpherePacking.json",
+        "config_blob": "46b2e7b49da43fb17a7efa88652f8ee1adc01cbe",
+        "challenge_path": "ComparatorChallenges/A_SpherePacking.lean",
+        "challenge_blob": "2477846e1883534837340c636fd928b091509783",
+        "solution_path": "SpherePacking.lean",
+        "solution_blob": "e6117934a80142a8249356fdafa797eba030e920",
+        "lake_manifest_blob": "046e8de7f46832fbf092e3fb815efae01e4a2129",
+        "lean_toolchain_blob": "94b9f495baff80fd9cb44aad8f4762cb3b2066fe"
+      },
+      "source_root_replay": {
+        "run_id": 31945652355,
+        "job_id": 95161117046,
+        "result": "comparator_lean_kernel_nanoda_accept"
+      }
+    },
+    "toolchain": {
+      "lean": "leanprover/lean4:v4.32.0",
+      "lean_commit": "8c9756b28d64dab099da31a4c09229a9e6a2ef35",
+      "comparator_commit": "07bc4ea40f2266dcb861820a2ec1fa3244ed307f",
+      "mathlib_commit": "81a5d257c8e410db227a6665ed08f64fea08e997",
+      "lean4export_commit": "4e7915201d3f9f04470d9eae002fa695f7cdc589",
+      "lean4checker_commit": "b7398199245524275543dec6113229c9bb4902e5",
+      "nanoda_commit": "ddfac2bf5a7b56cb46e141494427ff3dd55963c7",
+      "landrun_commit": "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4",
+      "checkout_action_commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+      "lean_action_commit": "138a564e38a62ce545e8d47d86a97628463aced4",
+      "observed_helper_sha256": {
+        "landrun": "a4ba9ed1b6b53f9cfd57b9fb1e4f8f3c3ab69cf6a0147764ff70303a8306f858",
+        "lean4export": "e57369980b0b81228580ce08066fb9bd738e717e002673a143f4956d217266b0",
+        "nanoda_bin": "60cc30add2758abce965f122b4e85f1fdd7c23607ea67680cec6721aa2ef23f0",
+        "landrun_argv_adapter": "84d900d75bdc76c2c4168484a929e448be36fca20d093c42cac15ed923fe3f1d"
+      }
+    },
+    "execution_contract": {
+      "allowed_after_protected_activation": true,
+      "isolated_family_replay_required": true,
+      "clean_room_environment_required": true,
+      "aggregate_import_required": false,
+      "comparator_config": "ComparatorChallenges/A_SpherePacking.json",
+      "challenge_module": "ComparatorChallenges.A_SpherePacking",
+      "solution_module": "SpherePacking",
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "deterministic_commands": [
+        "lake exe cache get",
+        "lake build SpherePacking",
+        "lake exe comparator ComparatorChallenges/A_SpherePacking.json"
+      ],
+      "expected_outputs": [
+        "Nanoda kernel accepts the solution",
+        "Lean default kernel accepts the solution",
+        "Your solution is okay!",
+        "OTP_SUCCESSOR_COMPARATOR=ACCEPT"
+      ],
+      "challenge_sorry_warnings_expected": true,
+      "challenge_sorry_warnings_are_not_solution_authority": true,
+      "required_artifacts": [
+        "environment_manifest",
+        "source_identity_report",
+        "family_replay_log",
+        "target_export_report",
+        "comparator_result",
+        "lean_kernel_result",
+        "nanoda_result",
+        "theorem_axiom_report",
+        "semantic_concordance_attestation",
+        "nonvacuity_attestation",
+        "trust_boundary_scan",
+        "repository_owned_evidence_bundle",
+        "independent_review_attestation"
+      ],
+      "failure_conditions": [
+        "content_addressed_source_or_toolchain_identity_mismatch",
+        "target_membership_or_order_drift",
+        "non_permitted_axiom_present",
+        "sphere_packing_build_failure",
+        "nanoda_kernel_reject",
+        "lean_default_kernel_reject",
+        "comparator_non_accept",
+        "source_derived_classification_drift",
+        "mandatory_qualification_erasure",
+        "nonvacuity_evidence_erasure",
+        "route_adjudication_output_proof_or_aggregate_authority_inflation"
+      ]
+    },
+    "target_scope": {
+      "lean_theorems": [
+        "PackingBounds.FullMain.exact_limit",
+        "PackingBounds.FullMain.exact_binary_exponent",
+        "PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper",
+        "PackingBounds.sharpFullCohnElkiesManuscriptConclusions"
+      ],
+      "classifications": [
+        "direct_source_theorem_projection_modulo_proved_full_radial_equivalence",
+        "derived_base_two_logarithmic_consequence",
+        "source_faithful_displayed_consequence_with_proved_scale_normalization",
+        "source_faithful_derived_composite_certificate"
+      ],
+      "mandatory_qualifications": [
+        "The ten-field composite is not a single verbatim manuscript theorem.",
+        "The 30-decimal base-two exponent enclosure is a formal numerical consequence of the exact alpha_* expression, not manuscript-authored precision.",
+        "The packing bridge relies on proved positive rescaling invariance and unit-separation supremum equivalence; declaration-name similarity is not used as authority.",
+        "The explicit little-o witness is a normal form of the source asymptotic and is not a stronger rate claim.",
+        "No whole-chapter semantic equivalence or independent proof certification is transferred by this packet."
+      ],
+      "nonvacuity": {
+        "state": "clear_for_current_root_four_target_surface",
+        "evidence": [
+          "CohnElkies.admissible_nonempty",
+          "fullQuotientSet_eq_radial",
+          "SpherePacking singleton unit-separated packing witness",
+          "SpherePacking.upper_packing_density_le_one",
+          "positive-dimensional bridge quantification"
+        ]
+      },
+      "target_acceptance": [
+        {
+          "theorem": "PackingBounds.FullMain.exact_limit",
+          "semantic_requirement": "direct_source_theorem_projection_modulo_proved_full_radial_equivalence",
+          "replay_requirement": "exported_exact_target_and_built_solution_and_both_kernels_accept_and_comparator_accept",
+          "qualification_requirement": "full_radial_equivalence_must_remain_proved_not_assumed"
+        },
+        {
+          "theorem": "PackingBounds.FullMain.exact_binary_exponent",
+          "semantic_requirement": "derived_base_two_logarithmic_consequence",
+          "replay_requirement": "exported_exact_target_and_built_solution_and_both_kernels_accept_and_comparator_accept",
+          "qualification_requirement": "30_decimal_enclosure_must_remain_formal_consequence_not_source_authored_precision"
+        },
+        {
+          "theorem": "PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper",
+          "semantic_requirement": "source_faithful_displayed_consequence_with_proved_scale_normalization",
+          "replay_requirement": "exported_exact_target_and_built_solution_and_both_kernels_accept_and_comparator_accept",
+          "qualification_requirement": "positive_rescaling_and_unit_separation_normalization_and_positive_dimension_boundary_must_remain_explicit"
+        },
+        {
+          "theorem": "PackingBounds.sharpFullCohnElkiesManuscriptConclusions",
+          "semantic_requirement": "source_faithful_derived_composite_certificate",
+          "replay_requirement": "exported_exact_target_and_built_solution_and_both_kernels_accept_and_comparator_accept",
+          "qualification_requirement": "all_ten_fields_remain_individually_classified_and_composite_not_represented_as_single_verbatim_source_theorem"
+        }
+      ],
+      "scope_exclusions": [
+        "No aggregate All.lean import is required for this family replay.",
+        "The ten-field composite may not be represented as a single verbatim manuscript theorem.",
+        "The 30-decimal base-two exponent enclosure may not be represented as manuscript-authored precision.",
+        "SpherePackingConstant may not be treated as definitionally identical to source Delta_d without the protected scale and unit-separation normalization bridge.",
+        "The explicit little-o witness may not be represented as a stronger asymptotic rate claim.",
+        "Forge replay and semantic admission do not independently certify proof correctness.",
+        "No whole-chapter or proof-body equivalence is created.",
+        "A successful later replay does not itself propose or register a route, authorize adjudication, issue a certificate, or mark a mathematical target proved."
+      ]
+    },
+    "route_state": {
+      "requested_future_route": "MC-ROUTE-OTP-A-SPHERE-PACKING",
+      "certification_route_registry_entry": null,
+      "route_registered": false,
+      "may_adjudicate": false,
+      "adjudication": null,
+      "cert_output": null,
+      "mathematical_target_proved": false,
+      "aggregate_authority": false,
+      "may_promote_claim": false
+    },
+    "activation": {
+      "condition": "exact-head MATHCERT CI, GCL policy/security, protected CodeQL precedent, fresh non-author sphere-packing specialist APPROVED review, ordinary expected-head merge, and protected-main readback",
+      "head_change_requires_reapproval": true,
+      "effect": "sphere_packing_work_package_authorized_for_later_exact_replay_only_no_replay_evidence_no_route_no_adjudication_no_output_no_proof"
+    },
+    "route_controls": {
+      "result_family_only": true,
+      "may_create_aggregate_work_package": false,
+      "may_create_aggregate_route": false,
+      "may_imply_certification": false,
+      "may_imply_proof": false,
+      "may_mutate_certification_route_registry": false
+    },
+    "claim_boundary": "This work package authorizes a later bounded independent MATHCERT replay for exactly the four protected OTP-A-SPHERE-PACKING targets after protected work-package activation. It binds the exact current-root source, toolchain, semantic classifications, nonvacuity evidence, replay commands, target-level acceptance conditions and mandatory qualifications. It does not itself execute replay or create replay evidence, propose or register MC-ROUTE-OTP-A-SPHERE-PACKING, authorize adjudication, issue a Cert output, mark or promote any mathematical target proved, treat the ten-field composite as one verbatim source theorem, attribute the 30-decimal exponent enclosure to the manuscript, erase the proved sphere-packing scale/unit-separation normalization boundary, establish whole-chapter or proof-body equivalence, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+  }
+}
