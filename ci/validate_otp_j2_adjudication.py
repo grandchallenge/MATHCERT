@@ -9,6 +9,8 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
+import validate_openai_ten_proofs_sphere_packing_route_registration as sphere_registration
+
 ROOT = Path(__file__).resolve().parents[1]
 RECORD = ROOT / "governance/result_family_adjudications/OTP-J2-TWO-DEGENERATE.json"
 SCHEMA = ROOT / "schemas/openai_ten_proofs_j2_adjudication.schema.json"
@@ -37,6 +39,7 @@ EXPECTED = {
     "successor_blob": "5b72e13448cdbea88e0f2cf1e637c2d787b297a6",
     "historical_route_blob": "eb2ad35f73ec1f7a29c7432aa9e5ad299116dbfe",
     "live_route_blob": "2d17473b4731aa9d9c630b1e7777ad4bd794d993",
+    "a_registration_route_blob": "b9bb0dc9e18856f50a88162df37c20c034327439",
     "evidence_blob": "e1bc1f04daf28b04a85e92e605732f466ab1e2d6",
     "runtime_head": "863447a7b6abeeee6b113e27057730036318ea0f",
     "runtime_run": 31928781876,
@@ -159,8 +162,6 @@ def validation_errors(record: dict[str, Any] | None = None, *, check_repository:
     if construction.get("source_internal_entropy_lemmas_reformalized") is not False:
         errors.append("entropy-lemma formalization overclaim")
 
-    # This is the immutable adjudication state. It intentionally remains
-    # submitted/no-output even after a separately governed output successor.
     state = record.get("state", {})
     expected_state = {
         "route_state": "submitted",
@@ -209,11 +210,17 @@ def validation_errors(record: dict[str, Any] | None = None, *, check_repository:
         if actual != expected:
             errors.append(f"protected object drift: {rel}: {actual}")
 
-    # Preserve exact historical route authority at the certificate-content
-    # commit, while separately requiring the authorized live output successor.
     if commit_blob(OUTPUT_CERTIFICATE_COMMIT, "governance/certification_routes.json") != EXPECTED["historical_route_blob"]:
         errors.append("historical adjudication route-registry snapshot drift")
-    if repo_blob("governance/certification_routes.json") != EXPECTED["live_route_blob"]:
+
+    live_blob = repo_blob("governance/certification_routes.json")
+    if live_blob == EXPECTED["live_route_blob"]:
+        pass
+    elif live_blob == EXPECTED["a_registration_route_blob"]:
+        successor_errors = sphere_registration.validation_errors(routes=load(ROUTES))
+        if successor_errors:
+            errors.append("exact A registration successor is invalid: " + "; ".join(successor_errors))
+    else:
         errors.append("live J2 output route-registry blob drift")
 
     if not is_ancestor(EXPECTED["runtime_head"]):
@@ -254,7 +261,7 @@ def main() -> int:
         return 1
     print(
         "validated immutable narrow J2 source-faithful adjudication at submitted/no-output state and "
-        "separately validated the governed restricted output successor"
+        "the governed restricted output successor plus exact separately governed A registration successor"
     )
     return 0
 
