@@ -117,7 +117,7 @@ jobs:
           assert len(bundle) == record['repository_bundle']['decoded_bytes'] == 5033
           assert hashlib.sha256(bundle).hexdigest() == record['repository_bundle']['decoded_sha256'] == '0ec443cd35cee041d5bdc154de2e5d1697a21cdffbcc01d21c08c6aad61f10f3'
           expected_members={
-              'a-sphere-packing/',
+              'a-sphere-packing',
               'a-sphere-packing/SHA256SUMS',
               'a-sphere-packing/comparator-result.json',
               'a-sphere-packing/comparator.log',
