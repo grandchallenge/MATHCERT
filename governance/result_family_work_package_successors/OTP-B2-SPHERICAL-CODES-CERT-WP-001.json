@@ -1,0 +1,251 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_spherical_codes_certification_work_package",
+  "work_package_id": "OTP-B2-SPHERICAL-CODES-CERT-WP-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-B2-SPHERICAL-CODES",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/152",
+  "status": "authorized_after_protected_mathcert_merge",
+  "authority": {
+    "protected_mathcert_base": "83a8951a89a72a892d5fdc132d6a22e508d6cdc2",
+    "predecessor_work_package": {
+      "work_package_id": "OTP-B1-BINARY-CODES-CERT-WP-001",
+      "protected_merge": "83a8951a89a72a892d5fdc132d6a22e508d6cdc2",
+      "path": "governance/result_family_work_package_successors/OTP-B1-BINARY-CODES-CERT-WP-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "19e1eaf5e24ce212bb020c8c40d4177ff5b4f8f9"
+    },
+    "cert_intake_merge": "9d3af5503f06e1a564562a49ce9f5b439a3d9364",
+    "cert_intake_reviewed_head": "0ccdf8f715135914fcfc6f71c0a7344d3e9882d5",
+    "cert_intake_review": {
+      "review_id": "PRR_kwDOSuU7Ic8AAAABJ4TKmA",
+      "reviewer": "jimsteeg",
+      "state": "APPROVED",
+      "submitted_at": "2026-08-18T06:35:02Z"
+    },
+    "intake_record": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "9d3af5503f06e1a564562a49ce9f5b439a3d9364",
+      "path": "governance/result_family_intake_successors/OTP-B2-SPHERICAL-CODES.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "8b74bd90d703eb1903a0a7a84387867a5df7b4e3"
+    },
+    "solve_handoff_merge": "63efb94f28ecb12c55a492c2243a9f70d655f646",
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "63efb94f28ecb12c55a492c2243a9f70d655f646",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-B2-SPHERICAL-CODES.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0266c9a431ca4a8e84989913fc626a5086496da6"
+    },
+    "forge_semantic": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "0520d8bae3853798f2edca67c526133e46847a54",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-B2-SPHERICAL-CODES/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "394d1211757d3fc2bc61b238e914b37245967635"
+    },
+    "source_pdf": {
+      "revision": "2026-08-06",
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+      "byte_length": 2487031,
+      "successor_record_blob": "02d1748abed36717afba46451330be165c076737"
+    },
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "formal_successor_record_blob": "6993ce9fac2c65ffae7f2a0c7d728aab828ed532",
+      "config_path": "ComparatorChallenges/B_SphericalCodes.json",
+      "config_blob": "b343dca9c0373f80c6304f30f261b81b371661c3",
+      "challenge_path": "ComparatorChallenges/B_SphericalCodes.lean",
+      "challenge_blob": "5f2bcda432b7091097ae8753cac24c08d0c10f6c",
+      "solution_path": "MetricCodes.lean",
+      "solution_blob": "51628c0db81bd6cb9a79777fa601306c9d64cbc5",
+      "lake_manifest_blob": "046e8de7f46832fbf092e3fb815efae01e4a2129",
+      "lean_toolchain_blob": "94b9f495baff80fd9cb44aad8f4762cb3b2066fe"
+    },
+    "source_root_replay": {
+      "run_id": 31945652355,
+      "job_id": 95161117118,
+      "result": "comparator_lean_kernel_nanoda_accept"
+    }
+  },
+  "toolchain": {
+    "lean": "leanprover/lean4:v4.32.0",
+    "lean_commit": "8c9756b28d64dab099da31a4c09229a9e6a2ef35",
+    "comparator_commit": "07bc4ea40f2266dcb861820a2ec1fa3244ed307f",
+    "mathlib_commit": "81a5d257c8e410db227a6665ed08f64fea08e997",
+    "lean4export_commit": "4e7915201d3f9f04470d9eae002fa695f7cdc589",
+    "lean4checker_commit": "b7398199245524275543dec6113229c9bb4902e5",
+    "nanoda_commit": "ddfac2bf5a7b56cb46e141494427ff3dd55963c7",
+    "landrun_commit": "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4",
+    "checkout_action_commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "lean_action_commit": "138a564e38a62ce545e8d47d86a97628463aced4",
+    "observed_helper_sha256": {
+      "landrun": "a4ba9ed1b6b53f9cfd57b9fb1e4f8f3c3ab69cf6a0147764ff70303a8306f858",
+      "lean4export": "e57369980b0b81228580ce08066fb9bd738e717e002673a143f4956d217266b0",
+      "nanoda_bin": "60cc30add2758abce965f122b4e85f1fdd7c23607ea67680cec6721aa2ef23f0",
+      "landrun_argv_adapter": "84d900d75bdc76c2c4168484a929e448be36fca20d093c42cac15ed923fe3f1d"
+    }
+  },
+  "execution_contract": {
+    "allowed_after_protected_activation": true,
+    "isolated_family_replay_required": true,
+    "clean_room_environment_required": true,
+    "aggregate_import_required": false,
+    "comparator_config": "ComparatorChallenges/B_SphericalCodes.json",
+    "challenge_module": "ComparatorChallenges.B_SphericalCodes",
+    "solution_module": "MetricCodes",
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+    "deterministic_commands": [
+      "lake exe cache get",
+      "lake build MetricCodes",
+      "lake exe comparator ComparatorChallenges/B_SphericalCodes.json"
+    ],
+    "expected_outputs": [
+      "Nanoda kernel accepts the solution",
+      "Lean default kernel accepts the solution",
+      "Your solution is okay!",
+      "OTP_SUCCESSOR_COMPARATOR=ACCEPT"
+    ],
+    "expected_exported_target_count": 4,
+    "challenge_sorry_warnings_expected": true,
+    "challenge_sorry_warning_count": 4,
+    "challenge_sorry_warnings_are_not_solution_authority": true,
+    "required_artifacts": [
+      "environment_manifest",
+      "source_identity_report",
+      "family_replay_log",
+      "target_export_report",
+      "comparator_result",
+      "lean_kernel_result",
+      "nanoda_result",
+      "theorem_axiom_report",
+      "semantic_concordance_attestation",
+      "nonvacuity_attestation",
+      "hierarchy_domain_attestation",
+      "numerical_strengthening_attestation",
+      "trust_boundary_scan",
+      "repository_owned_evidence_bundle",
+      "independent_review_attestation"
+    ],
+    "failure_conditions": [
+      "content_addressed_source_or_toolchain_identity_mismatch",
+      "target_membership_or_order_drift",
+      "non_permitted_axiom_present",
+      "metriccodes_build_failure",
+      "nanoda_kernel_reject",
+      "lean_default_kernel_reject",
+      "comparator_non_accept",
+      "source_derived_classification_drift",
+      "predecessor_seven_target_authority_inflation",
+      "exact_039661_source_verbatim_inflation",
+      "asymptotic_numerical_strengthening_boundary_erasure",
+      "hierarchy_interlacing_localization_domain_drift",
+      "mandatory_qualification_erasure",
+      "nonvacuity_evidence_erasure",
+      "route_adjudication_output_proof_or_aggregate_authority_inflation"
+    ]
+  },
+  "target_scope": {
+    "source_loci": [
+      "Chapter 2 Theorem 1.1",
+      "Chapter 2 Theorem 1.2",
+      "Chapter 2 Corollary 1.3",
+      "Chapter 2 numerical level-2 kissing-number consequence"
+    ],
+    "predecessor_seven_target_surface_authorized": false,
+    "lean_theorems": [
+      "MetricCodes.Johnson.main_binary_theorem",
+      "MetricCodes.Spherical.HigherHierarchy.main_general",
+      "MetricCodes.Spherical.HigherHierarchy.strict_hierarchy",
+      "MetricCodes.Spherical.HigherHierarchy.NumericalMaximum.eventually_kissingNumber_lt_published"
+    ],
+    "classifications": [
+      "source_faithful_exact_projection",
+      "source_faithful_structured_projection",
+      "source_faithful_structured_projection",
+      "formal_strengthening_entailing_source_asymptotic_numerical_statement"
+    ],
+    "mandatory_qualifications": [
+      "The predecessor seven-target spherical surface transfers no authority to this successor intake.",
+      "The exact eventual 0.39661 target is not attributed to the manuscript verbatim.",
+      "The source's printed numerical statement is 0.39661+o(1); the exact eventual 0.39661 inequality is a formal strengthening.",
+      "Hierarchy, interlacing and localization domains remain bound to the protected current-root semantic/nonvacuity audit.",
+      "Forge replay and semantic admission do not independently certify proof correctness."
+    ],
+    "nonvacuity": {
+      "state": "clear_for_successor_four_target_surface",
+      "evidence": [
+        "Binary parameter domain is inhabited, for example delta=1/4.",
+        "Spherical parameter domain is inhabited, for example s=1/2.",
+        "For positive dimension, a singleton unit-vector code witnesses that the spherical-code carrier is inhabited; this is a semantic witness construction, not a separately replayed Lean theorem.",
+        "The hierarchy includes r=0. Taking a0=1 and the empty b-family satisfies Interlacing; Gamma=sqrt(2)/3, so at s=1/2 one has 2*sqrt(2)/3>1/2 and the strict feasibility domain is inhabited.",
+        "The Sidelnikov localization interval Icc 0 s is inhabited for s=1/2 because it contains 0.",
+        "The numerical target uses a genuine atTop eventual quantifier and is not vacuous through an empty dimension domain."
+      ]
+    },
+    "target_acceptance": [
+      {
+        "theorem": "MetricCodes.Johnson.main_binary_theorem",
+        "semantic_requirement": "source_faithful_exact_projection",
+        "replay_requirement": "exact_target_exported_and_metriccodes_built_and_both_kernels_accept_and_comparator_accept",
+        "qualification_requirement": "exact_Theorem_1_1_projection_on_0_lt_delta_lt_one_half_only"
+      },
+      {
+        "theorem": "MetricCodes.Spherical.HigherHierarchy.main_general",
+        "semantic_requirement": "source_faithful_structured_projection",
+        "replay_requirement": "exact_target_exported_and_metriccodes_built_and_both_kernels_accept_and_comparator_accept",
+        "qualification_requirement": "fixed_r_interlacing_Gamma_Phi_and_closed_hierarchy_domains_must_remain_protected"
+      },
+      {
+        "theorem": "MetricCodes.Spherical.HigherHierarchy.strict_hierarchy",
+        "semantic_requirement": "source_faithful_structured_projection",
+        "replay_requirement": "exact_target_exported_and_metriccodes_built_and_both_kernels_accept_and_comparator_accept",
+        "qualification_requirement": "level_localized_and_terminal_classical_row_chain_must_remain_protected"
+      },
+      {
+        "theorem": "MetricCodes.Spherical.HigherHierarchy.NumericalMaximum.eventually_kissingNumber_lt_published",
+        "semantic_requirement": "formal_strengthening_entailing_source_asymptotic_numerical_statement",
+        "replay_requirement": "exact_target_exported_and_metriccodes_built_and_both_kernels_accept_and_comparator_accept",
+        "qualification_requirement": "exact_eventual_0_39661_is_formal_strengthening_not_source_verbatim_and_only_entails_0_39661_plus_o1"
+      }
+    ],
+    "scope_exclusions": [
+      "No aggregate All.lean import is required for this family replay.",
+      "No authority transfers from the predecessor seven-target spherical surface.",
+      "The exact eventual 0.39661 target may not be represented as manuscript-verbatim precision.",
+      "The manuscript's printed numerical statement remains 0.39661+o(1); the exact eventual 0.39661 inequality is only a formal strengthening entailing it.",
+      "Hierarchy, interlacing, localization and parameter domains may not be weakened or changed.",
+      "Forge replay and semantic admission do not independently certify proof correctness.",
+      "No whole-chapter or proof-body equivalence is created.",
+      "A successful later replay does not itself propose or register a route, authorize adjudication, issue a certificate, or mark a mathematical target proved."
+    ]
+  },
+  "route_state": {
+    "requested_future_route": "MC-ROUTE-OTP-B2-SPHERICAL-CODES",
+    "certification_route_registry_entry": null,
+    "route_registered": false,
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_authority": false,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact-head MATHCERT CI, GCL policy/security, protected CodeQL precedent, fresh non-author coding/spherical-code specialist APPROVED review, ordinary expected-head merge, and protected-main readback",
+    "head_change_requires_reapproval": true,
+    "effect": "spherical_codes_work_package_authorized_for_later_exact_replay_only_no_replay_evidence_no_route_no_adjudication_no_output_no_proof"
+  },
+  "route_controls": {
+    "result_family_only": true,
+    "may_create_aggregate_work_package": false,
+    "may_create_aggregate_route": false,
+    "may_imply_certification": false,
+    "may_imply_proof": false,
+    "may_mutate_certification_route_registry": false
+  },
+  "claim_boundary": "This protected work-package candidate binds only the current-root four-target OTP-B2-SPHERICAL-CODES surface for a later isolated exact replay. It transfers no authority from the predecessor seven-target spherical surface; preserves the exact eventual 0.39661 kissing-number theorem solely as a formal strengthening entailing the source's printed 0.39661+o(1) asymptotic numerical statement rather than manuscript-verbatim precision; pins the protected hierarchy, interlacing, localization and nonvacuity domains; and binds exact source, toolchain, target, axiom, replay-command and expected-output identities. Protected activation creates no replay evidence, certification route, adjudication authority, certificate output, mathematical-proof promotion, other-family authority, whole-chapter equivalence, or aggregate OpenAI Ten Proofs authority."
+}
