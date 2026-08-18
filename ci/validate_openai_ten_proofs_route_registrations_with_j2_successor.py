@@ -6,6 +6,7 @@ import sys
 
 import validate_openai_ten_proofs_route_registrations as historical
 import validate_otp_j2_route_target_successor as j2
+import validate_openai_ten_proofs_sphere_packing_route_registration as sphere
 
 REG = historical.REG
 ROUTES = historical.ROUTES
@@ -18,6 +19,9 @@ COMPACTNESS_HISTORICAL_REOPENING = historical.COMPACTNESS_HISTORICAL_REOPENING
 blob = historical.blob
 load = historical.load
 
+A_ROUTE_ID = "MC-ROUTE-OTP-A-SPHERE-PACKING"
+A_PRE_REGISTRATION_PROVIDER_BASE = "aa06d3d81d20f5878b8a05ac6e5f1b9ce2ba2ddc"
+
 J2_HISTORICAL_BOUNDARY = "This registered route is limited to the exact Two-degenerate family targets and recorded current-revision theorem locus. It does not attribute the stronger coloring-side property to the source theorem, independently certify the construction beyond the encoded targets, compare the proof body in full, adjudicate or prove the theorem, issue a Cert output, or create an aggregate ten-proofs route."
 J2_HISTORICAL_BLOCKERS = [
     "No MATHCERT adjudication has been authorized or recorded.",
@@ -27,6 +31,23 @@ J2_HISTORICAL_BLOCKERS = [
 J2_HISTORICAL_REOPENING = [
     "Update this route only through a separately authorized, exact-head reviewed MATHCERT adjudication or authority-repin operation."
 ]
+
+
+def a_pre_registration_projection(routes: dict) -> dict:
+    """Project only the governed A registration delta back to the protected pre-registration registry.
+
+    The live A registration is validated independently before this projection. Every
+    non-A route and every unrelated registry field is preserved exactly as supplied.
+    """
+    projected = copy.deepcopy(routes)
+    projected["routes"] = [
+        row
+        for row in projected.get("routes", [])
+        if not (isinstance(row, dict) and row.get("route_id") == A_ROUTE_ID)
+    ]
+    if projected.get("provider_base_commit") == sphere.EXPECTED_PROPOSAL_MERGE:
+        projected["provider_base_commit"] = A_PRE_REGISTRATION_PROVIDER_BASE
+    return projected
 
 
 def j2_pre_output_projection(routes: dict) -> dict:
@@ -43,9 +64,6 @@ def j2_pre_output_projection(routes: dict) -> dict:
     if before is None:
         return projected
 
-    # The live source-faithful target set identifies the governed successor lane.
-    # Normalize only fields changed by the certificate/output route transition;
-    # preserve every other field and every other route exactly as supplied.
     if live.get("target_claim_ids") == j2.NEW_TARGETS:
         for key in (
             "intake_status",
@@ -73,7 +91,7 @@ def j2_predecessor_snapshot(routes: dict) -> dict:
 
 def registration_snapshot(routes: dict) -> dict:
     return historical.registration_snapshot(
-        j2_predecessor_snapshot(j2_pre_output_projection(routes))
+        j2_predecessor_snapshot(j2_pre_output_projection(a_pre_registration_projection(routes)))
     )
 
 
@@ -86,30 +104,24 @@ def validation_errors(
     proposal_registry_blob=None,
 ) -> list[str]:
     live = historical.load(historical.ROUTES) if routes is None else copy.deepcopy(routes)
-    projected = j2_pre_output_projection(live)
-
     errors: list[str] = []
 
-    # Preserve the immutable source-faithful route-target successor against the
-    # supplied registry projected only across the later output transition.
+    # First validate the live A registration itself. This must happen before the
+    # historical projection so A mutations cannot be masked by removing the route.
+    errors.extend(sphere.validation_errors(routes=copy.deepcopy(live)))
+
+    pre_a = a_pre_registration_projection(live)
+    projected = j2_pre_output_projection(pre_a)
+
     errors.extend(j2.validation_errors(routes=copy.deepcopy(projected), check_files=False))
 
-    # Validate the supplied live J2 state independently. This catches state,
-    # target, output-pointer, and boundary mutations without weakening the
-    # historical route-target successor.
-    live_j2 = j2.find_route(live)
+    live_j2 = j2.find_route(pre_a)
     if live_j2 is not None:
         if live_j2.get("target_claim_ids") == j2.NEW_TARGETS:
-            errors.extend(j2.live_output_successor_errors(live))
+            errors.extend(j2.live_output_successor_errors(pre_a))
         else:
-            # Mixed/old target substitutions belong to the successor validator.
-            errors.extend(j2.validation_errors(routes=copy.deepcopy(live), check_files=False))
+            errors.extend(j2.validation_errors(routes=copy.deepcopy(pre_a), check_files=False))
 
-    # The historical registration validator already validates the authorized
-    # Compactness successor before projecting it, and its registration_snapshot
-    # preserves unrelated route additions/omissions/mutations. Feed it the
-    # caller-preserving J2 pre-output projection, then map only the older J2
-    # target successor back to the protected original registration identity.
     errors.extend(
         historical.validation_errors(
             receipt=receipt,
@@ -122,10 +134,12 @@ def validation_errors(
     )
 
     if routes is None:
-        # Repository-level identity/ancestry checks remain binding on the real
-        # current tree in addition to the pure supplied-object validations above.
+        # The A validator above binds the real current registry blob and files.
+        # J2's live semantics remain checked against the caller-preserving pre-A
+        # projection, which differs from the real tree only by the independently
+        # validated A registration delta.
         errors.extend(j2.validation_errors(routes=j2.pre_output_routes(), check_files=True))
-        errors.extend(j2.live_output_successor_errors(live))
+        errors.extend(j2.live_output_successor_errors(pre_a))
     return errors
 
 
@@ -133,11 +147,11 @@ def main() -> int:
     errors = validation_errors()
     if errors:
         print("\n".join(errors), file=sys.stderr)
-        print(f"J2-successor-aware OTP route-registration validation failed with {len(errors)} error(s)", file=sys.stderr)
+        print(f"A-registration/J2-successor-aware OTP route-registration validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     print(
-        "validated historical OTP route registration against caller-preserving J2 predecessor/pre-output "
-        "projection and separately validated the exact live source-faithful restricted output successor"
+        "validated exact live submitted OTP-A-SPHERE-PACKING registration, then projected only that governed A delta "
+        "for immutable predecessor registration checks while separately preserving the exact J2 source-faithful output successor"
     )
     return 0
 
