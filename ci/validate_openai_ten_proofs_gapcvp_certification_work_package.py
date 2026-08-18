@@ -19,7 +19,8 @@ ROUTES = ROOT / "governance/certification_routes.json"
 EXPECTED_RECORD_BLOB = "0f811d163f0d36b028cf6539963e2cf278517137"
 EXPECTED_INTAKE_BLOB = "a171482c04f62134812ed6084e19a9b803db3478"
 EXPECTED_PREDECESSOR_WP_BLOB = "f0c91d1959035f35843c383920dfba0b6c24b485"
-EXPECTED_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
+PRE_REGISTRATION_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
+A_REGISTRATION_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
 FUTURE_ROUTE_ID = "MC-ROUTE-OTP-H-GAPCVP"
 
 EXPECTED_TARGETS = [
@@ -104,8 +105,9 @@ def validation_errors(
         errors.append("protected GapCVP intake record drift")
     if (git_blob_sha1(PREDECESSOR_WP) if predecessor_blob_override is None else predecessor_blob_override) != EXPECTED_PREDECESSOR_WP_BLOB:
         errors.append("protected predecessor A work-package drift")
-    if (git_blob_sha1(ROUTES) if routes_blob_override is None else routes_blob_override) != EXPECTED_ROUTES_BLOB:
-        errors.append("certification route registry changed during work-package-only operation")
+    routes_blob = git_blob_sha1(ROUTES) if routes_blob_override is None else routes_blob_override
+    if routes_blob not in {PRE_REGISTRATION_ROUTES_BLOB, A_REGISTRATION_ROUTES_BLOB}:
+        errors.append("certification route registry is neither protected work-package snapshot nor exact A registration successor")
 
     intake_errors = import_errors(ROOT / "ci/validate_openai_ten_proofs_gapcvp_intake_successor.py", "gapcvp_intake")
     if intake_errors:
@@ -115,19 +117,13 @@ def validation_errors(
         errors.append("protected predecessor A work-package validation failed: " + "; ".join(predecessor_errors))
 
     authority = record.get("authority", {})
-    if authority.get("protected_mathcert_base") != "54b883bb5c6ffaf099efd7270df3519a45b13038":
-        errors.append("protected MATHCERT base drift")
-    if authority.get("cert_intake_merge") != "ff9fa0a67a5a809f3519e0059f2ef9b082b1febb":
-        errors.append("GapCVP intake merge drift")
-    if authority.get("intake_record", {}).get("digest") != EXPECTED_INTAKE_BLOB:
-        errors.append("GapCVP intake binding drift")
-    if authority.get("producer_packet", {}).get("digest") != "0dd2b38e40a126a1a2a2d57989038f788b8e40e4":
-        errors.append("Solve producer packet drift")
-    if authority.get("forge_semantic", {}).get("digest") != "673f541fbb552d307cc226c51d2f0fd2916b328d":
-        errors.append("Forge semantic record drift")
+    if authority.get("protected_mathcert_base") != "54b883bb5c6ffaf099efd7270df3519a45b13038": errors.append("protected MATHCERT base drift")
+    if authority.get("cert_intake_merge") != "ff9fa0a67a5a809f3519e0059f2ef9b082b1febb": errors.append("GapCVP intake merge drift")
+    if authority.get("intake_record", {}).get("digest") != EXPECTED_INTAKE_BLOB: errors.append("GapCVP intake binding drift")
+    if authority.get("producer_packet", {}).get("digest") != "0dd2b38e40a126a1a2a2d57989038f788b8e40e4": errors.append("Solve producer packet drift")
+    if authority.get("forge_semantic", {}).get("digest") != "673f541fbb552d307cc226c51d2f0fd2916b328d": errors.append("Forge semantic record drift")
     official = authority.get("official_subject", {})
-    if official.get("commit") != "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6" or official.get("tree") != "174289e4d4958cb0509874e6e53400e098213de7":
-        errors.append("official source root/tree drift")
+    if official.get("commit") != "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6" or official.get("tree") != "174289e4d4958cb0509874e6e53400e098213de7": errors.append("official source root/tree drift")
 
     toolchain = record.get("toolchain", {})
     for key, value in {
@@ -139,62 +135,30 @@ def validation_errors(
         "nanoda_commit": "ddfac2bf5a7b56cb46e141494427ff3dd55963c7",
         "landrun_commit": "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4",
     }.items():
-        if toolchain.get(key) != value:
-            errors.append(f"toolchain drift: {key}")
+        if toolchain.get(key) != value: errors.append(f"toolchain drift: {key}")
 
     execution = record.get("execution_contract", {})
-    if execution.get("deterministic_commands") != [
-        "lake exe cache get",
-        "lake build GapCVP",
-        "lake exe comparator ComparatorChallenges/H_GapCVP.json",
-    ]:
-        errors.append("deterministic replay command drift")
-    if execution.get("expected_outputs") != [
-        "Nanoda kernel accepts the solution",
-        "Lean default kernel accepts the solution",
-        "Your solution is okay!",
-        "OTP_SUCCESSOR_COMPARATOR=ACCEPT",
-    ]:
-        errors.append("expected replay-output drift")
-    if execution.get("permitted_axioms") != ["propext", "Classical.choice", "Quot.sound"]:
-        errors.append("permitted-axiom boundary drift")
-    if execution.get("expected_exported_target_count") != 4 or execution.get("expected_exported_promise_definition_count") != 4:
-        errors.append("export-count boundary drift")
+    if execution.get("deterministic_commands") != ["lake exe cache get", "lake build GapCVP", "lake exe comparator ComparatorChallenges/H_GapCVP.json"]: errors.append("deterministic replay command drift")
+    if execution.get("expected_outputs") != ["Nanoda kernel accepts the solution", "Lean default kernel accepts the solution", "Your solution is okay!", "OTP_SUCCESSOR_COMPARATOR=ACCEPT"]: errors.append("expected replay-output drift")
+    if execution.get("permitted_axioms") != ["propext", "Classical.choice", "Quot.sound"]: errors.append("permitted-axiom boundary drift")
+    if execution.get("expected_exported_target_count") != 4 or execution.get("expected_exported_promise_definition_count") != 4: errors.append("export-count boundary drift")
 
     scope = record.get("target_scope", {})
-    if scope.get("lean_theorems") != EXPECTED_TARGETS:
-        errors.append("GapCVP target membership/order drift")
-    if scope.get("promise_interfaces") != EXPECTED_PROMISES:
-        errors.append("GapCVP promise-interface membership/order drift")
-    if scope.get("classifications") != EXPECTED_CLASSIFICATIONS:
-        errors.append("GapCVP semantic classification drift")
-    if scope.get("gap_factors") != EXPECTED_GAPS:
-        errors.append("GapCVP gap-factor drift")
-    if scope.get("mandatory_qualifications") != EXPECTED_QUALIFICATIONS:
-        errors.append("GapCVP mandatory qualification drift")
+    if scope.get("lean_theorems") != EXPECTED_TARGETS: errors.append("GapCVP target membership/order drift")
+    if scope.get("promise_interfaces") != EXPECTED_PROMISES: errors.append("GapCVP promise-interface membership/order drift")
+    if scope.get("classifications") != EXPECTED_CLASSIFICATIONS: errors.append("GapCVP semantic classification drift")
+    if scope.get("gap_factors") != EXPECTED_GAPS: errors.append("GapCVP gap-factor drift")
+    if scope.get("mandatory_qualifications") != EXPECTED_QUALIFICATIONS: errors.append("GapCVP mandatory qualification drift")
     nonvacuity = scope.get("nonvacuity", {})
     witnesses = nonvacuity.get("witnesses", [])
-    if nonvacuity.get("yes_witness_count") != 4 or nonvacuity.get("no_witness_count") != 4 or len(witnesses) != 4:
-        errors.append("GapCVP nonvacuity witness matrix drift")
-    if [w.get("promise") for w in witnesses] != EXPECTED_PROMISES:
-        errors.append("GapCVP nonvacuity witness/promise alignment drift")
+    if nonvacuity.get("yes_witness_count") != 4 or nonvacuity.get("no_witness_count") != 4 or len(witnesses) != 4: errors.append("GapCVP nonvacuity witness matrix drift")
+    if [w.get("promise") for w in witnesses] != EXPECTED_PROMISES: errors.append("GapCVP nonvacuity witness/promise alignment drift")
 
     route = record.get("route_state", {})
-    zero_authority = {
-        "certification_route_registry_entry": None,
-        "route_registered": False,
-        "may_adjudicate": False,
-        "adjudication": None,
-        "cert_output": None,
-        "mathematical_target_proved": False,
-        "aggregate_authority": False,
-        "may_promote_claim": False,
-    }
-    if any(route.get(k) != v for k, v in zero_authority.items()):
-        errors.append("GapCVP work-package route/adjudication/output/proof authority inflation")
+    zero_authority = {"certification_route_registry_entry":None,"route_registered":False,"may_adjudicate":False,"adjudication":None,"cert_output":None,"mathematical_target_proved":False,"aggregate_authority":False,"may_promote_claim":False}
+    if any(route.get(k) != v for k, v in zero_authority.items()): errors.append("GapCVP historical work-package route/adjudication/output/proof authority inflation")
     route_ids = [r.get("route_id") for r in load(ROUTES).get("routes", []) if isinstance(r, dict)]
-    if FUTURE_ROUTE_ID in route_ids:
-        errors.append("future GapCVP route is already registered during work-package-only operation")
+    if FUTURE_ROUTE_ID in route_ids: errors.append("future GapCVP route is already registered")
     return errors
 
 
@@ -203,7 +167,7 @@ def main() -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("OTP-H-GAPCVP executable certification work package validation: PASS; later replay only, no route/adjudication/output/proof/aggregate authority created")
+    print("OTP-H-GAPCVP executable certification work package validation: PASS; immutable work-package authority preserved across exact separately governed A route registration")
     return 0
 
 
