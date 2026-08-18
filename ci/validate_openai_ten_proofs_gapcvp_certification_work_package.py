@@ -41,6 +41,15 @@ EXPECTED_CLASSIFICATIONS = [
     "source_faithful_fixed_rational_p_consequence",
 ]
 EXPECTED_GAPS = ["n^(1/400)", "n^(1/200)", "n^(1/200)", "n^(1/(200p))"]
+EXPECTED_QUALIFICATIONS = [
+    "400, 200 and 200p are exponent denominators in dimension-dependent gaps, not constant approximation factors.",
+    "The Euclidean formal promise is restricted to integer targets, matching the source Theorem 1 reduction output rather than the source's most general rational-target interface.",
+    "The syndrome NO side is restricted to consistent systems sufficient for the source Corollary 15 reduction.",
+    "Binary generator row/column orientation is treated only as a transpose convention preserving the represented code.",
+    "Malformed/non-encoding and threshold-intermediate bitstrings remain outside the promise.",
+    "The finite-p theorem parameter p is fixed rational with 1 <= p and is external to the input encoding.",
+    "Forge replay and semantic admission do not independently certify NP-hardness proof correctness.",
+]
 
 
 def load(path: Path):
@@ -161,6 +170,8 @@ def validation_errors(
         errors.append("GapCVP semantic classification drift")
     if scope.get("gap_factors") != EXPECTED_GAPS:
         errors.append("GapCVP gap-factor drift")
+    if scope.get("mandatory_qualifications") != EXPECTED_QUALIFICATIONS:
+        errors.append("GapCVP mandatory qualification drift")
     nonvacuity = scope.get("nonvacuity", {})
     witnesses = nonvacuity.get("witnesses", [])
     if nonvacuity.get("yes_witness_count") != 4 or nonvacuity.get("no_witness_count") != 4 or len(witnesses) != 4:
