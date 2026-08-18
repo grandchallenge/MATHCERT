@@ -58,6 +58,8 @@ Invoke-Control "ci/validate_openai_ten_proofs_gapcvp_certification_work_package.
 Invoke-Control "ci/test_openai_ten_proofs_gapcvp_certification_work_package.py"
 Invoke-Control "ci/validate_openai_ten_proofs_binary_codes_certification_work_package.py"
 Invoke-Control "ci/test_openai_ten_proofs_binary_codes_certification_work_package.py"
+Invoke-Control "ci/validate_openai_ten_proofs_spherical_codes_certification_work_package.py"
+Invoke-Control "ci/test_openai_ten_proofs_spherical_codes_certification_work_package.py"
 Invoke-Control "ci/validate_openai_ten_proofs_replay_execution.py"
 Invoke-Control "ci/test_openai_ten_proofs_replay_execution.py"
 Invoke-Control "ci/validate_openai_ten_proofs_replay_evidence.py"

@@ -1,0 +1,60 @@
+name: OTP B2 spherical-codes Cert work package
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-b2-spherical-codes-cert-work-package.yml"
+      - "ci/validate_openai_ten_proofs_spherical_codes_certification_work_package.py"
+      - "ci/test_openai_ten_proofs_spherical_codes_certification_work_package.py"
+      - "schemas/openai_ten_proofs_spherical_codes_certification_work_package.schema.json"
+      - "governance/result_family_work_package_successors/OTP-B2-SPHERICAL-CODES-CERT-WP-001.json"
+      - "governance/ci_control_registry.json"
+      - "ci/check_lean.sh"
+      - "ci/check_lean.ps1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  work-package-control:
+    name: work-package-control (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out literal candidate head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify literal candidate head
+        if: runner.os != 'Windows'
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - name: Verify literal candidate head (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          if ((git rev-parse HEAD) -ne $env:MATHCERT_HEAD_SHA) { throw "MATHCERT checkout is not the literal PR head" }
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - name: Install locked CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Validate exact executable spherical-codes work package
+        run: |
+          python ci/validate_openai_ten_proofs_spherical_codes_certification_work_package.py
+          python ci/test_openai_ten_proofs_spherical_codes_certification_work_package.py
