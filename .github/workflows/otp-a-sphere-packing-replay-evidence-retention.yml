@@ -1,0 +1,161 @@
+name: OTP A sphere-packing replay evidence retention
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-a-sphere-packing-replay-evidence-retention.yml"
+      - "governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json"
+      - "schemas/openai_ten_proofs_sphere_packing_replay_evidence.schema.json"
+      - "evidence/openai_ten_proofs_successors/a-sphere-packing.tar.gz.b64"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  retain-a-replay-evidence:
+    name: retain-a-replay-evidence
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out literal candidate head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify retained A replay evidence and zero-authority boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+          test "$(git rev-parse 54b883bb5c6ffaf099efd7270df3519a45b13038:governance/result_family_work_package_successors/OTP-A-SPHERE-PACKING-CERT-WP-001.json)" = "f0c91d1959035f35843c383920dfba0b6c24b485"
+          test "$(git rev-parse HEAD:governance/result_family_work_package_successors/OTP-A-SPHERE-PACKING-CERT-WP-001.json)" = "f0c91d1959035f35843c383920dfba0b6c24b485"
+          test "$(git rev-parse HEAD:governance/certification_routes.json)" = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
+          python3 - <<'PY'
+          import base64, hashlib, io, json, tarfile
+          from pathlib import Path
+
+          record_path=Path('governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json')
+          schema_path=Path('schemas/openai_ten_proofs_sphere_packing_replay_evidence.schema.json')
+          bundle_path=Path('evidence/openai_ten_proofs_successors/a-sphere-packing.tar.gz.b64')
+          record=json.loads(record_path.read_text())
+          schema=json.loads(schema_path.read_text())
+
+          def check_type(value, kind):
+              return {
+                  'object': isinstance(value, dict),
+                  'array': isinstance(value, list),
+                  'string': isinstance(value, str),
+                  'integer': isinstance(value, int) and not isinstance(value, bool),
+                  'boolean': isinstance(value, bool),
+                  'null': value is None,
+              }[kind]
+
+          def validate(value, spec, where='$'):
+              if 'const' in spec and value != spec['const']:
+                  raise SystemExit(f'{where}: const mismatch')
+              if 'type' in spec and not check_type(value, spec['type']):
+                  raise SystemExit(f'{where}: type mismatch')
+              if isinstance(value, dict):
+                  required=spec.get('required', [])
+                  missing=[k for k in required if k not in value]
+                  if missing:
+                      raise SystemExit(f'{where}: missing {missing}')
+                  props=spec.get('properties', {})
+                  if spec.get('additionalProperties') is False:
+                      extra=sorted(set(value)-set(props))
+                      if extra:
+                          raise SystemExit(f'{where}: unexpected properties {extra}')
+                  for key, child in props.items():
+                      if key in value:
+                          validate(value[key], child, f'{where}.{key}')
+          validate(record, schema)
+
+          expected_targets=[
+              'PackingBounds.FullMain.exact_limit',
+              'PackingBounds.FullMain.exact_binary_exponent',
+              'PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper',
+              'PackingBounds.sharpFullCohnElkiesManuscriptConclusions',
+          ]
+          assert record['target_scope']['lean_theorems'] == expected_targets
+          assert record['target_scope']['target_count'] == 4
+          assert record['producer_replay']['candidate_head'] == '53a2810f3a9dfe8442799cd605090b681ab03f43'
+          assert record['producer_replay']['workflow_run'] == 32119001781
+          assert record['producer_replay']['workflow_job'] == 95654885668
+          assert record['producer_replay']['actions_artifact_id'] == 9318261476
+          assert record['producer_replay']['comparator'] == 'accept'
+          assert record['producer_replay']['lean_default_kernel'] == 'accept'
+          assert record['producer_replay']['nanoda'] == 'accept'
+          assert record['producer_replay']['theorem_axioms'] == 'permitted_only'
+          assert record['producer_replay']['challenge_sorry_boundary_count'] == 4
+          assert record['producer_replay']['challenge_sorry_is_solution_authority'] is False
+
+          route=record['route_state']
+          assert route == {
+              'next_eligible_stage_after_protected_readback':'separate_family_specific_A_route_proposal',
+              'requested_future_route_label':'MC-ROUTE-OTP-A-SPHERE-PACKING',
+              'route_proposed':False,
+              'certification_route_registry_entry':None,
+              'route_registered':False,
+              'may_adjudicate':False,
+              'adjudication':None,
+              'cert_output':None,
+              'mathematical_target_proved':False,
+              'aggregate_authority':False,
+              'may_promote_claim':False,
+          }
+
+          bundle=base64.b64decode(''.join(bundle_path.read_text().split()), validate=True)
+          assert len(bundle) == record['repository_bundle']['decoded_bytes'] == 5033
+          assert hashlib.sha256(bundle).hexdigest() == record['repository_bundle']['decoded_sha256'] == '0ec443cd35cee041d5bdc154de2e5d1697a21cdffbcc01d21c08c6aad61f10f3'
+          expected_members={
+              'a-sphere-packing',
+              'a-sphere-packing/SHA256SUMS',
+              'a-sphere-packing/comparator-result.json',
+              'a-sphere-packing/comparator.log',
+              'a-sphere-packing/environment-manifest.txt',
+              'a-sphere-packing/evidence-summary.json',
+              'a-sphere-packing/nonvacuity-attestation.json',
+              'a-sphere-packing/semantic-concordance-attestation.json',
+              'a-sphere-packing/solution-build.log',
+              'a-sphere-packing/source-identity-report.txt',
+              'a-sphere-packing/target-export-report.json',
+              'a-sphere-packing/theorem-axiom-report.json',
+              'a-sphere-packing/theorem-axioms.log',
+              'a-sphere-packing/trust-boundary-scan.txt',
+          }
+          with tarfile.open(fileobj=io.BytesIO(bundle), mode='r:gz') as tf:
+              assert set(tf.getnames()) == expected_members
+              def read_json(name):
+                  f=tf.extractfile(name)
+                  assert f is not None
+                  return json.load(f)
+              summary=read_json('a-sphere-packing/evidence-summary.json')
+              axioms=read_json('a-sphere-packing/theorem-axiom-report.json')
+              comparator=read_json('a-sphere-packing/comparator-result.json')
+              targets=read_json('a-sphere-packing/target-export-report.json')
+              assert summary['mathcert_head'] == record['producer_replay']['candidate_head']
+              assert summary['target_count'] == 4
+              assert summary['solution_build'] == 'pass'
+              assert summary['theorem_axioms'] == 'permitted_only'
+              assert summary['comparator'] == summary['lean_default_kernel'] == summary['nanoda'] == 'accept'
+              assert summary['route_proposed'] is False and summary['route_registered'] is False
+              assert summary['may_adjudicate'] is False and summary['cert_output'] is None
+              assert summary['mathematical_target_proved'] is False
+              assert summary['aggregate_authority'] is False and summary['may_promote_claim'] is False
+              assert targets['ordered_targets'] == expected_targets and targets['count'] == 4
+              assert comparator == {'comparator':'accept','lean_default_kernel':'accept','nanoda':'accept','otp_successor_comparator':'ACCEPT'}
+              assert axioms['permitted'] == ['Classical.choice','Quot.sound','propext']
+              assert [x['theorem'] for x in axioms['reports']] == expected_targets
+              assert all(x['axioms'] == ['Classical.choice','Quot.sound','propext'] and x['unexpected'] == [] for x in axioms['reports'])
+          print('A_REPLAY_EVIDENCE_RETENTION=PASS')
+          print('A_ROUTE_AUTHORITY=NONE')
+          PY

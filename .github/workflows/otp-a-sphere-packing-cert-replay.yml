@@ -1,0 +1,186 @@
+name: OTP A sphere-packing exact replay
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-a-sphere-packing-cert-replay.yml"
+      - "ci/run_openai_ten_proofs_sphere_packing_replay.sh"
+      - "ci/otp_landrun_argv_adapter.sh"
+      - "governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json"
+      - "schemas/openai_ten_proofs_sphere_packing_replay_evidence.schema.json"
+      - "ci/validate_openai_ten_proofs_sphere_packing_replay_evidence.py"
+      - "ci/test_openai_ten_proofs_sphere_packing_replay_evidence.py"
+      - "evidence/openai_ten_proofs_successors/a-sphere-packing.tar.gz.b64"
+      - "governance/ci_control_registry.json"
+      - "ci/check_lean.sh"
+      - "ci/check_lean.ps1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  replay-a-sphere-packing:
+    name: replay-a-sphere-packing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      MATHCERT_WORKFLOW_SHA: ${{ github.sha }}
+    steps:
+      - name: Check out literal MATHCERT candidate head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify literal MATHCERT candidate head
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+
+      - name: Check out exact formal subject
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: openai/ten-proofs
+          ref: 94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6
+          path: upstream
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Forge composite authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: 706d0291370bf3f14aa37be0823e33d06f7343b0
+          path: forge-composite
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Forge bridge authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: 5a0cb9a7b7eef210dd0fce5c527d09b6eef3bc12
+          path: forge-bridge
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Solve producer authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHSOLVE
+          ref: c19735edf4c16ac9765bb66c7209bbf11bf1312e
+          path: solve
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Landrun source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: Zouuup/landrun
+          ref: 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
+          path: landrun-src
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact lean4export source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: leanprover/lean4export
+          ref: 4e7915201d3f9f04470d9eae002fa695f7cdc589
+          path: lean4export-src
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out exact Nanoda source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ammkrn/nanoda_lib
+          ref: ddfac2bf5a7b56cb46e141494427ff3dd55963c7
+          path: nanoda-src
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Bootstrap exact formal-subject dependencies
+        uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          lake-package-directory: upstream
+
+      - name: Activate governed Lean 4.32.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          elan toolchain list | grep -Fq 'leanprover/lean4:v4.32.0' || elan toolchain install leanprover/lean4:v4.32.0
+          elan run leanprover/lean4:v4.32.0 lean --version | grep -F "version 4.32.0"
+          echo "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0" >> "$GITHUB_ENV"
+
+      - name: Assert exact replay TCB source identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C landrun-src rev-parse HEAD)" = "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4"
+          test "$(git -C lean4export-src rev-parse HEAD)" = "4e7915201d3f9f04470d9eae002fa695f7cdc589"
+          test "$(git -C nanoda-src rev-parse HEAD)" = "ddfac2bf5a7b56cb46e141494427ff3dd55963c7"
+          go version
+          rustc --version
+          cargo --version
+
+      - name: Build pinned Comparator helper binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          lean --version | grep -F "version 4.32.0"
+          (cd landrun-src && go build -trimpath -o ../landrun ./cmd/landrun)
+          (cd lean4export-src && lake build)
+          (cd nanoda-src && cargo build --release --locked)
+          mkdir -p tools
+          ln -sfn ../landrun-src tools/landrun
+          ln -sfn ../lean4export-src tools/lean4export
+          ln -sfn ../nanoda-src tools/nanoda
+          chmod +x ci/otp_landrun_argv_adapter.sh landrun
+          test -x landrun
+          test -x lean4export-src/.lake/build/bin/lean4export
+          test -x nanoda-src/target/release/nanoda_bin
+          test -x ci/otp_landrun_argv_adapter.sh
+          sha256sum landrun lean4export-src/.lake/build/bin/lean4export nanoda-src/target/release/nanoda_bin ci/otp_landrun_argv_adapter.sh
+          echo "COMPARATOR_LANDRUN=$GITHUB_WORKSPACE/ci/otp_landrun_argv_adapter.sh" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LANDRUN_REAL=$GITHUB_WORKSPACE/landrun" >> "$GITHUB_ENV"
+          echo "REAL_LANDRUN=$GITHUB_WORKSPACE/landrun" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/lean4export-src/.lake/build/bin/lean4export" >> "$GITHUB_ENV"
+          echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/nanoda-src/target/release/nanoda_bin" >> "$GITHUB_ENV"
+
+      - name: Prepare exact formal-subject cache
+        shell: bash
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          lean --version | grep -F "version 4.32.0"
+          lake exe cache get
+
+      - name: Execute exact A sphere-packing replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x ci/run_openai_ten_proofs_sphere_packing_replay.sh
+          ci/run_openai_ten_proofs_sphere_packing_replay.sh evidence/a-sphere-packing
+
+      - name: Upload exact A replay evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: otp-a-sphere-packing-exact-evidence
+          path: evidence/a-sphere-packing/
+          if-no-files-found: warn
+          retention-days: 30
