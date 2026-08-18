@@ -6,6 +6,7 @@ import sys
 import otp_full_formula_contract_membership as membership
 import validate_otp_j2_output_contract as design
 import validate_otp_j2_output_execution as execution
+import validate_otp_j2_output_execution_with_a_registration as execution_successor
 
 
 def validation_errors() -> list[str]:
@@ -21,7 +22,7 @@ def validation_errors() -> list[str]:
         staged_route_present=False,
         contract_files=set(design.EXPECTED_CONTRACT_FILES),
     )
-    return membership_errors + historical_errors + execution.validation_errors()
+    return membership_errors + historical_errors + execution_successor.validation_errors()
 
 
 def main() -> int:
@@ -32,7 +33,8 @@ def main() -> int:
         return 1
     print(
         "validated immutable design-only J2 output contract against its exact pre-output route snapshot, "
-        "the single governed full-formula successor membership, and the complete J2 restricted output execution"
+        "the single governed full-formula successor membership, complete J2 restricted output execution, "
+        "and exactly one separately governed submitted A registration successor"
     )
     return 0
 
