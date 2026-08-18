@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import copy
+import importlib.util
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+VALIDATOR_PATH = ROOT / "ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py"
+spec = importlib.util.spec_from_file_location("spherical_codes_intake_validator", VALIDATOR_PATH)
+module = importlib.util.module_from_spec(spec)
+assert spec and spec.loader
+spec.loader.exec_module(module)
+
+class SphericalCodesIntakeSuccessorTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.data = module.load_record()
+
+    def reject(self, mutate) -> None:
+        candidate = copy.deepcopy(self.data)
+        mutate(candidate)
+        with self.assertRaises(ValueError):
+            module.validate_record(candidate)
+
+    def test_exact_record_validates(self):
+        module.validate_record(self.data)
+        module.validate_repository_guards()
+
+    def test_target_substitution_fails_closed(self):
+        self.reject(lambda d: d["target_scope"]["lean_theorems"].__setitem__(0, "Fake.target"))
+
+    def test_packet_hash_mutation_fails_closed(self):
+        self.reject(lambda d: d["authority"]["producer_packet"].__setitem__("digest", "0"*40))
+
+    def test_semantic_audit_mutation_fails_closed(self):
+        self.reject(lambda d: d["authority"]["forge_semantic"].__setitem__("audit_blob", "0"*40))
+
+    def test_formal_root_mutation_fails_closed(self):
+        self.reject(lambda d: d["authority"]["official_subject"].__setitem__("commit", "0"*40))
+
+    def test_replay_job_mutation_fails_closed(self):
+        self.reject(lambda d: d["authority"]["isolated_replay"].__setitem__("job_id", 0))
+
+    def test_predecessor_surface_inflation_fails_closed(self):
+        self.reject(lambda d: d["target_scope"].__setitem__("predecessor_seven_target_surface_authorized", True))
+
+    def test_exact_decimal_source_inflation_fails_closed(self):
+        self.reject(lambda d: d["target_scope"]["classifications"].__setitem__(
+            3, "source_verbatim_exact_039661_statement"))
+
+    def test_exact_decimal_qualification_erasure_fails_closed(self):
+        self.reject(lambda d: d["target_scope"]["mandatory_qualifications"].__setitem__(
+            1, "The exact eventual 0.39661 target is manuscript-verbatim."))
+
+    def test_route_inflation_fails_closed(self):
+        self.reject(lambda d: d["state"].__setitem__("route_registered", True))
+
+    def test_adjudication_inflation_fails_closed(self):
+        self.reject(lambda d: d["state"].__setitem__("may_adjudicate", True))
+
+    def test_certificate_inflation_fails_closed(self):
+        self.reject(lambda d: d["state"].__setitem__("cert_output", {"id":"invented"}))
+
+    def test_proof_promotion_fails_closed(self):
+        self.reject(lambda d: d["state"].__setitem__("mathematical_target_proved", True))
+
+    def test_aggregate_authority_fails_closed(self):
+        self.reject(lambda d: d["state"].__setitem__("aggregate_authority", True))
+
+    def test_schema_is_closed(self):
+        schema = module.load_schema()
+        self.assertIs(schema["additionalProperties"], False)
+        candidate = copy.deepcopy(self.data)
+        candidate["unexpected_authority"] = True
+        with self.assertRaises(ValueError):
+            module.validate_record(candidate)
+
+if __name__ == "__main__":
+    unittest.main()
