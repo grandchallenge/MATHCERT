@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/openai_ten_proofs_binary_codes_certification_work_package.schema.json",
+  "title": "OpenAI Ten Proofs Binary Codes Certification Work Package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "work_package_id", "candidate_id", "result_family", "tracker_issue", "status", "authority", "toolchain", "execution_contract", "target_scope", "route_state", "activation", "route_controls", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_binary_codes_certification_work_package"},
+    "work_package_id": {"const": "OTP-B1-BINARY-CODES-CERT-WP-001"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const": "OTP-B1-BINARY-CODES"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/150"},
+    "status": {"const": "authorized_after_protected_mathcert_merge"},
+    "authority": {"type": "object"},
+    "toolchain": {"type": "object"},
+    "execution_contract": {"type": "object"},
+    "target_scope": {"type": "object"},
+    "route_state": {"const": {"requested_future_route":"MC-ROUTE-OTP-B1-BINARY-CODES","certification_route_registry_entry":null,"route_registered":false,"may_adjudicate":false,"adjudication":null,"cert_output":null,"mathematical_target_proved":false,"aggregate_authority":false,"may_promote_claim":false}},
+    "activation": {"type": "object"},
+    "route_controls": {"const": {"result_family_only":true,"may_create_aggregate_work_package":false,"may_create_aggregate_route":false,"may_imply_certification":false,"may_imply_proof":false,"may_mutate_certification_route_registry":false}},
+    "claim_boundary": {"type": "string", "minLength": 300}
+  }
+}
