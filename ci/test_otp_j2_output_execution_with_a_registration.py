@@ -4,7 +4,6 @@ from __future__ import annotations
 import copy
 import importlib.util
 import io
-import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -16,13 +15,17 @@ import validate_otp_j2_output_execution_with_a_registration as successor
 
 def historical_suite_errors() -> list[str]:
     historical.ensure_history()
-    exact_routes = historical.obj_json(historical.ROUTE, historical.ROUTES_PATH)
+    exact_route_bytes = historical.obj(historical.ROUTE, historical.ROUTES_PATH)
+    if exact_route_bytes is None:
+        return ["cannot recover exact historical post-J2 route-registry bytes"]
     history = historical.receipt()
     history["routes_head"] = historical.EXPECTED["routes_after"]
 
     with tempfile.TemporaryDirectory() as td:
         routes_path = Path(td) / "certification_routes.json"
-        routes_path.write_text(json.dumps(exact_routes, indent=2) + "\n", encoding="utf-8")
+        # Preserve the historical Git blob byte-for-byte; reserializing JSON would
+        # correctly change the blob identity and invalidate the historical suite.
+        routes_path.write_bytes(exact_route_bytes)
         spec = importlib.util.spec_from_file_location(
             "historical_j2_output_execution_tests",
             historical.ROOT / "ci/test_otp_j2_output_execution.py",
