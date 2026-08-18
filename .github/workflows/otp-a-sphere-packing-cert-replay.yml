@@ -5,7 +5,7 @@ on:
     paths:
       - ".github/workflows/otp-a-sphere-packing-cert-replay.yml"
       - "ci/run_openai_ten_proofs_sphere_packing_replay.sh"
-      - "ci/landrun_comparator_adapter.sh"
+      - "ci/otp_landrun_argv_adapter.sh"
       - "governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json"
       - "schemas/openai_ten_proofs_sphere_packing_replay_evidence.schema.json"
       - "ci/validate_openai_ten_proofs_sphere_packing_replay_evidence.py"
@@ -118,12 +118,13 @@ jobs:
           git -C tools/landrun checkout --detach 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
           (cd tools/landrun && go build -trimpath -o "$RUNNER_TEMP/otp-bin/landrun-real" ./cmd/landrun)
 
-          cp ci/landrun_comparator_adapter.sh "$RUNNER_TEMP/otp-bin/landrun"
+          cp ci/otp_landrun_argv_adapter.sh "$RUNNER_TEMP/otp-bin/landrun"
           chmod +x "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
 
           echo "$RUNNER_TEMP/otp-bin" >> "$GITHUB_PATH"
           echo "COMPARATOR_LANDRUN=$RUNNER_TEMP/otp-bin/landrun" >> "$GITHUB_ENV"
           echo "COMPARATOR_LANDRUN_REAL=$RUNNER_TEMP/otp-bin/landrun-real" >> "$GITHUB_ENV"
+          echo "REAL_LANDRUN=$RUNNER_TEMP/otp-bin/landrun-real" >> "$GITHUB_ENV"
           echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/tools/lean4export/.lake/build/bin/lean4export" >> "$GITHUB_ENV"
           echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/tools/nanoda/target/release/nanoda_bin" >> "$GITHUB_ENV"
 
