@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_binary_codes_certification_work_package",
+  "work_package_id": "OTP-B1-BINARY-CODES-CERT-WP-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-B1-BINARY-CODES",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/150",
+  "status": "authorized_after_protected_mathcert_merge",
+  "authority": {
+    "protected_mathcert_base": "10e6f3ee20d7a6e89feb27aef0115fa27710d5e4",
+    "predecessor_work_package": {
+      "work_package_id": "OTP-H-GAPCVP-CERT-WP-001",
+      "protected_merge": "10e6f3ee20d7a6e89feb27aef0115fa27710d5e4",
+      "path": "governance/result_family_work_package_successors/OTP-H-GAPCVP-CERT-WP-001.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0f811d163f0d36b028cf6539963e2cf278517137"
+    },
+    "cert_intake_merge": "5bddc3eb7d02638cf4fe959accfbfeade4964592",
+    "cert_intake_reviewed_head": "754c321d1ef1a943701e066fd17e098c5ecbd536",
+    "cert_intake_review": {
+      "review_id": "PRR_kwDOSuU7Ic8AAAABJ4Fmhw",
+      "reviewer": "jimsteeg",
+      "state": "APPROVED",
+      "submitted_at": "2026-08-18T06:08:30Z"
+    },
+    "intake_record": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "5bddc3eb7d02638cf4fe959accfbfeade4964592",
+      "path": "governance/result_family_intake_successors/OTP-B1-BINARY-CODES.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "9ba1e66679d5d46aceef16164194147d8fac530a"
+    },
+    "solve_handoff_merge": "7858f1350439e6324bdee149931bdb7661098729",
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "7858f1350439e6324bdee149931bdb7661098729",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-B1-BINARY-CODES.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1847dd7a17cda51cb02f017766c59d372811fb12"
+    },
+    "forge_semantic": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "24a1fa0f020ee9cc7fbe2e7aea4cd840268ca748",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-B1-BINARY-CODES/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0ab4d973bc046084e9d2dc6c7552ab5428d7412d"
+    },
+    "source_pdf": {
+      "revision": "2026-08-06",
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+      "byte_length": 2487031,
+      "successor_record_blob": "02d1748abed36717afba46451330be165c076737"
+    },
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "formal_successor_record_blob": "6993ce9fac2c65ffae7f2a0c7d728aab828ed532",
+      "config_path": "ComparatorChallenges/B_BinaryCodes.json",
+      "config_blob": "b530b77972c83396c1f2aed2deccda3a12fb6cab",
+      "challenge_path": "ComparatorChallenges/B_BinaryCodes.lean",
+      "challenge_blob": "c9e93b1944e6806802068cf593fa6557e4267bb1",
+      "solution_path": "MetricCodes.lean",
+      "solution_blob": "51628c0db81bd6cb9a79777fa601306c9d64cbc5",
+      "lake_manifest_blob": "046e8de7f46832fbf092e3fb815efae01e4a2129",
+      "lean_toolchain_blob": "94b9f495baff80fd9cb44aad8f4762cb3b2066fe"
+    },
+    "source_root_replay": {
+      "run_id": 31945652355,
+      "job_id": 95161117069,
+      "result": "comparator_lean_kernel_nanoda_accept"
+    }
+  },
+  "toolchain": {
+    "lean": "leanprover/lean4:v4.32.0",
+    "lean_commit": "8c9756b28d64dab099da31a4c09229a9e6a2ef35",
+    "comparator_commit": "07bc4ea40f2266dcb861820a2ec1fa3244ed307f",
+    "mathlib_commit": "81a5d257c8e410db227a6665ed08f64fea08e997",
+    "lean4export_commit": "4e7915201d3f9f04470d9eae002fa695f7cdc589",
+    "lean4checker_commit": "b7398199245524275543dec6113229c9bb4902e5",
+    "nanoda_commit": "ddfac2bf5a7b56cb46e141494427ff3dd55963c7",
+    "landrun_commit": "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4",
+    "checkout_action_commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "lean_action_commit": "138a564e38a62ce545e8d47d86a97628463aced4",
+    "observed_helper_sha256": {
+      "landrun": "a4ba9ed1b6b53f9cfd57b9fb1e4f8f3c3ab69cf6a0147764ff70303a8306f858",
+      "lean4export": "e57369980b0b81228580ce08066fb9bd738e717e002673a143f4956d217266b0",
+      "nanoda_bin": "60cc30add2758abce965f122b4e85f1fdd7c23607ea67680cec6721aa2ef23f0",
+      "landrun_argv_adapter": "84d900d75bdc76c2c4168484a929e448be36fca20d093c42cac15ed923fe3f1d"
+    }
+  },
+  "execution_contract": {
+    "allowed_after_protected_activation": true,
+    "isolated_family_replay_required": true,
+    "clean_room_environment_required": true,
+    "aggregate_import_required": false,
+    "comparator_config": "ComparatorChallenges/B_BinaryCodes.json",
+    "challenge_module": "ComparatorChallenges.B_BinaryCodes",
+    "solution_module": "MetricCodes",
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+    "deterministic_commands": [
+      "lake exe cache get",
+      "lake build MetricCodes",
+      "lake exe comparator ComparatorChallenges/B_BinaryCodes.json"
+    ],
+    "expected_outputs": [
+      "Nanoda kernel accepts the solution",
+      "Lean default kernel accepts the solution",
+      "Your solution is okay!",
+      "OTP_SUCCESSOR_COMPARATOR=ACCEPT"
+    ],
+    "expected_exported_target_count": 6,
+    "challenge_sorry_warnings_expected": true,
+    "challenge_sorry_warning_count": 6,
+    "challenge_sorry_warnings_are_not_solution_authority": true,
+    "required_artifacts": [
+      "environment_manifest",
+      "source_identity_report",
+      "family_replay_log",
+      "target_export_report",
+      "comparator_result",
+      "lean_kernel_result",
+      "nanoda_result",
+      "theorem_axiom_report",
+      "semantic_concordance_attestation",
+      "nonvacuity_attestation",
+      "minimizer_attainment_attestation",
+      "trust_boundary_scan",
+      "repository_owned_evidence_bundle",
+      "independent_review_attestation"
+    ],
+    "failure_conditions": [
+      "content_addressed_source_or_toolchain_identity_mismatch",
+      "target_membership_or_order_drift",
+      "non_permitted_axiom_present",
+      "metriccodes_build_failure",
+      "nanoda_kernel_reject",
+      "lean_default_kernel_reject",
+      "comparator_non_accept",
+      "source_derived_classification_drift",
+      "positive_margin_source_attribution_inflation",
+      "mrrw_sinf_minimizer_bridge_erasure",
+      "log_base_ceiling_spectral_or_variational_domain_drift",
+      "mandatory_qualification_erasure",
+      "nonvacuity_evidence_erasure",
+      "route_adjudication_output_proof_or_aggregate_authority_inflation"
+    ]
+  },
+  "target_scope": {
+    "source_loci": [
+      "Chapter 2 introduction and Equations (1)-(8)",
+      "Chapter 2 Theorem 1.1",
+      "Chapter 2 Theorem 2.3",
+      "Chapter 2 Theorem 3.8"
+    ],
+    "lean_theorems": [
+      "MetricCodes.Hamming.binaryRate_lt_classicalRate",
+      "MetricCodes.Hamming.exists_binaryRate_improvement",
+      "MetricCodes.Johnson.binaryRate_le_combinedVariationalRate",
+      "MetricCodes.MRRW.strict_mrrw2",
+      "MetricCodes.Johnson.binaryRate_lt_mrrw",
+      "MetricCodes.Johnson.exists_binaryRate_mrrw_improvement"
+    ],
+    "classifications": [
+      "source_faithful_derived_consequence",
+      "derived_positive_margin_certificate",
+      "source_faithful_exact_projection",
+      "source_faithful_exact_projection",
+      "source_faithful_derived_consequence",
+      "derived_positive_margin_certificate"
+    ],
+    "mandatory_qualifications": [
+      "The two positive-margin existential targets are derived certificate normal forms, not source-printed verbatim statements.",
+      "The Lean sInf representation of M2 is source-equivalent only through the protected minimizer existence and attainment proof on the target domain.",
+      "Binary-rate logarithm base, ceiling convention, strict spectral feasibility and variational domains remain exactly as bound by the protected Forge audit.",
+      "No whole-chapter semantic equivalence or proof-body comparison is transferred by this packet.",
+      "Forge replay and semantic admission do not independently certify proof correctness."
+    ],
+    "nonvacuity": {
+      "state": "clear_for_all_six_targets",
+      "evidence": [
+        "The target parameter domain 0<delta<1/2 is inhabited, for example by delta=1/4.",
+        "Hamming.codeNumber_pos proves every finite codeNumber n d is positive using a singleton code.",
+        "Hamming.rateSet_nonempty_of_interior proves the whole-cube variational set is nonempty for every 0<delta<1/2.",
+        "Johnson.rateSet_nonempty_of_interior proves the constant-weight variational set is nonempty for every 0<delta<1/2.",
+        "MetricCodes.MRRW.exists_mrrw_minimizer proves the MRRW objective attains its minimum on [0,1-2delta].",
+        "The two positive-margin targets use explicit positive differences supplied by the strict source-faithful inequalities rather than an empty-domain implication."
+      ]
+    },
+    "target_acceptance": [
+      {
+        "theorem": "MetricCodes.Hamming.binaryRate_lt_classicalRate",
+        "semantic_requirement": "source_faithful_derived_consequence",
+        "replay_requirement": "exact_target_exported_and_metriccodes_built_and_both_kernels_accept_and_comparator_accept",
+        "qualification_requirement": "transitive_R2_less_than_M1_consequence_only"
+      },
+      {
+        "theorem": "MetricCodes.Hamming.exists_binaryRate_improvement",
+        "semantic_requirement": "derived_positive_margin_certificate",
+        "replay_requirement": "exact_target_exported_and_metriccodes_built_and_both_kernels_accept_and_comparator_accept",
+        "qualification_requirement": "epsilon_normal_form_not_source_printed_verbatim"
+      },
+      {
+        "theorem": "MetricCodes.Johnson.binaryRate_le_combinedVariationalRate",
+        "semantic_requirement": "source_faithful_exact_projection",
+        "replay_requirement": "exact_target_exported_and_metriccodes_built_and_both_kernels_accept_and_comparator_accept",
+        "qualification_requirement": "exact_R2_le_kappa_bin_projection_with_protected_variational_domains"
+      },
+      {
+        "theorem": "MetricCodes.MRRW.strict_mrrw2",
+        "semantic_requirement": "source_faithful_exact_projection",
+        "replay_requirement": "exact_target_exported_and_metriccodes_built_and_both_kernels_accept_and_comparator_accept",
+        "qualification_requirement": "M2_sInf_source_equivalence_requires_exact_minimizer_existence_and_attainment_bridge"
+      },
+      {
+        "theorem": "MetricCodes.Johnson.binaryRate_lt_mrrw",
+        "semantic_requirement": "source_faithful_derived_consequence",
+        "replay_requirement": "exact_target_exported_and_metriccodes_built_and_both_kernels_accept_and_comparator_accept",
+        "qualification_requirement": "transitive_R2_less_than_M2_consequence_only"
+      },
+      {
+        "theorem": "MetricCodes.Johnson.exists_binaryRate_mrrw_improvement",
+        "semantic_requirement": "derived_positive_margin_certificate",
+        "replay_requirement": "exact_target_exported_and_metriccodes_built_and_both_kernels_accept_and_comparator_accept",
+        "qualification_requirement": "epsilon_normal_form_not_source_printed_verbatim"
+      }
+    ],
+    "scope_exclusions": [
+      "No aggregate All.lean import is required for this family replay.",
+      "The two positive-margin existential targets may not be represented as source-printed verbatim theorems.",
+      "The Lean sInf formulation of M2 may not be treated as source-equivalent without the protected minimizer-existence and attainment bridge.",
+      "The source logarithm base, ceiling convention, strict spectral feasibility and variational domains may not be weakened or changed.",
+      "Forge replay and semantic admission do not independently certify proof correctness.",
+      "No whole-chapter or proof-body equivalence is created.",
+      "A successful later replay does not itself propose or register a route, authorize adjudication, issue a certificate, or mark a mathematical target proved."
+    ]
+  },
+  "route_state": {
+    "requested_future_route": "MC-ROUTE-OTP-B1-BINARY-CODES",
+    "certification_route_registry_entry": null,
+    "route_registered": false,
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_authority": false,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact-head MATHCERT CI, GCL policy/security, protected CodeQL precedent, fresh non-author coding-theory specialist APPROVED review, ordinary expected-head merge, and protected-main readback",
+    "head_change_requires_reapproval": true,
+    "effect": "binary_codes_work_package_authorized_for_later_exact_replay_only_no_replay_evidence_no_route_no_adjudication_no_output_no_proof"
+  },
+  "route_controls": {
+    "result_family_only": true,
+    "may_create_aggregate_work_package": false,
+    "may_create_aggregate_route": false,
+    "may_imply_certification": false,
+    "may_imply_proof": false,
+    "may_mutate_certification_route_registry": false
+  },
+  "claim_boundary": "This work package authorizes a later bounded independent MATHCERT replay for exactly the six protected OTP-B1-BINARY-CODES targets after protected work-package activation. It binds the exact current-root source, toolchain, six-target export, semantic classifications, positive-margin provenance, MRRW minimizer-attainment bridge, nonvacuity evidence, replay commands, target-level acceptance conditions and mandatory logarithm/ceiling/spectral/variational qualifications. It does not itself execute replay or create replay evidence, propose or register MC-ROUTE-OTP-B1-BINARY-CODES, authorize adjudication, issue a Cert output, independently certify proof correctness, mark or promote any mathematical target proved, treat either positive-margin certificate as source-printed verbatim, erase the MRRW minimizer bridge, establish whole-chapter or proof-body equivalence, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}
