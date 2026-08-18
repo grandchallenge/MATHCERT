@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenAI Ten Proofs sphere-packing result-family intake successor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "intake_id", "candidate_id", "result_family", "tracker_issue", "intake_status", "mathcert_subject", "authority", "target_scope", "state", "activation", "scope_exclusions", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_sphere_packing_result_family_intake_successor"},
+    "intake_id": {"const": "MC-OTP-INTAKE-A-SPHERE-PACKING"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const": "OTP-A-SPHERE-PACKING"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/136"},
+    "intake_status": {"const": "accepted_on_candidate_branch_pending_protected_merge"},
+    "mathcert_subject": {
+      "type": "object", "additionalProperties": false,
+      "required": ["protected_base", "historical_intake_namespace_immutable", "historical_result_family_intake_validator_blob"],
+      "properties": {
+        "protected_base": {"const": "6412fe5f6c7f1564251220d924c5c456b54d2220"},
+        "historical_intake_namespace_immutable": {"const": true},
+        "historical_result_family_intake_validator_blob": {"const": "e0a16870c45aadc2b2a323159df595da489384f7"}
+      }
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["solve_handoff_merge", "producer_packet", "forge_composite_semantic", "forge_bridge_semantic", "official_subject", "source_pdf", "isolated_replay"],
+      "properties": {
+        "solve_handoff_merge": {"const": "c19735edf4c16ac9765bb66c7209bbf11bf1312e"},
+        "producer_packet": {
+          "type": "object", "additionalProperties": false,
+          "required": ["repository", "commit_sha", "path", "digest_algorithm", "digest"],
+          "properties": {
+            "repository": {"const": "grandchallenge/MATHSOLVE"},
+            "commit_sha": {"const": "c19735edf4c16ac9765bb66c7209bbf11bf1312e"},
+            "path": {"const": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-A-SPHERE-PACKING.json"},
+            "digest_algorithm": {"const": "git_blob_sha1"},
+            "digest": {"const": "9e3b46972bf01ac3d24c6a0ae5f522799335ecd1"}
+          }
+        },
+        "forge_composite_semantic": {
+          "type": "object", "additionalProperties": false,
+          "required": ["merge", "audit_blob"],
+          "properties": {
+            "merge": {"const": "706d0291370bf3f14aa37be0823e33d06f7343b0"},
+            "audit_blob": {"const": "b2e309ad96e750651fc7149a6bad54c6bf99015b"}
+          }
+        },
+        "forge_bridge_semantic": {
+          "type": "object", "additionalProperties": false,
+          "required": ["merge", "audit_blob"],
+          "properties": {
+            "merge": {"const": "5a0cb9a7b7eef210dd0fce5c527d09b6eef3bc12"},
+            "audit_blob": {"const": "7858b156fc4490ecc6e3572dcf449d84dcc99f93"}
+          }
+        },
+        "official_subject": {
+          "type": "object", "additionalProperties": false,
+          "required": ["repository", "commit", "tree", "solution_blob"],
+          "properties": {
+            "repository": {"const": "openai/ten-proofs"},
+            "commit": {"const": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"},
+            "tree": {"const": "174289e4d4958cb0509874e6e53400e098213de7"},
+            "solution_blob": {"const": "e6117934a80142a8249356fdafa797eba030e920"}
+          }
+        },
+        "source_pdf": {
+          "type": "object", "additionalProperties": false,
+          "required": ["revision", "sha256", "byte_length"],
+          "properties": {
+            "revision": {"const": "2026-08-06"},
+            "sha256": {"const": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"},
+            "byte_length": {"const": 2487031}
+          }
+        },
+        "isolated_replay": {
+          "type": "object", "additionalProperties": false,
+          "required": ["run_id", "job_id", "result"],
+          "properties": {
+            "run_id": {"const": 31945652355},
+            "job_id": {"const": 95161117046},
+            "result": {"const": "comparator_lean_kernel_nanoda_accept"}
+          }
+        }
+      }
+    },
+    "target_scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["lean_theorems", "target_count", "semantic_qualifications"],
+      "properties": {
+        "lean_theorems": {"const": ["PackingBounds.FullMain.exact_limit", "PackingBounds.FullMain.exact_binary_exponent", "PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper", "PackingBounds.sharpFullCohnElkiesManuscriptConclusions"]},
+        "target_count": {"const": 4},
+        "semantic_qualifications": {
+          "type": "object", "additionalProperties": false,
+          "required": ["composite_classification", "binary_exponent_30_decimal_precision", "bridge_classification", "sphere_packing_constant_relation"],
+          "properties": {
+            "composite_classification": {"const": "mixed_source_and_derived_ten_field_certificate"},
+            "binary_exponent_30_decimal_precision": {"const": "formal_numerical_consequence_not_source_authored_precision"},
+            "bridge_classification": {"const": "source_faithful_displayed_consequence_with_proved_scale_normalization"},
+            "sphere_packing_constant_relation": {"const": "formal_constant_matches_source_delta_d_only_through_proved_scale_and_unit_separation_normalization"}
+          }
+        }
+      }
+    },
+    "state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["next_stage", "requested_route_id", "certification_route_registry_entry", "route_registered", "may_adjudicate", "adjudication", "cert_output", "mathematical_target_proved", "aggregate_authority"],
+      "properties": {
+        "next_stage": {"const": "family_specific_executable_cert_work_package_after_protected_intake_readback"},
+        "requested_route_id": {"type": "null"},
+        "certification_route_registry_entry": {"type": "null"},
+        "route_registered": {"const": false},
+        "may_adjudicate": {"const": false},
+        "adjudication": {"type": "null"},
+        "cert_output": {"type": "null"},
+        "mathematical_target_proved": {"const": false},
+        "aggregate_authority": {"const": false}
+      }
+    },
+    "activation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requires_exact_head_cert_ci", "requires_exact_head_gcl_conformance", "requires_exact_head_security", "requires_codeql_precedent", "requires_non_author_approved_review", "requires_sphere_packing_specialist_review", "head_change_requires_reapproval", "ordinary_expected_head_merge_only", "protected_readback_required"],
+      "properties": {
+        "requires_exact_head_cert_ci": {"const": true},
+        "requires_exact_head_gcl_conformance": {"const": true},
+        "requires_exact_head_security": {"const": true},
+        "requires_codeql_precedent": {"const": true},
+        "requires_non_author_approved_review": {"const": true},
+        "requires_sphere_packing_specialist_review": {"const": true},
+        "head_change_requires_reapproval": {"const": true},
+        "ordinary_expected_head_merge_only": {"const": true},
+        "protected_readback_required": {"const": true}
+      }
+    },
+    "scope_exclusions": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "string"}},
+    "claim_boundary": {"type": "string", "minLength": 100}
+  }
+}
