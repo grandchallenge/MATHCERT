@@ -145,6 +145,10 @@ jobs:
           (cd landrun-src && go build -trimpath -o ../landrun ./cmd/landrun)
           (cd lean4export-src && lake build)
           (cd nanoda-src && cargo build --release --locked)
+          mkdir -p tools
+          ln -sfn ../landrun-src tools/landrun
+          ln -sfn ../lean4export-src tools/lean4export
+          ln -sfn ../nanoda-src tools/nanoda
           chmod +x ci/otp_landrun_argv_adapter.sh landrun
           test -x landrun
           test -x lean4export-src/.lake/build/bin/lean4export
