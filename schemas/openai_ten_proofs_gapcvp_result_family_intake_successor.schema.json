@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenAI Ten Proofs GapCVP result-family intake successor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "intake_id", "candidate_id", "result_family", "tracker_issue", "intake_status", "mathcert_subject", "authority", "target_scope", "state", "activation", "scope_exclusions", "claim_boundary"],
+  "properties": {
+    "schema_version": {},
+    "record_type": {},
+    "intake_id": {},
+    "candidate_id": {},
+    "result_family": {},
+    "tracker_issue": {},
+    "intake_status": {},
+    "mathcert_subject": {},
+    "authority": {},
+    "target_scope": {},
+    "state": {},
+    "activation": {},
+    "scope_exclusions": {},
+    "claim_boundary": {}
+  },
+  "const": {
+    "schema_version": "1.0.0",
+    "record_type": "openai_ten_proofs_gapcvp_result_family_intake_successor",
+    "intake_id": "MC-OTP-INTAKE-H-GAPCVP",
+    "candidate_id": "OPENAI-TEN-PROOFS-001",
+    "result_family": "OTP-H-GAPCVP",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/137",
+    "intake_status": "accepted_on_candidate_branch_pending_protected_merge",
+    "mathcert_subject": {
+      "protected_base": "947b3bed0effa79c2472dddc37d6c463f79c3126",
+      "historical_intake_namespace_immutable": true,
+      "historical_result_family_intake_validator_blob": "e0a16870c45aadc2b2a323159df595da489384f7"
+    },
+    "authority": {
+      "solve_handoff_merge": "e42c48dfe6a83eb19f398ba114f61fd700694ce5",
+      "producer_packet": {
+        "repository": "grandchallenge/MATHSOLVE",
+        "commit_sha": "e42c48dfe6a83eb19f398ba114f61fd700694ce5",
+        "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-H-GAPCVP.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "0dd2b38e40a126a1a2a2d57989038f788b8e40e4"
+      },
+      "forge_formal_source_successor_merge": "48e8bf8e0fd157688ae83a8110d63b1e500ee688",
+      "forge_semantic": {
+        "merge": "b9dda1a5b958fd1be37a26324a025013a39584c1",
+        "audit_blob": "673f541fbb552d307cc226c51d2f0fd2916b328d"
+      },
+      "official_subject": {
+        "repository": "openai/ten-proofs",
+        "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+        "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+        "config_path": "ComparatorChallenges/H_GapCVP.json",
+        "config_blob": "fdba0e774acc6c2bd6fd450ee155975c0eda1833",
+        "challenge_path": "ComparatorChallenges/H_GapCVP.lean",
+        "challenge_blob": "770e202350a5c94d3f6516428ff01092cb8f8cb4",
+        "solution_path": "GapCVP.lean",
+        "solution_blob": "47f3a395e4d9ec3e2892664860f26ed63421b0c9"
+      },
+      "source_pdf": {
+        "revision": "2026-08-06",
+        "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+        "byte_length": 2487031
+      },
+      "isolated_replay": {
+        "run_id": 31945652355,
+        "job_id": 95161117067,
+        "result": "comparator_lean_kernel_nanoda_accept",
+        "lean_version": "4.32.0",
+        "lean_commit": "8c9756b28d64dab099da31a4c09229a9e6a2ef35",
+        "permitted_axioms": ["propext", "Classical.choice", "Quot.sound"]
+      },
+      "semantic_gate": {
+        "state": "clear",
+        "disposition": "PROMISE_INTERFACES_CLOSED__SEMANTIC_AND_NONVACUITY_CLEAR_CURRENT_ROOT"
+      }
+    },
+    "target_scope": {
+      "lean_theorems": [
+        "GapCVP.Comparator.gapCVP400IsNPHard",
+        "GapCVP.Comparator.binaryNearestCodewordIsNPHard",
+        "GapCVP.Comparator.binarySyndromeDecodingIsNPHard",
+        "GapCVP.Comparator.finitePNormGapCVPIsNPHard"
+      ],
+      "promise_interfaces": [
+        "GapCVP.Comparator.gapCVP400Promise",
+        "GapCVP.Comparator.binaryNearestCodewordPromise",
+        "GapCVP.Comparator.binarySyndromeDecodingPromise",
+        "GapCVP.Comparator.finitePGapCVPPromise"
+      ],
+      "classifications": [
+        "source_faithful_restricted_consequence_integer_target",
+        "source_faithful_up_to_generator_orientation",
+        "source_faithful_restricted_consequence_consistent_syndrome",
+        "source_faithful_fixed_rational_p_consequence"
+      ],
+      "gap_factors": ["n^(1/400)", "n^(1/200)", "n^(1/200)", "n^(1/(200p))"],
+      "mandatory_qualifications": [
+        "400, 200 and 200p are exponent denominators in dimension-dependent gaps, not constant approximation factors.",
+        "The Euclidean formal promise is restricted to integer targets, matching the source Theorem 1 reduction output rather than the source's most general rational-target interface.",
+        "The syndrome NO side is restricted to consistent systems sufficient for the source Corollary 15 reduction.",
+        "Binary generator row/column orientation is treated only as a transpose convention preserving the represented code.",
+        "Malformed/non-encoding and threshold-intermediate bitstrings remain outside the promise.",
+        "Forge replay and semantic admission do not independently certify NP-hardness proof correctness."
+      ],
+      "nonvacuity": {
+        "state": "clear_all_four_promise_interfaces",
+        "yes_witness_count": 4,
+        "no_witness_count": 4,
+        "all_yes_sides_inhabited": true,
+        "all_no_sides_inhabited": true
+      }
+    },
+    "state": {
+      "next_stage": "family_specific_executable_cert_work_package_after_protected_intake_readback",
+      "requested_route_id": null,
+      "certification_route_registry_entry": null,
+      "route_registered": false,
+      "may_adjudicate": false,
+      "adjudication": null,
+      "cert_output": null,
+      "mathematical_target_proved": false,
+      "aggregate_authority": false
+    },
+    "activation": {
+      "requires_exact_head_cert_ci": true,
+      "requires_exact_head_gcl_conformance": true,
+      "requires_exact_head_security": true,
+      "requires_codeql_precedent": true,
+      "requires_non_author_approved_review": true,
+      "requires_lattice_complexity_specialist_review": true,
+      "head_change_requires_reapproval": true,
+      "ordinary_expected_head_merge_only": true,
+      "protected_readback_required": true
+    },
+    "scope_exclusions": [
+      "The historical OpenAI Ten Proofs result-family intake registry and validator remain immutable and are not extended by this successor intake.",
+      "The Euclidean target is admitted only on its protected integer-target promise surface; no whole-problem rational-target syntactic identity is claimed.",
+      "The syndrome target preserves the consistent-system restriction, generator orientation remains a transpose convention only, and malformed/intermediate instances remain outside the promise.",
+      "No certification route, adjudication, certificate output, mathematical-proof promotion, other-family authority, or aggregate OpenAI Ten Proofs authority is created."
+    ],
+    "claim_boundary": "This successor intake accepts only the protected OTP-H-GAPCVP four-target producer packet for later family-specific MATHCERT execution. It preserves the exact dimension-dependent gap exponents, integer-target Euclidean restriction, consistent-syndrome restriction, generator-orientation qualification, fixed-rational-p scope, outside-promise treatment of malformed and threshold-intermediate inputs, and all-four-interface nonvacuity evidence. It does not mutate the historical OpenAI Ten Proofs intake registry, register a certification route, authorize adjudication, issue a certificate, independently certify NP-hardness proof correctness, prove or promote a mathematical claim, qualify another family, or create aggregate OpenAI Ten Proofs authority."
+  }
+}
