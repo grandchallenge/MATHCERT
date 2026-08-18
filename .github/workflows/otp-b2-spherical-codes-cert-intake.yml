@@ -1,0 +1,57 @@
+name: OTP B2 Spherical Codes Cert intake
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-b2-spherical-codes-cert-intake.yml"
+      - "ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py"
+      - "ci/test_openai_ten_proofs_spherical_codes_intake_successor.py"
+      - "schemas/openai_ten_proofs_spherical_codes_result_family_intake_successor.schema.json"
+      - "governance/result_family_intake_successors/OTP-B2-SPHERICAL-CODES.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  intake-control:
+    name: intake-control (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out literal candidate head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify literal candidate head
+        if: runner.os != 'Windows'
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - name: Verify literal candidate head (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          if ((git rev-parse HEAD) -ne $env:MATHCERT_HEAD_SHA) { throw "MATHCERT checkout is not the literal PR head" }
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - name: Install locked CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Validate bounded successor intake
+        run: |
+          python ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py
+          python ci/test_openai_ten_proofs_spherical_codes_intake_successor.py
