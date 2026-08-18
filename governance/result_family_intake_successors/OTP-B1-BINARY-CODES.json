@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_binary_codes_result_family_intake_successor",
+  "intake_id": "MC-OTP-INTAKE-B1-BINARY-CODES",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-B1-BINARY-CODES",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/138",
+  "intake_status": "accepted_on_candidate_branch_pending_protected_merge",
+  "mathcert_subject": {
+    "protected_base": "ff9fa0a67a5a809f3519e0059f2ef9b082b1febb",
+    "historical_intake_namespace_immutable": true,
+    "historical_result_family_intake_validator_blob": "e0a16870c45aadc2b2a323159df595da489384f7"
+  },
+  "authority": {
+    "solve_handoff_merge": "7858f1350439e6324bdee149931bdb7661098729",
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "7858f1350439e6324bdee149931bdb7661098729",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-B1-BINARY-CODES.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1847dd7a17cda51cb02f017766c59d372811fb12"
+    },
+    "forge_formal_source_successor_merge": "48e8bf8e0fd157688ae83a8110d63b1e500ee688",
+    "forge_semantic": {
+      "merge": "24a1fa0f020ee9cc7fbe2e7aea4cd840268ca748",
+      "audit_blob": "0ab4d973bc046084e9d2dc6c7552ab5428d7412d"
+    },
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "config_path": "ComparatorChallenges/B_BinaryCodes.json",
+      "config_blob": "b530b77972c83396c1f2aed2deccda3a12fb6cab",
+      "challenge_path": "ComparatorChallenges/B_BinaryCodes.lean",
+      "challenge_blob": "c9e93b1944e6806802068cf593fa6557e4267bb1",
+      "solution_path": "MetricCodes.lean",
+      "solution_blob": "51628c0db81bd6cb9a79777fa601306c9d64cbc5"
+    },
+    "source_pdf": {
+      "revision": "2026-08-06",
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+      "byte_length": 2487031
+    },
+    "isolated_replay": {
+      "run_id": 31945652355,
+      "job_id": 95161117069,
+      "result": "comparator_lean_kernel_nanoda_accept",
+      "lean_version": "4.32.0",
+      "lean_commit": "8c9756b28d64dab099da31a4c09229a9e6a2ef35",
+      "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+    },
+    "semantic_gate": {
+      "state": "clear",
+      "disposition": "SEMANTIC_AND_NONVACUITY_CLEAR_CURRENT_ROOT"
+    }
+  },
+  "target_scope": {
+    "source_loci": [
+      "Chapter 2 introduction and Equations (1)-(8)",
+      "Chapter 2 Theorem 1.1",
+      "Chapter 2 Theorem 2.3",
+      "Chapter 2 Theorem 3.8"
+    ],
+    "lean_theorems": [
+      "MetricCodes.Hamming.binaryRate_lt_classicalRate",
+      "MetricCodes.Hamming.exists_binaryRate_improvement",
+      "MetricCodes.Johnson.binaryRate_le_combinedVariationalRate",
+      "MetricCodes.MRRW.strict_mrrw2",
+      "MetricCodes.Johnson.binaryRate_lt_mrrw",
+      "MetricCodes.Johnson.exists_binaryRate_mrrw_improvement"
+    ],
+    "classifications": [
+      "source_faithful_derived_consequence",
+      "derived_positive_margin_certificate",
+      "source_faithful_exact_projection",
+      "source_faithful_exact_projection",
+      "source_faithful_derived_consequence",
+      "derived_positive_margin_certificate"
+    ],
+    "mandatory_qualifications": [
+      "The two positive-margin existential targets are derived certificate normal forms, not source-printed verbatim statements.",
+      "The Lean sInf representation of M2 is source-equivalent only through the protected minimizer existence and attainment proof on the target domain.",
+      "Binary-rate logarithm base, ceiling convention, strict spectral feasibility and variational domains remain exactly as bound by the protected Forge audit.",
+      "No whole-chapter semantic equivalence or proof-body comparison is transferred by this packet."
+    ],
+    "nonvacuity": {
+      "state": "clear_for_all_six_targets",
+      "evidence": [
+        "0<delta<1/2 is inhabited, for example delta=1/4.",
+        "Hamming.codeNumber_pos",
+        "Hamming.rateSet_nonempty_of_interior",
+        "Johnson.rateSet_nonempty_of_interior",
+        "MetricCodes.MRRW.exists_mrrw_minimizer"
+      ]
+    }
+  },
+  "state": {
+    "next_stage": "family_specific_executable_cert_work_package_after_protected_intake_readback",
+    "requested_route_id": null,
+    "certification_route_registry_entry": null,
+    "route_registered": false,
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_authority": false
+  },
+  "activation": {
+    "requires_exact_head_cert_ci": true,
+    "requires_exact_head_gcl_conformance": true,
+    "requires_exact_head_security": true,
+    "requires_codeql_precedent": true,
+    "requires_non_author_approved_review": true,
+    "requires_coding_theory_specialist_review": true,
+    "head_change_requires_reapproval": true,
+    "ordinary_expected_head_merge_only": true,
+    "protected_readback_required": true
+  },
+  "scope_exclusions": [
+    "The historical OpenAI Ten Proofs result-family intake registry and validator remain immutable and are not extended by this successor intake.",
+    "The two positive-margin existential theorem targets remain formal derived certificate normal forms rather than source-authored verbatim statements.",
+    "The MRRW sInf representation receives source-equivalence authority only through the protected exact minimizer-existence and attainment bridge.",
+    "No certification route, adjudication, certificate output, mathematical-proof promotion, other-family authority, whole-chapter equivalence, or aggregate OpenAI Ten Proofs authority is created."
+  ],
+  "claim_boundary": "This successor intake accepts only the protected OTP-B1-BINARY-CODES six-target producer packet for later family-specific MATHCERT execution. It preserves the source-versus-derived status of both positive-margin existential targets, the protected exact minimizer-attainment bridge required for the MRRW sInf representation, the exact logarithm-base, ceiling, spectral-feasibility and variational-domain qualifications, and the protected nonvacuity evidence. It does not mutate the historical OpenAI Ten Proofs intake registry, register a certification route, authorize adjudication, issue a certificate, independently certify proof correctness, mark or promote any mathematical target proved, establish whole-chapter or proof-body equivalence, qualify another result family, or create aggregate OpenAI Ten Proofs authority."
+}
