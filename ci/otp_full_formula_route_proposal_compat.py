@@ -24,6 +24,9 @@ CIRCUIT_TARGETS = [
     "PermanentRollout.permanent_complexity_ratio_tendsto_atTop",
 ]
 
+A_SPHERE_PACKING_NAME = "OTP-A-SPHERE-PACKING.json"
+EXPECTED_A_SPHERE_PACKING_BLOB = "e216cfc893a99d853ca798a68c46adbf013239ff"
+
 
 def git_blob_sha1(path: Path) -> str:
     import hashlib
@@ -34,10 +37,19 @@ def git_blob_sha1(path: Path) -> str:
 def successor_errors(root: Path, proposal_dir: Path) -> list[str]:
     errors: list[str] = []
     members = sorted(p.name for p in proposal_dir.glob("*.json"))
-    expected_members = sorted([CIRCUIT_NAME, FULL_FORMULA_NAME, "OTP-C-PERMANENT.json"])
+    expected_members = sorted([
+        A_SPHERE_PACKING_NAME,
+        CIRCUIT_NAME,
+        FULL_FORMULA_NAME,
+        "OTP-C-PERMANENT.json",
+    ])
     if members != expected_members:
         errors.append(f"route-proposal successor membership drift: {members}")
         return errors
+
+    a_sphere_packing = proposal_dir / A_SPHERE_PACKING_NAME
+    if git_blob_sha1(a_sphere_packing) != EXPECTED_A_SPHERE_PACKING_BLOB:
+        errors.append("A sphere-packing route-proposal blob drift")
 
     full_formula = proposal_dir / FULL_FORMULA_NAME
     if git_blob_sha1(full_formula) != EXPECTED_FULL_FORMULA_BLOB:
@@ -124,7 +136,10 @@ def historical_membership_view(proposal_dir: Path):
     def filtered_glob(self: Path, pattern: str):
         values = list(original_glob(self, pattern))
         if self == proposal_dir and pattern == "*.json":
-            values = [p for p in values if p.name not in {FULL_FORMULA_NAME, CIRCUIT_NAME}]
+            values = [
+                p for p in values
+                if p.name not in {A_SPHERE_PACKING_NAME, FULL_FORMULA_NAME, CIRCUIT_NAME}
+            ]
         return iter(values)
 
     with patch.object(Path, "glob", filtered_glob):

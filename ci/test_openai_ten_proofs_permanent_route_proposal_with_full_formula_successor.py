@@ -35,6 +35,19 @@ class FullFormulaRouteProposalCompatibilityTests(unittest.TestCase):
         # The exact blob gate is the first-line defense against any mutation.
         self.assertEqual(compat.git_blob_sha1(successor), compat.EXPECTED_SUCCESSOR_BLOB)
 
+    def test_independent_a_proposal_is_exact_pinned(self):
+        proposal = historical.PROPOSAL.parent / compat.A_SPHERE_PACKING_NAME
+        self.assertTrue(proposal.is_file())
+        self.assertEqual(
+            compat.git_blob_sha1(proposal),
+            compat.EXPECTED_A_SPHERE_PACKING_BLOB,
+        )
+
+    def test_historical_view_hides_all_successors(self):
+        with compat.historical_membership_view(historical.PROPOSAL.parent):
+            members = sorted(p.name for p in historical.PROPOSAL.parent.glob("*.json"))
+        self.assertEqual(members, ["OTP-C-PERMANENT.json"])
+
 
 if __name__ == "__main__":
     unittest.main()
