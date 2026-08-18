@@ -33,6 +33,8 @@
     {"path":"ci/test_openai_ten_proofs_result_family_intakes.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_sphere_packing_intake_successor.py","mode":"direct"},
     {"path":"ci/test_openai_ten_proofs_sphere_packing_intake_successor.py","mode":"direct"},
+    {"path":"ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py","mode":"direct"},
+    {"path":"ci/test_openai_ten_proofs_spherical_codes_intake_successor.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_certification_work_packages.py","mode":"direct"},
     {"path":"ci/test_openai_ten_proofs_certification_work_packages.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_permanent_certification_work_package.py","mode":"direct"},
