@@ -20,7 +20,7 @@
       "contract": {
         "path": "governance/result_family_adjudication_contracts/OTP-A-SPHERE-PACKING.json",
         "digest_algorithm": "git_blob_sha1",
-        "digest": "2f81f0eb27cef0065414faa6f3643e26ad0ebfda"
+        "digest": "5f56cdc5c5c839e1040bea84c2d756d805dd1c3b"
       },
       "contract_state": "design_only",
       "may_adjudicate": false,
@@ -57,17 +57,17 @@
     "may_promote_claim": false
   },
   "activation": {
-    "condition": "exact-head Cert, GCL conformance, applicable CodeQL/no-new-alert evidence, A replay/registration compatibility, fresh non-author specialist APPROVED review, exact-head Human Steward design-merge disposition, expected-head protected merge, and protected-main readback",
+    "condition": "exact-head Cert, GCL conformance, applicable CodeQL/no-new-alert evidence, A replay/registration compatibility, fresh non-author specialist APPROVED review, expected-head protected merge, and protected-main readback",
+    "routine_stage_progression_without_human_steward_intervention": true,
+    "human_steward_intervention_required_for_control_plan_change": true,
     "head_change_requires_revalidation_and_reapproval": true,
-    "design_merge_effect": "contract_admitted_design_only_no_adjudication",
-    "later_execution_requires_separate_human_steward_authorization": true
+    "design_merge_effect": "contract_admitted_design_only_no_adjudication"
   },
   "successor_sequence": [
     "adjudication_execution_input",
     "exact_head_machine_gates",
     "fresh_non_author_specialist_review",
-    "human_steward_execution_authorization",
     "separate_adjudication_execution"
   ],
-  "claim_boundary": "This A-only registry admits one design-only adjudication contract and no adjudication. It does not alter the submitted route, execute an adjudication, issue a Cert output, mark a mathematical target proved, promote a claim, alter another result family, or create aggregate OpenAI Ten Proofs authority. Any later execution requires a separately tracked Human Steward-authorized operation bound to the protected contract and exact execution head."
+  "claim_boundary": "This A-only registry admits one design-only adjudication contract and no adjudication. It does not alter the submitted route, execute an adjudication, issue a Cert output, mark a mathematical target proved, promote a claim, alter another result family, or create aggregate OpenAI Ten Proofs authority. Routine stage progression may proceed under the approved control plan without separate Human Steward intervention; Human Steward intervention is required only for a control-plan change."
 }

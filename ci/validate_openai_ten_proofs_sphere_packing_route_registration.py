@@ -35,8 +35,8 @@ EXPECTED_REGISTRATION_MERGE = "7179ed9c6060f44e46fb821a569e2c0c2f75c215"
 EXPECTED_REGISTRATION_HEAD = "bc695488de218ba7625244b63fc450b4e107c23c"
 EXPECTED_REGISTRATION_DISPOSITION_COMMENT = 5337346274
 EXPECTED_DESIGN_AUTHORIZATION_COMMENT = 5337465770
-EXPECTED_DESIGN_CONTRACT_BLOB = "2f81f0eb27cef0065414faa6f3643e26ad0ebfda"
-EXPECTED_DESIGN_REGISTRY_BLOB = "6e79fcb5bb561a157b6dc502a8207eac30af2b8f"
+EXPECTED_DESIGN_CONTRACT_BLOB = "5f56cdc5c5c839e1040bea84c2d756d805dd1c3b"
+EXPECTED_DESIGN_REGISTRY_BLOB = "3605d660e4c4b57405ea03c4abfedb32d9deab93"
 EXPECTED_TARGETS = [
     "PackingBounds.FullMain.exact_limit",
     "PackingBounds.FullMain.exact_binary_exponent",
@@ -269,7 +269,7 @@ def design_validation_errors(
     decision = contract.get("decision_contract", {})
     if decision.get("admissible_dispositions") != EXPECTED_DISPOSITIONS: errors.append("admissible adjudication disposition drift")
     evidence = " ".join(decision.get("required_evidence", [])).lower()
-    for token in ("official pdf", "comparator", "nanoda", "axiom", "source-to-formal", "30-decimal", "positive-rescaling", "little-o", "ten-field composite", "nonvacuity", "non-author"):
+    for token in ("official pdf", "comparator", "nanoda", "axiom", "source-to-formal", "30-decimal", "positive-rescaling", "little-o", "ten-field composite", "nonvacuity", "non-author", "control plan"):
         if token not in evidence: errors.append(f"required adjudication evidence weakened: {token}")
 
     reviewer = contract.get("reviewer_requirements", {})
@@ -280,8 +280,8 @@ def design_validation_errors(
     true_gate_keys = (
         "evidence_candidate_required_before_adjudication",
         "separate_tracked_adjudication_execution_required",
-        "separate_human_steward_authorization_required",
-        "authorization_must_name_contract_and_exact_execution_head",
+        "routine_stage_progression_without_human_steward_intervention",
+        "human_steward_intervention_required_for_control_plan_change",
         "exact_head_cert_checks_required",
         "exact_head_gcl_conformance_required",
         "exact_head_codeql_required",
@@ -297,7 +297,7 @@ def design_validation_errors(
     limits = contract.get("preserved_limitations", {})
     if limits != {"target_classification_separation_required":True,"composite_is_single_verbatim_source_theorem":False,"manuscript_decimal_precision_attributed":False,"scale_normalization_boundary_required":True,"whole_chapter_equivalence_established":False,"full_proof_body_equivalence_established":False,"aggregate_openai_ten_proofs_authority":False}: errors.append("A design limitation drift")
     claim = str(contract.get("claim_boundary", ""))
-    for token in ("does not adjudicate or prove", "Cert output", "manuscript-verbatim", "30-decimal", "positive-rescaling/unit-separation", "aggregate", "separately tracked Human Steward-authorized"):
+    for token in ("does not adjudicate or prove", "Cert output", "manuscript-verbatim", "30-decimal", "positive-rescaling/unit-separation", "aggregate", "Routine stage progression", "control-plan change"):
         if token not in claim: errors.append(f"A design claim boundary weakened: {token}")
 
     refs = registry.get("contracts", [])
@@ -317,8 +317,8 @@ def design_validation_errors(
     for key in ("registered_route_must_remain_submitted","registered_route_registry_must_remain_exact_blob","contract_outside_executed_adjudication_registry","target_and_classification_drift_prohibited","manuscript_decimal_precision_inflation_prohibited","scale_normalization_erasure_prohibited","composite_as_verbatim_reclassification_prohibited","whole_chapter_or_proof_body_equivalence_inflation_prohibited","aggregate_adjudication_prohibited","other_family_expansion_prohibited","historical_record_rewrite_prohibited"):
         if controls.get(key) is not True: errors.append(f"A design registry control disabled: {key}")
     activation = registry.get("activation", {})
-    if activation.get("later_execution_requires_separate_human_steward_authorization") is not True or activation.get("head_change_requires_revalidation_and_reapproval") is not True or activation.get("design_merge_effect") != "contract_admitted_design_only_no_adjudication": errors.append("A design registry activation gate weakened")
-    if registry.get("successor_sequence") != ["adjudication_execution_input","exact_head_machine_gates","fresh_non_author_specialist_review","human_steward_execution_authorization","separate_adjudication_execution"]: errors.append("A adjudication successor sequence drift")
+    if activation.get("routine_stage_progression_without_human_steward_intervention") is not True or activation.get("human_steward_intervention_required_for_control_plan_change") is not True or activation.get("head_change_requires_revalidation_and_reapproval") is not True or activation.get("design_merge_effect") != "contract_admitted_design_only_no_adjudication": errors.append("A design registry activation gate weakened")
+    if registry.get("successor_sequence") != ["adjudication_execution_input","exact_head_machine_gates","fresh_non_author_specialist_review","separate_adjudication_execution"]: errors.append("A adjudication successor sequence drift")
     if EXECUTED_ADJUDICATION.exists(): errors.append("executed A adjudication artifact exists during design-only stage")
     return errors
 

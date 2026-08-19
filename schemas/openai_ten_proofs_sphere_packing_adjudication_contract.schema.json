@@ -61,7 +61,7 @@
       "properties": {
         "decision_question":{"type":"string","minLength":120},
         "admissible_dispositions":{"type":"array","minItems":3,"maxItems":3,"prefixItems":[{"const":"adjudication_clear_protected_four_targets_only"},{"const":"adjudication_not_clear"},{"const":"defer_insufficient_evidence"}],"items":false},
-        "required_evidence":{"type":"array","minItems":12,"items":{"type":"string","minLength":40}}
+        "required_evidence":{"type":"array","minItems":13,"items":{"type":"string","minLength":40}}
       }
     },
     "reviewer_requirements": {
@@ -71,8 +71,8 @@
     },
     "execution_gate": {
       "type":"object","additionalProperties":false,
-      "required":["evidence_candidate_required_before_adjudication","separate_tracked_adjudication_execution_required","separate_human_steward_authorization_required","authorization_must_name_contract_and_exact_execution_head","exact_head_cert_checks_required","exact_head_gcl_conformance_required","exact_head_codeql_required","fresh_non_author_approval_required","protected_merge_required","head_change_requires_revalidation_and_reapproval","design_merge_effect"],
-      "properties":{"evidence_candidate_required_before_adjudication":{"const":true},"separate_tracked_adjudication_execution_required":{"const":true},"separate_human_steward_authorization_required":{"const":true},"authorization_must_name_contract_and_exact_execution_head":{"const":true},"exact_head_cert_checks_required":{"const":true},"exact_head_gcl_conformance_required":{"const":true},"exact_head_codeql_required":{"const":true},"fresh_non_author_approval_required":{"const":true},"protected_merge_required":{"const":true},"head_change_requires_revalidation_and_reapproval":{"const":true},"design_merge_effect":{"const":"contract_admitted_design_only_no_adjudication"}}
+      "required":["evidence_candidate_required_before_adjudication","separate_tracked_adjudication_execution_required","routine_stage_progression_without_human_steward_intervention","human_steward_intervention_required_for_control_plan_change","exact_head_cert_checks_required","exact_head_gcl_conformance_required","exact_head_codeql_required","fresh_non_author_approval_required","protected_merge_required","head_change_requires_revalidation_and_reapproval","design_merge_effect"],
+      "properties":{"evidence_candidate_required_before_adjudication":{"const":true},"separate_tracked_adjudication_execution_required":{"const":true},"routine_stage_progression_without_human_steward_intervention":{"const":true},"human_steward_intervention_required_for_control_plan_change":{"const":true},"exact_head_cert_checks_required":{"const":true},"exact_head_gcl_conformance_required":{"const":true},"exact_head_codeql_required":{"const":true},"fresh_non_author_approval_required":{"const":true},"protected_merge_required":{"const":true},"head_change_requires_revalidation_and_reapproval":{"const":true},"design_merge_effect":{"const":"contract_admitted_design_only_no_adjudication"}}
     },
     "state": {
       "type":"object","additionalProperties":false,

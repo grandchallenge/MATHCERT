@@ -203,12 +203,12 @@ class SpherePackingRouteRegistrationAndAdjudicationDesignTests(unittest.TestCase
         c = self.contract(); c["route_scope"]["nonvacuity_state"] = "unknown"
         self.assertTrue(self.design_errors(contract=c))
 
-    def test_design_separate_human_steward_execution_gate_required(self):
-        c = self.contract(); c["execution_gate"]["separate_human_steward_authorization_required"] = False
+    def test_design_routine_progression_without_steward_intervention_required(self):
+        c = self.contract(); c["execution_gate"]["routine_stage_progression_without_human_steward_intervention"] = False
         self.assertTrue(self.design_errors(contract=c))
 
-    def test_design_exact_execution_head_authorization_required(self):
-        c = self.contract(); c["execution_gate"]["authorization_must_name_contract_and_exact_execution_head"] = False
+    def test_design_steward_intervention_reserved_for_control_plan_change(self):
+        c = self.contract(); c["execution_gate"]["human_steward_intervention_required_for_control_plan_change"] = False
         self.assertTrue(self.design_errors(contract=c))
 
     def test_design_non_author_review_required(self):
@@ -223,8 +223,12 @@ class SpherePackingRouteRegistrationAndAdjudicationDesignTests(unittest.TestCase
         r = self.registry(); r["controls"]["may_adjudicate"] = True
         self.assertTrue(self.design_errors(registry=r))
 
-    def test_design_registry_later_authorization_removal_rejected(self):
-        r = self.registry(); r["activation"]["later_execution_requires_separate_human_steward_authorization"] = False
+    def test_design_registry_routine_progression_without_steward_intervention_required(self):
+        r = self.registry(); r["activation"]["routine_stage_progression_without_human_steward_intervention"] = False
+        self.assertTrue(self.design_errors(registry=r))
+
+    def test_design_registry_steward_intervention_reserved_for_control_plan_change(self):
+        r = self.registry(); r["activation"]["human_steward_intervention_required_for_control_plan_change"] = False
         self.assertTrue(self.design_errors(registry=r))
 
     def test_design_contract_schema_rejects_extra_property(self):

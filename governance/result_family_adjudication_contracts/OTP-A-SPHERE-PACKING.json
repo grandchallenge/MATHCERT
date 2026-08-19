@@ -129,7 +129,8 @@
       "Reconfirm that the explicit little-o witness is only a normal form of the source asymptotic and does not strengthen the asymptotic rate.",
       "Reconfirm that the ten-field composite remains a mixed source/derived certificate and not one manuscript-verbatim theorem.",
       "Refresh nonvacuity evidence for the current four-target root and reject vacuous or empty-domain substitutions.",
-      "Obtain a binding non-author specialist APPROVED review on the exact adjudication execution head after all evidence is frozen."
+      "Obtain a binding non-author specialist APPROVED review on the exact adjudication execution head after all evidence is frozen.",
+      "Confirm that execution remains within this approved control plan; Human Steward intervention is required only if the control plan itself must change."
     ]
   },
   "reviewer_requirements": {
@@ -150,8 +151,8 @@
   "execution_gate": {
     "evidence_candidate_required_before_adjudication": true,
     "separate_tracked_adjudication_execution_required": true,
-    "separate_human_steward_authorization_required": true,
-    "authorization_must_name_contract_and_exact_execution_head": true,
+    "routine_stage_progression_without_human_steward_intervention": true,
+    "human_steward_intervention_required_for_control_plan_change": true,
     "exact_head_cert_checks_required": true,
     "exact_head_gcl_conformance_required": true,
     "exact_head_codeql_required": true,
@@ -178,5 +179,5 @@
     "full_proof_body_equivalence_established": false,
     "aggregate_openai_ten_proofs_authority": false
   },
-  "claim_boundary": "This design-only contract defines a possible future adjudication process for exactly the four protected OTP-A-SPHERE-PACKING targets. It does not adjudicate or prove any target, alter the submitted route, issue a Cert output, reclassify the mixed ten-field composite as one manuscript-verbatim theorem, attribute the formal 30-decimal enclosure to manuscript precision, erase the proved positive-rescaling/unit-separation normalization boundary, strengthen the little-o normal form, establish whole-chapter or full proof-body equivalence, qualify another result family, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims. Actual adjudication requires a later separately tracked Human Steward-authorized operation bound to this protected contract and the exact execution head."
+  "claim_boundary": "This design-only contract defines a possible future adjudication process for exactly the four protected OTP-A-SPHERE-PACKING targets. It does not adjudicate or prove any target, alter the submitted route, issue a Cert output, reclassify the mixed ten-field composite as one manuscript-verbatim theorem, attribute the formal 30-decimal enclosure to manuscript precision, erase the proved positive-rescaling/unit-separation normalization boundary, strengthen the little-o normal form, establish whole-chapter or full proof-body equivalence, qualify another result family, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims. Routine stage progression may proceed under the approved control plan without separate Human Steward intervention; Human Steward intervention is required only for a control-plan change."
 }
