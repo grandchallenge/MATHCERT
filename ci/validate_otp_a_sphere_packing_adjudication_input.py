@@ -17,6 +17,7 @@ CONTRACT = ROOT / "governance/result_family_adjudication_contracts/OTP-A-SPHERE-
 DESIGN_REGISTRY = ROOT / "governance/adjudication_design/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ADJUDICATION_CONTRACT.json"
 RECEIPT = ROOT / "governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_REGISTRATION.json"
 REPLAY = ROOT / "governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json"
+CONTRACT_REL = "governance/result_family_adjudication_contracts/OTP-A-SPHERE-PACKING.json"
 
 TARGETS = [
     "PackingBounds.FullMain.exact_limit",
@@ -33,7 +34,7 @@ CLASSIFICATIONS = [
 AXIOMS = ["propext", "Quot.sound", "Classical.choice"]
 EXPECTED_BLOBS = {
     "governance/result_family_adjudication_execution_inputs/OTP-A-SPHERE-PACKING.json": "c4cc4aaecaccbab62e8d14d737f3048d1b598b3a",
-    "governance/result_family_adjudication_contracts/OTP-A-SPHERE-PACKING.json": "5f56cdc5c5c839e1040bea84c2d756d805dd1c3b",
+    CONTRACT_REL: "5f56cdc5c5c839e1040bea84c2d756d805dd1c3b",
     "governance/adjudication_design/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ADJUDICATION_CONTRACT.json": "3605d660e4c4b57405ea03c4abfedb32d9deab93",
     "governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_REGISTRATION.json": "2d9a520a3ef868c4d6d721cffc6cf89e546c6d09",
     "governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json": "5a2d17d158ee9e8b535de8ed0a1ed41612c5abd2",
@@ -166,7 +167,7 @@ def validation_errors(record: dict[str, Any] | None = None, *, check_repository:
     if activation.get("human_steward_intervention_required_for_control_plan_change") is not True:
         errors.append("design registry intervention boundary drift")
     rows = registry.get("contracts", [])
-    if len(rows) != 1 or rows[0].get("contract", {}).get("digest") != EXPECTED_BLOBS[str(CONTRACT.relative_to(ROOT))]:
+    if len(rows) != 1 or rows[0].get("contract", {}).get("digest") != EXPECTED_BLOBS[CONTRACT_REL]:
         errors.append("design registry contract binding drift")
 
     route = find_route(load(ROUTES), "MC-ROUTE-OTP-A-SPHERE-PACKING")
