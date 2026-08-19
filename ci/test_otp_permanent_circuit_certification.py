@@ -57,6 +57,13 @@ def main() -> int:
     if errors:
         raise AssertionError("current executed circuit output does not validate: " + "; ".join(errors))
 
+    if not O.accepted_live_global_routes_blob(O.EXPECTED_GLOBAL_ROUTES_BLOB):
+        raise AssertionError("historical circuit registry snapshot unexpectedly rejected")
+    if not O.accepted_live_global_routes_blob(O.EXPECTED_A_REGISTRATION_GLOBAL_ROUTES_BLOB):
+        raise AssertionError("exact A registration successor unexpectedly rejected")
+    if O.accepted_live_global_routes_blob("0" * 40):
+        raise AssertionError("unknown route-registry successor unexpectedly accepted")
+
     expect_output_fail(
         cert_mutate=lambda c: c["qualification"]["source_projection"].__setitem__("dimension_threshold", 65535),
         label="threshold drift",
