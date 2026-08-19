@@ -37,6 +37,7 @@ EXPECTED_REGISTRATION_DISPOSITION_COMMENT = 5337346274
 EXPECTED_DESIGN_AUTHORIZATION_COMMENT = 5337465770
 EXPECTED_DESIGN_CONTRACT_BLOB = "5f56cdc5c5c839e1040bea84c2d756d805dd1c3b"
 EXPECTED_DESIGN_REGISTRY_BLOB = "3605d660e4c4b57405ea03c4abfedb32d9deab93"
+EXPECTED_EXECUTED_ADJUDICATION_BLOB = "3e0b34dbc74fdbe123f551d559e4f93fc1901c48"
 EXPECTED_TARGETS = [
     "PackingBounds.FullMain.exact_limit",
     "PackingBounds.FullMain.exact_binary_exponent",
@@ -319,7 +320,28 @@ def design_validation_errors(
     activation = registry.get("activation", {})
     if activation.get("routine_stage_progression_without_human_steward_intervention") is not True or activation.get("human_steward_intervention_required_for_control_plan_change") is not True or activation.get("head_change_requires_revalidation_and_reapproval") is not True or activation.get("design_merge_effect") != "contract_admitted_design_only_no_adjudication": errors.append("A design registry activation gate weakened")
     if registry.get("successor_sequence") != ["adjudication_execution_input","exact_head_machine_gates","fresh_non_author_specialist_review","separate_adjudication_execution"]: errors.append("A adjudication successor sequence drift")
-    if EXECUTED_ADJUDICATION.exists(): errors.append("executed A adjudication artifact exists during design-only stage")
+
+    # Historical design artifacts remain design-only. A later executed record is
+    # permitted only as the exact separately governed successor and must not
+    # rewrite or inflate the protected design/registration authority.
+    if EXECUTED_ADJUDICATION.exists():
+        if git_blob_sha1(EXECUTED_ADJUDICATION) != EXPECTED_EXECUTED_ADJUDICATION_BLOB:
+            errors.append("unknown or mutated executed A adjudication artifact")
+        else:
+            executed = load(EXECUTED_ADJUDICATION)
+            if executed.get("adjudication_id") != "MC-OTP-A-SPHERE-PACKING-ADJUDICATION-001": errors.append("executed A adjudication identity drift")
+            if executed.get("encoded_targets") != EXPECTED_TARGETS: errors.append("executed A adjudication target drift")
+            if executed.get("classifications") != EXPECTED_CLASSIFICATIONS: errors.append("executed A adjudication classification drift")
+            if executed.get("permitted_axioms") != EXPECTED_AXIOMS: errors.append("executed A adjudication axiom drift")
+            if executed.get("decision", {}).get("disposition") != "adjudication_clear_protected_four_targets_only": errors.append("executed A adjudication disposition drift")
+            state = executed.get("state", {})
+            if state.get("route_state") != "submitted": errors.append("executed A adjudication transitioned route")
+            if state.get("cert_output") is not None: errors.append("executed A adjudication inserted Cert output")
+            for key in ("mathematical_target_proved","may_issue_output","may_promote_claim","aggregate_adjudication","aggregate_output","manuscript_decimal_precision_attributed","little_o_strengthened","composite_is_single_verbatim_source_theorem","whole_chapter_equivalence_established","full_proof_body_equivalence_established","other_result_families_modified"):
+                if state.get(key) is not False: errors.append(f"executed A adjudication authority inflation: {key}")
+            if state.get("scale_normalization_boundary_required") is not True: errors.append("executed A adjudication erased normalization boundary")
+            if state.get("routine_stage_progression_without_human_steward_intervention") is not True or state.get("human_steward_intervention_required_only_for_control_plan_change") is not True or state.get("separate_human_steward_authorization_required") is not False:
+                errors.append("executed A adjudication governance boundary drift")
     return errors
 
 
