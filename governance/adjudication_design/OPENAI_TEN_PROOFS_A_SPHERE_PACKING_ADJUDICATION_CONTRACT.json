@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_sphere_packing_adjudication_contract_registry",
+  "registry_id": "MC-OPENAI-TEN-PROOFS-A-SPHERE-PACKING-ADJUDICATION-CONTRACT",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/160",
+  "implementation_authorization": {
+    "comment_id": 5337465770,
+    "scope": "design_only_sphere_packing_adjudication_contract"
+  },
+  "protected_registration": {
+    "merge_commit": "7179ed9c6060f44e46fb821a569e2c0c2f75c215",
+    "route_registry_blob": "b9bb0dc9e18856f50a88162df37c20c034327439",
+    "registration_receipt_blob": "2d9a520a3ef868c4d6d721cffc6cf89e546c6d09"
+  },
+  "contracts": [
+    {
+      "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-A-SPHERE-PACKING",
+      "result_family": "OTP-A-SPHERE-PACKING",
+      "route_id": "MC-ROUTE-OTP-A-SPHERE-PACKING",
+      "contract": {
+        "path": "governance/result_family_adjudication_contracts/OTP-A-SPHERE-PACKING.json",
+        "digest_algorithm": "git_blob_sha1",
+        "digest": "2f81f0eb27cef0065414faa6f3643e26ad0ebfda"
+      },
+      "contract_state": "design_only",
+      "may_adjudicate": false,
+      "adjudication": null,
+      "cert_output": null,
+      "mathematical_target_proved": false,
+      "may_promote_claim": false
+    }
+  ],
+  "state": {
+    "contract_count": 1,
+    "design_only_contract_count": 1,
+    "may_adjudicate_count": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_adjudication_count": 0
+  },
+  "controls": {
+    "registered_route_must_remain_submitted": true,
+    "registered_route_registry_must_remain_exact_blob": true,
+    "contract_outside_executed_adjudication_registry": true,
+    "target_and_classification_drift_prohibited": true,
+    "manuscript_decimal_precision_inflation_prohibited": true,
+    "scale_normalization_erasure_prohibited": true,
+    "composite_as_verbatim_reclassification_prohibited": true,
+    "whole_chapter_or_proof_body_equivalence_inflation_prohibited": true,
+    "aggregate_adjudication_prohibited": true,
+    "other_family_expansion_prohibited": true,
+    "historical_record_rewrite_prohibited": true,
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact-head Cert, GCL conformance, applicable CodeQL/no-new-alert evidence, A replay/registration compatibility, fresh non-author specialist APPROVED review, exact-head Human Steward design-merge disposition, expected-head protected merge, and protected-main readback",
+    "head_change_requires_revalidation_and_reapproval": true,
+    "design_merge_effect": "contract_admitted_design_only_no_adjudication",
+    "later_execution_requires_separate_human_steward_authorization": true
+  },
+  "successor_sequence": [
+    "adjudication_execution_input",
+    "exact_head_machine_gates",
+    "fresh_non_author_specialist_review",
+    "human_steward_execution_authorization",
+    "separate_adjudication_execution"
+  ],
+  "claim_boundary": "This A-only registry admits one design-only adjudication contract and no adjudication. It does not alter the submitted route, execute an adjudication, issue a Cert output, mark a mathematical target proved, promote a claim, alter another result family, or create aggregate OpenAI Ten Proofs authority. Any later execution requires a separately tracked Human Steward-authorized operation bound to the protected contract and exact execution head."
+}

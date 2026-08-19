@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","contract_id","candidate_id","result_family","route_id","contract_state","tracker_issue","authority","route_scope","decision_contract","reviewer_requirements","execution_gate","state","preserved_limitations","claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_sphere_packing_adjudication_contract"},
+    "contract_id": {"const": "MC-OTP-ADJUDICATION-CONTRACT-A-SPHERE-PACKING"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const": "OTP-A-SPHERE-PACKING"},
+    "route_id": {"const": "MC-ROUTE-OTP-A-SPHERE-PACKING"},
+    "contract_state": {"const": "design_only"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/160"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registration_merge","registration_head","registration_human_steward_disposition_comment","registered_route_registry_blob","registration_receipt","route_proposal_merge","route_proposal_record","route_proposal_registry","cert_replay_evidence_merge","cert_replay_evidence_blob","cert_replay_evidence_id","evidence_bundle_sha256","cert_work_package_merge","cert_work_package_blob","cert_intake_merge","cert_intake_blob","solve_handoff","forge_composite_semantic","forge_bridge_semantic","official_source","official_subject","lean_toolchain","implementation_authorization"],
+      "properties": {
+        "registration_merge":{"const":"7179ed9c6060f44e46fb821a569e2c0c2f75c215"},
+        "registration_head":{"const":"bc695488de218ba7625244b63fc450b4e107c23c"},
+        "registration_human_steward_disposition_comment":{"const":5337346274},
+        "registered_route_registry_blob":{"const":"b9bb0dc9e18856f50a88162df37c20c034327439"},
+        "registration_receipt":{"$ref":"#/$defs/localReceipt"},
+        "route_proposal_merge":{"const":"4b194b9632a9aa57fee21c3c054498d6b4a8ed57"},
+        "route_proposal_record":{"$ref":"#/$defs/localProposal"},
+        "route_proposal_registry":{"$ref":"#/$defs/localProposalRegistry"},
+        "cert_replay_evidence_merge":{"const":"036646952651057deadc5c485ef9e80a086865cd"},
+        "cert_replay_evidence_blob":{"const":"5a2d17d158ee9e8b535de8ed0a1ed41612c5abd2"},
+        "cert_replay_evidence_id":{"const":"MC-OTP-A-SPHERE-PACKING-REPLAY-EVIDENCE-001"},
+        "evidence_bundle_sha256":{"const":"0ec443cd35cee041d5bdc154de2e5d1697a21cdffbcc01d21c08c6aad61f10f3"},
+        "cert_work_package_merge":{"const":"54b883bb5c6ffaf099efd7270df3519a45b13038"},
+        "cert_work_package_blob":{"const":"f0c91d1959035f35843c383920dfba0b6c24b485"},
+        "cert_intake_merge":{"const":"947b3bed0effa79c2472dddc37d6c463f79c3126"},
+        "cert_intake_blob":{"const":"294c9f7d6cceb1cdf7ec4c8e73255dd1ba130670"},
+        "solve_handoff":{"$ref":"#/$defs/solveHandoff"},
+        "forge_composite_semantic":{"$ref":"#/$defs/forgeComposite"},
+        "forge_bridge_semantic":{"$ref":"#/$defs/forgeBridge"},
+        "official_source":{"type":"object","additionalProperties":false,"required":["revision","byte_length","sha256"],"properties":{"revision":{"const":"2026-08-06"},"byte_length":{"const":2487031},"sha256":{"const":"ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"}}},
+        "official_subject":{"type":"object","additionalProperties":false,"required":["repository","commit","tree"],"properties":{"repository":{"const":"openai/ten-proofs"},"commit":{"const":"94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"},"tree":{"const":"174289e4d4958cb0509874e6e53400e098213de7"}}},
+        "lean_toolchain":{"type":"object","additionalProperties":false,"required":["version","commit"],"properties":{"version":{"const":"4.32.0"},"commit":{"const":"8c9756b28d64dab099da31a4c09229a9e6a2ef35"}}},
+        "implementation_authorization":{"type":"object","additionalProperties":false,"required":["tracker_issue","comment_id","scope"],"properties":{"tracker_issue":{"const":"https://github.com/grandchallenge/MATHCERT/issues/160"},"comment_id":{"const":5337465770},"scope":{"const":"design_only_sphere_packing_adjudication_contract"}}}
+      }
+    },
+    "route_scope": {
+      "type":"object","additionalProperties":false,
+      "required":["registered_route_state","target_claim_ids","classifications","mandatory_qualifications","permitted_axioms","nonvacuity_state","scope_exclusions"],
+      "properties": {
+        "registered_route_state":{"const":"submitted"},
+        "target_claim_ids":{"type":"array","minItems":4,"maxItems":4,"prefixItems":[{"const":"PackingBounds.FullMain.exact_limit"},{"const":"PackingBounds.FullMain.exact_binary_exponent"},{"const":"PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper"},{"const":"PackingBounds.sharpFullCohnElkiesManuscriptConclusions"}],"items":false},
+        "classifications":{"type":"array","minItems":4,"maxItems":4,"prefixItems":[{"const":"direct_source_theorem_projection_modulo_proved_full_radial_equivalence"},{"const":"derived_base_two_logarithmic_consequence"},{"const":"source_faithful_displayed_consequence_with_proved_scale_normalization"},{"const":"source_faithful_derived_composite_certificate"}],"items":false},
+        "mandatory_qualifications":{"type":"array","minItems":5,"maxItems":5,"items":{"type":"string"}},
+        "permitted_axioms":{"type":"array","minItems":3,"maxItems":3,"prefixItems":[{"const":"propext"},{"const":"Quot.sound"},{"const":"Classical.choice"}],"items":false},
+        "nonvacuity_state":{"const":"clear_for_current_root_four_target_surface"},
+        "scope_exclusions":{"type":"array","minItems":7,"items":{"type":"string"}}
+      }
+    },
+    "decision_contract": {
+      "type":"object","additionalProperties":false,
+      "required":["decision_question","admissible_dispositions","required_evidence"],
+      "properties": {
+        "decision_question":{"type":"string","minLength":120},
+        "admissible_dispositions":{"type":"array","minItems":3,"maxItems":3,"prefixItems":[{"const":"adjudication_clear_protected_four_targets_only"},{"const":"adjudication_not_clear"},{"const":"defer_insufficient_evidence"}],"items":false},
+        "required_evidence":{"type":"array","minItems":12,"items":{"type":"string","minLength":40}}
+      }
+    },
+    "reviewer_requirements": {
+      "type":"object","additionalProperties":false,
+      "required":["minimum_binding_non_author_reviewers","required_review_state","review_must_bind_exact_execution_head","competence","independence"],
+      "properties":{"minimum_binding_non_author_reviewers":{"const":1},"required_review_state":{"const":"APPROVED"},"review_must_bind_exact_execution_head":{"const":true},"competence":{"type":"array","minItems":3,"items":{"type":"string"}},"independence":{"type":"array","minItems":3,"items":{"type":"string"}}}
+    },
+    "execution_gate": {
+      "type":"object","additionalProperties":false,
+      "required":["evidence_candidate_required_before_adjudication","separate_tracked_adjudication_execution_required","separate_human_steward_authorization_required","authorization_must_name_contract_and_exact_execution_head","exact_head_cert_checks_required","exact_head_gcl_conformance_required","exact_head_codeql_required","fresh_non_author_approval_required","protected_merge_required","head_change_requires_revalidation_and_reapproval","design_merge_effect"],
+      "properties":{"evidence_candidate_required_before_adjudication":{"const":true},"separate_tracked_adjudication_execution_required":{"const":true},"separate_human_steward_authorization_required":{"const":true},"authorization_must_name_contract_and_exact_execution_head":{"const":true},"exact_head_cert_checks_required":{"const":true},"exact_head_gcl_conformance_required":{"const":true},"exact_head_codeql_required":{"const":true},"fresh_non_author_approval_required":{"const":true},"protected_merge_required":{"const":true},"head_change_requires_revalidation_and_reapproval":{"const":true},"design_merge_effect":{"const":"contract_admitted_design_only_no_adjudication"}}
+    },
+    "state": {
+      "type":"object","additionalProperties":false,
+      "required":["may_adjudicate","adjudication","cert_output","mathematical_target_proved","may_issue_output","may_promote_claim","aggregate_adjudication"],
+      "properties":{"may_adjudicate":{"const":false},"adjudication":{"type":"null"},"cert_output":{"type":"null"},"mathematical_target_proved":{"const":false},"may_issue_output":{"const":false},"may_promote_claim":{"const":false},"aggregate_adjudication":{"const":false}}
+    },
+    "preserved_limitations": {
+      "type":"object","additionalProperties":false,
+      "required":["target_classification_separation_required","composite_is_single_verbatim_source_theorem","manuscript_decimal_precision_attributed","scale_normalization_boundary_required","whole_chapter_equivalence_established","full_proof_body_equivalence_established","aggregate_openai_ten_proofs_authority"],
+      "properties":{"target_classification_separation_required":{"const":true},"composite_is_single_verbatim_source_theorem":{"const":false},"manuscript_decimal_precision_attributed":{"const":false},"scale_normalization_boundary_required":{"const":true},"whole_chapter_equivalence_established":{"const":false},"full_proof_body_equivalence_established":{"const":false},"aggregate_openai_ten_proofs_authority":{"const":false}}
+    },
+    "claim_boundary":{"type":"string","minLength":300}
+  },
+  "$defs": {
+    "localReceipt":{"type":"object","additionalProperties":false,"required":["path","digest_algorithm","digest"],"properties":{"path":{"const":"governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_REGISTRATION.json"},"digest_algorithm":{"const":"git_blob_sha1"},"digest":{"const":"2d9a520a3ef868c4d6d721cffc6cf89e546c6d09"}}},
+    "localProposal":{"type":"object","additionalProperties":false,"required":["path","digest_algorithm","digest"],"properties":{"path":{"const":"governance/result_family_route_proposal_successors/OTP-A-SPHERE-PACKING.json"},"digest_algorithm":{"const":"git_blob_sha1"},"digest":{"const":"e216cfc893a99d853ca798a68c46adbf013239ff"}}},
+    "localProposalRegistry":{"type":"object","additionalProperties":false,"required":["path","digest_algorithm","digest"],"properties":{"path":{"const":"governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_PROPOSAL.json"},"digest_algorithm":{"const":"git_blob_sha1"},"digest":{"const":"3543ce68170b40fdc79dfdfebfe9ffbd3d4c0add"}}},
+    "solveHandoff":{"type":"object","additionalProperties":false,"required":["repository","commit_sha","path","digest_algorithm","digest"],"properties":{"repository":{"const":"grandchallenge/MATHSOLVE"},"commit_sha":{"const":"c19735edf4c16ac9765bb66c7209bbf11bf1312e"},"path":{"const":"work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-A-SPHERE-PACKING.json"},"digest_algorithm":{"const":"git_blob_sha1"},"digest":{"const":"9e3b46972bf01ac3d24c6a0ae5f522799335ecd1"}}},
+    "forgeComposite":{"type":"object","additionalProperties":false,"required":["repository","commit_sha","path","digest_algorithm","digest"],"properties":{"repository":{"const":"grandchallenge/MATHFORGE"},"commit_sha":{"const":"706d0291370bf3f14aa37be0823e33d06f7343b0"},"path":{"const":"sources/OPENAI-TEN-PROOFS-001/semantic/OTP-A-SPHERE-PACKING-COMPOSITE/audit_record.json"},"digest_algorithm":{"const":"git_blob_sha1"},"digest":{"const":"b2e309ad96e750651fc7149a6bad54c6bf99015b"}}},
+    "forgeBridge":{"type":"object","additionalProperties":false,"required":["repository","commit_sha","path","digest_algorithm","digest"],"properties":{"repository":{"const":"grandchallenge/MATHFORGE"},"commit_sha":{"const":"5a0cb9a7b7eef210dd0fce5c527d09b6eef3bc12"},"path":{"const":"sources/OPENAI-TEN-PROOFS-001/semantic/OTP-A-SPHERE-PACKING-BRIDGE/audit_record.json"},"digest_algorithm":{"const":"git_blob_sha1"},"digest":{"const":"7858b156fc4490ecc6e3572dcf449d84dcc99f93"}}}
+  }
+}
