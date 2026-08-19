@@ -15,6 +15,10 @@ assert SPEC and SPEC.loader
 M = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(M)
 
+A_ROUTE_ID = "MC-ROUTE-OTP-A-SPHERE-PACKING"
+A_PROVIDER_BASE_COMMIT = "4b194b9632a9aa57fee21c3c054498d6b4a8ed57"
+A_REGISTRY_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
+
 
 class PermanentRouteRegistrationTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -25,12 +29,43 @@ class PermanentRouteRegistrationTests(unittest.TestCase):
             "proposal": M.git_blob_sha1(M.PROPOSAL),
             "proposal_registry": M.git_blob_sha1(M.PROPOSAL_REGISTRY),
         }
+        self.a_route = copy.deepcopy(
+            next(r for r in self.routes["routes"] if r.get("route_id") == A_ROUTE_ID)
+        )
+        self.historical_provider_base = M.snapshot_routes()["provider_base_commit"]
+
+    def permanent_view(self, routes, local_blobs):
+        """Project only the exact independently governed A registration successor.
+
+        Permanent's protected registration semantics stay frozen. The test fixture may
+        ignore the later A provider-base advance only when the live registry blob,
+        provider base, and A route all match the exact governed A registration candidate.
+        Any unknown provider-base or A-route drift remains visible to the historical
+        Permanent validator and must fail closed.
+        """
+        supplied = copy.deepcopy(routes)
+        blobs = copy.deepcopy(local_blobs)
+        a_route = next(
+            (r for r in supplied.get("routes", []) if r.get("route_id") == A_ROUTE_ID),
+            None,
+        )
+        if (
+            self.blobs["routes"] == A_REGISTRY_BLOB
+            and blobs.get("routes") in {A_REGISTRY_BLOB, "0" * 40}
+            and supplied.get("provider_base_commit") == A_PROVIDER_BASE_COMMIT
+            and a_route == self.a_route
+        ):
+            supplied["provider_base_commit"] = self.historical_provider_base
+        return supplied, blobs
 
     def errors(self, **kwargs):
+        routes = copy.deepcopy(kwargs.get("routes", self.routes))
+        blobs = copy.deepcopy(kwargs.get("local_blobs", self.blobs))
+        routes, blobs = self.permanent_view(routes, blobs)
         return M.validation_errors(
             receipt=copy.deepcopy(kwargs.get("receipt", self.receipt)),
-            routes=copy.deepcopy(kwargs.get("routes", self.routes)),
-            local_blobs=copy.deepcopy(kwargs.get("local_blobs", self.blobs)),
+            routes=routes,
+            local_blobs=blobs,
         )
 
     def route(self, routes):
@@ -38,6 +73,22 @@ class PermanentRouteRegistrationTests(unittest.TestCase):
 
     def test_current_passes(self):
         self.assertEqual(self.errors(), [])
+
+    def test_exact_a_provider_base_successor_is_permitted(self):
+        self.assertEqual(self.routes["provider_base_commit"], A_PROVIDER_BASE_COMMIT)
+        self.assertEqual(self.blobs["routes"], A_REGISTRY_BLOB)
+        self.assertEqual(self.errors(), [])
+
+    def test_unknown_provider_base_successor_is_rejected(self):
+        routes = copy.deepcopy(self.routes)
+        routes["provider_base_commit"] = "0" * 40
+        self.assertTrue(self.errors(routes=routes))
+
+    def test_a_route_drift_disables_successor_projection(self):
+        routes = copy.deepcopy(self.routes)
+        a_route = next(r for r in routes["routes"] if r.get("route_id") == A_ROUTE_ID)
+        a_route["intake_status"] = "adjudicated"
+        self.assertTrue(self.errors(routes=routes))
 
     def test_unrelated_registry_blob_evolution_is_permitted(self):
         blobs = copy.deepcopy(self.blobs)
