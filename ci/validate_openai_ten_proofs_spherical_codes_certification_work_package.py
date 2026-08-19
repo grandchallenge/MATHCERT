@@ -13,7 +13,8 @@ ROUTES=ROOT/'governance/certification_routes.json'
 EXPECTED_RECORD_BLOB='50dc2c9c5bc8aad49f22414536102cef0e82ce20'
 EXPECTED_INTAKE_BLOB='8b74bd90d703eb1903a0a7a84387867a5df7b4e3'
 EXPECTED_PREDECESSOR_WP_BLOB='19e1eaf5e24ce212bb020c8c40d4177ff5b4f8f9'
-EXPECTED_ROUTES_BLOB='2d17473b4731aa9d9c630b1e7777ad4bd794d993'
+PRE_REGISTRATION_ROUTES_BLOB='2d17473b4731aa9d9c630b1e7777ad4bd794d993'
+A_REGISTRATION_ROUTES_BLOB='b9bb0dc9e18856f50a88162df37c20c034327439'
 FUTURE_ROUTE_ID='MC-ROUTE-OTP-B2-SPHERICAL-CODES'
 TARGETS=['MetricCodes.Johnson.main_binary_theorem','MetricCodes.Spherical.HigherHierarchy.main_general','MetricCodes.Spherical.HigherHierarchy.strict_hierarchy','MetricCodes.Spherical.HigherHierarchy.NumericalMaximum.eventually_kissingNumber_lt_published']
 CLASSES=['source_faithful_exact_projection','source_faithful_structured_projection','source_faithful_structured_projection','formal_strengthening_entailing_source_asymptotic_numerical_statement']
@@ -36,7 +37,8 @@ def validation_errors(record=None,*,record_blob_override=None,intake_blob_overri
  if (blob(RECORD_PATH) if record_blob_override is None else record_blob_override)!=EXPECTED_RECORD_BLOB: errors.append('B2 work-package record blob drift')
  if (blob(INTAKE_PATH) if intake_blob_override is None else intake_blob_override)!=EXPECTED_INTAKE_BLOB: errors.append('protected B2 intake drift')
  if (blob(PREDECESSOR_WP) if predecessor_blob_override is None else predecessor_blob_override)!=EXPECTED_PREDECESSOR_WP_BLOB: errors.append('protected B1 predecessor work-package drift')
- if (blob(ROUTES) if routes_blob_override is None else routes_blob_override)!=EXPECTED_ROUTES_BLOB: errors.append('certification route registry changed during work-package-only operation')
+ routes_blob=blob(ROUTES) if routes_blob_override is None else routes_blob_override
+ if routes_blob not in {PRE_REGISTRATION_ROUTES_BLOB,A_REGISTRATION_ROUTES_BLOB}: errors.append('certification route registry is neither protected work-package snapshot nor exact A registration successor')
  ie=imported(ROOT/'ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py','b2_intake')
  if ie: errors.append('protected B2 intake validation failed: '+'; '.join(ie))
  pe=imported(ROOT/'ci/validate_openai_ten_proofs_binary_codes_certification_work_package.py','b1_wp')
@@ -65,12 +67,12 @@ def validation_errors(record=None,*,record_blob_override=None,intake_blob_overri
  if s.get('target_acceptance',[{},{},{},{}])[3].get('semantic_requirement')!='formal_strengthening_entailing_source_asymptotic_numerical_statement': errors.append('exact 0.39661 strengthening classification inflation')
  route=r.get('route_state',{})
  zero={'certification_route_registry_entry':None,'route_registered':False,'may_adjudicate':False,'adjudication':None,'cert_output':None,'mathematical_target_proved':False,'aggregate_authority':False,'may_promote_claim':False}
- if any(route.get(k)!=v for k,v in zero.items()): errors.append('B2 route/adjudication/output/proof authority inflation')
+ if any(route.get(k)!=v for k,v in zero.items()): errors.append('B2 historical work-package route/adjudication/output/proof authority inflation')
  if FUTURE_ROUTE_ID in [x.get('route_id') for x in load(ROUTES).get('routes',[]) if isinstance(x,dict)]: errors.append('future B2 route already registered')
  return errors
 
 def main():
  e=validation_errors()
  if e: print('\n'.join(e),file=sys.stderr); return 1
- print('OTP-B2-SPHERICAL-CODES executable certification work package validation: PASS; later replay only, no predecessor-seven-target/route/adjudication/output/proof/aggregate authority created'); return 0
+ print('OTP-B2-SPHERICAL-CODES executable certification work package validation: PASS; immutable work-package authority preserved across exact separately governed A route registration'); return 0
 if __name__=='__main__': raise SystemExit(main())

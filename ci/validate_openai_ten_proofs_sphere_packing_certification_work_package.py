@@ -19,7 +19,8 @@ ROUTES = ROOT / "governance/certification_routes.json"
 EXPECTED_RECORD_BLOB = "f0c91d1959035f35843c383920dfba0b6c24b485"
 EXPECTED_INTAKE_BLOB = "294c9f7d6cceb1cdf7ec4c8e73255dd1ba130670"
 EXPECTED_HISTORICAL_WORK_PACKAGES_BLOB = "997f38fb60ef4d3a43801916113a8e2f1ae34264"
-EXPECTED_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
+PRE_REGISTRATION_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
+A_REGISTRATION_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
 FUTURE_ROUTE_ID = "MC-ROUTE-OTP-A-SPHERE-PACKING"
 
 
@@ -83,8 +84,8 @@ def validation_errors(
     if historical_blob != EXPECTED_HISTORICAL_WORK_PACKAGES_BLOB:
         errors.append("historical three-family work-package registry drift")
     routes_blob = git_blob_sha1(ROUTES) if routes_blob_override is None else routes_blob_override
-    if routes_blob != EXPECTED_ROUTES_BLOB:
-        errors.append("certification route registry changed during work-package-only operation")
+    if routes_blob not in {PRE_REGISTRATION_ROUTES_BLOB, A_REGISTRATION_ROUTES_BLOB}:
+        errors.append("certification route registry is neither protected work-package snapshot nor exact A registration successor")
 
     intake_errors = _import_validation(
         ROOT / "ci/validate_openai_ten_proofs_sphere_packing_intake_successor.py",
@@ -159,11 +160,13 @@ def validation_errors(
         "may_promote_claim": False,
     }
     if any(route.get(k) != v for k, v in zero_authority.items()):
-        errors.append("sphere-packing work-package route/adjudication/output/proof authority inflation")
+        errors.append("sphere-packing work-package historical route/adjudication/output/proof authority inflation")
 
     route_ids = [r.get("route_id") for r in load(ROUTES).get("routes", []) if isinstance(r, dict)]
-    if FUTURE_ROUTE_ID in route_ids:
-        errors.append("future sphere-packing route is already registered during work-package-only operation")
+    if routes_blob == PRE_REGISTRATION_ROUTES_BLOB and FUTURE_ROUTE_ID in route_ids:
+        errors.append("sphere-packing route present in protected work-package snapshot")
+    if routes_blob == A_REGISTRATION_ROUTES_BLOB and route_ids.count(FUTURE_ROUTE_ID) != 1:
+        errors.append("exact separately governed sphere-packing registration successor missing")
     return errors
 
 
@@ -173,8 +176,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         return 1
     print(
-        "OTP-A-SPHERE-PACKING executable certification work package validation: PASS; "
-        "later replay only, no route/adjudication/output/proof/aggregate authority created"
+        "OTP-A-SPHERE-PACKING executable certification work package validation: PASS; immutable work-package authority preserved across exact separately governed A route registration"
     )
     return 0
 

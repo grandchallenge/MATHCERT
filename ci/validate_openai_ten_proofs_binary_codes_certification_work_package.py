@@ -13,7 +13,8 @@ ROUTES=ROOT/'governance/certification_routes.json'
 EXPECTED_RECORD_BLOB='19e1eaf5e24ce212bb020c8c40d4177ff5b4f8f9'
 EXPECTED_INTAKE_BLOB='9ba1e66679d5d46aceef16164194147d8fac530a'
 EXPECTED_PREDECESSOR_WP_BLOB='0f811d163f0d36b028cf6539963e2cf278517137'
-EXPECTED_ROUTES_BLOB='2d17473b4731aa9d9c630b1e7777ad4bd794d993'
+PRE_REGISTRATION_ROUTES_BLOB='2d17473b4731aa9d9c630b1e7777ad4bd794d993'
+A_REGISTRATION_ROUTES_BLOB='b9bb0dc9e18856f50a88162df37c20c034327439'
 FUTURE_ROUTE_ID='MC-ROUTE-OTP-B1-BINARY-CODES'
 TARGETS=['MetricCodes.Hamming.binaryRate_lt_classicalRate','MetricCodes.Hamming.exists_binaryRate_improvement','MetricCodes.Johnson.binaryRate_le_combinedVariationalRate','MetricCodes.MRRW.strict_mrrw2','MetricCodes.Johnson.binaryRate_lt_mrrw','MetricCodes.Johnson.exists_binaryRate_mrrw_improvement']
 CLASSES=['source_faithful_derived_consequence','derived_positive_margin_certificate','source_faithful_exact_projection','source_faithful_exact_projection','source_faithful_derived_consequence','derived_positive_margin_certificate']
@@ -36,7 +37,8 @@ def validation_errors(record=None,*,record_blob_override=None,intake_blob_overri
  if (blob(RECORD_PATH) if record_blob_override is None else record_blob_override)!=EXPECTED_RECORD_BLOB: errors.append('B1 work-package record blob drift')
  if (blob(INTAKE_PATH) if intake_blob_override is None else intake_blob_override)!=EXPECTED_INTAKE_BLOB: errors.append('protected B1 intake drift')
  if (blob(PREDECESSOR_WP) if predecessor_blob_override is None else predecessor_blob_override)!=EXPECTED_PREDECESSOR_WP_BLOB: errors.append('protected H predecessor work-package drift')
- if (blob(ROUTES) if routes_blob_override is None else routes_blob_override)!=EXPECTED_ROUTES_BLOB: errors.append('certification route registry changed during work-package-only operation')
+ routes_blob=blob(ROUTES) if routes_blob_override is None else routes_blob_override
+ if routes_blob not in {PRE_REGISTRATION_ROUTES_BLOB,A_REGISTRATION_ROUTES_BLOB}: errors.append('certification route registry is neither protected work-package snapshot nor exact A registration successor')
  ie=imported(ROOT/'ci/validate_openai_ten_proofs_binary_codes_intake_successor.py','b1_intake')
  if ie: errors.append('protected B1 intake validation failed: '+'; '.join(ie))
  pe=imported(ROOT/'ci/validate_openai_ten_proofs_gapcvp_certification_work_package.py','h_wp')
@@ -62,12 +64,12 @@ def validation_errors(record=None,*,record_blob_override=None,intake_blob_overri
  if [x.get('theorem') for x in s.get('target_acceptance',[])]!=TARGETS: errors.append('B1 target-acceptance alignment drift')
  route=r.get('route_state',{})
  zero={'certification_route_registry_entry':None,'route_registered':False,'may_adjudicate':False,'adjudication':None,'cert_output':None,'mathematical_target_proved':False,'aggregate_authority':False,'may_promote_claim':False}
- if any(route.get(k)!=v for k,v in zero.items()): errors.append('B1 route/adjudication/output/proof authority inflation')
+ if any(route.get(k)!=v for k,v in zero.items()): errors.append('B1 historical work-package route/adjudication/output/proof authority inflation')
  if FUTURE_ROUTE_ID in [x.get('route_id') for x in load(ROUTES).get('routes',[]) if isinstance(x,dict)]: errors.append('future B1 route already registered')
  return errors
 
 def main():
  e=validation_errors()
  if e: print('\n'.join(e),file=sys.stderr); return 1
- print('OTP-B1-BINARY-CODES executable certification work package validation: PASS; later replay only, no route/adjudication/output/proof/aggregate authority created'); return 0
+ print('OTP-B1-BINARY-CODES executable certification work package validation: PASS; immutable work-package authority preserved across exact separately governed A route registration'); return 0
 if __name__=='__main__': raise SystemExit(main())

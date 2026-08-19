@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_sphere_packing_route_registration",
+  "record_id": "MC-OTP-A-SPHERE-PACKING-ROUTE-REGISTRATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-A-SPHERE-PACKING",
+  "route_id": "MC-ROUTE-OTP-A-SPHERE-PACKING",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/158",
+  "authority": {
+    "proposal_merge": "4b194b9632a9aa57fee21c3c054498d6b4a8ed57",
+    "proposal_reviewed_head": "e6d1747899e5cae7ac90152cc8c852eacd7561e9",
+    "proposal_review_id": 4966426476,
+    "proposal_reviewer": "jimsteeg",
+    "proposal_disposition_comment": 5335273281,
+    "proposal_record": {
+      "path": "governance/result_family_route_proposal_successors/OTP-A-SPHERE-PACKING.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "e216cfc893a99d853ca798a68c46adbf013239ff"
+    },
+    "proposal_registry": {
+      "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_PROPOSAL.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "3543ce68170b40fdc79dfdfebfe9ffbd3d4c0add"
+    },
+    "registered_route_registry_before_blob": "2d17473b4731aa9d9c630b1e7777ad4bd794d993",
+    "registered_route_registry_candidate_blob": "b9bb0dc9e18856f50a88162df37c20c034327439",
+    "forge_composite_semantic": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "706d0291370bf3f14aa37be0823e33d06f7343b0",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-A-SPHERE-PACKING-COMPOSITE/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "b2e309ad96e750651fc7149a6bad54c6bf99015b"
+    },
+    "forge_bridge_semantic": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "5a0cb9a7b7eef210dd0fce5c527d09b6eef3bc12",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-A-SPHERE-PACKING-BRIDGE/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "7858b156fc4490ecc6e3572dcf449d84dcc99f93"
+    },
+    "solve_handoff": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "c19735edf4c16ac9765bb66c7209bbf11bf1312e",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-A-SPHERE-PACKING.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "9e3b46972bf01ac3d24c6a0ae5f522799335ecd1"
+    },
+    "cert_intake_merge": "947b3bed0effa79c2472dddc37d6c463f79c3126",
+    "cert_intake_blob": "294c9f7d6cceb1cdf7ec4c8e73255dd1ba130670",
+    "cert_work_package_merge": "54b883bb5c6ffaf099efd7270df3519a45b13038",
+    "cert_work_package_blob": "f0c91d1959035f35843c383920dfba0b6c24b485",
+    "cert_replay_evidence_merge": "036646952651057deadc5c485ef9e80a086865cd",
+    "cert_replay_evidence_blob": "5a2d17d158ee9e8b535de8ed0a1ed41612c5abd2",
+    "cert_replay_evidence_id": "MC-OTP-A-SPHERE-PACKING-REPLAY-EVIDENCE-001",
+    "evidence_bundle_sha256": "0ec443cd35cee041d5bdc154de2e5d1697a21cdffbcc01d21c08c6aad61f10f3",
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7"
+    }
+  },
+  "registration": {
+    "route_status": "submitted",
+    "target_count": 4,
+    "target_claim_ids": [
+      "PackingBounds.FullMain.exact_limit",
+      "PackingBounds.FullMain.exact_binary_exponent",
+      "PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper",
+      "PackingBounds.sharpFullCohnElkiesManuscriptConclusions"
+    ],
+    "classifications": [
+      "direct_source_theorem_projection_modulo_proved_full_radial_equivalence",
+      "derived_base_two_logarithmic_consequence",
+      "source_faithful_displayed_consequence_with_proved_scale_normalization",
+      "source_faithful_derived_composite_certificate"
+    ],
+    "mandatory_qualifications": [
+      "The ten-field composite is not a single verbatim manuscript theorem.",
+      "The 30-decimal base-two exponent enclosure is a formal numerical consequence of the exact alpha_* expression, not manuscript-authored precision.",
+      "The packing bridge relies on proved positive rescaling invariance and unit-separation supremum equivalence; declaration-name similarity is not used as authority.",
+      "The explicit little-o witness is a normal form of the source asymptotic and is not a stronger rate claim.",
+      "No whole-chapter semantic equivalence or independent proof certification is transferred by this registration."
+    ],
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+    "nonvacuity_state": "clear_for_current_root_four_target_surface"
+  },
+  "state": {
+    "registered_route_count_created_by_this_operation": 1,
+    "submitted_route_count": 1,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "route_controls": {
+    "registration_scope": "exact_one_sphere_packing_four_target_route",
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "may_promote_claim": false,
+    "may_reclassify_composite_as_verbatim_source_theorem": false,
+    "may_attribute_decimal_precision_to_source": false,
+    "may_remove_scale_normalization_boundary": false,
+    "whole_chapter_equivalence_established": false,
+    "full_proof_body_equivalence_established": false,
+    "aggregate_route_prohibited": true
+  },
+  "activation": {
+    "condition": "exact-head Cert checks, GCL policy/security, protected CodeQL/no-new-alert precedent, fresh non-author sphere-packing/Lean specialist APPROVED review, explicit exact-head Human Steward disposition, ordinary expected-head merge, and protected-main readback",
+    "head_change_requires_reapproval": true,
+    "effect": "sphere_packing_route_registered_no_adjudication_no_output"
+  },
+  "candidate_disposition": "A_SPHERE_PACKING_CERT_ROUTE_REGISTERED__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY",
+  "claim_boundary": "This registration record registers only MC-ROUTE-OTP-A-SPHERE-PACKING for the exact four protected sphere-packing targets and preserves their protected source/derived classifications, formal-only 30-decimal exponent provenance, proved scale/unit-separation normalization boundary, nonvacuity evidence, and permitted-axiom boundary. It does not adjudicate or prove any target, issue a Cert output, represent the ten-field composite as one manuscript-verbatim theorem, attribute formal decimal precision to the manuscript, erase the packing normalization boundary, establish whole-chapter or full proof-body equivalence, alter another result family, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}

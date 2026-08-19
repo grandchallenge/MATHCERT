@@ -18,6 +18,7 @@ FULL_FORMULA_ROUTE = ROOT / "governance/certification_route_overlays/OTP-C-PERMA
 
 EXPECTED_CERT_BLOB = "9d0eb4a83df73440b17cb6809ede5cdcc0a8e385"
 EXPECTED_GLOBAL_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
+EXPECTED_A_REGISTRATION_GLOBAL_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
 EXPECTED_VARIABLE_CERT_BLOB = "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04"
 EXPECTED_FULL_FORMULA_CERT_BLOB = "2940f551805794b96c7b0793bfe0d14e9fcd9954"
 EXPECTED_FULL_FORMULA_ROUTE_BLOB = "3a208d3391514de74853f4ad182e26c74f631913"
@@ -47,11 +48,24 @@ def head_blob(path: Path) -> str:
     ).strip()
 
 
+def accepted_live_global_routes_blob(value: str) -> bool:
+    """Accept the circuit-era registry or exactly the governed A registration successor."""
+    return value in {
+        EXPECTED_GLOBAL_ROUTES_BLOB,
+        EXPECTED_A_REGISTRATION_GLOBAL_ROUTES_BLOB,
+    }
+
+
 def validation_errors() -> list[str]:
     errors: list[str] = []
 
+    try:
+        if not accepted_live_global_routes_blob(head_blob(GLOBAL_ROUTES)):
+            errors.append("historical certification route registry mutated outside exact A registration successor")
+    except subprocess.CalledProcessError as exc:
+        errors.append(f"cannot verify historical certification route registry: {exc}")
+
     for path, expected, label in (
-        (GLOBAL_ROUTES, EXPECTED_GLOBAL_ROUTES_BLOB, "historical certification route registry"),
         (VARIABLE_CERT, EXPECTED_VARIABLE_CERT_BLOB, "historical variable-leaf certificate"),
         (FULL_FORMULA_CERT, EXPECTED_FULL_FORMULA_CERT_BLOB, "protected full-formula certificate"),
         (FULL_FORMULA_ROUTE, EXPECTED_FULL_FORMULA_ROUTE_BLOB, "protected full-formula route overlay"),
