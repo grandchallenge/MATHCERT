@@ -49,6 +49,7 @@ PREDECESSOR_CERT = ROOT / "certificates/formal_sources/MC-OTP-C-PERMANENT-001.js
 GLOBAL_ROUTES = ROOT / "governance/certification_routes.json"
 EXPECTED_PREDECESSOR_CERT_BLOB = "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04"
 EXPECTED_GLOBAL_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
+EXPECTED_A_REGISTRATION_GLOBAL_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
 EXPECTED_OUTPUT_CONTRACT_BLOB = "e234a4bcf55353ed6519e54a41d479b51d93c82c"
 EXPECTED_STAGED_CERT_BLOB = "f5b44312672b8c38383d55bd5c41bbdcbafe28fe"
 EXPECTED_CERT_BLOB = "2940f551805794b96c7b0793bfe0d14e9fcd9954"
@@ -243,8 +244,11 @@ def validation_errors(records=None, *, check_git=True):
         try:
             if git_blob(PREDECESSOR_CERT) != EXPECTED_PREDECESSOR_CERT_BLOB:
                 errors.append("historical Permanent certificate mutated")
-            if git_blob(GLOBAL_ROUTES) != EXPECTED_GLOBAL_ROUTES_BLOB:
-                errors.append("global certification route registry mutated")
+            if git_blob(GLOBAL_ROUTES) not in {
+                EXPECTED_GLOBAL_ROUTES_BLOB,
+                EXPECTED_A_REGISTRATION_GLOBAL_ROUTES_BLOB,
+            }:
+                errors.append("global certification route registry mutated outside exact A registration successor")
             if git_blob(PATHS["output_contract"]) != EXPECTED_OUTPUT_CONTRACT_BLOB:
                 errors.append("canonical successor output-contract blob drift")
             if git_blob(PATHS["staged_certificate"]) != EXPECTED_STAGED_CERT_BLOB:
