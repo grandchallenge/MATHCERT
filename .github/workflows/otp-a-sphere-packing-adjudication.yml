@@ -8,17 +8,21 @@ on:
       - "requirements-ci.txt"
       - "ci/validate_otp_a_sphere_packing_adjudication_input.py"
       - "ci/test_otp_a_sphere_packing_adjudication_input.py"
+      - "ci/validate_otp_a_sphere_packing_adjudication.py"
+      - "ci/test_otp_a_sphere_packing_adjudication.py"
       - "ci/run_otp_a_sphere_packing_adjudication_replay.sh"
       - "ci/run_openai_ten_proofs_sphere_packing_replay.sh"
       - "ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh"
       - "ci/otp_landrun_argv_adapter.sh"
       - "governance/result_family_adjudication_execution_inputs/OTP-A-SPHERE-PACKING.json"
+      - "governance/result_family_adjudications/OTP-A-SPHERE-PACKING.json"
       - "governance/result_family_adjudication_contracts/OTP-A-SPHERE-PACKING.json"
       - "governance/adjudication_design/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ADJUDICATION_CONTRACT.json"
       - "governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_REGISTRATION.json"
       - "governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json"
       - "governance/certification_routes.json"
       - "schemas/openai_ten_proofs_sphere_packing_adjudication_execution_input.schema.json"
+      - "schemas/openai_ten_proofs_sphere_packing_adjudication.schema.json"
       - "governance/ci_control_registry.json"
       - "ci/check_lean.sh"
       - "ci/check_lean.ps1"
@@ -32,8 +36,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  adjudication-input-control:
-    name: adjudication-input-control (${{ matrix.os }})
+  adjudication-control:
+    name: adjudication-control (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
@@ -66,6 +70,10 @@ jobs:
         run: |
           python ci/validate_otp_a_sphere_packing_adjudication_input.py
           python ci/test_otp_a_sphere_packing_adjudication_input.py
+      - name: Validate final adjudication candidate
+        run: |
+          python ci/validate_otp_a_sphere_packing_adjudication.py
+          python ci/test_otp_a_sphere_packing_adjudication.py
 
   replay:
     name: exact-a-sphere-packing-adjudication-replay
