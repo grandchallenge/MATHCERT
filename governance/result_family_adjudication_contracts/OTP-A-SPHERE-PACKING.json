@@ -1,0 +1,183 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_sphere_packing_adjudication_contract",
+  "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-A-SPHERE-PACKING",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-A-SPHERE-PACKING",
+  "route_id": "MC-ROUTE-OTP-A-SPHERE-PACKING",
+  "contract_state": "design_only",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/160",
+  "authority": {
+    "registration_merge": "7179ed9c6060f44e46fb821a569e2c0c2f75c215",
+    "registration_head": "bc695488de218ba7625244b63fc450b4e107c23c",
+    "registration_human_steward_disposition_comment": 5337346274,
+    "registered_route_registry_blob": "b9bb0dc9e18856f50a88162df37c20c034327439",
+    "registration_receipt": {
+      "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_REGISTRATION.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "2d9a520a3ef868c4d6d721cffc6cf89e546c6d09"
+    },
+    "route_proposal_merge": "4b194b9632a9aa57fee21c3c054498d6b4a8ed57",
+    "route_proposal_record": {
+      "path": "governance/result_family_route_proposal_successors/OTP-A-SPHERE-PACKING.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "e216cfc893a99d853ca798a68c46adbf013239ff"
+    },
+    "route_proposal_registry": {
+      "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_PROPOSAL.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "3543ce68170b40fdc79dfdfebfe9ffbd3d4c0add"
+    },
+    "cert_replay_evidence_merge": "036646952651057deadc5c485ef9e80a086865cd",
+    "cert_replay_evidence_blob": "5a2d17d158ee9e8b535de8ed0a1ed41612c5abd2",
+    "cert_replay_evidence_id": "MC-OTP-A-SPHERE-PACKING-REPLAY-EVIDENCE-001",
+    "evidence_bundle_sha256": "0ec443cd35cee041d5bdc154de2e5d1697a21cdffbcc01d21c08c6aad61f10f3",
+    "cert_work_package_merge": "54b883bb5c6ffaf099efd7270df3519a45b13038",
+    "cert_work_package_blob": "f0c91d1959035f35843c383920dfba0b6c24b485",
+    "cert_intake_merge": "947b3bed0effa79c2472dddc37d6c463f79c3126",
+    "cert_intake_blob": "294c9f7d6cceb1cdf7ec4c8e73255dd1ba130670",
+    "solve_handoff": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "c19735edf4c16ac9765bb66c7209bbf11bf1312e",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-A-SPHERE-PACKING.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "9e3b46972bf01ac3d24c6a0ae5f522799335ecd1"
+    },
+    "forge_composite_semantic": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "706d0291370bf3f14aa37be0823e33d06f7343b0",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-A-SPHERE-PACKING-COMPOSITE/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "b2e309ad96e750651fc7149a6bad54c6bf99015b"
+    },
+    "forge_bridge_semantic": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "5a0cb9a7b7eef210dd0fce5c527d09b6eef3bc12",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-A-SPHERE-PACKING-BRIDGE/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "7858b156fc4490ecc6e3572dcf449d84dcc99f93"
+    },
+    "official_source": {
+      "revision": "2026-08-06",
+      "byte_length": 2487031,
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
+    },
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7"
+    },
+    "lean_toolchain": {
+      "version": "4.32.0",
+      "commit": "8c9756b28d64dab099da31a4c09229a9e6a2ef35"
+    },
+    "implementation_authorization": {
+      "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/160",
+      "comment_id": 5337465770,
+      "scope": "design_only_sphere_packing_adjudication_contract"
+    }
+  },
+  "route_scope": {
+    "registered_route_state": "submitted",
+    "target_claim_ids": [
+      "PackingBounds.FullMain.exact_limit",
+      "PackingBounds.FullMain.exact_binary_exponent",
+      "PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper",
+      "PackingBounds.sharpFullCohnElkiesManuscriptConclusions"
+    ],
+    "classifications": [
+      "direct_source_theorem_projection_modulo_proved_full_radial_equivalence",
+      "derived_base_two_logarithmic_consequence",
+      "source_faithful_displayed_consequence_with_proved_scale_normalization",
+      "source_faithful_derived_composite_certificate"
+    ],
+    "mandatory_qualifications": [
+      "The ten-field composite is not a single verbatim manuscript theorem.",
+      "The 30-decimal base-two exponent enclosure is a formal numerical consequence of the exact alpha_* expression, not manuscript-authored precision.",
+      "The packing bridge relies on proved positive rescaling invariance and unit-separation supremum equivalence; declaration-name similarity is not used as authority.",
+      "The explicit little-o witness is a normal form of the source asymptotic and is not a stronger rate claim.",
+      "No whole-chapter semantic equivalence or independent proof certification is transferred by this contract."
+    ],
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+    "nonvacuity_state": "clear_for_current_root_four_target_surface",
+    "scope_exclusions": [
+      "No target outside the four registered declarations is in scope.",
+      "The ten-field composite may not be reclassified as one manuscript-verbatim theorem.",
+      "The formal 30-decimal enclosure may not be attributed to manuscript precision.",
+      "The positive-rescaling and unit-separation normalization boundary may not be erased.",
+      "The little-o witness may not be strengthened into a quantitative rate claim.",
+      "Whole-chapter and full proof-body equivalence are not established.",
+      "No other result family or aggregate OpenAI Ten Proofs adjudication is in scope."
+    ]
+  },
+  "decision_contract": {
+    "decision_question": "Does the complete admissible family-specific evidence support a MATHCERT adjudication of exactly the four protected OTP-A-SPHERE-PACKING targets while preserving target-by-target source/derived classification, formal-only decimal provenance, proved scale/unit-separation normalization, the permitted-axiom boundary, and the protected nonvacuity boundary?",
+    "admissible_dispositions": [
+      "adjudication_clear_protected_four_targets_only",
+      "adjudication_not_clear",
+      "defer_insufficient_evidence"
+    ],
+    "required_evidence": [
+      "Reverify the complete content-addressed authority chain from the current official source, Forge records, Solve handoff, Cert intake/work package/replay, route proposal, and protected route registration.",
+      "Refresh the exact current official PDF byte length and SHA-256 identity.",
+      "Refresh isolated Lean replay of exactly the four registered declarations under the protected Lean 4.32.0 subject tree and toolchain.",
+      "Refresh Comparator, default Lean kernel, and Nanoda acceptance evidence for the exact four-target surface.",
+      "Refresh theorem-level axiom reports and reject any axiom outside propext, Quot.sound, and Classical.choice.",
+      "Reconfirm source-to-formal concordance independently for each target under its protected source/derived classification.",
+      "Reconfirm that the 30-decimal base-two exponent enclosure is a derived formal numerical consequence and is not manuscript-authored precision.",
+      "Reconfirm the proved positive-rescaling invariance and unit-separation supremum equivalence required by the packing bridge.",
+      "Reconfirm that the explicit little-o witness is only a normal form of the source asymptotic and does not strengthen the asymptotic rate.",
+      "Reconfirm that the ten-field composite remains a mixed source/derived certificate and not one manuscript-verbatim theorem.",
+      "Refresh nonvacuity evidence for the current four-target root and reject vacuous or empty-domain substitutions.",
+      "Obtain a binding non-author specialist APPROVED review on the exact adjudication execution head after all evidence is frozen.",
+      "Confirm that execution remains within this approved control plan; Human Steward intervention is required only if the control plan itself must change."
+    ]
+  },
+  "reviewer_requirements": {
+    "minimum_binding_non_author_reviewers": 1,
+    "required_review_state": "APPROVED",
+    "review_must_bind_exact_execution_head": true,
+    "competence": [
+      "sphere packing and Cohn-Elkies-style asymptotic bounds",
+      "Lean 4 kernel replay and theorem-level axiom analysis",
+      "source-to-formal concordance including derived numerical consequences and normalization equivalences"
+    ],
+    "independence": [
+      "Reviewer must not self-approve an adjudication execution they authored.",
+      "Reviewer must disclose any material conflict affecting mathematical or evidence judgment.",
+      "Reviewer approval must bind the exact frozen execution head and becomes stale after any head mutation."
+    ]
+  },
+  "execution_gate": {
+    "evidence_candidate_required_before_adjudication": true,
+    "separate_tracked_adjudication_execution_required": true,
+    "routine_stage_progression_without_human_steward_intervention": true,
+    "human_steward_intervention_required_for_control_plan_change": true,
+    "exact_head_cert_checks_required": true,
+    "exact_head_gcl_conformance_required": true,
+    "exact_head_codeql_required": true,
+    "fresh_non_author_approval_required": true,
+    "protected_merge_required": true,
+    "head_change_requires_revalidation_and_reapproval": true,
+    "design_merge_effect": "contract_admitted_design_only_no_adjudication"
+  },
+  "state": {
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_issue_output": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false
+  },
+  "preserved_limitations": {
+    "target_classification_separation_required": true,
+    "composite_is_single_verbatim_source_theorem": false,
+    "manuscript_decimal_precision_attributed": false,
+    "scale_normalization_boundary_required": true,
+    "whole_chapter_equivalence_established": false,
+    "full_proof_body_equivalence_established": false,
+    "aggregate_openai_ten_proofs_authority": false
+  },
+  "claim_boundary": "This design-only contract defines a possible future adjudication process for exactly the four protected OTP-A-SPHERE-PACKING targets. It does not adjudicate or prove any target, alter the submitted route, issue a Cert output, reclassify the mixed ten-field composite as one manuscript-verbatim theorem, attribute the formal 30-decimal enclosure to manuscript precision, erase the proved positive-rescaling/unit-separation normalization boundary, strengthen the little-o normal form, establish whole-chapter or full proof-body equivalence, qualify another result family, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims. Routine stage progression may proceed under the approved control plan without separate Human Steward intervention; Human Steward intervention is required only for a control-plan change."
+}
