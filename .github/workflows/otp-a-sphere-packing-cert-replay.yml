@@ -5,8 +5,11 @@ on:
     paths:
       - ".github/workflows/otp-a-sphere-packing-cert-replay.yml"
       - "ci/run_openai_ten_proofs_sphere_packing_replay.sh"
+      - "ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh"
       - "ci/otp_landrun_argv_adapter.sh"
       - "governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json"
+      - "governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_REGISTRATION.json"
+      - "governance/certification_routes.json"
       - "schemas/openai_ten_proofs_sphere_packing_replay_evidence.schema.json"
       - "ci/validate_openai_ten_proofs_sphere_packing_replay_evidence.py"
       - "ci/test_openai_ten_proofs_sphere_packing_replay_evidence.py"
@@ -173,8 +176,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          chmod +x ci/run_openai_ten_proofs_sphere_packing_replay.sh
-          ci/run_openai_ten_proofs_sphere_packing_replay.sh evidence/a-sphere-packing
+          chmod +x ci/run_openai_ten_proofs_sphere_packing_replay.sh ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh
+          ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh evidence/a-sphere-packing
 
       - name: Upload exact A replay evidence
         if: always()
