@@ -1,0 +1,213 @@
+name: OTP A sphere-packing adjudication
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-a-sphere-packing-adjudication.yml"
+      - ".github/workflows/otp-a-sphere-packing-cert-replay.yml"
+      - "requirements-ci.txt"
+      - "ci/validate_otp_a_sphere_packing_adjudication_input.py"
+      - "ci/test_otp_a_sphere_packing_adjudication_input.py"
+      - "ci/validate_otp_a_sphere_packing_adjudication.py"
+      - "ci/test_otp_a_sphere_packing_adjudication.py"
+      - "ci/run_otp_a_sphere_packing_adjudication_replay.sh"
+      - "ci/run_openai_ten_proofs_sphere_packing_replay.sh"
+      - "ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh"
+      - "ci/otp_landrun_argv_adapter.sh"
+      - "governance/result_family_adjudication_execution_inputs/OTP-A-SPHERE-PACKING.json"
+      - "governance/result_family_adjudications/OTP-A-SPHERE-PACKING.json"
+      - "governance/result_family_adjudication_contracts/OTP-A-SPHERE-PACKING.json"
+      - "governance/adjudication_design/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ADJUDICATION_CONTRACT.json"
+      - "governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_REGISTRATION.json"
+      - "governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json"
+      - "governance/certification_routes.json"
+      - "schemas/openai_ten_proofs_sphere_packing_adjudication_execution_input.schema.json"
+      - "schemas/openai_ten_proofs_sphere_packing_adjudication.schema.json"
+      - "governance/ci_control_registry.json"
+      - "ci/check_lean.sh"
+      - "ci/check_lean.ps1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  adjudication-control:
+    name: adjudication-control (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out literal adjudication head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify literal adjudication head
+        shell: bash
+        if: runner.os != 'Windows'
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - name: Verify literal adjudication head (Windows)
+        shell: pwsh
+        if: runner.os == 'Windows'
+        run: |
+          if ((git rev-parse HEAD) -ne $env:MATHCERT_HEAD_SHA) { throw "MATHCERT A adjudication checkout is not the literal PR head" }
+      - name: Install locked CI dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Reacquire exact current official source bytes
+        run: >-
+          python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current A source reacquired',len(b),h)"
+      - name: Validate adjudication execution input
+        run: |
+          python ci/validate_otp_a_sphere_packing_adjudication_input.py
+          python ci/test_otp_a_sphere_packing_adjudication_input.py
+      - name: Validate final adjudication candidate
+        run: |
+          python ci/validate_otp_a_sphere_packing_adjudication.py
+          python ci/test_otp_a_sphere_packing_adjudication.py
+
+  replay:
+    name: exact-a-sphere-packing-adjudication-replay
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      MATHCERT_WORKFLOW_SHA: ${{ github.sha }}
+    steps:
+      - name: Check out literal MATHCERT adjudication head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.MATHCERT_HEAD_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify literal adjudication head
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - name: Check out exact formal subject
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: openai/ten-proofs
+          ref: 94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6
+          path: upstream
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Check out exact Forge composite authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: 706d0291370bf3f14aa37be0823e33d06f7343b0
+          path: forge-composite
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Check out exact Forge bridge authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: 5a0cb9a7b7eef210dd0fce5c527d09b6eef3bc12
+          path: forge-bridge
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Check out exact Solve producer authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHSOLVE
+          ref: c19735edf4c16ac9765bb66c7209bbf11bf1312e
+          path: solve
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Check out exact Landrun source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: Zouuup/landrun
+          ref: 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
+          path: landrun-src
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Check out exact lean4export source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: leanprover/lean4export
+          ref: 4e7915201d3f9f04470d9eae002fa695f7cdc589
+          path: lean4export-src
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Check out exact Nanoda source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ammkrn/nanoda_lib
+          ref: ddfac2bf5a7b56cb46e141494427ff3dd55963c7
+          path: nanoda-src
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Bootstrap exact formal-subject dependencies
+        uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          lake-package-directory: upstream
+      - name: Activate governed Lean 4.32.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          elan toolchain list | grep -Fq 'leanprover/lean4:v4.32.0' || elan toolchain install leanprover/lean4:v4.32.0
+          elan run leanprover/lean4:v4.32.0 lean --version | grep -F "version 4.32.0"
+          echo "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0" >> "$GITHUB_ENV"
+      - name: Assert exact replay TCB source identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C landrun-src rev-parse HEAD)" = "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4"
+          test "$(git -C lean4export-src rev-parse HEAD)" = "4e7915201d3f9f04470d9eae002fa695f7cdc589"
+          test "$(git -C nanoda-src rev-parse HEAD)" = "ddfac2bf5a7b56cb46e141494427ff3dd55963c7"
+      - name: Build pinned Comparator helper binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          lean --version | grep -F "version 4.32.0"
+          (cd landrun-src && go build -trimpath -o ../landrun ./cmd/landrun)
+          (cd lean4export-src && lake build)
+          (cd nanoda-src && cargo build --release --locked)
+          mkdir -p tools
+          ln -sfn ../landrun-src tools/landrun
+          ln -sfn ../lean4export-src tools/lean4export
+          ln -sfn ../nanoda-src tools/nanoda
+          chmod +x ci/otp_landrun_argv_adapter.sh landrun
+          echo "COMPARATOR_LANDRUN=$GITHUB_WORKSPACE/ci/otp_landrun_argv_adapter.sh" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LANDRUN_REAL=$GITHUB_WORKSPACE/landrun" >> "$GITHUB_ENV"
+          echo "REAL_LANDRUN=$GITHUB_WORKSPACE/landrun" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/lean4export-src/.lake/build/bin/lean4export" >> "$GITHUB_ENV"
+          echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/nanoda-src/target/release/nanoda_bin" >> "$GITHUB_ENV"
+      - name: Prepare exact formal-subject cache
+        shell: bash
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"
+          test "$(git rev-parse 'HEAD:lake-manifest.json')" = "046e8de7f46832fbf092e3fb815efae01e4a2129"
+          lake exe cache get
+      - name: Execute exact A adjudication replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x ci/run_openai_ten_proofs_sphere_packing_replay.sh ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh ci/run_otp_a_sphere_packing_adjudication_replay.sh
+          ci/run_otp_a_sphere_packing_adjudication_replay.sh evidence/a-sphere-packing-adjudication-runtime
+      - name: Upload bounded A adjudication replay evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: otp-a-sphere-packing-adjudication-runtime
+          path: evidence/a-sphere-packing-adjudication-runtime/
+          if-no-files-found: warn
+          retention-days: 30

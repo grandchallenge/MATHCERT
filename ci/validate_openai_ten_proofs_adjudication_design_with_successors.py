@@ -8,6 +8,7 @@ from pathlib import Path
 
 import validate_openai_ten_proofs_adjudication_contracts as design
 import validate_openai_ten_proofs_route_registrations_with_j2_successor as route_registration
+import validate_otp_a_sphere_packing_adjudication as a_adjudication
 
 ROOT = Path(__file__).resolve().parents[1]
 ADJUDICATION_DIR = ROOT / "governance/result_family_adjudications"
@@ -26,6 +27,7 @@ CIRCUIT_TARGETS = [
     "PermanentRollout.permanent_complexity_ratio_tendsto_atTop",
 ]
 ALLOWED_ADJUDICATIONS = {
+    "OTP-A-SPHERE-PACKING.json",
     "OTP-F-EHRHART.json",
     "OTP-C-PERMANENT.json",
     "OTP-C-PERMANENT-FULL-FORMULA.json",
@@ -133,6 +135,11 @@ def validation_errors() -> list[str]:
         )
     errors += validate_full_formula_candidate()
     errors += validate_circuit_candidate()
+    # The A adjudication is a separately governed successor. Delegate its exact
+    # content-addressed scope, runtime evidence, submitted/null route state,
+    # semantic boundaries, and streamlined control-plan checks to its dedicated
+    # fail-closed validator rather than weakening historical design semantics.
+    errors += a_adjudication.validation_errors()
     actual_outputs = {
         path.name for path in CERT_DIR.glob("*.json") if path.is_file()
     } if CERT_DIR.is_dir() else set()
@@ -153,8 +160,9 @@ def main() -> int:
     print(
         "validated immutable design-only adjudication contracts against their historical registration "
         "snapshots, including J2, the protected Permanent full-formula successor, the bounded Permanent "
-        "circuit candidate adjudication with exact model/replay/review gates intact, the separately governed "
-        "historical adjudication records, and no legacy OTP output artifact"
+        "circuit candidate adjudication with exact model/replay/review gates intact, the exact separately "
+        "governed A sphere-packing adjudication successor, the other historical adjudication records, and "
+        "no legacy OTP output artifact"
     )
     return 0
 

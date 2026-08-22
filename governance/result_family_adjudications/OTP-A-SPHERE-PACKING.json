@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_sphere_packing_adjudication",
+  "adjudication_id": "MC-OTP-A-SPHERE-PACKING-ADJUDICATION-001",
+  "operation_id": "OTP-A-SPHERE-PACKING-ADJUDICATION-EXECUTION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-A-SPHERE-PACKING",
+  "route_id": "MC-ROUTE-OTP-A-SPHERE-PACKING",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/162",
+  "authority": {
+    "protected_design_merge": "38fd4333b9f5aa6f4d754c1c097fd342a9b9321c",
+    "execution_input": {
+      "path": "governance/result_family_adjudication_execution_inputs/OTP-A-SPHERE-PACKING.json",
+      "git_blob_sha1": "c4cc4aaecaccbab62e8d14d737f3048d1b598b3a",
+      "input_id": "MC-OTP-A-SPHERE-PACKING-ADJUDICATION-EXECUTION-INPUT-001"
+    },
+    "contract": {
+      "path": "governance/result_family_adjudication_contracts/OTP-A-SPHERE-PACKING.json",
+      "git_blob_sha1": "5f56cdc5c5c839e1040bea84c2d756d805dd1c3b",
+      "contract_id": "MC-OTP-ADJUDICATION-CONTRACT-A-SPHERE-PACKING"
+    },
+    "design_registry": {
+      "path": "governance/adjudication_design/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ADJUDICATION_CONTRACT.json",
+      "git_blob_sha1": "3605d660e4c4b57405ea03c4abfedb32d9deab93"
+    },
+    "registration": {
+      "merge_commit": "7179ed9c6060f44e46fb821a569e2c0c2f75c215",
+      "route_registry_git_blob_sha1": "b9bb0dc9e18856f50a88162df37c20c034327439",
+      "receipt_git_blob_sha1": "2d9a520a3ef868c4d6d721cffc6cf89e546c6d09"
+    },
+    "protected_replay": {
+      "merge_commit": "036646952651057deadc5c485ef9e80a086865cd",
+      "record_git_blob_sha1": "5a2d17d158ee9e8b535de8ed0a1ed41612c5abd2",
+      "evidence_id": "MC-OTP-A-SPHERE-PACKING-REPLAY-EVIDENCE-001",
+      "bundle_sha256": "0ec443cd35cee041d5bdc154de2e5d1697a21cdffbcc01d21c08c6aad61f10f3"
+    },
+    "forge_composite": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit": "706d0291370bf3f14aa37be0823e33d06f7343b0",
+      "git_blob_sha1": "b2e309ad96e750651fc7149a6bad54c6bf99015b"
+    },
+    "forge_bridge": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit": "5a0cb9a7b7eef210dd0fce5c527d09b6eef3bc12",
+      "git_blob_sha1": "7858b156fc4490ecc6e3572dcf449d84dcc99f93"
+    },
+    "solve_handoff": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit": "c19735edf4c16ac9765bb66c7209bbf11bf1312e",
+      "git_blob_sha1": "9e3b46972bf01ac3d24c6a0ae5f522799335ecd1"
+    }
+  },
+  "fresh_execution": {
+    "execution_head": "5c35035aab713573c905eeb05abf07a62667a6a2",
+    "workflow": ".github/workflows/otp-a-sphere-packing-adjudication.yml",
+    "workflow_run_id": 32234321274,
+    "replay_job_id": 96010971666,
+    "artifact": {
+      "artifact_id": 9358858485,
+      "name": "otp-a-sphere-packing-adjudication-runtime",
+      "size_in_bytes": 26371,
+      "zip_sha256": "9ec79cfeb47b1580caa6f464e7e6ffd632ee352eecff8e36b8c96ae239095417",
+      "adjudication_bundle_sha256": "8dcdd1aff048410fbbadee5a9c94268fa69c6d6dec276bba9090d90b219c8513",
+      "replay_bundle_sha256": "c7a4420601960544a0538d7aef3383b60feae0601937ff5a26688cf74c0eb2d5"
+    },
+    "input_control_ubuntu": "success",
+    "input_control_windows": "success",
+    "source_reacquisition": "exact_2026_08_06_bytes_reacquired",
+    "solution_build": "pass",
+    "comparator": "accept",
+    "lean_default_kernel": "accept",
+    "nanoda": "accept",
+    "theorem_axioms": "permitted_only",
+    "trust_boundary": "clear",
+    "control_plan_conformance": "clear"
+  },
+  "current_source": {
+    "url": "https://cdn.openai.com/pdf/ten-proofs-oai.pdf",
+    "revision": "2026-08-06",
+    "byte_length": 2487031,
+    "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+    "chapter": 1,
+    "whole_document_equivalence_between_revisions": "not_established"
+  },
+  "formal_subject": {
+    "repository": "openai/ten-proofs",
+    "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+    "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+    "lean_version": "4.32.0",
+    "lean_commit": "8c9756b28d64dab099da31a4c09229a9e6a2ef35",
+    "config_git_blob_sha1": "46b2e7b49da43fb17a7efa88652f8ee1adc01cbe",
+    "challenge_git_blob_sha1": "2477846e1883534837340c636fd928b091509783",
+    "solution_git_blob_sha1": "e6117934a80142a8249356fdafa797eba030e920"
+  },
+  "encoded_targets": [
+    "PackingBounds.FullMain.exact_limit",
+    "PackingBounds.FullMain.exact_binary_exponent",
+    "PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper",
+    "PackingBounds.sharpFullCohnElkiesManuscriptConclusions"
+  ],
+  "classifications": [
+    "direct_source_theorem_projection_modulo_proved_full_radial_equivalence",
+    "derived_base_two_logarithmic_consequence",
+    "source_faithful_displayed_consequence_with_proved_scale_normalization",
+    "source_faithful_derived_composite_certificate"
+  ],
+  "target_assessments": [
+    {
+      "target": "PackingBounds.FullMain.exact_limit",
+      "classification": "direct_source_theorem_projection_modulo_proved_full_radial_equivalence",
+      "source_locus": "Theorem 1.1 together with the exact LP_d normalization and proved full/radial quotient equivalence",
+      "semantic_status": "clear",
+      "formal_status": "kernel_replay_accept"
+    },
+    {
+      "target": "PackingBounds.FullMain.exact_binary_exponent",
+      "classification": "derived_base_two_logarithmic_consequence",
+      "source_locus": "Theorem 1.1 and its displayed alpha_* base-two consequence",
+      "semantic_status": "clear_with_formal_only_decimal_provenance",
+      "formal_status": "kernel_replay_accept"
+    },
+    {
+      "target": "PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper",
+      "classification": "source_faithful_displayed_consequence_with_proved_scale_normalization",
+      "source_locus": "Chapter 1 Delta_d definition, Equation (4), Theorem 1.1, and displayed post-Theorem-1.1 asymptotic upper bound",
+      "semantic_status": "clear_with_proved_positive_rescaling_and_unit_separation_equivalence",
+      "formal_status": "kernel_replay_accept"
+    },
+    {
+      "target": "PackingBounds.sharpFullCohnElkiesManuscriptConclusions",
+      "classification": "source_faithful_derived_composite_certificate",
+      "source_locus": "Chapter 1 exact source projections, displayed consequences, proof-local reformulations, and checked derived normal forms",
+      "semantic_status": "clear_as_mixed_source_derived_composite_not_single_verbatim_theorem",
+      "formal_status": "kernel_replay_accept"
+    }
+  ],
+  "mandatory_qualifications": [
+    "The ten-field composite is not a single verbatim manuscript theorem.",
+    "The 30-decimal base-two exponent enclosure is a formal numerical consequence of the exact alpha_* expression, not manuscript-authored precision.",
+    "The packing bridge relies on proved positive rescaling invariance and unit-separation supremum equivalence; declaration-name similarity is not used as authority.",
+    "The explicit little-o witness is a normal form of the source asymptotic and is not a stronger rate claim.",
+    "No whole-chapter semantic equivalence or independent proof certification is transferred by this adjudication."
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "nonvacuity": {
+    "state": "clear_for_current_root_four_target_surface",
+    "fresh_attestation": "clear_bound_to_protected_current_root_evidence",
+    "evidence": [
+      "CohnElkies.admissible_nonempty",
+      "fullQuotientSet_eq_radial",
+      "SpherePacking singleton unit-separated packing witness",
+      "SpherePacking.upper_packing_density_le_one",
+      "positive-dimensional bridge quantification"
+    ]
+  },
+  "source_formal_assessment": {
+    "status": "clear_for_exact_four_target_surface",
+    "method": "fresh exact source-byte and formal replay revalidation bound target-by-target to the protected Forge semantic records",
+    "independent_source_reclassification_performed": false,
+    "decimal_provenance": "formal_numerical_consequence_only_not_manuscript_precision",
+    "scale_normalization": "proved_positive_rescaling_and_unit_separation_supremum_equivalence_required",
+    "little_o": "explicit_witness_normal_form_only_no_stronger_rate",
+    "composite_boundary": "mixed_source_projection_and_checked_derived_consequence_not_single_verbatim_theorem",
+    "whole_chapter_equivalence": false,
+    "full_proof_body_equivalence": false
+  },
+  "decision": {
+    "disposition": "adjudication_clear_protected_four_targets_only",
+    "scope": "exact_four_protected_targets_under_distinct_classifications_only",
+    "reason": "The current official source bytes match the protected semantic authority; all four exact declarations replay successfully under the pinned formal subject with Comparator, default Lean kernel, and Nanoda acceptance and no axioms outside the protected set; the target-by-target semantic classifications, formal-only decimal provenance, proved scale normalization, little-o normal form, composite boundary, and current-root nonvacuity remain intact.",
+    "does_not_mark_mathematical_target_proved": true,
+    "does_not_issue_cert_output": true,
+    "does_not_transition_route": true
+  },
+  "state": {
+    "route_state": "submitted",
+    "adjudication_recorded": true,
+    "adjudication_authority_source": "protected_streamlined_a_sphere_packing_contract",
+    "routine_stage_progression_without_human_steward_intervention": true,
+    "human_steward_intervention_required_only_for_control_plan_change": true,
+    "separate_human_steward_authorization_required": false,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_issue_output": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false,
+    "aggregate_output": false,
+    "manuscript_decimal_precision_attributed": false,
+    "scale_normalization_boundary_required": true,
+    "little_o_strengthened": false,
+    "composite_is_single_verbatim_source_theorem": false,
+    "whole_chapter_equivalence_established": false,
+    "full_proof_body_equivalence_established": false,
+    "other_result_families_modified": false
+  },
+  "publication_gate": {
+    "exact_head_cert_required": true,
+    "exact_head_gcl_required": true,
+    "applicable_codeql_no_new_alert_required": true,
+    "fresh_non_author_specialist_approval_required": true,
+    "review_must_bind_final_publication_head": true,
+    "recorded_review": null,
+    "expected_head_merge_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "successor_boundary": "Any Cert-output design or route transition requires separately governed authority beyond this adjudication record; this adjudication grants none.",
+  "claim_boundary": "This adjudication clears only the exact four protected OTP-A-SPHERE-PACKING targets for family-specific MATHCERT adjudication purposes under their distinct source/derived classifications and the protected current-root evidence. It does not itself issue a Cert output, transition the submitted route, mark any mathematical statement proved, attribute the formal 30-decimal enclosure to manuscript precision, erase the positive-rescaling/unit-separation normalization boundary, strengthen the little-o normal form, reclassify the mixed ten-field composite as one manuscript-verbatim theorem, establish whole-chapter or full proof-body equivalence, modify another result family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}

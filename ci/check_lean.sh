@@ -114,6 +114,10 @@ python3 ci/validate_otp_j2_adjudication_input.py
 python3 ci/test_otp_j2_adjudication_input.py
 python3 ci/validate_otp_j2_adjudication.py
 python3 ci/test_otp_j2_adjudication.py
+python3 ci/validate_otp_a_sphere_packing_adjudication_input.py
+python3 ci/test_otp_a_sphere_packing_adjudication_input.py
+python3 ci/validate_otp_a_sphere_packing_adjudication.py
+python3 ci/test_otp_a_sphere_packing_adjudication.py
 python3 ci/validate_otp_j2_output_contract_with_execution.py
 python3 ci/test_otp_j2_output_contract.py
 python3 ci/validate_otp_j2_output_execution_with_a_registration.py
