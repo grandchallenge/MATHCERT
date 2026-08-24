@@ -1,0 +1,78 @@
+name: OTP H GapCVP exact replay
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/otp-h-gapcvp-cert-replay.yml'
+      - 'ci/run_openai_ten_proofs_gapcvp_replay.sh'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  replay-h-gapcvp:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: '${{ env.MATHCERT_HEAD_SHA }}', fetch-depth: 0, persist-credentials: false}
+      - name: Verify literal MATHCERT head
+        run: test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {repository: openai/ten-proofs, ref: 94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6, path: upstream, fetch-depth: 1, persist-credentials: false}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {repository: grandchallenge/MATHFORGE, ref: b9dda1a5b958fd1be37a26324a025013a39584c1, path: forge, fetch-depth: 1, persist-credentials: false}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {repository: grandchallenge/MATHSOLVE, ref: e42c48dfe6a83eb19f398ba114f61fd700694ce5, path: solve, fetch-depth: 1, persist-credentials: false}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {repository: Zouuup/landrun, ref: 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4, path: landrun-src, fetch-depth: 1, persist-credentials: false}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {repository: leanprover/lean4export, ref: 4e7915201d3f9f04470d9eae002fa695f7cdc589, path: lean4export-src, fetch-depth: 1, persist-credentials: false}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {repository: ammkrn/nanoda_lib, ref: ddfac2bf5a7b56cb46e141494427ff3dd55963c7, path: nanoda-src, fetch-depth: 1, persist-credentials: false}
+      - uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
+        with: {auto-config: false, build: false, test: false, lint: false, use-mathlib-cache: false, lake-package-directory: upstream}
+      - name: Activate Lean 4.32.0
+        run: |
+          elan toolchain list | grep -Fq 'leanprover/lean4:v4.32.0' || elan toolchain install leanprover/lean4:v4.32.0
+          echo 'ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0' >> "$GITHUB_ENV"
+      - name: Build pinned Comparator helpers
+        run: |
+          (cd landrun-src && go build -trimpath -o ../landrun ./cmd/landrun)
+          (cd lean4export-src && lake build)
+          (cd nanoda-src && cargo build --release --locked)
+          chmod +x ci/otp_landrun_argv_adapter.sh landrun
+          echo "COMPARATOR_LANDRUN=$GITHUB_WORKSPACE/ci/otp_landrun_argv_adapter.sh" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LANDRUN_REAL=$GITHUB_WORKSPACE/landrun" >> "$GITHUB_ENV"
+          echo "REAL_LANDRUN=$GITHUB_WORKSPACE/landrun" >> "$GITHUB_ENV"
+          echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/lean4export-src/.lake/build/bin/lean4export" >> "$GITHUB_ENV"
+          echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/nanoda-src/target/release/nanoda_bin" >> "$GITHUB_ENV"
+      - name: Prepare exact upstream cache
+        working-directory: upstream
+        run: lake exe cache get
+      - name: Execute H replay
+        run: |
+          chmod +x ci/run_openai_ten_proofs_gapcvp_replay.sh
+          ci/run_openai_ten_proofs_gapcvp_replay.sh evidence/h-gapcvp
+      - name: Emit deterministic bundle transport
+        if: success()
+        run: |
+          echo 'OTP_EVIDENCE_B64_BEGIN'
+          base64 -w0 evidence/h-gapcvp/bundle.tar.gz
+          echo
+          echo 'OTP_EVIDENCE_B64_END'
+      - name: Upload H evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: otp-h-gapcvp-exact-evidence
+          path: evidence/h-gapcvp/
+          if-no-files-found: warn
+          retention-days: 30
