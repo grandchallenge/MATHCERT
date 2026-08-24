@@ -51,6 +51,16 @@ jobs:
         run: |
           chmod +x ci/run_openai_ten_proofs_binary_codes_replay.sh
           ci/run_openai_ten_proofs_binary_codes_replay.sh evidence/b1-binary-codes
+      - name: Materialize pending independent-review gate
+        run: |
+          cat > evidence/b1-binary-codes/independent-review-attestation.json <<'JSON'
+          {
+            "state": "pending_final_evidence_head_review",
+            "approval_recorded": false,
+            "review_must_bind_final_evidence_head": true,
+            "predeclared_approval_prohibited": true
+          }
+          JSON
       - name: Complete governed B1 evidence artifact set
         run: python3 ci/otp_finalize_family_replay_evidence.py OTP-B1-BINARY-CODES evidence/b1-binary-codes
       - name: Emit deterministic bundle transport
