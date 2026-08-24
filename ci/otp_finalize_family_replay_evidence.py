@@ -51,6 +51,16 @@ def write_json(path: Path, obj: object) -> None:
     path.write_text(json.dumps(obj, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def same_unique_string_set(left: object, right: object) -> bool:
+    if not isinstance(left, list) or not isinstance(right, list):
+        return False
+    if not all(isinstance(x, str) for x in left + right):
+        return False
+    if len(left) != len(set(left)) or len(right) != len(set(right)):
+        return False
+    return len(left) == len(right) and set(left) == set(right)
+
+
 def main() -> int:
     if len(sys.argv) != 3 or sys.argv[1] not in FAMILIES:
         fail("usage: otp_finalize_family_replay_evidence.py FAMILY OUTPUT_DIR")
@@ -131,7 +141,7 @@ def main() -> int:
     targets = scope["lean_theorems"]
     if config.get("theorem_names") != targets:
         fail("Comparator target export/order drift")
-    if config.get("permitted_axioms") != execution["permitted_axioms"]:
+    if not same_unique_string_set(config.get("permitted_axioms"), execution["permitted_axioms"]):
         fail("Comparator permitted-axiom drift")
     if config.get("enable_nanoda") is not True:
         fail("Nanoda disabled in Comparator configuration")
