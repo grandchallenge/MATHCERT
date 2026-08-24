@@ -13,37 +13,162 @@
     "route_id": {"const": "MC-ROUTE-OTP-A-SPHERE-PACKING"},
     "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/164"},
     "contract_state": {"const": "design_only"},
-    "protected_authority": {"type": "object"},
+    "protected_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mathcert_main_at_design_open","adjudication","route_registry_git_blob_sha1","source_pdf","formal_subject","control_plan"],
+      "properties": {
+        "mathcert_main_at_design_open": {"const": "10d3f5ccd69f45e39ce23d758801bde8c6040401"},
+        "adjudication": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["merge_commit","path","git_blob_sha1","adjudication_id","disposition"],
+          "properties": {
+            "merge_commit": {"const": "10d3f5ccd69f45e39ce23d758801bde8c6040401"},
+            "path": {"const": "governance/result_family_adjudications/OTP-A-SPHERE-PACKING.json"},
+            "git_blob_sha1": {"const": "3e0b34dbc74fdbe123f551d559e4f93fc1901c48"},
+            "adjudication_id": {"const": "MC-OTP-A-SPHERE-PACKING-ADJUDICATION-001"},
+            "disposition": {"const": "adjudication_clear_protected_four_targets_only"}
+          }
+        },
+        "route_registry_git_blob_sha1": {"const": "b9bb0dc9e18856f50a88162df37c20c034327439"},
+        "source_pdf": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["revision","bytes","sha256"],
+          "properties": {
+            "revision": {"const": "2026-08-06"},
+            "bytes": {"const": 2487031},
+            "sha256": {"const": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"}
+          }
+        },
+        "formal_subject": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository","commit","tree","lean_version"],
+          "properties": {
+            "repository": {"const": "openai/ten-proofs"},
+            "commit": {"const": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"},
+            "tree": {"const": "174289e4d4958cb0509874e6e53400e098213de7"},
+            "lean_version": {"const": "4.32.0"}
+          }
+        },
+        "control_plan": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["control_plan_change_requested","routine_stage_progression_without_human_steward_intervention","human_steward_intervention_required_only_for_control_plan_change"],
+          "properties": {
+            "control_plan_change_requested": {"const": false},
+            "routine_stage_progression_without_human_steward_intervention": {"const": true},
+            "human_steward_intervention_required_only_for_control_plan_change": {"const": true}
+          }
+        }
+      }
+    },
     "output_scope": {
-      "type": "object", "additionalProperties": false,
+      "type": "object",
+      "additionalProperties": false,
       "required": ["encoded_targets","classifications","scope_rule"],
       "properties": {
-        "encoded_targets": {"type":"array","minItems":4,"maxItems":4,"uniqueItems":true,"items":{"type":"string"}},
-        "classifications": {"type":"array","minItems":4,"maxItems":4,"items":{"type":"string"}},
-        "scope_rule": {"type":"string","minLength":40}
+        "encoded_targets": {"const": ["PackingBounds.FullMain.exact_limit","PackingBounds.FullMain.exact_binary_exponent","PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper","PackingBounds.sharpFullCohnElkiesManuscriptConclusions"]},
+        "classifications": {"const": ["direct_source_theorem_projection_modulo_proved_full_radial_equivalence","derived_base_two_logarithmic_consequence","source_faithful_displayed_consequence_with_proved_scale_normalization","source_faithful_derived_composite_certificate"]},
+        "scope_rule": {"const": "No output may exceed the exact four protected targets or collapse their distinct source-derived classifications."}
       }
     },
-    "qualification_semantics": {"type":"object"},
-    "future_certificate": {"type":"object"},
-    "publication_protocol": {"type":"object"},
-    "execution_gate": {"type":"object"},
-    "state": {
-      "type":"object","additionalProperties":false,
-      "required":["route_state","cert_output","mathematical_target_proved","may_issue_output","may_promote_claim","aggregate_output","manuscript_decimal_precision_attributed","scale_normalization_boundary_required","little_o_strengthened","composite_is_single_verbatim_source_theorem"],
+    "qualification_semantics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["permitted_disposition","mandatory_qualifications","permitted_axioms"],
       "properties": {
-        "route_state":{"const":"submitted"},
-        "cert_output":{"type":"null"},
-        "mathematical_target_proved":{"const":false},
-        "may_issue_output":{"const":false},
-        "may_promote_claim":{"const":false},
-        "aggregate_output":{"const":false},
-        "manuscript_decimal_precision_attributed":{"const":false},
-        "scale_normalization_boundary_required":{"const":true},
-        "little_o_strengthened":{"const":false},
-        "composite_is_single_verbatim_source_theorem":{"const":false}
+        "permitted_disposition": {"const": "qualified_protected_four_targets_only"},
+        "mandatory_qualifications": {"const": ["The ten-field composite is not one manuscript-verbatim theorem.","The 30-decimal base-two exponent enclosure is a formal numerical consequence, not manuscript-authored precision.","Positive-rescaling invariance and unit-separation supremum equivalence remain required for the packing bridge.","The explicit little-o witness is a normal form only and is not a stronger asymptotic-rate claim.","No whole-chapter or full proof-body equivalence is established."]},
+        "permitted_axioms": {"const": ["propext","Quot.sound","Classical.choice"]}
       }
     },
-    "preserved_limitations": {"type":"object"},
-    "claim_boundary": {"type":"string","minLength":900}
+    "future_certificate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["certificate_id","path","record_type","disposition","mathematical_target_proved"],
+      "properties": {
+        "certificate_id": {"const": "MC-OTP-A-SPHERE-PACKING-QUAL-001"},
+        "path": {"const": "certificates/formal_sources/MC-OTP-A-SPHERE-PACKING-001.json"},
+        "record_type": {"const": "otp_a_sphere_packing_qualified_output"},
+        "disposition": {"const": "qualified_protected_four_targets_only"},
+        "mathematical_target_proved": {"const": false}
+      }
+    },
+    "publication_protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode","route_transition","certificate_content_commit_first","route_transition_commit_must_descend_from_certificate_content_commit","route_transition_must_change_only_a_route_semantics","route_transition_must_preserve_exact_target_set","route_transition_must_insert_exactly_one_cert_output","cert_output_commit_sha_must_equal_certificate_content_commit","cert_output_digest_must_equal_certificate_blob","certificate_must_not_name_its_own_containing_commit","protected_merge_method","squash_merge_prohibited","rebase_merge_prohibited","route_first_ordering_prohibited","partial_state_on_protected_main_prohibited"],
+      "properties": {
+        "mode": {"const": "certificate_content_commit_then_route_transition_commit"},
+        "route_transition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["from","to"],
+          "properties": {"from": {"const": "submitted"}, "to": {"const": "qualified"}}
+        },
+        "certificate_content_commit_first": {"const": true},
+        "route_transition_commit_must_descend_from_certificate_content_commit": {"const": true},
+        "route_transition_must_change_only_a_route_semantics": {"const": true},
+        "route_transition_must_preserve_exact_target_set": {"const": true},
+        "route_transition_must_insert_exactly_one_cert_output": {"const": true},
+        "cert_output_commit_sha_must_equal_certificate_content_commit": {"const": true},
+        "cert_output_digest_must_equal_certificate_blob": {"const": true},
+        "certificate_must_not_name_its_own_containing_commit": {"const": true},
+        "protected_merge_method": {"const": "merge"},
+        "squash_merge_prohibited": {"const": true},
+        "rebase_merge_prohibited": {"const": true},
+        "route_first_ordering_prohibited": {"const": true},
+        "partial_state_on_protected_main_prohibited": {"const": true}
+      }
+    },
+    "execution_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protected_contract_merge_required","exact_head_cert_checks_required","exact_head_gcl_conformance_required","codeql_no_new_alerts_required","fresh_non_author_specialist_approval_required","expected_head_guard_required","protected_main_readback_required","head_change_requires_revalidation_and_reapproval","separate_human_steward_authorization_required"],
+      "properties": {
+        "protected_contract_merge_required": {"const": true},
+        "exact_head_cert_checks_required": {"const": true},
+        "exact_head_gcl_conformance_required": {"const": true},
+        "codeql_no_new_alerts_required": {"const": true},
+        "fresh_non_author_specialist_approval_required": {"const": true},
+        "expected_head_guard_required": {"const": true},
+        "protected_main_readback_required": {"const": true},
+        "head_change_requires_revalidation_and_reapproval": {"const": true},
+        "separate_human_steward_authorization_required": {"const": false}
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["route_state","cert_output","mathematical_target_proved","may_issue_output","may_promote_claim","aggregate_output","manuscript_decimal_precision_attributed","scale_normalization_boundary_required","little_o_strengthened","composite_is_single_verbatim_source_theorem"],
+      "properties": {
+        "route_state": {"const": "submitted"},
+        "cert_output": {"type": "null"},
+        "mathematical_target_proved": {"const": false},
+        "may_issue_output": {"const": false},
+        "may_promote_claim": {"const": false},
+        "aggregate_output": {"const": false},
+        "manuscript_decimal_precision_attributed": {"const": false},
+        "scale_normalization_boundary_required": {"const": true},
+        "little_o_strengthened": {"const": false},
+        "composite_is_single_verbatim_source_theorem": {"const": false}
+      }
+    },
+    "preserved_limitations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["whole_document_byte_equivalence","whole_document_semantic_equivalence","proof_body_compared_in_full","other_family_outputs_authorized","aggregate_openai_ten_proofs_authority"],
+      "properties": {
+        "whole_document_byte_equivalence": {"const": "not_established"},
+        "whole_document_semantic_equivalence": {"const": "not_established"},
+        "proof_body_compared_in_full": {"const": false},
+        "other_family_outputs_authorized": {"const": false},
+        "aggregate_openai_ten_proofs_authority": {"const": false}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 900}
   }
 }
