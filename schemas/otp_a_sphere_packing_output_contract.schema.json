@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/otp_a_sphere_packing_output_contract.schema.json",
+  "title": "OTP A Sphere Packing restricted-output contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","contract_id","result_family","route_id","tracker_issue","contract_state","protected_authority","output_scope","qualification_semantics","future_certificate","publication_protocol","execution_gate","state","preserved_limitations","claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "otp_a_sphere_packing_output_contract"},
+    "contract_id": {"const": "MC-OTP-A-SPHERE-PACKING-OUTPUT-CONTRACT-001"},
+    "result_family": {"const": "OTP-A-SPHERE-PACKING"},
+    "route_id": {"const": "MC-ROUTE-OTP-A-SPHERE-PACKING"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/164"},
+    "contract_state": {"const": "design_only"},
+    "protected_authority": {"type": "object"},
+    "output_scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["encoded_targets","classifications","scope_rule"],
+      "properties": {
+        "encoded_targets": {"type":"array","minItems":4,"maxItems":4,"uniqueItems":true,"items":{"type":"string"}},
+        "classifications": {"type":"array","minItems":4,"maxItems":4,"items":{"type":"string"}},
+        "scope_rule": {"type":"string","minLength":40}
+      }
+    },
+    "qualification_semantics": {"type":"object"},
+    "future_certificate": {"type":"object"},
+    "publication_protocol": {"type":"object"},
+    "execution_gate": {"type":"object"},
+    "state": {
+      "type":"object","additionalProperties":false,
+      "required":["route_state","cert_output","mathematical_target_proved","may_issue_output","may_promote_claim","aggregate_output","manuscript_decimal_precision_attributed","scale_normalization_boundary_required","little_o_strengthened","composite_is_single_verbatim_source_theorem"],
+      "properties": {
+        "route_state":{"const":"submitted"},
+        "cert_output":{"type":"null"},
+        "mathematical_target_proved":{"const":false},
+        "may_issue_output":{"const":false},
+        "may_promote_claim":{"const":false},
+        "aggregate_output":{"const":false},
+        "manuscript_decimal_precision_attributed":{"const":false},
+        "scale_normalization_boundary_required":{"const":true},
+        "little_o_strengthened":{"const":false},
+        "composite_is_single_verbatim_source_theorem":{"const":false}
+      }
+    },
+    "preserved_limitations": {"type":"object"},
+    "claim_boundary": {"type":"string","minLength":900}
+  }
+}
