@@ -62,6 +62,16 @@ jobs:
         run: |
           chmod +x ci/run_openai_ten_proofs_gapcvp_replay.sh
           ci/run_openai_ten_proofs_gapcvp_replay.sh evidence/h-gapcvp
+      - name: Materialize pending independent-review gate
+        run: |
+          cat > evidence/h-gapcvp/independent-review-attestation.json <<'JSON'
+          {
+            "state": "pending_final_evidence_head_review",
+            "approval_recorded": false,
+            "review_must_bind_final_evidence_head": true,
+            "predeclared_approval_prohibited": true
+          }
+          JSON
       - name: Complete governed H evidence artifact set
         run: python3 ci/otp_finalize_family_replay_evidence.py OTP-H-GAPCVP evidence/h-gapcvp
       - name: Emit deterministic bundle transport
