@@ -1,7 +1,7 @@
 name: OTP B2 spherical-codes exact replay
 on:
   pull_request:
-    paths: ['.github/workflows/otp-b2-spherical-codes-cert-replay.yml','ci/run_openai_ten_proofs_spherical_codes_replay.sh']
+    paths: ['.github/workflows/otp-b2-spherical-codes-cert-replay.yml','ci/run_openai_ten_proofs_spherical_codes_replay.sh','ci/otp_finalize_family_replay_evidence.py']
   workflow_dispatch:
 permissions: {contents: read}
 concurrency:
@@ -51,6 +51,8 @@ jobs:
         run: |
           chmod +x ci/run_openai_ten_proofs_spherical_codes_replay.sh
           ci/run_openai_ten_proofs_spherical_codes_replay.sh evidence/b2-spherical-codes
+      - name: Complete governed B2 evidence artifact set
+        run: python3 ci/otp_finalize_family_replay_evidence.py OTP-B2-SPHERICAL-CODES evidence/b2-spherical-codes
       - name: Emit deterministic bundle transport
         if: success()
         run: |
