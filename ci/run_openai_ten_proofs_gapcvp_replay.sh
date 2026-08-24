@@ -28,8 +28,8 @@ assert wp['target_scope']['lean_theorems']==t and wp['target_scope']['promise_in
 assert wp['target_scope']['gap_factors']==['n^(1/400)','n^(1/200)','n^(1/200)','n^(1/(200p))']
 assert wp['target_scope']['nonvacuity']['yes_witness_count']==4 and wp['target_scope']['nonvacuity']['no_witness_count']==4
 assert wp['execution_contract']['deterministic_commands']==['lake exe cache get','lake build GapCVP','lake exe comparator ComparatorChallenges/H_GapCVP.json']
-assert wp['execution_contract']['permitted_axioms']==['propext','Classical.choice','Quot.sound']
-assert cfg['theorem_names']==t and cfg['permitted_axioms']==['propext','Classical.choice','Quot.sound'] and cfg['enable_nanoda'] is True
+assert wp['execution_contract']['permitted_axioms']==['propext','Quot.sound','Classical.choice']
+assert cfg['theorem_names']==t and cfg['permitted_axioms']==['propext','Quot.sound','Classical.choice'] and cfg['enable_nanoda'] is True
 assert not any(r.get('campaign_id')=='OTP-H-GAPCVP' for r in routes['routes'])
 PY
 curl --fail --location --silent --show-error --retry 3 https://cdn.openai.com/pdf/ten-proofs-oai.pdf -o "$out/source.pdf"
