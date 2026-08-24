@@ -9,6 +9,7 @@ on:
       - 'schemas/otp_a_sphere_packing_qualified_output.schema.json'
       - 'ci/otp_a_sphere_packing_output_contract.py'
       - 'ci/otp_a_sphere_packing_output_contract_test.py'
+      - 'ci/otp_full_formula_contract_membership.py'
       - 'ci/check_lean.sh'
       - 'ci/check_lean.ps1'
   workflow_dispatch:
