@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/otp-h-gapcvp-cert-replay.yml'
       - 'ci/run_openai_ten_proofs_gapcvp_replay.sh'
+      - 'ci/otp_finalize_family_replay_evidence.py'
   workflow_dispatch:
 
 permissions:
@@ -61,6 +62,8 @@ jobs:
         run: |
           chmod +x ci/run_openai_ten_proofs_gapcvp_replay.sh
           ci/run_openai_ten_proofs_gapcvp_replay.sh evidence/h-gapcvp
+      - name: Complete governed H evidence artifact set
+        run: python3 ci/otp_finalize_family_replay_evidence.py OTP-H-GAPCVP evidence/h-gapcvp
       - name: Emit deterministic bundle transport
         if: success()
         run: |
