@@ -35,6 +35,16 @@ class T(unittest.TestCase):
   r=copy.deepcopy(R); r["publication_protocol"]["route_first_ordering_prohibited"]=False; self.assertTrue(self.e(r))
  def test_axiom_drift(self):
   r=copy.deepcopy(R); r["qualification_semantics"]["permitted_axioms"].append("sorryAx"); self.assertTrue(self.e(r))
- def test_open_schema(self):
+ def test_top_level_schema_opened(self):
   s=copy.deepcopy(S); s["additionalProperties"]=True; self.assertTrue(self.e(s=s))
+ def test_nested_authority_injection(self):
+  r=copy.deepcopy(R); r["protected_authority"]["adjudication"]["invented_authority"]=True; self.assertTrue(self.e(r))
+ def test_nested_control_plan_injection(self):
+  r=copy.deepcopy(R); r["protected_authority"]["control_plan"]["waive_review"]=True; self.assertTrue(self.e(r))
+ def test_publication_protocol_injection(self):
+  r=copy.deepcopy(R); r["publication_protocol"]["squash_if_convenient"]=True; self.assertTrue(self.e(r))
+ def test_execution_gate_injection(self):
+  r=copy.deepcopy(R); r["execution_gate"]["self_approve"]=True; self.assertTrue(self.e(r))
+ def test_qualification_extra_field(self):
+  r=copy.deepcopy(R); r["qualification_semantics"]["unbounded_scope"]=True; self.assertTrue(self.e(r))
 if __name__=="__main__": unittest.main()
