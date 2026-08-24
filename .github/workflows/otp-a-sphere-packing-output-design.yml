@@ -9,6 +9,8 @@ on:
       - 'schemas/otp_a_sphere_packing_qualified_output.schema.json'
       - 'ci/otp_a_sphere_packing_output_contract.py'
       - 'ci/otp_a_sphere_packing_output_contract_test.py'
+      - 'ci/check_lean.sh'
+      - 'ci/check_lean.ps1'
   workflow_dispatch:
 
 permissions:
@@ -43,8 +45,8 @@ jobs:
         run: |
           python ci/otp_a_sphere_packing_output_contract.py
           python -m unittest ci/otp_a_sphere_packing_output_contract_test.py -v
-          python -m json.tool schemas/otp_a_sphere_packing_output_contract.schema.json > /dev/null
-          python -m json.tool schemas/otp_a_sphere_packing_qualified_output.schema.json > /dev/null
+          python -c "import json,pathlib; json.loads(pathlib.Path('schemas/otp_a_sphere_packing_output_contract.schema.json').read_text(encoding='utf-8'))"
+          python -c "import json,pathlib; json.loads(pathlib.Path('schemas/otp_a_sphere_packing_qualified_output.schema.json').read_text(encoding='utf-8'))"
 
   current-source:
     runs-on: ubuntu-24.04
