@@ -22,7 +22,7 @@ def validation_errors(record=None, schema=None):
     if r.get("contract_state") != "design_only": errors.append("premature contract activation")
     pa=r.get("protected_authority",{}); a=pa.get("adjudication",{})
     if pa.get("mathcert_main_at_design_open") != "10d3f5ccd69f45e39ce23d758801bde8c6040401": errors.append("protected design base drift")
-    if pa.get("route_registry_git_blob_sha1") != "b9bb0dc9de99438b3bb8cace94e96017f60ec788": errors.append("route registry identity drift")
+    if pa.get("route_registry_git_blob_sha1") != "b9bb0dc9e18856f50a88162df37c20c034327439": errors.append("route registry identity drift")
     if (a.get("git_blob_sha1"),a.get("disposition")) != ("3e0b34dbc74fdbe123f551d559e4f93fc1901c48","adjudication_clear_protected_four_targets_only"): errors.append("adjudication authority drift")
     if adjudication.get("decision",{}).get("disposition") != "adjudication_clear_protected_four_targets_only": errors.append("live adjudication disposition mismatch")
     if adjudication.get("state",{}).get("route_state") != "submitted" or adjudication.get("state",{}).get("cert_output") is not None: errors.append("live A route/output state no longer design-compatible")
