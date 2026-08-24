@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_a_sphere_packing_output_contract",
+  "contract_id": "MC-OTP-A-SPHERE-PACKING-OUTPUT-CONTRACT-001",
+  "result_family": "OTP-A-SPHERE-PACKING",
+  "route_id": "MC-ROUTE-OTP-A-SPHERE-PACKING",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/164",
+  "contract_state": "design_only",
+  "protected_authority": {
+    "mathcert_main_at_design_open": "10d3f5ccd69f45e39ce23d758801bde8c6040401",
+    "adjudication": {
+      "merge_commit": "10d3f5ccd69f45e39ce23d758801bde8c6040401",
+      "path": "governance/result_family_adjudications/OTP-A-SPHERE-PACKING.json",
+      "git_blob_sha1": "3e0b34dbc74fdbe123f551d559e4f93fc1901c48",
+      "adjudication_id": "MC-OTP-A-SPHERE-PACKING-ADJUDICATION-001",
+      "disposition": "adjudication_clear_protected_four_targets_only"
+    },
+    "route_registry_git_blob_sha1": "b9bb0dc9e18856f50a88162df37c20c034327439",
+    "source_pdf": {
+      "revision": "2026-08-06",
+      "bytes": 2487031,
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
+    },
+    "formal_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "lean_version": "4.32.0"
+    },
+    "control_plan": {
+      "control_plan_change_requested": false,
+      "routine_stage_progression_without_human_steward_intervention": true,
+      "human_steward_intervention_required_only_for_control_plan_change": true
+    }
+  },
+  "output_scope": {
+    "encoded_targets": [
+      "PackingBounds.FullMain.exact_limit",
+      "PackingBounds.FullMain.exact_binary_exponent",
+      "PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper",
+      "PackingBounds.sharpFullCohnElkiesManuscriptConclusions"
+    ],
+    "classifications": [
+      "direct_source_theorem_projection_modulo_proved_full_radial_equivalence",
+      "derived_base_two_logarithmic_consequence",
+      "source_faithful_displayed_consequence_with_proved_scale_normalization",
+      "source_faithful_derived_composite_certificate"
+    ],
+    "scope_rule": "No output may exceed the exact four protected targets or collapse their distinct source-derived classifications."
+  },
+  "qualification_semantics": {
+    "permitted_disposition": "qualified_protected_four_targets_only",
+    "mandatory_qualifications": [
+      "The ten-field composite is not one manuscript-verbatim theorem.",
+      "The 30-decimal base-two exponent enclosure is a formal numerical consequence, not manuscript-authored precision.",
+      "Positive-rescaling invariance and unit-separation supremum equivalence remain required for the packing bridge.",
+      "The explicit little-o witness is a normal form only and is not a stronger asymptotic-rate claim.",
+      "No whole-chapter or full proof-body equivalence is established."
+    ],
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+  },
+  "future_certificate": {
+    "certificate_id": "MC-OTP-A-SPHERE-PACKING-QUAL-001",
+    "path": "certificates/formal_sources/MC-OTP-A-SPHERE-PACKING-001.json",
+    "record_type": "otp_a_sphere_packing_qualified_output",
+    "disposition": "qualified_protected_four_targets_only",
+    "mathematical_target_proved": false
+  },
+  "publication_protocol": {
+    "mode": "certificate_content_commit_then_route_transition_commit",
+    "route_transition": {"from": "submitted", "to": "qualified"},
+    "certificate_content_commit_first": true,
+    "route_transition_commit_must_descend_from_certificate_content_commit": true,
+    "route_transition_must_change_only_a_route_semantics": true,
+    "route_transition_must_preserve_exact_target_set": true,
+    "route_transition_must_insert_exactly_one_cert_output": true,
+    "cert_output_commit_sha_must_equal_certificate_content_commit": true,
+    "cert_output_digest_must_equal_certificate_blob": true,
+    "certificate_must_not_name_its_own_containing_commit": true,
+    "protected_merge_method": "merge",
+    "squash_merge_prohibited": true,
+    "rebase_merge_prohibited": true,
+    "route_first_ordering_prohibited": true,
+    "partial_state_on_protected_main_prohibited": true
+  },
+  "execution_gate": {
+    "protected_contract_merge_required": true,
+    "exact_head_cert_checks_required": true,
+    "exact_head_gcl_conformance_required": true,
+    "codeql_no_new_alerts_required": true,
+    "fresh_non_author_specialist_approval_required": true,
+    "expected_head_guard_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true,
+    "separate_human_steward_authorization_required": false
+  },
+  "state": {
+    "route_state": "submitted",
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_issue_output": false,
+    "may_promote_claim": false,
+    "aggregate_output": false,
+    "manuscript_decimal_precision_attributed": false,
+    "scale_normalization_boundary_required": true,
+    "little_o_strengthened": false,
+    "composite_is_single_verbatim_source_theorem": false
+  },
+  "preserved_limitations": {
+    "whole_document_byte_equivalence": "not_established",
+    "whole_document_semantic_equivalence": "not_established",
+    "proof_body_compared_in_full": false,
+    "other_family_outputs_authorized": false,
+    "aggregate_openai_ten_proofs_authority": false
+  },
+  "claim_boundary": "This design-only contract defines a possible future restricted qualification for exactly the four protected OTP-A-SPHERE-PACKING targets under their distinct source-derived classifications. It does not issue a certificate, alter the submitted route, insert cert_output, or mark any mathematical target proved. It does not attribute the formal 30-decimal enclosure to manuscript precision, erase the positive-rescaling or unit-separation normalization boundary, strengthen the little-o normal form, reclassify the mixed ten-field composite as one manuscript-verbatim theorem, establish whole-chapter or full proof-body equivalence, authorize another result family, or create aggregate OpenAI Ten Proofs authority. Future output execution must be separately governed and use certificate-content-first ancestry followed by an A-only route transition and an ordinary ancestry-preserving protected merge; route-first ordering, squash, rebase, self-reference, and partial protected-main publication are prohibited."
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/otp_a_sphere_packing_qualified_output.schema.json",
+  "title": "OTP A Sphere Packing future restricted qualification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","certificate_id","result_family","route_id","encoded_targets","classifications","qualification","state","claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "otp_a_sphere_packing_qualified_output"},
+    "certificate_id": {"const": "MC-OTP-A-SPHERE-PACKING-QUAL-001"},
+    "result_family": {"const": "OTP-A-SPHERE-PACKING"},
+    "route_id": {"const": "MC-ROUTE-OTP-A-SPHERE-PACKING"},
+    "encoded_targets": {"const": ["PackingBounds.FullMain.exact_limit","PackingBounds.FullMain.exact_binary_exponent","PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper","PackingBounds.sharpFullCohnElkiesManuscriptConclusions"]},
+    "classifications": {"const": ["direct_source_theorem_projection_modulo_proved_full_radial_equivalence","derived_base_two_logarithmic_consequence","source_faithful_displayed_consequence_with_proved_scale_normalization","source_faithful_derived_composite_certificate"]},
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disposition","scope","mandatory_qualifications"],
+      "properties": {
+        "disposition": {"const": "qualified_protected_four_targets_only"},
+        "scope": {"const": "The exact four protected OTP-A-SPHERE-PACKING targets under their distinct source-derived classifications only."},
+        "mandatory_qualifications": {"const": ["The ten-field composite is not one manuscript-verbatim theorem.","The 30-decimal base-two exponent enclosure is a formal numerical consequence, not manuscript-authored precision.","Positive-rescaling invariance and unit-separation supremum equivalence remain required for the packing bridge.","The explicit little-o witness is a normal form only and is not a stronger asymptotic-rate claim.","No whole-chapter or full proof-body equivalence is established."]}
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mathematical_target_proved","aggregate_authority","may_promote_claim"],
+      "properties": {
+        "mathematical_target_proved": {"const": false},
+        "aggregate_authority": {"const": false},
+        "may_promote_claim": {"const": false}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 500}
+  }
+}
