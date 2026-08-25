@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_a_sphere_packing_qualified_output",
+  "certificate_id": "MC-OTP-A-SPHERE-PACKING-QUAL-001",
+  "result_family": "OTP-A-SPHERE-PACKING",
+  "route_id": "MC-ROUTE-OTP-A-SPHERE-PACKING",
+  "encoded_targets": [
+    "PackingBounds.FullMain.exact_limit",
+    "PackingBounds.FullMain.exact_binary_exponent",
+    "PackingBounds.PackingBridge.sphere_packing_sharp_asymptotic_upper",
+    "PackingBounds.sharpFullCohnElkiesManuscriptConclusions"
+  ],
+  "classifications": [
+    "direct_source_theorem_projection_modulo_proved_full_radial_equivalence",
+    "derived_base_two_logarithmic_consequence",
+    "source_faithful_displayed_consequence_with_proved_scale_normalization",
+    "source_faithful_derived_composite_certificate"
+  ],
+  "qualification": {
+    "disposition": "qualified_protected_four_targets_only",
+    "scope": "The exact four protected OTP-A-SPHERE-PACKING targets under their distinct source-derived classifications only.",
+    "mandatory_qualifications": [
+      "The ten-field composite is not one manuscript-verbatim theorem.",
+      "The 30-decimal base-two exponent enclosure is a formal numerical consequence, not manuscript-authored precision.",
+      "Positive-rescaling invariance and unit-separation supremum equivalence remain required for the packing bridge.",
+      "The explicit little-o witness is a normal form only and is not a stronger asymptotic-rate claim.",
+      "No whole-chapter or full proof-body equivalence is established."
+    ]
+  },
+  "state": {
+    "mathematical_target_proved": false,
+    "aggregate_authority": false,
+    "may_promote_claim": false
+  },
+  "claim_boundary": "This restricted qualification applies only to the exact four protected OTP-A-SPHERE-PACKING targets and preserves their distinct source-derived classifications. It records no assertion that any mathematical target has thereby become proved. The ten-field composite remains a mixed source/derived certificate rather than one manuscript-verbatim theorem. The 30-decimal base-two exponent enclosure remains a formal numerical consequence and is not attributed to manuscript-authored precision. Positive-rescaling invariance and unit-separation supremum equivalence remain mandatory for the packing bridge. The explicit little-o witness remains a certificate normal form and is not promoted into a stronger asymptotic-rate claim. No whole-chapter or full proof-body equivalence is established. This certificate creates no authority for another OpenAI Ten Proofs family, no aggregate OpenAI Ten Proofs authority, and no novelty, priority, publication, patentability, product, or commercial claim."
+}
