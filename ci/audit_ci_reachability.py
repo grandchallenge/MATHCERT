@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_PREFIXES = ("audit_", "check_", "replay_", "test_", "validate_")
 REGISTERED_EXECUTABLE_PREFIXES = ("build_", "verify_")
+PLATFORM_MANIFEST = "governance/certification_platform_lane.json"
 
 
 def errors(root: Path = ROOT) -> list[str]:
@@ -26,7 +27,23 @@ def errors(root: Path = ROOT) -> list[str]:
         for path in (root / "ci").glob("*.py")
         if path.name.startswith(CANONICAL_PREFIXES)
     }
-    for path in sorted(discovered - set(records)):
+
+    workflow = (root / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    workflow_controls: set[str] = set()
+    platform_manifest_path = root / PLATFORM_MANIFEST
+    if platform_manifest_path.exists():
+        platform_manifest = json.loads(platform_manifest_path.read_text(encoding="utf-8"))
+        support = {
+            str(path)
+            for path in platform_manifest.get("lane_support_paths", [])
+            if isinstance(path, str)
+        }
+        workflow_controls = discovered.intersection(support)
+        for path in sorted(workflow_controls):
+            if path not in workflow:
+                found.append(f"platform workflow control is not reached by .github/workflows/ci.yml: {path}")
+
+    for path in sorted(discovered - set(records) - workflow_controls):
         found.append(f"unregistered CI control: {path}")
 
     for relative, record in sorted(records.items()):
@@ -59,7 +76,6 @@ def errors(root: Path = ROOT) -> list[str]:
         elif mode != "direct":
             found.append(f"{path}: unknown control mode {mode!r}")
 
-    workflow = (root / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
     required = (
         "runs-on: ubuntu-24.04",
         'python-version: "3.13"',

@@ -18,6 +18,26 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Enforce certification platform lane
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]] && \
+             git cat-file -e "origin/${GITHUB_BASE_REF}:ci/check_certification_platform_lane.py" 2>/dev/null; then
+            guard="${RUNNER_TEMP}/check_certification_platform_lane.py"
+            manifest="${RUNNER_TEMP}/certification_platform_lane.json"
+            git show "origin/${GITHUB_BASE_REF}:ci/check_certification_platform_lane.py" > "${guard}"
+            git show "origin/${GITHUB_BASE_REF}:governance/certification_platform_lane.json" > "${manifest}"
+            MC_PLATFORM_ROOT="${GITHUB_WORKSPACE}" \
+            MC_PLATFORM_MANIFEST="${manifest}" \
+              python3 "${guard}"
+          else
+            python3 ci/check_certification_platform_lane.py
+          fi
+          python3 ci/test_check_certification_platform_lane.py
+          python3 ci/test_otp_finalize_family_replay_evidence.py
       - uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v6
         with:
