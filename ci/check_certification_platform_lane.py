@@ -17,6 +17,21 @@ MANIFEST_PATH = Path(
     )
 ).resolve()
 
+FULL_ESTATE_SCOPE = "FULL_ESTATE"
+FAMILY_MARKERS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("OTP-B2-SPHERICAL-CODES", ("otp-b2-spherical-codes", "otp_b2_spherical_codes", "spherical-codes", "spherical_codes")),
+    ("OTP-B1-BINARY-CODES", ("otp-b1-binary-codes", "otp_b1_binary_codes", "binary-codes", "binary_codes")),
+    ("OTP-H-GAPCVP", ("otp-h-gapcvp", "otp_h_gapcvp", "gapcvp")),
+    ("OTP-C-PERMANENT", ("otp-c-permanent", "otp_c_permanent", "permanent")),
+    ("OTP-J1-COMPACTNESS", ("otp-j1-compactness", "otp_j1_compactness", "compactness")),
+    ("OTP-F-EHRHART", ("otp-f-ehrhart", "otp_f_ehrhart", "ehrhart")),
+    ("OTP-J2-TWO-DEGENERATE", ("otp-j2-two-degenerate", "otp_j2_two_degenerate", "otp_j2", "two-degenerate", "two_degenerate")),
+    ("OTP-A-SPHERE-PACKING", ("otp-a-sphere-packing", "otp_a_sphere_packing", "sphere-packing", "sphere_packing")),
+)
+GLOBAL_FAMILY_TRANSITION_PATHS = {
+    "governance/certification_routes.json",
+}
+
 
 def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, object]:
     obj = json.loads(path.read_text(encoding="utf-8"))
@@ -62,6 +77,48 @@ def evaluate(branch: str, changed_paths: Iterable[str], manifest: dict[str, obje
     return errors
 
 
+def family_for_path(path: str) -> str | None:
+    normalized = path.lower()
+    for family, markers in FAMILY_MARKERS:
+        if any(marker in normalized for marker in markers):
+            return family
+    return None
+
+
+def certification_scope(
+    branch: str,
+    changed_paths: Iterable[str],
+    manifest: dict[str, object],
+) -> str:
+    """Return one exact family scope or fail closed to FULL_ESTATE.
+
+    Family-scoped execution is allowed only when every non-global changed path
+    is unambiguously attributable to one result family. Platform branches,
+    unknown paths, zero-family changes, and multi-family changes run the full
+    certification estate.
+    """
+    if branch.startswith(str(manifest["platform_branch_prefix"])):
+        return FULL_ESTATE_SCOPE
+
+    neutral = GLOBAL_FAMILY_TRANSITION_PATHS | {
+        str(path) for path in manifest["stateful_shared_validator_paths"]  # type: ignore[index]
+    }
+    families: set[str] = set()
+    for raw in sorted({str(path) for path in changed_paths if str(path)}):
+        if raw in neutral:
+            continue
+        family = family_for_path(raw)
+        if family is None:
+            return FULL_ESTATE_SCOPE
+        families.add(family)
+        if len(families) > 1:
+            return FULL_ESTATE_SCOPE
+
+    if len(families) != 1:
+        return FULL_ESTATE_SCOPE
+    return next(iter(families))
+
+
 def changed_paths_for_pull_request(base_ref: str) -> list[str]:
     base = f"origin/{base_ref}"
     try:
@@ -84,9 +141,25 @@ def changed_paths_for_pull_request(base_ref: str) -> list[str]:
     return [line.strip() for line in output.splitlines() if line.strip()]
 
 
+def current_certification_scope(manifest: dict[str, object]) -> str:
+    if os.environ.get("MC_CERT_FORCE_FULL") == "1":
+        return FULL_ESTATE_SCOPE
+    event = os.environ.get("GITHUB_EVENT_NAME", "")
+    branch = os.environ.get("GITHUB_HEAD_REF", "")
+    base_ref = os.environ.get("GITHUB_BASE_REF", "")
+    if event != "pull_request" or not branch or not base_ref:
+        return FULL_ESTATE_SCOPE
+    paths = changed_paths_for_pull_request(base_ref)
+    return certification_scope(branch, paths, manifest)
+
+
 def main() -> int:
     try:
         manifest = load_manifest()
+        if len(sys.argv) == 2 and sys.argv[1] == "--certification-scope":
+            print(current_certification_scope(manifest))
+            return 0
+
         event = os.environ.get("GITHUB_EVENT_NAME", "")
         branch = os.environ.get("GITHUB_HEAD_REF", "")
         base_ref = os.environ.get("GITHUB_BASE_REF", "")
@@ -102,9 +175,10 @@ def main() -> int:
                 print(f"MC-PLATFORM-LANE-001: {error}", file=sys.stderr)
             return 1
 
+        scope = certification_scope(branch, paths, manifest)
         print(
             "MC-PLATFORM-LANE-001: PASS "
-            f"branch={branch} changed_paths={len(paths)}"
+            f"branch={branch} changed_paths={len(paths)} certification_scope={scope}"
         )
         return 0
     except (OSError, ValueError, RuntimeError, json.JSONDecodeError, subprocess.CalledProcessError) as exc:
