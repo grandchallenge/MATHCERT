@@ -190,5 +190,9 @@ if (Test-Path "ci/validate_otp_replay_readback_reconciliation.py") {
     Invoke-Control "ci/validate_otp_replay_readback_reconciliation.py"
     Invoke-Control "ci/test_otp_replay_readback_reconciliation.py"
 }
+if (Test-Path "ci/validate_openai_ten_proofs_gapcvp_route_proposal.py") {
+    Invoke-Control "ci/validate_openai_ten_proofs_gapcvp_route_proposal.py"
+    Invoke-Control "ci/test_openai_ten_proofs_gapcvp_route_proposal.py"
+}
 Invoke-Control "ci/audit_ci_reachability.py"
 Invoke-Control "ci/test_audit_ci_reachability.py"
