@@ -5,6 +5,7 @@ import copy
 import importlib.util
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR_PATH = ROOT / "ci/validate_openai_ten_proofs_binary_codes_intake_successor.py"
@@ -12,6 +13,7 @@ spec = importlib.util.spec_from_file_location("binary_codes_intake_validator", V
 module = importlib.util.module_from_spec(spec)
 assert spec and spec.loader
 spec.loader.exec_module(module)
+
 
 class BinaryCodesIntakeSuccessorTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -26,6 +28,17 @@ class BinaryCodesIntakeSuccessorTests(unittest.TestCase):
     def test_exact_record_validates(self):
         module.validate_record(self.data)
         module.validate_repository_guards()
+
+    def test_historical_snapshot_route_inflation_fails_closed(self):
+        historical = {"routes": [{"route_id": module.OWN_ROUTE_ID, "campaign_id": module.FAMILY_ID}]}
+        with mock.patch.object(module, "load_historical_routes", return_value=historical):
+            with self.assertRaises(ValueError):
+                module.validate_repository_guards()
+
+    def test_historical_snapshot_without_family_route_is_accepted(self):
+        historical = {"routes": [{"route_id": "OTHER", "campaign_id": "OTHER"}]}
+        with mock.patch.object(module, "load_historical_routes", return_value=historical):
+            module.validate_repository_guards()
 
     def test_target_substitution_fails_closed(self):
         self.reject(lambda d: d["target_scope"]["lean_theorems"].__setitem__(0, "Fake.target"))
@@ -43,16 +56,13 @@ class BinaryCodesIntakeSuccessorTests(unittest.TestCase):
         self.reject(lambda d: d["authority"]["isolated_replay"].__setitem__("job_id", 0))
 
     def test_positive_margin_source_inflation_fails_closed(self):
-        self.reject(lambda d: d["target_scope"]["classifications"].__setitem__(
-            1, "source_printed_verbatim_statement"))
+        self.reject(lambda d: d["target_scope"]["classifications"].__setitem__(1, "source_printed_verbatim_statement"))
 
     def test_second_positive_margin_source_inflation_fails_closed(self):
-        self.reject(lambda d: d["target_scope"]["classifications"].__setitem__(
-            5, "source_printed_verbatim_statement"))
+        self.reject(lambda d: d["target_scope"]["classifications"].__setitem__(5, "source_printed_verbatim_statement"))
 
     def test_mrrw_bridge_erasure_fails_closed(self):
-        self.reject(lambda d: d["target_scope"]["mandatory_qualifications"].__setitem__(
-            1, "Lean sInf is definitionally identical to the source formula."))
+        self.reject(lambda d: d["target_scope"]["mandatory_qualifications"].__setitem__(1, "Lean sInf is definitionally identical to the source formula."))
 
     def test_route_inflation_fails_closed(self):
         self.reject(lambda d: d["state"].__setitem__("route_registered", True))
@@ -61,7 +71,7 @@ class BinaryCodesIntakeSuccessorTests(unittest.TestCase):
         self.reject(lambda d: d["state"].__setitem__("may_adjudicate", True))
 
     def test_certificate_inflation_fails_closed(self):
-        self.reject(lambda d: d["state"].__setitem__("cert_output", {"id":"invented"}))
+        self.reject(lambda d: d["state"].__setitem__("cert_output", {"id": "invented"}))
 
     def test_proof_promotion_fails_closed(self):
         self.reject(lambda d: d["state"].__setitem__("mathematical_target_proved", True))
@@ -76,6 +86,7 @@ class BinaryCodesIntakeSuccessorTests(unittest.TestCase):
         candidate["unexpected_authority"] = True
         with self.assertRaises(ValueError):
             module.validate_record(candidate)
+
 
 if __name__ == "__main__":
     unittest.main()
