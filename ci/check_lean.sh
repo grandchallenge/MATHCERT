@@ -53,7 +53,7 @@ python3 ci/test_formal_source_provenance.py
 python3 ci/validate_formal_target_certificates.py
 python3 ci/test_formal_target_certificates.py
 python3 ci/validate_uc_restricted_qualification_schema.py
-python3 ci/test_uc_restricted_qualification_schema.py
+python3 ci/test_formal_target_certificates.py
 python3 ci/validate_uc_restricted_qualification.py
 python3 ci/test_uc_restricted_qualification.py
 python3 ci/validate_uc_provider_identity_exclusion.py
@@ -178,6 +178,10 @@ python3 ci/otp_a_sphere_packing_output_contract_test.py
 if [[ -f ci/validate_otp_replay_readback_reconciliation.py ]]; then
   python3 ci/validate_otp_replay_readback_reconciliation.py
   python3 ci/test_otp_replay_readback_reconciliation.py
+fi
+if [[ -f ci/validate_openai_ten_proofs_gapcvp_route_proposal.py ]]; then
+  python3 ci/validate_openai_ten_proofs_gapcvp_route_proposal.py
+  python3 ci/test_openai_ten_proofs_gapcvp_route_proposal.py
 fi
 python3 ci/audit_ci_reachability.py
 python3 ci/test_audit_ci_reachability.py
