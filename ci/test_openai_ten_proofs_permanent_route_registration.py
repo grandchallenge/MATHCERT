@@ -17,7 +17,6 @@ SPEC.loader.exec_module(M)
 
 A_ROUTE_ID = "MC-ROUTE-OTP-A-SPHERE-PACKING"
 A_PROVIDER_BASE_COMMIT = "4b194b9632a9aa57fee21c3c054498d6b4a8ed57"
-A_REGISTRY_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
 
 
 class PermanentRouteRegistrationTests(unittest.TestCase):
@@ -35,13 +34,14 @@ class PermanentRouteRegistrationTests(unittest.TestCase):
         self.historical_provider_base = M.snapshot_routes()["provider_base_commit"]
 
     def permanent_view(self, routes, local_blobs):
-        """Project only the exact independently governed A registration successor.
+        """Project only the exact independently governed A provider-base successor.
 
         Permanent's protected registration semantics stay frozen. The test fixture may
-        ignore the later A provider-base advance only when the live registry blob,
-        provider base, and A route all match the exact governed A registration candidate.
-        Any unknown provider-base or A-route drift remains visible to the historical
-        Permanent validator and must fail closed.
+        ignore the later A provider-base advance only when the provider base and A route
+        match the exact governed A registration successor. Whole-registry identity may
+        evolve afterward through unrelated separately governed routes. Any unknown
+        provider-base or A-route drift remains visible to the historical Permanent
+        validator and must fail closed.
         """
         supplied = copy.deepcopy(routes)
         blobs = copy.deepcopy(local_blobs)
@@ -50,9 +50,7 @@ class PermanentRouteRegistrationTests(unittest.TestCase):
             None,
         )
         if (
-            self.blobs["routes"] == A_REGISTRY_BLOB
-            and blobs.get("routes") in {A_REGISTRY_BLOB, "0" * 40}
-            and supplied.get("provider_base_commit") == A_PROVIDER_BASE_COMMIT
+            supplied.get("provider_base_commit") == A_PROVIDER_BASE_COMMIT
             and a_route == self.a_route
         ):
             supplied["provider_base_commit"] = self.historical_provider_base
@@ -74,9 +72,8 @@ class PermanentRouteRegistrationTests(unittest.TestCase):
     def test_current_passes(self):
         self.assertEqual(self.errors(), [])
 
-    def test_exact_a_provider_base_successor_is_permitted(self):
+    def test_exact_a_provider_base_successor_is_permitted_after_unrelated_registry_evolution(self):
         self.assertEqual(self.routes["provider_base_commit"], A_PROVIDER_BASE_COMMIT)
-        self.assertEqual(self.blobs["routes"], A_REGISTRY_BLOB)
         self.assertEqual(self.errors(), [])
 
     def test_unknown_provider_base_successor_is_rejected(self):
