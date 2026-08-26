@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_replay_readback_reconciliation",
+  "reconciliation_id": "MC-OTP-H-B1-B2-REPLAY-READBACK-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/178",
+  "protected_predecessor": {
+    "mathcert_main": "99cfde542cdb044145f6620190dfb6ee9cd7a959",
+    "mathcert_tree": "e303d20e1125181ccbb5e35d1a4abf6cd820a2b6",
+    "route_registry_blob": "4d5c8e3f2b33d5148d98e7057991e167938c75bb",
+    "mathforge_main": "ed8a65410336489ea5646808265c44f5387bebb8",
+    "mathsolve_main": "07814c1e28855ff0314737d3666642217da095a1",
+    "formal_source_root": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+    "formal_source_tree": "174289e4d4958cb0509874e6e53400e098213de7",
+    "lean_version": "4.32.0",
+    "source_pdf_revision": "2026-08-06",
+    "source_pdf_bytes": 2487031,
+    "source_pdf_sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
+  },
+  "historical_candidate_policy": {
+    "mutation_prohibited": true,
+    "pending_merge_wording_is_historical_not_current_state": true,
+    "files": [
+      {
+        "result_family": "OTP-H-GAPCVP",
+        "path": "governance/result_family_replay_evidence_successors/OTP-H-GAPCVP.json",
+        "blob": "a12f2c553b71f4daec9255e1f254f48a21f439c3"
+      },
+      {
+        "result_family": "OTP-B1-BINARY-CODES",
+        "path": "governance/result_family_replay_evidence_successors/OTP-B1-BINARY-CODES.json",
+        "blob": "fd669ae6cfc39110560656c2123d5d4449200830"
+      },
+      {
+        "result_family": "OTP-B2-SPHERICAL-CODES",
+        "path": "governance/result_family_replay_evidence_successors/OTP-B2-SPHERICAL-CODES.json",
+        "blob": "288193448eee80c041beef57059182e1abe2e33c"
+      }
+    ]
+  },
+  "families": [
+    {
+      "result_family": "OTP-H-GAPCVP",
+      "tracker_issue": 165,
+      "pull_request": 169,
+      "exact_reviewed_head": "fca63848cfb1428292e4b74a4ed8980646d45aa2",
+      "exact_head_runs": {
+        "family_replay": 32848939191,
+        "cert": 32848939207,
+        "gcl": 32848940096,
+        "compatibility": 32848939106
+      },
+      "non_author_review": {
+        "reviewer": "jimsteeg",
+        "review_id": 5023763871,
+        "state": "APPROVED",
+        "submitted_at": "2026-08-25T20:28:43Z",
+        "commit_id": "fca63848cfb1428292e4b74a4ed8980646d45aa2"
+      },
+      "protected_merge": "f34f33b22292ca244956781065fdf84efe2b43f2",
+      "merge_parents": [
+        "aa6a730394db45ca05c9a3d0a02434bc74fd8a61",
+        "fca63848cfb1428292e4b74a4ed8980646d45aa2"
+      ],
+      "terminal_disposition": "H_REPLAY_EVIDENCE_PROTECTED__ZERO_ROUTE_OUTPUT_AUTHORITY",
+      "protected_replay_evidence": true,
+      "route_proposed": false,
+      "route_registered": false,
+      "may_adjudicate": false,
+      "adjudication": null,
+      "cert_output": null,
+      "mathematical_target_proved": false,
+      "aggregate_authority": false,
+      "next_boundary": "separate_family_specific_H_route_proposal"
+    },
+    {
+      "result_family": "OTP-B1-BINARY-CODES",
+      "tracker_issue": 166,
+      "pull_request": 170,
+      "exact_reviewed_head": "67f445b9a5e015083644416d96f4a10722efe032",
+      "exact_head_runs": {
+        "family_replay": 32849083880,
+        "cert": 32849083816,
+        "gcl": 32849084349,
+        "compatibility": 32849083761
+      },
+      "non_author_review": {
+        "reviewer": "jimsteeg",
+        "review_id": 5023771071,
+        "state": "APPROVED",
+        "submitted_at": "2026-08-25T20:29:21Z",
+        "commit_id": "67f445b9a5e015083644416d96f4a10722efe032"
+      },
+      "protected_merge": "d8daab1c0deec3d41ac438714e21ee752c14ac46",
+      "merge_parents": [
+        "f34f33b22292ca244956781065fdf84efe2b43f2",
+        "67f445b9a5e015083644416d96f4a10722efe032"
+      ],
+      "terminal_disposition": "B1_REPLAY_EVIDENCE_PROTECTED__ZERO_ROUTE_OUTPUT_AUTHORITY",
+      "protected_replay_evidence": true,
+      "route_proposed": false,
+      "route_registered": false,
+      "may_adjudicate": false,
+      "adjudication": null,
+      "cert_output": null,
+      "mathematical_target_proved": false,
+      "aggregate_authority": false,
+      "next_boundary": "separate_family_specific_B1_route_proposal"
+    },
+    {
+      "result_family": "OTP-B2-SPHERICAL-CODES",
+      "tracker_issue": 167,
+      "pull_request": 171,
+      "exact_reviewed_head": "da41ab10f440b45fe53d321bc08bd3ffa8770930",
+      "exact_head_runs": {
+        "family_replay": 32849224700,
+        "cert": 32849225046,
+        "gcl": 32849225863,
+        "compatibility": 32849224740
+      },
+      "non_author_review": {
+        "reviewer": "jimsteeg",
+        "review_id": 5023775055,
+        "state": "APPROVED",
+        "submitted_at": "2026-08-25T20:29:42Z",
+        "commit_id": "da41ab10f440b45fe53d321bc08bd3ffa8770930"
+      },
+      "protected_merge": "938738844c4659b30a21d963da468ddfd1df51ad",
+      "merge_parents": [
+        "d8daab1c0deec3d41ac438714e21ee752c14ac46",
+        "da41ab10f440b45fe53d321bc08bd3ffa8770930"
+      ],
+      "terminal_disposition": "B2_REPLAY_EVIDENCE_PROTECTED__ZERO_ROUTE_OUTPUT_AUTHORITY",
+      "protected_replay_evidence": true,
+      "route_proposed": false,
+      "route_registered": false,
+      "may_adjudicate": false,
+      "adjudication": null,
+      "cert_output": null,
+      "mathematical_target_proved": false,
+      "aggregate_authority": false,
+      "next_boundary": "separate_family_specific_B2_route_proposal"
+    }
+  ],
+  "preserved_authority": {
+    "route_created_by_this_operation": false,
+    "adjudication_created_by_this_operation": false,
+    "cert_output_created_by_this_operation": false,
+    "mathematical_target_proved_count": 0,
+    "cross_family_authority_transfer": false,
+    "aggregate_ten_proofs_authority": false,
+    "whole_document_equivalence_established": false,
+    "full_proof_body_comparison_established": false
+  },
+  "activation_rule": "This readback successor becomes protected current-state authority only through ordinary expected-head protected merge. Historical replay-evidence candidate records remain immutable predecessor evidence.",
+  "effect": "documentary_current_state_reconciliation_only",
+  "claim_boundary": "This record binds already-protected H, B1, and B2 replay/evidence admissions and their exact machine/review/merge identities. It creates no route proposal or registration, adjudication, Cert output, mathematical proof promotion, cross-family transfer, whole-document or full-proof-body equivalence, or aggregate OpenAI Ten Proofs authority. After protected readback, only separate family-specific route-proposal operations become eligible, beginning with H under its own governed boundary."
+}
