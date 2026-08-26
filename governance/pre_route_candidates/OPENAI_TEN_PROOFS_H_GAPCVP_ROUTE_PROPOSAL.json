@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_gapcvp_route_proposal_registry",
+  "registry_id": "MC-OTP-H-GAPCVP-ROUTE-PROPOSAL-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/190",
+  "authority": {
+    "cert_replay_evidence_merge": "f34f33b22292ca244956781065fdf84efe2b43f2",
+    "cert_replay_evidence_record_blob": "a12f2c553b71f4daec9255e1f254f48a21f439c3",
+    "cert_replay_readback_merge": "1e64a4c147cb8f35255d3effa80342ce64ee3682",
+    "cert_replay_readback_blob": "fde8ed79681dce929916b524176b236960cac4f6",
+    "global_registered_route_registry_blob": "4d5c8e3f2b33d5148d98e7057991e167938c75bb"
+  },
+  "proposal": {
+    "result_family": "OTP-H-GAPCVP",
+    "proposal_id": "MC-OTP-ROUTE-PROPOSAL-H-GAPCVP",
+    "requested_route_id": "MC-ROUTE-OTP-H-GAPCVP",
+    "path": "governance/result_family_route_proposal_successors/OTP-H-GAPCVP.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "68062c38d4705ac09e5d1a7f2b177ba5bdd55261"
+  },
+  "state": {
+    "proposal_count": 1,
+    "registered_route_count_created_by_this_operation": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "scope": {
+    "target_count": 4,
+    "promise_count": 4,
+    "another_family_target_count": 0,
+    "aggregate_route": false,
+    "whole_document_equivalence": false,
+    "proof_body_equivalence": false,
+    "dimension_dependent_gap_exponents_preserved": true,
+    "integer_target_restriction_preserved": true,
+    "consistent_syndrome_restriction_preserved": true,
+    "fixed_rational_p_boundary_preserved": true
+  },
+  "route_controls": {
+    "global_registered_route_registry_modified": false,
+    "proposal_registry_separate": true,
+    "may_register_route": false,
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "cross_family_transfer_prohibited": true,
+    "aggregate_route_prohibited": true,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact protected-base delta, canonical Cert on the literal candidate head, H proposal validator and test reached canonically, GCL, policy, action-policy, CodeQL, fresh non-author specialist APPROVED review, ordinary expected-head merge, and protected-main readback",
+    "head_change_requires_reapproval": true,
+    "effect": "one_gapcvp_route_proposal_admitted_no_registration_no_adjudication"
+  },
+  "candidate_disposition": "H_CERT_ROUTE_PROPOSAL_CLEAR__REGISTRATION_NOT_YET_AUTHORIZED",
+  "claim_boundary": "This successor registry binds one proposed OTP-H-GAPCVP route to protected replay evidence and its protected current-state readback. It does not modify the global registered-route registry, register MC-ROUTE-OTP-H-GAPCVP, authorize or execute adjudication, issue a Cert output, mark or promote a target proved, broaden the protected promise interfaces or source attribution, transfer authority to another family, establish whole-document or full proof-body equivalence, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}

@@ -61,6 +61,8 @@
     {"path":"ci/test_openai_ten_proofs_route_proposals.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_sphere_packing_route_proposal.py","mode":"direct"},
     {"path":"ci/test_openai_ten_proofs_sphere_packing_route_proposal.py","mode":"direct"},
+    {"path":"ci/validate_openai_ten_proofs_gapcvp_route_proposal.py","mode":"direct"},
+    {"path":"ci/test_openai_ten_proofs_gapcvp_route_proposal.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_sphere_packing_route_registration.py","mode":"direct"},
     {"path":"ci/test_openai_ten_proofs_sphere_packing_route_registration.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_permanent_route_proposal.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py"},
