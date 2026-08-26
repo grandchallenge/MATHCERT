@@ -28,6 +28,7 @@ PROPOSAL_ID = "MC-OTP-ROUTE-PROPOSAL-A-SPHERE-PACKING"
 PROPOSAL_BLOB = "e216cfc893a99d853ca798a68c46adbf013239ff"
 ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
 A_REGISTRATION_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
+A_OUTPUT_ROUTES_BLOB = "4d5c8e3f2b33d5148d98e7057991e167938c75bb"
 INTAKE_BLOB = "294c9f7d6cceb1cdf7ec4c8e73255dd1ba130670"
 WORK_PACKAGE_BLOB = "f0c91d1959035f35843c383920dfba0b6c24b485"
 REPLAY_BLOB = "5a2d17d158ee9e8b535de8ed0a1ed41612c5abd2"
@@ -119,8 +120,8 @@ def validation_errors(*, proposal: Any | None = None, registry: Any | None = Non
         if blobs.get(key) != expected:
             errors.append(f"{key} blob drift: {blobs.get(key)} != {expected}")
     routes_blob = blobs.get("routes")
-    if routes_blob not in {ROUTES_BLOB, A_REGISTRATION_ROUTES_BLOB}:
-        errors.append(f"routes blob drift: {routes_blob} is neither protected proposal snapshot nor exact A registration successor")
+    if routes_blob not in {ROUTES_BLOB, A_REGISTRATION_ROUTES_BLOB, A_OUTPUT_ROUTES_BLOB}:
+        errors.append(f"routes blob drift: {routes_blob} is neither protected proposal snapshot nor exact A registration/output successor")
 
     if proposal.get("proposal_id") != PROPOSAL_ID or proposal.get("requested_route_id") != ROUTE_ID:
         errors.append("proposal identity drift")
@@ -228,9 +229,9 @@ def validation_errors(*, proposal: Any | None = None, registry: Any | None = Non
     route_count = sum(1 for r in routes.get("routes", []) if isinstance(r, dict) and r.get("route_id") == ROUTE_ID)
     if routes_blob == ROUTES_BLOB and route_count != 0:
         errors.append("A route present in protected proposal-stage registry snapshot")
-    if routes_blob == A_REGISTRATION_ROUTES_BLOB:
+    if routes_blob in {A_REGISTRATION_ROUTES_BLOB, A_OUTPUT_ROUTES_BLOB}:
         if route_count != 1:
-            errors.append("exact A registration successor missing or duplicated")
+            errors.append("exact A registration/output successor missing or duplicated")
         else:
             errors.extend(registration_errors(routes))
 
@@ -306,7 +307,7 @@ def main() -> int:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         return 1
-    print("OTP_A_SPHERE_PACKING_ROUTE_PROPOSAL_CLEAR__REGISTRATION_SEPARATELY_GOVERNED")
+    print("OTP_A_SPHERE_PACKING_ROUTE_PROPOSAL_CLEAR__REGISTRATION_AND_OUTPUT_SEPARATELY_GOVERNED")
     return 0
 
 

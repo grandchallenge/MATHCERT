@@ -33,9 +33,9 @@ EXPECTED["OTP-C-PERMANENT"]={
 EXPECTED["OTP-A-SPHERE-PACKING"]={
  "tracker":"https://github.com/grandchallenge/MATHCERT/issues/158",
  "source":art("grandchallenge/MATHFORGE","706d0291370bf3f14aa37be0823e33d06f7343b0","sources/OPENAI-TEN-PROOFS-001/semantic/OTP-A-SPHERE-PACKING-COMPOSITE/audit_record.json","b2e309ad96e750651fc7149a6bad54c6bf99015b"),
- "state":"submitted",
+ "state":"qualified",
  "packet":art("grandchallenge/MATHSOLVE","c19735edf4c16ac9765bb66c7209bbf11bf1312e","work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-A-SPHERE-PACKING.json","9e3b46972bf01ac3d24c6a0ae5f522799335ecd1"),
- "output":None}
+ "output":art("grandchallenge/MATHCERT","1815f1b4010122e5bef0438f84da0b06204ba487","certificates/formal_sources/MC-OTP-A-SPHERE-PACKING-001.json","534e98ad2f00406fc869ea137f802f8cf504798a")}
 ADJUDICATED={"certified","qualified","rejected","proof_debt"};INTAKE_ONLY={"ready","submitted"};ALL_STATES={"pending"}|INTAKE_ONLY|ADJUDICATED
 HEX40=re.compile(r"^[0-9a-f]{40}$");HEX64=re.compile(r"^[0-9a-f]{64}$");ARTIFACT_KEYS={"repository","commit_sha","path","digest_algorithm","digest"};ROUTE_KEYS={"route_id","campaign_id","tracker_issue","source_manifest","intake_status","intake_packet","target_claim_ids","requested_modalities","claim_boundary","cert_output","blockers","reopening_conditions"}
 def load_json(path:Path)->Any:return json.loads(path.read_text(encoding="utf-8"))
@@ -101,6 +101,6 @@ def route_errors(registry_path:Path=REGISTRY_PATH,schema_path:Path=SCHEMA_PATH)-
 def main()->int:
  e=route_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated thirteen exact routes, including submitted OTP-A-SPHERE-PACKING and restricted qualified OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
+ print("validated thirteen exact routes, including restricted qualified OTP-A-SPHERE-PACKING, OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
  return 0
 if __name__=="__main__":raise SystemExit(main())

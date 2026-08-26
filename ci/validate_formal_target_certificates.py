@@ -13,6 +13,8 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
+import otp_a_sphere_packing_output_contract as a_output
+
 ROOT = Path(__file__).resolve().parents[1]
 PRE_CIRCUIT_COMMIT = "809fcbc3704f146fbb9992f03b3b1851ba2fe59b"
 SOURCE_PATH = "ci/validate_formal_target_certificates.py"
@@ -42,6 +44,8 @@ CIRCUIT_OUTPUT = {
     "digest_algorithm": "git_blob_sha1",
     "digest": CIRCUIT_BLOB,
 }
+A_FILE = "MC-OTP-A-SPHERE-PACKING-001.json"
+A_BLOB = "534e98ad2f00406fc869ea137f802f8cf504798a"
 
 
 def load_json(path: Path) -> Any:
@@ -172,6 +176,23 @@ def _circuit_route_errors(path: Path) -> list[str]:
     return errors
 
 
+def _a_certificate_errors(path: Path, registry_path: Path) -> list[str]:
+    if not path.exists():
+        return [f"missing formal target certificate: {A_FILE}"]
+    errors: list[str] = []
+    if git_blob(path) != A_BLOB:
+        errors.append(f"{path}: certificate blob identity drift")
+    errors.extend(
+        f"OTP-A-SPHERE-PACKING: {error}"
+        for error in a_output.validation_errors(
+            routes=load_json(registry_path),
+            certificate=load_json(path),
+            check_history=False,
+        )
+    )
+    return errors
+
+
 def certificate_errors(
     directory: Path = CERT_DIR,
     schema_path: Path = SCHEMA_PATH,
@@ -188,10 +209,12 @@ def certificate_errors(
     except RuntimeError as exc:
         return [str(exc)]
 
+    # Replay every historical certificate validator on exactly its protected
+    # predecessor surface. A is a bounded successor admitted separately below.
     with tempfile.TemporaryDirectory() as temporary:
         predecessor_dir = Path(temporary)
         for source in directory.glob("*.json"):
-            if source.name != CIRCUIT_FILE:
+            if source.name not in {CIRCUIT_FILE, A_FILE}:
                 shutil.copyfile(source, predecessor_dir / source.name)
         errors.extend(
             base.certificate_errors(
@@ -206,6 +229,18 @@ def certificate_errors(
 
     errors.extend(_circuit_certificate_errors(directory / CIRCUIT_FILE, circuit_schema_path))
     errors.extend(_circuit_route_errors(circuit_route_path))
+    errors.extend(_a_certificate_errors(directory / A_FILE, registry_path))
+
+    known = {path.name for path in directory.glob("*.json") if path.name != A_FILE}
+    with tempfile.TemporaryDirectory() as temporary:
+        predecessor_dir = Path(temporary)
+        for source in directory.glob("*.json"):
+            if source.name != A_FILE:
+                shutil.copyfile(source, predecessor_dir / source.name)
+        # Unknown non-A members remain rejected by the predecessor chain above;
+        # this local set exists only to make the A exception explicit.
+        if A_FILE in known:
+            errors.append("A successor certificate collided with predecessor membership")
     return errors
 
 
@@ -217,7 +252,7 @@ def main() -> int:
         return 1
     print(
         "validated protected predecessor certificates plus exact restricted "
-        "OTP-C-PERMANENT-FULL-FORMULA and OTP-C-PERMANENT-CIRCUIT qualified successor outputs"
+        "OTP-C-PERMANENT-FULL-FORMULA, OTP-C-PERMANENT-CIRCUIT, and OTP-A-SPHERE-PACKING qualified successor outputs"
     )
     return 0
 

@@ -21,6 +21,7 @@ EXPECTED_INTAKE_BLOB = "294c9f7d6cceb1cdf7ec4c8e73255dd1ba130670"
 EXPECTED_HISTORICAL_WORK_PACKAGES_BLOB = "997f38fb60ef4d3a43801916113a8e2f1ae34264"
 PRE_REGISTRATION_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
 A_REGISTRATION_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
+A_OUTPUT_ROUTES_BLOB = "4d5c8e3f2b33d5148d98e7057991e167938c75bb"
 FUTURE_ROUTE_ID = "MC-ROUTE-OTP-A-SPHERE-PACKING"
 
 
@@ -84,8 +85,8 @@ def validation_errors(
     if historical_blob != EXPECTED_HISTORICAL_WORK_PACKAGES_BLOB:
         errors.append("historical three-family work-package registry drift")
     routes_blob = git_blob_sha1(ROUTES) if routes_blob_override is None else routes_blob_override
-    if routes_blob not in {PRE_REGISTRATION_ROUTES_BLOB, A_REGISTRATION_ROUTES_BLOB}:
-        errors.append("certification route registry is neither protected work-package snapshot nor exact A registration successor")
+    if routes_blob not in {PRE_REGISTRATION_ROUTES_BLOB, A_REGISTRATION_ROUTES_BLOB, A_OUTPUT_ROUTES_BLOB}:
+        errors.append("certification route registry is neither protected work-package snapshot nor exact A registration/output successor")
 
     intake_errors = _import_validation(
         ROOT / "ci/validate_openai_ten_proofs_sphere_packing_intake_successor.py",
@@ -165,8 +166,8 @@ def validation_errors(
     route_ids = [r.get("route_id") for r in load(ROUTES).get("routes", []) if isinstance(r, dict)]
     if routes_blob == PRE_REGISTRATION_ROUTES_BLOB and FUTURE_ROUTE_ID in route_ids:
         errors.append("sphere-packing route present in protected work-package snapshot")
-    if routes_blob == A_REGISTRATION_ROUTES_BLOB and route_ids.count(FUTURE_ROUTE_ID) != 1:
-        errors.append("exact separately governed sphere-packing registration successor missing")
+    if routes_blob in {A_REGISTRATION_ROUTES_BLOB, A_OUTPUT_ROUTES_BLOB} and route_ids.count(FUTURE_ROUTE_ID) != 1:
+        errors.append("exact separately governed sphere-packing registration/output successor missing")
     return errors
 
 
@@ -176,7 +177,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         return 1
     print(
-        "OTP-A-SPHERE-PACKING executable certification work package validation: PASS; immutable work-package authority preserved across exact separately governed A route registration"
+        "OTP-A-SPHERE-PACKING executable certification work package validation: PASS; immutable work-package authority preserved across exact separately governed A route registration/output successor"
     )
     return 0
 

@@ -22,7 +22,7 @@ class SpherePackingRouteRegistrationAndAdjudicationDesignTests(unittest.TestCase
 
     def blobs(self):
         return {
-            "routes": validator.EXPECTED_ROUTES_BLOB,
+            "routes": validator.EXPECTED_OUTPUT_ROUTES_BLOB,
             "proposal": validator.EXPECTED_PROPOSAL_BLOB,
             "proposal_registry": validator.EXPECTED_PROPOSAL_REGISTRY_BLOB,
             "replay": validator.EXPECTED_REPLAY_BLOB,
@@ -32,7 +32,7 @@ class SpherePackingRouteRegistrationAndAdjudicationDesignTests(unittest.TestCase
         return {
             "contract": validator.EXPECTED_DESIGN_CONTRACT_BLOB,
             "registry": validator.EXPECTED_DESIGN_REGISTRY_BLOB,
-            "routes": validator.EXPECTED_ROUTES_BLOB,
+            "routes": validator.EXPECTED_OUTPUT_ROUTES_BLOB,
             "registration_receipt": validator.EXPECTED_REGISTRATION_RECEIPT_BLOB,
             "proposal": validator.EXPECTED_PROPOSAL_BLOB,
             "proposal_registry": validator.EXPECTED_PROPOSAL_REGISTRY_BLOB,
@@ -91,8 +91,8 @@ class SpherePackingRouteRegistrationAndAdjudicationDesignTests(unittest.TestCase
         rec = self.receipt(); rec["authority"]["solve_handoff"]["digest"] = "0" * 40
         self.assertTrue(self.errors(receipt=rec))
 
-    def test_route_status_inflation_rejected(self):
-        r = self.routes(); r["routes"][-1]["intake_status"] = "qualified"
+    def test_route_state_regression_rejected(self):
+        r = self.routes(); r["routes"][-1]["intake_status"] = "submitted"
         self.assertTrue(self.errors(routes=r))
 
     def test_cert_output_insertion_rejected(self):
@@ -139,7 +139,7 @@ class SpherePackingRouteRegistrationAndAdjudicationDesignTests(unittest.TestCase
         b = self.design_blobs(); b["registry"] = "0" * 40
         self.assertTrue(self.design_errors(design_blobs=b))
 
-    def test_design_preserves_exact_route_registry_blob(self):
+    def test_design_preserves_known_route_successor_blob(self):
         b = self.design_blobs(); b["routes"] = "0" * 40
         self.assertTrue(self.design_errors(design_blobs=b))
 

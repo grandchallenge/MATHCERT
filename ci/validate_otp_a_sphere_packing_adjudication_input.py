@@ -18,6 +18,7 @@ DESIGN_REGISTRY = ROOT / "governance/adjudication_design/OPENAI_TEN_PROOFS_A_SPH
 RECEIPT = ROOT / "governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_REGISTRATION.json"
 REPLAY = ROOT / "governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json"
 CONTRACT_REL = "governance/result_family_adjudication_contracts/OTP-A-SPHERE-PACKING.json"
+ROUTES_REL = "governance/certification_routes.json"
 
 TARGETS = [
     "PackingBounds.FullMain.exact_limit",
@@ -32,13 +33,22 @@ CLASSIFICATIONS = [
     "source_faithful_derived_composite_certificate",
 ]
 AXIOMS = ["propext", "Quot.sound", "Classical.choice"]
+PRE_OUTPUT_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
+OUTPUT_ROUTES_BLOB = "4d5c8e3f2b33d5148d98e7057991e167938c75bb"
+EXPECTED_OUTPUT = {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": "1815f1b4010122e5bef0438f84da0b06204ba487",
+    "path": "certificates/formal_sources/MC-OTP-A-SPHERE-PACKING-001.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "534e98ad2f00406fc869ea137f802f8cf504798a",
+}
 EXPECTED_BLOBS = {
     "governance/result_family_adjudication_execution_inputs/OTP-A-SPHERE-PACKING.json": "c4cc4aaecaccbab62e8d14d737f3048d1b598b3a",
     CONTRACT_REL: "5f56cdc5c5c839e1040bea84c2d756d805dd1c3b",
     "governance/adjudication_design/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ADJUDICATION_CONTRACT.json": "3605d660e4c4b57405ea03c4abfedb32d9deab93",
     "governance/pre_route_candidates/OPENAI_TEN_PROOFS_A_SPHERE_PACKING_ROUTE_REGISTRATION.json": "2d9a520a3ef868c4d6d721cffc6cf89e546c6d09",
     "governance/result_family_replay_evidence_successors/OTP-A-SPHERE-PACKING.json": "5a2d17d158ee9e8b535de8ed0a1ed41612c5abd2",
-    "governance/certification_routes.json": "b9bb0dc9e18856f50a88162df37c20c034327439",
+    ROUTES_REL: PRE_OUTPUT_ROUTES_BLOB,
 }
 
 
@@ -134,11 +144,9 @@ def validation_errors(record: dict[str, Any] | None = None, *, check_repository:
     if not check_repository:
         return errors
 
-    # Dedicated adjudication workflows fetch full history and therefore enforce
-    # ancestry. Canonical Cert uses a shallow PR checkout; when the protected
-    # commit object is intentionally absent there, exact content-addressed
-    # object checks below remain authoritative rather than producing a false
-    # negative from shallow history.
+    # The execution-input record is historical and remains submitted/null.
+    # The live repository may subsequently contain only the exact protected
+    # qualified-output successor; no other route-registry successor is accepted.
     protected_design = "38fd4333b9f5aa6f4d754c1c097fd342a9b9321c"
     if commit_available(protected_design) and not is_ancestor(protected_design):
         errors.append("protected design merge is not an ancestor")
@@ -148,7 +156,10 @@ def validation_errors(record: dict[str, Any] | None = None, *, check_repository:
         except subprocess.CalledProcessError:
             errors.append(f"missing protected object: {rel}")
             continue
-        if actual != expected:
+        if rel == ROUTES_REL:
+            if actual not in {PRE_OUTPUT_ROUTES_BLOB, OUTPUT_ROUTES_BLOB}:
+                errors.append(f"protected object drift: {rel}: {actual}")
+        elif actual != expected:
             errors.append(f"protected object drift: {rel}: {actual}")
 
     contract = load(CONTRACT)
@@ -184,12 +195,17 @@ def validation_errors(record: dict[str, Any] | None = None, *, check_repository:
     if route is None:
         errors.append("live A route missing")
     else:
-        if route.get("intake_status") != "submitted":
-            errors.append("live A route not submitted")
         if route.get("target_claim_ids") != TARGETS:
             errors.append("live A target drift")
-        if route.get("cert_output") is not None:
-            errors.append("live A route contains Cert output")
+        route_state = route.get("intake_status")
+        if route_state == "submitted":
+            if route.get("cert_output") is not None:
+                errors.append("submitted live A route contains Cert output")
+        elif route_state == "qualified":
+            if route.get("cert_output") != EXPECTED_OUTPUT:
+                errors.append("qualified live A route output identity drift")
+        else:
+            errors.append("live A route has unauthorized state")
 
     receipt = load(RECEIPT)
     controls = receipt.get("route_controls", {})
@@ -208,7 +224,8 @@ def main() -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("validated A sphere-packing adjudication execution input: exact four-target/classification scope, protected authority chain, submitted/null state, and streamlined control-plan boundary preserved")
+    live = find_route(load(ROUTES), "MC-ROUTE-OTP-A-SPHERE-PACKING") or {}
+    print(f"validated historical A adjudication execution input and exact live route successor state={live.get('intake_status')}")
     return 0
 
 
