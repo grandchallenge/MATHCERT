@@ -175,5 +175,9 @@ python3 ci/validate_otp_permanent_circuit_certification.py
 python3 ci/test_otp_permanent_circuit_certification.py
 python3 ci/otp_a_sphere_packing_output_contract.py
 python3 ci/otp_a_sphere_packing_output_contract_test.py
+if [[ -f ci/validate_otp_replay_readback_reconciliation.py ]]; then
+  python3 ci/validate_otp_replay_readback_reconciliation.py
+  python3 ci/test_otp_replay_readback_reconciliation.py
+fi
 python3 ci/audit_ci_reachability.py
 python3 ci/test_audit_ci_reachability.py
