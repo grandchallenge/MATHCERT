@@ -4,8 +4,11 @@ import unittest
 from unittest.mock import patch
 
 from check_certification_platform_lane import (
+    FULL_ESTATE_SCOPE,
+    certification_scope,
     changed_paths_for_pull_request,
     evaluate,
+    family_for_path,
     load_manifest,
 )
 
@@ -122,6 +125,64 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         self.assertIn("ci/validate_formal_target_certificates.py", stateful)
         self.assertIn("governance/certification_platform_lane.json", support)
         self.assertIn("ci/check_certification_platform_lane.py", support)
+
+    def test_a_only_transition_gets_exact_family_scope(self) -> None:
+        scope = certification_scope(
+            "agent/otp-a-sphere-packing-output-execution-001",
+            [
+                "governance/certification_routes.json",
+                "ci/validate_certification_routes.py",
+                "ci/validate_formal_target_certificates.py",
+                "certificates/formal_sources/MC-OTP-A-SPHERE-PACKING-001.json",
+                "governance/result_family_output_contracts/OTP-A-SPHERE-PACKING.json",
+                "ci/otp_a_sphere_packing_output_contract.py",
+                ".github/workflows/otp-a-sphere-packing-output-execution.yml",
+            ],
+            self.manifest,
+        )
+        self.assertEqual(scope, "OTP-A-SPHERE-PACKING")
+
+    def test_a_transition_does_not_classify_foreign_family_paths_as_a(self) -> None:
+        self.assertEqual(family_for_path("ci/validate_openai_ten_proofs_binary_codes_intake_successor.py"), "OTP-B1-BINARY-CODES")
+        self.assertEqual(family_for_path("ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py"), "OTP-B2-SPHERICAL-CODES")
+        self.assertEqual(family_for_path("ci/validate_openai_ten_proofs_gapcvp_intake_successor.py"), "OTP-H-GAPCVP")
+        self.assertEqual(family_for_path("ci/validate_otp_permanent_circuit_certification.py"), "OTP-C-PERMANENT")
+        self.assertEqual(family_for_path("ci/validate_otp_j2_adjudication.py"), "OTP-J2-TWO-DEGENERATE")
+
+    def test_multi_family_change_fails_closed_to_full_estate(self) -> None:
+        scope = certification_scope(
+            "agent/mixed-change",
+            [
+                "ci/otp_a_sphere_packing_output_contract.py",
+                "ci/validate_openai_ten_proofs_binary_codes_intake_successor.py",
+            ],
+            self.manifest,
+        )
+        self.assertEqual(scope, FULL_ESTATE_SCOPE)
+
+    def test_unknown_change_fails_closed_to_full_estate(self) -> None:
+        scope = certification_scope(
+            "agent/unknown-change",
+            ["docs/architecture.md"],
+            self.manifest,
+        )
+        self.assertEqual(scope, FULL_ESTATE_SCOPE)
+
+    def test_platform_change_always_runs_full_estate(self) -> None:
+        scope = certification_scope(
+            "platform/certification/example-repair",
+            ["ci/check_lean.sh"],
+            self.manifest,
+        )
+        self.assertEqual(scope, FULL_ESTATE_SCOPE)
+
+    def test_global_route_only_change_fails_closed_to_full_estate(self) -> None:
+        scope = certification_scope(
+            "agent/route-only",
+            ["governance/certification_routes.json"],
+            self.manifest,
+        )
+        self.assertEqual(scope, FULL_ESTATE_SCOPE)
 
 
 if __name__ == "__main__":
