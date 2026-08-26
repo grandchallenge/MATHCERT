@@ -26,6 +26,12 @@ CIRCUIT_TARGETS = [
 
 A_SPHERE_PACKING_NAME = "OTP-A-SPHERE-PACKING.json"
 EXPECTED_A_SPHERE_PACKING_BLOB = "e216cfc893a99d853ca798a68c46adbf013239ff"
+HISTORICAL_PERMANENT_NAME = "OTP-C-PERMANENT.json"
+OWNED_PERMANENT_NAMES = {
+    HISTORICAL_PERMANENT_NAME,
+    FULL_FORMULA_NAME,
+    CIRCUIT_NAME,
+}
 
 
 def git_blob_sha1(path: Path) -> str:
@@ -37,14 +43,22 @@ def git_blob_sha1(path: Path) -> str:
 def successor_errors(root: Path, proposal_dir: Path) -> list[str]:
     errors: list[str] = []
     members = sorted(p.name for p in proposal_dir.glob("*.json"))
-    expected_members = sorted([
-        A_SPHERE_PACKING_NAME,
-        CIRCUIT_NAME,
-        FULL_FORMULA_NAME,
-        "OTP-C-PERMANENT.json",
-    ])
-    if members != expected_members:
-        errors.append(f"route-proposal successor membership drift: {members}")
+
+    # This compatibility layer owns only the protected A anchor and the
+    # Permanent proposal lineage. Independently governed successor families
+    # may coexist in the directory and must not mutate this validator's scope.
+    required_members = {A_SPHERE_PACKING_NAME, *OWNED_PERMANENT_NAMES}
+    missing = sorted(required_members.difference(members))
+    if missing:
+        errors.append(f"route-proposal successor required membership missing: {missing}")
+        return errors
+
+    unknown_permanent = sorted(
+        name for name in members
+        if name.startswith("OTP-C-PERMANENT") and name not in OWNED_PERMANENT_NAMES
+    )
+    if unknown_permanent:
+        errors.append(f"route-proposal unknown Permanent successor membership: {unknown_permanent}")
         return errors
 
     a_sphere_packing = proposal_dir / A_SPHERE_PACKING_NAME
@@ -136,10 +150,7 @@ def historical_membership_view(proposal_dir: Path):
     def filtered_glob(self: Path, pattern: str):
         values = list(original_glob(self, pattern))
         if self == proposal_dir and pattern == "*.json":
-            values = [
-                p for p in values
-                if p.name not in {A_SPHERE_PACKING_NAME, FULL_FORMULA_NAME, CIRCUIT_NAME}
-            ]
+            values = [p for p in values if p.name == HISTORICAL_PERMANENT_NAME]
         return iter(values)
 
     with patch.object(Path, "glob", filtered_glob):
