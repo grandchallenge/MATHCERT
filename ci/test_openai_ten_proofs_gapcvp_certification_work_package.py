@@ -75,7 +75,14 @@ def main() -> None:
     reject("schema openness", extra)
 
     if not v.validation_errors(routes_blob_override="0" * 40):
-        raise AssertionError("route registry drift was accepted")
+        raise AssertionError("historical work-package route snapshot blob drift was accepted")
+    historical_route_inflation = {"routes": [{"route_id": v.FUTURE_ROUTE_ID, "campaign_id": v.FAMILY_ID}]}
+    if not v.validation_errors(historical_routes_override=historical_route_inflation):
+        raise AssertionError("historical GapCVP route authority inflation was accepted")
+    clean_historical_snapshot = {"routes": [{"route_id": "OTHER", "campaign_id": "OTHER"}]}
+    non_route_errors = v.validation_errors(historical_routes_override=clean_historical_snapshot)
+    if any("historical work-package route snapshot" in error or "route authority was present" in error for error in non_route_errors):
+        raise AssertionError("clean historical route snapshot was rejected")
     if not v.validation_errors(predecessor_blob_override="0" * 40):
         raise AssertionError("protected A predecessor work-package drift was accepted")
     if not v.validation_errors(intake_blob_override="0" * 40):
