@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_PREFIXES = ("audit_", "check_", "replay_", "test_", "validate_")
 REGISTERED_EXECUTABLE_PREFIXES = ("build_", "verify_")
 PLATFORM_MANIFEST = "governance/certification_platform_lane.json"
+SCOPE_TOKEN = "check_certification_platform_lane.py --certification-scope"
 
 
 def errors(root: Path = ROOT) -> list[str]:
@@ -76,6 +77,13 @@ def errors(root: Path = ROOT) -> list[str]:
         elif mode != "direct":
             found.append(f"{path}: unknown control mode {mode!r}")
 
+    for orchestrator in ("ci/check_lean.sh", "ci/check_lean.ps1"):
+        text = texts.get(orchestrator, "")
+        if SCOPE_TOKEN not in text:
+            found.append(f"canonical orchestrator lacks context-aware certification scope: {orchestrator}")
+        if "FULL_ESTATE" not in text or "MATHCERT_CONTEXT_SKIP" not in text:
+            found.append(f"canonical orchestrator lacks fail-closed full-estate/scoped execution markers: {orchestrator}")
+
     required = (
         "runs-on: ubuntu-24.04",
         'python-version: "3.13"',
@@ -84,6 +92,7 @@ def errors(root: Path = ROOT) -> list[str]:
         "concurrency:",
         "cancel-in-progress: true",
         "requirements-ci.txt",
+        "workflow_dispatch:",
     )
     for token in required:
         if token not in workflow:
@@ -108,7 +117,7 @@ def main() -> int:
         print("\n".join(found), file=sys.stderr)
         print(f"CI reachability audit failed with {len(found)} error(s)", file=sys.stderr)
         return 1
-    print("validated pinned workflow policy and reachability of every registered MATHCERT control")
+    print("validated pinned workflow policy, context-aware/full-estate orchestration, and reachability of every registered MATHCERT control")
     return 0
 
 
