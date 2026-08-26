@@ -145,6 +145,8 @@
     {"path":"ci/test_otp_permanent_full_formula_certification.py","mode":"direct"},
     {"path":"ci/validate_otp_permanent_circuit_certification.py","mode":"direct"},
     {"path":"ci/test_otp_permanent_circuit_certification.py","mode":"direct"},
+    {"path":"ci/validate_otp_replay_readback_reconciliation.py","mode":"direct"},
+    {"path":"ci/test_otp_replay_readback_reconciliation.py","mode":"direct"},
     {"path":"ci/audit_ci_reachability.py","mode":"direct"},
     {"path":"ci/test_audit_ci_reachability.py","mode":"direct"}
   ],
