@@ -1,7 +1,50 @@
 $ErrorActionPreference = "Stop"
 Set-Location (Join-Path $PSScriptRoot "..")
 if (-not (Get-Command lake -ErrorAction SilentlyContinue)) { throw "lake is not installed; cannot certify Lean files." }
-function Invoke-Control([string]$Path) { python $Path; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } }
+
+function Get-ControlFamily([string]$Path) {
+    $p = $Path.ToLowerInvariant()
+    if ($p -match 'spherical[_-]codes') { return 'OTP-B2-SPHERICAL-CODES' }
+    if ($p -match 'binary[_-]codes') { return 'OTP-B1-BINARY-CODES' }
+    if ($p -match 'gapcvp') { return 'OTP-H-GAPCVP' }
+    if ($p -match 'permanent') { return 'OTP-C-PERMANENT' }
+    if ($p -match 'compactness') { return 'OTP-J1-COMPACTNESS' }
+    if ($p -match 'ehrhart') { return 'OTP-F-EHRHART' }
+    if ($p -match 'otp[_-]j2|two[_-]degenerate|with_j2_output') { return 'OTP-J2-TWO-DEGENERATE' }
+    if ($p -match 'sphere[_-]packing|otp_a_') { return 'OTP-A-SPHERE-PACKING' }
+    return ''
+}
+
+$script:CertScope = $env:MC_CERT_SCOPE
+if ([string]::IsNullOrWhiteSpace($script:CertScope)) {
+    $script:CertScope = ((python ci/check_certification_platform_lane.py --certification-scope) | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+}
+$validScopes = @(
+    'FULL_ESTATE',
+    'OTP-A-SPHERE-PACKING',
+    'OTP-B1-BINARY-CODES',
+    'OTP-B2-SPHERICAL-CODES',
+    'OTP-H-GAPCVP',
+    'OTP-C-PERMANENT',
+    'OTP-J1-COMPACTNESS',
+    'OTP-J2-TWO-DEGENERATE',
+    'OTP-F-EHRHART'
+)
+if ($validScopes -notcontains $script:CertScope) { throw "unknown canonical certification scope: $script:CertScope" }
+$env:MC_CERT_SCOPE = $script:CertScope
+Write-Host "MATHCERT_CANONICAL_SCOPE=$script:CertScope"
+
+function Invoke-Control([string]$Path) {
+    $family = Get-ControlFamily $Path
+    if ($script:CertScope -ne 'FULL_ESTATE' -and $family -and $family -ne $script:CertScope) {
+        Write-Host "MATHCERT_CONTEXT_SKIP=$Path family=$family active=$script:CertScope"
+        return
+    }
+    python $Path
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+}
+
 lake build
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 lake build mathsolve/MathSolve
