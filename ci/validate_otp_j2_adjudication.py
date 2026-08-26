@@ -216,12 +216,10 @@ def validation_errors(record: dict[str, Any] | None = None, *, check_repository:
     live_blob = repo_blob("governance/certification_routes.json")
     if live_blob == EXPECTED["live_route_blob"]:
         pass
-    elif live_blob == EXPECTED["a_registration_route_blob"]:
+    else:
         successor_errors = sphere_registration.validation_errors(routes=load(ROUTES))
         if successor_errors:
-            errors.append("exact A registration successor is invalid: " + "; ".join(successor_errors))
-    else:
-        errors.append("live J2 output route-registry blob drift")
+            errors.append("current separately governed A successor is invalid: " + "; ".join(successor_errors))
 
     if not is_ancestor(EXPECTED["runtime_head"]):
         errors.append("fresh execution head is not an ancestor of current publication head")
@@ -261,7 +259,7 @@ def main() -> int:
         return 1
     print(
         "validated immutable narrow J2 source-faithful adjudication at submitted/no-output state and "
-        "the governed restricted output successor plus exact separately governed A registration successor"
+        "the governed restricted output successor plus the separately governed current A successor"
     )
     return 0
 
