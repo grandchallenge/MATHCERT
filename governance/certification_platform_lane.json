@@ -20,7 +20,9 @@
     "ci/validate_certification_routes.py",
     "ci/test_validate_certification_routes.py",
     "ci/validate_formal_target_certificates.py",
-    "ci/test_formal_target_certificates.py"
+    "ci/test_formal_target_certificates.py",
+    "ci/otp_full_formula_route_proposal_compat.py",
+    "ci/test_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py"
   ],
   "lane_support_paths": [
     "governance/certification_platform_lane.json",
