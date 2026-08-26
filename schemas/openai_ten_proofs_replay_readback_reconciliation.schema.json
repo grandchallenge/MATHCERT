@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grandchallenge/MATHCERT/schemas/openai_ten_proofs_replay_readback_reconciliation.schema.json",
+  "title": "OpenAI Ten Proofs H/B1/B2 replay readback reconciliation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "reconciliation_id", "tracker_issue", "protected_predecessor", "historical_candidate_policy", "families", "preserved_authority", "activation_rule", "effect", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_replay_readback_reconciliation"},
+    "reconciliation_id": {"const": "MC-OTP-H-B1-B2-REPLAY-READBACK-001"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/178"},
+    "protected_predecessor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mathcert_main", "mathcert_tree", "route_registry_blob", "mathforge_main", "mathsolve_main", "formal_source_root", "formal_source_tree", "lean_version", "source_pdf_revision", "source_pdf_bytes", "source_pdf_sha256"],
+      "properties": {
+        "mathcert_main": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "mathcert_tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "route_registry_blob": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "mathforge_main": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "mathsolve_main": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "formal_source_root": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "formal_source_tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "lean_version": {"const": "4.32.0"},
+        "source_pdf_revision": {"const": "2026-08-06"},
+        "source_pdf_bytes": {"const": 2487031},
+        "source_pdf_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "historical_candidate_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mutation_prohibited", "pending_merge_wording_is_historical_not_current_state", "files"],
+      "properties": {
+        "mutation_prohibited": {"const": true},
+        "pending_merge_wording_is_historical_not_current_state": {"const": true},
+        "files": {
+          "type": "array", "minItems": 3, "maxItems": 3,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["result_family", "path", "blob"],
+            "properties": {
+              "result_family": {"enum": ["OTP-H-GAPCVP", "OTP-B1-BINARY-CODES", "OTP-B2-SPHERICAL-CODES"]},
+              "path": {"type": "string", "minLength": 1},
+              "blob": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+            }
+          }
+        }
+      }
+    },
+    "families": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["result_family", "tracker_issue", "pull_request", "exact_reviewed_head", "exact_head_runs", "non_author_review", "protected_merge", "merge_parents", "terminal_disposition", "protected_replay_evidence", "route_proposed", "route_registered", "may_adjudicate", "adjudication", "cert_output", "mathematical_target_proved", "aggregate_authority", "next_boundary"],
+        "properties": {
+          "result_family": {"enum": ["OTP-H-GAPCVP", "OTP-B1-BINARY-CODES", "OTP-B2-SPHERICAL-CODES"]},
+          "tracker_issue": {"type": "integer", "minimum": 1},
+          "pull_request": {"type": "integer", "minimum": 1},
+          "exact_reviewed_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "exact_head_runs": {
+            "type": "object", "additionalProperties": false,
+            "required": ["family_replay", "cert", "gcl", "compatibility"],
+            "properties": {
+              "family_replay": {"type": "integer", "minimum": 1},
+              "cert": {"type": "integer", "minimum": 1},
+              "gcl": {"type": "integer", "minimum": 1},
+              "compatibility": {"type": "integer", "minimum": 1}
+            }
+          },
+          "non_author_review": {
+            "type": "object", "additionalProperties": false,
+            "required": ["reviewer", "review_id", "state", "submitted_at", "commit_id"],
+            "properties": {
+              "reviewer": {"const": "jimsteeg"},
+              "review_id": {"type": "integer", "minimum": 1},
+              "state": {"const": "APPROVED"},
+              "submitted_at": {"type": "string", "format": "date-time"},
+              "commit_id": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+            }
+          },
+          "protected_merge": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "merge_parents": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string", "pattern": "^[0-9a-f]{40}$"}},
+          "terminal_disposition": {"type": "string", "minLength": 1},
+          "protected_replay_evidence": {"const": true},
+          "route_proposed": {"const": false},
+          "route_registered": {"const": false},
+          "may_adjudicate": {"const": false},
+          "adjudication": {"type": "null"},
+          "cert_output": {"type": "null"},
+          "mathematical_target_proved": {"const": false},
+          "aggregate_authority": {"const": false},
+          "next_boundary": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "preserved_authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["route_created_by_this_operation", "adjudication_created_by_this_operation", "cert_output_created_by_this_operation", "mathematical_target_proved_count", "cross_family_authority_transfer", "aggregate_ten_proofs_authority", "whole_document_equivalence_established", "full_proof_body_comparison_established"],
+      "properties": {
+        "route_created_by_this_operation": {"const": false},
+        "adjudication_created_by_this_operation": {"const": false},
+        "cert_output_created_by_this_operation": {"const": false},
+        "mathematical_target_proved_count": {"const": 0},
+        "cross_family_authority_transfer": {"const": false},
+        "aggregate_ten_proofs_authority": {"const": false},
+        "whole_document_equivalence_established": {"const": false},
+        "full_proof_body_comparison_established": {"const": false}
+      }
+    },
+    "activation_rule": {"type": "string", "minLength": 1},
+    "effect": {"const": "documentary_current_state_reconciliation_only"},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}
