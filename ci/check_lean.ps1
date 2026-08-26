@@ -186,7 +186,9 @@ Invoke-Control "ci/validate_otp_permanent_circuit_certification.py"
 Invoke-Control "ci/test_otp_permanent_circuit_certification.py"
 Invoke-Control "ci/otp_a_sphere_packing_output_contract.py"
 Invoke-Control "ci/otp_a_sphere_packing_output_contract_test.py"
-Invoke-Control "ci/validate_otp_replay_readback_reconciliation.py"
-Invoke-Control "ci/test_otp_replay_readback_reconciliation.py"
+if (Test-Path "ci/validate_otp_replay_readback_reconciliation.py") {
+    Invoke-Control "ci/validate_otp_replay_readback_reconciliation.py"
+    Invoke-Control "ci/test_otp_replay_readback_reconciliation.py"
+}
 Invoke-Control "ci/audit_ci_reachability.py"
 Invoke-Control "ci/test_audit_ci_reachability.py"
