@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import importlib.util
+import shutil
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -47,6 +49,30 @@ class FullFormulaRouteProposalCompatibilityTests(unittest.TestCase):
         with compat.historical_membership_view(historical.PROPOSAL.parent):
             members = sorted(p.name for p in historical.PROPOSAL.parent.glob("*.json"))
         self.assertEqual(members, ["OTP-C-PERMANENT.json"])
+
+    def _copy_owned_surface(self, destination: Path) -> None:
+        for name in [
+            compat.A_SPHERE_PACKING_NAME,
+            compat.HISTORICAL_PERMANENT_NAME,
+            compat.FULL_FORMULA_NAME,
+            compat.CIRCUIT_NAME,
+        ]:
+            shutil.copy2(historical.PROPOSAL.parent / name, destination / name)
+
+    def test_unrelated_family_successor_is_ignored(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            proposal_dir = Path(tmp)
+            self._copy_owned_surface(proposal_dir)
+            (proposal_dir / "OTP-H-GAPCVP.json").write_text("{}\n", encoding="utf-8")
+            self.assertEqual(compat.successor_errors(ROOT, proposal_dir), [])
+
+    def test_unknown_permanent_successor_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            proposal_dir = Path(tmp)
+            self._copy_owned_surface(proposal_dir)
+            (proposal_dir / "OTP-C-PERMANENT-UNAUTHORIZED.json").write_text("{}\n", encoding="utf-8")
+            errors = compat.successor_errors(ROOT, proposal_dir)
+            self.assertTrue(any("unknown Permanent successor membership" in e for e in errors))
 
 
 if __name__ == "__main__":
