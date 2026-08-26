@@ -28,7 +28,12 @@ def main():
  agg=copy.deepcopy(base); agg['execution_contract']['deterministic_commands'][1]='lake build All'; reject('aggregate replay substitution',agg)
  for field,value in [('route_registered',True),('may_adjudicate',True),('adjudication',{'state':'qualified'}),('cert_output',{'certificate':'invented'}),('mathematical_target_proved',True),('aggregate_authority',True),('may_promote_claim',True)]: reject(f'authority inflation {field}',mutate(base,('route_state',field),value))
  extra=copy.deepcopy(base); extra['new_authority']=True; reject('schema openness',extra)
- if not v.validation_errors(routes_blob_override='0'*40): raise AssertionError('route registry drift accepted')
+ if not v.validation_errors(routes_blob_override='0'*40): raise AssertionError('historical work-package route snapshot blob drift accepted')
+ inflated={'routes':[{'route_id':v.FUTURE_ROUTE_ID,'campaign_id':v.FAMILY_ID}]}
+ if not v.validation_errors(historical_routes_override=inflated): raise AssertionError('historical B2 route authority inflation accepted')
+ clean={'routes':[{'route_id':'OTHER','campaign_id':'OTHER'}]}
+ clean_errors=v.validation_errors(historical_routes_override=clean)
+ if any('historical work-package route snapshot' in e or 'route authority was present' in e for e in clean_errors): raise AssertionError('clean historical route snapshot rejected')
  if not v.validation_errors(predecessor_blob_override='0'*40): raise AssertionError('B1 predecessor drift accepted')
  if not v.validation_errors(intake_blob_override='0'*40): raise AssertionError('B2 intake drift accepted')
  print('OTP-B2-SPHERICAL-CODES work-package adversarial mutation suite: PASS')

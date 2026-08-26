@@ -10,6 +10,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 
 import otp_full_formula_contract_membership as membership
+import validate_openai_ten_proofs_sphere_packing_route_registration as sphere_registration
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGETS = [
@@ -244,11 +245,11 @@ def validation_errors(records=None, *, check_git=True):
         try:
             if git_blob(PREDECESSOR_CERT) != EXPECTED_PREDECESSOR_CERT_BLOB:
                 errors.append("historical Permanent certificate mutated")
-            if git_blob(GLOBAL_ROUTES) not in {
-                EXPECTED_GLOBAL_ROUTES_BLOB,
-                EXPECTED_A_REGISTRATION_GLOBAL_ROUTES_BLOB,
-            }:
-                errors.append("global certification route registry mutated outside exact A registration successor")
+            global_routes_blob = git_blob(GLOBAL_ROUTES)
+            if global_routes_blob != EXPECTED_GLOBAL_ROUTES_BLOB:
+                successor_errors = sphere_registration.validation_errors(routes=load(GLOBAL_ROUTES))
+                if successor_errors:
+                    errors.append("current separately governed A successor is invalid: " + "; ".join(successor_errors))
             if git_blob(PATHS["output_contract"]) != EXPECTED_OUTPUT_CONTRACT_BLOB:
                 errors.append("canonical successor output-contract blob drift")
             if git_blob(PATHS["staged_certificate"]) != EXPECTED_STAGED_CERT_BLOB:

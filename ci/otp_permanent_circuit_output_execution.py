@@ -7,6 +7,8 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
+import validate_openai_ten_proofs_sphere_packing_route_registration as sphere_registration
+
 ROOT = Path(__file__).resolve().parents[1]
 CERT = ROOT / "certificates/formal_sources/MC-OTP-C-PERMANENT-CIRCUIT-001.json"
 SCHEMA = ROOT / "schemas/otp_permanent_circuit_qualified_output.schema.json"
@@ -60,8 +62,11 @@ def validation_errors() -> list[str]:
     errors: list[str] = []
 
     try:
-        if not accepted_live_global_routes_blob(head_blob(GLOBAL_ROUTES)):
-            errors.append("historical certification route registry mutated outside exact A registration successor")
+        live_blob = head_blob(GLOBAL_ROUTES)
+        if not accepted_live_global_routes_blob(live_blob):
+            successor_errors = sphere_registration.validation_errors(routes=load(GLOBAL_ROUTES))
+            if successor_errors:
+                errors.append("current separately governed A successor is invalid: " + "; ".join(successor_errors))
     except subprocess.CalledProcessError as exc:
         errors.append(f"cannot verify historical certification route registry: {exc}")
 

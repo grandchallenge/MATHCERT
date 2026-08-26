@@ -5,6 +5,7 @@ import copy
 import importlib.util
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR_PATH = ROOT / "ci/validate_openai_ten_proofs_gapcvp_intake_successor.py"
@@ -12,6 +13,7 @@ spec = importlib.util.spec_from_file_location("gapcvp_intake_validator", VALIDAT
 module = importlib.util.module_from_spec(spec)
 assert spec and spec.loader
 spec.loader.exec_module(module)
+
 
 class GapCVPIntakeSuccessorTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -26,6 +28,17 @@ class GapCVPIntakeSuccessorTests(unittest.TestCase):
     def test_exact_record_validates(self):
         module.validate_record(self.data)
         module.validate_repository_guards()
+
+    def test_historical_snapshot_route_inflation_fails_closed(self):
+        historical = {"routes": [{"route_id": module.OWN_ROUTE_ID, "campaign_id": module.FAMILY_ID}]}
+        with mock.patch.object(module, "load_historical_routes", return_value=historical):
+            with self.assertRaises(ValueError):
+                module.validate_repository_guards()
+
+    def test_historical_snapshot_without_family_route_is_accepted(self):
+        historical = {"routes": [{"route_id": "OTHER", "campaign_id": "OTHER"}]}
+        with mock.patch.object(module, "load_historical_routes", return_value=historical):
+            module.validate_repository_guards()
 
     def test_target_substitution_fails_closed(self):
         self.reject(lambda d: d["target_scope"]["lean_theorems"].__setitem__(0, "Fake.target"))
@@ -49,16 +62,13 @@ class GapCVPIntakeSuccessorTests(unittest.TestCase):
         self.reject(lambda d: d["target_scope"]["gap_factors"].__setitem__(0, "400"))
 
     def test_integer_target_restriction_erasure_fails_closed(self):
-        self.reject(lambda d: d["target_scope"]["classifications"].__setitem__(
-            0, "source_faithful_whole_problem_identity"))
+        self.reject(lambda d: d["target_scope"]["classifications"].__setitem__(0, "source_faithful_whole_problem_identity"))
 
     def test_consistent_syndrome_restriction_erasure_fails_closed(self):
-        self.reject(lambda d: d["target_scope"]["classifications"].__setitem__(
-            2, "source_faithful_unrestricted_syndrome"))
+        self.reject(lambda d: d["target_scope"]["classifications"].__setitem__(2, "source_faithful_unrestricted_syndrome"))
 
     def test_nonvacuity_inflation_fails_closed(self):
-        self.reject(lambda d: d["target_scope"]["nonvacuity"].__setitem__(
-            "state", "certifies_np_hardness"))
+        self.reject(lambda d: d["target_scope"]["nonvacuity"].__setitem__("state", "certifies_np_hardness"))
 
     def test_route_inflation_fails_closed(self):
         self.reject(lambda d: d["state"].__setitem__("route_registered", True))
@@ -67,7 +77,7 @@ class GapCVPIntakeSuccessorTests(unittest.TestCase):
         self.reject(lambda d: d["state"].__setitem__("may_adjudicate", True))
 
     def test_certificate_inflation_fails_closed(self):
-        self.reject(lambda d: d["state"].__setitem__("cert_output", {"id":"invented"}))
+        self.reject(lambda d: d["state"].__setitem__("cert_output", {"id": "invented"}))
 
     def test_proof_promotion_fails_closed(self):
         self.reject(lambda d: d["state"].__setitem__("mathematical_target_proved", True))
@@ -82,6 +92,7 @@ class GapCVPIntakeSuccessorTests(unittest.TestCase):
         candidate["unexpected_authority"] = True
         with self.assertRaises(ValueError):
             module.validate_record(candidate)
+
 
 if __name__ == "__main__":
     unittest.main()

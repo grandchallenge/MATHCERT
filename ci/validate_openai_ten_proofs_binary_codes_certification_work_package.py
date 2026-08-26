@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib, importlib.util, json, sys
+import hashlib, importlib.util, json, subprocess, sys
 from pathlib import Path
 from jsonschema import Draft202012Validator
 
@@ -9,12 +9,12 @@ RECORD_PATH=ROOT/'governance/result_family_work_package_successors/OTP-B1-BINARY
 SCHEMA_PATH=ROOT/'schemas/openai_ten_proofs_binary_codes_certification_work_package.schema.json'
 INTAKE_PATH=ROOT/'governance/result_family_intake_successors/OTP-B1-BINARY-CODES.json'
 PREDECESSOR_WP=ROOT/'governance/result_family_work_package_successors/OTP-H-GAPCVP-CERT-WP-001.json'
-ROUTES=ROOT/'governance/certification_routes.json'
 EXPECTED_RECORD_BLOB='19e1eaf5e24ce212bb020c8c40d4177ff5b4f8f9'
 EXPECTED_INTAKE_BLOB='9ba1e66679d5d46aceef16164194147d8fac530a'
 EXPECTED_PREDECESSOR_WP_BLOB='0f811d163f0d36b028cf6539963e2cf278517137'
-PRE_REGISTRATION_ROUTES_BLOB='2d17473b4731aa9d9c630b1e7777ad4bd794d993'
-A_REGISTRATION_ROUTES_BLOB='b9bb0dc9e18856f50a88162df37c20c034327439'
+HISTORICAL_PROTECTED_BASE='10e6f3ee20d7a6e89feb27aef0115fa27710d5e4'
+HISTORICAL_ROUTES_BLOB='2d17473b4731aa9d9c630b1e7777ad4bd794d993'
+FAMILY_ID='OTP-B1-BINARY-CODES'
 FUTURE_ROUTE_ID='MC-ROUTE-OTP-B1-BINARY-CODES'
 TARGETS=['MetricCodes.Hamming.binaryRate_lt_classicalRate','MetricCodes.Hamming.exists_binaryRate_improvement','MetricCodes.Johnson.binaryRate_le_combinedVariationalRate','MetricCodes.MRRW.strict_mrrw2','MetricCodes.Johnson.binaryRate_lt_mrrw','MetricCodes.Johnson.exists_binaryRate_mrrw_improvement']
 CLASSES=['source_faithful_derived_consequence','derived_positive_margin_certificate','source_faithful_exact_projection','source_faithful_exact_projection','source_faithful_derived_consequence','derived_positive_margin_certificate']
@@ -24,6 +24,8 @@ NONVAC=['The target parameter domain 0<delta<1/2 is inhabited, for example by de
 def load(p): return json.loads(p.read_text(encoding='utf-8'))
 def blob(p):
  d=p.read_bytes(); return hashlib.sha1(f'blob {len(d)}\0'.encode()+d,usedforsecurity=False).hexdigest()
+def historical_routes_blob(): return subprocess.check_output(['git','rev-parse',f'{HISTORICAL_PROTECTED_BASE}:governance/certification_routes.json'],cwd=ROOT,text=True).strip()
+def load_historical_routes(): return json.loads(subprocess.check_output(['git','show',f'{HISTORICAL_PROTECTED_BASE}:governance/certification_routes.json'],cwd=ROOT,text=True))
 def imported(path,name):
  spec=importlib.util.spec_from_file_location(name,path); assert spec and spec.loader
  m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
@@ -31,20 +33,24 @@ def imported(path,name):
   if hasattr(m,'validation_errors'): return list(m.validation_errors())
   m.validate_record(m.load_record()); m.validate_repository_guards(); return []
  except Exception as e: return [str(e)]
-def validation_errors(record=None,*,record_blob_override=None,intake_blob_override=None,predecessor_blob_override=None,routes_blob_override=None):
+def validation_errors(record=None,*,record_blob_override=None,intake_blob_override=None,predecessor_blob_override=None,routes_blob_override=None,historical_routes_override=None):
  r=load(RECORD_PATH) if record is None else record; errors=[]
  for e in Draft202012Validator(load(SCHEMA_PATH)).iter_errors(r): errors.append(f'schema: {e.message}')
  if (blob(RECORD_PATH) if record_blob_override is None else record_blob_override)!=EXPECTED_RECORD_BLOB: errors.append('B1 work-package record blob drift')
  if (blob(INTAKE_PATH) if intake_blob_override is None else intake_blob_override)!=EXPECTED_INTAKE_BLOB: errors.append('protected B1 intake drift')
  if (blob(PREDECESSOR_WP) if predecessor_blob_override is None else predecessor_blob_override)!=EXPECTED_PREDECESSOR_WP_BLOB: errors.append('protected H predecessor work-package drift')
- routes_blob=blob(ROUTES) if routes_blob_override is None else routes_blob_override
- if routes_blob not in {PRE_REGISTRATION_ROUTES_BLOB,A_REGISTRATION_ROUTES_BLOB}: errors.append('certification route registry is neither protected work-package snapshot nor exact A registration successor')
+ observed=historical_routes_blob() if routes_blob_override is None else routes_blob_override
+ if observed!=HISTORICAL_ROUTES_BLOB: errors.append('B1 historical work-package route snapshot blob drift')
+ hist=load_historical_routes() if historical_routes_override is None else historical_routes_override
+ routes=hist.get('routes') if isinstance(hist,dict) else None
+ if not isinstance(routes,list): errors.append('B1 historical work-package route snapshot has invalid routes surface')
+ elif any(isinstance(x,dict) and (x.get('route_id')==FUTURE_ROUTE_ID or x.get('campaign_id')==FAMILY_ID) for x in routes): errors.append('B1 route authority was present in the exact historical work-package snapshot')
  ie=imported(ROOT/'ci/validate_openai_ten_proofs_binary_codes_intake_successor.py','b1_intake')
  if ie: errors.append('protected B1 intake validation failed: '+'; '.join(ie))
  pe=imported(ROOT/'ci/validate_openai_ten_proofs_gapcvp_certification_work_package.py','h_wp')
  if pe: errors.append('protected H predecessor work-package validation failed: '+'; '.join(pe))
  a=r.get('authority',{})
- if a.get('protected_mathcert_base')!='10e6f3ee20d7a6e89feb27aef0115fa27710d5e4': errors.append('protected MATHCERT base drift')
+ if a.get('protected_mathcert_base')!=HISTORICAL_PROTECTED_BASE: errors.append('protected MATHCERT base drift')
  if a.get('cert_intake_merge')!='5bddc3eb7d02638cf4fe959accfbfeade4964592': errors.append('B1 intake merge drift')
  if a.get('intake_record',{}).get('digest')!=EXPECTED_INTAKE_BLOB: errors.append('B1 intake binding drift')
  if a.get('producer_packet',{}).get('digest')!='1847dd7a17cda51cb02f017766c59d372811fb12': errors.append('Solve producer packet drift')
@@ -65,11 +71,10 @@ def validation_errors(record=None,*,record_blob_override=None,intake_blob_overri
  route=r.get('route_state',{})
  zero={'certification_route_registry_entry':None,'route_registered':False,'may_adjudicate':False,'adjudication':None,'cert_output':None,'mathematical_target_proved':False,'aggregate_authority':False,'may_promote_claim':False}
  if any(route.get(k)!=v for k,v in zero.items()): errors.append('B1 historical work-package route/adjudication/output/proof authority inflation')
- if FUTURE_ROUTE_ID in [x.get('route_id') for x in load(ROUTES).get('routes',[]) if isinstance(x,dict)]: errors.append('future B1 route already registered')
  return errors
 
 def main():
  e=validation_errors()
  if e: print('\n'.join(e),file=sys.stderr); return 1
- print('OTP-B1-BINARY-CODES executable certification work package validation: PASS; immutable work-package authority preserved across exact separately governed A route registration'); return 0
+ print('OTP-B1-BINARY-CODES executable certification work package validation: PASS; immutable work-package route nonauthority is scoped to its exact historical protected-base snapshot; later live route evolution is validated separately'); return 0
 if __name__=='__main__': raise SystemExit(main())
