@@ -1,0 +1,34 @@
+name: OTP H B1 B2 replay readback reconciliation
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/otp-replay-readback-reconciliation.yml'
+      - 'ci/validate_otp_replay_readback_reconciliation.py'
+      - 'ci/test_otp_replay_readback_reconciliation.py'
+      - 'governance/result_family_replay_evidence_readbacks/OTP-H-B1-B2.json'
+      - 'schemas/openai_ten_proofs_replay_readback_reconciliation.schema.json'
+  workflow_dispatch:
+permissions: {contents: read}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  validate-readback:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    env:
+      MATHCERT_HEAD_SHA: '${{ github.event.pull_request.head.sha || github.sha }}'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: '${{ env.MATHCERT_HEAD_SHA }}', fetch-depth: 0, persist-credentials: false}
+      - name: Verify literal head
+        run: python -c "import os,subprocess; assert subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip() == os.environ['MATHCERT_HEAD_SHA']"
+      - name: Install validation dependency
+        run: python -m pip install -r requirements-ci.txt
+      - name: Validate reconciliation
+        run: python ci/validate_otp_replay_readback_reconciliation.py
+      - name: Mutation tests
+        run: python -m unittest ci/test_otp_replay_readback_reconciliation.py -v
