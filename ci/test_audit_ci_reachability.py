@@ -28,9 +28,13 @@ class CiReachabilityTests(unittest.TestCase):
             text = "\n".join(
                 record["path"] for record in data["controls"] if record["mode"] == "direct"
             )
+            text += (
+                "\ncheck_certification_platform_lane.py --certification-scope"
+                "\nFULL_ESTATE\nMATHCERT_CONTEXT_SKIP\n"
+            )
             path = temp / orchestrator
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(text + "\n", encoding="utf-8")
+            path.write_text(text, encoding="utf-8")
 
         platform = json.loads(
             (module.ROOT / module.PLATFORM_MANIFEST).read_text(encoding="utf-8")
@@ -51,6 +55,8 @@ class CiReachabilityTests(unittest.TestCase):
         workflow_mentions = "\n".join(f"      - run: python3 {path}" for path in workflow_controls)
         (temp / ".github" / "workflows" / "ci.yml").write_text(
             """name: Cert checks
+on:
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
@@ -124,6 +130,32 @@ jobs:
         shell = root / "ci" / "check_lean.sh"
         shell.write_text("", encoding="utf-8")
         self.assertTrue(any("not reached" in item for item in module.errors(root)))
+
+    def test_context_scope_must_remain_in_both_orchestrators(self) -> None:
+        root = self.build_root()
+        powershell = root / "ci" / "check_lean.ps1"
+        powershell.write_text(
+            powershell.read_text(encoding="utf-8").replace(module.SCOPE_TOKEN, "removed-scope"),
+            encoding="utf-8",
+        )
+        self.assertTrue(
+            any(
+                "lacks context-aware certification scope" in item and "check_lean.ps1" in item
+                for item in module.errors(root)
+            )
+        )
+
+    def test_full_estate_marker_must_remain_in_orchestrator(self) -> None:
+        root = self.build_root()
+        shell = root / "ci" / "check_lean.sh"
+        shell.write_text(shell.read_text(encoding="utf-8").replace("FULL_ESTATE", "REMOVED"), encoding="utf-8")
+        self.assertTrue(any("lacks fail-closed full-estate" in item for item in module.errors(root)))
+
+    def test_manual_full_estate_entry_must_remain(self) -> None:
+        root = self.build_root()
+        workflow = root / ".github" / "workflows" / "ci.yml"
+        workflow.write_text(workflow.read_text(encoding="utf-8").replace("workflow_dispatch:", "removed_dispatch:"), encoding="utf-8")
+        self.assertTrue(any("workflow_dispatch:" in item for item in module.errors(root)))
 
     def test_mutable_action_fails(self) -> None:
         root = self.build_root()
