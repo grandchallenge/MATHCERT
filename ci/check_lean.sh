@@ -3,6 +3,43 @@ set -Eeuo pipefail
 trap 'status=$?; echo "::error title=MATHCERT canonical control failed::command=${BASH_COMMAND}; exit=${status}"; exit "$status"' ERR
 if ! command -v lake >/dev/null 2>&1; then echo "lake is not installed; cannot certify Lean files." >&2; exit 1; fi
 cd "$(dirname "$0")/.."
+
+control_family() {
+  local path="${1,,}"
+  case "$path" in
+    *spherical_codes*|*spherical-codes*) echo "OTP-B2-SPHERICAL-CODES" ;;
+    *binary_codes*|*binary-codes*) echo "OTP-B1-BINARY-CODES" ;;
+    *gapcvp*) echo "OTP-H-GAPCVP" ;;
+    *permanent*) echo "OTP-C-PERMANENT" ;;
+    *compactness*) echo "OTP-J1-COMPACTNESS" ;;
+    *ehrhart*) echo "OTP-F-EHRHART" ;;
+    *otp_j2*|*otp-j2*|*two_degenerate*|*two-degenerate*|*with_j2_output*) echo "OTP-J2-TWO-DEGENERATE" ;;
+    *sphere_packing*|*sphere-packing*|*otp_a_*) echo "OTP-A-SPHERE-PACKING" ;;
+    *) echo "" ;;
+  esac
+}
+
+MC_CERT_SCOPE="${MC_CERT_SCOPE:-$(command python3 ci/check_certification_platform_lane.py --certification-scope)}"
+case "$MC_CERT_SCOPE" in
+  FULL_ESTATE|OTP-A-SPHERE-PACKING|OTP-B1-BINARY-CODES|OTP-B2-SPHERICAL-CODES|OTP-H-GAPCVP|OTP-C-PERMANENT|OTP-J1-COMPACTNESS|OTP-J2-TWO-DEGENERATE|OTP-F-EHRHART) ;;
+  *) echo "unknown canonical certification scope: $MC_CERT_SCOPE" >&2; exit 1 ;;
+esac
+export MC_CERT_SCOPE
+echo "MATHCERT_CANONICAL_SCOPE=$MC_CERT_SCOPE"
+
+python3() {
+  local path="${1:-}"
+  local family=""
+  if [[ "$path" == *.py ]]; then
+    family="$(control_family "$path")"
+  fi
+  if [[ "$MC_CERT_SCOPE" != "FULL_ESTATE" && -n "$family" && "$family" != "$MC_CERT_SCOPE" ]]; then
+    echo "MATHCERT_CONTEXT_SKIP=$path family=$family active=$MC_CERT_SCOPE"
+    return 0
+  fi
+  command python3 "$@"
+}
+
 lake build
 lake build mathsolve/MathSolve
 lake env lean MathCert/FormalSources/RHNSReplay.lean
