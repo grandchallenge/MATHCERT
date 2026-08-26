@@ -1,7 +1,8 @@
 from __future__ import annotations
-import copy, importlib.util, json, unittest
+import copy, importlib.util, json, sys, unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/"ci"))
 P=ROOT/"ci/otp_a_sphere_packing_output_contract.py"
 spec=importlib.util.spec_from_file_location("v",P); v=importlib.util.module_from_spec(spec); assert spec and spec.loader; spec.loader.exec_module(v)
 R=json.loads((ROOT/"governance/result_family_output_contracts/OTP-A-SPHERE-PACKING.json").read_text())

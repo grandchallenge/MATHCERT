@@ -41,10 +41,10 @@ class CertificationRouteTests(unittest.TestCase):
   d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-J2-TWO-DEGENERATE");r["intake_status"]="submitted";r["cert_output"]=None;self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
  def test_j2_output_pointer_drift_fails(self):
   d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-J2-TWO-DEGENERATE");r["cert_output"]["digest"]="0"*40;self.assertTrue(any("output identity drift" in x for x in self.errors(d)))
- def test_a_must_remain_submitted(self):
-  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-A-SPHERE-PACKING");r["intake_status"]="qualified";self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
- def test_a_submitted_route_cannot_carry_output(self):
-  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-A-SPHERE-PACKING");r["cert_output"]={"repository":"grandchallenge/MATHCERT","commit_sha":"0"*40,"path":"fake","digest_algorithm":"git_blob_sha1","digest":"1"*40};self.assertTrue(any("intake-only" in x for x in self.errors(d)))
+ def test_a_cannot_return_to_submitted(self):
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-A-SPHERE-PACKING");r["intake_status"]="submitted";r["cert_output"]=None;self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
+ def test_a_output_pointer_drift_fails(self):
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-A-SPHERE-PACKING");r["cert_output"]["digest"]="0"*40;self.assertTrue(any("output identity drift" in x for x in self.errors(d)))
  def test_a_packet_drift_fails(self):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-A-SPHERE-PACKING")["intake_packet"]["digest"]="0"*40;self.assertTrue(any("packet identity drift" in x for x in self.errors(d)))
  def test_a_manifest_drift_fails(self):

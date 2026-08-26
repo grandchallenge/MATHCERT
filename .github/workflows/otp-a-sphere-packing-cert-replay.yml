@@ -129,6 +129,14 @@ jobs:
           elan run leanprover/lean4:v4.32.0 lean --version | grep -F "version 4.32.0"
           echo "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0" >> "$GITHUB_ENV"
 
+      - name: Activate protected Nanoda Rust 1.97.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          rustup toolchain install 1.97.1 --profile minimal
+          rustc +1.97.1 --version | grep -F "rustc 1.97.1 (8bab26f4f 2026-07-14)"
+          cargo +1.97.1 --version | grep -F "cargo 1.97.1"
+
       - name: Assert exact replay TCB source identities
         shell: bash
         run: |
@@ -137,8 +145,8 @@ jobs:
           test "$(git -C lean4export-src rev-parse HEAD)" = "4e7915201d3f9f04470d9eae002fa695f7cdc589"
           test "$(git -C nanoda-src rev-parse HEAD)" = "ddfac2bf5a7b56cb46e141494427ff3dd55963c7"
           go version
-          rustc --version
-          cargo --version
+          rustc +1.97.1 --version
+          cargo +1.97.1 --version
 
       - name: Build pinned Comparator helper binaries
         shell: bash
@@ -147,7 +155,7 @@ jobs:
           lean --version | grep -F "version 4.32.0"
           (cd landrun-src && go build -trimpath -o ../landrun ./cmd/landrun)
           (cd lean4export-src && lake build)
-          (cd nanoda-src && cargo build --release --locked)
+          (cd nanoda-src && cargo +1.97.1 build --release --locked)
           mkdir -p tools
           ln -sfn ../landrun-src tools/landrun
           ln -sfn ../lean4export-src tools/lean4export

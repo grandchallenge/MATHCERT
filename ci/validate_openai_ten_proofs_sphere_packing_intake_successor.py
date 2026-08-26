@@ -18,6 +18,7 @@ ROUTES = ROOT / "governance/certification_routes.json"
 EXPECTED_LEGACY_VALIDATOR_BLOB = "e0a16870c45aadc2b2a323159df595da489384f7"
 PRE_REGISTRATION_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
 A_REGISTRATION_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
+A_OUTPUT_ROUTES_BLOB = "4d5c8e3f2b33d5148d98e7057991e167938c75bb"
 A_ROUTE_ID = "MC-ROUTE-OTP-A-SPHERE-PACKING"
 
 def git_blob_sha1(path: Path) -> str:
@@ -62,17 +63,17 @@ def validate_repository_guards() -> None:
         if "OTP-A-SPHERE-PACKING" in route_text or A_ROUTE_ID in route_text:
             raise ValueError("sphere-packing route authority already present during protected intake snapshot")
         return
-    if routes_blob == A_REGISTRATION_ROUTES_BLOB:
+    if routes_blob in {A_REGISTRATION_ROUTES_BLOB, A_OUTPUT_ROUTES_BLOB}:
         errors = _registration_errors()
         if errors:
-            raise ValueError("separately governed A route registration invalid: " + "; ".join(errors))
+            raise ValueError("separately governed A route successor invalid: " + "; ".join(errors))
         return
-    raise ValueError("certification route registry is neither protected intake snapshot nor exact governed A registration successor")
+    raise ValueError("certification route registry is neither protected intake snapshot nor exact governed A registration/output successor")
 
 def main() -> None:
     validate_record(load_record())
     validate_repository_guards()
-    print("OTP-A-SPHERE-PACKING successor intake validation: PASS; immutable intake preserved across exact separately governed A registration successor")
+    print("OTP-A-SPHERE-PACKING successor intake validation: PASS; immutable intake preserved across exact separately governed A registration/output successor")
 
 if __name__ == "__main__":
     main()

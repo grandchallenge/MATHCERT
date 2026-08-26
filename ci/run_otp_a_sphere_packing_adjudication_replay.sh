@@ -14,10 +14,10 @@ output_dir="$(cd "$output_dir" && pwd)"
 python3 "$root/ci/validate_otp_a_sphere_packing_adjudication_input.py"
 python3 "$root/ci/test_otp_a_sphere_packing_adjudication_input.py"
 
-# Reuse the protected A exact replay harness under the exact registered-route
+# Reuse the protected A exact replay harness under the exact governed route
 # successor projection. This retains source/TCB/build/axiom/Comparator/kernel/
-# Nanoda semantics while the adjudication layer separately binds current route
-# and design-contract authority.
+# Nanoda semantics while the adjudication layer separately binds immutable
+# historical input state and the exact current live route successor.
 bash "$root/ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh" "$output_dir/replay"
 
 INPUT="$root/governance/result_family_adjudication_execution_inputs/OTP-A-SPHERE-PACKING.json" \
@@ -49,7 +49,15 @@ expected_classes=[
  'source_faithful_derived_composite_certificate',
 ]
 expected_axioms=['propext','Quot.sound','Classical.choice']
+expected_output={
+ 'repository':'grandchallenge/MATHCERT',
+ 'commit_sha':'1815f1b4010122e5bef0438f84da0b06204ba487',
+ 'path':'certificates/formal_sources/MC-OTP-A-SPHERE-PACKING-001.json',
+ 'digest_algorithm':'git_blob_sha1',
+ 'digest':'534e98ad2f00406fc869ea137f802f8cf504798a',
+}
 
+# These are immutable historical adjudication-input assertions.
 assert inp['encoded_targets']==expected_targets
 assert inp['classifications']==expected_classes
 assert inp['permitted_axioms']==expected_axioms
@@ -76,10 +84,19 @@ assert contract['state']['cert_output'] is None
 assert design['activation']['routine_stage_progression_without_human_steward_intervention'] is True
 assert design['activation']['human_steward_intervention_required_for_control_plan_change'] is True
 
+# The live route may remain at historical registration state or advance only to
+# the exact governed restricted-output successor. Reflect the live state rather
+# than rewriting the immutable historical adjudication input.
 route=next(r for r in routes['routes'] if r.get('route_id')=='MC-ROUTE-OTP-A-SPHERE-PACKING')
-assert route['intake_status']=='submitted'
 assert route['target_claim_ids']==expected_targets
-assert route['cert_output'] is None
+if route['intake_status']=='submitted':
+    assert route['cert_output'] is None
+elif route['intake_status']=='qualified':
+    assert route['cert_output']==expected_output
+else:
+    raise AssertionError('unrecognized live A route state')
+live_route_state=route['intake_status']
+live_cert_output=route['cert_output']
 
 comp=json.loads((replay/'comparator-result.json').read_text(encoding='utf-8'))
 assert comp=={
@@ -125,8 +142,10 @@ obj={
  'lean_default_kernel':'accept',
  'nanoda':'accept',
  'trust_boundary':'clear',
- 'route_state':'submitted',
- 'cert_output':None,
+ 'historical_input_route_state':'submitted',
+ 'historical_input_cert_output':None,
+ 'live_route_state':live_route_state,
+ 'live_cert_output':live_cert_output,
  'mathematical_target_proved':False,
  'may_promote_claim':False,
  'aggregate_authority':False,
@@ -148,3 +167,4 @@ sha256sum "$output_dir/adjudication-bundle.tar.gz" > "$output_dir/adjudication-b
 
 echo "A_ADJUDICATION_EXECUTION_EVIDENCE=PASS"
 echo "A_ADJUDICATION_DISPOSITION=UNSET"
+echo "A_ADJUDICATION_LIVE_ROUTE_STATE_RECORDED=PASS"
