@@ -67,16 +67,23 @@ jobs:
           python ci/test_check_certification_route_state_consumers.py
 
           real_python="$(command -v python3)"
+          real_bash="$(command -v bash)"
           shim_dir="${RUNNER_TEMP}/mathcert-route-state-bin"
           mkdir -p "${shim_dir}"
           cat > "${shim_dir}/python3" <<'EOF'
-          #!/usr/bin/env bash
+          #!/bin/bash
           set -euo pipefail
           exec "${MATHCERT_REAL_PYTHON}" "${GITHUB_WORKSPACE}/ci/certification_route_state.py" exec "$@"
           EOF
-          chmod +x "${shim_dir}/python3"
+          cat > "${shim_dir}/bash" <<'EOF'
+          #!/bin/bash
+          set -euo pipefail
+          exec "${MATHCERT_REAL_PYTHON}" "${GITHUB_WORKSPACE}/ci/certification_route_state.py" exec-bash "$@"
+          EOF
+          chmod +x "${shim_dir}/python3" "${shim_dir}/bash"
 
           MATHCERT_REAL_PYTHON="${real_python}" \
+          MATHCERT_REAL_BASH="${real_bash}" \
           PATH="${shim_dir}:${PATH}" \
             bash ./ci/check_lean.sh
       - name: Upload canonical build diagnostic
