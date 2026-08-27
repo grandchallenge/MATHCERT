@@ -165,6 +165,7 @@ def route_view(entry: dict[str, Any]) -> Iterator[None]:
             "MATHCERT_ROUTE_STATE_VIEW="
             f"HISTORICAL_SNAPSHOT consumer={normalize_consumer(entry['path'])} "
             f"commit={entry['snapshot_commit']} blob={entry['snapshot_blob']}",
+            file=sys.stderr,
             flush=True,
         )
         yield
@@ -181,7 +182,11 @@ def run_python(argv: list[str]) -> int:
         return subprocess.call([sys.executable, *argv], cwd=ROOT)
     cls = entry["classification"]
     if cls != "HISTORICAL_SNAPSHOT":
-        print(f"MATHCERT_ROUTE_STATE_VIEW={cls} consumer={consumer}", flush=True)
+        print(
+            f"MATHCERT_ROUTE_STATE_VIEW={cls} consumer={consumer}",
+            file=sys.stderr,
+            flush=True,
+        )
     with route_view(entry):
         return subprocess.call([sys.executable, *argv], cwd=ROOT)
 
