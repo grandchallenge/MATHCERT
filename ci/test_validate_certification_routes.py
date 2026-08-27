@@ -59,4 +59,14 @@ class CertificationRouteTests(unittest.TestCase):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-H-GAPCVP")["source_manifest"]["digest"]="0"*40;self.assertTrue(any("manifest identity drift" in x for x in self.errors(d)))
  def test_aggregate_route_fails(self):
   d=self.load_registry();r=copy.deepcopy(next(r for r in d["routes"] if r["campaign_id"]=="OTP-F-EHRHART"));r["campaign_id"]="OPENAI-TEN-PROOFS-001";r["route_id"]="MC-ROUTE-OPENAI-TEN-PROOFS-001";d["routes"].append(r);self.assertTrue(self.errors(d))
+ def test_certification_route_consumer_inventory_diagnostic(self):
+  root=Path(__file__).resolve().parents[1]
+  consumers=[]
+  for path in sorted(root.rglob("*")):
+   if not path.is_file() or path.suffix.lower() not in {".py",".sh",".ps1"}:continue
+   try:text=path.read_text(encoding="utf-8")
+   except UnicodeDecodeError:continue
+   if "certification_routes" in text:
+    consumers.append(str(path.relative_to(root)))
+  self.fail("MC_CERTIFICATION_ROUTE_CONSUMER_INVENTORY_BEGIN\n"+"\n".join(consumers)+"\nMC_CERTIFICATION_ROUTE_CONSUMER_INVENTORY_END")
 if __name__=="__main__":unittest.main()
