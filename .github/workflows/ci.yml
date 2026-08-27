@@ -66,6 +66,9 @@ jobs:
           python ci/test_certification_route_state.py
           python ci/test_check_certification_route_state_consumers.py
 
+          resolution_file="${RUNNER_TEMP}/mathcert-route-state-resolutions.json"
+          python ci/certification_route_state.py resolve > "${resolution_file}"
+
           real_python="$(command -v python3)"
           real_bash="$(command -v bash)"
           shim_dir="${RUNNER_TEMP}/mathcert-route-state-bin"
@@ -84,6 +87,7 @@ jobs:
 
           MATHCERT_REAL_PYTHON="${real_python}" \
           MATHCERT_REAL_BASH="${real_bash}" \
+          MATHCERT_ROUTE_STATE_RESOLUTIONS="${resolution_file}" \
           PATH="${shim_dir}:${PATH}" \
             bash ./ci/check_lean.sh
       - name: Upload canonical build diagnostic
