@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_PREFIXES = ("audit_", "check_", "replay_", "test_", "validate_")
 REGISTERED_EXECUTABLE_PREFIXES = ("build_", "verify_")
 PLATFORM_MANIFEST = "governance/certification_platform_lane.json"
+PLATFORM_WORKFLOW_PATH_LISTS = ("shared_platform_paths", "lane_support_paths")
 SCOPE_TOKEN = "check_certification_platform_lane.py --certification-scope"
 
 
@@ -34,12 +35,14 @@ def errors(root: Path = ROOT) -> list[str]:
     platform_manifest_path = root / PLATFORM_MANIFEST
     if platform_manifest_path.exists():
         platform_manifest = json.loads(platform_manifest_path.read_text(encoding="utf-8"))
-        support = {
-            str(path)
-            for path in platform_manifest.get("lane_support_paths", [])
-            if isinstance(path, str)
-        }
-        workflow_controls = discovered.intersection(support)
+        declared_workflow_paths: set[str] = set()
+        for key in PLATFORM_WORKFLOW_PATH_LISTS:
+            declared_workflow_paths.update(
+                str(path)
+                for path in platform_manifest.get(key, [])
+                if isinstance(path, str)
+            )
+        workflow_controls = discovered.intersection(declared_workflow_paths)
         for path in sorted(workflow_controls):
             if path not in workflow:
                 found.append(f"platform workflow control is not reached by .github/workflows/ci.yml: {path}")
@@ -117,7 +120,7 @@ def main() -> int:
         print("\n".join(found), file=sys.stderr)
         print(f"CI reachability audit failed with {len(found)} error(s)", file=sys.stderr)
         return 1
-    print("validated pinned workflow policy, context-aware/full-estate orchestration, and reachability of every registered MATHCERT control")
+    print("validated pinned workflow policy, context-aware/full-estate orchestration, and reachability of every registered or declared platform-workflow MATHCERT control")
     return 0
 
 
