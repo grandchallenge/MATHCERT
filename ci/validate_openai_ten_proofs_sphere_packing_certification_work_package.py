@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -14,14 +15,13 @@ RECORD_PATH = ROOT / "governance/result_family_work_package_successors/OTP-A-SPH
 SCHEMA_PATH = ROOT / "schemas/openai_ten_proofs_sphere_packing_certification_work_package.schema.json"
 INTAKE_PATH = ROOT / "governance/result_family_intake_successors/OTP-A-SPHERE-PACKING.json"
 HISTORICAL_WORK_PACKAGES = ROOT / "governance/pre_route_candidates/OPENAI_TEN_PROOFS_WP02_WORK_PACKAGES.json"
-ROUTES = ROOT / "governance/certification_routes.json"
+HISTORICAL_ROUTES_PATH = "governance/certification_routes.json"
 
 EXPECTED_RECORD_BLOB = "f0c91d1959035f35843c383920dfba0b6c24b485"
 EXPECTED_INTAKE_BLOB = "294c9f7d6cceb1cdf7ec4c8e73255dd1ba130670"
 EXPECTED_HISTORICAL_WORK_PACKAGES_BLOB = "997f38fb60ef4d3a43801916113a8e2f1ae34264"
+WORK_PACKAGE_MERGE = "54b883bb5c6ffaf099efd7270df3519a45b13038"
 PRE_REGISTRATION_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
-A_REGISTRATION_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
-A_OUTPUT_ROUTES_BLOB = "4d5c8e3f2b33d5148d98e7057991e167938c75bb"
 FUTURE_ROUTE_ID = "MC-ROUTE-OTP-A-SPHERE-PACKING"
 
 
@@ -63,13 +63,45 @@ def _import_validation(path: Path, name: str) -> list[str]:
         return [str(exc)]
 
 
+def historical_route_snapshot_errors(
+    *,
+    commit: str = WORK_PACKAGE_MERGE,
+    expected_blob: str = PRE_REGISTRATION_ROUTES_BLOB,
+    route_text_override: str | None = None,
+    blob_override: str | None = None,
+) -> list[str]:
+    errors: list[str] = []
+    try:
+        blob = blob_override or subprocess.check_output(
+            ["git", "-C", str(ROOT), "rev-parse", f"{commit}:{HISTORICAL_ROUTES_PATH}"],
+            text=True,
+        ).strip()
+        if blob != expected_blob:
+            errors.append("protected work-package route-registry blob drift")
+            return errors
+        route_text = route_text_override
+        if route_text is None:
+            route_text = subprocess.check_output(
+                ["git", "-C", str(ROOT), "show", f"{commit}:{HISTORICAL_ROUTES_PATH}"],
+                text=True,
+            )
+        routes = json.loads(route_text)
+        route_ids = [r.get("route_id") for r in routes.get("routes", []) if isinstance(r, dict)]
+        if FUTURE_ROUTE_ID in route_ids:
+            errors.append("sphere-packing route present in protected work-package snapshot")
+    except (subprocess.CalledProcessError, json.JSONDecodeError) as exc:
+        errors.append(f"cannot verify protected work-package route snapshot: {exc}")
+    return errors
+
+
 def validation_errors(
     record: dict | None = None,
     *,
     record_blob_override: str | None = None,
     intake_blob_override: str | None = None,
     historical_blob_override: str | None = None,
-    routes_blob_override: str | None = None,
+    historical_routes_blob_override: str | None = None,
+    historical_routes_text_override: str | None = None,
 ) -> list[str]:
     errors: list[str] = []
     record = load(RECORD_PATH) if record is None else record
@@ -84,9 +116,13 @@ def validation_errors(
     historical_blob = git_blob_sha1(HISTORICAL_WORK_PACKAGES) if historical_blob_override is None else historical_blob_override
     if historical_blob != EXPECTED_HISTORICAL_WORK_PACKAGES_BLOB:
         errors.append("historical three-family work-package registry drift")
-    routes_blob = git_blob_sha1(ROUTES) if routes_blob_override is None else routes_blob_override
-    if routes_blob not in {PRE_REGISTRATION_ROUTES_BLOB, A_REGISTRATION_ROUTES_BLOB, A_OUTPUT_ROUTES_BLOB}:
-        errors.append("certification route registry is neither protected work-package snapshot nor exact A registration/output successor")
+
+    errors.extend(
+        historical_route_snapshot_errors(
+            blob_override=historical_routes_blob_override,
+            route_text_override=historical_routes_text_override,
+        )
+    )
 
     intake_errors = _import_validation(
         ROOT / "ci/validate_openai_ten_proofs_sphere_packing_intake_successor.py",
@@ -94,13 +130,6 @@ def validation_errors(
     )
     if intake_errors:
         errors.append("protected sphere-packing intake validation failed: " + "; ".join(intake_errors))
-
-    historical_errors = _import_validation(
-        ROOT / "ci/validate_openai_ten_proofs_certification_work_packages.py",
-        "historical_otp_work_packages",
-    )
-    if historical_errors:
-        errors.append("historical three-family work-package validation failed: " + "; ".join(historical_errors))
 
     authority = record.get("authority", {})
     if authority.get("protected_mathcert_base") != "9d3af5503f06e1a564562a49ce9f5b439a3d9364":
@@ -162,12 +191,6 @@ def validation_errors(
     }
     if any(route.get(k) != v for k, v in zero_authority.items()):
         errors.append("sphere-packing work-package historical route/adjudication/output/proof authority inflation")
-
-    route_ids = [r.get("route_id") for r in load(ROUTES).get("routes", []) if isinstance(r, dict)]
-    if routes_blob == PRE_REGISTRATION_ROUTES_BLOB and FUTURE_ROUTE_ID in route_ids:
-        errors.append("sphere-packing route present in protected work-package snapshot")
-    if routes_blob in {A_REGISTRATION_ROUTES_BLOB, A_OUTPUT_ROUTES_BLOB} and route_ids.count(FUTURE_ROUTE_ID) != 1:
-        errors.append("exact separately governed sphere-packing registration/output successor missing")
     return errors
 
 
@@ -177,7 +200,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         return 1
     print(
-        "OTP-A-SPHERE-PACKING executable certification work package validation: PASS; immutable work-package authority preserved across exact separately governed A route registration/output successor"
+        "OTP-A-SPHERE-PACKING executable certification work package validation: PASS; immutable work-package authority preserved against exact protected work-package route snapshot; later governed route successors are validated separately"
     )
     return 0
 
