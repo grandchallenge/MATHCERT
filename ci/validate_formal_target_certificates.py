@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import shutil
@@ -14,6 +15,7 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 import otp_a_sphere_packing_output_contract as a_output
+import validate_openai_ten_proofs_sphere_packing_route_registration as sphere
 
 ROOT = Path(__file__).resolve().parents[1]
 PRE_CIRCUIT_COMMIT = "809fcbc3704f146fbb9992f03b3b1851ba2fe59b"
@@ -58,6 +60,27 @@ def git_blob(path: Path) -> str:
         f"blob {len(data)}\0".encode("ascii") + data,
         usedforsecurity=False,
     ).hexdigest()
+
+
+def a_owned_registry_projection(registry: dict[str, Any]) -> dict[str, Any]:
+    """Project the live registry to the exact route estate owned by A validation.
+
+    Later independently governed route registrations are not A certificate
+    semantics. Global route membership remains the responsibility of the route
+    registry validator; this projection prevents A's historical validator from
+    becoming a terminal-global-registry assertion.
+    """
+    projected = copy.deepcopy(registry)
+    rows = projected.get("routes")
+    if not isinstance(rows, list):
+        return projected
+    owned_ids = set(sphere.EXPECTED_PRIOR_ROUTE_IDS) | {sphere.ROUTE_ID}
+    projected["routes"] = [
+        route
+        for route in rows
+        if isinstance(route, dict) and route.get("route_id") in owned_ids
+    ]
+    return projected
 
 
 def git(*args: str) -> subprocess.CompletedProcess[bytes]:
@@ -182,10 +205,11 @@ def _a_certificate_errors(path: Path, registry_path: Path) -> list[str]:
     errors: list[str] = []
     if git_blob(path) != A_BLOB:
         errors.append(f"{path}: certificate blob identity drift")
+    live_registry = load_json(registry_path)
     errors.extend(
         f"OTP-A-SPHERE-PACKING: {error}"
         for error in a_output.validation_errors(
-            routes=load_json(registry_path),
+            routes=a_owned_registry_projection(live_registry),
             certificate=load_json(path),
             check_history=False,
         )
