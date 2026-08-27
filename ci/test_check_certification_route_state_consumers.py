@@ -30,6 +30,57 @@ class CertificationRouteConsumerGateTests(unittest.TestCase):
             errors = gate.validation_errors(root, mp, check_git=False)
             self.assertTrue(any("unclassified direct" in e for e in errors))
 
+    def test_transitive_consumer_inherits_one_state(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "ci").mkdir()
+            (root / "governance").mkdir()
+            (root / "ci/a.py").write_text('PATH = "governance/certification_routes.json"\n', encoding="utf-8")
+            (root / "ci/test_a.py").write_text("import a\n", encoding="utf-8")
+            mp = root / "governance/certification_route_state_consumers.json"
+            mp.write_text(
+                json.dumps(
+                    {
+                        "consumers": [
+                            {"path": "ci/a.py", "classification": "CURRENT_STATE"}
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            self.assertEqual(gate.validation_errors(root, mp, check_git=False), [])
+            direct, closure = gate.coverage_counts(root, mp)
+            self.assertEqual(direct, 1)
+            self.assertEqual(closure, 2)
+
+    def test_ambiguous_transitive_consumer_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "ci").mkdir()
+            (root / "governance").mkdir()
+            (root / "ci/a.py").write_text('PATH = "governance/certification_routes.json"\n', encoding="utf-8")
+            (root / "ci/b.py").write_text('PATH = "governance/certification_routes.json"\n', encoding="utf-8")
+            (root / "ci/test_ab.py").write_text("import a\nimport b\n", encoding="utf-8")
+            mp = root / "governance/certification_route_state_consumers.json"
+            mp.write_text(
+                json.dumps(
+                    {
+                        "consumers": [
+                            {
+                                "path": "ci/a.py",
+                                "classification": "HISTORICAL_SNAPSHOT",
+                                "snapshot_commit": "a",
+                                "snapshot_blob": "b",
+                            },
+                            {"path": "ci/b.py", "classification": "CURRENT_STATE"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            errors = gate.validation_errors(root, mp, check_git=False)
+            self.assertTrue(any("ambiguous transitive certification state" in e for e in errors))
+
     def test_stale_classification_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
