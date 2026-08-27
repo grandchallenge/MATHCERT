@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import importlib.util
+import json
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -47,6 +49,42 @@ class CertificationRouteStateTests(unittest.TestCase):
         assert row is not None
         self.assertEqual(row["classification"], "CURRENT_STATE")
 
+    def test_sphere_packing_test_inherits_historical_state(self) -> None:
+        row = state.effective_classification_for(
+            "ci/test_openai_ten_proofs_sphere_packing_intake_successor.py"
+        )
+        self.assertIsNotNone(row)
+        assert row is not None
+        self.assertEqual(row["classification"], "HISTORICAL_SNAPSHOT")
+        self.assertTrue(row.get("inherited"))
+        self.assertEqual(row["snapshot_commit"], "0a24c03689734cac54d940c506ff4be02e200e65")
+        self.assertEqual(row["snapshot_blob"], "4d5c8e3f2b33d5148d98e7057991e167938c75bb")
+
+    def test_transitive_ambiguity_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "ci").mkdir()
+            (root / "ci/historical.py").write_text("VALUE = 1\n", encoding="utf-8")
+            (root / "ci/current.py").write_text("VALUE = 2\n", encoding="utf-8")
+            (root / "ci/test_mixed.py").write_text(
+                "import historical\nimport current\n", encoding="utf-8"
+            )
+            manifest = {
+                "consumers": [
+                    {
+                        "path": "ci/historical.py",
+                        "classification": "HISTORICAL_SNAPSHOT",
+                        "snapshot_commit": "a",
+                        "snapshot_blob": "b",
+                    },
+                    {"path": "ci/current.py", "classification": "CURRENT_STATE"},
+                ]
+            }
+            with self.assertRaisesRegex(ValueError, "ambiguous transitive certification state"):
+                state.effective_classification_for(
+                    "ci/test_mixed.py", manifest, root=root
+                )
+
     def test_synthetic_historical_head_replaces_only_route_blob(self) -> None:
         row = state.classification_for(
             "ci/validate_openai_ten_proofs_sphere_packing_intake_successor.py"
@@ -63,7 +101,7 @@ class CertificationRouteStateTests(unittest.TestCase):
         self.assertEqual(live_manifest_blob, synthetic_manifest_blob)
 
     def test_unknown_consumer_is_unclassified(self) -> None:
-        self.assertIsNone(state.classification_for("ci/does_not_exist.py"))
+        self.assertIsNone(state.effective_classification_for("ci/does_not_exist.py"))
 
 
 if __name__ == "__main__":
