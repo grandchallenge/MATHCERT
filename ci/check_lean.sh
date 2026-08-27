@@ -15,6 +15,7 @@ control_family() {
     *ehrhart*) echo "OTP-F-EHRHART" ;;
     *otp_j2*|*otp-j2*|*two_degenerate*|*two-degenerate*|*with_j2_output*) echo "OTP-J2-TWO-DEGENERATE" ;;
     *sphere_packing*|*sphere-packing*|*otp_a_*) echo "OTP-A-SPHERE-PACKING" ;;
+    *openai_ten_proofs*|*openai-ten-proofs*) echo "FULL_ESTATE_ONLY" ;;
     *) echo "" ;;
   esac
 }
