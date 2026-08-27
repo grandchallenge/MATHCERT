@@ -58,7 +58,27 @@ jobs:
           cat diagnostics/lake-build.log
           exit 0
       - name: Run certification checks
-        run: bash ./ci/check_lean.sh
+        shell: bash
+        run: |
+          set -euo pipefail
+          python ci/certification_route_state.py validate
+          python ci/check_certification_route_state_consumers.py
+          python ci/test_certification_route_state.py
+          python ci/test_check_certification_route_state_consumers.py
+
+          real_python="$(command -v python3)"
+          shim_dir="${RUNNER_TEMP}/mathcert-route-state-bin"
+          mkdir -p "${shim_dir}"
+          cat > "${shim_dir}/python3" <<'EOF'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          exec "${MATHCERT_REAL_PYTHON}" "${GITHUB_WORKSPACE}/ci/certification_route_state.py" exec "$@"
+          EOF
+          chmod +x "${shim_dir}/python3"
+
+          MATHCERT_REAL_PYTHON="${real_python}" \
+          PATH="${shim_dir}:${PATH}" \
+            bash ./ci/check_lean.sh
       - name: Upload canonical build diagnostic
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
