@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 from check_certification_platform_lane import (
@@ -125,6 +126,30 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         self.assertIn("ci/validate_formal_target_certificates.py", stateful)
         self.assertIn("governance/certification_platform_lane.json", support)
         self.assertIn("ci/check_certification_platform_lane.py", support)
+
+    def test_canonical_runners_keep_marker_free_otp_controls_full_estate_only(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        sh = (root / "ci/check_lean.sh").read_text(encoding="utf-8")
+        ps1 = (root / "ci/check_lean.ps1").read_text(encoding="utf-8")
+
+        sh_aggregate = '*openai_ten_proofs*|*openai-ten-proofs*) echo "FULL_ESTATE_ONLY" ;;'
+        self.assertIn(sh_aggregate, sh)
+        self.assertLess(sh.index('*gapcvp*) echo "OTP-H-GAPCVP" ;;'), sh.index(sh_aggregate))
+        self.assertLess(sh.index('*sphere_packing*|*sphere-packing*|*otp_a_*)'), sh.index(sh_aggregate))
+
+        ps_aggregate = "if ($p -match 'openai[_-]ten[_-]proofs') { return 'FULL_ESTATE_ONLY' }"
+        self.assertIn(ps_aggregate, ps1)
+        self.assertLess(ps1.index("if ($p -match 'gapcvp')"), ps1.index(ps_aggregate))
+        self.assertLess(ps1.index("if ($p -match 'sphere[_-]packing|otp_a_')"), ps1.index(ps_aggregate))
+
+        self.assertIn(
+            'if [[ "$MC_CERT_SCOPE" != "FULL_ESTATE" && -n "$family" && "$family" != "$MC_CERT_SCOPE" ]]',
+            sh,
+        )
+        self.assertIn(
+            "if ($script:CertScope -ne 'FULL_ESTATE' -and $family -and $family -ne $script:CertScope)",
+            ps1,
+        )
 
     def test_a_only_transition_gets_exact_family_scope(self) -> None:
         scope = certification_scope(
