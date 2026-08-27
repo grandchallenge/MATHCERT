@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -13,6 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PROPOSAL = ROOT / "governance/result_family_route_proposal_successors/OTP-H-GAPCVP.json"
 REGISTRY = ROOT / "governance/pre_route_candidates/OPENAI_TEN_PROOFS_H_GAPCVP_ROUTE_PROPOSAL.json"
 ROUTES = ROOT / "governance/certification_routes.json"
+ROUTE_REGISTRY_PATH = "governance/certification_routes.json"
+PROPOSAL_PROTECTED_PREDECESSOR_HEAD = "0c3e3399a39c01d64fa9fff9621f841d706e0171"
 INTAKE = ROOT / "governance/result_family_intake_successors/OTP-H-GAPCVP.json"
 WORK_PACKAGE = ROOT / "governance/result_family_work_package_successors/OTP-H-GAPCVP-CERT-WP-001.json"
 REPLAY = ROOT / "governance/result_family_replay_evidence_successors/OTP-H-GAPCVP.json"
@@ -76,6 +79,15 @@ def git_blob_sha1(path: Path) -> str:
     return hashlib.sha1(f"blob {len(data)}\0".encode() + data, usedforsecurity=False).hexdigest()
 
 
+def blob_at_commit(commit: str, path: str) -> str:
+    return subprocess.check_output(["git", "rev-parse", f"{commit}:{path}"], cwd=ROOT, text=True).strip()
+
+
+def load_at_commit(commit: str, path: str) -> Any:
+    raw = subprocess.check_output(["git", "show", f"{commit}:{path}"], cwd=ROOT, text=True)
+    return json.loads(raw)
+
+
 def schema_errors(document: Any, schema_path: Path) -> list[str]:
     validator = Draft202012Validator(load(schema_path))
     return [f"{schema_path.name}: {e.message}" for e in sorted(validator.iter_errors(document), key=lambda e: list(e.path))]
@@ -86,13 +98,13 @@ def validation_errors(*, proposal: Any | None = None, registry: Any | None = Non
                       readback: Any | None = None, local_blobs: dict[str, str] | None = None) -> list[str]:
     proposal = load(PROPOSAL) if proposal is None else proposal
     registry = load(REGISTRY) if registry is None else registry
-    routes = load(ROUTES) if routes is None else routes
+    routes = load_at_commit(PROPOSAL_PROTECTED_PREDECESSOR_HEAD, ROUTE_REGISTRY_PATH) if routes is None else routes
     replay = load(REPLAY) if replay is None else replay
     readback = load(READBACK) if readback is None else readback
     blobs = {
         "proposal": git_blob_sha1(PROPOSAL),
         "registry": git_blob_sha1(REGISTRY),
-        "routes": git_blob_sha1(ROUTES),
+        "routes": blob_at_commit(PROPOSAL_PROTECTED_PREDECESSOR_HEAD, ROUTE_REGISTRY_PATH),
         "intake": git_blob_sha1(INTAKE),
         "work_package": git_blob_sha1(WORK_PACKAGE),
         "replay": git_blob_sha1(REPLAY),
