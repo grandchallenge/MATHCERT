@@ -34,6 +34,13 @@ class FormalTargetCertificateTests(unittest.TestCase):
             json.dump(payload, handle)
         return Path(handle.name)
 
+    def a_errors_for_registry(self, registry: dict) -> list[str]:
+        path = self.write_registry(registry)
+        try:
+            return module._a_certificate_errors(module.CERT_DIR / module.A_FILE, path)
+        finally:
+            path.unlink(missing_ok=True)
+
     def test_current_certificates_pass(self) -> None:
         self.assertEqual([], module.certificate_errors())
 
@@ -200,6 +207,34 @@ class FormalTargetCertificateTests(unittest.TestCase):
         finally:
             path.unlink(missing_ok=True)
         self.assertTrue(any("route is not qualified" in error for error in errors))
+
+    def test_a_validation_ignores_independently_registered_later_route(self) -> None:
+        registry = module.load_json(module.REGISTRY_PATH)
+        registry["routes"].append({
+            "route_id": "MC-ROUTE-OTP-LATER-TEST",
+            "campaign_id": "OTP-LATER-TEST",
+        })
+        self.assertEqual([], self.a_errors_for_registry(registry))
+
+    def test_a_validation_still_rejects_a_route_mutation(self) -> None:
+        registry = module.load_json(module.REGISTRY_PATH)
+        route = next(route for route in registry["routes"] if route["route_id"] == "MC-ROUTE-OTP-A-SPHERE-PACKING")
+        route["cert_output"]["digest"] = "0" * 40
+        self.assertTrue(self.a_errors_for_registry(registry))
+
+    def test_a_validation_still_rejects_duplicate_a_route(self) -> None:
+        registry = module.load_json(module.REGISTRY_PATH)
+        route = next(route for route in registry["routes"] if route["route_id"] == "MC-ROUTE-OTP-A-SPHERE-PACKING")
+        registry["routes"].append(copy.deepcopy(route))
+        self.assertTrue(self.a_errors_for_registry(registry))
+
+    def test_a_validation_still_rejects_missing_owned_predecessor_route(self) -> None:
+        registry = module.load_json(module.REGISTRY_PATH)
+        registry["routes"] = [
+            route for route in registry["routes"]
+            if route.get("route_id") != "MC-ROUTE-UC-001"
+        ]
+        self.assertTrue(self.a_errors_for_registry(registry))
 
     def test_missing_certificate_fails(self) -> None:
         records = self.load_records()
