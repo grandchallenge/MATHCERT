@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import ast
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -14,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "governance/certification_route_state_consumers.json"
 ROUTES_REL = "governance/certification_routes.json"
 ALLOWED = {"HISTORICAL_SNAPSHOT", "CURRENT_STATE", "TRANSITION_STATE", "INVARIANT"}
+CI_EXTENSIONS = {".py", ".sh", ".ps1"}
+SKIP_PARTS = {".git", ".lake", "__pycache__"}
 
 
 def _git(*args: str, check: bool = True, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
@@ -56,6 +60,153 @@ def consumer_map(manifest: dict[str, Any] | None = None) -> dict[str, dict[str, 
 
 def classification_for(path: str | Path, manifest: dict[str, Any] | None = None) -> dict[str, Any] | None:
     return consumer_map(manifest).get(normalize_consumer(path))
+
+
+def _ci_sources(root: Path = ROOT) -> dict[str, str]:
+    ci = root / "ci"
+    sources: dict[str, str] = {}
+    if not ci.exists():
+        return sources
+    for path in sorted(ci.rglob("*")):
+        if not path.is_file() or path.suffix.lower() not in CI_EXTENSIONS:
+            continue
+        rel = path.relative_to(root)
+        if any(part in SKIP_PARTS for part in rel.parts):
+            continue
+        try:
+            sources[rel.as_posix()] = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+    return sources
+
+
+def dependency_edges(root: Path = ROOT) -> set[tuple[str, str]]:
+    """Return (parent, dependency) edges for the repo-owned CI control graph."""
+    sources = _ci_sources(root)
+    module_to_path = {
+        Path(path).stem: path for path in sources if path.endswith(".py")
+    }
+    edges: set[tuple[str, str]] = set()
+    for parent, text in sources.items():
+        imported: set[str] = set()
+        if parent.endswith(".py"):
+            try:
+                tree = ast.parse(text)
+            except SyntaxError:
+                tree = None
+            if tree is not None:
+                for node in ast.walk(tree):
+                    if isinstance(node, ast.Import):
+                        imported.update(alias.name.split(".")[-1] for alias in node.names)
+                    elif isinstance(node, ast.ImportFrom) and node.module:
+                        imported.add(node.module.split(".")[-1])
+        for name, target in module_to_path.items():
+            if target == parent:
+                continue
+            if (
+                name in imported
+                or f"{name}.py" in text
+                or re.search(rf"(?<![A-Za-z0-9_]){re.escape(name)}(?![A-Za-z0-9_])", text)
+            ):
+                edges.add((parent, target))
+    return edges
+
+
+def dependency_closure(
+    direct: set[str], root: Path = ROOT, edges: set[tuple[str, str]] | None = None
+) -> set[str]:
+    edges = dependency_edges(root) if edges is None else edges
+    closure = set(direct)
+    changed = True
+    while changed:
+        changed = False
+        for parent, target in edges:
+            if target in closure and parent not in closure:
+                closure.add(parent)
+                changed = True
+    return closure
+
+
+def _reachable_explicit_entries(
+    path: str,
+    manifest: dict[str, Any] | None = None,
+    *,
+    root: Path = ROOT,
+    edges: set[tuple[str, str]] | None = None,
+) -> list[dict[str, Any]]:
+    manifest = load_manifest() if manifest is None else manifest
+    explicit = consumer_map(manifest)
+    edges = dependency_edges(root) if edges is None else edges
+    deps: dict[str, set[str]] = {}
+    for parent, target in edges:
+        deps.setdefault(parent, set()).add(target)
+    pending = list(deps.get(path, set()))
+    visited: set[str] = set()
+    entries: list[dict[str, Any]] = []
+    while pending:
+        target = pending.pop()
+        if target in visited:
+            continue
+        visited.add(target)
+        row = explicit.get(target)
+        if row is not None:
+            entries.append(row)
+        pending.extend(deps.get(target, set()) - visited)
+    return entries
+
+
+def effective_classification_for(
+    path: str | Path,
+    manifest: dict[str, Any] | None = None,
+    *,
+    root: Path = ROOT,
+    edges: set[tuple[str, str]] | None = None,
+) -> dict[str, Any] | None:
+    """Resolve explicit state or inherit one unambiguous state through CI dependencies."""
+    manifest = load_manifest() if manifest is None else manifest
+    consumer = normalize_consumer(path)
+    explicit = classification_for(consumer, manifest)
+    if explicit is not None:
+        return explicit
+
+    entries = _reachable_explicit_entries(
+        consumer, manifest, root=root, edges=edges
+    )
+    if not entries:
+        return None
+
+    # Invariant helpers do not override a substantive state view.
+    substantive = [row for row in entries if row.get("classification") != "INVARIANT"]
+    relevant = substantive or entries
+    signatures: set[tuple[str, str | None, str | None]] = set()
+    for row in relevant:
+        signatures.add(
+            (
+                str(row.get("classification")),
+                row.get("snapshot_commit"),
+                row.get("snapshot_blob"),
+            )
+        )
+    if len(signatures) != 1:
+        rendered = ", ".join(
+            sorted(
+                f"{cls}:{commit or '-'}:{blob or '-'}"
+                for cls, commit, blob in signatures
+            )
+        )
+        raise ValueError(
+            f"ambiguous transitive certification state for {consumer}: {rendered}"
+        )
+    cls, commit, blob = next(iter(signatures))
+    row: dict[str, Any] = {
+        "path": consumer,
+        "classification": cls,
+        "inherited": True,
+    }
+    if cls == "HISTORICAL_SNAPSHOT":
+        row["snapshot_commit"] = commit
+        row["snapshot_blob"] = blob
+    return row
 
 
 def blob_at(commit: str, rel: str = ROUTES_REL) -> str:
@@ -164,7 +315,8 @@ def route_view(entry: dict[str, Any]) -> Iterator[None]:
         print(
             "MATHCERT_ROUTE_STATE_VIEW="
             f"HISTORICAL_SNAPSHOT consumer={normalize_consumer(entry['path'])} "
-            f"commit={entry['snapshot_commit']} blob={entry['snapshot_blob']}",
+            f"commit={entry['snapshot_commit']} blob={entry['snapshot_blob']} "
+            f"inherited={str(bool(entry.get('inherited'))).lower()}",
             file=sys.stderr,
             flush=True,
         )
@@ -173,22 +325,60 @@ def route_view(entry: dict[str, Any]) -> Iterator[None]:
         _git("checkout", "--detach", "--force", "--quiet", live_head)
 
 
-def run_python(argv: list[str]) -> int:
-    if not argv:
-        raise ValueError("exec requires a Python consumer path")
-    consumer = normalize_consumer(argv[0])
-    entry = classification_for(consumer)
+def _run_with_entry(command: list[str], consumer: str, entry: dict[str, Any] | None) -> int:
     if entry is None:
-        return subprocess.call([sys.executable, *argv], cwd=ROOT)
+        return subprocess.call(command, cwd=ROOT)
     cls = entry["classification"]
     if cls != "HISTORICAL_SNAPSHOT":
         print(
-            f"MATHCERT_ROUTE_STATE_VIEW={cls} consumer={consumer}",
+            f"MATHCERT_ROUTE_STATE_VIEW={cls} consumer={consumer} "
+            f"inherited={str(bool(entry.get('inherited'))).lower()}",
             file=sys.stderr,
             flush=True,
         )
     with route_view(entry):
-        return subprocess.call([sys.executable, *argv], cwd=ROOT)
+        return subprocess.call(command, cwd=ROOT)
+
+
+def run_python(argv: list[str]) -> int:
+    if not argv:
+        raise ValueError("exec requires Python arguments")
+    consumer: str | None = None
+    first = argv[0]
+    if first not in {"-", "-c", "-m"} and not first.startswith("-"):
+        try:
+            consumer = normalize_consumer(first)
+        except ValueError:
+            consumer = None
+    real_python = os.environ.get("MATHCERT_REAL_PYTHON", sys.executable)
+    if consumer is None:
+        return subprocess.call([real_python, *argv], cwd=ROOT)
+    entry = effective_classification_for(consumer)
+    return _run_with_entry([real_python, *argv], consumer, entry)
+
+
+def _bash_consumer(argv: list[str]) -> str | None:
+    for arg in argv:
+        if arg in {"-c", "-lc", "-l", "-s"}:
+            return None
+        if arg.startswith("-"):
+            continue
+        try:
+            return normalize_consumer(arg)
+        except ValueError:
+            return None
+    return None
+
+
+def run_bash(argv: list[str]) -> int:
+    real_bash = os.environ.get("MATHCERT_REAL_BASH")
+    if not real_bash:
+        raise RuntimeError("MATHCERT_REAL_BASH is required for exec-bash")
+    consumer = _bash_consumer(argv)
+    if consumer is None:
+        return subprocess.call([real_bash, *argv], cwd=ROOT)
+    entry = effective_classification_for(consumer)
+    return _run_with_entry([real_bash, *argv], consumer, entry)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -204,10 +394,12 @@ def main(argv: list[str] | None = None) -> int:
     command, *rest = argv
     if command == "exec":
         return run_python(rest)
+    if command == "exec-bash":
+        return run_bash(rest)
     if command == "classify":
         if len(rest) != 1:
             raise ValueError("classify requires exactly one path")
-        row = classification_for(rest[0])
+        row = effective_classification_for(rest[0])
         print("UNCLASSIFIED" if row is None else row["classification"])
         return 0
     raise ValueError(f"unknown command: {command}")
