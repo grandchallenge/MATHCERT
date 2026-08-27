@@ -156,8 +156,8 @@ def route_view(entry: dict[str, Any]) -> Iterator[None]:
     if entry.get("classification") != "HISTORICAL_SNAPSHOT":
         yield
         return
-    if _git("status", "--porcelain").stdout.strip():
-        raise RuntimeError("historical route view requires a clean working tree")
+    if _git("status", "--porcelain", "--untracked-files=no").stdout.strip():
+        raise RuntimeError("historical route view requires a clean tracked working tree")
     live_head, synthetic_head = _synthetic_historical_head(entry)
     try:
         _git("checkout", "--detach", "--force", "--quiet", synthetic_head)
