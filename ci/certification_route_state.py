@@ -155,6 +155,35 @@ def _reachable_explicit_entries(
     return entries
 
 
+def _semantic_owner_entry(
+    consumer: str,
+    manifest: dict[str, Any],
+) -> dict[str, Any] | None:
+    """Resolve conventional test/wrapper ownership before considering mixed dependencies."""
+    if not consumer.endswith(".py"):
+        return None
+    explicit = consumer_map(manifest)
+    stem = Path(consumer).stem
+    candidates: list[str] = []
+    if stem.startswith("test_"):
+        base = stem[len("test_") :]
+        candidates.extend([f"ci/validate_{base}.py", f"ci/{base}.py"])
+    if stem.endswith("_test"):
+        candidates.append(f"ci/{stem[:-len('_test')]}.py")
+    if "_with_" in stem:
+        candidates.append(f"ci/{stem.split('_with_', 1)[0]}.py")
+    for candidate in candidates:
+        row = explicit.get(candidate)
+        if row is None:
+            continue
+        derived = dict(row)
+        derived["path"] = consumer
+        derived["inherited"] = True
+        derived["semantic_owner"] = candidate
+        return derived
+    return None
+
+
 def effective_classification_for(
     path: str | Path,
     manifest: dict[str, Any] | None = None,
@@ -162,12 +191,16 @@ def effective_classification_for(
     root: Path = ROOT,
     edges: set[tuple[str, str]] | None = None,
 ) -> dict[str, Any] | None:
-    """Resolve explicit state or inherit one unambiguous state through CI dependencies."""
+    """Resolve explicit state, semantic ownership, or one unambiguous dependency state."""
     manifest = load_manifest() if manifest is None else manifest
     consumer = normalize_consumer(path)
     explicit = classification_for(consumer, manifest)
     if explicit is not None:
         return explicit
+
+    owner = _semantic_owner_entry(consumer, manifest)
+    if owner is not None:
+        return owner
 
     entries = _reachable_explicit_entries(
         consumer, manifest, root=root, edges=edges
@@ -330,9 +363,11 @@ def _run_with_entry(command: list[str], consumer: str, entry: dict[str, Any] | N
         return subprocess.call(command, cwd=ROOT)
     cls = entry["classification"]
     if cls != "HISTORICAL_SNAPSHOT":
+        owner = entry.get("semantic_owner")
+        owner_text = f" semantic_owner={owner}" if owner else ""
         print(
             f"MATHCERT_ROUTE_STATE_VIEW={cls} consumer={consumer} "
-            f"inherited={str(bool(entry.get('inherited'))).lower()}",
+            f"inherited={str(bool(entry.get('inherited'))).lower()}{owner_text}",
             file=sys.stderr,
             flush=True,
         )
