@@ -12,6 +12,7 @@ function Get-ControlFamily([string]$Path) {
     if ($p -match 'ehrhart') { return 'OTP-F-EHRHART' }
     if ($p -match 'otp[_-]j2|two[_-]degenerate|with_j2_output') { return 'OTP-J2-TWO-DEGENERATE' }
     if ($p -match 'sphere[_-]packing|otp_a_') { return 'OTP-A-SPHERE-PACKING' }
+    if ($p -match 'openai[_-]ten[_-]proofs') { return 'FULL_ESTATE_ONLY' }
     return ''
 }
 
