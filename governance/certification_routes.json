@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "registry_id": "MC-CERTIFICATION-ROUTES",
   "provider_repository": "grandchallenge/MATHCERT",
-  "provider_base_commit": "4b194b9632a9aa57fee21c3c054498d6b4a8ed57",
+  "provider_base_commit": "284e724d299bac02fc962b68e429b82398f6a08b",
   "programme_issue": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/123",
   "routes": [
     {
@@ -142,6 +142,17 @@
       "cert_output": {"repository": "grandchallenge/MATHCERT", "commit_sha": "1815f1b4010122e5bef0438f84da0b06204ba487", "path": "certificates/formal_sources/MC-OTP-A-SPHERE-PACKING-001.json", "digest_algorithm": "git_blob_sha1", "digest": "534e98ad2f00406fc869ea137f802f8cf504798a"},
       "blockers": ["No mathematical target is marked proved by this restricted qualification.", "The ten-field composite remains a mixed source/derived certificate rather than one manuscript-verbatim theorem, and the 30-decimal enclosure remains formal-only precision.", "The packing bridge remains governed by the protected positive-rescaling/unit-separation normalization; the explicit little-o witness remains a normal form only; whole-chapter and full proof-body equivalence remain unestablished."],
       "reopening_conditions": ["Update this route only through a separately governed, exact-head reviewed operation when the exact four-target scope, source/derived classifications, protected certificate identity, normalization boundary, source precision attribution, little-o boundary, or mathematical proof status changes."]
+    },
+    {
+      "route_id": "MC-ROUTE-OTP-H-GAPCVP", "campaign_id": "OTP-H-GAPCVP", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/190",
+      "source_manifest": {"repository": "grandchallenge/MATHFORGE", "commit_sha": "b9dda1a5b958fd1be37a26324a025013a39584c1", "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-H-GAPCVP/audit_record.json", "digest_algorithm": "git_blob_sha1", "digest": "673f541fbb552d307cc226c51d2f0fd2916b328d"},
+      "intake_status": "submitted", "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "e42c48dfe6a83eb19f398ba114f61fd700694ce5", "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-H-GAPCVP.json", "digest_algorithm": "git_blob_sha1", "digest": "0dd2b38e40a126a1a2a2d57989038f788b8e40e4"},
+      "target_claim_ids": ["GapCVP.Comparator.gapCVP400IsNPHard", "GapCVP.Comparator.binaryNearestCodewordIsNPHard", "GapCVP.Comparator.binarySyndromeDecodingIsNPHard", "GapCVP.Comparator.finitePNormGapCVPIsNPHard"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "This submitted route is limited to exactly the four protected OTP-H-GAPCVP promise-hardness targets and promise interfaces. It preserves the dimension-dependent gap exponents, integer-target Euclidean restriction, consistent-syndrome restriction, generator transpose convention, outside-promise boundary, fixed rational p >= 1 boundary, protected source/derived classifications, nonvacuity evidence, and permitted-axiom boundary. It does not adjudicate or prove a target, issue a Cert output, broaden any promise interface, establish whole-document or full proof-body equivalence, qualify another family, transfer cross-family authority, or create aggregate OpenAI Ten Proofs authority.",
+      "cert_output": null,
+      "blockers": ["No MATHCERT adjudication has been authorized or recorded for OTP-H-GAPCVP.", "The Euclidean target remains integer-target restricted; the syndrome target remains consistent-system restricted; generator orientation remains a transpose convention; malformed and threshold-intermediate inputs remain outside the promise; and p remains fixed rational with 1 <= p and external to the input encoding.", "Forge semantic admission, Solve handoff, and replay evidence do not independently certify the source NP-hardness proofs; whole-document and full proof-body equivalence remain unestablished."],
+      "reopening_conditions": ["Update this route only through a separately governed, exact-head reviewed operation when the four-target or promise-interface scope, classifications, gap factors, source/Solve/intake/work-package/replay/proposal authority, permitted axioms, adjudication state, output state, or mathematical proof status changes."]
     }
   ]
 }

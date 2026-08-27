@@ -142,9 +142,11 @@ def validation_errors(
     intake_errors = import_errors(ROOT / "ci/validate_openai_ten_proofs_gapcvp_intake_successor.py", "gapcvp_intake")
     if intake_errors:
         errors.append("protected GapCVP intake validation failed: " + "; ".join(intake_errors))
-    predecessor_errors = import_errors(ROOT / "ci/validate_openai_ten_proofs_sphere_packing_certification_work_package.py", "sphere_wp")
-    if predecessor_errors:
-        errors.append("protected predecessor A work-package validation failed: " + "; ".join(predecessor_errors))
+
+    # The predecessor A work package is protected, content-addressed evidence.
+    # H binds its exact blob above and must not re-run A's stateful live validator
+    # against later route-registry successors. Current global/A route semantics are
+    # validated independently by their canonical controls.
 
     authority = record.get("authority", {})
     if authority.get("protected_mathcert_base") != HISTORICAL_PROTECTED_BASE:

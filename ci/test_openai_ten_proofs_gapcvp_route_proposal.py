@@ -17,7 +17,7 @@ class GapCVPRouteProposalTests(unittest.TestCase):
     def setUp(self) -> None:
         self.proposal = M.load(M.PROPOSAL)
         self.registry = M.load(M.REGISTRY)
-        self.routes = M.load(M.ROUTES)
+        self.routes = M.load_at_commit(M.PROPOSAL_PROTECTED_PREDECESSOR_HEAD, M.ROUTE_REGISTRY_PATH)
         self.replay = M.load(M.REPLAY)
         self.readback = M.load(M.READBACK)
 
@@ -34,6 +34,11 @@ class GapCVPRouteProposalTests(unittest.TestCase):
 
     def test_current_candidate_is_clear(self):
         self.assertEqual(self.errors(), [])
+
+    def test_later_live_registration_does_not_invalidate_historical_proposal(self):
+        live_routes = M.load(M.ROUTES)
+        self.assertTrue(any(route.get("route_id") == M.ROUTE_ID for route in live_routes.get("routes", [])))
+        self.assertEqual(M.validation_errors(), [])
 
     def test_route_registration_inflation_fails(self):
         proposal = copy.deepcopy(self.proposal)

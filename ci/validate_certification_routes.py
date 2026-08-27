@@ -36,6 +36,12 @@ EXPECTED["OTP-A-SPHERE-PACKING"]={
  "state":"qualified",
  "packet":art("grandchallenge/MATHSOLVE","c19735edf4c16ac9765bb66c7209bbf11bf1312e","work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-A-SPHERE-PACKING.json","9e3b46972bf01ac3d24c6a0ae5f522799335ecd1"),
  "output":art("grandchallenge/MATHCERT","1815f1b4010122e5bef0438f84da0b06204ba487","certificates/formal_sources/MC-OTP-A-SPHERE-PACKING-001.json","534e98ad2f00406fc869ea137f802f8cf504798a")}
+EXPECTED["OTP-H-GAPCVP"]={
+ "tracker":"https://github.com/grandchallenge/MATHCERT/issues/190",
+ "source":art("grandchallenge/MATHFORGE","b9dda1a5b958fd1be37a26324a025013a39584c1","sources/OPENAI-TEN-PROOFS-001/semantic/OTP-H-GAPCVP/audit_record.json","673f541fbb552d307cc226c51d2f0fd2916b328d"),
+ "state":"submitted",
+ "packet":art("grandchallenge/MATHSOLVE","e42c48dfe6a83eb19f398ba114f61fd700694ce5","work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-H-GAPCVP.json","0dd2b38e40a126a1a2a2d57989038f788b8e40e4"),
+ "output":None}
 ADJUDICATED={"certified","qualified","rejected","proof_debt"};INTAKE_ONLY={"ready","submitted"};ALL_STATES={"pending"}|INTAKE_ONLY|ADJUDICATED
 HEX40=re.compile(r"^[0-9a-f]{40}$");HEX64=re.compile(r"^[0-9a-f]{64}$");ARTIFACT_KEYS={"repository","commit_sha","path","digest_algorithm","digest"};ROUTE_KEYS={"route_id","campaign_id","tracker_issue","source_manifest","intake_status","intake_packet","target_claim_ids","requested_modalities","claim_boundary","cert_output","blockers","reopening_conditions"}
 def load_json(path:Path)->Any:return json.loads(path.read_text(encoding="utf-8"))
@@ -94,13 +100,13 @@ def route_errors(registry_path:Path=REGISTRY_PATH,schema_path:Path=SCHEMA_PATH)-
   if not str(r.get("claim_boundary","")).strip():e.append(f"{cid}: empty claim boundary")
   if not isinstance(r.get("blockers"),list) or not r["blockers"]:e.append(f"{cid}: blockers required")
   if not isinstance(r.get("reopening_conditions"),list) or not r["reopening_conditions"]:e.append(f"{cid}: reopening conditions required")
- otp={"OTP-F-EHRHART","OTP-J1-COMPACTNESS","OTP-J2-TWO-DEGENERATE","OTP-C-PERMANENT","OTP-A-SPHERE-PACKING"}
+ otp={"OTP-F-EHRHART","OTP-J1-COMPACTNESS","OTP-J2-TWO-DEGENERATE","OTP-C-PERMANENT","OTP-A-SPHERE-PACKING","OTP-H-GAPCVP"}
  if {cid for cid,r in route_map.items() if str(r.get("route_id","")).startswith("MC-ROUTE-OTP-")}!=otp:e.append("OTP route membership drift")
  if "OPENAI-TEN-PROOFS-001" in route_map:e.append("aggregate ten-proofs route prohibited")
  return e
 def main()->int:
  e=route_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated thirteen exact routes, including restricted qualified OTP-A-SPHERE-PACKING, OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
+ print("validated fourteen exact routes, including submitted OTP-H-GAPCVP and restricted qualified OTP-A-SPHERE-PACKING, OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
  return 0
 if __name__=="__main__":raise SystemExit(main())
