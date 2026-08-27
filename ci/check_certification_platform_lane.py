@@ -30,6 +30,7 @@ FAMILY_MARKERS: tuple[tuple[str, tuple[str, ...]], ...] = (
 )
 GLOBAL_FAMILY_TRANSITION_PATHS = {
     "governance/certification_routes.json",
+    "governance/ci_control_registry.json",
 }
 
 
