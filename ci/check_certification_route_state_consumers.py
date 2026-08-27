@@ -7,6 +7,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import certification_route_state as state
+
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "governance/certification_route_state_consumers.json"
 TOKEN = "certification_routes"
@@ -88,7 +90,29 @@ def validation_errors(
         errors.append(f"unclassified direct certification-route consumer: {path}")
     for path in sorted(set(classified) - discovered):
         errors.append(f"stale classification without direct token consumer: {path}")
+
+    edges = state.dependency_edges(root)
+    closure = state.dependency_closure(discovered, root, edges)
+    for path in sorted(closure):
+        try:
+            row = state.effective_classification_for(
+                path, manifest, root=root, edges=edges
+            )
+        except Exception as exc:
+            errors.append(str(exc))
+            continue
+        if row is None:
+            errors.append(f"unclassified transitive certification-route consumer: {path}")
     return errors
+
+
+def coverage_counts(
+    root: Path = ROOT, manifest_path: Path = MANIFEST
+) -> tuple[int, int]:
+    direct = discover_consumers(root)
+    edges = state.dependency_edges(root)
+    closure = state.dependency_closure(direct, root, edges)
+    return len(direct), len(closure)
 
 
 def main() -> int:
@@ -97,10 +121,12 @@ def main() -> int:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         return 1
-    discovered = discover_consumers(ROOT)
+    direct_count, closure_count = coverage_counts()
     print(
         "MC-CERTIFICATION-STATE-ARCHITECTURE-STABILIZATION-001: PASS "
-        f"classified_direct_consumers={len(discovered)} unclassified=0 historical_snapshots_verified=true"
+        f"classified_direct_consumers={direct_count} "
+        f"classified_dependency_closure={closure_count} "
+        "unclassified=0 ambiguous=0 historical_snapshots_verified=true"
     )
     return 0
 
