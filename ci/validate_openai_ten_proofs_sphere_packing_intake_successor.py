@@ -19,18 +19,23 @@ EXPECTED_LEGACY_VALIDATOR_BLOB = "e0a16870c45aadc2b2a323159df595da489384f7"
 PRE_REGISTRATION_ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
 A_REGISTRATION_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
 A_OUTPUT_ROUTES_BLOB = "4d5c8e3f2b33d5148d98e7057991e167938c75bb"
+H_REGISTRATION_ROUTES_BLOB = "ffc95950e571efebe1c90a3e6d1bf279b37b71b1"
 A_ROUTE_ID = "MC-ROUTE-OTP-A-SPHERE-PACKING"
+
 
 def git_blob_sha1(path: Path) -> str:
     data = path.read_bytes()
     header = f"blob {len(data)}\0".encode("ascii")
     return hashlib.sha1(header + data).hexdigest()
 
+
 def load_record() -> dict:
     return json.loads(RECORD.read_text(encoding="utf-8"))
 
+
 def load_schema() -> dict:
     return json.loads(SCHEMA.read_text(encoding="utf-8"))
+
 
 def validate_record(data: dict) -> None:
     validator = Draft202012Validator(load_schema())
@@ -41,6 +46,7 @@ def validate_record(data: dict) -> None:
         )
         raise ValueError(rendered)
 
+
 def _registration_errors() -> list[str]:
     spec = importlib.util.spec_from_file_location(
         "sphere_packing_route_registration",
@@ -50,6 +56,18 @@ def _registration_errors() -> list[str]:
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return list(module.validation_errors())
+
+
+def _h_successor_registration_errors() -> list[str]:
+    spec = importlib.util.spec_from_file_location(
+        "h_aware_route_registration_successor",
+        ROOT / "ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py",
+    )
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return list(module.validation_errors())
+
 
 def validate_repository_guards() -> None:
     if git_blob_sha1(LEGACY_VALIDATOR) != EXPECTED_LEGACY_VALIDATOR_BLOB:
@@ -68,12 +86,23 @@ def validate_repository_guards() -> None:
         if errors:
             raise ValueError("separately governed A route successor invalid: " + "; ".join(errors))
         return
-    raise ValueError("certification route registry is neither protected intake snapshot nor exact governed A registration/output successor")
+    if routes_blob == H_REGISTRATION_ROUTES_BLOB:
+        errors = _h_successor_registration_errors()
+        if errors:
+            raise ValueError("exact H registration successor invalid while preserving A intake: " + "; ".join(errors))
+        return
+    raise ValueError(
+        "certification route registry is neither protected intake snapshot nor exact governed A registration/output/H-registration successor"
+    )
+
 
 def main() -> None:
     validate_record(load_record())
     validate_repository_guards()
-    print("OTP-A-SPHERE-PACKING successor intake validation: PASS; immutable intake preserved across exact separately governed A registration/output successor")
+    print(
+        "OTP-A-SPHERE-PACKING successor intake validation: PASS; immutable A intake preserved across exact separately governed A registration/output and H registration successors"
+    )
+
 
 if __name__ == "__main__":
     main()
