@@ -13,7 +13,8 @@ from pathlib import Path
 from typing import Any, Iterator
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = ROOT / "governance/certification_route_state_consumers.json"
+MANIFEST_REL = "governance/certification_route_state_consumers.json"
+MANIFEST = ROOT / MANIFEST_REL
 ROUTES_REL = "governance/certification_routes.json"
 ALLOWED = {"HISTORICAL_SNAPSHOT", "CURRENT_STATE", "TRANSITION_STATE", "INVARIANT"}
 CI_EXTENSIONS = {".py", ".sh", ".ps1"}
@@ -78,6 +79,12 @@ def _ci_sources(root: Path = ROOT) -> dict[str, str]:
         except UnicodeDecodeError:
             continue
     return sources
+
+
+def direct_token_consumers(root: Path = ROOT) -> set[str]:
+    return {
+        path for path, text in _ci_sources(root).items() if "certification_routes" in text
+    }
 
 
 def dependency_edges(root: Path = ROOT) -> set[tuple[str, str]]:
@@ -208,7 +215,6 @@ def effective_classification_for(
     if not entries:
         return None
 
-    # Invariant helpers do not override a substantive state view.
     substantive = [row for row in entries if row.get("classification") != "INVARIANT"]
     relevant = substantive or entries
     signatures: set[tuple[str, str | None, str | None]] = set()
@@ -240,6 +246,34 @@ def effective_classification_for(
         row["snapshot_commit"] = commit
         row["snapshot_blob"] = blob
     return row
+
+
+def resolved_consumer_map(
+    manifest: dict[str, Any] | None = None,
+    *,
+    root: Path = ROOT,
+) -> dict[str, dict[str, Any]]:
+    manifest = load_manifest() if manifest is None else manifest
+    direct = direct_token_consumers(root)
+    edges = dependency_edges(root)
+    closure = dependency_closure(direct, root, edges)
+    resolved: dict[str, dict[str, Any]] = {}
+    for path in sorted(closure):
+        row = effective_classification_for(path, manifest, root=root, edges=edges)
+        if row is None:
+            raise ValueError(f"unclassified transitive certification-route consumer: {path}")
+        resolved[path] = row
+    return resolved
+
+
+def runtime_classification_for(path: str | Path) -> dict[str, Any] | None:
+    consumer = normalize_consumer(path)
+    cache_path = os.environ.get("MATHCERT_ROUTE_STATE_RESOLUTIONS")
+    if cache_path:
+        payload = json.loads(Path(cache_path).read_text(encoding="utf-8"))
+        row = payload.get("consumers", {}).get(consumer)
+        return row
+    return effective_classification_for(consumer)
 
 
 def blob_at(commit: str, rel: str = ROUTES_REL) -> str:
@@ -388,7 +422,7 @@ def run_python(argv: list[str]) -> int:
     real_python = os.environ.get("MATHCERT_REAL_PYTHON", sys.executable)
     if consumer is None:
         return subprocess.call([real_python, *argv], cwd=ROOT)
-    entry = effective_classification_for(consumer)
+    entry = runtime_classification_for(consumer)
     return _run_with_entry([real_python, *argv], consumer, entry)
 
 
@@ -412,8 +446,18 @@ def run_bash(argv: list[str]) -> int:
     consumer = _bash_consumer(argv)
     if consumer is None:
         return subprocess.call([real_bash, *argv], cwd=ROOT)
-    entry = effective_classification_for(consumer)
+    entry = runtime_classification_for(consumer)
     return _run_with_entry([real_bash, *argv], consumer, entry)
+
+
+def resolution_payload() -> dict[str, Any]:
+    resolved = resolved_consumer_map()
+    return {
+        "control_id": "MC-CERTIFICATION-STATE-ARCHITECTURE-STABILIZATION-001",
+        "head": _git("rev-parse", "HEAD").stdout.strip(),
+        "manifest_blob": _git("rev-parse", f"HEAD:{MANIFEST_REL}").stdout.strip(),
+        "consumers": resolved,
+    }
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -427,6 +471,11 @@ def main(argv: list[str] | None = None) -> int:
         print("certification route-state manifest: PASS")
         return 0
     command, *rest = argv
+    if command == "resolve":
+        if rest:
+            raise ValueError("resolve takes no arguments")
+        print(json.dumps(resolution_payload(), sort_keys=True))
+        return 0
     if command == "exec":
         return run_python(rest)
     if command == "exec-bash":
