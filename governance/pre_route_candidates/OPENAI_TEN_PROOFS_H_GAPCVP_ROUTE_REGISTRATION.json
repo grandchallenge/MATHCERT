@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_gapcvp_route_registration",
+  "record_id": "MC-OTP-H-GAPCVP-ROUTE-REGISTRATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-H-GAPCVP",
+  "route_id": "MC-ROUTE-OTP-H-GAPCVP",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/204",
+  "authority": {
+    "proposal_merge": "284e724d299bac02fc962b68e429b82398f6a08b",
+    "proposal_reviewed_head": "f1c68cb3c06a4ab5b779f3b3f1134fec53a09ea3",
+    "proposal_review_id": 5036003579,
+    "proposal_reviewer": "jimsteeg",
+    "proposal_record": {
+      "path": "governance/result_family_route_proposal_successors/OTP-H-GAPCVP.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "68062c38d4705ac09e5d1a7f2b177ba5bdd55261"
+    },
+    "proposal_registry": {
+      "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_H_GAPCVP_ROUTE_PROPOSAL.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "bdcddbc5dab3f3e59b86c15a73d0ae79e7e38993"
+    },
+    "registration_ci_prerequisite_merge": "6bb06fd65f9f8c418a61206f43fa99aa6f1c797f",
+    "registration_ci_prerequisite_head": "75ad62917ca15c7635ccb904e174bb6e98af3945",
+    "registered_route_registry_before_blob": "4d5c8e3f2b33d5148d98e7057991e167938c75bb",
+    "registered_route_registry_candidate_blob": "ffc95950e571efebe1c90a3e6d1bf279b37b71b1",
+    "forge_semantic": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "b9dda1a5b958fd1be37a26324a025013a39584c1",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-H-GAPCVP/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "673f541fbb552d307cc226c51d2f0fd2916b328d"
+    },
+    "solve_handoff": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "e42c48dfe6a83eb19f398ba114f61fd700694ce5",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-H-GAPCVP.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0dd2b38e40a126a1a2a2d57989038f788b8e40e4"
+    },
+    "cert_intake_merge": "ff9fa0a67a5a809f3519e0059f2ef9b082b1febb",
+    "cert_intake_blob": "a171482c04f62134812ed6084e19a9b803db3478",
+    "cert_work_package_merge": "10e6f3ee20d7a6e89feb27aef0115fa27710d5e4",
+    "cert_work_package_blob": "0f811d163f0d36b028cf6539963e2cf278517137",
+    "cert_replay_evidence_merge": "f34f33b22292ca244956781065fdf84efe2b43f2",
+    "cert_replay_evidence_blob": "a12f2c553b71f4daec9255e1f254f48a21f439c3",
+    "cert_replay_evidence_id": "MC-OTP-H-GAPCVP-REPLAY-EVIDENCE-001",
+    "cert_replay_readback_merge": "1e64a4c147cb8f35255d3effa80342ce64ee3682",
+    "cert_replay_readback_blob": "fde8ed79681dce929916b524176b236960cac4f6",
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7"
+    }
+  },
+  "registration": {
+    "route_status": "submitted",
+    "target_count": 4,
+    "target_claim_ids": [
+      "GapCVP.Comparator.gapCVP400IsNPHard",
+      "GapCVP.Comparator.binaryNearestCodewordIsNPHard",
+      "GapCVP.Comparator.binarySyndromeDecodingIsNPHard",
+      "GapCVP.Comparator.finitePNormGapCVPIsNPHard"
+    ],
+    "promise_interfaces": [
+      "GapCVP.Comparator.gapCVP400Promise",
+      "GapCVP.Comparator.binaryNearestCodewordPromise",
+      "GapCVP.Comparator.binarySyndromeDecodingPromise",
+      "GapCVP.Comparator.finitePGapCVPPromise"
+    ],
+    "classifications": [
+      "source_faithful_restricted_consequence_integer_target",
+      "source_faithful_up_to_generator_orientation",
+      "source_faithful_restricted_consequence_consistent_syndrome",
+      "source_faithful_fixed_rational_p_consequence"
+    ],
+    "gap_factors": [
+      "n^(1/400)",
+      "n^(1/200)",
+      "n^(1/200)",
+      "n^(1/(200p))"
+    ],
+    "mandatory_qualifications": [
+      "400, 200 and 200p are exponent denominators in dimension-dependent gaps, not constant approximation factors.",
+      "The Euclidean formal promise is restricted to integer targets, matching the source Theorem 1 reduction output rather than the source's most general rational-target interface.",
+      "The syndrome NO side is restricted to consistent systems sufficient for the source Corollary 15 reduction.",
+      "Binary generator row/column orientation is treated only as a transpose convention preserving the represented code.",
+      "Malformed/non-encoding and threshold-intermediate bitstrings remain outside the promise.",
+      "The finite-p theorem parameter p is fixed rational with 1 <= p and is external to the input encoding.",
+      "Forge replay and semantic admission do not independently certify NP-hardness proof correctness."
+    ],
+    "permitted_axioms": ["propext", "Classical.choice", "Quot.sound"],
+    "nonvacuity_state": "protected_replay_nonvacuity_clear"
+  },
+  "state": {
+    "registered_route_count_created_by_this_operation": 1,
+    "submitted_route_count": 1,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "route_controls": {
+    "registration_scope": "exact_one_gapcvp_four_target_promise_route",
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "may_promote_claim": false,
+    "cross_family_transfer_prohibited": true,
+    "aggregate_route_prohibited": true,
+    "may_broaden_integer_target": false,
+    "may_broaden_consistent_syndrome": false,
+    "may_totalize_outside_promise": false,
+    "may_make_p_input_dependent": false,
+    "may_reinterpret_gap_denominators_as_constants": false,
+    "whole_document_equivalence_established": false,
+    "full_proof_body_equivalence_established": false
+  },
+  "activation": {
+    "condition": "canonical Cert on the literal final candidate head, H registration validator and test reached canonically, GCL, policy, action-policy, CodeQL as applicable, fresh non-author lattice/complexity/Lean specialist APPROVED review, ordinary expected-head merge, and protected-main readback",
+    "head_change_requires_reapproval": true,
+    "effect": "gapcvp_route_registered_no_adjudication_no_output"
+  },
+  "candidate_disposition": "H_GAPCVP_CERT_ROUTE_REGISTERED__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY",
+  "claim_boundary": "This registration record registers only MC-ROUTE-OTP-H-GAPCVP for the exact four protected promise-hardness targets and four protected promise interfaces. It preserves the dimension-dependent exponent-denominator interpretation, integer-target Euclidean restriction, consistent-syndrome restriction, generator transpose convention, malformed/non-encoding and threshold-intermediate outside-promise boundary, fixed rational p >= 1 scope, source/derived classifications, protected nonvacuity evidence, and permitted-axiom boundary. It does not authorize or execute adjudication, issue a Cert output, mark or promote any mathematical target proved, broaden a promise interface, transfer authority to another family, establish whole-document or full proof-body equivalence, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
