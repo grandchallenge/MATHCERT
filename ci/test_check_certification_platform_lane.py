@@ -131,6 +131,7 @@ class CertificationPlatformLaneTests(unittest.TestCase):
             "agent/otp-a-sphere-packing-output-execution-001",
             [
                 "governance/certification_routes.json",
+                "governance/ci_control_registry.json",
                 "ci/validate_certification_routes.py",
                 "ci/validate_formal_target_certificates.py",
                 "certificates/formal_sources/MC-OTP-A-SPHERE-PACKING-001.json",
@@ -141,6 +142,24 @@ class CertificationPlatformLaneTests(unittest.TestCase):
             self.manifest,
         )
         self.assertEqual(scope, "OTP-A-SPHERE-PACKING")
+
+    def test_h_transition_with_central_registries_gets_exact_family_scope(self) -> None:
+        scope = certification_scope(
+            "governance/otp-h-gapcvp-cert-route-registration-001",
+            [
+                "governance/certification_routes.json",
+                "governance/ci_control_registry.json",
+                "ci/validate_certification_routes.py",
+                "ci/test_validate_certification_routes.py",
+                "ci/validate_openai_ten_proofs_gapcvp_route_registration.py",
+                "ci/test_openai_ten_proofs_gapcvp_route_registration.py",
+                "ci/validate_openai_ten_proofs_gapcvp_certification_work_package.py",
+                "governance/pre_route_candidates/OPENAI_TEN_PROOFS_H_GAPCVP_ROUTE_REGISTRATION.json",
+                "schemas/openai_ten_proofs_gapcvp_route_registration.schema.json",
+            ],
+            self.manifest,
+        )
+        self.assertEqual(scope, "OTP-H-GAPCVP")
 
     def test_a_transition_does_not_classify_foreign_family_paths_as_a(self) -> None:
         self.assertEqual(family_for_path("ci/validate_openai_ten_proofs_binary_codes_intake_successor.py"), "OTP-B1-BINARY-CODES")
@@ -153,6 +172,7 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         scope = certification_scope(
             "agent/mixed-change",
             [
+                "governance/ci_control_registry.json",
                 "ci/otp_a_sphere_packing_output_contract.py",
                 "ci/validate_openai_ten_proofs_binary_codes_intake_successor.py",
             ],
@@ -180,6 +200,14 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         scope = certification_scope(
             "agent/route-only",
             ["governance/certification_routes.json"],
+            self.manifest,
+        )
+        self.assertEqual(scope, FULL_ESTATE_SCOPE)
+
+    def test_ci_control_registry_only_change_fails_closed_to_full_estate(self) -> None:
+        scope = certification_scope(
+            "agent/ci-registry-only",
+            ["governance/ci_control_registry.json"],
             self.manifest,
         )
         self.assertEqual(scope, FULL_ESTATE_SCOPE)
