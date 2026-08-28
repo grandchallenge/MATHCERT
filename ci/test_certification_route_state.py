@@ -53,8 +53,16 @@ class CertificationRouteStateTests(unittest.TestCase):
             self.assertEqual(row["snapshot_blob"], expected_blob)
             self.assertEqual(state.source_route_blob_pins(consumer), {expected_blob})
 
-    def test_j2_adjudication_uses_input_and_output_successor_epochs(self) -> None:
+    def test_j2_stages_are_bound_to_their_distinct_protected_epochs(self) -> None:
         expected = {
+            "ci/validate_otp_j2_scope_repair.py": (
+                "2106840fe2daf8b2492f52473465f531e7e2ef21",
+                "bc4640661443f1b3de213aaa82a333a4fdb6849b",
+            ),
+            "ci/validate_otp_j2_source_faithful_evidence.py": (
+                "491ea27cd93a6d403be3b9cab9e77f44fe0cf056",
+                "bc4640661443f1b3de213aaa82a333a4fdb6849b",
+            ),
             "ci/validate_otp_j2_adjudication_input.py": (
                 "f7cd8ee65996b32c8b97ba15d67e663df3b31f01",
                 "eb2ad35f73ec1f7a29c7432aa9e5ad299116dbfe",
