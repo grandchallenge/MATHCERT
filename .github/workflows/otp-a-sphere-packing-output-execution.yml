@@ -54,10 +54,10 @@ jobs:
         run: python -m pip install -r requirements-ci.txt
       - name: Validate exact restricted output publication
         run: |
-          python ci/validate_openai_ten_proofs_sphere_packing_route_registration.py
-          python -m unittest ci/test_openai_ten_proofs_sphere_packing_route_registration.py -v
-          python ci/otp_a_sphere_packing_output_contract.py
-          python -m unittest ci/otp_a_sphere_packing_output_contract_test.py -v
+          python ci/certification_route_state.py exec ci/validate_openai_ten_proofs_sphere_packing_route_registration.py
+          python ci/certification_route_state.py exec ci/test_openai_ten_proofs_sphere_packing_route_registration.py -v
+          python ci/certification_route_state.py exec ci/otp_a_sphere_packing_output_contract.py
+          python ci/certification_route_state.py exec ci/otp_a_sphere_packing_output_contract_test.py -v
 
   current-source:
     runs-on: ubuntu-24.04
