@@ -40,7 +40,7 @@ jobs:
       - name: Install locked CI dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
       - name: Validate frozen execution input and mutations
-        run: python ci/otp_compactness_adjudication_input_control.py --self-test
+        run: python ci/certification_route_state.py exec ci/otp_compactness_adjudication_input_control.py --self-test
       - name: Materialize replay recipe without executing it
         shell: bash
         run: |
