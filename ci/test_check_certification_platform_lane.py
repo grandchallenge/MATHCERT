@@ -60,6 +60,22 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         )
         self.assertEqual(errors, [])
 
+    def test_family_branch_may_update_stateful_workflow_for_family_transition(self) -> None:
+        errors = evaluate(
+            "agent/otp-a-sphere-packing-output-execution-001",
+            [".github/workflows/otp-a-sphere-packing-output-execution.yml"],
+            self.manifest,
+        )
+        self.assertEqual(errors, [])
+        self.assertEqual(
+            certification_scope(
+                "agent/otp-a-sphere-packing-output-execution-001",
+                [".github/workflows/otp-a-sphere-packing-output-execution.yml"],
+                self.manifest,
+            ),
+            "OTP-A-SPHERE-PACKING",
+        )
+
     def test_non_platform_branch_cannot_modify_canonical_ci(self) -> None:
         errors = evaluate(
             "agent/some-maintenance-branch",
@@ -94,6 +110,7 @@ class CertificationPlatformLaneTests(unittest.TestCase):
             [
                 "ci/otp_finalize_family_replay_evidence.py",
                 "ci/validate_certification_routes.py",
+                ".github/workflows/otp-a-sphere-packing-output-execution.yml",
                 "ci/test_otp_finalize_family_replay_evidence.py",
                 "governance/certification_platform_lane.json",
             ],
@@ -113,9 +130,10 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         self.assertEqual(len(errors), 1)
         self.assertIn("non-platform payload", errors[0])
 
-    def test_manifest_classifies_platform_only_and_stateful_shared_files(self) -> None:
+    def test_manifest_classifies_platform_only_stateful_validators_and_workflows(self) -> None:
         shared = set(self.manifest["shared_platform_paths"])
         stateful = set(self.manifest["stateful_shared_validator_paths"])
+        workflows = set(self.manifest["stateful_workflow_paths"])
         support = set(self.manifest["lane_support_paths"])
         self.assertIn(".github/workflows/ci.yml", shared)
         self.assertIn("ci/check_lean.sh", shared)
@@ -124,6 +142,11 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         self.assertNotIn("ci/validate_certification_routes.py", shared)
         self.assertIn("ci/validate_certification_routes.py", stateful)
         self.assertIn("ci/validate_formal_target_certificates.py", stateful)
+        self.assertIn(".github/workflows/otp-a-sphere-packing-output-execution.yml", workflows)
+        self.assertIn(".github/workflows/otp-a-sphere-packing-cert-replay.yml", workflows)
+        self.assertIn(".github/workflows/otp-j2-output-design.yml", workflows)
+        self.assertIn(".github/workflows/otp-ehrhart-evidence-refresh.yml", workflows)
+        self.assertEqual(len(workflows), 32)
         self.assertIn("governance/certification_platform_lane.json", support)
         self.assertIn("ci/check_certification_platform_lane.py", support)
 
