@@ -95,6 +95,7 @@
   "stateful_workflow_paths": [
     ".github/workflows/otp-a-sphere-packing-adjudication.yml",
     ".github/workflows/otp-a-sphere-packing-cert-intake.yml",
+    ".github/workflows/otp-a-sphere-packing-cert-replay.yml",
     ".github/workflows/otp-a-sphere-packing-cert-work-package.yml",
     ".github/workflows/otp-a-sphere-packing-output-design.yml",
     ".github/workflows/otp-a-sphere-packing-output-execution.yml",
@@ -111,6 +112,7 @@
     ".github/workflows/otp-compactness-output-design.yml",
     ".github/workflows/otp-compactness-output-execution.yml",
     ".github/workflows/otp-ehrhart-adjudication.yml",
+    ".github/workflows/otp-ehrhart-evidence-refresh.yml",
     ".github/workflows/otp-family-replay.yml",
     ".github/workflows/otp-j2-adjudication.yml",
     ".github/workflows/otp-j2-evidence-refresh.yml",
