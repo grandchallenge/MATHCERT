@@ -26,6 +26,10 @@ PYTHON_INVOCATION = re.compile(
     r"(?<![A-Za-z0-9_.-])(?:python|python3|py)(?:\.exe)?\s+"
     r"(?P<path>ci/[A-Za-z0-9_./-]+\.py)(?![A-Za-z0-9_.-])"
 )
+UNITTEST_INVOCATION = re.compile(
+    r"(?<![A-Za-z0-9_.-])(?:python|python3|py)(?:\.exe)?\s+-m\s+unittest\s+"
+    r"(?P<path>ci/[A-Za-z0-9_./-]+\.py)(?![A-Za-z0-9_.-])"
+)
 BASH_INVOCATION = re.compile(
     r"(?m)(?:^\s*|(?:&&|\|\||;)\s*)(?:bash\s+)?(?:\./)?"
     r"(?P<path>ci/[A-Za-z0-9_./-]+\.sh)(?![A-Za-z0-9_.-])"
@@ -114,7 +118,12 @@ def _workflow_invocations(command: str) -> list[tuple[str, bool]]:
         *((path, True) for path in wrapped_bash),
         *((path, True) for path in wrapped_powershell),
     }
-    for pattern in (PYTHON_INVOCATION, BASH_INVOCATION, POWERSHELL_INVOCATION):
+    for pattern in (
+        PYTHON_INVOCATION,
+        UNITTEST_INVOCATION,
+        BASH_INVOCATION,
+        POWERSHELL_INVOCATION,
+    ):
         for match in pattern.finditer(command):
             path = match.group("path")
             if path == EXECUTOR_REL:
