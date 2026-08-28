@@ -137,7 +137,7 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x ci/run_otp_ehrhart_evidence_refresh.sh
-          ci/run_otp_ehrhart_evidence_refresh.sh evidence/ehrhart-refresh
+          python ci/certification_route_state.py exec-bash ci/run_otp_ehrhart_evidence_refresh.sh evidence/ehrhart-refresh
 
       - name: Upload execution-candidate evidence
         if: always()
