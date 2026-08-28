@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "control_id": "MC-CERTIFICATION-STATE-ARCHITECTURE-STABILIZATION-001",
   "repository": "grandchallenge/MATHCERT",
   "route_registry_path": "governance/certification_routes.json",
@@ -12,7 +12,7 @@
   "historical_snapshot_policy": {
     "default_commit": "0a24c03689734cac54d940c506ff4be02e200e65",
     "default_blob": "4d5c8e3f2b33d5148d98e7057991e167938c75bb",
-    "meaning": "Exact protected pre-H route estate used by the declaration FULL_ESTATE replay for legacy/non-H historical controls."
+    "meaning": "Exact protected pre-H route estate used by legacy/non-H historical controls unless the control itself binds a stronger exact protected route epoch. Explicit per-consumer epochs override this default and must agree with any source-declared route-registry blob pin."
   },
   "consumers": [
     {"path":"ci/certification_route_state.py","classification":"TRANSITION_STATE"},
@@ -24,8 +24,8 @@
     {"path":"ci/otp_a_sphere_packing_output_contract.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/otp_b1_binary_codes_replay_evidence.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/otp_b2_spherical_codes_replay_evidence.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/otp_compactness_adjudication_control.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/otp_compactness_adjudication_input_control.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
+    {"path":"ci/otp_compactness_adjudication_control.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"28db9aad66381ff4f8b68a48c18090fa5c5b843b","snapshot_blob":"aa460c1310a7c81b64b88013b7aa4cfdc056f37b"},
+    {"path":"ci/otp_compactness_adjudication_input_control.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"28db9aad66381ff4f8b68a48c18090fa5c5b843b","snapshot_blob":"aa460c1310a7c81b64b88013b7aa4cfdc056f37b"},
     {"path":"ci/otp_ehrhart_candidate_control.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/otp_h_gapcvp_replay_evidence.py","classification":"TRANSITION_STATE"},
     {"path":"ci/otp_permanent_circuit_output_execution.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
