@@ -191,6 +191,16 @@ class CertificationRouteConsumerGateTests(unittest.TestCase):
                 errors,
             )
 
+    def test_unittest_historical_workflow_invocation_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root, mp = self._workflow_fixture(td, "python -m unittest ci/a.py -v")
+            errors = gate.validation_errors(root, mp, check_git=False)
+            self.assertIn(
+                "workflow historical certification-route consumer bypasses state executor: "
+                ".github/workflows/test.yml: ci/a.py",
+                errors,
+            )
+
     def test_wrapped_historical_workflow_invocation_accepted(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             root, mp = self._workflow_fixture(
