@@ -27,12 +27,13 @@ PYTHON_INVOCATION = re.compile(
     r"(?P<path>ci/[A-Za-z0-9_./-]+\.py)(?![A-Za-z0-9_.-])"
 )
 BASH_INVOCATION = re.compile(
-    r"(?<![A-Za-z0-9_.-])bash\s+(?P<path>ci/[A-Za-z0-9_./-]+\.sh)(?![A-Za-z0-9_.-])"
+    r"(?m)(?:^\s*|(?:&&|\|\||;)\s*)(?:bash\s+)?(?:\./)?"
+    r"(?P<path>ci/[A-Za-z0-9_./-]+\.sh)(?![A-Za-z0-9_.-])"
 )
 POWERSHELL_INVOCATION = re.compile(
-    r"(?<![A-Za-z0-9_.-])(?:pwsh|powershell)(?:\.exe)?"
-    r"(?:\s+[^\n\r;|&]+?)?\s+-File\s+(?P<path>ci/[A-Za-z0-9_./-]+\.ps1)(?![A-Za-z0-9_.-])",
-    re.IGNORECASE,
+    r"(?im)(?:^\s*|(?:&&|\|\||;)\s*)"
+    r"(?:(?:pwsh|powershell)(?:\.exe)?(?:\s+-File)?\s+|&\s*)?(?:\./)?"
+    r"(?P<path>ci/[A-Za-z0-9_./-]+\.ps1)(?![A-Za-z0-9_.-])"
 )
 WRAPPED_PYTHON = re.compile(
     rf"(?:python|python3|py)(?:\.exe)?\s+{re.escape(EXECUTOR_REL)}\s+exec\s+"
@@ -41,6 +42,10 @@ WRAPPED_PYTHON = re.compile(
 WRAPPED_BASH = re.compile(
     rf"(?:python|python3|py)(?:\.exe)?\s+{re.escape(EXECUTOR_REL)}\s+exec-bash\s+"
     r"(?P<path>ci/[A-Za-z0-9_./-]+\.sh)(?![A-Za-z0-9_.-])"
+)
+WRAPPED_POWERSHELL = re.compile(
+    rf"(?:python|python3|py)(?:\.exe)?\s+{re.escape(EXECUTOR_REL)}\s+exec-pwsh\s+"
+    r"(?P<path>ci/[A-Za-z0-9_./-]+\.ps1)(?![A-Za-z0-9_.-])"
 )
 
 
@@ -103,16 +108,22 @@ def workflow_run_commands(root: Path = ROOT) -> list[tuple[str, str]]:
 def _workflow_invocations(command: str) -> list[tuple[str, bool]]:
     wrapped_python = {m.group("path") for m in WRAPPED_PYTHON.finditer(command)}
     wrapped_bash = {m.group("path") for m in WRAPPED_BASH.finditer(command)}
+    wrapped_powershell = {m.group("path") for m in WRAPPED_POWERSHELL.finditer(command)}
     found: set[tuple[str, bool]] = {
         *((path, True) for path in wrapped_python),
         *((path, True) for path in wrapped_bash),
+        *((path, True) for path in wrapped_powershell),
     }
     for pattern in (PYTHON_INVOCATION, BASH_INVOCATION, POWERSHELL_INVOCATION):
         for match in pattern.finditer(command):
             path = match.group("path")
             if path == EXECUTOR_REL:
                 continue
-            wrapped = path in wrapped_python or path in wrapped_bash
+            wrapped = (
+                path in wrapped_python
+                or path in wrapped_bash
+                or path in wrapped_powershell
+            )
             found.add((path, wrapped))
     return sorted(found)
 
