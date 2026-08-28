@@ -4,6 +4,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import os
+import stat
 import subprocess
 import tempfile
 import unittest
@@ -37,13 +38,13 @@ class CertificationRouteStateTests(unittest.TestCase):
         self.assertEqual(row["snapshot_blob"], "4d5c8e3f2b33d5148d98e7057991e167938c75bb")
         self.assertEqual(state.blob_at(row["snapshot_commit"]), row["snapshot_blob"])
 
-    def test_compactness_adjudication_uses_authorized_epoch(self) -> None:
-        expected_commit = "28db9aad66381ff4f8b68a48c18090fa5c5b843b"
+    def test_compactness_adjudication_uses_distinct_stage_epochs(self) -> None:
         expected_blob = "aa460c1310a7c81b64b88013b7aa4cfdc056f37b"
-        for consumer in (
-            "ci/otp_compactness_adjudication_input_control.py",
-            "ci/otp_compactness_adjudication_control.py",
-        ):
+        expected = {
+            "ci/otp_compactness_adjudication_input_control.py": "28db9aad66381ff4f8b68a48c18090fa5c5b843b",
+            "ci/otp_compactness_adjudication_control.py": "17c081e6a1dbde9716e9e41e9960a90d37b31fb7",
+        }
+        for consumer, expected_commit in expected.items():
             row = state.classification_for(consumer)
             self.assertIsNotNone(row)
             assert row is not None
@@ -51,6 +52,30 @@ class CertificationRouteStateTests(unittest.TestCase):
             self.assertEqual(row["snapshot_commit"], expected_commit)
             self.assertEqual(row["snapshot_blob"], expected_blob)
             self.assertEqual(state.source_route_blob_pins(consumer), {expected_blob})
+
+    def test_j2_adjudication_uses_input_and_output_successor_epochs(self) -> None:
+        expected = {
+            "ci/validate_otp_j2_adjudication_input.py": (
+                "f7cd8ee65996b32c8b97ba15d67e663df3b31f01",
+                "eb2ad35f73ec1f7a29c7432aa9e5ad299116dbfe",
+            ),
+            "ci/run_otp_j2_adjudication_replay.sh": (
+                "f7cd8ee65996b32c8b97ba15d67e663df3b31f01",
+                "eb2ad35f73ec1f7a29c7432aa9e5ad299116dbfe",
+            ),
+            "ci/validate_otp_j2_adjudication.py": (
+                "15559390e2489ae73d872f389a9601c7412b77ed",
+                "2d17473b4731aa9d9c630b1e7777ad4bd794d993",
+            ),
+        }
+        for consumer, (commit, blob) in expected.items():
+            row = state.classification_for(consumer)
+            self.assertIsNotNone(row)
+            assert row is not None
+            self.assertEqual(row["classification"], "HISTORICAL_SNAPSHOT")
+            self.assertEqual(row["snapshot_commit"], commit)
+            self.assertEqual(row["snapshot_blob"], blob)
+            self.assertEqual(state.blob_at(commit), blob)
 
     def test_h_gapcvp_is_not_forced_into_legacy_snapshot(self) -> None:
         row = state.classification_for(
@@ -114,6 +139,21 @@ class CertificationRouteStateTests(unittest.TestCase):
             )
             self.assertEqual(state.source_route_blob_pins("ci/a.py", root=root), {expected})
 
+    def test_indirect_protected_object_pin_is_extracted(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "ci").mkdir()
+            expected = "a" * 40
+            (root / "ci/a.py").write_text(
+                "EXPECTED={'record_blob':'" + expected + "'}\n"
+                "OBJECTS={'governance/result.json':EXPECTED['record_blob']}\n",
+                encoding="utf-8",
+            )
+            self.assertEqual(
+                state.source_object_pins("ci/a.py", root=root),
+                {"governance/result.json": expected},
+            )
+
     def test_missing_historical_commit_fetches_exact_sha(self) -> None:
         commit = "a" * 40
         missing = subprocess.CompletedProcess(["git"], 1, "", "missing")
@@ -157,20 +197,74 @@ class CertificationRouteStateTests(unittest.TestCase):
             self.assertEqual(state._resolve_real_powershell(), "/opt/pwsh")
         self.assertEqual(state._script_consumer(["-File", "ci/a.ps1"], ".ps1"), "ci/a.ps1")
 
-    def test_synthetic_historical_head_replaces_only_route_blob(self) -> None:
-        row = state.classification_for(
-            "ci/validate_openai_ten_proofs_sphere_packing_intake_successor.py"
-        )
+    def test_synthetic_historical_head_uses_protected_objects_and_absence(self) -> None:
+        row = state.classification_for("ci/otp_compactness_adjudication_control.py")
         assert row is not None
         live_head, synthetic_head = state._synthetic_historical_head(row)
         self.assertEqual(state.blob_at(synthetic_head), row["snapshot_blob"])
-        live_manifest_blob = state._git(
-            "rev-parse", f"{live_head}:governance/certification_platform_lane.json"
-        ).stdout.strip()
-        synthetic_manifest_blob = state._git(
-            "rev-parse", f"{synthetic_head}:governance/certification_platform_lane.json"
-        ).stdout.strip()
-        self.assertEqual(live_manifest_blob, synthetic_manifest_blob)
+        contract = "governance/result_family_adjudication_contracts/OTP-J1-COMPACTNESS.json"
+        self.assertEqual(
+            state._tree_entry(synthetic_head, contract)[1],
+            "4288cf2199603ffc90d897062a575a5865326d70",
+        )
+        certificate = "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json"
+        self.assertIsNotNone(state._tree_entry(live_head, certificate))
+        self.assertIsNone(state._tree_entry(synthetic_head, certificate))
+        record = "governance/result_family_adjudications/OTP-J1-COMPACTNESS.json"
+        self.assertEqual(state._tree_entry(synthetic_head, record), state._tree_entry(live_head, record))
+
+    def _init_temp_repository(self, root: Path) -> tuple[str, str]:
+        def git(*args: str) -> str:
+            return subprocess.check_output(["git", "-C", str(root), *args], text=True).strip()
+        subprocess.run(["git", "init", "-q", str(root)], check=True)
+        subprocess.run(["git", "-C", str(root), "config", "user.email", "ci@example.invalid"], check=True)
+        subprocess.run(["git", "-C", str(root), "config", "user.name", "CI Test"], check=True)
+        (root / "governance").mkdir()
+        (root / "ci").mkdir()
+        (root / "governance/certification_routes.json").write_text('{"routes":[]}\n', encoding="utf-8")
+        (root / "ci/replay.sh").write_text("#!/usr/bin/env bash\necho ok\n", encoding="utf-8")
+        os.chmod(root / "ci/replay.sh", 0o644)
+        subprocess.run(["git", "-C", str(root), "add", "."], check=True)
+        subprocess.run(["git", "-C", str(root), "commit", "-q", "-m", "fixture"], check=True)
+        return git("rev-parse", "HEAD"), git("rev-parse", "HEAD:governance/certification_routes.json")
+
+    @unittest.skipIf(os.name == "nt", "Git executable-bit semantics are Unix-only")
+    def test_route_view_preserves_incoming_mode_only_change(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            commit, route_blob = self._init_temp_repository(root)
+            replay = root / "ci/replay.sh"
+            os.chmod(replay, 0o755)
+            entry = {
+                "path": "ci/replay.sh",
+                "classification": "HISTORICAL_SNAPSHOT",
+                "snapshot_commit": commit,
+                "snapshot_blob": route_blob,
+            }
+            with patch.object(state, "ROOT", root):
+                self.assertEqual(state._capture_mode_only_changes(label="test"), {"ci/replay.sh": True})
+                with state.route_view(entry):
+                    self.assertFalse(bool(replay.stat().st_mode & stat.S_IXUSR))
+                self.assertTrue(bool(replay.stat().st_mode & stat.S_IXUSR))
+                self.assertEqual(state._git("hash-object", "--", "ci/replay.sh").stdout.strip(), state._tree_entry("HEAD", "ci/replay.sh")[1])
+
+    def test_route_view_rejects_content_mutation_and_restores_live_content(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            commit, route_blob = self._init_temp_repository(root)
+            replay = root / "ci/replay.sh"
+            entry = {
+                "path": "ci/replay.sh",
+                "classification": "HISTORICAL_SNAPSHOT",
+                "snapshot_commit": commit,
+                "snapshot_blob": route_blob,
+            }
+            with patch.object(state, "ROOT", root):
+                with self.assertRaisesRegex(RuntimeError, "forbids tracked content changes"):
+                    with state.route_view(entry):
+                        replay.write_text("mutated\n", encoding="utf-8")
+                self.assertEqual(replay.read_text(encoding="utf-8"), "#!/usr/bin/env bash\necho ok\n")
+                self.assertEqual(state._git("rev-parse", "HEAD").stdout.strip(), commit)
 
     def test_unknown_consumer_is_unclassified(self) -> None:
         self.assertIsNone(state.effective_classification_for("ci/does_not_exist.py"))
