@@ -96,14 +96,37 @@ class CertificationRouteStateTests(unittest.TestCase):
         self.assertEqual(effective["classification"], "CURRENT_STATE")
         self.assertTrue(effective.get("semantic_override"))
 
+    def test_successor_aware_adjudication_design_uses_bounded_historical_override(self) -> None:
+        consumer = "ci/validate_openai_ten_proofs_adjudication_design_with_successors.py"
+        self.assertIsNone(state.classification_for(consumer))
+        override = state.semantic_override_for(consumer)
+        self.assertIsNotNone(override)
+        assert override is not None
+        self.assertEqual(override["classification"], "HISTORICAL_SNAPSHOT")
+        self.assertEqual(override["snapshot_commit"], "0a24c03689734cac54d940c506ff4be02e200e65")
+        self.assertEqual(override["snapshot_blob"], "4d5c8e3f2b33d5148d98e7057991e167938c75bb")
+        effective = state.effective_classification_for(consumer)
+        self.assertIsNotNone(effective)
+        assert effective is not None
+        self.assertEqual(effective["classification"], "HISTORICAL_SNAPSHOT")
+        self.assertTrue(effective.get("semantic_override"))
+
     def test_a_stages_are_bound_to_exact_protected_epochs(self) -> None:
         expected = {
             "ci/run_openai_ten_proofs_sphere_packing_replay.sh": (
                 "54b883bb5c6ffaf099efd7270df3519a45b13038",
                 "2d17473b4731aa9d9c630b1e7777ad4bd794d993",
             ),
+            "ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh": (
+                "99cfde542cdb044145f6620190dfb6ee9cd7a959",
+                "4d5c8e3f2b33d5148d98e7057991e167938c75bb",
+            ),
             "ci/validate_otp_a_sphere_packing_adjudication_input.py": (
                 "9fe7f8e26c201b304342e2b1158515f1845a971a",
+                "b9bb0dc9e18856f50a88162df37c20c034327439",
+            ),
+            "ci/run_otp_a_sphere_packing_adjudication_replay.sh": (
+                "5c35035aab713573c905eeb05abf07a62667a6a2",
                 "b9bb0dc9e18856f50a88162df37c20c034327439",
             ),
             "ci/validate_otp_a_sphere_packing_adjudication.py": (
@@ -119,13 +142,6 @@ class CertificationRouteStateTests(unittest.TestCase):
             self.assertEqual(row["snapshot_commit"], commit)
             self.assertEqual(row["snapshot_blob"], blob)
             self.assertEqual(state.blob_at(commit), blob)
-        for consumer in (
-            "ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh",
-            "ci/run_otp_a_sphere_packing_adjudication_replay.sh",
-        ):
-            row = state.classification_for(consumer)
-            assert row is not None
-            self.assertEqual(row["classification"], "CURRENT_STATE")
 
     def test_h_gapcvp_is_not_forced_into_legacy_snapshot(self) -> None:
         row = state.classification_for(
