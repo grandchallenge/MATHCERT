@@ -147,6 +147,40 @@ class CertificationRouteConsumerGateTests(unittest.TestCase):
         )
         return root, mp
 
+    def _script_workflow_fixture(
+        self, td: str, *, suffix: str, run: str
+    ) -> tuple[Path, Path]:
+        root = Path(td)
+        (root / "ci").mkdir()
+        (root / "governance").mkdir()
+        (root / ".github/workflows").mkdir(parents=True)
+        consumer = f"ci/a{suffix}"
+        (root / consumer).write_text(
+            'PATH="governance/certification_routes.json"\n', encoding="utf-8"
+        )
+        (root / ".github/workflows/test.yml").write_text(
+            "jobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n"
+            f"      - run: {run}\n",
+            encoding="utf-8",
+        )
+        mp = root / "governance/certification_route_state_consumers.json"
+        mp.write_text(
+            json.dumps(
+                {
+                    "consumers": [
+                        {
+                            "path": consumer,
+                            "classification": "HISTORICAL_SNAPSHOT",
+                            "snapshot_commit": "a",
+                            "snapshot_blob": "b",
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        return root, mp
+
     def test_direct_historical_workflow_invocation_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             root, mp = self._workflow_fixture(td, "python ci/a.py")
@@ -165,6 +199,35 @@ class CertificationRouteConsumerGateTests(unittest.TestCase):
             self.assertEqual(gate.validation_errors(root, mp, check_git=False), [])
             direct, closure, workflow = gate.coverage_counts(root, mp)
             self.assertEqual((direct, closure, workflow), (1, 1, 1))
+
+    def test_direct_historical_shell_workflow_invocation_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root, mp = self._script_workflow_fixture(td, suffix=".sh", run="ci/a.sh")
+            errors = gate.validation_errors(root, mp, check_git=False)
+            self.assertTrue(any(".github/workflows/test.yml: ci/a.sh" in e for e in errors))
+
+    def test_bash_historical_shell_workflow_invocation_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root, mp = self._script_workflow_fixture(td, suffix=".sh", run="bash ci/a.sh")
+            errors = gate.validation_errors(root, mp, check_git=False)
+            self.assertTrue(any(".github/workflows/test.yml: ci/a.sh" in e for e in errors))
+
+    def test_wrapped_historical_shell_workflow_invocation_accepted(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root, mp = self._script_workflow_fixture(
+                td,
+                suffix=".sh",
+                run="python ci/certification_route_state.py exec-bash ci/a.sh",
+            )
+            self.assertEqual(gate.validation_errors(root, mp, check_git=False), [])
+
+    def test_direct_historical_powershell_workflow_invocation_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root, mp = self._script_workflow_fixture(
+                td, suffix=".ps1", run="pwsh -File ci/a.ps1"
+            )
+            errors = gate.validation_errors(root, mp, check_git=False)
+            self.assertTrue(any(".github/workflows/test.yml: ci/a.ps1" in e for e in errors))
 
     def test_current_state_workflow_invocation_may_run_live(self) -> None:
         with tempfile.TemporaryDirectory() as td:
