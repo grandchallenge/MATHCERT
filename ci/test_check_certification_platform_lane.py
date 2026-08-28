@@ -143,8 +143,10 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         self.assertIn("ci/validate_certification_routes.py", stateful)
         self.assertIn("ci/validate_formal_target_certificates.py", stateful)
         self.assertIn(".github/workflows/otp-a-sphere-packing-output-execution.yml", workflows)
+        self.assertIn(".github/workflows/otp-a-sphere-packing-cert-replay.yml", workflows)
         self.assertIn(".github/workflows/otp-j2-output-design.yml", workflows)
-        self.assertEqual(len(workflows), 30)
+        self.assertIn(".github/workflows/otp-ehrhart-evidence-refresh.yml", workflows)
+        self.assertEqual(len(workflows), 32)
         self.assertIn("governance/certification_platform_lane.json", support)
         self.assertIn("ci/check_certification_platform_lane.py", support)
 
