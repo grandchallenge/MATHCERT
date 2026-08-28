@@ -70,10 +70,10 @@ jobs:
         run: >-
           python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h)"
       - name: Validate immutable J2 output design contract and complete successor
-        run: python ci/validate_otp_j2_output_contract_with_execution.py
+        run: python ci/certification_route_state.py exec ci/validate_otp_j2_output_contract_with_execution.py
       - name: Run J2 output design adversarial mutations
-        run: python ci/test_otp_j2_output_contract.py
+        run: python ci/certification_route_state.py exec ci/test_otp_j2_output_contract.py
       - name: Revalidate predecessor output contracts
         run: |
-          python ci/validate_otp_permanent_output_contract_with_full_formula_successor.py
-          python ci/validate_otp_compactness_output_contract_with_full_formula_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_permanent_output_contract_with_full_formula_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_compactness_output_contract_with_full_formula_successor.py
