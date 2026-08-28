@@ -35,9 +35,9 @@
     {"path":"ci/run_openai_ten_proofs_binary_codes_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/run_openai_ten_proofs_gapcvp_replay.sh","classification":"TRANSITION_STATE"},
     {"path":"ci/run_openai_ten_proofs_sphere_packing_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"54b883bb5c6ffaf099efd7270df3519a45b13038","snapshot_blob":"2d17473b4731aa9d9c630b1e7777ad4bd794d993"},
-    {"path":"ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh","classification":"CURRENT_STATE"},
+    {"path":"ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"99cfde542cdb044145f6620190dfb6ee9cd7a959","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/run_openai_ten_proofs_spherical_codes_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/run_otp_a_sphere_packing_adjudication_replay.sh","classification":"CURRENT_STATE"},
+    {"path":"ci/run_otp_a_sphere_packing_adjudication_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"5c35035aab713573c905eeb05abf07a62667a6a2","snapshot_blob":"b9bb0dc9e18856f50a88162df37c20c034327439"},
     {"path":"ci/run_otp_ehrhart_evidence_refresh.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/run_otp_j2_adjudication_replay.sh","classification":"CURRENT_STATE"},
     {"path":"ci/test_certification_route_state.py","classification":"INVARIANT"},
@@ -97,6 +97,6 @@
   ],
   "semantic_overrides": [
     {"path":"ci/test_otp_j2_adjudication_input.py","classification":"CURRENT_STATE"},
-    {"path":"ci/validate_openai_ten_proofs_adjudication_design_with_successors.py","classification":"CURRENT_STATE"}
+    {"path":"ci/validate_openai_ten_proofs_adjudication_design_with_successors.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"}
   ]
 }
