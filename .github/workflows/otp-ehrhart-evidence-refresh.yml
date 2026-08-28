@@ -29,6 +29,8 @@ jobs:
     env:
       MATHCERT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
       MATHCERT_WORKFLOW_SHA: ${{ github.sha }}
+      HISTORICAL_UPSTREAM_COMMIT: e62211d28e3a9131950c89caa6542cfe5eff3bca
+      HISTORICAL_UPSTREAM_TREE: 2f8e7ac5ae7f157b6b1de636c2c343b1c7a7e365
     steps:
       - name: Check out MATHCERT subject head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -36,14 +38,21 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Check out exact upstream formalization
+      - name: Check out exact upstream formalization from immutable mirror
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: openai/ten-proofs
+          repository: fyremael/ten-proofs
           ref: e62211d28e3a9131950c89caa6542cfe5eff3bca
           path: upstream
           fetch-depth: 1
           persist-credentials: false
+
+      - name: Verify mirrored upstream subject identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C upstream rev-parse HEAD)" = "$HISTORICAL_UPSTREAM_COMMIT"
+          test "$(git -C upstream rev-parse 'HEAD^{tree}')" = "$HISTORICAL_UPSTREAM_TREE"
 
       - name: Check out exact Forge semantic authority
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
