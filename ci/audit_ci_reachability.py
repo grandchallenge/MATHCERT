@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_PREFIXES = ("audit_", "check_", "replay_", "test_", "validate_")
 REGISTERED_EXECUTABLE_PREFIXES = ("build_", "verify_")
 PLATFORM_MANIFEST = "governance/certification_platform_lane.json"
+PLATFORM_WORKFLOW_PATH_LISTS = ("shared_platform_paths", "lane_support_paths")
 SCOPE_TOKEN = "check_certification_platform_lane.py --certification-scope"
 
 
@@ -31,20 +32,29 @@ def errors(root: Path = ROOT) -> list[str]:
 
     workflow = (root / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
     workflow_controls: set[str] = set()
+    declared_unregistered: set[str] = set()
     platform_manifest_path = root / PLATFORM_MANIFEST
     if platform_manifest_path.exists():
         platform_manifest = json.loads(platform_manifest_path.read_text(encoding="utf-8"))
-        support = {
-            str(path)
-            for path in platform_manifest.get("lane_support_paths", [])
-            if isinstance(path, str)
+        declared_platform_paths: set[str] = set()
+        for key in PLATFORM_WORKFLOW_PATH_LISTS:
+            declared_platform_paths.update(
+                str(path)
+                for path in platform_manifest.get(key, [])
+                if isinstance(path, str)
+            )
+        # A declared platform control already present in the CI registry remains a
+        # canonical-runner control. Only declared controls that are otherwise
+        # unregistered may be admitted as workflow-level preflight controls, and
+        # then only when ci.yml reaches them directly.
+        declared_unregistered = (discovered - set(records)).intersection(declared_platform_paths)
+        workflow_controls = {
+            path for path in declared_unregistered if path in workflow
         }
-        workflow_controls = discovered.intersection(support)
-        for path in sorted(workflow_controls):
-            if path not in workflow:
-                found.append(f"platform workflow control is not reached by .github/workflows/ci.yml: {path}")
+        for path in sorted(declared_unregistered - workflow_controls):
+            found.append(f"platform workflow control is not reached by .github/workflows/ci.yml: {path}")
 
-    for path in sorted(discovered - set(records) - workflow_controls):
+    for path in sorted(discovered - set(records) - declared_unregistered):
         found.append(f"unregistered CI control: {path}")
 
     for relative, record in sorted(records.items()):
@@ -117,7 +127,7 @@ def main() -> int:
         print("\n".join(found), file=sys.stderr)
         print(f"CI reachability audit failed with {len(found)} error(s)", file=sys.stderr)
         return 1
-    print("validated pinned workflow policy, context-aware/full-estate orchestration, and reachability of every registered MATHCERT control")
+    print("validated pinned workflow policy, context-aware/full-estate orchestration, and reachability of every registered runner or declared workflow-level MATHCERT control")
     return 0
 
 

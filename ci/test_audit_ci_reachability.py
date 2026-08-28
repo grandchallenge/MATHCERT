@@ -20,6 +20,7 @@ class CiReachabilityTests(unittest.TestCase):
         (temp / "governance" / "ci_control_registry.json").write_text(
             json.dumps(data, indent=2) + "\n", encoding="utf-8"
         )
+        registered = {record["path"] for record in data["controls"]}
         for record in data["controls"]:
             path = temp / record["path"]
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -42,15 +43,20 @@ class CiReachabilityTests(unittest.TestCase):
         (temp / module.PLATFORM_MANIFEST).write_text(
             json.dumps(platform, indent=2) + "\n", encoding="utf-8"
         )
+        declared = set()
+        for key in module.PLATFORM_WORKFLOW_PATH_LISTS:
+            declared.update(platform.get(key, []))
         workflow_controls = [
             path
-            for path in platform["lane_support_paths"]
+            for path in sorted(declared)
             if Path(path).name.startswith(module.CANONICAL_PREFIXES)
+            and path not in registered
         ]
         for relative in workflow_controls:
             path = temp / relative
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text("# platform fixture\n", encoding="utf-8")
+            if not path.exists():
+                path.write_text("# platform fixture\n", encoding="utf-8")
 
         workflow_mentions = "\n".join(f"      - run: python3 {path}" for path in workflow_controls)
         (temp / ".github" / "workflows" / "ci.yml").write_text(
@@ -91,6 +97,16 @@ jobs:
         root = self.build_root()
         self.assertFalse(any("check_certification_platform_lane" in item for item in module.errors(root)))
 
+    def test_shared_unregistered_platform_workflow_control_is_accepted(self) -> None:
+        root = self.build_root()
+        self.assertFalse(any("check_certification_route_state_consumers" in item for item in module.errors(root)))
+
+    def test_registered_shared_platform_control_remains_runner_reached(self) -> None:
+        root = self.build_root()
+        workflow = root / ".github" / "workflows" / "ci.yml"
+        self.assertNotIn("ci/audit_ci_reachability.py", workflow.read_text(encoding="utf-8"))
+        self.assertFalse(any("audit_ci_reachability.py" in item for item in module.errors(root)))
+
     def test_declared_platform_workflow_control_must_be_reached(self) -> None:
         root = self.build_root()
         workflow = root / ".github" / "workflows" / "ci.yml"
@@ -104,6 +120,23 @@ jobs:
             any(
                 "platform workflow control is not reached" in item
                 and "check_certification_platform_lane.py" in item
+                for item in module.errors(root)
+            )
+        )
+
+    def test_shared_unregistered_platform_workflow_control_must_be_reached(self) -> None:
+        root = self.build_root()
+        workflow = root / ".github" / "workflows" / "ci.yml"
+        workflow.write_text(
+            workflow.read_text(encoding="utf-8").replace(
+                "      - run: python3 ci/check_certification_route_state_consumers.py\n", ""
+            ),
+            encoding="utf-8",
+        )
+        self.assertTrue(
+            any(
+                "platform workflow control is not reached" in item
+                and "check_certification_route_state_consumers.py" in item
                 for item in module.errors(root)
             )
         )
