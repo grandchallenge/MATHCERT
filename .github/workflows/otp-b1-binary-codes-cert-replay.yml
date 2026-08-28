@@ -58,7 +58,7 @@ jobs:
       - name: Execute B1 replay
         run: |
           chmod +x ci/run_openai_ten_proofs_binary_codes_replay.sh
-          ci/run_openai_ten_proofs_binary_codes_replay.sh evidence/b1-binary-codes
+          python ci/certification_route_state.py exec-bash ci/run_openai_ten_proofs_binary_codes_replay.sh evidence/b1-binary-codes
       - name: Materialize pending independent-review gate
         run: |
           cat > evidence/b1-binary-codes/independent-review-attestation.json <<'JSON'
@@ -73,8 +73,8 @@ jobs:
         run: python3 ci/otp_finalize_family_replay_evidence.py OTP-B1-BINARY-CODES evidence/b1-binary-codes
       - name: Validate retained B1 replay evidence
         run: |
-          python3 ci/otp_b1_binary_codes_replay_evidence.py
-          python3 -m unittest ci/otp_b1_binary_codes_replay_evidence_test.py -v
+          python3 ci/certification_route_state.py exec ci/otp_b1_binary_codes_replay_evidence.py
+          python3 ci/certification_route_state.py exec ci/otp_b1_binary_codes_replay_evidence_test.py -v
       - name: Emit deterministic bundle transport
         if: success()
         run: |
