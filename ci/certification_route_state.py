@@ -5,6 +5,7 @@ import ast
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -19,6 +20,9 @@ ROUTES_REL = "governance/certification_routes.json"
 ALLOWED = {"HISTORICAL_SNAPSHOT", "CURRENT_STATE", "TRANSITION_STATE", "INVARIANT"}
 CI_EXTENSIONS = {".py", ".sh", ".ps1"}
 SKIP_PARTS = {".git", ".lake", "__pycache__"}
+SOURCE_ROUTE_PIN_RE = re.compile(
+    r'''["']governance/certification_routes\.json["']\s*:\s*["'](?P<blob>[0-9a-f]{40})["']'''
+)
 
 
 def _git(*args: str, check: bool = True, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
@@ -85,6 +89,17 @@ def direct_token_consumers(root: Path = ROOT) -> set[str]:
     return {
         path for path, text in _ci_sources(root).items() if "certification_routes" in text
     }
+
+
+def source_route_blob_pins(path: str | Path, *, root: Path = ROOT) -> set[str]:
+    source = root / normalize_consumer(path)
+    if not source.is_file():
+        return set()
+    try:
+        text = source.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        return set()
+    return {match.group("blob") for match in SOURCE_ROUTE_PIN_RE.finditer(text)}
 
 
 def dependency_edges(root: Path = ROOT) -> set[tuple[str, str]]:
@@ -280,6 +295,24 @@ def blob_at(commit: str, rel: str = ROUTES_REL) -> str:
     return _git("rev-parse", f"{commit}:{rel}").stdout.strip()
 
 
+def ensure_commit_available(commit: str) -> None:
+    if not re.fullmatch(r"[0-9a-f]{40}", commit):
+        raise ValueError(f"invalid historical snapshot commit: {commit}")
+    probe = _git("cat-file", "-e", f"{commit}^{{commit}}", check=False)
+    if probe.returncode == 0:
+        return
+    fetched = _git("fetch", "--no-tags", "--depth=1", "origin", commit, check=False)
+    if fetched.returncode != 0:
+        detail = fetched.stderr.strip() or fetched.stdout.strip() or "git fetch failed"
+        raise ValueError(f"historical snapshot commit unavailable: {commit}: {detail}")
+    probe = _git("cat-file", "-e", f"{commit}^{{commit}}", check=False)
+    if probe.returncode != 0:
+        raise ValueError(f"historical snapshot commit absent after exact fetch: {commit}")
+    actual = _git("rev-parse", "--verify", f"{commit}^{{commit}}").stdout.strip()
+    if actual != commit:
+        raise ValueError(f"historical snapshot identity drift: {actual} != {commit}")
+
+
 def verify_historical_entry(entry: dict[str, Any]) -> None:
     if entry.get("classification") != "HISTORICAL_SNAPSHOT":
         return
@@ -289,6 +322,7 @@ def verify_historical_entry(entry: dict[str, Any]) -> None:
         raise ValueError("historical consumer lacks snapshot_commit")
     if not isinstance(expected, str) or not expected:
         raise ValueError("historical consumer lacks snapshot_blob")
+    ensure_commit_available(commit)
     actual = blob_at(commit)
     if actual != expected:
         raise ValueError(f"historical route snapshot drift: {actual} != {expected}")
@@ -323,6 +357,15 @@ def validate_manifest(manifest: dict[str, Any] | None = None) -> list[str]:
                 verify_historical_entry(row)
             except Exception as exc:
                 errors.append(f"{path}: {exc}")
+            expected = row.get("snapshot_blob")
+            pins = source_route_blob_pins(path)
+            if len(pins) > 1:
+                errors.append(f"ambiguous source route-registry pins for {path}: {sorted(pins)}")
+            elif pins and expected not in pins:
+                errors.append(
+                    f"historical consumer source route pin mismatch: {path}: "
+                    f"source={next(iter(pins))} manifest={expected}"
+                )
         elif "snapshot_commit" in row or "snapshot_blob" in row:
             errors.append(f"non-historical consumer carries snapshot identity: {path}")
     return errors
@@ -426,12 +469,15 @@ def run_python(argv: list[str]) -> int:
     return _run_with_entry([real_python, *argv], consumer, entry)
 
 
-def _bash_consumer(argv: list[str]) -> str | None:
+def _script_consumer(argv: list[str], suffix: str) -> str | None:
     for arg in argv:
-        if arg in {"-c", "-lc", "-l", "-s"}:
-            return None
+        lowered = arg.lower()
+        if lowered in {"-c", "-lc", "-l", "-s", "-file"}:
+            continue
         if arg.startswith("-"):
             continue
+        if not lowered.endswith(suffix):
+            return None
         try:
             return normalize_consumer(arg)
         except ValueError:
@@ -439,15 +485,50 @@ def _bash_consumer(argv: list[str]) -> str | None:
     return None
 
 
+def _is_route_state_shim(path: str) -> bool:
+    return "mathcert-route-state-bin" in Path(path).parts
+
+
+def _resolve_real_bash() -> str:
+    configured = os.environ.get("MATHCERT_REAL_BASH")
+    if configured:
+        return configured
+    for fixed in ("/usr/bin/bash", "/bin/bash"):
+        if Path(fixed).is_file():
+            return fixed
+    found = shutil.which("bash")
+    if found and not _is_route_state_shim(found):
+        return found
+    raise RuntimeError("no non-shim Bash executable available for exec-bash")
+
+
+def _resolve_real_powershell() -> str:
+    configured = os.environ.get("MATHCERT_REAL_POWERSHELL")
+    if configured:
+        return configured
+    for name in ("pwsh", "powershell"):
+        found = shutil.which(name)
+        if found and not _is_route_state_shim(found):
+            return found
+    raise RuntimeError("no non-shim PowerShell executable available for exec-pwsh")
+
+
 def run_bash(argv: list[str]) -> int:
-    real_bash = os.environ.get("MATHCERT_REAL_BASH")
-    if not real_bash:
-        raise RuntimeError("MATHCERT_REAL_BASH is required for exec-bash")
-    consumer = _bash_consumer(argv)
+    real_bash = _resolve_real_bash()
+    consumer = _script_consumer(argv, ".sh")
     if consumer is None:
         return subprocess.call([real_bash, *argv], cwd=ROOT)
     entry = runtime_classification_for(consumer)
     return _run_with_entry([real_bash, *argv], consumer, entry)
+
+
+def run_powershell(argv: list[str]) -> int:
+    real_powershell = _resolve_real_powershell()
+    consumer = _script_consumer(argv, ".ps1")
+    if consumer is None:
+        return subprocess.call([real_powershell, *argv], cwd=ROOT)
+    entry = runtime_classification_for(consumer)
+    return _run_with_entry([real_powershell, *argv], consumer, entry)
 
 
 def resolution_payload() -> dict[str, Any]:
@@ -480,6 +561,8 @@ def main(argv: list[str] | None = None) -> int:
         return run_python(rest)
     if command == "exec-bash":
         return run_bash(rest)
+    if command == "exec-pwsh":
+        return run_powershell(rest)
     if command == "classify":
         if len(rest) != 1:
             raise ValueError("classify requires exactly one path")
