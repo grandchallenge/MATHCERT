@@ -49,9 +49,10 @@ class CertificationRouteConsumerGateTests(unittest.TestCase):
                 encoding="utf-8",
             )
             self.assertEqual(gate.validation_errors(root, mp, check_git=False), [])
-            direct, closure = gate.coverage_counts(root, mp)
+            direct, closure, workflow = gate.coverage_counts(root, mp)
             self.assertEqual(direct, 1)
             self.assertEqual(closure, 2)
+            self.assertEqual(workflow, 0)
 
     def test_ambiguous_transitive_consumer_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as td:
@@ -114,6 +115,76 @@ class CertificationRouteConsumerGateTests(unittest.TestCase):
             mp.write_text(json.dumps({"consumers": [{"path":"ci/a.py","classification":"MAGIC"}]}), encoding="utf-8")
             errors = gate.validation_errors(root, mp, check_git=False)
             self.assertTrue(any("unknown classification" in e for e in errors))
+
+    def _workflow_fixture(self, td: str, run: str) -> tuple[Path, Path]:
+        root = Path(td)
+        (root / "ci").mkdir()
+        (root / "governance").mkdir()
+        (root / ".github/workflows").mkdir(parents=True)
+        (root / "ci/a.py").write_text(
+            'PATH = "governance/certification_routes.json"\n', encoding="utf-8"
+        )
+        (root / ".github/workflows/test.yml").write_text(
+            "jobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n"
+            f"      - run: {run}\n",
+            encoding="utf-8",
+        )
+        mp = root / "governance/certification_route_state_consumers.json"
+        mp.write_text(
+            json.dumps(
+                {
+                    "consumers": [
+                        {
+                            "path": "ci/a.py",
+                            "classification": "HISTORICAL_SNAPSHOT",
+                            "snapshot_commit": "a",
+                            "snapshot_blob": "b",
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        return root, mp
+
+    def test_direct_historical_workflow_invocation_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root, mp = self._workflow_fixture(td, "python ci/a.py")
+            errors = gate.validation_errors(root, mp, check_git=False)
+            self.assertIn(
+                "workflow historical certification-route consumer bypasses state executor: "
+                ".github/workflows/test.yml: ci/a.py",
+                errors,
+            )
+
+    def test_wrapped_historical_workflow_invocation_accepted(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root, mp = self._workflow_fixture(
+                td, "python ci/certification_route_state.py exec ci/a.py"
+            )
+            self.assertEqual(gate.validation_errors(root, mp, check_git=False), [])
+            direct, closure, workflow = gate.coverage_counts(root, mp)
+            self.assertEqual((direct, closure, workflow), (1, 1, 1))
+
+    def test_current_state_workflow_invocation_may_run_live(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root, mp = self._workflow_fixture(td, "python ci/a.py")
+            payload = json.loads(mp.read_text(encoding="utf-8"))
+            payload["consumers"][0] = {
+                "path": "ci/a.py",
+                "classification": "CURRENT_STATE",
+            }
+            mp.write_text(json.dumps(payload), encoding="utf-8")
+            self.assertEqual(gate.validation_errors(root, mp, check_git=False), [])
+
+    def test_yaml_extension_is_covered(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root, mp = self._workflow_fixture(td, "python ci/a.py")
+            source = root / ".github/workflows/test.yml"
+            target = root / ".github/workflows/test.yaml"
+            source.rename(target)
+            errors = gate.validation_errors(root, mp, check_git=False)
+            self.assertTrue(any(".github/workflows/test.yaml: ci/a.py" in e for e in errors))
 
 
 if __name__ == "__main__":
