@@ -96,6 +96,7 @@
     {"path":"ci/validate_vgse_route_registration.py","classification":"TRANSITION_STATE"}
   ],
   "semantic_overrides": [
-    {"path":"ci/test_otp_j2_adjudication_input.py","classification":"CURRENT_STATE"}
+    {"path":"ci/test_otp_j2_adjudication_input.py","classification":"CURRENT_STATE"},
+    {"path":"ci/validate_openai_ten_proofs_adjudication_design_with_successors.py","classification":"CURRENT_STATE"}
   ]
 }
