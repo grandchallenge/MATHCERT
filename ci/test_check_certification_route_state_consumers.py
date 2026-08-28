@@ -40,11 +40,7 @@ class CertificationRouteConsumerGateTests(unittest.TestCase):
             mp = root / "governance/certification_route_state_consumers.json"
             mp.write_text(
                 json.dumps(
-                    {
-                        "consumers": [
-                            {"path": "ci/a.py", "classification": "CURRENT_STATE"}
-                        ]
-                    }
+                    {"consumers": [{"path": "ci/a.py", "classification": "CURRENT_STATE"}]}
                 ),
                 encoding="utf-8",
             )
@@ -53,6 +49,75 @@ class CertificationRouteConsumerGateTests(unittest.TestCase):
             self.assertEqual(direct, 1)
             self.assertEqual(closure, 2)
             self.assertEqual(workflow, 0)
+
+    def test_semantic_override_for_transitive_consumer_is_accepted(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "ci").mkdir()
+            (root / "governance").mkdir()
+            (root / "ci/a.py").write_text('PATH = "governance/certification_routes.json"\n', encoding="utf-8")
+            (root / "ci/test_a.py").write_text("import a\n", encoding="utf-8")
+            mp = root / "governance/certification_route_state_consumers.json"
+            mp.write_text(
+                json.dumps(
+                    {
+                        "consumers": [
+                            {
+                                "path": "ci/a.py",
+                                "classification": "HISTORICAL_SNAPSHOT",
+                                "snapshot_commit": "a",
+                                "snapshot_blob": "b",
+                            }
+                        ],
+                        "semantic_overrides": [
+                            {"path": "ci/test_a.py", "classification": "CURRENT_STATE"}
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            self.assertEqual(gate.validation_errors(root, mp, check_git=False), [])
+            direct, closure, workflow = gate.coverage_counts(root, mp)
+            self.assertEqual((direct, closure, workflow), (1, 2, 0))
+
+    def test_semantic_override_for_direct_consumer_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "ci").mkdir()
+            (root / "governance").mkdir()
+            (root / "ci/a.py").write_text('PATH = "governance/certification_routes.json"\n', encoding="utf-8")
+            mp = root / "governance/certification_route_state_consumers.json"
+            mp.write_text(
+                json.dumps(
+                    {
+                        "consumers": [{"path": "ci/a.py", "classification": "CURRENT_STATE"}],
+                        "semantic_overrides": [{"path": "ci/a.py", "classification": "CURRENT_STATE"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            errors = gate.validation_errors(root, mp, check_git=False)
+            self.assertTrue(any("semantic override" in e and "direct" in e for e in errors))
+
+    def test_stale_semantic_override_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "ci").mkdir()
+            (root / "governance").mkdir()
+            (root / "ci/a.py").write_text('PATH = "governance/certification_routes.json"\n', encoding="utf-8")
+            (root / "ci/orphan.py").write_text("print('x')\n", encoding="utf-8")
+            mp = root / "governance/certification_route_state_consumers.json"
+            mp.write_text(
+                json.dumps(
+                    {
+                        "consumers": [{"path": "ci/a.py", "classification": "CURRENT_STATE"}],
+                        "semantic_overrides": [{"path": "ci/orphan.py", "classification": "CURRENT_STATE"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            errors = gate.validation_errors(root, mp, check_git=False)
+            self.assertTrue(any("stale semantic override" in e for e in errors))
 
     def test_ambiguous_transitive_consumer_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as td:

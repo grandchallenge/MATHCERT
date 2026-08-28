@@ -70,8 +70,23 @@ def consumer_map(manifest: dict[str, Any] | None = None) -> dict[str, dict[str, 
     return result
 
 
+def semantic_override_map(manifest: dict[str, Any] | None = None) -> dict[str, dict[str, Any]]:
+    manifest = load_manifest() if manifest is None else manifest
+    result: dict[str, dict[str, Any]] = {}
+    for row in manifest.get("semantic_overrides", []):
+        path = normalize_consumer(row["path"])
+        if path in result:
+            raise ValueError(f"duplicate semantic override: {path}")
+        result[path] = row
+    return result
+
+
 def classification_for(path: str | Path, manifest: dict[str, Any] | None = None) -> dict[str, Any] | None:
     return consumer_map(manifest).get(normalize_consumer(path))
+
+
+def semantic_override_for(path: str | Path, manifest: dict[str, Any] | None = None) -> dict[str, Any] | None:
+    return semantic_override_map(manifest).get(normalize_consumer(path))
 
 
 def _ci_sources(root: Path = ROOT) -> dict[str, str]:
@@ -375,12 +390,19 @@ def effective_classification_for(
     root: Path = ROOT,
     edges: set[tuple[str, str]] | None = None,
 ) -> dict[str, Any] | None:
-    """Resolve explicit state, semantic ownership, or one unambiguous dependency state."""
+    """Resolve explicit state, semantic override/ownership, or one unambiguous dependency state."""
     manifest = load_manifest() if manifest is None else manifest
     consumer = normalize_consumer(path)
     explicit = classification_for(consumer, manifest)
     if explicit is not None:
         return explicit
+    override = semantic_override_for(consumer, manifest)
+    if override is not None:
+        derived = dict(override)
+        derived["path"] = consumer
+        derived["inherited"] = True
+        derived["semantic_override"] = True
+        return derived
     owner = _semantic_owner_entry(consumer, manifest)
     if owner is not None:
         return owner
@@ -472,36 +494,37 @@ def validate_manifest(manifest: dict[str, Any] | None = None) -> list[str]:
     if allowed != ALLOWED:
         errors.append(f"allowed class drift: {sorted(allowed)}")
     seen: set[str] = set()
-    for row in manifest.get("consumers", []):
-        try:
-            path = normalize_consumer(row.get("path", ""))
-        except Exception as exc:
-            errors.append(str(exc))
-            continue
-        if not path:
-            errors.append("empty consumer path")
-            continue
-        if path in seen:
-            errors.append(f"duplicate consumer: {path}")
-        seen.add(path)
-        cls = row.get("classification")
-        if cls not in ALLOWED:
-            errors.append(f"unknown classification for {path}: {cls}")
-        if cls == "HISTORICAL_SNAPSHOT":
+    for section in ("consumers", "semantic_overrides"):
+        for row in manifest.get(section, []):
             try:
-                verify_historical_entry(row)
+                path = normalize_consumer(row.get("path", ""))
             except Exception as exc:
-                errors.append(f"{path}: {exc}")
-            expected = row.get("snapshot_blob")
-            pins = source_route_blob_pins(path)
-            if len(pins) > 1:
-                errors.append(f"ambiguous source route-registry pins for {path}: {sorted(pins)}")
-            elif pins and expected not in pins:
-                errors.append(
-                    f"historical consumer source route pin mismatch: {path}: source={next(iter(pins))} manifest={expected}"
-                )
-        elif "snapshot_commit" in row or "snapshot_blob" in row:
-            errors.append(f"non-historical consumer carries snapshot identity: {path}")
+                errors.append(str(exc))
+                continue
+            if not path:
+                errors.append(f"empty {section} path")
+                continue
+            if path in seen:
+                errors.append(f"duplicate certification state declaration: {path}")
+            seen.add(path)
+            cls = row.get("classification")
+            if cls not in ALLOWED:
+                errors.append(f"unknown classification for {path}: {cls}")
+            if cls == "HISTORICAL_SNAPSHOT":
+                try:
+                    verify_historical_entry(row)
+                except Exception as exc:
+                    errors.append(f"{path}: {exc}")
+                expected = row.get("snapshot_blob")
+                pins = source_route_blob_pins(path)
+                if len(pins) > 1:
+                    errors.append(f"ambiguous source route-registry pins for {path}: {sorted(pins)}")
+                elif pins and expected not in pins:
+                    errors.append(
+                        f"historical consumer source route pin mismatch: {path}: source={next(iter(pins))} manifest={expected}"
+                    )
+            elif "snapshot_commit" in row or "snapshot_blob" in row:
+                errors.append(f"non-historical consumer carries snapshot identity: {path}")
     return errors
 
 
@@ -664,6 +687,31 @@ def _capture_mode_only_changes(*, label: str) -> dict[str, bool]:
     return modes
 
 
+def _compatible_mode_changes(
+    changes: dict[str, bool], *, left_head: str, right_head: str
+) -> dict[str, bool]:
+    compatible: dict[str, bool] = {}
+    for rel, executable in changes.items():
+        left = _tree_entry(left_head, rel)
+        right = _tree_entry(right_head, rel)
+        if left is not None and right is not None and left[1] == right[1]:
+            compatible[rel] = executable
+    return compatible
+
+
+def _apply_mode_changes(changes: dict[str, bool], *, reference_head: str) -> None:
+    for rel, executable in changes.items():
+        path = ROOT / rel
+        reference = _tree_entry(reference_head, rel)
+        if reference is None or not path.exists():
+            continue
+        current = path.stat().st_mode
+        if executable:
+            os.chmod(path, current | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+        else:
+            os.chmod(path, current & ~(stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH))
+
+
 def _restore_mode_changes(
     incoming: dict[str, bool],
     produced: dict[str, bool],
@@ -671,23 +719,11 @@ def _restore_mode_changes(
     live_head: str,
     synthetic_head: str,
 ) -> None:
-    restore: dict[str, bool] = {}
-    for rel, executable in produced.items():
-        live = _tree_entry(live_head, rel)
-        synthetic = _tree_entry(synthetic_head, rel)
-        if live is not None and synthetic is not None and live[1] == synthetic[1]:
-            restore[rel] = executable
+    restore = _compatible_mode_changes(
+        produced, left_head=live_head, right_head=synthetic_head
+    )
     restore.update(incoming)
-    for rel, executable in restore.items():
-        path = ROOT / rel
-        live = _tree_entry(live_head, rel)
-        if live is None or not path.exists():
-            continue
-        current = path.stat().st_mode
-        if executable:
-            os.chmod(path, current | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
-        else:
-            os.chmod(path, current & ~(stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH))
+    _apply_mode_changes(restore, reference_head=live_head)
 
 
 @contextmanager
@@ -702,6 +738,12 @@ def route_view(entry: dict[str, Any]) -> Iterator[None]:
     mutation_error: BaseException | None = None
     produced_modes: dict[str, bool] = {}
     _git("checkout", "--detach", "--force", "--quiet", synthetic_head)
+    _apply_mode_changes(
+        _compatible_mode_changes(
+            incoming_modes, left_head=live_head, right_head=synthetic_head
+        ),
+        reference_head=synthetic_head,
+    )
     print(
         "MATHCERT_ROUTE_STATE_VIEW="
         f"HISTORICAL_SNAPSHOT consumer={normalize_consumer(entry['path'])} "
@@ -741,9 +783,10 @@ def _run_with_entry(command: list[str], consumer: str, entry: dict[str, Any] | N
     if cls != "HISTORICAL_SNAPSHOT":
         owner = entry.get("semantic_owner")
         owner_text = f" semantic_owner={owner}" if owner else ""
+        override_text = " semantic_override=true" if entry.get("semantic_override") else ""
         print(
             f"MATHCERT_ROUTE_STATE_VIEW={cls} consumer={consumer} "
-            f"inherited={str(bool(entry.get('inherited'))).lower()}{owner_text}",
+            f"inherited={str(bool(entry.get('inherited'))).lower()}{owner_text}{override_text}",
             file=sys.stderr,
             flush=True,
         )

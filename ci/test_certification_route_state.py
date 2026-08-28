@@ -67,10 +67,6 @@ class CertificationRouteStateTests(unittest.TestCase):
                 "f7cd8ee65996b32c8b97ba15d67e663df3b31f01",
                 "eb2ad35f73ec1f7a29c7432aa9e5ad299116dbfe",
             ),
-            "ci/run_otp_j2_adjudication_replay.sh": (
-                "f7cd8ee65996b32c8b97ba15d67e663df3b31f01",
-                "eb2ad35f73ec1f7a29c7432aa9e5ad299116dbfe",
-            ),
             "ci/validate_otp_j2_adjudication.py": (
                 "15559390e2489ae73d872f389a9601c7412b77ed",
                 "2d17473b4731aa9d9c630b1e7777ad4bd794d993",
@@ -84,6 +80,52 @@ class CertificationRouteStateTests(unittest.TestCase):
             self.assertEqual(row["snapshot_commit"], commit)
             self.assertEqual(row["snapshot_blob"], blob)
             self.assertEqual(state.blob_at(commit), blob)
+        wrapper = state.classification_for("ci/run_otp_j2_adjudication_replay.sh")
+        assert wrapper is not None
+        self.assertEqual(wrapper["classification"], "CURRENT_STATE")
+
+    def test_j2_input_mutation_test_uses_governed_semantic_override(self) -> None:
+        self.assertIsNone(state.classification_for("ci/test_otp_j2_adjudication_input.py"))
+        override = state.semantic_override_for("ci/test_otp_j2_adjudication_input.py")
+        self.assertIsNotNone(override)
+        assert override is not None
+        self.assertEqual(override["classification"], "CURRENT_STATE")
+        effective = state.effective_classification_for("ci/test_otp_j2_adjudication_input.py")
+        self.assertIsNotNone(effective)
+        assert effective is not None
+        self.assertEqual(effective["classification"], "CURRENT_STATE")
+        self.assertTrue(effective.get("semantic_override"))
+
+    def test_a_stages_are_bound_to_exact_protected_epochs(self) -> None:
+        expected = {
+            "ci/run_openai_ten_proofs_sphere_packing_replay.sh": (
+                "54b883bb5c6ffaf099efd7270df3519a45b13038",
+                "2d17473b4731aa9d9c630b1e7777ad4bd794d993",
+            ),
+            "ci/validate_otp_a_sphere_packing_adjudication_input.py": (
+                "9fe7f8e26c201b304342e2b1158515f1845a971a",
+                "b9bb0dc9e18856f50a88162df37c20c034327439",
+            ),
+            "ci/validate_otp_a_sphere_packing_adjudication.py": (
+                "05f0bd517c11187e852aedc36a966bedc345e061",
+                "b9bb0dc9e18856f50a88162df37c20c034327439",
+            ),
+        }
+        for consumer, (commit, blob) in expected.items():
+            row = state.classification_for(consumer)
+            self.assertIsNotNone(row)
+            assert row is not None
+            self.assertEqual(row["classification"], "HISTORICAL_SNAPSHOT")
+            self.assertEqual(row["snapshot_commit"], commit)
+            self.assertEqual(row["snapshot_blob"], blob)
+            self.assertEqual(state.blob_at(commit), blob)
+        for consumer in (
+            "ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh",
+            "ci/run_otp_a_sphere_packing_adjudication_replay.sh",
+        ):
+            row = state.classification_for(consumer)
+            assert row is not None
+            self.assertEqual(row["classification"], "CURRENT_STATE")
 
     def test_h_gapcvp_is_not_forced_into_legacy_snapshot(self) -> None:
         row = state.classification_for(
@@ -252,9 +294,33 @@ class CertificationRouteStateTests(unittest.TestCase):
             with patch.object(state, "ROOT", root):
                 self.assertEqual(state._capture_mode_only_changes(label="test"), {"ci/replay.sh": True})
                 with state.route_view(entry):
-                    self.assertFalse(bool(replay.stat().st_mode & stat.S_IXUSR))
+                    self.assertTrue(bool(replay.stat().st_mode & stat.S_IXUSR))
                 self.assertTrue(bool(replay.stat().st_mode & stat.S_IXUSR))
                 self.assertEqual(state._git("hash-object", "--", "ci/replay.sh").stdout.strip(), state._tree_entry("HEAD", "ci/replay.sh")[1])
+
+    @unittest.skipIf(os.name == "nt", "Git executable-bit semantics are Unix-only")
+    def test_route_view_retains_current_ci_content_while_projecting_state(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            commit, route_blob = self._init_temp_repository(root)
+            replay = root / "ci/replay.sh"
+            replay.write_text("#!/usr/bin/env bash\necho changed\n", encoding="utf-8")
+            subprocess.run(["git", "-C", str(root), "add", "ci/replay.sh"], check=True)
+            subprocess.run(["git", "-C", str(root), "commit", "-q", "-m", "new replay"], check=True)
+            live_head = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
+            os.chmod(replay, 0o755)
+            old_entry = {
+                "path": "ci/replay.sh",
+                "classification": "HISTORICAL_SNAPSHOT",
+                "snapshot_commit": commit,
+                "snapshot_blob": route_blob,
+            }
+            with patch.object(state, "ROOT", root):
+                with state.route_view(old_entry):
+                    self.assertTrue(bool(replay.stat().st_mode & stat.S_IXUSR))
+                    self.assertEqual(replay.read_text(encoding="utf-8"), "#!/usr/bin/env bash\necho changed\n")
+                self.assertTrue(bool(replay.stat().st_mode & stat.S_IXUSR))
+                self.assertEqual(state._git("rev-parse", "HEAD").stdout.strip(), live_head)
 
     def test_route_view_rejects_content_mutation_and_restores_live_content(self) -> None:
         with tempfile.TemporaryDirectory() as td:

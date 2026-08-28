@@ -161,6 +161,42 @@ def workflow_state_bypass_errors(
     return sorted(set(errors))
 
 
+def _validate_row_shape(
+    row: dict[str, Any],
+    *,
+    label: str,
+    root: Path,
+    check_git: bool,
+    errors: list[str],
+) -> str | None:
+    path = row.get("path")
+    if not isinstance(path, str) or not path:
+        errors.append(f"{label} with empty path")
+        return None
+    cls = row.get("classification")
+    if cls not in ALLOWED_CLASSES:
+        errors.append(f"unknown classification: {path}: {cls}")
+        return path
+    if cls == "HISTORICAL_SNAPSHOT":
+        commit = row.get("snapshot_commit")
+        expected = row.get("snapshot_blob")
+        if not isinstance(commit, str) or not commit:
+            errors.append(f"historical consumer missing snapshot_commit: {path}")
+        if not isinstance(expected, str) or not expected:
+            errors.append(f"historical consumer missing snapshot_blob: {path}")
+        if check_git and isinstance(commit, str) and commit and isinstance(expected, str) and expected:
+            try:
+                actual = blob_at(root, commit)
+            except Exception as exc:
+                errors.append(f"historical snapshot unavailable: {path}: {exc}")
+            else:
+                if actual != expected:
+                    errors.append(f"historical snapshot drift: {path}: {actual} != {expected}")
+    elif "snapshot_commit" in row or "snapshot_blob" in row:
+        errors.append(f"non-historical consumer has snapshot identity: {path}")
+    return path
+
+
 def validation_errors(
     root: Path = ROOT,
     manifest_path: Path = MANIFEST,
@@ -171,44 +207,42 @@ def validation_errors(
     manifest = load_manifest(manifest_path)
     classified: dict[str, dict[str, Any]] = {}
     for row in manifest.get("consumers", []):
-        path = row.get("path")
-        if not isinstance(path, str) or not path:
-            errors.append("classification with empty path")
+        path = _validate_row_shape(
+            row, label="classification", root=root, check_git=check_git, errors=errors
+        )
+        if path is None:
             continue
         if path in classified:
             errors.append(f"duplicate classification: {path}")
             continue
         classified[path] = row
-        cls = row.get("classification")
-        if cls not in ALLOWED_CLASSES:
-            errors.append(f"unknown classification: {path}: {cls}")
+
+    overrides: dict[str, dict[str, Any]] = {}
+    for row in manifest.get("semantic_overrides", []):
+        path = _validate_row_shape(
+            row, label="semantic override", root=root, check_git=check_git, errors=errors
+        )
+        if path is None:
             continue
-        if cls == "HISTORICAL_SNAPSHOT":
-            commit = row.get("snapshot_commit")
-            expected = row.get("snapshot_blob")
-            if not isinstance(commit, str) or not commit:
-                errors.append(f"historical consumer missing snapshot_commit: {path}")
-            if not isinstance(expected, str) or not expected:
-                errors.append(f"historical consumer missing snapshot_blob: {path}")
-            if check_git and isinstance(commit, str) and commit and isinstance(expected, str) and expected:
-                try:
-                    actual = blob_at(root, commit)
-                except Exception as exc:
-                    errors.append(f"historical snapshot unavailable: {path}: {exc}")
-                else:
-                    if actual != expected:
-                        errors.append(f"historical snapshot drift: {path}: {actual} != {expected}")
-        elif "snapshot_commit" in row or "snapshot_blob" in row:
-            errors.append(f"non-historical consumer has snapshot identity: {path}")
+        if path in overrides:
+            errors.append(f"duplicate semantic override: {path}")
+            continue
+        if path in classified:
+            errors.append(f"semantic override duplicates direct classification: {path}")
+        overrides[path] = row
 
     discovered = discover_consumers(root)
     for path in sorted(discovered - set(classified)):
         errors.append(f"unclassified direct certification-route consumer: {path}")
     for path in sorted(set(classified) - discovered):
         errors.append(f"stale classification without direct token consumer: {path}")
+    for path in sorted(set(overrides) & discovered):
+        errors.append(f"semantic override used for direct token consumer: {path}")
 
     edges = state.dependency_edges(root)
     closure = state.dependency_closure(discovered, root, edges)
+    for path in sorted(set(overrides) - closure):
+        errors.append(f"stale semantic override without route-state dependency: {path}")
     for path in sorted(closure):
         try:
             row = state.effective_classification_for(
@@ -255,7 +289,7 @@ def main() -> int:
         f"classified_dependency_closure={closure_count} "
         f"historical_workflow_invocations={workflow_count} "
         "unclassified=0 ambiguous=0 historical_snapshots_verified=true "
-        "workflow_entrypoints_routed=true"
+        "workflow_entrypoints_routed=true semantic_overrides_verified=true"
     )
     return 0
 
