@@ -53,5 +53,5 @@ jobs:
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
       - name: Validate bounded successor intake
         run: |
-          python ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py
-          python ci/test_openai_ten_proofs_spherical_codes_intake_successor.py
+          python ci/certification_route_state.py exec ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py
+          python ci/certification_route_state.py exec ci/test_openai_ten_proofs_spherical_codes_intake_successor.py
