@@ -20,7 +20,8 @@ jobs:
           SUBJECT_SHA: ${{ github.event.pull_request.head.sha }}
         run: test "$(git rev-parse HEAD)" = "$SUBJECT_SHA"
       - name: Install pinned gate dependency
-        run: python -m pip install --disable-pip-version-check --no-deps --only-binary=:all: PyYAML==6.0.3
+        run: |
+          python -m pip install --disable-pip-version-check --no-deps --only-binary=:all: PyYAML==6.0.3
       - name: Fetch and verify governed gate
         run: |
           mkdir -p /tmp/ghos
