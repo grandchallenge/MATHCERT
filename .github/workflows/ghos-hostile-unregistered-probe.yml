@@ -1,0 +1,14 @@
+name: GHOS hostile unregistered probe
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inert:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    steps:
+      - run: echo "unregistered workflow probe"
