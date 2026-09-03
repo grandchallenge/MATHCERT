@@ -44,10 +44,6 @@ assert_eq "$(git -C "$root/forge" rev-parse 'HEAD:sources/OPENAI-TEN-PROOFS-001/
 assert_eq "$(git -C "$root/forge-source-successor" rev-parse HEAD)" "$source_successor_merge" "Forge source-successor protected merge"
 assert_eq "$(git -C "$root/forge-source-successor" rev-parse "HEAD:$source_successor_path")" "$source_successor_blob" "Forge source-successor blob"
 
-# Reacquire the mutable public source before replaying the historical execution
-# candidate.  If it is the exact later source revision already protected by
-# MATHFORGE, this old refresh control is superseded rather than erroneous: it
-# must not mint a new candidate under the obsolete source boundary.
 refresh_pdf="$output_dir/manuscript-refresh.pdf"
 curl --fail --location --retry 3 --silent --show-error "$manuscript_url" -o "$refresh_pdf"
 current_sha="$(sha256sum "$refresh_pdf" | cut -d' ' -f1)"
@@ -76,8 +72,6 @@ EOF
   exit 0
 fi
 
-# Only the historical source identities for which this execution-candidate
-# control was designed may continue into the historical replay/candidate path.
 chmod +x "$root/ci/run_openai_ten_proofs_family_replay.sh"
 "$root/ci/run_openai_ten_proofs_family_replay.sh" \
   OTP-F-EHRHART \
