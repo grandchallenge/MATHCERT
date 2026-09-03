@@ -289,7 +289,7 @@ class CertificationRouteStateTests(unittest.TestCase):
         (root / "ci").mkdir()
         (root / "governance/certification_routes.json").write_text('{"routes":[]}\n', encoding="utf-8")
         (root / "ci/replay.sh").write_text("#!/usr/bin/env bash\necho ok\n", encoding="utf-8")
-        os.chmod(root / "ci/replay.sh", 0o644)
+        os.chmod(root / "ci/replay.sh", 0o600)
         subprocess.run(["git", "-C", str(root), "add", "."], check=True)
         subprocess.run(["git", "-C", str(root), "commit", "-q", "-m", "fixture"], check=True)
         return git("rev-parse", "HEAD"), git("rev-parse", "HEAD:governance/certification_routes.json")
@@ -300,7 +300,7 @@ class CertificationRouteStateTests(unittest.TestCase):
             root = Path(td)
             commit, route_blob = self._init_temp_repository(root)
             replay = root / "ci/replay.sh"
-            os.chmod(replay, 0o755)
+            os.chmod(replay, 0o700)
             entry = {
                 "path": "ci/replay.sh",
                 "classification": "HISTORICAL_SNAPSHOT",
@@ -324,7 +324,7 @@ class CertificationRouteStateTests(unittest.TestCase):
             subprocess.run(["git", "-C", str(root), "add", "ci/replay.sh"], check=True)
             subprocess.run(["git", "-C", str(root), "commit", "-q", "-m", "new replay"], check=True)
             live_head = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
-            os.chmod(replay, 0o755)
+            os.chmod(replay, 0o700)
             old_entry = {
                 "path": "ci/replay.sh",
                 "classification": "HISTORICAL_SNAPSHOT",
