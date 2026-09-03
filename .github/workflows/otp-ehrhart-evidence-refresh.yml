@@ -4,8 +4,10 @@ on:
   pull_request:
     paths:
       - ".github/workflows/otp-ehrhart-evidence-refresh.yml"
+      - "ci/certification_route_state.py"
       - "ci/run_otp_ehrhart_evidence_refresh.sh"
       - "ci/run_openai_ten_proofs_family_replay.sh"
+      - "governance/certification_route_state_consumers.json"
       - "governance/result_family_execution_candidates/OTP-F-EHRHART.json"
       - "governance/result_family_execution_candidate_manifests/OTP-F-EHRHART.json"
       - "schemas/openai_ten_proofs_ehrhart_execution_candidate.schema.json"
@@ -69,6 +71,15 @@ jobs:
           repository: grandchallenge/MATHFORGE
           ref: a498ef40b7652b55bf121b5682604e259b8d3073
           path: forge-audit
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out protected Forge source successor
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: grandchallenge/MATHFORGE
+          ref: 275f435eaf519ada3f0afa4bf8e77cfd0c8fcbb3
+          path: forge-source-successor
           fetch-depth: 1
           persist-credentials: false
 
@@ -141,14 +152,14 @@ jobs:
           lean --version | grep -F "version 4.32.0"
           lake exe cache get
 
-      - name: Execute Ehrhart evidence refresh
+      - name: Execute Ehrhart evidence refresh through historical-state executor
         shell: bash
         run: |
           set -euo pipefail
           chmod +x ci/run_otp_ehrhart_evidence_refresh.sh
-          python ci/certification_route_state.py exec-bash ci/run_otp_ehrhart_evidence_refresh.sh evidence/ehrhart-refresh
+          python3 ci/certification_route_state.py exec-bash ci/run_otp_ehrhart_evidence_refresh.sh evidence/ehrhart-refresh
 
-      - name: Upload execution-candidate evidence
+      - name: Upload execution-candidate or successor-readback evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
