@@ -39,7 +39,6 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-
       - name: Check out exact upstream formalization from immutable mirror
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -48,14 +47,12 @@ jobs:
           path: upstream
           fetch-depth: 1
           persist-credentials: false
-
       - name: Verify mirrored upstream subject identity
         shell: bash
         run: |
           set -euo pipefail
           test "$(git -C upstream rev-parse HEAD)" = "$HISTORICAL_UPSTREAM_COMMIT"
           test "$(git -C upstream rev-parse 'HEAD^{tree}')" = "$HISTORICAL_UPSTREAM_TREE"
-
       - name: Check out exact Forge semantic authority
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -64,7 +61,6 @@ jobs:
           path: forge
           fetch-depth: 1
           persist-credentials: false
-
       - name: Check out exact Forge source-revision authority
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -73,7 +69,6 @@ jobs:
           path: forge-audit
           fetch-depth: 1
           persist-credentials: false
-
       - name: Check out protected Forge source successor
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -82,7 +77,6 @@ jobs:
           path: forge-source-successor
           fetch-depth: 1
           persist-credentials: false
-
       - name: Check out exact Solve producer authority
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -91,7 +85,6 @@ jobs:
           path: solve
           fetch-depth: 1
           persist-credentials: false
-
       - name: Bootstrap project dependencies
         uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
         with:
@@ -101,7 +94,6 @@ jobs:
           lint: false
           use-mathlib-cache: false
           lake-package-directory: upstream
-
       - name: Activate governed Lean 4.32.0
         shell: bash
         run: |
@@ -109,41 +101,34 @@ jobs:
           elan toolchain list | grep -Fq 'leanprover/lean4:v4.32.0' || elan toolchain install leanprover/lean4:v4.32.0
           elan run leanprover/lean4:v4.32.0 lean --version | grep -F "version 4.32.0"
           echo "ELAN_TOOLCHAIN=leanprover/lean4:v4.32.0" >> "$GITHUB_ENV"
-
       - name: Install source-locus tools
         shell: bash
         run: |
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-
       - name: Build pinned Comparator toolchain
         shell: bash
         run: |
           set -euo pipefail
           lean --version | grep -F "version 4.32.0"
           mkdir -p tools "$RUNNER_TEMP/otp-bin"
-
           git clone --filter=blob:none https://github.com/leanprover/lean4export.git tools/lean4export
           git -C tools/lean4export checkout --detach 4e7915201d3f9f04470d9eae002fa695f7cdc589
           (cd tools/lean4export && lake build)
-
           git clone --filter=blob:none https://github.com/ammkrn/nanoda_lib.git tools/nanoda
           git -C tools/nanoda checkout --detach ddfac2bf5a7b56cb46e141494427ff3dd55963c7
           (cd tools/nanoda && cargo build --release --locked)
-
           git clone --filter=blob:none https://github.com/Zouuup/landrun.git tools/landrun
           git -C tools/landrun checkout --detach 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
           (cd tools/landrun && go build -trimpath -o "$RUNNER_TEMP/otp-bin/landrun-real" ./cmd/landrun)
           cp ci/landrun_comparator_adapter.sh "$RUNNER_TEMP/otp-bin/landrun"
           chmod +x "$RUNNER_TEMP/otp-bin/landrun" "$RUNNER_TEMP/otp-bin/landrun-real"
-
           echo "$RUNNER_TEMP/otp-bin" >> "$GITHUB_PATH"
           echo "COMPARATOR_LANDRUN=$RUNNER_TEMP/otp-bin/landrun" >> "$GITHUB_ENV"
           echo "COMPARATOR_LANDRUN_REAL=$RUNNER_TEMP/otp-bin/landrun-real" >> "$GITHUB_ENV"
           echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/tools/lean4export/.lake/build/bin/lean4export" >> "$GITHUB_ENV"
           echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/tools/nanoda/target/release/nanoda_bin" >> "$GITHUB_ENV"
-
       - name: Prepare upstream dependencies
         shell: bash
         working-directory: upstream
@@ -151,14 +136,12 @@ jobs:
           set -euo pipefail
           lean --version | grep -F "version 4.32.0"
           lake exe cache get
-
       - name: Execute Ehrhart evidence refresh through historical-state executor
         shell: bash
         run: |
           set -euo pipefail
           chmod +x ci/run_otp_ehrhart_evidence_refresh.sh
           python3 ci/certification_route_state.py exec-bash ci/run_otp_ehrhart_evidence_refresh.sh evidence/ehrhart-refresh
-
       - name: Upload execution-candidate or successor-readback evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
