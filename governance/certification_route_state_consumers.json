@@ -3,13 +3,20 @@
   "control_id": "MC-CERTIFICATION-STATE-ARCHITECTURE-STABILIZATION-001",
   "repository": "grandchallenge/MATHCERT",
   "route_registry_path": "governance/certification_routes.json",
-  "allowed_classes": ["HISTORICAL_SNAPSHOT","CURRENT_STATE","TRANSITION_STATE","INVARIANT"],
+  "allowed_classes": [
+    "HISTORICAL_SNAPSHOT",
+    "CURRENT_STATE",
+    "TRANSITION_STATE",
+    "INVARIANT"
+  ],
   "historical_snapshot_policy": {
     "default_commit": "0a24c03689734cac54d940c506ff4be02e200e65",
     "default_blob": "4d5c8e3f2b33d5148d98e7057991e167938c75bb",
     "meaning": "Exact protected stage anchor used by historical controls unless the control binds a stronger exact epoch. The live validator implementation is retained; its route registry plus source-declared protected repository objects are projected from the exact stage, and source-declared absence requirements remain absent when absent at that stage. Explicit per-consumer epochs override the default and must agree with source-declared route-registry pins."
   },
-  "semantic_override_policy": {"meaning":"A non-direct descendant control may override inherited semantic ownership only when it is inside the machine-discovered certification-route dependency closure. Direct route-token consumers remain classified exclusively in consumers."},
+  "semantic_override_policy": {
+    "meaning": "A non-direct descendant control may override inherited semantic ownership only when it is inside the machine-discovered certification-route dependency closure. Direct route-token consumers remain classified exclusively in consumers."
+  },
   "consumers": [
     {"path":"ci/certification_route_state.py","classification":"TRANSITION_STATE"},
     {"path":"ci/check_certification_platform_lane.py","classification":"INVARIANT"},
