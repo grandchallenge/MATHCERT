@@ -111,6 +111,7 @@ class CertificationPlatformLaneTests(unittest.TestCase):
                 "ci/otp_finalize_family_replay_evidence.py",
                 "ci/validate_certification_routes.py",
                 ".github/workflows/otp-a-sphere-packing-output-execution.yml",
+                ".github/workflows/otp-h-gapcvp-cert-replay.yml",
                 "ci/test_otp_finalize_family_replay_evidence.py",
                 "governance/certification_platform_lane.json",
             ],
@@ -146,7 +147,8 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         self.assertIn(".github/workflows/otp-a-sphere-packing-cert-replay.yml", workflows)
         self.assertIn(".github/workflows/otp-j2-output-design.yml", workflows)
         self.assertIn(".github/workflows/otp-ehrhart-evidence-refresh.yml", workflows)
-        self.assertEqual(len(workflows), 32)
+        self.assertIn(".github/workflows/otp-h-gapcvp-cert-replay.yml", workflows)
+        self.assertEqual(len(workflows), 33)
         self.assertIn("governance/certification_platform_lane.json", support)
         self.assertIn("ci/check_certification_platform_lane.py", support)
 
