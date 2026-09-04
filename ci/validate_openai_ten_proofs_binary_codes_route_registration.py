@@ -279,7 +279,7 @@ def validation_errors(
 
     if intake.get("state", {}).get("route_registered") is not False or intake.get("state", {}).get("may_adjudicate") is not False:
         errors.append("historical intake authority inflated")
-    if work_package.get("state", {}).get("route_registered") is not False or work_package.get("state", {}).get("may_adjudicate") is not False:
+    if work_package.get("route_state", {}).get("route_registered") is not False or work_package.get("route_state", {}).get("may_adjudicate") is not False:
         errors.append("historical work-package authority inflated")
     if replay.get("route_state", {}).get("route_proposed") is not False or replay.get("route_state", {}).get("route_registered") is not False:
         errors.append("historical replay route state inflated")
