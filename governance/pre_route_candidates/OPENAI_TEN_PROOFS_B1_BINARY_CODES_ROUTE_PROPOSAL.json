@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_binary_codes_route_proposal_registry",
+  "registry_id": "MC-OTP-B1-BINARY-CODES-ROUTE-PROPOSAL-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/205",
+  "authority": {
+    "cert_replay_evidence_merge": "d8daab1c0deec3d41ac438714e21ee752c14ac46",
+    "cert_replay_evidence_record_blob": "fd669ae6cfc39110560656c2123d5d4449200830",
+    "cert_replay_readback_merge": "1e64a4c147cb8f35255d3effa80342ce64ee3682",
+    "cert_replay_readback_blob": "fde8ed79681dce929916b524176b236960cac4f6",
+    "global_registered_route_registry_blob": "ffc95950e571efebe1c90a3e6d1bf279b37b71b1"
+  },
+  "proposal": {
+    "result_family": "OTP-B1-BINARY-CODES",
+    "proposal_id": "MC-OTP-ROUTE-PROPOSAL-B1-BINARY-CODES",
+    "requested_route_id": "MC-ROUTE-OTP-B1-BINARY-CODES",
+    "path": "governance/result_family_route_proposal_successors/OTP-B1-BINARY-CODES.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "d476d4ab8c018f38cb604d4570d43619fca6d25b"
+  },
+  "state": {
+    "proposal_count": 1,
+    "registered_route_count_created_by_this_operation": 0,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "scope": {
+    "target_count": 6,
+    "another_family_target_count": 0,
+    "aggregate_route": false,
+    "whole_chapter_equivalence": false,
+    "proof_body_equivalence": false,
+    "derived_positive_margin_target_count": 2,
+    "minimizer_attainment_bridge_preserved": true,
+    "logarithm_base_preserved": true,
+    "ceiling_convention_preserved": true,
+    "strict_spectral_feasibility_preserved": true,
+    "variational_domains_preserved": true
+  },
+  "route_controls": {
+    "global_registered_route_registry_modified": false,
+    "proposal_registry_separate": true,
+    "may_register_route": false,
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "cross_family_transfer_prohibited": true,
+    "aggregate_route_prohibited": true,
+    "may_promote_claim": false
+  },
+  "activation": {
+    "condition": "exact protected-base delta, canonical Cert on the literal candidate head, B1 proposal validator and test reached canonically, GCL, policy, action-policy, CodeQL, fresh non-author coding-theory/Lean specialist APPROVED review, ordinary expected-head merge, and protected-main readback",
+    "head_change_requires_reapproval": true,
+    "effect": "one_binary_codes_route_proposal_admitted_no_registration_no_adjudication"
+  },
+  "candidate_disposition": "B1_CERT_ROUTE_PROPOSAL_CLEAR__REGISTRATION_NOT_YET_AUTHORIZED",
+  "claim_boundary": "This separate successor registry binds one proposed OTP-B1-BINARY-CODES route to protected replay evidence and its protected current-state readback. It does not modify the global registered-route registry, register MC-ROUTE-OTP-B1-BINARY-CODES, authorize or execute adjudication, issue a Cert output, mark or promote a target proved, broaden the protected source-versus-derived classification or minimizer-attainment boundary, transfer authority to another family, establish whole-chapter or full proof-body equivalence, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
