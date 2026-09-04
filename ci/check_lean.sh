@@ -188,5 +188,13 @@ if [[ -f ci/validate_openai_ten_proofs_gapcvp_route_registration.py ]]; then
   python3 ci/validate_openai_ten_proofs_gapcvp_route_registration.py
   python3 ci/test_openai_ten_proofs_gapcvp_route_registration.py
 fi
+if [[ -f ci/validate_openai_ten_proofs_binary_codes_route_proposal.py ]]; then
+  python3 ci/validate_openai_ten_proofs_binary_codes_route_proposal.py
+  python3 ci/test_openai_ten_proofs_binary_codes_route_proposal.py
+fi
+if [[ -f ci/validate_openai_ten_proofs_spherical_codes_route_proposal.py ]]; then
+  python3 ci/validate_openai_ten_proofs_spherical_codes_route_proposal.py
+  python3 ci/test_openai_ten_proofs_spherical_codes_route_proposal.py
+fi
 python3 ci/audit_ci_reachability.py
 python3 ci/test_audit_ci_reachability.py
