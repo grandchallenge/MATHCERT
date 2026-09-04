@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_binary_codes_route_registration",
+  "record_id": "MC-OTP-B1-BINARY-CODES-ROUTE-REGISTRATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-B1-BINARY-CODES",
+  "route_id": "MC-ROUTE-OTP-B1-BINARY-CODES",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/244",
+  "authority": {
+    "proposal_merge": "d782c2f451f0ec2f0f88fbc0c76b9914809fac54",
+    "proposal_reviewed_head": "8caa9d4ef2df4c5c325e679456b72e006c2a2945",
+    "proposal_review_id": 5108399809,
+    "proposal_reviewer": "jimsteeg",
+    "proposal_record": {
+      "path": "governance/result_family_route_proposal_successors/OTP-B1-BINARY-CODES.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "d476d4ab8c018f38cb604d4570d43619fca6d25b"
+    },
+    "proposal_registry": {
+      "path": "governance/pre_route_candidates/OPENAI_TEN_PROOFS_B1_BINARY_CODES_ROUTE_PROPOSAL.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "833439191db393d2e2b48b2b005e0f9497bff481"
+    },
+    "registration_ci_prerequisite_merge": "e6237705f3153345f88948dad855ba2662b0f553",
+    "registration_ci_prerequisite_head": "ee56b18eba93dc2098a1d12519f395304c9acd81",
+    "registered_route_registry_before_blob": "ffc95950e571efebe1c90a3e6d1bf279b37b71b1",
+    "registered_route_registry_candidate_blob": "94ba63af418cc8299b1f3197f9eead53d61ab61d",
+    "forge_semantic": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit_sha": "24a1fa0f020ee9cc7fbe2e7aea4cd840268ca748",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-B1-BINARY-CODES/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "0ab4d973bc046084e9d2dc6c7552ab5428d7412d"
+    },
+    "solve_handoff": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "7858f1350439e6324bdee149931bdb7661098729",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-B1-BINARY-CODES.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1847dd7a17cda51cb02f017766c59d372811fb12"
+    },
+    "cert_intake_merge": "5bddc3eb7d02638cf4fe959accfbfeade4964592",
+    "cert_intake_blob": "9ba1e66679d5d46aceef16164194147d8fac530a",
+    "cert_work_package_merge": "83a8951a89a72a892d5fdc132d6a22e508d6cdc2",
+    "cert_work_package_blob": "19e1eaf5e24ce212bb020c8c40d4177ff5b4f8f9",
+    "cert_replay_evidence_merge": "d8daab1c0deec3d41ac438714e21ee752c14ac46",
+    "cert_replay_evidence_blob": "fd669ae6cfc39110560656c2123d5d4449200830",
+    "cert_replay_evidence_id": "MC-OTP-B1-BINARY-CODES-REPLAY-EVIDENCE-001",
+    "cert_replay_readback_merge": "1e64a4c147cb8f35255d3effa80342ce64ee3682",
+    "cert_replay_readback_blob": "fde8ed79681dce929916b524176b236960cac4f6",
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7"
+    }
+  },
+  "registration": {
+    "route_status": "submitted",
+    "target_count": 6,
+    "target_claim_ids": [
+      "MetricCodes.Hamming.binaryRate_lt_classicalRate",
+      "MetricCodes.Hamming.exists_binaryRate_improvement",
+      "MetricCodes.Johnson.binaryRate_le_combinedVariationalRate",
+      "MetricCodes.MRRW.strict_mrrw2",
+      "MetricCodes.Johnson.binaryRate_lt_mrrw",
+      "MetricCodes.Johnson.exists_binaryRate_mrrw_improvement"
+    ],
+    "classifications": [
+      "source_faithful_derived_consequence",
+      "derived_positive_margin_certificate",
+      "source_faithful_exact_projection",
+      "source_faithful_exact_projection",
+      "source_faithful_derived_consequence",
+      "derived_positive_margin_certificate"
+    ],
+    "mandatory_qualifications": [
+      "The two positive-margin existential targets are derived certificate normal forms, not source-verbatim statements.",
+      "The Lean sInf representation of M2 is source-equivalent only through the protected minimizer-existence and attainment bridge on the target domain.",
+      "Binary-rate logarithm base, ceiling convention, strict spectral feasibility, and variational domains remain exactly as protected by the Forge audit.",
+      "No whole-chapter semantic equivalence or full proof-body comparison is established.",
+      "Forge semantic admission and replay do not independently certify the source proof."
+    ],
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+    "nonvacuity_state": "protected_replay_nonvacuity_clear",
+    "minimizer_attainment_state": "protected_bridge_clear"
+  },
+  "state": {
+    "registered_route_count_created_by_this_operation": 1,
+    "submitted_route_count": 1,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "route_controls": {
+    "registration_scope": "exact_one_binary_codes_six_target_route",
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "may_promote_claim": false,
+    "cross_family_transfer_prohibited": true,
+    "aggregate_route_prohibited": true,
+    "may_reclassify_derived_as_source_verbatim": false,
+    "may_remove_minimizer_attainment_bridge": false,
+    "may_broaden_logarithm_base": false,
+    "may_broaden_ceiling_convention": false,
+    "may_broaden_spectral_feasibility": false,
+    "may_broaden_variational_domains": false,
+    "whole_document_equivalence_established": false,
+    "full_proof_body_equivalence_established": false
+  },
+  "activation": {
+    "condition": "canonical Cert on the literal final candidate head with MATHCERT_CANONICAL_SCOPE=OTP-B1-BINARY-CODES, B1 registration validator and test reached canonically, GCL, policy, action-policy, routing-enforcement and CodeQL as applicable, fresh non-author coding-theory/Lean specialist APPROVED review, ordinary expected-head merge, and protected-main readback",
+    "head_change_requires_reapproval": true,
+    "effect": "binary_codes_route_registered_no_adjudication_no_output"
+  },
+  "candidate_disposition": "B1_BINARY_CODES_CERT_ROUTE_REGISTERED__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY",
+  "claim_boundary": "This registration record registers only MC-ROUTE-OTP-B1-BINARY-CODES for the exact six protected OTP-B1-BINARY-CODES targets and their protected source-versus-derived classifications. The two positive-margin existential targets remain derived certificate normal forms rather than source-verbatim statements; the Lean sInf representation of M2 remains source-equivalent only through the protected minimizer-existence and attainment bridge; and the protected logarithm-base, ceiling, strict spectral-feasibility, variational-domain, nonvacuity, and permitted-axiom boundaries remain unchanged. It does not authorize or execute adjudication, issue a Cert output, mark or promote any mathematical target proved, reclassify a derived target as source-verbatim, remove the minimizer-attainment bridge, transfer authority to another family, establish whole-document or full proof-body equivalence, create aggregate OpenAI Ten Proofs authority, or authorize mathematical truth, novelty, priority, publication, patentability, product, or commercial claims."
+}
