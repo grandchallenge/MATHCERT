@@ -56,5 +56,5 @@ jobs:
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
       - name: Validate exact executable binary-codes work package
         run: |
-          python ci/validate_openai_ten_proofs_binary_codes_certification_work_package.py
-          python ci/test_openai_ten_proofs_binary_codes_certification_work_package.py
+          python ci/certification_route_state.py exec ci/validate_openai_ten_proofs_binary_codes_certification_work_package.py
+          python ci/certification_route_state.py exec ci/test_openai_ten_proofs_binary_codes_certification_work_package.py

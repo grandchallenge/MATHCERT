@@ -69,15 +69,15 @@ jobs:
         run: >-
           python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h)"
       - name: Validate certificate-first J2 output execution plus A-registration successor
-        run: python ci/validate_otp_j2_output_execution_with_a_registration.py
+        run: python ci/certification_route_state.py exec ci/validate_otp_j2_output_execution_with_a_registration.py
       - name: Run J2 output execution historical mutations plus A-registration successor tests
-        run: python ci/test_otp_j2_output_execution_with_a_registration.py
+        run: python ci/certification_route_state.py exec ci/test_otp_j2_output_execution_with_a_registration.py
       - name: Validate historical-to-output compatibility
         run: |
-          python ci/validate_otp_j2_output_contract_with_execution.py
-          python ci/validate_otp_j2_route_target_successor.py
-          python ci/test_otp_j2_route_target_successor.py
-          python ci/validate_otp_j2_adjudication.py
-          python ci/test_otp_j2_adjudication.py
-          python ci/validate_otp_j2_source_faithful_evidence_with_successor.py
-          python ci/validate_otp_j2_scope_repair_with_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_output_contract_with_execution.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_route_target_successor.py
+          python ci/certification_route_state.py exec ci/test_otp_j2_route_target_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_adjudication.py
+          python ci/certification_route_state.py exec ci/test_otp_j2_adjudication.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_source_faithful_evidence_with_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_scope_repair_with_successor.py

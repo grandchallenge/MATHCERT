@@ -41,6 +41,7 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, object]:
         "platform_branch_prefix",
         "shared_platform_paths",
         "stateful_shared_validator_paths",
+        "stateful_workflow_paths",
         "lane_support_paths",
     }
     missing = sorted(required - set(obj))
@@ -53,7 +54,8 @@ def evaluate(branch: str, changed_paths: Iterable[str], manifest: dict[str, obje
     paths = sorted({str(path) for path in changed_paths if str(path)})
     prefix = str(manifest["platform_branch_prefix"])
     platform_only = {str(path) for path in manifest["shared_platform_paths"]}  # type: ignore[index]
-    stateful = {str(path) for path in manifest["stateful_shared_validator_paths"]}  # type: ignore[index]
+    stateful_validators = {str(path) for path in manifest["stateful_shared_validator_paths"]}  # type: ignore[index]
+    stateful_workflows = {str(path) for path in manifest["stateful_workflow_paths"]}  # type: ignore[index]
     support = {str(path) for path in manifest["lane_support_paths"]}  # type: ignore[index]
     protected = platform_only | support
     protected_changes = sorted(protected.intersection(paths))
@@ -67,7 +69,7 @@ def evaluate(branch: str, changed_paths: Iterable[str], manifest: dict[str, obje
         )
 
     if is_platform:
-        allowed = platform_only | stateful | support
+        allowed = platform_only | stateful_validators | stateful_workflows | support
         outside = sorted(path for path in paths if path not in allowed)
         if outside:
             errors.append(

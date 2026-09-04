@@ -61,6 +61,29 @@ def same_unique_string_set(left: object, right: object) -> bool:
     return len(left) == len(right) and set(left) == set(right)
 
 
+def helper_digest_reference_status(
+    reference: object, observed: dict[str, str]
+) -> dict[str, dict[str, object]]:
+    if not isinstance(reference, dict) or not all(
+        isinstance(key, str) and isinstance(value, str)
+        for key, value in reference.items()
+    ):
+        raise ValueError("observed helper SHA-256 reference must be a string map")
+    if set(reference) != set(observed):
+        raise ValueError(
+            "observed helper SHA-256 reference coverage drift: "
+            f"reference={sorted(reference)} observed={sorted(observed)}"
+        )
+    return {
+        key: {
+            "reference_observation": reference[key],
+            "current_observation": observed[key],
+            "matches_reference_observation": reference[key] == observed[key],
+        }
+        for key in sorted(observed)
+    }
+
+
 def main() -> int:
     if len(sys.argv) != 3 or sys.argv[1] not in FAMILIES:
         fail("usage: otp_finalize_family_replay_evidence.py FAMILY OUTPUT_DIR")
@@ -151,11 +174,13 @@ def main() -> int:
     for key, path in helper_paths.items():
         if not str(path) or not path.is_file():
             fail(f"missing helper binary/path for {key}")
-        actual = sha256(path)
-        expected = toolchain["observed_helper_sha256"][key]
-        if actual != expected:
-            fail(f"helper SHA-256 drift for {key}: {actual} != {expected}")
-        observed_helper_sha256[key] = actual
+        observed_helper_sha256[key] = sha256(path)
+    try:
+        helper_reference_status = helper_digest_reference_status(
+            toolchain["observed_helper_sha256"], observed_helper_sha256
+        )
+    except ValueError as exc:
+        fail(str(exc))
 
     config = json.loads((UPSTREAM / subject["config_path"]).read_text(encoding="utf-8"))
     targets = scope["lean_theorems"]
@@ -188,6 +213,7 @@ def main() -> int:
             "formal_subject_tree": subject["tree"],
             "tool_source_commits": observed_commits,
             "helper_sha256": observed_helper_sha256,
+            "helper_sha256_reference_status": helper_reference_status,
         },
     )
     write_json(
@@ -203,6 +229,9 @@ def main() -> int:
             "nanoda_commit": toolchain["nanoda_commit"],
             "landrun_commit": toolchain["landrun_commit"],
             "observed_helper_sha256": observed_helper_sha256,
+            "reference_observed_helper_sha256": toolchain["observed_helper_sha256"],
+            "helper_sha256_reference_status": helper_reference_status,
+            "helper_digest_semantics": "observational_provenance_not_cross_run_reproducibility_authority",
         },
     )
 

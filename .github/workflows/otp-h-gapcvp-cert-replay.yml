@@ -4,10 +4,12 @@ on:
   pull_request:
     paths:
       - '.github/workflows/otp-h-gapcvp-cert-replay.yml'
+      - 'ci/certification_route_state.py'
       - 'ci/run_openai_ten_proofs_gapcvp_replay.sh'
       - 'ci/otp_finalize_family_replay_evidence.py'
       - 'ci/otp_h_gapcvp_replay_evidence.py'
       - 'ci/otp_h_gapcvp_replay_evidence_test.py'
+      - 'governance/certification_route_state_consumers.json'
       - 'governance/result_family_replay_evidence_successors/OTP-H-GAPCVP.json'
       - 'schemas/openai_ten_proofs_gapcvp_replay_evidence.schema.json'
       - 'evidence/openai_ten_proofs_successors/h-gapcvp.tar.gz.b64'
@@ -63,10 +65,10 @@ jobs:
       - name: Prepare exact upstream cache
         working-directory: upstream
         run: lake exe cache get
-      - name: Execute H replay
+      - name: Execute H replay through historical-state executor
         run: |
           chmod +x ci/run_openai_ten_proofs_gapcvp_replay.sh
-          ci/run_openai_ten_proofs_gapcvp_replay.sh evidence/h-gapcvp
+          python3 ci/certification_route_state.py exec-bash ci/run_openai_ten_proofs_gapcvp_replay.sh evidence/h-gapcvp
       - name: Materialize pending independent-review gate
         run: |
           cat > evidence/h-gapcvp/independent-review-attestation.json <<'JSON'
@@ -79,10 +81,10 @@ jobs:
           JSON
       - name: Complete governed H evidence artifact set
         run: python3 ci/otp_finalize_family_replay_evidence.py OTP-H-GAPCVP evidence/h-gapcvp
-      - name: Validate retained H replay evidence
+      - name: Validate retained H replay evidence through historical-state executor
         run: |
-          python3 ci/otp_h_gapcvp_replay_evidence.py
-          python3 -m unittest ci/otp_h_gapcvp_replay_evidence_test.py -v
+          python3 ci/certification_route_state.py exec ci/otp_h_gapcvp_replay_evidence.py
+          python3 ci/certification_route_state.py exec ci/otp_h_gapcvp_replay_evidence_test.py -v
       - name: Emit deterministic bundle transport
         if: success()
         run: |

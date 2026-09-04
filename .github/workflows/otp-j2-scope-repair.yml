@@ -67,9 +67,9 @@ jobs:
           python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h); print('stronger coloring-side property remains excluded from source attribution')"
       - name: Validate immutable scope repair under successor
         run: |
-          python ci/validate_otp_j2_scope_repair_with_successor.py
-          python ci/validate_otp_j2_route_target_successor.py
-          python ci/test_otp_j2_route_target_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_scope_repair_with_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_route_target_successor.py
+          python ci/certification_route_state.py exec ci/test_otp_j2_route_target_successor.py
 
   replay:
     name: exact-j2-source-faithful-replay
@@ -147,9 +147,9 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
-          python ci/validate_otp_j2_scope_repair_with_successor.py
-          python ci/validate_otp_j2_route_target_successor.py
-          python ci/test_otp_j2_route_target_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_scope_repair_with_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_route_target_successor.py
+          python ci/certification_route_state.py exec ci/test_otp_j2_route_target_successor.py
           chmod +x ci/run_otp_j2_scope_repair_replay.sh
           ci/run_otp_j2_scope_repair_replay.sh evidence/j2-scope-repair-runtime
       - name: Upload bounded J2 replay evidence

@@ -51,6 +51,6 @@ jobs:
         shell: bash
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
       - name: Validate Compactness evidence refresh
-        run: python ci/validate_otp_compactness_evidence_refresh.py
+        run: python ci/certification_route_state.py exec ci/validate_otp_compactness_evidence_refresh.py
       - name: Run adversarial mutations
-        run: python ci/test_otp_compactness_evidence_refresh.py
+        run: python ci/certification_route_state.py exec ci/test_otp_compactness_evidence_refresh.py

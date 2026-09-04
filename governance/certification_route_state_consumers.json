@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.3.0",
   "control_id": "MC-CERTIFICATION-STATE-ARCHITECTURE-STABILIZATION-001",
   "repository": "grandchallenge/MATHCERT",
   "route_registry_path": "governance/certification_routes.json",
@@ -12,7 +12,10 @@
   "historical_snapshot_policy": {
     "default_commit": "0a24c03689734cac54d940c506ff4be02e200e65",
     "default_blob": "4d5c8e3f2b33d5148d98e7057991e167938c75bb",
-    "meaning": "Exact protected pre-H route estate used by the declaration FULL_ESTATE replay for legacy/non-H historical controls."
+    "meaning": "Exact protected stage anchor used by historical controls unless the control binds a stronger exact epoch. The live validator implementation is retained; its route registry plus source-declared protected repository objects are projected from the exact stage, and source-declared absence requirements remain absent when absent at that stage. Explicit per-consumer epochs override the default and must agree with source-declared route-registry pins."
+  },
+  "semantic_override_policy": {
+    "meaning": "A non-direct descendant control may override inherited semantic ownership only when it is inside the machine-discovered certification-route dependency closure. Direct route-token consumers remain classified exclusively in consumers."
   },
   "consumers": [
     {"path":"ci/certification_route_state.py","classification":"TRANSITION_STATE"},
@@ -24,19 +27,19 @@
     {"path":"ci/otp_a_sphere_packing_output_contract.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/otp_b1_binary_codes_replay_evidence.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/otp_b2_spherical_codes_replay_evidence.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/otp_compactness_adjudication_control.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/otp_compactness_adjudication_input_control.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
+    {"path":"ci/otp_compactness_adjudication_control.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"17c081e6a1dbde9716e9e41e9960a90d37b31fb7","snapshot_blob":"aa460c1310a7c81b64b88013b7aa4cfdc056f37b"},
+    {"path":"ci/otp_compactness_adjudication_input_control.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"28db9aad66381ff4f8b68a48c18090fa5c5b843b","snapshot_blob":"aa460c1310a7c81b64b88013b7aa4cfdc056f37b"},
     {"path":"ci/otp_ehrhart_candidate_control.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/otp_h_gapcvp_replay_evidence.py","classification":"TRANSITION_STATE"},
+    {"path":"ci/otp_h_gapcvp_replay_evidence.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"6c45cc5a83361d4cb622dd795992be16b22fb4fb","snapshot_blob":"b9bb0dc9e18856f50a88162df37c20c034327439"},
     {"path":"ci/otp_permanent_circuit_output_execution.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/run_openai_ten_proofs_binary_codes_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/run_openai_ten_proofs_gapcvp_replay.sh","classification":"TRANSITION_STATE"},
-    {"path":"ci/run_openai_ten_proofs_sphere_packing_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
+    {"path":"ci/run_openai_ten_proofs_gapcvp_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"6c45cc5a83361d4cb622dd795992be16b22fb4fb","snapshot_blob":"b9bb0dc9e18856f50a88162df37c20c034327439"},
+    {"path":"ci/run_openai_ten_proofs_sphere_packing_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"54b883bb5c6ffaf099efd7270df3519a45b13038","snapshot_blob":"2d17473b4731aa9d9c630b1e7777ad4bd794d993"},
+    {"path":"ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"99cfde542cdb044145f6620190dfb6ee9cd7a959","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/run_openai_ten_proofs_spherical_codes_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/run_otp_a_sphere_packing_adjudication_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
+    {"path":"ci/run_otp_a_sphere_packing_adjudication_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"5c35035aab713573c905eeb05abf07a62667a6a2","snapshot_blob":"b9bb0dc9e18856f50a88162df37c20c034327439"},
     {"path":"ci/run_otp_ehrhart_evidence_refresh.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/run_otp_j2_adjudication_replay.sh","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
+    {"path":"ci/run_otp_j2_adjudication_replay.sh","classification":"CURRENT_STATE"},
     {"path":"ci/test_certification_route_state.py","classification":"INVARIANT"},
     {"path":"ci/test_check_certification_platform_lane.py","classification":"INVARIANT"},
     {"path":"ci/test_check_certification_route_state_consumers.py","classification":"INVARIANT"},
@@ -66,8 +69,8 @@
     {"path":"ci/validate_openai_ten_proofs_sphere_packing_route_registration.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_openai_ten_proofs_spherical_codes_certification_work_package.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/validate_otp_a_sphere_packing_adjudication.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/validate_otp_a_sphere_packing_adjudication_input.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
+    {"path":"ci/validate_otp_a_sphere_packing_adjudication.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"05f0bd517c11187e852aedc36a966bedc345e061","snapshot_blob":"b9bb0dc9e18856f50a88162df37c20c034327439"},
+    {"path":"ci/validate_otp_a_sphere_packing_adjudication_input.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"9fe7f8e26c201b304342e2b1158515f1845a971a","snapshot_blob":"b9bb0dc9e18856f50a88162df37c20c034327439"},
     {"path":"ci/validate_otp_compactness_construction_evidence.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_otp_compactness_evidence_refresh.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_otp_compactness_output_contract.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
@@ -76,13 +79,13 @@
     {"path":"ci/validate_otp_ehrhart_output_contract.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_otp_ehrhart_output_execution.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_otp_ehrhart_output_execution_post_merge_attestation.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/validate_otp_j2_adjudication.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/validate_otp_j2_adjudication_input.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
+    {"path":"ci/validate_otp_j2_adjudication.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"15559390e2489ae73d872f389a9601c7412b77ed","snapshot_blob":"2d17473b4731aa9d9c630b1e7777ad4bd794d993"},
+    {"path":"ci/validate_otp_j2_adjudication_input.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"f7cd8ee65996b32c8b97ba15d67e663df3b31f01","snapshot_blob":"eb2ad35f73ec1f7a29c7432aa9e5ad299116dbfe"},
     {"path":"ci/validate_otp_j2_output_contract.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_otp_j2_output_execution.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_otp_j2_route_target_successor.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/validate_otp_j2_scope_repair.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
-    {"path":"ci/validate_otp_j2_source_faithful_evidence.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
+    {"path":"ci/validate_otp_j2_scope_repair.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"2106840fe2daf8b2492f52473465f531e7e2ef21","snapshot_blob":"bc4640661443f1b3de213aaa82a333a4fdb6849b"},
+    {"path":"ci/validate_otp_j2_source_faithful_evidence.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"491ea27cd93a6d403be3b9cab9e77f44fe0cf056","snapshot_blob":"bc4640661443f1b3de213aaa82a333a4fdb6849b"},
     {"path":"ci/validate_otp_permanent_adjudication.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_otp_permanent_execution_candidate.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_otp_permanent_full_formula_certification.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
@@ -91,5 +94,9 @@
     {"path":"ci/validate_otp_replay_readback_reconciliation.py","classification":"TRANSITION_STATE"},
     {"path":"ci/validate_uc_restricted_qualification.py","classification":"CURRENT_STATE"},
     {"path":"ci/validate_vgse_route_registration.py","classification":"TRANSITION_STATE"}
+  ],
+  "semantic_overrides": [
+    {"path":"ci/test_otp_j2_adjudication_input.py","classification":"CURRENT_STATE"},
+    {"path":"ci/validate_openai_ten_proofs_adjudication_design_with_successors.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"}
   ]
 }

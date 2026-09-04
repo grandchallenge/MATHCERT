@@ -102,11 +102,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python ci/validate_openai_ten_proofs_replay_execution.py
-          python ci/test_openai_ten_proofs_replay_execution.py
-          python ci/validate_openai_ten_proofs_replay_evidence.py
-          python ci/test_openai_ten_proofs_replay_evidence.py
-          python ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py
+          python ci/certification_route_state.py exec ci/validate_openai_ten_proofs_replay_execution.py
+          python ci/certification_route_state.py exec ci/test_openai_ten_proofs_replay_execution.py
+          python ci/certification_route_state.py exec ci/validate_openai_ten_proofs_replay_evidence.py
+          python ci/certification_route_state.py exec ci/test_openai_ten_proofs_replay_evidence.py
+          python ci/certification_route_state.py exec ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py
           {
             echo "retained_replay_execution=clear"
             echo "retained_replay_evidence=clear"
