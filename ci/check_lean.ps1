@@ -203,6 +203,10 @@ if (Test-Path "ci/validate_openai_ten_proofs_binary_codes_route_proposal.py") {
     Invoke-Control "ci/validate_openai_ten_proofs_binary_codes_route_proposal.py"
     Invoke-Control "ci/test_openai_ten_proofs_binary_codes_route_proposal.py"
 }
+if (Test-Path "ci/validate_openai_ten_proofs_binary_codes_route_registration.py") {
+    Invoke-Control "ci/validate_openai_ten_proofs_binary_codes_route_registration.py"
+    Invoke-Control "ci/test_openai_ten_proofs_binary_codes_route_registration.py"
+}
 if (Test-Path "ci/validate_openai_ten_proofs_spherical_codes_route_proposal.py") {
     Invoke-Control "ci/validate_openai_ten_proofs_spherical_codes_route_proposal.py"
     Invoke-Control "ci/test_openai_ten_proofs_spherical_codes_route_proposal.py"
