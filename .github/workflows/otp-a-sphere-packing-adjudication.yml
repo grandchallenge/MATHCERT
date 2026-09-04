@@ -68,12 +68,12 @@ jobs:
           python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current A source reacquired',len(b),h)"
       - name: Validate adjudication execution input
         run: |
-          python ci/validate_otp_a_sphere_packing_adjudication_input.py
-          python ci/test_otp_a_sphere_packing_adjudication_input.py
+          python ci/certification_route_state.py exec ci/validate_otp_a_sphere_packing_adjudication_input.py
+          python ci/certification_route_state.py exec ci/test_otp_a_sphere_packing_adjudication_input.py
       - name: Validate final adjudication candidate
         run: |
-          python ci/validate_otp_a_sphere_packing_adjudication.py
-          python ci/test_otp_a_sphere_packing_adjudication.py
+          python ci/certification_route_state.py exec ci/validate_otp_a_sphere_packing_adjudication.py
+          python ci/certification_route_state.py exec ci/test_otp_a_sphere_packing_adjudication.py
 
   replay:
     name: exact-a-sphere-packing-adjudication-replay
@@ -211,7 +211,7 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x ci/run_openai_ten_proofs_sphere_packing_replay.sh ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh ci/run_otp_a_sphere_packing_adjudication_replay.sh
-          ci/run_otp_a_sphere_packing_adjudication_replay.sh evidence/a-sphere-packing-adjudication-runtime
+          python ci/certification_route_state.py exec-bash ci/run_otp_a_sphere_packing_adjudication_replay.sh evidence/a-sphere-packing-adjudication-runtime
       - name: Upload bounded A adjudication replay evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

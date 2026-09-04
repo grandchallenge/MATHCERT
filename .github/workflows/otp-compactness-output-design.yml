@@ -52,6 +52,6 @@ jobs:
       - name: Install locked CI dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
       - name: Validate Compactness output contract with full-formula successor
-        run: python ci/validate_otp_compactness_output_contract_with_full_formula_successor.py
+        run: python ci/certification_route_state.py exec ci/validate_otp_compactness_output_contract_with_full_formula_successor.py
       - name: Run adversarial mutations
-        run: python ci/test_otp_compactness_output_contract.py
+        run: python ci/certification_route_state.py exec ci/test_otp_compactness_output_contract.py

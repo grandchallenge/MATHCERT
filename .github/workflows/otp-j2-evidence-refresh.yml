@@ -74,10 +74,10 @@ jobs:
         run: python ci/verify_otp_j2_construction_evidence.py
       - name: Validate immutable evidence under live successor
         run: |
-          python ci/validate_otp_j2_source_faithful_evidence_with_successor.py
-          python ci/validate_otp_j2_route_target_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_source_faithful_evidence_with_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_route_target_successor.py
       - name: Run successor adversarial mutations
-        run: python ci/test_otp_j2_route_target_successor.py
+        run: python ci/certification_route_state.py exec ci/test_otp_j2_route_target_successor.py
 
   replay:
     name: exact-j2-source-faithful-evidence-replay
@@ -157,11 +157,11 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
-          python ci/validate_otp_j2_scope_repair_with_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_scope_repair_with_successor.py
           python ci/build_otp_j2_construction_evidence.py >/dev/null
           python ci/verify_otp_j2_construction_evidence.py
-          python ci/validate_otp_j2_source_faithful_evidence_with_successor.py
-          python ci/test_otp_j2_route_target_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_source_faithful_evidence_with_successor.py
+          python ci/certification_route_state.py exec ci/test_otp_j2_route_target_successor.py
           chmod +x ci/run_otp_j2_scope_repair_replay.sh ci/run_otp_j2_evidence_refresh_replay.sh
           ci/run_otp_j2_evidence_refresh_replay.sh evidence/j2-evidence-refresh-runtime
       - name: Upload bounded J2 evidence artifact

@@ -69,13 +69,13 @@ jobs:
           python -c "import hashlib,urllib.request; u='https://cdn.openai.com/pdf/ten-proofs-oai.pdf'; b=urllib.request.urlopen(u,timeout=90).read(); h=hashlib.sha256(b).hexdigest(); assert len(b)==2487031, (len(b),'current source byte length drift'); assert h=='ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566', ('current source sha256 drift',h); print('exact current J2 source reacquired',len(b),h)"
       - name: Validate adjudication input and final record
         run: |
-          python ci/validate_otp_j2_adjudication_input.py
-          python ci/test_otp_j2_adjudication_input.py
-          python ci/validate_otp_j2_adjudication.py
-          python ci/test_otp_j2_adjudication.py
-          python ci/validate_otp_j2_route_target_successor.py
-          python ci/validate_otp_j2_scope_repair_with_successor.py
-          python ci/validate_otp_j2_source_faithful_evidence_with_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_adjudication_input.py
+          python ci/certification_route_state.py exec ci/test_otp_j2_adjudication_input.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_adjudication.py
+          python ci/certification_route_state.py exec ci/test_otp_j2_adjudication.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_route_target_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_scope_repair_with_successor.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_source_faithful_evidence_with_successor.py
           python ci/build_otp_j2_construction_evidence.py
           python ci/verify_otp_j2_construction_evidence.py
 
@@ -155,10 +155,10 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$MATHCERT_HEAD_SHA"
-          python ci/validate_otp_j2_adjudication.py
-          python ci/test_otp_j2_adjudication.py
+          python ci/certification_route_state.py exec ci/validate_otp_j2_adjudication.py
+          python ci/certification_route_state.py exec ci/test_otp_j2_adjudication.py
           chmod +x ci/run_otp_j2_scope_repair_replay.sh ci/run_otp_j2_evidence_refresh_replay.sh ci/run_otp_j2_adjudication_replay.sh
-          ci/run_otp_j2_adjudication_replay.sh evidence/j2-adjudication-runtime
+          python ci/certification_route_state.py exec-bash ci/run_otp_j2_adjudication_replay.sh evidence/j2-adjudication-runtime
       - name: Upload bounded J2 adjudication replay evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

@@ -47,6 +47,6 @@ jobs:
         shell: bash
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
       - name: Validate Compactness output execution
-        run: python ci/validate_otp_compactness_output_execution_with_j2_output.py
+        run: python ci/certification_route_state.py exec ci/validate_otp_compactness_output_execution_with_j2_output.py
       - name: Run adversarial mutations
-        run: python ci/test_otp_compactness_output_execution.py
+        run: python ci/certification_route_state.py exec ci/test_otp_compactness_output_execution.py

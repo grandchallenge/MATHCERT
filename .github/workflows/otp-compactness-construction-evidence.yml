@@ -53,6 +53,6 @@ jobs:
       - name: Run independent construction verifier
         run: python ci/verify_otp_compactness_construction_evidence.py
       - name: Validate governed construction evidence
-        run: python ci/validate_otp_compactness_construction_evidence_with_j2_output.py
+        run: python ci/certification_route_state.py exec ci/validate_otp_compactness_construction_evidence_with_j2_output.py
       - name: Run adversarial mutations
-        run: python ci/test_otp_compactness_construction_evidence.py
+        run: python ci/certification_route_state.py exec ci/test_otp_compactness_construction_evidence.py

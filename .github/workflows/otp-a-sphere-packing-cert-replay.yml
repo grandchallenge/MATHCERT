@@ -185,7 +185,7 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x ci/run_openai_ten_proofs_sphere_packing_replay.sh ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh
-          ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh evidence/a-sphere-packing
+          python ci/certification_route_state.py exec-bash ci/run_openai_ten_proofs_sphere_packing_replay_with_registration_successor.sh evidence/a-sphere-packing
 
       - name: Upload exact A replay evidence
         if: always()
