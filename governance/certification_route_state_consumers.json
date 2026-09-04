@@ -53,6 +53,7 @@
     {"path":"ci/validate_human_steward_post_merge_attestation.py","classification":"TRANSITION_STATE"},
     {"path":"ci/validate_openai_ten_proofs_binary_codes_certification_work_package.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_openai_ten_proofs_binary_codes_intake_successor.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
+    {"path":"ci/validate_openai_ten_proofs_binary_codes_route_proposal.py","classification":"TRANSITION_STATE"},
     {"path":"ci/validate_openai_ten_proofs_gapcvp_certification_work_package.py","classification":"TRANSITION_STATE"},
     {"path":"ci/validate_openai_ten_proofs_gapcvp_intake_successor.py","classification":"TRANSITION_STATE"},
     {"path":"ci/validate_openai_ten_proofs_gapcvp_route_proposal.py","classification":"TRANSITION_STATE"},
@@ -96,6 +97,7 @@
     {"path":"ci/validate_vgse_route_registration.py","classification":"TRANSITION_STATE"}
   ],
   "semantic_overrides": [
+    {"path":"ci/test_openai_ten_proofs_binary_codes_route_proposal.py","classification":"TRANSITION_STATE"},
     {"path":"ci/test_otp_j2_adjudication_input.py","classification":"CURRENT_STATE"},
     {"path":"ci/validate_openai_ten_proofs_adjudication_design_with_successors.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"}
   ]
