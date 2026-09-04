@@ -20,7 +20,7 @@ class BinaryCodesRouteProposalTests(unittest.TestCase):
     def setUp(self) -> None:
         self.proposal = M.load(M.PROPOSAL)
         self.registry = M.load(M.REGISTRY)
-        self.routes = M.load_at_commit(M.PROPOSAL_PROTECTED_PREDECESSOR_HEAD, M.ROUTE_REGISTRY_PATH)
+        self.routes = M.load_routes_at_commit(M.PROPOSAL_PROTECTED_PREDECESSOR_HEAD)
         self.replay = M.load(M.REPLAY)
         self.readback = M.load(M.READBACK)
 
