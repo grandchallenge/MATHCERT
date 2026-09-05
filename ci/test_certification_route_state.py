@@ -143,14 +143,21 @@ class CertificationRouteStateTests(unittest.TestCase):
             self.assertEqual(row["snapshot_blob"], blob)
             self.assertEqual(state.blob_at(commit), blob)
 
-    def test_h_gapcvp_is_not_forced_into_legacy_snapshot(self) -> None:
+    def test_h_gapcvp_registration_uses_its_own_completed_epoch(self) -> None:
         row = state.classification_for(
             "ci/validate_openai_ten_proofs_gapcvp_route_registration.py"
         )
         self.assertIsNotNone(row)
         assert row is not None
-        self.assertEqual(row["classification"], "TRANSITION_STATE")
-        self.assertNotIn("snapshot_commit", row)
+        self.assertEqual(row["classification"], "HISTORICAL_SNAPSHOT")
+        self.assertEqual(row["snapshot_commit"], "7907fbdfe716e6a083b6772b9b3ce9f469d34389")
+        self.assertEqual(row["snapshot_blob"], "ffc95950e571efebe1c90a3e6d1bf279b37b71b1")
+        self.assertEqual(state.blob_at(row["snapshot_commit"]), row["snapshot_blob"])
+        source = (ROOT / row["path"]).read_text(encoding="utf-8")
+        self.assertIn(f'EXPECTED_ROUTES_BLOB = "{row["snapshot_blob"]}"', source)
+        inherited = state.effective_classification_for("ci/test_openai_ten_proofs_gapcvp_route_registration.py")
+        self.assertIsNotNone(inherited)
+        self.assertEqual(inherited["snapshot_commit"], row["snapshot_commit"])
 
     def test_live_registry_validator_is_current_state(self) -> None:
         row = state.classification_for("ci/validate_certification_routes.py")
