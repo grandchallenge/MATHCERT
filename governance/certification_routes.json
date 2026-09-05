@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "registry_id": "MC-CERTIFICATION-ROUTES",
   "provider_repository": "grandchallenge/MATHCERT",
-  "provider_base_commit": "284e724d299bac02fc962b68e429b82398f6a08b",
+  "provider_base_commit": "d782c2f451f0ec2f0f88fbc0c76b9914809fac54",
   "programme_issue": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/123",
   "routes": [
     {
@@ -153,6 +153,17 @@
       "cert_output": null,
       "blockers": ["No MATHCERT adjudication has been authorized or recorded for OTP-H-GAPCVP.", "The Euclidean target remains integer-target restricted; the syndrome target remains consistent-system restricted; generator orientation remains a transpose convention; malformed and threshold-intermediate inputs remain outside the promise; and p remains fixed rational with 1 <= p and external to the input encoding.", "Forge semantic admission, Solve handoff, and replay evidence do not independently certify the source NP-hardness proofs; whole-document and full proof-body equivalence remain unestablished."],
       "reopening_conditions": ["Update this route only through a separately governed, exact-head reviewed operation when the four-target or promise-interface scope, classifications, gap factors, source/Solve/intake/work-package/replay/proposal authority, permitted axioms, adjudication state, output state, or mathematical proof status changes."]
+    },
+    {
+      "route_id": "MC-ROUTE-OTP-B1-BINARY-CODES", "campaign_id": "OTP-B1-BINARY-CODES", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/205",
+      "source_manifest": {"repository": "grandchallenge/MATHFORGE", "commit_sha": "24a1fa0f020ee9cc7fbe2e7aea4cd840268ca748", "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-B1-BINARY-CODES/audit_record.json", "digest_algorithm": "git_blob_sha1", "digest": "0ab4d973bc046084e9d2dc6c7552ab5428d7412d"},
+      "intake_status": "submitted", "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "7858f1350439e6324bdee149931bdb7661098729", "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-B1-BINARY-CODES.json", "digest_algorithm": "git_blob_sha1", "digest": "1847dd7a17cda51cb02f017766c59d372811fb12"},
+      "target_claim_ids": ["MetricCodes.Hamming.binaryRate_lt_classicalRate", "MetricCodes.Hamming.exists_binaryRate_improvement", "MetricCodes.Johnson.binaryRate_le_combinedVariationalRate", "MetricCodes.MRRW.strict_mrrw2", "MetricCodes.Johnson.binaryRate_lt_mrrw", "MetricCodes.Johnson.exists_binaryRate_mrrw_improvement"],
+      "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
+      "claim_boundary": "This submitted route is limited to exactly the six protected OTP-B1-BINARY-CODES targets and their protected source-versus-derived classifications. The two positive-margin existential targets remain derived certificate normal forms rather than source-verbatim statements; the Lean sInf representation of M2 remains source-equivalent only through the protected minimizer-existence and attainment bridge; and the protected logarithm-base, ceiling, strict spectral-feasibility, and variational-domain qualifications remain unchanged. It does not adjudicate or prove a target, issue a Cert output, establish whole-chapter or full proof-body equivalence, qualify another family, transfer cross-family authority, or create aggregate OpenAI Ten Proofs authority.",
+      "cert_output": null,
+      "blockers": ["No MATHCERT adjudication has been authorized or recorded for OTP-B1-BINARY-CODES.", "The two positive-margin existential targets remain derived certificate normal forms rather than source-verbatim statements, and the MRRW sInf representation remains governed by the protected minimizer-existence and attainment bridge.", "Forge semantic admission, Solve handoff, and replay evidence do not independently certify the source proof; whole-chapter and full proof-body equivalence remain unestablished."],
+      "reopening_conditions": ["Update this route only through a separately governed, exact-head reviewed operation when the six-target scope, source/derived classifications, source/Solve/intake/work-package/replay/proposal authority, minimizer-attainment bridge, permitted axioms, adjudication state, output state, or mathematical proof status changes."]
     }
   ]
 }

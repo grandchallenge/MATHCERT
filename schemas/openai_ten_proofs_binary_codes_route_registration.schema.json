@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grandchallenge/MATHCERT/schemas/openai_ten_proofs_binary_codes_route_registration.schema.json",
+  "title": "OpenAI Ten Proofs B1 Binary Codes Route Registration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","record_id","candidate_id","result_family","route_id","tracker_issue","authority","registration","state","route_controls","activation","candidate_disposition","claim_boundary"],
+  "properties": {
+    "schema_version": {"const":"1.0.0"},
+    "record_type": {"const":"openai_ten_proofs_binary_codes_route_registration"},
+    "record_id": {"const":"MC-OTP-B1-BINARY-CODES-ROUTE-REGISTRATION-001"},
+    "candidate_id": {"const":"OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const":"OTP-B1-BINARY-CODES"},
+    "route_id": {"const":"MC-ROUTE-OTP-B1-BINARY-CODES"},
+    "tracker_issue": {"const":"https://github.com/grandchallenge/MATHCERT/issues/244"},
+    "authority": {
+      "type":"object","additionalProperties":false,
+      "required":["proposal_merge","proposal_reviewed_head","proposal_review_id","proposal_reviewer","proposal_record","proposal_registry","registration_ci_prerequisite_merge","registration_ci_prerequisite_head","registered_route_registry_before_blob","registered_route_registry_candidate_blob","forge_semantic","solve_handoff","cert_intake_merge","cert_intake_blob","cert_work_package_merge","cert_work_package_blob","cert_replay_evidence_merge","cert_replay_evidence_blob","cert_replay_evidence_id","cert_replay_readback_merge","cert_replay_readback_blob","official_subject"],
+      "properties": {
+        "proposal_merge":{"$ref":"#/$defs/sha"},"proposal_reviewed_head":{"$ref":"#/$defs/sha"},"proposal_review_id":{"type":"integer","minimum":1},"proposal_reviewer":{"const":"jimsteeg"},
+        "proposal_record":{"$ref":"#/$defs/artifact"},"proposal_registry":{"$ref":"#/$defs/artifact"},
+        "registration_ci_prerequisite_merge":{"$ref":"#/$defs/sha"},"registration_ci_prerequisite_head":{"$ref":"#/$defs/sha"},
+        "registered_route_registry_before_blob":{"$ref":"#/$defs/sha"},"registered_route_registry_candidate_blob":{"$ref":"#/$defs/sha"},
+        "forge_semantic":{"$ref":"#/$defs/external_artifact"},"solve_handoff":{"$ref":"#/$defs/external_artifact"},
+        "cert_intake_merge":{"$ref":"#/$defs/sha"},"cert_intake_blob":{"$ref":"#/$defs/sha"},
+        "cert_work_package_merge":{"$ref":"#/$defs/sha"},"cert_work_package_blob":{"$ref":"#/$defs/sha"},
+        "cert_replay_evidence_merge":{"$ref":"#/$defs/sha"},"cert_replay_evidence_blob":{"$ref":"#/$defs/sha"},
+        "cert_replay_evidence_id":{"const":"MC-OTP-B1-BINARY-CODES-REPLAY-EVIDENCE-001"},
+        "cert_replay_readback_merge":{"$ref":"#/$defs/sha"},"cert_replay_readback_blob":{"$ref":"#/$defs/sha"},
+        "official_subject":{
+          "type":"object","additionalProperties":false,"required":["repository","commit","tree"],
+          "properties":{"repository":{"const":"openai/ten-proofs"},"commit":{"$ref":"#/$defs/sha"},"tree":{"$ref":"#/$defs/sha"}}
+        }
+      }
+    },
+    "registration": {
+      "type":"object","additionalProperties":false,
+      "required":["route_status","target_count","target_claim_ids","classifications","mandatory_qualifications","permitted_axioms","nonvacuity_state","minimizer_attainment_state"],
+      "properties": {
+        "route_status":{"const":"submitted"},"target_count":{"const":6},
+        "target_claim_ids":{"type":"array","minItems":6,"maxItems":6,"items":{"type":"string","minLength":1}},
+        "classifications":{"type":"array","minItems":6,"maxItems":6,"items":{"type":"string","minLength":1}},
+        "mandatory_qualifications":{"type":"array","minItems":5,"maxItems":5,"items":{"type":"string","minLength":20}},
+        "permitted_axioms":{"type":"array","minItems":3,"maxItems":3,"items":{"type":"string","minLength":1}},
+        "nonvacuity_state":{"const":"protected_replay_nonvacuity_clear"},
+        "minimizer_attainment_state":{"const":"protected_bridge_clear"}
+      }
+    },
+    "state": {
+      "type":"object","additionalProperties":false,
+      "required":["registered_route_count_created_by_this_operation","submitted_route_count","adjudication_count","cert_output_count","mathematical_target_proved_count","aggregate_route_count"],
+      "properties": {
+        "registered_route_count_created_by_this_operation":{"const":1},"submitted_route_count":{"const":1},"adjudication_count":{"const":0},"cert_output_count":{"const":0},"mathematical_target_proved_count":{"const":0},"aggregate_route_count":{"const":0}
+      }
+    },
+    "route_controls": {
+      "type":"object","additionalProperties":false,
+      "required":["registration_scope","may_adjudicate","may_issue_cert_output","may_mark_target_proved","may_promote_claim","cross_family_transfer_prohibited","aggregate_route_prohibited","may_reclassify_derived_as_source_verbatim","may_remove_minimizer_attainment_bridge","may_broaden_logarithm_base","may_broaden_ceiling_convention","may_broaden_spectral_feasibility","may_broaden_variational_domains","whole_document_equivalence_established","full_proof_body_equivalence_established"],
+      "properties": {
+        "registration_scope":{"const":"exact_one_binary_codes_six_target_route"},
+        "may_adjudicate":{"const":false},"may_issue_cert_output":{"const":false},"may_mark_target_proved":{"const":false},"may_promote_claim":{"const":false},
+        "cross_family_transfer_prohibited":{"const":true},"aggregate_route_prohibited":{"const":true},
+        "may_reclassify_derived_as_source_verbatim":{"const":false},"may_remove_minimizer_attainment_bridge":{"const":false},
+        "may_broaden_logarithm_base":{"const":false},"may_broaden_ceiling_convention":{"const":false},"may_broaden_spectral_feasibility":{"const":false},"may_broaden_variational_domains":{"const":false},
+        "whole_document_equivalence_established":{"const":false},"full_proof_body_equivalence_established":{"const":false}
+      }
+    },
+    "activation": {
+      "type":"object","additionalProperties":false,"required":["condition","head_change_requires_reapproval","effect"],
+      "properties":{"condition":{"type":"string","minLength":180},"head_change_requires_reapproval":{"const":true},"effect":{"const":"binary_codes_route_registered_no_adjudication_no_output"}}
+    },
+    "candidate_disposition":{"const":"B1_BINARY_CODES_CERT_ROUTE_REGISTERED__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY"},
+    "claim_boundary":{"type":"string","minLength":600}
+  },
+  "$defs": {
+    "sha":{"type":"string","pattern":"^[0-9a-f]{40}$"},
+    "artifact":{"type":"object","additionalProperties":false,"required":["path","digest_algorithm","digest"],"properties":{"path":{"type":"string","minLength":1},"digest_algorithm":{"const":"git_blob_sha1"},"digest":{"$ref":"#/$defs/sha"}}},
+    "external_artifact":{"type":"object","additionalProperties":false,"required":["repository","commit_sha","path","digest_algorithm","digest"],"properties":{"repository":{"type":"string","minLength":3},"commit_sha":{"$ref":"#/$defs/sha"},"path":{"type":"string","minLength":1},"digest_algorithm":{"const":"git_blob_sha1"},"digest":{"$ref":"#/$defs/sha"}}}
+  }
+}
