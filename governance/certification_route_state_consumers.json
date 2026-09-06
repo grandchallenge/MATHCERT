@@ -56,7 +56,7 @@
     {"path":"ci/validate_openai_ten_proofs_gapcvp_certification_work_package.py","classification":"TRANSITION_STATE"},
     {"path":"ci/validate_openai_ten_proofs_gapcvp_intake_successor.py","classification":"TRANSITION_STATE"},
     {"path":"ci/validate_openai_ten_proofs_gapcvp_route_proposal.py","classification":"TRANSITION_STATE"},
-    {"path":"ci/validate_openai_ten_proofs_gapcvp_route_registration.py","classification":"TRANSITION_STATE"},
+    {"path":"ci/validate_openai_ten_proofs_gapcvp_route_registration.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"7907fbdfe716e6a083b6772b9b3ce9f469d34389","snapshot_blob":"ffc95950e571efebe1c90a3e6d1bf279b37b71b1"},
     {"path":"ci/validate_openai_ten_proofs_permanent_adjudication_contract.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_openai_ten_proofs_permanent_cert_replay_evidence.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
     {"path":"ci/validate_openai_ten_proofs_permanent_certification_work_package.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"},
