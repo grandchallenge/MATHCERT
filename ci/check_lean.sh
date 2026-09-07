@@ -81,6 +81,22 @@ python3 ci/validate_openai_ten_proofs_gapcvp_intake_successor.py
 python3 ci/test_openai_ten_proofs_gapcvp_intake_successor.py
 python3 ci/validate_openai_ten_proofs_binary_codes_intake_successor.py
 python3 ci/test_openai_ten_proofs_binary_codes_intake_successor.py
+if [[ -f ci/validate_openai_ten_proofs_ramsey_intake_successor.py ]]; then
+  python3 ci/validate_openai_ten_proofs_ramsey_intake_successor.py
+  python3 ci/test_openai_ten_proofs_ramsey_intake_successor.py
+fi
+if [[ -f ci/validate_openai_ten_proofs_quantum_parallel_repetition_intake_successor.py ]]; then
+  python3 ci/validate_openai_ten_proofs_quantum_parallel_repetition_intake_successor.py
+  python3 ci/test_openai_ten_proofs_quantum_parallel_repetition_intake_successor.py
+fi
+if [[ -f ci/validate_openai_ten_proofs_non_sofic_intake_successor.py ]]; then
+  python3 ci/validate_openai_ten_proofs_non_sofic_intake_successor.py
+  python3 ci/test_openai_ten_proofs_non_sofic_intake_successor.py
+fi
+if [[ -f ci/validate_openai_ten_proofs_connes_rigidity_intake_successor.py ]]; then
+  python3 ci/validate_openai_ten_proofs_connes_rigidity_intake_successor.py
+  python3 ci/test_openai_ten_proofs_connes_rigidity_intake_successor.py
+fi
 python3 ci/validate_openai_ten_proofs_certification_work_packages.py
 python3 ci/test_openai_ten_proofs_certification_work_packages.py
 python3 ci/validate_openai_ten_proofs_permanent_certification_work_package.py

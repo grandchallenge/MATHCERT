@@ -92,6 +92,22 @@ Invoke-Control "ci/validate_openai_ten_proofs_gapcvp_intake_successor.py"
 Invoke-Control "ci/test_openai_ten_proofs_gapcvp_intake_successor.py"
 Invoke-Control "ci/validate_openai_ten_proofs_binary_codes_intake_successor.py"
 Invoke-Control "ci/test_openai_ten_proofs_binary_codes_intake_successor.py"
+if (Test-Path "ci/validate_openai_ten_proofs_ramsey_intake_successor.py") {
+    Invoke-Control "ci/validate_openai_ten_proofs_ramsey_intake_successor.py"
+    Invoke-Control "ci/test_openai_ten_proofs_ramsey_intake_successor.py"
+}
+if (Test-Path "ci/validate_openai_ten_proofs_quantum_parallel_repetition_intake_successor.py") {
+    Invoke-Control "ci/validate_openai_ten_proofs_quantum_parallel_repetition_intake_successor.py"
+    Invoke-Control "ci/test_openai_ten_proofs_quantum_parallel_repetition_intake_successor.py"
+}
+if (Test-Path "ci/validate_openai_ten_proofs_non_sofic_intake_successor.py") {
+    Invoke-Control "ci/validate_openai_ten_proofs_non_sofic_intake_successor.py"
+    Invoke-Control "ci/test_openai_ten_proofs_non_sofic_intake_successor.py"
+}
+if (Test-Path "ci/validate_openai_ten_proofs_connes_rigidity_intake_successor.py") {
+    Invoke-Control "ci/validate_openai_ten_proofs_connes_rigidity_intake_successor.py"
+    Invoke-Control "ci/test_openai_ten_proofs_connes_rigidity_intake_successor.py"
+}
 Invoke-Control "ci/validate_openai_ten_proofs_certification_work_packages.py"
 Invoke-Control "ci/test_openai_ten_proofs_certification_work_packages.py"
 Invoke-Control "ci/validate_openai_ten_proofs_permanent_certification_work_package.py"
