@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_connes_rigidity_result_family_intake_successor",
+  "intake_id": "MC-OTP-INTAKE-E-CONNES-RIGIDITY",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-E-CONNES-RIGIDITY",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/211",
+  "intake_status": "accepted_on_candidate_branch_pending_protected_merge",
+  "mathcert_subject": {
+    "protected_base": "ea19147af0efc086a723d4f4d6c89d7365519aba",
+    "platform_hook_merge": "ea19147af0efc086a723d4f4d6c89d7365519aba",
+    "historical_intake_namespace_immutable": true,
+    "historical_result_family_intake_validator_blob": "e0a16870c45aadc2b2a323159df595da489384f7"
+  },
+  "authority": {
+    "solve_handoff_merge": "07814c1e28855ff0314737d3666642217da095a1",
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "07814c1e28855ff0314737d3666642217da095a1",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-E-CONNES-RIGIDITY.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "a2a76e5708245bd75c293713e1925617369c48ea"
+    },
+    "forge_formal_source_successor_merge": "48e8bf8e0fd157688ae83a8110d63b1e500ee688",
+    "forge_semantic": {
+      "merge": "ed8a65410336489ea5646808265c44f5387bebb8",
+      "audit_blob": "ab38a22d029bacc09d7567166b3b5e380f207f99"
+    },
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "config_path": "ComparatorChallenges/E_ConnesRigidity.json",
+      "config_blob": "f5d2964be6b1a154bc12b38a0f99f0960960a2d9",
+      "challenge_path": "ComparatorChallenges/E_ConnesRigidity.lean",
+      "challenge_blob": "9425edabd79319cbe2943888c6ece107bdd81dfb",
+      "solution_path": "ConnesRigidity.lean",
+      "solution_blob": "81cf03e3f7ccdc66815cc00c9969bcfd2341c8d6",
+      "mathlib_finite_generation_commit": "81a5d257c8e410db227a6665ed08f64fea08e997",
+      "mathlib_finite_generation_blob": "b23c7420082cfcfe583ba2ed39a8c9f0c86d73b1"
+    },
+    "source_pdf": {
+      "revision": "2026-08-06",
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
+    },
+    "isolated_replay": {
+      "run_id": 31945652355,
+      "job_id": 95161117059,
+      "result": "comparator_lean_kernel_nanoda_accept",
+      "lean_version": "4.32.0",
+      "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+    }
+  },
+  "target_scope": {
+    "lean_theorems": [
+      "ConnesRigidity.exists_nonisomorphic_propertyT_icc_groups_with_isomorphic_factors",
+      "ConnesRigidity.exists_infinite_pairwise_nonisomorphic_propertyT_icc_groups_with_isomorphic_factors"
+    ],
+    "classifications": [
+      "source_faithful_two_group_consequence_with_structured_factor_isomorphism",
+      "source_faithful_theorem_1_2_projection_with_derived_pairwise_factor_transitivity"
+    ],
+    "mandatory_qualifications": [
+      "Only current ConnesRigidity.* declarations are authoritative; no identity or downstream authority is inferred from predecessor ConnesRigidity2.* names.",
+      "TracialGroupFactorEquiv is a source-construction-faithful spatial/tracial refinement, not verbatim Theorem 1.2 or Corollary 5.10 wording.",
+      "The formal projection-supremum normality predicate is not claimed equivalent to every analytic notion of normality.",
+      "The infinite target's all-pairs Gamma factor isomorphism is a derived symmetry/transitivity consequence through Lambda, not a separately printed source clause.",
+      "The property-(T) universe scope and finite-generation predicate remain exactly as protected by the Forge audit.",
+      "No whole-chapter semantic equivalence or proof-body comparison is transferred."
+    ],
+    "nonvacuity_state": "clear_for_exact_two_target_surface_with_universe_scope_recorded"
+  },
+  "state": {
+    "next_stage": "family_specific_executable_cert_work_package_after_protected_intake_readback",
+    "requested_route_id": null,
+    "certification_route_registry_entry": null,
+    "route_registered": false,
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_authority": false
+  },
+  "activation": {
+    "requires_literal_head_canonical_cert": true,
+    "requires_canonical_family_validator_and_test": true,
+    "requires_gcl_policy_and_action_policy": true,
+    "requires_codeql_as_applicable": true,
+    "requires_fresh_non_author_operator_algebra_group_theory_lean_specialist_approved_review": true,
+    "head_change_requires_reapproval": true,
+    "ordinary_expected_head_merge_only": true,
+    "protected_readback_required": true
+  },
+  "scope_exclusions": [
+    "The historical OpenAI Ten Proofs result-family intake registry and validator remain immutable.",
+    "No authority is inferred from predecessor ConnesRigidity2.* names or from unaudited analytic-normality equivalences.",
+    "No certification route, adjudication, certificate output, proof promotion, cross-family transfer, or aggregate authority is created."
+  ],
+  "claim_boundary": "This successor intake accepts only the protected OTP-E-CONNES-RIGIDITY producer packet and exact two-target current-declaration surface for later family-specific MATHCERT execution. It preserves the source versus structured-refinement boundary, the projection-supremum normality qualification, the derived all-pairs factor transitivity, the property-(T) universe scope, and the pinned finite-generation identity. It does not infer authority from predecessor names, mutate historical intake registries, register a certification route, authorize adjudication, issue a Cert output, certify proof correctness, mark a target proved, transfer authority across families, or create aggregate OpenAI Ten Proofs authority."
+}
