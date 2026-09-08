@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_ramsey_result_family_intake_successor",
+  "intake_id": "MC-OTP-INTAKE-I-RAMSEY",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-I-RAMSEY",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/208",
+  "intake_status": "accepted_on_candidate_branch_pending_protected_merge",
+  "mathcert_subject": {
+    "protected_base": "ea19147af0efc086a723d4f4d6c89d7365519aba",
+    "platform_hook_merge": "ea19147af0efc086a723d4f4d6c89d7365519aba",
+    "historical_intake_namespace_immutable": true,
+    "historical_result_family_intake_validator_blob": "e0a16870c45aadc2b2a323159df595da489384f7"
+  },
+  "authority": {
+    "solve_handoff_merge": "a5b9488a4095a6669c9c242d59225c5735100123",
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "a5b9488a4095a6669c9c242d59225c5735100123",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-I-RAMSEY.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "14e0909cd5e704d3a9b6b35c218fae6a44ae2013"
+    },
+    "forge_formal_source_successor_merge": "48e8bf8e0fd157688ae83a8110d63b1e500ee688",
+    "forge_semantic": {
+      "merge": "dbf3b099331a1807c4d3036e7a6a406711ea7cf3",
+      "audit_blob": "a7c014fb623b66355ef5d6260e5b994d99d67a6d"
+    },
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "config_path": "ComparatorChallenges/I_MulticolorTriangleRamsey.json",
+      "config_blob": "ce67db0653e18a2de68f471c00b9f892b789f806",
+      "challenge_path": "ComparatorChallenges/I_MulticolorTriangleRamsey.lean",
+      "challenge_blob": "6a9e42d686720f4b74ddc2001006b0b7a20f11aa",
+      "solution_path": "MulticolorTriangleRamsey.lean",
+      "solution_blob": "24b55f531a4d36347cd2277b1b9c7d784d91ae35"
+    },
+    "source_pdf": {
+      "revision": "2026-08-06",
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
+    },
+    "isolated_replay": {
+      "run_id": 31945652355,
+      "job_id": 95161117103,
+      "result": "comparator_lean_kernel_nanoda_accept",
+      "lean_version": "4.32.0",
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ]
+    }
+  },
+  "target_scope": {
+    "lean_theorems": [
+      "ErdosProblems.MulticolourTriangleRamsey.erdos_183",
+      "ErdosProblems.MulticolourTriangleRamsey.erdos_problem_183_explicit",
+      "ErdosProblems.MulticolourTriangleRamsey.triangleRamseyNumber_log_sharp_coefficients",
+      "ErdosProblems.MulticolourTriangleRamsey.triangleRamseyNumber_log_isTheta"
+    ],
+    "classifications": [
+      "source_faithful_exact_projection_of_displayed_consequence_4",
+      "formal_explicit_constant_strengthening_plus_source_faithful_divergence",
+      "source_faithful_epsilonized_logarithmic_reformulation",
+      "source_faithful_logarithmic_reformulation_of_printed_theta"
+    ],
+    "mandatory_qualifications": [
+      "The manuscript does not specify the explicit constant 1/(6*exp 38); it is formal strengthening provenance only.",
+      "The epsilon logarithmic coefficients are source-faithful natural-log reformulations, not verbatim source text.",
+      "Filter-Theta is a source-faithful reformulation of printed R_k(3)=k^{Theta(k)}.",
+      "Least-Ramsey-number semantics rely on the protected nonempty forcing set and sInf realization evidence.",
+      "No whole-chapter semantic equivalence or proof-body comparison is transferred."
+    ],
+    "nonvacuity_state": "clear_for_all_four_targets"
+  },
+  "state": {
+    "next_stage": "family_specific_executable_cert_work_package_after_protected_intake_readback",
+    "requested_route_id": null,
+    "certification_route_registry_entry": null,
+    "route_registered": false,
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_authority": false
+  },
+  "activation": {
+    "requires_literal_head_canonical_cert": true,
+    "requires_canonical_family_validator_and_test": true,
+    "requires_gcl_policy_and_action_policy": true,
+    "requires_codeql_as_applicable": true,
+    "requires_fresh_non_author_ramsey_combinatorics_lean_specialist_approved_review": true,
+    "head_change_requires_reapproval": true,
+    "ordinary_expected_head_merge_only": true,
+    "protected_readback_required": true
+  },
+  "scope_exclusions": [
+    "The historical OpenAI Ten Proofs result-family intake registry and validator remain immutable.",
+    "The explicit constant 1/(6*exp 38) remains formal strengthening provenance and is not attributed to the manuscript.",
+    "No certification route, adjudication, certificate output, proof promotion, cross-family transfer, or aggregate authority is created."
+  ],
+  "claim_boundary": "This successor intake accepts only the protected OTP-I-RAMSEY producer packet and exact four-target Ramsey surface for later family-specific MATHCERT execution. It preserves the source-versus-formal distinction for the explicit constant, the natural-log and Filter-Theta reformulations, and the protected least-number semantics. It does not mutate historical intake registries, register a certification route, authorize adjudication, issue a Cert output, certify proof correctness, mark a target proved, transfer authority across families, or create aggregate OpenAI Ten Proofs authority."
+}
