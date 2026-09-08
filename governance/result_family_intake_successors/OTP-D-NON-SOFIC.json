@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_non_sofic_result_family_intake_successor",
+  "intake_id": "MC-OTP-INTAKE-D-NON-SOFIC",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-D-NON-SOFIC",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/210",
+  "intake_status": "accepted_on_candidate_branch_pending_protected_merge",
+  "mathcert_subject": {
+    "protected_base": "ea19147af0efc086a723d4f4d6c89d7365519aba",
+    "platform_hook_merge": "ea19147af0efc086a723d4f4d6c89d7365519aba",
+    "historical_intake_namespace_immutable": true,
+    "historical_result_family_intake_validator_blob": "e0a16870c45aadc2b2a323159df595da489384f7"
+  },
+  "authority": {
+    "solve_handoff_merge": "0ec6136d41ae1acd547e041ee8ca60de0d57effd",
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "0ec6136d41ae1acd547e041ee8ca60de0d57effd",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-D-NON-SOFIC.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "dfbd560c1340987b23874063c67d1e850dd48a52"
+    },
+    "forge_formal_source_successor_merge": "48e8bf8e0fd157688ae83a8110d63b1e500ee688",
+    "forge_semantic": {
+      "merge": "081928fceaca9606af4920559f8b79d5e40225a7",
+      "audit_blob": "a9a5a2d56fceda6ebddf0c729d97c7cbeaf0d48b"
+    },
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "config_path": "ComparatorChallenges/D_NonSoficGroup.json",
+      "config_blob": "af023106a83552d7fafb4f0d122f121a095f802c",
+      "challenge_path": "ComparatorChallenges/D_NonSoficGroup.lean",
+      "challenge_blob": "158d97224fbd51c203ff07a2f74041ffa2c6013b",
+      "solution_path": "NonSoficGroup.lean",
+      "solution_blob": "dd1f8e63960300c8674fcd491007d2a628fbc6fe",
+      "mathlib_finite_presentation_commit": "81a5d257c8e410db227a6665ed08f64fea08e997",
+      "mathlib_finite_presentation_blob": "449ec578624bd05410992e89048a7c1a7bae238d"
+    },
+    "source_pdf": {
+      "revision": "2026-08-06",
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
+    },
+    "isolated_replay": {
+      "run_id": 31945652355,
+      "job_id": 95161117044,
+      "result": "comparator_lean_kernel_nanoda_accept",
+      "lean_version": "4.32.0",
+      "permitted_axioms": ["propext", "Classical.choice", "Quot.sound"]
+    }
+  },
+  "target_scope": {
+    "lean_theorems": ["SoficGroups.SourceTopLevelCompressionFinal.exists_finitelyPresented_nonsofic_group"],
+    "classifications": ["derived_finitely_presented_nonsofic_consequence_of_source_nonsofic_construction"],
+    "mandatory_qualifications": [
+      "Chapter 3 Theorem 1.1 does not itself state existence of a finitely presented nonsofic group.",
+      "The finitely presented witness is a derived formal consequence constructed from a finite failed sofic approximation test.",
+      "The source obstruction carrier is related through the proved EL_D(R)/EL_9(R) equivalence and is not definitionally the full unit group.",
+      "Group.IsFinitelyPresented remains pinned to Mathlib commit 81a5d257c8e410db227a6665ed08f64fea08e997.",
+      "No whole-chapter semantic equivalence or proof-body comparison is transferred."
+    ],
+    "nonvacuity_state": "clear_for_exact_target"
+  },
+  "state": {
+    "next_stage": "family_specific_executable_cert_work_package_after_protected_intake_readback",
+    "requested_route_id": null,
+    "certification_route_registry_entry": null,
+    "route_registered": false,
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_authority": false
+  },
+  "activation": {
+    "requires_literal_head_canonical_cert": true,
+    "requires_canonical_family_validator_and_test": true,
+    "requires_gcl_policy_and_action_policy": true,
+    "requires_codeql_as_applicable": true,
+    "requires_fresh_non_author_geometric_group_theory_lean_specialist_approved_review": true,
+    "head_change_requires_reapproval": true,
+    "ordinary_expected_head_merge_only": true,
+    "protected_readback_required": true
+  },
+  "scope_exclusions": [
+    "The historical OpenAI Ten Proofs result-family intake registry and validator remain immutable.",
+    "The source theorem is not rewritten as a finite-presentation theorem; the finitely presented witness remains a derived consequence.",
+    "No certification route, adjudication, certificate output, proof promotion, cross-family transfer, or aggregate authority is created."
+  ],
+  "claim_boundary": "This successor intake accepts only the protected OTP-D-NON-SOFIC producer packet and exact single derived target for later family-specific MATHCERT execution. It preserves the distinction between the source nonsofic construction, the EL_D(R)/EL_9(R) obstruction carrier, and the separately constructed finitely presented witness under the pinned Mathlib definition. It does not mutate historical intake registries, register a certification route, authorize adjudication, issue a Cert output, certify proof correctness, mark a target proved, transfer authority across families, or create aggregate OpenAI Ten Proofs authority."
+}
