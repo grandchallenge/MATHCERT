@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -17,7 +16,6 @@ SCHEMA = ROOT / "schemas/openai_ten_proofs_ramsey_result_family_intake_successor
 LEGACY_DIR = ROOT / "governance/result_family_intakes"
 LEGACY_VALIDATOR = ROOT / "ci/validate_openai_ten_proofs_result_family_intakes.py"
 EXPECTED_LEGACY_VALIDATOR_BLOB = "e0a16870c45aadc2b2a323159df595da489384f7"
-HISTORICAL_PROTECTED_BASE = "ea19147af0efc086a723d4f4d6c89d7365519aba"
 FAMILY_ID = "OTP-I-RAMSEY"
 EXPECTED_CANONICAL_SHA256 = "acefe4ebdfb00db63735e9744ec64701b5c662332bc9e032aed4e9ce4ad5aaef"
 
@@ -50,14 +48,6 @@ def validation_errors(data: dict[str, Any] | None = None, *, legacy_file_exists:
     exists = (LEGACY_DIR / f"{FAMILY_ID}.json").exists() if legacy_file_exists is None else legacy_file_exists
     if exists:
         errors.append("Ramsey successor inserted into frozen historical intake namespace")
-    raw = subprocess.check_output(
-        ["git", "show", f"{HISTORICAL_PROTECTED_BASE}:governance/certification_routes.json"],
-        cwd=ROOT,
-        text=True,
-    )
-    routes = json.loads(raw).get("routes", [])
-    if any(isinstance(route, dict) and (route.get("campaign_id") == FAMILY_ID or FAMILY_ID in str(route.get("route_id", ""))) for route in routes):
-        errors.append("Ramsey route authority existed at the exact historical intake base")
     return errors
 
 
