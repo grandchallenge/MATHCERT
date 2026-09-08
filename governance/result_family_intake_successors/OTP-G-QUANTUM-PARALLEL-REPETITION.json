@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_quantum_parallel_repetition_result_family_intake_successor",
+  "intake_id": "MC-OTP-INTAKE-G-QUANTUM-PARALLEL-REPETITION",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-G-QUANTUM-PARALLEL-REPETITION",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/209",
+  "intake_status": "accepted_on_candidate_branch_pending_protected_merge",
+  "mathcert_subject": {
+    "protected_base": "ea19147af0efc086a723d4f4d6c89d7365519aba",
+    "platform_hook_merge": "ea19147af0efc086a723d4f4d6c89d7365519aba",
+    "historical_intake_namespace_immutable": true,
+    "historical_result_family_intake_validator_blob": "e0a16870c45aadc2b2a323159df595da489384f7"
+  },
+  "authority": {
+    "solve_handoff_merge": "4f384b510a557292ce999f02baacec45c534888a",
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "4f384b510a557292ce999f02baacec45c534888a",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-G-QUANTUM-PARALLEL-REPETITION.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "95f73528d78c24f09aba7c93ac0c601bb3ee515e"
+    },
+    "forge_formal_source_successor_merge": "48e8bf8e0fd157688ae83a8110d63b1e500ee688",
+    "forge_semantic": {
+      "merge": "f0a40146cca7fd39c5724ed5be033ee9092625ac",
+      "audit_blob": "bfcbee0fd6174b8856b17c3d56ee320f27c18ec6"
+    },
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "config_path": "ComparatorChallenges/G_QuantumParallelRepetition.json",
+      "config_blob": "c7dd59e9df9ae5d90b35f76a9d958943d8e94770",
+      "challenge_path": "ComparatorChallenges/G_QuantumParallelRepetition.lean",
+      "challenge_blob": "8257e7726643a8f8c08c7e91584e003ab204c589",
+      "solution_path": "QuantumParallelRepetition.lean",
+      "solution_blob": "887c4378f124a5d81a3f2624b6dc34867ec409c4"
+    },
+    "source_pdf": {
+      "revision": "2026-08-06",
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566"
+    },
+    "isolated_replay": {
+      "run_id": 31945652355,
+      "job_id": 95161117041,
+      "result": "comparator_lean_kernel_nanoda_accept",
+      "lean_version": "4.32.0",
+      "permitted_axioms": ["propext", "Classical.choice", "Quot.sound"]
+    }
+  },
+  "target_scope": {
+    "lean_theorems": [
+      "QuantumParallelRepetition.distributionUniformExponential",
+      "QuantumParallelRepetition.standardQuantumParallelRepetition"
+    ],
+    "classifications": [
+      "source_faithful_exact_coordinate_projection_of_theorem_1_1",
+      "source_faithful_consequence_on_source_domain_with_formal_empty_answer_extension"
+    ],
+    "mandatory_qualifications": [
+      "Alice and Bob may have independent finite local dimensions; no common-dimension restriction is introduced.",
+      "entangledValue is a supremum, with no optimizer-attainment assumption.",
+      "The quantitative target preserves exponent 13, the exact epsilon + log(|A||B|) denominator, positive soundness gap, and n>=1 scope.",
+      "The qualitative target is source-faithful only on the manuscript nonempty-answer domain; empty-answer cases are formal-only.",
+      "No whole-chapter semantic equivalence or proof-body comparison is transferred."
+    ],
+    "nonvacuity_state": "clear_on_declared_source_domain_with_empty_answer_extension_separated"
+  },
+  "state": {
+    "next_stage": "family_specific_executable_cert_work_package_after_protected_intake_readback",
+    "requested_route_id": null,
+    "certification_route_registry_entry": null,
+    "route_registered": false,
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "aggregate_authority": false
+  },
+  "activation": {
+    "requires_literal_head_canonical_cert": true,
+    "requires_canonical_family_validator_and_test": true,
+    "requires_gcl_policy_and_action_policy": true,
+    "requires_codeql_as_applicable": true,
+    "requires_fresh_non_author_quantum_information_lean_specialist_approved_review": true,
+    "head_change_requires_reapproval": true,
+    "ordinary_expected_head_merge_only": true,
+    "protected_readback_required": true
+  },
+  "scope_exclusions": [
+    "The historical OpenAI Ten Proofs result-family intake registry and validator remain immutable.",
+    "The qualitative empty-answer extension remains formal-only and outside the manuscript domain.",
+    "No certification route, adjudication, certificate output, proof promotion, cross-family transfer, or aggregate authority is created."
+  ],
+  "claim_boundary": "This successor intake accepts only the protected OTP-G-QUANTUM-PARALLEL-REPETITION producer packet and exact two-target surface for later family-specific MATHCERT execution. It preserves independent local dimensions, supremum semantics, exponent 13, the exact logarithmic denominator, positive soundness and repetition scopes, and the separation of formal empty-answer cases from manuscript authority. It does not mutate historical intake registries, register a certification route, authorize adjudication, issue a Cert output, certify proof correctness, mark a target proved, transfer authority across families, or create aggregate OpenAI Ten Proofs authority."
+}
