@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Validate exact MATHCERT campaign routes and intake/adjudication boundaries."""
 from __future__ import annotations
-import json,re,sys
+import hashlib,json,re,sys
 from pathlib import Path
 from typing import Any
+import jsonschema
 ROOT=Path(__file__).resolve().parents[1]
 REGISTRY_PATH=ROOT/"governance"/"certification_routes.json";SCHEMA_PATH=ROOT/"schemas"/"certification_route_registry.schema.json"
 def art(repo,commit,path,digest):return {"repository":repo,"commit_sha":commit,"path":path,"digest_algorithm":"git_blob_sha1","digest":digest}
@@ -50,7 +51,13 @@ EXPECTED["OTP-B1-BINARY-CODES"]={
  "output":None}
 ADJUDICATED={"certified","qualified","rejected","proof_debt"};INTAKE_ONLY={"ready","submitted"};ALL_STATES={"pending"}|INTAKE_ONLY|ADJUDICATED
 HEX40=re.compile(r"^[0-9a-f]{40}$");HEX64=re.compile(r"^[0-9a-f]{64}$");ARTIFACT_KEYS={"repository","commit_sha","path","digest_algorithm","digest"};ROUTE_KEYS={"route_id","campaign_id","tracker_issue","source_manifest","intake_status","intake_packet","target_claim_ids","requested_modalities","claim_boundary","cert_output","blockers","reopening_conditions"}
+HC_CERT_PATH=Path("certificates/hodge/MC-HC-WP00-QUAL-001.json")
+HC_CERT_COMMIT="fdc33903593b6bc4a021ad7158f3533f50da8705";HC_CERT_BLOB="38830b24464f148a53f0a0a3e47e97d307fadf23";HC_RECORD_COMMIT="599230f994d7cf98c448fb99b185a802e336269f"
+HC_RECORDS={"HC-C001":("c6bf64e8d2b716be54ef86798e120b2a67c64ad6","qualified_statement_identity"),"HC-C002":("e16e64f0168d06ae508e5ae0956942a6b68211b3","qualified_definition_level_equivalence"),"HC-C003":("ce3f3885ac7bbcb09ac5777653c4ebbccc2a4cb8","qualified_conditional_low_dimension_reduction")}
+HC_MUTATIONS={"coefficient_Q_to_Z","rational_Hodge_class_to_arbitrary_complex_pp_class","smooth_projective_to_compact_Kahler","Chow_cycle_to_motivated_or_topological_object","rational_generation_to_effective_irreducible_representative","universal_to_sampled_or_very_general_quantifier","algebraic_to_Hodge_implication_reversed_as_definition"}
 def load_json(path:Path)->Any:return json.loads(path.read_text(encoding="utf-8"))
+def git_blob(path:Path)->str:
+ payload=path.read_bytes();return hashlib.sha1(f"blob {len(payload)}\0".encode("ascii")+payload,usedforsecurity=False).hexdigest()
 def artifact_errors(v:Any,label:str)->list[str]:
  e=[]
  if not isinstance(v,dict):return [f"{label}: expected an artifact object"]
@@ -110,8 +117,69 @@ def route_errors(registry_path:Path=REGISTRY_PATH,schema_path:Path=SCHEMA_PATH)-
  if {cid for cid,r in route_map.items() if str(r.get("route_id","")).startswith("MC-ROUTE-OTP-")}!=otp:e.append("OTP route membership drift")
  if "OPENAI-TEN-PROOFS-001" in route_map:e.append("aggregate ten-proofs route prohibited")
  return e
+def hc_qualification_errors(root:Path=ROOT)->list[str]:
+ e=[];cert_path=root/HC_CERT_PATH;schema_path=root/"schemas/hc_wp00_qualification.schema.json";claim_schema_path=root/"schemas/hc_claim_record.schema.json";routes_path=root/"governance/certification_routes.json"
+ try:cert=load_json(cert_path);schema=load_json(schema_path);claim_schema=load_json(claim_schema_path);routes=load_json(routes_path)
+ except (OSError,json.JSONDecodeError) as exc:return [f"HC qualification load failed: {exc}"]
+ try:jsonschema.validate(cert,schema)
+ except jsonschema.ValidationError as exc:e.append(f"HC qualification schema failure: {exc.message}")
+ if schema.get("$id")!="https://grandchallenge.ai/schemas/hc_wp00_qualification.schema.json" or schema.get("additionalProperties") is not False:e.append("HC qualification schema identity or closure drift")
+ if git_blob(schema_path)!="b835b1255d90a21650cda5ae5e6e57a391847331":e.append("HC qualification schema blob drift")
+ if git_blob(cert_path)!=HC_CERT_BLOB:e.append("HC qualification certificate blob drift")
+ if (cert.get("certificate_id"),cert.get("campaign_id"),cert.get("route_id"))!=("MC-HC-WP00-QUAL-001","HC-001","MC-ROUTE-HC-001"):e.append("HC qualification identity drift")
+ provider=cert.get("solve_provider",{});expected_provider={"manifest":("916f3434abcce29098ba7508a3b457a461461193","campaign_manifests/HC-001.json","48e3a0c22299147fe48cb4288cda813d7cffdcb4"),"handoff":("916f3434abcce29098ba7508a3b457a461461193","cert_handoffs/HC-001.json","0c154af2e577e4367f9f5d0aeac5e15f9420172c"),"work_package":("8c56729cb8a747296f2be5eeab93d2cde999e4bc","work_packages/HC_WP00.md","195d2a281f75493f5db1a81f2270e16aeead259d"),"claim_ledger":("16edb1df66d1e1835754ec1e7a1faa93231675b9","campaign_ledgers/HC-001/claim_ledger.json","ed0216ea6dd1859effe926b8c501d8dc156e897a"),"proof_obligations":("e067c1b0f9eeb8a08b12a9fd9f6281e792a19e2b","campaign_ledgers/HC-001/proof_obligation_dag.json","99394c33bf91fe433713fffb1f48c01e08237f6b")}
+ if provider.get("repository")!="grandchallenge/MATHSOLVE" or provider.get("merge_commit")!="916f3434abcce29098ba7508a3b457a461461193":e.append("HC Solve provider identity drift")
+ for key,expected in expected_provider.items():
+  item=provider.get(key,{})
+  if (item.get("repository"),item.get("commit_sha"),item.get("path"),item.get("digest"))!=("grandchallenge/MATHSOLVE",*expected):e.append(f"HC Solve {key} authority drift")
+ refs={Path(item.get("path","")).stem:item for item in cert.get("claim_records",[]) if isinstance(item,dict)}
+ if set(refs)!=set(HC_RECORDS):e.append("HC claim-record set drift")
+ records={}
+ for claim_id,(digest,_) in HC_RECORDS.items():
+  relative=Path(f"certificates/hodge/claim_records/{claim_id}.json");path=root/relative
+  try:record=load_json(path);jsonschema.validate(record,claim_schema);records[claim_id]=record
+  except (OSError,json.JSONDecodeError,jsonschema.ValidationError) as exc:e.append(f"{claim_id}: claim record invalid: {exc}");continue
+  if git_blob(path)!=digest:e.append(f"{claim_id}: claim record blob drift")
+  ref=refs.get(claim_id,{})
+  if (ref.get("repository"),ref.get("commit_sha"),ref.get("path"),ref.get("digest"))!=("grandchallenge/MATHCERT",HC_RECORD_COMMIT,relative.as_posix(),digest):e.append(f"{claim_id}: claim record authority drift")
+ for claim_id,record in records.items():
+  for key,value in {"base_field":"C","geometric_category":"smooth_projective_variety","smoothness":"smooth","properness_profile":"projective","coefficient_ring":"Q"}.items():
+   if record.get(key)!=value:e.append(f"{claim_id}: semantic {key} drift")
+ if records.get("HC-C001",{}).get("quantifier_scope")!="every_variety_every_class":e.append("HC-C001: universal quantifier drift")
+ if records.get("HC-C001",{}).get("input_class_predicate")!="alpha is rational and its complexification has Hodge type (p,p)":e.append("HC-C001: rationality predicate drift")
+ if records.get("HC-C002",{}).get("implication_direction")!="equivalence":e.append("HC-C002: equivalence direction drift")
+ if "effectivity" not in records.get("HC-C002",{}).get("claims_not_made",[]):e.append("HC-C002: effectivity boundary removed")
+ if records.get("HC-C003",{}).get("dimension_scope")!="dim X <= 3" or records.get("HC-C003",{}).get("status")!="CONDITIONAL":e.append("HC-C003: conditional dimension boundary drift")
+ claims={item.get("claim_id"):item for item in cert.get("adjudicated_claims",[]) if isinstance(item,dict)}
+ if set(claims)!=set(HC_RECORDS):e.append("HC adjudicated claim set drift")
+ for claim_id,(_,disposition) in HC_RECORDS.items():
+  item=claims.get(claim_id,{})
+  if item.get("modality")!="SEMANTIC_REPLAY" or item.get("disposition")!=disposition or item.get("kernel_checked") is not False:e.append(f"{claim_id}: bounded disposition drift")
+ sources={item.get("source_id"):item for item in cert.get("external_sources",[]) if isinstance(item,dict)}
+ if set(sources)!={"CLAY-DELIGNE-HODGE","CLAY-HODGE-STATUS"}:e.append("HC independent source set drift")
+ if sources.get("CLAY-DELIGNE-HODGE",{}).get("url")!="https://www.claymath.org/wp-content/uploads/2022/06/hodge.pdf" or sources.get("CLAY-HODGE-STATUS",{}).get("url")!="https://www.claymath.org/millennium/hodge-conjecture/":e.append("HC official source authority drift")
+ replay=cert.get("replay",{})
+ if set(replay.get("semantic_mutations_rejected",[]))!=HC_MUTATIONS:e.append("HC semantic mutation coverage drift")
+ if replay.get("lean_formalization_available") is not False or replay.get("kernel_checked_claims")!=[]:e.append("HC formalization boundary inflated")
+ for key in ("mathematical_target_proved","full_hodge_conjecture_proved","restricted_target_selected"):
+  if cert.get(key) is not False:e.append(f"HC {key} must remain false")
+ if cert.get("disposition")!="qualified_semantic_and_conditional_interface_only":e.append("HC disposition inflation")
+ unresolved=" ".join(cert.get("unresolved_obligations",[]))
+ for token in ("universal","dimension-four","restricted","formalization","specialist"):
+  if token not in unresolved:e.append(f"HC unresolved obligations missing token: {token}")
+ boundary=str(cert.get("claim_boundary",""))
+ for token in ("does not prove the Hodge conjecture","Lean/kernel proof","claim-promotion"):
+  if token not in boundary:e.append(f"HC claim boundary missing token: {token}")
+ route=next((item for item in routes.get("routes",[]) if item.get("campaign_id")=="HC-001"),{})
+ if route.get("intake_status")!="qualified" or route.get("target_claim_ids") != ["HC-C001","HC-C002","HC-C003"]:e.append("HC route state or target set drift")
+ output=route.get("cert_output",{})
+ if (output.get("repository"),output.get("commit_sha"),output.get("path"),output.get("digest"))!=("grandchallenge/MATHCERT",HC_CERT_COMMIT,HC_CERT_PATH.as_posix(),HC_CERT_BLOB):e.append("HC route output identity drift")
+ blockers=" ".join(route.get("blockers",[]))
+ for token in ("full Hodge","dimension-four","restricted target","specialist"):
+  if token not in blockers:e.append(f"HC route blockers missing token: {token}")
+ return e
 def main()->int:
- e=route_errors()
+ e=route_errors()+hc_qualification_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
  print("validated fifteen exact routes, including submitted OTP-H-GAPCVP and OTP-B1-BINARY-CODES plus restricted qualified OTP-A-SPHERE-PACKING, OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
  return 0
