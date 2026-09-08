@@ -96,6 +96,7 @@
     {"path":"ci/validate_vgse_route_registration.py","classification":"TRANSITION_STATE"}
   ],
   "semantic_overrides": [
+    {"path":"ci/validate_openai_ten_proofs_binary_codes_route_registration.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"8ec2104f73a81acdb16b35410dc2e1dc2da417d5","snapshot_blob":"94ba63af418cc8299b1f3197f9eead53d61ab61d"},
     {"path":"ci/test_otp_j2_adjudication_input.py","classification":"CURRENT_STATE"},
     {"path":"ci/validate_openai_ten_proofs_adjudication_design_with_successors.py","classification":"HISTORICAL_SNAPSHOT","snapshot_commit":"0a24c03689734cac54d940c506ff4be02e200e65","snapshot_blob":"4d5c8e3f2b33d5148d98e7057991e167938c75bb"}
   ]
