@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenAI Ten Proofs Connes rigidity result-family intake successor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "intake_id", "candidate_id", "result_family", "tracker_issue", "intake_status", "mathcert_subject", "authority", "target_scope", "state", "activation", "scope_exclusions", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_connes_rigidity_result_family_intake_successor"},
+    "intake_id": {"const": "MC-OTP-INTAKE-E-CONNES-RIGIDITY"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const": "OTP-E-CONNES-RIGIDITY"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/211"},
+    "intake_status": {"const": "accepted_on_candidate_branch_pending_protected_merge"},
+    "mathcert_subject": {"type": "object"}, "authority": {"type": "object"}, "target_scope": {"type": "object"},
+    "state": {"type": "object"}, "activation": {"type": "object"},
+    "scope_exclusions": {"type": "array", "minItems": 3, "items": {"type": "string"}},
+    "claim_boundary": {"type": "string", "minLength": 300}
+  }
+}
