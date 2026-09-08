@@ -57,6 +57,8 @@ python3 ci/validate_uc_restricted_qualification_schema.py
 python3 ci/test_uc_restricted_qualification_schema.py
 python3 ci/validate_uc_restricted_qualification.py
 python3 ci/test_uc_restricted_qualification.py
+python3 ci/validate_hc_wp00_qualification.py
+python3 ci/test_hc_wp00_qualification.py
 python3 ci/validate_uc_provider_identity_exclusion.py
 python3 ci/test_uc_provider_identity_exclusion.py
 python3 ci/check_ledgers.py

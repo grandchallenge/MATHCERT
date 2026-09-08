@@ -36,11 +36,11 @@
     {
       "route_id": "MC-ROUTE-HC-001", "campaign_id": "HC-001", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/23",
       "source_manifest": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "campaign_manifests/HC-001.json", "digest_algorithm": "git_blob_sha1", "digest": "48e3a0c22299147fe48cb4288cda813d7cffdcb4"},
-      "intake_status": "ready", "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "cert_handoffs/HC-001.json", "digest_algorithm": "git_blob_sha1", "digest": "0c154af2e577e4367f9f5d0aeac5e15f9420172c"},
+      "intake_status": "qualified", "intake_packet": {"repository": "grandchallenge/MATHSOLVE", "commit_sha": "916f3434abcce29098ba7508a3b457a461461193", "path": "cert_handoffs/HC-001.json", "digest_algorithm": "git_blob_sha1", "digest": "0c154af2e577e4367f9f5d0aeac5e15f9420172c"},
       "target_claim_ids": ["HC-C001", "HC-C002", "HC-C003"], "requested_modalities": ["LEAN_FORMALIZATION", "SEMANTIC_REPLAY", "SPECIALIST_AUDIT_PENDING"],
-      "claim_boundary": "Statement consistency, semantic replay, and a negative source screen do not prove the Hodge conjecture.", "cert_output": null,
-      "blockers": ["The packet is accepted for intake only; the full Hodge conjecture remains open and no MATHCERT adjudication has been recorded."],
-      "reopening_conditions": ["Update this route when the handoff packet, source manifest, target claim set, or MATHCERT disposition changes."]
+      "claim_boundary": "This qualified route covers only exact statement identity, a definition-level image equivalence, and the classical dimension-at-most-three reduction under named imported theorems. It does not prove the Hodge conjecture, certify a new known case, select a restricted research target, or supply a Lean/kernel proof.", "cert_output": {"repository": "grandchallenge/MATHCERT", "commit_sha": "fdc33903593b6bc4a021ad7158f3533f50da8705", "path": "certificates/hodge/MC-HC-WP00-QUAL-001.json", "digest_algorithm": "git_blob_sha1", "digest": "38830b24464f148a53f0a0a3e47e97d307fadf23"},
+      "blockers": ["The full Hodge conjecture remains open, including the first uncovered dimension-four codimension-two case.", "No governed restricted target has been selected and no faithful Hodge/Chow formalization or kernel proof is present.", "Independent human specialist review of the imported classical-theorem application remains outstanding before any stronger mathematical disposition."],
+      "reopening_conditions": ["Update this route only through exact-head governed review when the handoff, target claims, imported-theorem audit, formalization status, restricted-target selection, certificate output, or mathematical disposition changes."]
     },
     {
       "route_id": "MC-ROUTE-BSD-001", "campaign_id": "BSD-001", "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/26",
