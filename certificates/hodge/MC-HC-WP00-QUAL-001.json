@@ -105,7 +105,7 @@
     },
     {
       "claim_id": "HC-C003",
-      "modality": "SPECIALIST_AUDIT_PENDING",
+      "modality": "SEMANTIC_REPLAY",
       "disposition": "qualified_conditional_low_dimension_reduction",
       "kernel_checked": false,
       "qualification": "The package implication is accepted only under the named classical imports. The p=1 case is Lefschetz (1,1); p=n-1 follows through hard Lefschetz and algebraic hyperplane multiplication; dimensions at most three contain no other codimensions."
@@ -150,7 +150,8 @@
     "dimension-four codimension-two classes",
     "selection of a governed restricted construction target",
     "faithful formalization of the imported Hodge and Chow interfaces",
-    "independent certification of any future algebraicity construction"
+    "independent certification of any future algebraicity construction",
+    "independent human specialist audit of the imported classical-theorem application"
   ],
   "claim_boundary": "This certificate qualifies only exact statement identity, a definition-level image equivalence, and the classical dimension-at-most-three reduction under explicitly imported theorems. It does not prove the Hodge conjecture, certify a new known case, select a restricted research target, supply a Lean/kernel proof, or grant novelty, publication, production, or claim-promotion authority."
 }
