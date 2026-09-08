@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "claim_id": "HC-C001",
+  "campaign_id": "HC-001",
+  "name": "Classical rational Hodge conjecture statement",
+  "base_field": "C",
+  "geometric_category": "smooth_projective_variety",
+  "smoothness": "smooth",
+  "properness_profile": "projective",
+  "dimension_scope": "all finite complex dimensions",
+  "codimension_scope": "0 <= p <= dim X",
+  "coefficient_ring": "Q",
+  "cohomology_theory": "rational singular cohomology with complex Hodge decomposition",
+  "comparison_maps": [
+    "H^(2p)(X,Q) to H^(2p)(X,C)"
+  ],
+  "input_class_predicate": "alpha is rational and its complexification has Hodge type (p,p)",
+  "cycle_object": "CH_p_tensor_Q",
+  "cycle_equivalence": "rational_equivalence",
+  "quantifier_scope": "every_variety_every_class",
+  "conclusion_type": "cycle_class_surjectivity",
+  "conditional_dependencies": [
+    "Hodge decomposition",
+    "algebraic cycle-class construction"
+  ],
+  "implication_direction": "Hodge_to_algebraic",
+  "status": "LITERATURE_DERIVED",
+  "source_records": [
+    {
+      "source_id": "CLAY-DELIGNE-HODGE",
+      "theorem_locator": "Pierre Deligne, The Hodge Conjecture, section 1 Statement",
+      "audit_state": "AUDITED"
+    },
+    {
+      "source_id": "MATHSOLVE-HC-WP00",
+      "theorem_locator": "work_packages/HC_WP00.md, Formal target",
+      "audit_state": "STATEMENT_AUDITED"
+    }
+  ],
+  "claims_not_made": [
+    "integral Hodge conjecture",
+    "compact Kahler analogue",
+    "effective irreducible representative",
+    "proof of the universal conjecture"
+  ],
+  "notes": "The official statement was audited at https://www.claymath.org/wp-content/uploads/2022/06/hodge.pdf."
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/hc_wp00_qualification.schema.json",
+  "title": "HC-WP00 bounded qualification certificate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "certificate_id",
+    "campaign_id",
+    "route_id",
+    "solve_provider",
+    "claim_records",
+    "external_sources",
+    "adjudicated_claims",
+    "imported_mathematics",
+    "replay",
+    "mathematical_target_proved",
+    "full_hodge_conjecture_proved",
+    "restricted_target_selected",
+    "disposition",
+    "unresolved_obligations",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "certificate_id": {"const": "MC-HC-WP00-QUAL-001"},
+    "campaign_id": {"const": "HC-001"},
+    "route_id": {"const": "MC-ROUTE-HC-001"},
+    "solve_provider": {"type": "object"},
+    "claim_records": {"type": "array", "minItems": 3, "maxItems": 3},
+    "external_sources": {"type": "array", "minItems": 1},
+    "adjudicated_claims": {"type": "array", "minItems": 3, "maxItems": 3},
+    "imported_mathematics": {"type": "array", "minItems": 1, "uniqueItems": true},
+    "replay": {"type": "object"},
+    "mathematical_target_proved": {"const": false},
+    "full_hodge_conjecture_proved": {"const": false},
+    "restricted_target_selected": {"const": false},
+    "disposition": {"const": "qualified_semantic_and_conditional_interface_only"},
+    "unresolved_obligations": {"type": "array", "minItems": 1, "uniqueItems": true},
+    "claim_boundary": {"type": "string", "minLength": 80}
+  }
+}
