@@ -172,6 +172,7 @@
     {"root":"certificates/tropic_relu","checker":"ci/validate_tropic_relu_certificates.py","admission":"recursive"},
     {"root":"certificates/formal_sources","checker":"ci/validate_formal_target_certificates.py","admission":"recursive"},
     {"root":"certificates/union_closed","checker":"ci/validate_uc_restricted_qualification.py","admission":"recursive"},
+    {"root":"certificates/hodge","checker":"ci/validate_certification_routes.py","admission":"recursive"},
     {"root":"certificates/interval","checker":null,"admission":"blocked"},
     {"root":"certificates/sat","checker":null,"admission":"blocked"},
     {"root":"certificates/external","checker":null,"admission":"blocked"}

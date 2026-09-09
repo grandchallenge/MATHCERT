@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "claim_id": "HC-C003",
+  "campaign_id": "HC-001",
+  "name": "Classical low-dimensional Hodge reduction",
+  "base_field": "C",
+  "geometric_category": "smooth_projective_variety",
+  "smoothness": "smooth",
+  "properness_profile": "projective",
+  "dimension_scope": "dim X <= 3",
+  "codimension_scope": "p in {0,1,dim X-1,dim X}",
+  "coefficient_ring": "Q",
+  "cohomology_theory": "rational singular cohomology with complex Hodge decomposition",
+  "comparison_maps": [
+    "Lefschetz operator L^(n-2): H^2(X,Q) to H^(2n-2)(X,Q)",
+    "rational algebraic cycle-class map"
+  ],
+  "input_class_predicate": "alpha is a rational Hodge class in one of the boundary codimensions",
+  "cycle_object": "CH_p_tensor_Q",
+  "cycle_equivalence": "rational_equivalence",
+  "quantifier_scope": "every_variety_in_restricted_family_every_class",
+  "conclusion_type": "other_explicit",
+  "conditional_dependencies": [
+    "Lefschetz (1,1) theorem",
+    "hard Lefschetz as an isomorphism of rational Hodge structures",
+    "algebraicity of the hyperplane class",
+    "multiplicativity of the cycle-class map",
+    "degree-zero and top-degree component generators"
+  ],
+  "implication_direction": "one_way_explicit",
+  "status": "CONDITIONAL",
+  "source_records": [
+    {
+      "source_id": "CLAY-DELIGNE-HODGE",
+      "theorem_locator": "Pierre Deligne, The Hodge Conjecture, section 2(iii) and section 4 Example 2",
+      "audit_state": "AUDITED"
+    },
+    {
+      "source_id": "MATHSOLVE-HC-WP00",
+      "theorem_locator": "work_packages/HC_WP00.md, Elementary boundary cases and Dimension consequence",
+      "audit_state": "AUDITED"
+    }
+  ],
+  "claims_not_made": [
+    "a new known case",
+    "an algebraic inverse-Lefschetz correspondence",
+    "the dimension-four codimension-two case",
+    "proof of the universal conjecture"
+  ],
+  "notes": "MATHCERT qualifies the package implication only under the named classical imports; no imported theorem is represented as newly proved or kernel checked."
+}
