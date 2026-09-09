@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_b1_binary_codes_qualified_output",
+  "certificate_id": "MC-OTP-B1-BINARY-CODES-QUAL-001",
+  "result_family": "OTP-B1-BINARY-CODES",
+  "route_id": "MC-ROUTE-OTP-B1-BINARY-CODES",
+  "encoded_targets": [
+    "MetricCodes.Hamming.binaryRate_lt_classicalRate",
+    "MetricCodes.Hamming.exists_binaryRate_improvement",
+    "MetricCodes.Johnson.binaryRate_le_combinedVariationalRate",
+    "MetricCodes.MRRW.strict_mrrw2",
+    "MetricCodes.Johnson.binaryRate_lt_mrrw",
+    "MetricCodes.Johnson.exists_binaryRate_mrrw_improvement"
+  ],
+  "classifications": [
+    "source_faithful_derived_consequence",
+    "derived_positive_margin_certificate",
+    "source_faithful_exact_projection",
+    "source_faithful_exact_projection",
+    "source_faithful_derived_consequence",
+    "derived_positive_margin_certificate"
+  ],
+  "qualification": {
+    "disposition": "qualified_protected_six_targets_only",
+    "scope": "The exact six protected OTP-B1-BINARY-CODES targets under their recorded source-versus-derived classifications only.",
+    "mandatory_qualifications": [
+      "The two positive-margin existential targets are derived certificate normal forms, not source-verbatim statements.",
+      "The Lean sInf representation of M2 is source-equivalent only through the protected minimizer-existence and attainment bridge on the target domain.",
+      "Binary-rate logarithm base, ceiling convention, strict spectral feasibility, and variational domains remain exactly as protected by the Forge audit.",
+      "No whole-chapter semantic equivalence or full proof-body comparison is established."
+    ],
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+  },
+  "state": {
+    "mathematical_target_proved": false,
+    "aggregate_authority": false,
+    "may_promote_claim": false
+  },
+  "claim_boundary": "This restricted qualification applies only to the exact six protected OTP-B1-BINARY-CODES targets and preserves their recorded source-versus-derived classifications. The two positive-margin targets remain derived certificate normal forms rather than source-verbatim statements. The MRRW sInf representation remains source-equivalent only through the protected minimizer-existence and attainment bridge, and the protected logarithm-base, ceiling, strict spectral-feasibility, variational-domain, and permitted-axiom boundaries remain mandatory. It records no assertion that any mathematical target has thereby become proved, independently certifies no complete source proof body, establishes no whole-chapter or full proof-body equivalence, creates no authority for another result family or aggregate OpenAI Ten Proofs object, and authorizes no novelty, priority, publication, patentability, product, or commercial claim."
+}
