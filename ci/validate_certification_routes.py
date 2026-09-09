@@ -46,9 +46,9 @@ EXPECTED["OTP-H-GAPCVP"]={
 EXPECTED["OTP-B1-BINARY-CODES"]={
  "tracker":"https://github.com/grandchallenge/MATHCERT/issues/205",
  "source":art("grandchallenge/MATHFORGE","24a1fa0f020ee9cc7fbe2e7aea4cd840268ca748","sources/OPENAI-TEN-PROOFS-001/semantic/OTP-B1-BINARY-CODES/audit_record.json","0ab4d973bc046084e9d2dc6c7552ab5428d7412d"),
- "state":"submitted",
+ "state":"qualified",
  "packet":art("grandchallenge/MATHSOLVE","7858f1350439e6324bdee149931bdb7661098729","work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-B1-BINARY-CODES.json","1847dd7a17cda51cb02f017766c59d372811fb12"),
- "output":None}
+ "output":art("grandchallenge/MATHCERT","b773fa35a801808ec233f3871fd13d74c9833498","certificates/formal_sources/MC-OTP-B1-BINARY-CODES-001.json","9e209b10ae814f79635735e6a3d5ee5821082c93")}
 ADJUDICATED={"certified","qualified","rejected","proof_debt"};INTAKE_ONLY={"ready","submitted"};ALL_STATES={"pending"}|INTAKE_ONLY|ADJUDICATED
 HEX40=re.compile(r"^[0-9a-f]{40}$");HEX64=re.compile(r"^[0-9a-f]{64}$");ARTIFACT_KEYS={"repository","commit_sha","path","digest_algorithm","digest"};ROUTE_KEYS={"route_id","campaign_id","tracker_issue","source_manifest","intake_status","intake_packet","target_claim_ids","requested_modalities","claim_boundary","cert_output","blockers","reopening_conditions"}
 HC_CERT_PATH=Path("certificates/hodge/MC-HC-WP00-QUAL-001.json")
@@ -181,6 +181,6 @@ def hc_qualification_errors(root:Path=ROOT)->list[str]:
 def main()->int:
  e=route_errors()+hc_qualification_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated fifteen exact routes, including submitted OTP-H-GAPCVP and OTP-B1-BINARY-CODES plus restricted qualified OTP-A-SPHERE-PACKING, OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
+ print("validated fifteen exact routes, including submitted OTP-H-GAPCVP plus restricted qualified OTP-B1-BINARY-CODES, OTP-A-SPHERE-PACKING, OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
  return 0
 if __name__=="__main__":raise SystemExit(main())

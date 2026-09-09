@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -37,6 +38,7 @@ EXPECTED_INTAKE_BLOB = "9ba1e66679d5d46aceef16164194147d8fac530a"
 EXPECTED_WORK_PACKAGE_BLOB = "19e1eaf5e24ce212bb020c8c40d4177ff5b4f8f9"
 EXPECTED_REPLAY_BLOB = "fd669ae6cfc39110560656c2123d5d4449200830"
 EXPECTED_READBACK_BLOB = "fde8ed79681dce929916b524176b236960cac4f6"
+REGISTRATION_MERGE = "cf0d5ed045bf9e80517cb16c072c3455efa5d604"
 
 TARGETS = [
     "MetricCodes.Hamming.binaryRate_lt_classicalRate",
@@ -116,10 +118,19 @@ def find_route(routes: dict[str, Any]) -> dict[str, Any]:
     return next((row for row in routes.get("routes", []) if isinstance(row, dict) and row.get("route_id") == ROUTE_ID), {})
 
 
+def registered_routes() -> dict[str, Any]:
+    raw = subprocess.check_output(
+        ["git", "show", f"{REGISTRATION_MERGE}:{route_state.ROUTES_REL}"],
+        cwd=ROOT, text=True,
+    )
+    return json.loads(raw)
+
+
 def validation_errors(
     receipt: dict[str, Any] | None = None,
     routes: dict[str, Any] | None = None,
     local_blobs: dict[str, str] | None = None,
+    allow_certification_successor: bool = False,
 ) -> list[str]:
     receipt = load(RECEIPT) if receipt is None else receipt
     routes = load(ROUTES) if routes is None else routes
@@ -291,7 +302,7 @@ def validation_errors(
         ROOT / "governance/result_family_adjudications/OTP-B1-BINARY-CODES.json",
         ROOT / "certificates/formal_sources/MC-OTP-B1-BINARY-CODES-001.json",
     ]
-    if any(path.exists() for path in forbidden):
+    if not allow_certification_successor and any(path.exists() for path in forbidden):
         errors.append("premature B1 adjudication/output artifact exists")
 
     if receipt.get("candidate_disposition") != "B1_BINARY_CODES_CERT_ROUTE_REGISTERED__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY":
@@ -307,11 +318,21 @@ def validation_errors(
 
 
 def main() -> int:
-    errors = validation_errors()
+    successor = (ROOT / "certificates/formal_sources/MC-OTP-B1-BINARY-CODES-001.json").exists()
+    if successor:
+        errors = validation_errors(
+            routes=registered_routes(),
+            local_blobs={"routes": EXPECTED_ROUTES_BLOB},
+            allow_certification_successor=True,
+        )
+        import validate_otp_b1_binary_codes_certification as certification
+        errors.extend(certification.validation_errors())
+    else:
+        errors = validation_errors()
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("validated OTP-B1 Binary Codes submitted route registration; no adjudication or output authority")
+    print("validated protected OTP-B1 route registration and any separately governed certification successor")
     return 0
 
 

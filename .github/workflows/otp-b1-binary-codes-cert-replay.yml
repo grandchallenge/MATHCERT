@@ -8,6 +8,16 @@ on:
       - 'ci/otp_b1_binary_codes_replay_evidence.py'
       - 'ci/otp_b1_binary_codes_replay_evidence_test.py'
       - 'governance/result_family_replay_evidence_successors/OTP-B1-BINARY-CODES.json'
+      - 'governance/result_family_adjudications/OTP-B1-BINARY-CODES.json'
+      - 'governance/result_family_output_contracts/OTP-B1-BINARY-CODES.json'
+      - 'certificates/formal_sources/MC-OTP-B1-BINARY-CODES-001.json'
+      - 'governance/certification_routes.json'
+      - 'ci/validate_otp_b1_binary_codes_certification.py'
+      - 'ci/test_otp_b1_binary_codes_certification.py'
+      - 'ci/validate_openai_ten_proofs_binary_codes_route_registration.py'
+      - 'ci/test_openai_ten_proofs_binary_codes_route_registration.py'
+      - 'ci/validate_formal_target_certificates.py'
+      - 'ci/validate_certification_routes.py'
       - 'schemas/openai_ten_proofs_binary_codes_replay_evidence.schema.json'
       - 'evidence/openai_ten_proofs_successors/b1-binary-codes.tar.gz.b64'
   workflow_dispatch:
@@ -75,6 +85,12 @@ jobs:
         run: |
           python3 ci/certification_route_state.py exec ci/otp_b1_binary_codes_replay_evidence.py
           python3 ci/certification_route_state.py exec ci/otp_b1_binary_codes_replay_evidence_test.py -v
+          python3 ci/certification_route_state.py exec ci/validate_openai_ten_proofs_binary_codes_route_registration.py
+          python3 ci/certification_route_state.py exec ci/test_openai_ten_proofs_binary_codes_route_registration.py -v
+          python3 ci/certification_route_state.py exec ci/validate_otp_b1_binary_codes_certification.py
+          python3 ci/certification_route_state.py exec ci/test_otp_b1_binary_codes_certification.py -v
+          python3 ci/certification_route_state.py exec ci/validate_certification_routes.py
+          python3 ci/certification_route_state.py exec ci/validate_formal_target_certificates.py
       - name: Emit deterministic bundle transport
         if: success()
         run: |
