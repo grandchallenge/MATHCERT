@@ -13,6 +13,7 @@ module = importlib.util.module_from_spec(spec)
 assert spec and spec.loader
 spec.loader.exec_module(module)
 
+
 class SpherePackingIntakeSuccessorTests(unittest.TestCase):
     def setUp(self) -> None:
         self.data = module.load_record()
@@ -25,6 +26,27 @@ class SpherePackingIntakeSuccessorTests(unittest.TestCase):
 
     def test_exact_record_validates(self):
         module.validate_record(self.data)
+        module.validate_repository_guards()
+
+    def test_historical_route_snapshot_is_exact_and_pre_registration(self):
+        self.assertEqual(
+            module.blob_at_commit(
+                module.INTAKE_PROTECTED_PREDECESSOR_HEAD,
+                module.ROUTE_REGISTRY_PATH,
+            ),
+            module.PRE_REGISTRATION_ROUTES_BLOB,
+        )
+        historical = module.text_at_commit(
+            module.INTAKE_PROTECTED_PREDECESSOR_HEAD,
+            module.ROUTE_REGISTRY_PATH,
+        )
+        self.assertNotIn("OTP-A-SPHERE-PACKING", historical)
+        self.assertNotIn(module.A_ROUTE_ID, historical)
+
+    def test_later_live_registration_does_not_invalidate_historical_intake(self):
+        live = module.ROUTES.read_text(encoding="utf-8")
+        self.assertIn(module.A_ROUTE_ID, live)
+        self.assertIn("MC-ROUTE-OTP-H-GAPCVP", live)
         module.validate_repository_guards()
 
     def test_target_substitution_fails_closed(self):
@@ -78,6 +100,7 @@ class SpherePackingIntakeSuccessorTests(unittest.TestCase):
         candidate["unexpected_authority"] = True
         with self.assertRaises(ValueError):
             module.validate_record(candidate)
+
 
 if __name__ == "__main__":
     unittest.main()
