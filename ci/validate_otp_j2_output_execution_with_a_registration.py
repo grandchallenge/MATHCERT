@@ -19,7 +19,7 @@ B1_ROUTE_ID = "MC-ROUTE-OTP-B1-BINARY-CODES"
 def project_b1_qualification(routes: dict) -> dict:
     """Remove only the later B1 qualification semantics from J2/A history."""
     raw = subprocess.check_output(
-        ["git", "show", f"{PRE_B1_QUALIFICATION}:governance/certification_routes.json"],
+        ["git", "show", f"{PRE_B1_QUALIFICATION}:{historical.ROUTES_PATH}"],
         cwd=historical.ROOT, text=True,
     )
     predecessor = json.loads(raw)

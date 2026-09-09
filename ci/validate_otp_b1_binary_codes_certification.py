@@ -8,12 +8,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import certification_route_state as route_state
+
 ROOT = Path(__file__).resolve().parents[1]
 AD = ROOT / "governance/result_family_adjudications/OTP-B1-BINARY-CODES.json"
 ADJUDICATION = AD
 CONTRACT = ROOT / "governance/result_family_output_contracts/OTP-B1-BINARY-CODES.json"
 CERTIFICATE = ROOT / "certificates/formal_sources/MC-OTP-B1-BINARY-CODES-001.json"
-ROUTES = ROOT / "governance/certification_routes.json"
+ROUTES = ROOT / route_state.ROUTES_REL
 REPLAY = ROOT / "governance/result_family_replay_evidence_successors/OTP-B1-BINARY-CODES.json"
 WORK_PACKAGE = ROOT / "governance/result_family_work_package_successors/OTP-B1-BINARY-CODES-CERT-WP-001.json"
 
