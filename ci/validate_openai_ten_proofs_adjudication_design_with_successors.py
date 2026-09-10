@@ -28,6 +28,7 @@ CIRCUIT_TARGETS = [
 ]
 ALLOWED_ADJUDICATIONS = {
     "OTP-A-SPHERE-PACKING.json",
+    "OTP-B1-BINARY-CODES.json",
     "OTP-F-EHRHART.json",
     "OTP-C-PERMANENT.json",
     "OTP-C-PERMANENT-FULL-FORMULA.json",
@@ -162,6 +163,7 @@ def main() -> int:
         "snapshots, including J2, the protected Permanent full-formula successor, the bounded Permanent "
         "circuit candidate adjudication with exact model/replay/review gates intact, the exact separately "
         "governed A sphere-packing adjudication successor, the other historical adjudication records, and "
+        "the separately governed B1 adjudication enforced by its canonical closure control, and "
         "no legacy OTP output artifact"
     )
     return 0
