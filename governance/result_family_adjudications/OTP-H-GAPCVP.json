@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_gapcvp_adjudication",
+  "adjudication_id": "MC-OTP-H-GAPCVP-ADJUDICATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-H-GAPCVP",
+  "route_id": "MC-ROUTE-OTP-H-GAPCVP",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/263",
+  "authority": {
+    "route_registration": {
+      "protected_merge": "7907fbdfe716e6a083b6772b9b3ce9f469d34389",
+      "reviewed_head": "8417b898f97ad1bbc07a5f813616d05ec1af5a44",
+      "registered_route_id": "MC-ROUTE-OTP-H-GAPCVP"
+    },
+    "replay_evidence": {
+      "protected_merge": "f34f33b22292ca244956781065fdf84efe2b43f2",
+      "record_path": "governance/result_family_replay_evidence_successors/OTP-H-GAPCVP.json",
+      "record_git_blob_sha1": "a12f2c553b71f4daec9255e1f254f48a21f439c3",
+      "evidence_id": "MC-OTP-H-GAPCVP-REPLAY-EVIDENCE-001"
+    },
+    "work_package": {
+      "protected_merge": "10e6f3ee20d7a6e89feb27aef0115fa27710d5e4",
+      "record_git_blob_sha1": "0f811d163f0d36b028cf6539963e2cf278517137"
+    },
+    "forge_semantic": {
+      "commit": "b9dda1a5b958fd1be37a26324a025013a39584c1",
+      "record_git_blob_sha1": "673f541fbb552d307cc226c51d2f0fd2916b328d"
+    },
+    "solve_handoff": {
+      "commit": "e42c48dfe6a83eb19f398ba114f61fd700694ce5",
+      "record_git_blob_sha1": "0dd2b38e40a126a1a2a2d57989038f788b8e40e4"
+    }
+  },
+  "encoded_targets": [
+    "GapCVP.Comparator.gapCVP400IsNPHard",
+    "GapCVP.Comparator.binaryNearestCodewordIsNPHard",
+    "GapCVP.Comparator.binarySyndromeDecodingIsNPHard",
+    "GapCVP.Comparator.finitePNormGapCVPIsNPHard"
+  ],
+  "promise_interfaces": [
+    "GapCVP.Comparator.gapCVP400Promise",
+    "GapCVP.Comparator.binaryNearestCodewordPromise",
+    "GapCVP.Comparator.binarySyndromeDecodingPromise",
+    "GapCVP.Comparator.finitePGapCVPPromise"
+  ],
+  "classifications": [
+    "source_faithful_restricted_consequence_integer_target",
+    "source_faithful_up_to_generator_orientation",
+    "source_faithful_restricted_consequence_consistent_syndrome",
+    "source_faithful_fixed_rational_p_consequence"
+  ],
+  "gap_factors": ["n^(1/400)", "n^(1/200)", "n^(1/200)", "n^(1/(200p))"],
+  "evidence_assessment": {
+    "source_identity": "clear",
+    "solution_build": "pass",
+    "comparator": "accept",
+    "lean_default_kernel": "accept",
+    "nanoda": "accept",
+    "theorem_axioms": "permitted_only_propext_Quot.sound_Classical.choice",
+    "trust_boundary_scan": "clear",
+    "nonvacuity": "clear_all_four_promise_interfaces",
+    "source_statement_concordance": "clear_for_exact_four_target_four_promise_restricted_surface",
+    "whole_document_equivalence": "not_established",
+    "proof_body_compared_in_full": false
+  },
+  "mandatory_qualifications": [
+    "The denominators 400, 200 and 200p define dimension-dependent gap exponents, not constant approximation factors.",
+    "The Euclidean target remains restricted to integer targets.",
+    "The syndrome NO side remains restricted to consistent systems.",
+    "Binary generator orientation is only the protected transpose convention preserving the represented code.",
+    "Malformed, non-encoding and threshold-intermediate bitstrings remain outside the promise.",
+    "The finite-p theorem uses fixed rational p with 1 <= p external to the input encoding.",
+    "No whole-document equivalence or full proof-body comparison is established."
+  ],
+  "decision": {
+    "disposition": "adjudication_clear_protected_four_targets_only",
+    "scope": "exact_four_protected_H_targets_and_promises_under_recorded_restrictions_only",
+    "does_not_mark_mathematical_target_proved": true,
+    "does_not_totalize_outside_promise_inputs": true,
+    "does_not_issue_aggregate_output": true
+  },
+  "binding_gate": {
+    "fresh_exact_head_H_replay_required": true,
+    "exact_head_cert_required": true,
+    "exact_head_gcl_and_routing_required": true,
+    "fresh_non_author_lattice_complexity_Lean_specialist_approval_required": true,
+    "expected_head_protected_merge_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "state": {
+    "adjudication_recorded_on_candidate": true,
+    "route_state_before_publication": "submitted",
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false
+  },
+  "claim_boundary": "This adjudication clears only the exact four protected OTP-H-GAPCVP promise-hardness targets and four promise interfaces for restricted MATHCERT qualification. It preserves every dimension-dependent gap exponent, the integer-target Euclidean restriction, the consistent-syndrome restriction, the generator transpose convention, the outside-promise boundary, fixed rational p at least one external to the input, and the permitted-axiom boundary. It does not mark a mathematical target proved, independently certify the complete source proof body, totalize malformed or threshold-intermediate inputs, broaden a promise interface, establish whole-document or full proof-body equivalence, qualify another family, create aggregate authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}

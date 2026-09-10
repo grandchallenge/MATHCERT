@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_h_gapcvp_qualified_output",
+  "certificate_id": "MC-OTP-H-GAPCVP-QUAL-001",
+  "result_family": "OTP-H-GAPCVP",
+  "route_id": "MC-ROUTE-OTP-H-GAPCVP",
+  "encoded_targets": [
+    "GapCVP.Comparator.gapCVP400IsNPHard",
+    "GapCVP.Comparator.binaryNearestCodewordIsNPHard",
+    "GapCVP.Comparator.binarySyndromeDecodingIsNPHard",
+    "GapCVP.Comparator.finitePNormGapCVPIsNPHard"
+  ],
+  "promise_interfaces": [
+    "GapCVP.Comparator.gapCVP400Promise",
+    "GapCVP.Comparator.binaryNearestCodewordPromise",
+    "GapCVP.Comparator.binarySyndromeDecodingPromise",
+    "GapCVP.Comparator.finitePGapCVPPromise"
+  ],
+  "classifications": [
+    "source_faithful_restricted_consequence_integer_target",
+    "source_faithful_up_to_generator_orientation",
+    "source_faithful_restricted_consequence_consistent_syndrome",
+    "source_faithful_fixed_rational_p_consequence"
+  ],
+  "gap_factors": ["n^(1/400)", "n^(1/200)", "n^(1/200)", "n^(1/(200p))"],
+  "qualification": {
+    "disposition": "qualified_protected_four_targets_only",
+    "scope": "The exact four protected OTP-H-GAPCVP targets and promise interfaces under their recorded restrictions and classifications only.",
+    "mandatory_qualifications": [
+      "Gap denominators are dimension-dependent exponents, not constant approximation factors.",
+      "The Euclidean target remains integer-target restricted and the syndrome target remains consistent-system restricted.",
+      "Generator orientation remains only the protected transpose convention.",
+      "Malformed and threshold-intermediate inputs remain outside the promise.",
+      "The finite-p target uses fixed rational p at least one external to the input encoding."
+    ],
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+  },
+  "state": {
+    "mathematical_target_proved": false,
+    "aggregate_authority": false,
+    "may_promote_claim": false
+  },
+  "claim_boundary": "This restricted qualification applies only to the exact four protected OTP-H-GAPCVP targets and promise interfaces and preserves their dimension-dependent gap factors, integer-target and consistent-syndrome restrictions, generator transpose convention, outside-promise boundary, fixed rational p scope, classifications, and permitted axioms. It records no assertion that a mathematical target has thereby become proved, independently certifies no complete source proof body, totalizes no malformed or threshold-intermediate input, establishes no whole-document or full proof-body equivalence, creates no authority for another family or aggregate object, and authorizes no novelty, priority, publication, patentability, product, or commercial claim."
+}
