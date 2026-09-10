@@ -8,11 +8,15 @@ import validate_openai_ten_proofs_gapcvp_route_registration as validator
 
 
 class GapCVPRouteRegistrationTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.registered = validator.registered_routes()
+
     def receipt(self):
         return validator.load(validator.RECEIPT)
 
     def routes(self):
-        return validator.load(validator.ROUTES)
+        return copy.deepcopy(self.registered)
 
     def blobs(self):
         return {
@@ -30,6 +34,7 @@ class GapCVPRouteRegistrationTests(unittest.TestCase):
             self.receipt() if receipt is None else receipt,
             self.routes() if routes is None else routes,
             self.blobs() if blobs is None else blobs,
+            allow_certification_successor=True,
         )
 
     def reject_receipt(self, mutate):
