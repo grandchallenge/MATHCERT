@@ -126,6 +126,15 @@ def registered_routes() -> dict[str, Any]:
     return json.loads(raw)
 
 
+def live_successor_routes() -> dict[str, Any]:
+    """Read the live candidate parent while this historical control is projected."""
+    raw = subprocess.check_output(
+        ["git", "show", f"HEAD^:{route_state.ROUTES_REL}"],
+        cwd=ROOT, text=True,
+    )
+    return json.loads(raw)
+
+
 def validation_errors(
     receipt: dict[str, Any] | None = None,
     routes: dict[str, Any] | None = None,
@@ -326,7 +335,7 @@ def main() -> int:
             allow_certification_successor=True,
         )
         import validate_otp_b1_binary_codes_certification as certification
-        errors.extend(certification.validation_errors())
+        errors.extend(certification.validation_errors(routes=live_successor_routes()))
     else:
         errors = validation_errors()
     if errors:
