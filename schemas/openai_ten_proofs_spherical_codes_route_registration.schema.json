@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/openai_ten_proofs_spherical_codes_route_registration.schema.json",
+  "title": "MC-OTP-B2-SPHERICAL-CODES-ROUTE-REGISTRATION-001",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "record_id", "candidate_id", "result_family", "route_id", "tracker_issue", "authority", "registration", "state", "route_controls", "activation", "candidate_disposition", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_spherical_codes_route_registration"},
+    "record_id": {"const": "MC-OTP-B2-SPHERICAL-CODES-ROUTE-REGISTRATION-001"},
+    "candidate_id": {"const": "OPENAI-TEN-PROOFS-001"},
+    "result_family": {"const": "OTP-B2-SPHERICAL-CODES"},
+    "route_id": {"const": "MC-ROUTE-OTP-B2-SPHERICAL-CODES"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/265"},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["proposal_merge", "proposal_reviewed_head", "proposal_review_id", "proposal_reviewer", "proposal_record_blob", "proposal_registry_blob", "registered_route_registry_before_blob", "registered_route_registry_candidate_blob", "cert_intake_blob", "cert_work_package_blob", "cert_replay_evidence_blob", "cert_replay_readback_blob"],
+      "properties": {
+        "proposal_merge": {"const": "6c9051c750a3b5172451165150431b474178fc26"},
+        "proposal_reviewed_head": {"const": "bb8b9462166a7bd38e31e8886a76a43a34275ab4"},
+        "proposal_review_id": {"const": 5161214003},
+        "proposal_reviewer": {"const": "jimsteeg"},
+        "proposal_record_blob": {"$ref": "#/$defs/sha40"},
+        "proposal_registry_blob": {"$ref": "#/$defs/sha40"},
+        "registered_route_registry_before_blob": {"const": "168794428d8c6475e05e57b69adc736be4efa077"},
+        "registered_route_registry_candidate_blob": {"$ref": "#/$defs/sha40"},
+        "cert_intake_blob": {"$ref": "#/$defs/sha40"},
+        "cert_work_package_blob": {"$ref": "#/$defs/sha40"},
+        "cert_replay_evidence_blob": {"$ref": "#/$defs/sha40"},
+        "cert_replay_readback_blob": {"$ref": "#/$defs/sha40"}
+      }
+    },
+    "registration": {
+      "type": "object", "additionalProperties": false,
+      "required": ["route_status", "target_claim_ids", "classifications", "mandatory_qualifications", "permitted_axioms", "nonvacuity_state", "hierarchy_domain_state", "numerical_strengthening_state"],
+      "properties": {
+        "route_status": {"const": "submitted"},
+        "target_claim_ids": {"type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true, "items": {"type": "string"}},
+        "classifications": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "string"}},
+        "mandatory_qualifications": {"type": "array", "minItems": 5, "items": {"type": "string", "minLength": 20}},
+        "permitted_axioms": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"enum": ["propext", "Quot.sound", "Classical.choice"]}},
+        "nonvacuity_state": {"const": "protected_replay_nonvacuity_clear"},
+        "hierarchy_domain_state": {"const": "protected_current_root_domain_clear"},
+        "numerical_strengthening_state": {"const": "protected_formal_strengthening_not_source_verbatim"}
+      }
+    },
+    "state": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "route_controls": {"type": "object", "additionalProperties": {"type": "boolean"}},
+    "activation": {"type": "object", "required": ["condition", "head_change_requires_reapproval", "effect"], "properties": {"condition": {"type": "string", "minLength": 120}, "head_change_requires_reapproval": {"const": true}, "effect": {"const": "spherical_codes_route_registered_no_adjudication_no_output"}}, "additionalProperties": false},
+    "candidate_disposition": {"const": "B2_SPHERICAL_CODES_CERT_ROUTE_REGISTERED__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY"},
+    "claim_boundary": {"type": "string", "minLength": 400}
+  },
+  "$defs": {"sha40": {"type": "string", "pattern": "^[0-9a-f]{40}$"}}
+}
