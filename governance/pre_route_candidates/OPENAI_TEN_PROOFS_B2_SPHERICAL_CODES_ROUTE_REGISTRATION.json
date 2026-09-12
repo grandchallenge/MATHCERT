@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_spherical_codes_route_registration",
+  "record_id": "MC-OTP-B2-SPHERICAL-CODES-ROUTE-REGISTRATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-B2-SPHERICAL-CODES",
+  "route_id": "MC-ROUTE-OTP-B2-SPHERICAL-CODES",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/265",
+  "authority": {
+    "proposal_merge": "6c9051c750a3b5172451165150431b474178fc26",
+    "proposal_reviewed_head": "bb8b9462166a7bd38e31e8886a76a43a34275ab4",
+    "proposal_review_id": 5161214003,
+    "proposal_reviewer": "jimsteeg",
+    "proposal_record_blob": "12145d4936c040defe279b28586b68fc76930b7e",
+    "proposal_registry_blob": "ec47a6cf7f8eb7ca33f46805c4ecb908be48a1f9",
+    "registered_route_registry_before_blob": "168794428d8c6475e05e57b69adc736be4efa077",
+    "registered_route_registry_candidate_blob": "5dec4a0c2af03b0b0847149d556da58c6a4f81b5",
+    "cert_intake_blob": "8b74bd90d703eb1903a0a7a84387867a5df7b4e3",
+    "cert_work_package_blob": "50dc2c9c5bc8aad49f22414536102cef0e82ce20",
+    "cert_replay_evidence_blob": "288193448eee80c041beef57059182e1abe2e33c",
+    "cert_replay_readback_blob": "fde8ed79681dce929916b524176b236960cac4f6"
+  },
+  "registration": {
+    "route_status": "submitted",
+    "target_claim_ids": [
+      "MetricCodes.Johnson.main_binary_theorem",
+      "MetricCodes.Spherical.HigherHierarchy.main_general",
+      "MetricCodes.Spherical.HigherHierarchy.strict_hierarchy",
+      "MetricCodes.Spherical.HigherHierarchy.NumericalMaximum.eventually_kissingNumber_lt_published"
+    ],
+    "classifications": [
+      "source_faithful_exact_projection",
+      "source_faithful_structured_projection",
+      "source_faithful_structured_projection",
+      "formal_strengthening_entailing_source_asymptotic_numerical_statement"
+    ],
+    "mandatory_qualifications": [
+      "No authority transfers from the predecessor seven-target spherical surface.",
+      "The exact eventual 0.39661 target is not manuscript-verbatim precision.",
+      "The manuscript prints 0.39661+o(1); the exact eventual inequality is a formal strengthening entailing it.",
+      "Hierarchy, interlacing, and localization domains remain bound to the protected current-root audit.",
+      "Forge semantic admission and replay do not independently certify the source proof."
+    ],
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+    "nonvacuity_state": "protected_replay_nonvacuity_clear",
+    "hierarchy_domain_state": "protected_current_root_domain_clear",
+    "numerical_strengthening_state": "protected_formal_strengthening_not_source_verbatim"
+  },
+  "state": {
+    "registered_route_count_created_by_this_operation": 1,
+    "submitted_route_count": 1,
+    "adjudication_count": 0,
+    "cert_output_count": 0,
+    "mathematical_target_proved_count": 0,
+    "aggregate_route_count": 0
+  },
+  "route_controls": {
+    "may_adjudicate": false,
+    "may_issue_cert_output": false,
+    "may_mark_target_proved": false,
+    "may_promote_claim": false,
+    "cross_family_transfer_prohibited": true,
+    "aggregate_route_prohibited": true,
+    "may_transfer_predecessor_surface_authority": false,
+    "may_attribute_formal_strengthening_as_source_verbatim": false,
+    "may_broaden_hierarchy_or_localization_domains": false,
+    "whole_document_equivalence_established": false,
+    "full_proof_body_equivalence_established": false
+  },
+  "activation": {
+    "condition": "canonical Cert and exact B2 replay on the literal final candidate head, B2 registration validator and tests reached canonically, GCL, policy, action-policy, routing-enforcement and CodeQL as applicable, fresh non-author coding/spherical-codes/Lean specialist APPROVED review, ordinary expected-head merge, and protected-main readback",
+    "head_change_requires_reapproval": true,
+    "effect": "spherical_codes_route_registered_no_adjudication_no_output"
+  },
+  "candidate_disposition": "B2_SPHERICAL_CODES_CERT_ROUTE_REGISTERED__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY",
+  "claim_boundary": "This record registers only MC-ROUTE-OTP-B2-SPHERICAL-CODES for the exact four protected current-root B2 targets and their protected classifications. No authority transfers from the predecessor seven-target surface. The exact eventual 0.39661 target remains a formal strengthening entailing the manuscript's 0.39661+o(1) statement and is not manuscript-verbatim precision; hierarchy, interlacing, localization, nonvacuity, and permitted-axiom boundaries remain binding. It does not authorize adjudication or output, mark or promote a mathematical target proved, establish whole-document or full proof-body equivalence, transfer authority to another family, or create aggregate OpenAI Ten Proofs authority."
+}
