@@ -39,7 +39,7 @@ jobs:
           fi
           python3 ci/test_check_certification_platform_lane.py
           python3 ci/test_otp_finalize_family_replay_evidence.py
-      - uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
+      - uses: grandchallenge/lean-action@37f8471aecd2efbeab3b1e1a75ad18fb8f5c1b01
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v6
         with:
           python-version: "3.13"
