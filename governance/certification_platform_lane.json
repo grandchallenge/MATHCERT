@@ -66,6 +66,7 @@
     "ci/validate_openai_ten_proofs_sphere_packing_route_registration.py",
     "ci/validate_openai_ten_proofs_spherical_codes_certification_work_package.py",
     "ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py",
+    "ci/validate_openai_ten_proofs_spherical_codes_route_registration.py",
     "ci/validate_otp_a_sphere_packing_adjudication.py",
     "ci/validate_otp_a_sphere_packing_adjudication_input.py",
     "ci/validate_otp_compactness_construction_evidence.py",
