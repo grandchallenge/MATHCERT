@@ -77,6 +77,8 @@
     {"path":"ci/test_openai_ten_proofs_spherical_codes_route_proposal.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_binary_codes_route_registration.py","mode":"direct"},
     {"path":"ci/test_openai_ten_proofs_binary_codes_route_registration.py","mode":"direct"},
+    {"path":"ci/validate_otp_b1_binary_codes_certification.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_binary_codes_route_registration.py"},
+    {"path":"ci/test_otp_b1_binary_codes_certification.py","mode":"library","exercised_by":"ci/test_openai_ten_proofs_binary_codes_route_registration.py"},
     {"path":"ci/validate_openai_ten_proofs_gapcvp_route_registration.py","mode":"direct"},
     {"path":"ci/test_openai_ten_proofs_gapcvp_route_registration.py","mode":"direct"},
     {"path":"ci/validate_openai_ten_proofs_sphere_packing_route_registration.py","mode":"direct"},

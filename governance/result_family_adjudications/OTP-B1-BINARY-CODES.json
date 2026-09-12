@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_binary_codes_adjudication",
+  "adjudication_id": "MC-OTP-B1-BINARY-CODES-ADJUDICATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-B1-BINARY-CODES",
+  "route_id": "MC-ROUTE-OTP-B1-BINARY-CODES",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/261",
+  "authority": {
+    "route_registration": {
+      "protected_merge": "cf0d5ed045bf9e80517cb16c072c3455efa5d604",
+      "reviewed_head": "27101bb841b250d6e3bfa95b4aef15fa7fd87b1a",
+      "registered_route_id": "MC-ROUTE-OTP-B1-BINARY-CODES"
+    },
+    "replay_evidence": {
+      "protected_merge": "d8daab1c0deec3d41ac438714e21ee752c14ac46",
+      "reviewed_head": "67f445b9a5e015083644416d96f4a10722efe032",
+      "record_path": "governance/result_family_replay_evidence_successors/OTP-B1-BINARY-CODES.json",
+      "record_git_blob_sha1": "fd669ae6cfc39110560656c2123d5d4449200830",
+      "evidence_id": "MC-OTP-B1-BINARY-CODES-REPLAY-EVIDENCE-001"
+    },
+    "work_package": {
+      "protected_merge": "83a8951a89a72a892d5fdc132d6a22e508d6cdc2",
+      "record_git_blob_sha1": "19e1eaf5e24ce212bb020c8c40d4177ff5b4f8f9"
+    },
+    "forge_semantic": {
+      "commit": "24a1fa0f020ee9cc7fbe2e7aea4cd840268ca748",
+      "record_git_blob_sha1": "0ab4d973bc046084e9d2dc6c7552ab5428d7412d"
+    },
+    "solve_handoff": {
+      "commit": "7858f1350439e6324bdee149931bdb7661098729",
+      "record_git_blob_sha1": "1847dd7a17cda51cb02f017766c59d372811fb12"
+    }
+  },
+  "encoded_targets": [
+    "MetricCodes.Hamming.binaryRate_lt_classicalRate",
+    "MetricCodes.Hamming.exists_binaryRate_improvement",
+    "MetricCodes.Johnson.binaryRate_le_combinedVariationalRate",
+    "MetricCodes.MRRW.strict_mrrw2",
+    "MetricCodes.Johnson.binaryRate_lt_mrrw",
+    "MetricCodes.Johnson.exists_binaryRate_mrrw_improvement"
+  ],
+  "classifications": [
+    "source_faithful_derived_consequence",
+    "derived_positive_margin_certificate",
+    "source_faithful_exact_projection",
+    "source_faithful_exact_projection",
+    "source_faithful_derived_consequence",
+    "derived_positive_margin_certificate"
+  ],
+  "evidence_assessment": {
+    "source_identity": "clear",
+    "solution_build": "pass",
+    "comparator": "accept",
+    "lean_default_kernel": "accept",
+    "nanoda": "accept",
+    "theorem_axioms": "permitted_only_propext_Quot.sound_Classical.choice",
+    "trust_boundary_scan": "clear",
+    "nonvacuity": "clear_on_protected_parameter_domains",
+    "minimizer_attainment": "clear_on_protected_MRRW_domain",
+    "source_statement_concordance": "clear_for_exact_six_target_classified_surface",
+    "whole_chapter_equivalence": "not_established",
+    "proof_body_compared_in_full": false
+  },
+  "mandatory_qualifications": [
+    "The two positive-margin existential targets are derived certificate normal forms, not source-verbatim statements.",
+    "The Lean sInf representation of M2 is source-equivalent only through the protected minimizer-existence and attainment bridge on the target domain.",
+    "Binary-rate logarithm base, ceiling convention, strict spectral feasibility, and variational domains remain exactly as protected by the Forge audit.",
+    "No whole-chapter semantic equivalence or full proof-body comparison is established.",
+    "Forge semantic admission, Solve handoff, and replay evidence do not independently certify the source proof."
+  ],
+  "decision": {
+    "disposition": "adjudication_clear_protected_six_targets_only",
+    "scope": "exact_six_protected_B1_targets_under_recorded_classifications_only",
+    "does_not_mark_mathematical_target_proved": true,
+    "does_not_make_derived_targets_source_verbatim": true,
+    "does_not_issue_aggregate_output": true
+  },
+  "binding_gate": {
+    "fresh_exact_head_B1_replay_required": true,
+    "exact_head_cert_required": true,
+    "exact_head_gcl_and_routing_required": true,
+    "fresh_non_author_coding_theory_Lean_specialist_approval_required": true,
+    "expected_head_protected_merge_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "state": {
+    "adjudication_recorded_on_candidate": true,
+    "route_state_before_publication": "submitted",
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false
+  },
+  "claim_boundary": "This adjudication clears only the exact six protected OTP-B1-BINARY-CODES targets for a restricted MATHCERT qualification under their recorded classifications. The two positive-margin targets remain derived certificate normal forms; the MRRW sInf representation remains bound to the minimizer-existence and attainment bridge; and the protected logarithm-base, ceiling, strict spectral-feasibility, variational-domain, and permitted-axiom boundaries remain mandatory. It does not mark a mathematical target proved, independently certify the source proof body, establish whole-chapter or full proof-body equivalence, qualify another family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}

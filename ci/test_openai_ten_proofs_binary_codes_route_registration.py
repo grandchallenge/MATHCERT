@@ -11,13 +11,17 @@ class BinaryCodesRouteRegistrationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.receipt = validator.load(validator.RECEIPT)
-        cls.routes = validator.load(validator.ROUTES)
+        cls.routes = validator.registered_routes()
 
     def errors(self, *, receipt=None, routes=None, local_blobs=None):
+        blobs = {"routes": validator.EXPECTED_ROUTES_BLOB}
+        if local_blobs:
+            blobs.update(local_blobs)
         return validator.validation_errors(
             receipt=copy.deepcopy(self.receipt if receipt is None else receipt),
             routes=copy.deepcopy(self.routes if routes is None else routes),
-            local_blobs=local_blobs,
+            local_blobs=blobs,
+            allow_certification_successor=True,
         )
 
     def test_exact_candidate_is_valid(self) -> None:
