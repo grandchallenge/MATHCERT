@@ -11,6 +11,8 @@ A_SPHERE_NAME = "OTP-A-SPHERE-PACKING.json"
 EXPECTED_A_SPHERE_BLOB = "9ebd8182f1af652c404756d956e004868336b3d6"
 B1_BINARY_CODES_NAME = "OTP-B1-BINARY-CODES.json"
 EXPECTED_B1_BINARY_CODES_BLOB = "89b504e2dda11389611f089ac3d9d01ac4d419dd"
+H_GAPCVP_NAME = "OTP-H-GAPCVP.json"
+EXPECTED_H_GAPCVP_BLOB = "1bcffa57c9e07dc0a224f13c84e9ec0597429b92"
 
 
 def git_blob_sha1(path: Path) -> str:
@@ -31,6 +33,7 @@ def membership_errors(root: Path, historical_expected: set[str]) -> list[str]:
     circuit_canonical = successor_dir / CIRCUIT_NAME
     a_sphere_contract = historical_dir / A_SPHERE_NAME
     b1_binary_codes_contract = historical_dir / B1_BINARY_CODES_NAME
+    h_gapcvp_contract = historical_dir / H_GAPCVP_NAME
 
     actual_historical = {p.name for p in historical_dir.glob("*.json")}
     expected_historical = set(historical_expected) | {FULL_FORMULA_NAME}
@@ -38,6 +41,8 @@ def membership_errors(root: Path, historical_expected: set[str]) -> list[str]:
         expected_historical.add(A_SPHERE_NAME)
     if b1_binary_codes_contract.exists():
         expected_historical.add(B1_BINARY_CODES_NAME)
+    if h_gapcvp_contract.exists():
+        expected_historical.add(H_GAPCVP_NAME)
     if actual_historical != expected_historical:
         errors.append(
             "output-contract historical membership drift beyond governed compatibility shadows/design objects: "
@@ -80,6 +85,14 @@ def membership_errors(root: Path, historical_expected: set[str]) -> list[str]:
             errors.append(
                 "governed B1 binary-codes output contract blob drift: "
                 f"expected {EXPECTED_B1_BINARY_CODES_BLOB}, found {blob}"
+            )
+
+    if h_gapcvp_contract.exists():
+        blob = git_blob_sha1(h_gapcvp_contract)
+        if blob != EXPECTED_H_GAPCVP_BLOB:
+            errors.append(
+                "governed H GapCVP output contract blob drift: "
+                f"expected {EXPECTED_H_GAPCVP_BLOB}, found {blob}"
             )
 
     if (

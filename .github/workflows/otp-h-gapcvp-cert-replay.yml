@@ -9,8 +9,14 @@ on:
       - 'ci/otp_finalize_family_replay_evidence.py'
       - 'ci/otp_h_gapcvp_replay_evidence.py'
       - 'ci/otp_h_gapcvp_replay_evidence_test.py'
+      - 'ci/validate_otp_h_gapcvp_certification.py'
+      - 'ci/test_otp_h_gapcvp_certification.py'
       - 'governance/certification_route_state_consumers.json'
       - 'governance/result_family_replay_evidence_successors/OTP-H-GAPCVP.json'
+      - 'governance/result_family_adjudications/OTP-H-GAPCVP.json'
+      - 'governance/result_family_output_contracts/OTP-H-GAPCVP.json'
+      - 'governance/certification_routes.json'
+      - 'certificates/formal_sources/MC-OTP-H-GAPCVP-001.json'
       - 'schemas/openai_ten_proofs_gapcvp_replay_evidence.schema.json'
       - 'evidence/openai_ten_proofs_successors/h-gapcvp.tar.gz.b64'
   workflow_dispatch:
@@ -85,6 +91,10 @@ jobs:
         run: |
           python3 ci/certification_route_state.py exec ci/otp_h_gapcvp_replay_evidence.py
           python3 ci/certification_route_state.py exec ci/otp_h_gapcvp_replay_evidence_test.py -v
+      - name: Validate restricted H qualification candidate
+        run: |
+          python3 ci/certification_route_state.py exec ci/validate_otp_h_gapcvp_certification.py
+          python3 ci/certification_route_state.py exec ci/test_otp_h_gapcvp_certification.py -v
       - name: Emit deterministic bundle transport
         if: success()
         run: |

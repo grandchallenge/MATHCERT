@@ -3,11 +3,14 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
 
 from jsonschema import Draft202012Validator
+
+import certification_route_state as route_state
 
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = ROOT / "governance/pre_route_candidates/OPENAI_TEN_PROOFS_H_GAPCVP_ROUTE_REGISTRATION.json"
@@ -29,6 +32,7 @@ EXPECTED_INTAKE_BLOB = "a171482c04f62134812ed6084e19a9b803db3478"
 EXPECTED_WORK_PACKAGE_BLOB = "0f811d163f0d36b028cf6539963e2cf278517137"
 EXPECTED_REPLAY_BLOB = "a12f2c553b71f4daec9255e1f254f48a21f439c3"
 EXPECTED_READBACK_BLOB = "fde8ed79681dce929916b524176b236960cac4f6"
+REGISTRATION_MERGE = "7907fbdfe716e6a083b6772b9b3ce9f469d34389"
 
 TARGETS = [
     "GapCVP.Comparator.gapCVP400IsNPHard",
@@ -116,10 +120,27 @@ def find_route(routes: dict[str, Any]) -> dict[str, Any]:
     return next((row for row in rows if isinstance(row, dict) and row.get("route_id") == ROUTE_ID), {})
 
 
+def registered_routes() -> dict[str, Any]:
+    raw = subprocess.check_output(
+        ["git", "show", f"{REGISTRATION_MERGE}:{route_state.ROUTES_REL}"],
+        cwd=ROOT, text=True,
+    )
+    return json.loads(raw)
+
+
+def live_successor_routes() -> dict[str, Any]:
+    raw = subprocess.check_output(
+        ["git", "show", f"HEAD^:{route_state.ROUTES_REL}"],
+        cwd=ROOT, text=True,
+    )
+    return json.loads(raw)
+
+
 def validation_errors(
     receipt: dict[str, Any] | None = None,
     routes: dict[str, Any] | None = None,
     local_blobs: dict[str, str] | None = None,
+    allow_certification_successor: bool = False,
 ) -> list[str]:
     receipt = load(RECEIPT) if receipt is None else receipt
     routes = load(ROUTES) if routes is None else routes
@@ -279,7 +300,7 @@ def validation_errors(
         ROOT / "governance/result_family_adjudications/OTP-H-GAPCVP.json",
         ROOT / "certificates/formal_sources/MC-OTP-H-GAPCVP-001.json",
     ]
-    if any(path.exists() for path in forbidden):
+    if not allow_certification_successor and any(path.exists() for path in forbidden):
         errors.append("premature H adjudication/output artifact exists")
 
     if receipt.get("candidate_disposition") != "H_GAPCVP_CERT_ROUTE_REGISTERED__NO_ADJUDICATION_OR_OUTPUT_AUTHORITY":
@@ -295,11 +316,21 @@ def validation_errors(
 
 
 def main() -> int:
-    errors = validation_errors()
+    successor = (ROOT / "certificates/formal_sources/MC-OTP-H-GAPCVP-001.json").exists()
+    if successor:
+        errors = validation_errors(
+            routes=registered_routes(),
+            local_blobs={"routes": EXPECTED_ROUTES_BLOB},
+            allow_certification_successor=True,
+        )
+        import validate_otp_h_gapcvp_certification as certification
+        errors.extend(certification.validation_errors(routes=live_successor_routes()))
+    else:
+        errors = validation_errors()
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("validated OTP-H GapCVP submitted route registration; no adjudication or output authority")
+    print("validated protected OTP-H GapCVP route registration and any separately governed certification successor")
     return 0
 
 

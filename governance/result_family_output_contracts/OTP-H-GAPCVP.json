@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_h_gapcvp_output_contract",
+  "contract_id": "MC-OTP-H-GAPCVP-OUTPUT-CONTRACT-001",
+  "result_family": "OTP-H-GAPCVP",
+  "route_id": "MC-ROUTE-OTP-H-GAPCVP",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/263",
+  "contract_state": "execution_candidate",
+  "adjudication": {
+    "path": "governance/result_family_adjudications/OTP-H-GAPCVP.json",
+    "adjudication_id": "MC-OTP-H-GAPCVP-ADJUDICATION-001",
+    "required_disposition": "adjudication_clear_protected_four_targets_only"
+  },
+  "output_scope": {
+    "encoded_targets": [
+      "GapCVP.Comparator.gapCVP400IsNPHard",
+      "GapCVP.Comparator.binaryNearestCodewordIsNPHard",
+      "GapCVP.Comparator.binarySyndromeDecodingIsNPHard",
+      "GapCVP.Comparator.finitePNormGapCVPIsNPHard"
+    ],
+    "promise_interfaces": [
+      "GapCVP.Comparator.gapCVP400Promise",
+      "GapCVP.Comparator.binaryNearestCodewordPromise",
+      "GapCVP.Comparator.binarySyndromeDecodingPromise",
+      "GapCVP.Comparator.finitePGapCVPPromise"
+    ],
+    "classifications": [
+      "source_faithful_restricted_consequence_integer_target",
+      "source_faithful_up_to_generator_orientation",
+      "source_faithful_restricted_consequence_consistent_syndrome",
+      "source_faithful_fixed_rational_p_consequence"
+    ],
+    "permitted_disposition": "qualified_protected_four_targets_only",
+    "mathematical_target_proved": false
+  },
+  "publication_protocol": {
+    "mode": "certificate_content_commit_then_route_transition_commit",
+    "route_transition": {"from": "submitted", "to": "qualified"},
+    "certificate_content_commit_first": true,
+    "route_transition_commit_must_descend_from_certificate_content_commit": true,
+    "cert_output_commit_sha_must_equal_certificate_content_commit": true,
+    "cert_output_digest_must_equal_certificate_blob": true,
+    "certificate_must_not_name_its_own_containing_commit": true,
+    "protected_merge_method": "merge",
+    "squash_merge_prohibited": true,
+    "rebase_merge_prohibited": true,
+    "partial_state_on_protected_main_prohibited": true
+  },
+  "execution_gate": {
+    "fresh_exact_head_H_replay_required": true,
+    "exact_head_cert_and_GCL_required": true,
+    "fresh_non_author_specialist_approval_required": true,
+    "expected_head_guard_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "claim_boundary": "This contract permits one restricted qualification output for exactly the four protected OTP-H-GAPCVP targets and promise interfaces. It preserves all recorded restrictions and classifications, does not mark a mathematical target proved, and creates no authority for another family or aggregate OpenAI Ten Proofs certification."
+}

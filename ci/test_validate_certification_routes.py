@@ -49,10 +49,10 @@ class CertificationRouteTests(unittest.TestCase):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-A-SPHERE-PACKING")["intake_packet"]["digest"]="0"*40;self.assertTrue(any("packet identity drift" in x for x in self.errors(d)))
  def test_a_manifest_drift_fails(self):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-A-SPHERE-PACKING")["source_manifest"]["digest"]="0"*40;self.assertTrue(any("manifest identity drift" in x for x in self.errors(d)))
- def test_h_must_remain_submitted(self):
-  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-H-GAPCVP");r["intake_status"]="qualified";self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
- def test_h_submitted_route_cannot_carry_output(self):
-  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-H-GAPCVP");r["cert_output"]=copy.deepcopy(next(x for x in d["routes"] if x["campaign_id"]=="OTP-A-SPHERE-PACKING")["cert_output"]);self.assertTrue(any("intake-only" in x for x in self.errors(d)))
+ def test_h_cannot_return_to_submitted(self):
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-H-GAPCVP");r["intake_status"]="submitted";r["cert_output"]=None;self.assertTrue(any("governed intake state drift" in x for x in self.errors(d)))
+ def test_h_output_pointer_drift_fails(self):
+  d=self.load_registry();r=next(r for r in d["routes"] if r["campaign_id"]=="OTP-H-GAPCVP");r["cert_output"]["digest"]="0"*40;self.assertTrue(any("output identity drift" in x for x in self.errors(d)))
  def test_h_packet_drift_fails(self):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-H-GAPCVP")["intake_packet"]["digest"]="0"*40;self.assertTrue(any("packet identity drift" in x for x in self.errors(d)))
  def test_h_manifest_drift_fails(self):
