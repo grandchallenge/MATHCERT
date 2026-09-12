@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_spherical_codes_adjudication",
+  "adjudication_id": "MC-OTP-B2-SPHERICAL-CODES-ADJUDICATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-B2-SPHERICAL-CODES",
+  "route_id": "MC-ROUTE-OTP-B2-SPHERICAL-CODES",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/270",
+  "authority": {
+    "route_registration": {
+      "protected_merge": "1b3f38c996c72125b4ac034e674161b6a0671b9b",
+      "reviewed_head": "66352f0827384be4eb85bf8290ca49eaffd63abe",
+      "registered_route_id": "MC-ROUTE-OTP-B2-SPHERICAL-CODES"
+    },
+    "replay_evidence": {
+      "protected_merge": "938738844c4659b30a21d963da468ddfd1df51ad",
+      "reviewed_head": "da41ab10f440b45fe53d321bc08bd3ffa8770930",
+      "record_path": "governance/result_family_replay_evidence_successors/OTP-B2-SPHERICAL-CODES.json",
+      "record_git_blob_sha1": "288193448eee80c041beef57059182e1abe2e33c",
+      "evidence_id": "MC-OTP-B2-SPHERICAL-CODES-REPLAY-EVIDENCE-001"
+    },
+    "work_package": {"protected_merge": "be26d65ba147922ec0975419196b5fdbc7427b8a", "record_git_blob_sha1": "50dc2c9c5bc8aad49f22414536102cef0e82ce20"},
+    "forge_semantic": {"commit": "0520d8bae3853798f2edca67c526133e46847a54", "record_git_blob_sha1": "394d1211757d3fc2bc61b238e914b37245967635"},
+    "solve_handoff": {"commit": "63efb94f28ecb12c55a492c2243a9f70d655f646", "record_git_blob_sha1": "0266c9a431ca4a8e84989913fc626a5086496da6"}
+  },
+  "encoded_targets": [
+    "MetricCodes.Johnson.main_binary_theorem",
+    "MetricCodes.Spherical.HigherHierarchy.main_general",
+    "MetricCodes.Spherical.HigherHierarchy.strict_hierarchy",
+    "MetricCodes.Spherical.HigherHierarchy.NumericalMaximum.eventually_kissingNumber_lt_published"
+  ],
+  "classifications": [
+    "source_faithful_exact_projection",
+    "source_faithful_structured_projection",
+    "source_faithful_structured_projection",
+    "formal_strengthening_entailing_source_asymptotic_numerical_statement"
+  ],
+  "evidence_assessment": {
+    "source_identity": "clear",
+    "solution_build": "pass",
+    "comparator": "accept",
+    "lean_default_kernel": "accept",
+    "nanoda": "accept",
+    "theorem_axioms": "permitted_only_propext_Quot.sound_Classical.choice",
+    "trust_boundary_scan": "clear",
+    "nonvacuity": "clear_on_protected_parameter_domains",
+    "hierarchy_interlacing_localization_domains": "clear_on_protected_current_root_domains",
+    "numerical_strengthening": "clear_with_nonverbatim_qualification",
+    "source_statement_concordance": "clear_for_exact_four_target_classified_surface",
+    "whole_chapter_equivalence": "not_established",
+    "proof_body_compared_in_full": false
+  },
+  "mandatory_qualifications": [
+    "No authority transfers from the predecessor seven-target spherical surface.",
+    "The exact eventual 0.39661 target is not manuscript-verbatim precision.",
+    "The manuscript prints 0.39661+o(1); the exact eventual inequality is a formal strengthening entailing it.",
+    "Hierarchy, interlacing, and localization domains remain bound to the protected current-root audit.",
+    "No whole-chapter semantic equivalence or full proof-body comparison is established."
+  ],
+  "decision": {
+    "disposition": "adjudication_clear_protected_four_targets_only",
+    "scope": "exact_four_protected_current_root_B2_targets_under_recorded_classifications_only",
+    "does_not_mark_mathematical_target_proved": true,
+    "does_not_transfer_predecessor_surface_authority": true,
+    "does_not_make_formal_strengthening_source_verbatim": true,
+    "does_not_issue_aggregate_output": true
+  },
+  "binding_gate": {
+    "fresh_exact_head_B2_replay_required": true,
+    "exact_head_cert_required": true,
+    "exact_head_gcl_and_routing_required": true,
+    "fresh_non_author_coding_spherical_codes_Lean_specialist_approval_required": true,
+    "expected_head_protected_merge_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "state": {
+    "adjudication_recorded_on_candidate": true,
+    "route_state_before_publication": "submitted",
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false
+  },
+  "claim_boundary": "This adjudication clears only the exact four protected current-root OTP-B2-SPHERICAL-CODES targets for restricted qualification under their recorded classifications. No authority transfers from the predecessor seven-target surface. The exact eventual 0.39661 theorem remains a formal strengthening entailing the manuscript's 0.39661+o(1) statement rather than manuscript-verbatim precision, and the protected hierarchy, interlacing, localization, nonvacuity, and permitted-axiom boundaries remain mandatory. It does not mark a mathematical target proved, independently certify the source proof body, establish whole-chapter or full proof-body equivalence, qualify another family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}
