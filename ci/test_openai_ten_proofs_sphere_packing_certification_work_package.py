@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import copy
 import json
-from pathlib import Path
 
 import validate_openai_ten_proofs_sphere_packing_certification_work_package as v
 
@@ -76,8 +75,20 @@ def main() -> None:
     extra["new_authority"] = True
     require_reject("schema openness", extra)
 
-    if not v.validation_errors(routes_blob_override="0" * 40):
-        raise AssertionError("route registry drift was accepted")
+    if not v.validation_errors(historical_routes_blob_override="0" * 40):
+        raise AssertionError("protected work-package route snapshot blob drift was accepted")
+
+    historical = json.loads(
+        __import__("subprocess").check_output(
+            ["git", "-C", str(v.ROOT), "show", f"{v.WORK_PACKAGE_MERGE}:{v.HISTORICAL_ROUTES_PATH}"],
+            text=True,
+        )
+    )
+    injected = copy.deepcopy(historical)
+    injected.setdefault("routes", []).append({"route_id": v.FUTURE_ROUTE_ID})
+    if not v.validation_errors(historical_routes_text_override=json.dumps(injected)):
+        raise AssertionError("A route insertion into protected work-package snapshot was accepted")
+
     if not v.validation_errors(historical_blob_override="0" * 40):
         raise AssertionError("historical work-package registry drift was accepted")
     if not v.validation_errors(intake_blob_override="0" * 40):

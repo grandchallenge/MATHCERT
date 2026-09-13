@@ -2,8 +2,8 @@
 from __future__ import annotations
 
 import hashlib
-import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -26,9 +26,9 @@ TRACKER = "https://github.com/grandchallenge/MATHCERT/issues/156"
 ROUTE_ID = "MC-ROUTE-OTP-A-SPHERE-PACKING"
 PROPOSAL_ID = "MC-OTP-ROUTE-PROPOSAL-A-SPHERE-PACKING"
 PROPOSAL_BLOB = "e216cfc893a99d853ca798a68c46adbf013239ff"
+PROPOSAL_MERGE = "4b194b9632a9aa57fee21c3c054498d6b4a8ed57"
+ROUTES_PATH = "governance/certification_routes.json"
 ROUTES_BLOB = "2d17473b4731aa9d9c630b1e7777ad4bd794d993"
-A_REGISTRATION_ROUTES_BLOB = "b9bb0dc9e18856f50a88162df37c20c034327439"
-A_OUTPUT_ROUTES_BLOB = "4d5c8e3f2b33d5148d98e7057991e167938c75bb"
 INTAKE_BLOB = "294c9f7d6cceb1cdf7ec4c8e73255dd1ba130670"
 WORK_PACKAGE_BLOB = "f0c91d1959035f35843c383920dfba0b6c24b485"
 REPLAY_BLOB = "5a2d17d158ee9e8b535de8ed0a1ed41612c5abd2"
@@ -80,38 +80,56 @@ def schema_errors(document: Any, schema_path: Path) -> list[str]:
     return [f"{schema_path.name}: {e.message}" for e in sorted(validator.iter_errors(document), key=lambda e: list(e.path))]
 
 
-def registration_errors(routes: Any) -> list[str]:
-    spec = importlib.util.spec_from_file_location(
-        "sphere_packing_route_registration",
-        ROOT / "ci/validate_openai_ten_proofs_sphere_packing_route_registration.py",
-    )
-    assert spec and spec.loader
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return list(module.validation_errors(routes=routes))
+def load_protected_proposal_routes(
+    *, commit: str = PROPOSAL_MERGE, blob_override: str | None = None, text_override: str | None = None
+) -> tuple[Any, str]:
+    blob = blob_override or subprocess.check_output(
+        ["git", "-C", str(ROOT), "rev-parse", f"{commit}:{ROUTES_PATH}"], text=True
+    ).strip()
+    text = text_override
+    if text is None:
+        text = subprocess.check_output(
+            ["git", "-C", str(ROOT), "show", f"{commit}:{ROUTES_PATH}"], text=True
+        )
+    return json.loads(text), blob
 
 
 def validation_errors(*, proposal: Any | None = None, registry: Any | None = None,
-                      routes: Any | None = None, local_blobs: dict[str, str] | None = None) -> list[str]:
+                      routes: Any | None = None, local_blobs: dict[str, str] | None = None,
+                      historical_routes_text_override: str | None = None) -> list[str]:
     proposal = load(PROPOSAL) if proposal is None else proposal
     registry = load(REGISTRY) if registry is None else registry
-    routes = load(ROUTES) if routes is None else routes
+
+    errors: list[str] = []
+    try:
+        protected_routes, protected_routes_blob = load_protected_proposal_routes(
+            blob_override=(local_blobs or {}).get("routes"),
+            text_override=historical_routes_text_override,
+        )
+    except (subprocess.CalledProcessError, json.JSONDecodeError) as exc:
+        protected_routes, protected_routes_blob = {"routes": []}, ""
+        errors.append(f"cannot verify protected proposal route snapshot: {exc}")
+    if routes is not None:
+        protected_routes = routes
+
     blobs = {
         "proposal": git_blob_sha1(PROPOSAL),
-        "routes": git_blob_sha1(ROUTES),
+        "routes": protected_routes_blob,
         "intake": git_blob_sha1(INTAKE),
         "work_package": git_blob_sha1(WORK_PACKAGE),
         "replay": git_blob_sha1(REPLAY),
     }
     if local_blobs is not None:
-        blobs.update(local_blobs)
+        for key, value in local_blobs.items():
+            if key != "routes":
+                blobs[key] = value
 
-    errors: list[str] = []
     errors.extend(schema_errors(proposal, SCHEMAS[0]))
     errors.extend(schema_errors(registry, SCHEMAS[1]))
 
     expected_blobs = {
         "proposal": PROPOSAL_BLOB,
+        "routes": ROUTES_BLOB,
         "intake": INTAKE_BLOB,
         "work_package": WORK_PACKAGE_BLOB,
         "replay": REPLAY_BLOB,
@@ -119,9 +137,6 @@ def validation_errors(*, proposal: Any | None = None, registry: Any | None = Non
     for key, expected in expected_blobs.items():
         if blobs.get(key) != expected:
             errors.append(f"{key} blob drift: {blobs.get(key)} != {expected}")
-    routes_blob = blobs.get("routes")
-    if routes_blob not in {ROUTES_BLOB, A_REGISTRATION_ROUTES_BLOB, A_OUTPUT_ROUTES_BLOB}:
-        errors.append(f"routes blob drift: {routes_blob} is neither protected proposal snapshot nor exact A registration/output successor")
 
     if proposal.get("proposal_id") != PROPOSAL_ID or proposal.get("requested_route_id") != ROUTE_ID:
         errors.append("proposal identity drift")
@@ -226,14 +241,9 @@ def validation_errors(*, proposal: Any | None = None, registry: Any | None = Non
     if controls != expected_controls:
         errors.append("route authority inflation or drift")
 
-    route_count = sum(1 for r in routes.get("routes", []) if isinstance(r, dict) and r.get("route_id") == ROUTE_ID)
-    if routes_blob == ROUTES_BLOB and route_count != 0:
+    route_count = sum(1 for r in protected_routes.get("routes", []) if isinstance(r, dict) and r.get("route_id") == ROUTE_ID)
+    if route_count != 0:
         errors.append("A route present in protected proposal-stage registry snapshot")
-    if routes_blob in {A_REGISTRATION_ROUTES_BLOB, A_OUTPUT_ROUTES_BLOB}:
-        if route_count != 1:
-            errors.append("exact A registration/output successor missing or duplicated")
-        else:
-            errors.extend(registration_errors(routes))
 
     if proposal.get("candidate_disposition") != "A_CERT_ROUTE_PROPOSAL_CLEAR__REGISTRATION_NOT_YET_AUTHORIZED":
         errors.append("candidate disposition drift")
@@ -307,7 +317,7 @@ def main() -> int:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         return 1
-    print("OTP_A_SPHERE_PACKING_ROUTE_PROPOSAL_CLEAR__REGISTRATION_AND_OUTPUT_SEPARATELY_GOVERNED")
+    print("OTP_A_SPHERE_PACKING_ROUTE_PROPOSAL_CLEAR__HISTORICAL_PROPOSAL_STATE_BOUND_TO_PROTECTED_SNAPSHOT")
     return 0
 
 

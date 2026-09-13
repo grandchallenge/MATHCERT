@@ -20,10 +20,10 @@ class SpherePackingRouteProposalTests(unittest.TestCase):
     def setUp(self) -> None:
         self.proposal = json.loads(M.PROPOSAL.read_text(encoding="utf-8"))
         self.registry = json.loads(M.REGISTRY.read_text(encoding="utf-8"))
-        self.routes = json.loads(M.ROUTES.read_text(encoding="utf-8"))
+        self.routes, historical_routes_blob = M.load_protected_proposal_routes()
         self.blobs = {
             "proposal": M.git_blob_sha1(M.PROPOSAL),
-            "routes": M.git_blob_sha1(M.ROUTES),
+            "routes": historical_routes_blob,
             "intake": M.git_blob_sha1(M.INTAKE),
             "work_package": M.git_blob_sha1(M.WORK_PACKAGE),
             "replay": M.git_blob_sha1(M.REPLAY),
@@ -37,14 +37,14 @@ class SpherePackingRouteProposalTests(unittest.TestCase):
             local_blobs=copy.deepcopy(kwargs.get("local_blobs", self.blobs)),
         )
 
-    def test_current_passes(self):
+    def test_current_passes_with_later_live_route_successors(self):
         self.assertEqual(self.errors(), [])
 
     def test_route_state_inflation(self):
         p = copy.deepcopy(self.proposal); p["proposal_state"] = "registered"
         self.assertTrue(self.errors(proposal=p))
 
-    def test_registered_route_insertion(self):
+    def test_registered_route_insertion_into_historical_snapshot(self):
         routes = copy.deepcopy(self.routes); routes["routes"].append({"route_id": M.ROUTE_ID})
         self.assertTrue(self.errors(routes=routes))
 
