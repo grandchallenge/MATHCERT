@@ -164,6 +164,18 @@ class FormalTargetCertificateTests(unittest.TestCase):
         )
         self.assertTrue(any("mathematical target must remain unproved" in error or "schema violation" in error for error in errors))
 
+    def test_b2_target_omission_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-B2-SPHERICAL-CODES-001.json"]["encoded_targets"].pop()
+        )
+        self.assertTrue(any("OTP-B2-SPHERICAL-CODES" in error and "target" in error for error in errors))
+
+    def test_b2_proof_promotion_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-B2-SPHERICAL-CODES-001.json"]["state"].__setitem__("mathematical_target_proved", True)
+        )
+        self.assertTrue(any("OTP-B2-SPHERICAL-CODES" in error and "authority inflation" in error for error in errors))
+
     def test_permanent_route_output_drift_fails(self) -> None:
         registry = module.load_json(module.REGISTRY_PATH)
         route = next(route for route in registry["routes"] if route["campaign_id"] == "OTP-C-PERMANENT")
