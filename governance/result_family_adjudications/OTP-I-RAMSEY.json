@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_ramsey_adjudication",
+  "adjudication_id": "MC-OTP-I-RAMSEY-ADJUDICATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-I-RAMSEY",
+  "route_id": "MC-ROUTE-OTP-I-RAMSEY",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/272",
+  "encoded_targets": [
+    "ErdosProblems.MulticolourTriangleRamsey.erdos_183",
+    "ErdosProblems.MulticolourTriangleRamsey.erdos_problem_183_explicit",
+    "ErdosProblems.MulticolourTriangleRamsey.triangleRamseyNumber_log_sharp_coefficients",
+    "ErdosProblems.MulticolourTriangleRamsey.triangleRamseyNumber_log_isTheta"
+  ],
+  "classifications": [
+    "source_faithful_exact_projection_of_displayed_consequence_4",
+    "formal_explicit_constant_strengthening_plus_source_faithful_divergence",
+    "source_faithful_epsilonized_logarithmic_reformulation",
+    "source_faithful_logarithmic_reformulation_of_printed_theta"
+  ],
+  "evidence_assessment": {
+    "source_identity": "exact_pinned",
+    "solution_build": "must_pass_on_exact_head",
+    "comparator": "must_accept_on_exact_head",
+    "lean_default_kernel": "must_accept_on_exact_head",
+    "nanoda": "must_accept_on_exact_head",
+    "theorem_axioms": "must_be_permitted_only",
+    "trust_boundary_scan": "must_be_clear",
+    "nonvacuity": "clear_for_protected_four_target_surface",
+    "source_statement_concordance": "bounded_by_recorded_classifications_and_qualifications",
+    "whole_chapter_equivalence": "not_established",
+    "proof_body_compared_in_full": false
+  },
+  "mandatory_qualifications": [
+    "The manuscript does not specify the explicit constant 1/(6*exp 38); it is formal strengthening provenance only.",
+    "The epsilon logarithmic coefficients are source-faithful natural-log reformulations, not verbatim source text.",
+    "Filter-Theta is a source-faithful reformulation of printed R_k(3)=k^{Theta(k)}.",
+    "Least-Ramsey-number semantics rely on the protected nonempty forcing set and sInf realization evidence.",
+    "No whole-chapter semantic equivalence or proof-body comparison is transferred."
+  ],
+  "decision": {
+    "disposition": "adjudication_clear_protected_four_targets_only",
+    "scope": "exact_four_protected_OTP_I_Ramsey_targets_under_recorded_classifications_only",
+    "does_not_mark_mathematical_target_proved": true,
+    "does_not_issue_aggregate_output": true
+  },
+  "binding_gate": {
+    "fresh_exact_head_I_replay_required": true,
+    "exact_head_cert_gcl_and_routing_required": true,
+    "fresh_non_author_ramsey_combinatorics_Lean_specialist_approval_required": true,
+    "expected_head_protected_merge_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "state": {
+    "adjudication_recorded_on_candidate": true,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false
+  },
+  "claim_boundary": "This adjudication clears only the exact four protected OTP-I-RAMSEY targets under their recorded classifications and mandatory qualifications, contingent on the final-head replay and independent specialist gate. It preserves the explicit-constant, natural-log, Filter-Theta, least-Ramsey-number nonvacuity, and no-whole-chapter boundaries. It does not mark a mathematical target proved, certify a complete source proof body, qualify another family, create aggregate OpenAI Ten Proofs authority, or authorize novelty, priority, publication, patentability, product, or commercial claims."
+}
