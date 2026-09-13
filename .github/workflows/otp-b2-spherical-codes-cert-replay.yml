@@ -15,6 +15,11 @@ on:
       - 'schemas/openai_ten_proofs_spherical_codes_route_registration.schema.json'
       - 'ci/validate_openai_ten_proofs_spherical_codes_route_registration.py'
       - 'ci/test_openai_ten_proofs_spherical_codes_route_registration.py'
+      - 'ci/validate_otp_b2_spherical_codes_certification.py'
+      - 'ci/test_otp_b2_spherical_codes_certification.py'
+      - 'governance/result_family_adjudications/OTP-B2-SPHERICAL-CODES.json'
+      - 'governance/result_family_output_contracts/OTP-B2-SPHERICAL-CODES.json'
+      - 'certificates/formal_sources/MC-OTP-B2-SPHERICAL-CODES-001.json'
   workflow_dispatch:
 permissions: {contents: read}
 concurrency:
@@ -82,6 +87,8 @@ jobs:
           python3 ci/certification_route_state.py exec ci/otp_b2_spherical_codes_replay_evidence_test.py -v
           python3 ci/certification_route_state.py exec ci/validate_openai_ten_proofs_spherical_codes_route_registration.py
           python3 ci/certification_route_state.py exec ci/test_openai_ten_proofs_spherical_codes_route_registration.py -v
+          python3 ci/certification_route_state.py exec ci/validate_otp_b2_spherical_codes_certification.py
+          python3 ci/certification_route_state.py exec ci/test_otp_b2_spherical_codes_certification.py -v
       - name: Emit deterministic bundle transport
         if: success()
         run: |

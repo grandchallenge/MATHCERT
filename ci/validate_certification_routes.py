@@ -46,9 +46,9 @@ EXPECTED["OTP-H-GAPCVP"]={
 EXPECTED["OTP-B2-SPHERICAL-CODES"]={
  "tracker":"https://github.com/grandchallenge/MATHCERT/issues/206",
  "source":art("grandchallenge/MATHFORGE","0520d8bae3853798f2edca67c526133e46847a54","sources/OPENAI-TEN-PROOFS-001/semantic/OTP-B2-SPHERICAL-CODES/audit_record.json","394d1211757d3fc2bc61b238e914b37245967635"),
- "state":"submitted",
+ "state":"qualified",
  "packet":art("grandchallenge/MATHSOLVE","63efb94f28ecb12c55a492c2243a9f70d655f646","work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-B2-SPHERICAL-CODES.json","0266c9a431ca4a8e84989913fc626a5086496da6"),
- "output":None}
+ "output":art("grandchallenge/MATHCERT","4d039b5e4c21ec7f089e5253877c4cb0a1692d7c","certificates/formal_sources/MC-OTP-B2-SPHERICAL-CODES-001.json","567294abc70d250a83647d4fd1fe82794c9203c8")}
 EXPECTED["OTP-B1-BINARY-CODES"]={
  "tracker":"https://github.com/grandchallenge/MATHCERT/issues/205",
  "source":art("grandchallenge/MATHFORGE","24a1fa0f020ee9cc7fbe2e7aea4cd840268ca748","sources/OPENAI-TEN-PROOFS-001/semantic/OTP-B1-BINARY-CODES/audit_record.json","0ab4d973bc046084e9d2dc6c7552ab5428d7412d"),
@@ -187,6 +187,6 @@ def hc_qualification_errors(root:Path=ROOT)->list[str]:
 def main()->int:
  e=route_errors()+hc_qualification_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated sixteen exact routes, including submitted OTP-B2-SPHERICAL-CODES and restricted qualified OTP-H-GAPCVP, OTP-B1-BINARY-CODES, OTP-A-SPHERE-PACKING, OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
+ print("validated sixteen exact routes, including restricted qualified OTP-B2-SPHERICAL-CODES, OTP-H-GAPCVP, OTP-B1-BINARY-CODES, OTP-A-SPHERE-PACKING, OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
  return 0
 if __name__=="__main__":raise SystemExit(main())

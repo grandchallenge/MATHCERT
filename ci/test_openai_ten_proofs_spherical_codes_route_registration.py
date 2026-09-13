@@ -51,8 +51,11 @@ class SphericalCodesRouteRegistrationTests(unittest.TestCase):
         receipt["route_controls"]["may_adjudicate"] = True
         self.assertTrue(self.errors(receipt=receipt))
 
-    def test_candidate_blob_drift_is_rejected(self) -> None:
-        self.assertTrue(self.errors(local_blobs={"routes": "0" * 40}))
+    def test_qualified_successor_output_drift_is_rejected(self) -> None:
+        routes = copy.deepcopy(self.routes)
+        route = next(row for row in routes["routes"] if row["route_id"] == validator.ROUTE_ID)
+        route["cert_output"]["path"] = "certificates/formal_sources/invented.json"
+        self.assertTrue(self.errors(routes=routes))
 
 
 if __name__ == "__main__":
