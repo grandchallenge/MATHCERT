@@ -251,6 +251,14 @@
       "controller_id": "GITHUB_ACTIONS"
     },
     {
+      "path": ".github/workflows/otp-i-ramsey-cert-replay.yml",
+      "observed_features": [
+        "OPAQUE_EXECUTION"
+      ],
+      "topology": "PERSISTENT_CONTROLLER_REQUIRED",
+      "controller_id": "GITHUB_ACTIONS"
+    },
+    {
       "path": ".github/workflows/otp-j2-adjudication.yml",
       "observed_features": [
         "OPAQUE_EXECUTION"
