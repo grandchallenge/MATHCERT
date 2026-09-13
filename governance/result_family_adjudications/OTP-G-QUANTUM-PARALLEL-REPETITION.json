@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_quantum_parallel_repetition_adjudication",
+  "adjudication_id": "MC-OTP-G-QUANTUM-PARALLEL-REPETITION-ADJUDICATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-G-QUANTUM-PARALLEL-REPETITION",
+  "route_id": "MC-ROUTE-OTP-G-QUANTUM-PARALLEL-REPETITION",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/277",
+  "encoded_targets": [
+    "QuantumParallelRepetition.distributionUniformExponential",
+    "QuantumParallelRepetition.standardQuantumParallelRepetition"
+  ],
+  "classifications": [
+    "source_faithful_exact_coordinate_projection_of_theorem_1_1",
+    "source_faithful_consequence_on_source_domain_with_formal_empty_answer_extension"
+  ],
+  "evidence_assessment": {
+    "source_identity": "exact_pinned",
+    "solution_build": "must_pass_on_exact_head",
+    "comparator": "must_accept_on_exact_head",
+    "lean_default_kernel": "must_accept_on_exact_head",
+    "nanoda": "must_accept_on_exact_head",
+    "theorem_axioms": "must_be_permitted_only",
+    "trust_boundary_scan": "must_be_clear",
+    "nonvacuity": "clear_on_declared_source_domain_with_empty_answer_extension_separated",
+    "source_statement_concordance": "bounded_by_recorded_classifications_and_qualifications",
+    "whole_chapter_equivalence": "not_established",
+    "proof_body_compared_in_full": false
+  },
+  "mandatory_qualifications": [
+    "Alice and Bob may have independent finite local dimensions; no common-dimension restriction is introduced.",
+    "entangledValue is a supremum, with no optimizer-attainment assumption.",
+    "The quantitative target preserves exponent 13, the exact epsilon + log(|A||B|) denominator, positive soundness gap, and n>=1 scope.",
+    "The qualitative target is source-faithful only on the manuscript nonempty-answer domain; empty-answer cases are formal-only.",
+    "No whole-chapter semantic equivalence or proof-body comparison is transferred."
+  ],
+  "decision": {
+    "disposition": "adjudication_clear_protected_two_targets_only",
+    "scope": "exact_two_protected_OTP_G_quantum_parallel_repetition_targets_under_recorded_classifications_only",
+    "does_not_mark_mathematical_target_proved": true,
+    "does_not_issue_aggregate_output": true
+  },
+  "binding_gate": {
+    "fresh_exact_head_G_replay_required": true,
+    "exact_head_cert_gcl_and_routing_required": true,
+    "fresh_non_author_quantum_information_Lean_specialist_approval_required": true,
+    "expected_head_protected_merge_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "state": {
+    "adjudication_recorded_on_candidate": true,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false
+  },
+  "claim_boundary": "This adjudication clears only the exact two protected OTP-G targets under their recorded classifications and mandatory qualifications, contingent on final-head replay and independent specialist review. It creates no proof, other-family authority, or aggregate authority."
+}
