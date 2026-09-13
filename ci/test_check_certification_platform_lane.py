@@ -148,7 +148,10 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         self.assertIn(".github/workflows/otp-j2-output-design.yml", workflows)
         self.assertIn(".github/workflows/otp-ehrhart-evidence-refresh.yml", workflows)
         self.assertIn(".github/workflows/otp-h-gapcvp-cert-replay.yml", workflows)
-        self.assertEqual(len(workflows), 33)
+        self.assertIn(".github/workflows/otp-i-ramsey-cert-replay.yml", workflows)
+        self.assertIn("ci/run_openai_ten_proofs_ramsey_replay.sh", stateful)
+        self.assertIn("ci/validate_otp_i_ramsey_certification.py", stateful)
+        self.assertEqual(len(workflows), 34)
         self.assertIn("governance/certification_platform_lane.json", support)
         self.assertIn("ci/check_certification_platform_lane.py", support)
 
