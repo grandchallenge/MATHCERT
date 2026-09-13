@@ -4,6 +4,7 @@ if (-not (Get-Command lake -ErrorAction SilentlyContinue)) { throw "lake is not 
 
 function Get-ControlFamily([string]$Path) {
     $p = $Path.ToLowerInvariant()
+    if ($p -match 'otp[_-]g[_-]quantum[_-]parallel[_-]repetition|quantum[_-]parallel[_-]repetition[_-]replay') { return 'OTP-G-QUANTUM-PARALLEL-REPETITION' }
     if ($p -match 'otp[_-]i[_-]ramsey|ramsey[_-]replay') { return 'OTP-I-RAMSEY' }
     if ($p -match 'spherical[_-]codes') { return 'OTP-B2-SPHERICAL-CODES' }
     if ($p -match 'binary[_-]codes') { return 'OTP-B1-BINARY-CODES' }
@@ -27,6 +28,7 @@ $validScopes = @(
     'OTP-A-SPHERE-PACKING',
     'OTP-B1-BINARY-CODES',
     'OTP-B2-SPHERICAL-CODES',
+    'OTP-G-QUANTUM-PARALLEL-REPETITION',
     'OTP-H-GAPCVP',
     'OTP-I-RAMSEY',
     'OTP-C-PERMANENT',

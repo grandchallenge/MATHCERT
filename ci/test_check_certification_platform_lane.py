@@ -160,10 +160,14 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         self.assertIn(".github/workflows/otp-j2-output-design.yml", workflows)
         self.assertIn(".github/workflows/otp-ehrhart-evidence-refresh.yml", workflows)
         self.assertIn(".github/workflows/otp-h-gapcvp-cert-replay.yml", workflows)
+        self.assertIn(".github/workflows/otp-g-quantum-parallel-repetition-cert-replay.yml", workflows)
         self.assertIn(".github/workflows/otp-i-ramsey-cert-replay.yml", workflows)
+        self.assertIn("ci/run_openai_ten_proofs_quantum_parallel_repetition_replay.sh", stateful)
+        self.assertIn("ci/validate_otp_g_quantum_parallel_repetition_certification.py", stateful)
+        self.assertIn("ci/test_otp_g_quantum_parallel_repetition_certification.py", stateful)
         self.assertIn("ci/run_openai_ten_proofs_ramsey_replay.sh", stateful)
         self.assertIn("ci/validate_otp_i_ramsey_certification.py", stateful)
-        self.assertEqual(len(workflows), 34)
+        self.assertEqual(len(workflows), 35)
         self.assertIn("governance/certification_platform_lane.json", support)
         self.assertIn("ci/check_certification_platform_lane.py", support)
 
@@ -174,11 +178,13 @@ class CertificationPlatformLaneTests(unittest.TestCase):
 
         sh_aggregate = '*openai_ten_proofs*|*openai-ten-proofs*) echo "FULL_ESTATE_ONLY" ;;'
         self.assertIn(sh_aggregate, sh)
+        self.assertLess(sh.index('*otp_g_quantum_parallel_repetition*'), sh.index(sh_aggregate))
         self.assertLess(sh.index('*gapcvp*) echo "OTP-H-GAPCVP" ;;'), sh.index(sh_aggregate))
         self.assertLess(sh.index('*sphere_packing*|*sphere-packing*|*otp_a_*)'), sh.index(sh_aggregate))
 
         ps_aggregate = "if ($p -match 'openai[_-]ten[_-]proofs') { return 'FULL_ESTATE_ONLY' }"
         self.assertIn(ps_aggregate, ps1)
+        self.assertLess(ps1.index("if ($p -match 'otp[_-]g[_-]quantum[_-]parallel[_-]repetition"), ps1.index(ps_aggregate))
         self.assertLess(ps1.index("if ($p -match 'gapcvp')"), ps1.index(ps_aggregate))
         self.assertLess(ps1.index("if ($p -match 'sphere[_-]packing|otp_a_')"), ps1.index(ps_aggregate))
 
@@ -207,6 +213,23 @@ class CertificationPlatformLaneTests(unittest.TestCase):
             self.manifest,
         )
         self.assertEqual(scope, "OTP-A-SPHERE-PACKING")
+
+    def test_g_only_transition_gets_exact_family_scope(self) -> None:
+        scope = certification_scope(
+            "governance/certification/otp-g-quantum-parallel-repetition-001",
+            [
+                "governance/certification_routes.json",
+                "governance/ci_control_registry.json",
+                "ci/validate_certification_routes.py",
+                "ci/validate_formal_target_certificates.py",
+                "ci/validate_otp_g_quantum_parallel_repetition_certification.py",
+                "certificates/formal_sources/MC-OTP-G-QUANTUM-PARALLEL-REPETITION-001.json",
+                "governance/result_family_output_contracts/OTP-G-QUANTUM-PARALLEL-REPETITION.json",
+                ".github/workflows/otp-g-quantum-parallel-repetition-cert-replay.yml",
+            ],
+            self.manifest,
+        )
+        self.assertEqual(scope, "OTP-G-QUANTUM-PARALLEL-REPETITION")
 
     def test_h_transition_with_central_registries_gets_exact_family_scope(self) -> None:
         scope = certification_scope(

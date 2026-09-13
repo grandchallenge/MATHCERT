@@ -19,6 +19,7 @@ MANIFEST_PATH = Path(
 
 FULL_ESTATE_SCOPE = "FULL_ESTATE"
 FAMILY_MARKERS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("OTP-G-QUANTUM-PARALLEL-REPETITION", ("otp-g-quantum-parallel-repetition", "otp_g_quantum_parallel_repetition", "quantum-parallel-repetition", "quantum_parallel_repetition")),
     ("OTP-I-RAMSEY", ("otp-i-ramsey", "otp_i_ramsey", "ramsey-replay", "ramsey_replay")),
     ("OTP-B2-SPHERICAL-CODES", ("otp-b2-spherical-codes", "otp_b2_spherical_codes", "spherical-codes", "spherical_codes")),
     ("OTP-B1-BINARY-CODES", ("otp-b1-binary-codes", "otp_b1_binary_codes", "binary-codes", "binary_codes")),

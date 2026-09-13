@@ -7,6 +7,7 @@ cd "$(dirname "$0")/.."
 control_family() {
   local path="${1,,}"
   case "$path" in
+    *otp_g_quantum_parallel_repetition*|*otp-g-quantum-parallel-repetition*|*quantum_parallel_repetition_replay*) echo "OTP-G-QUANTUM-PARALLEL-REPETITION" ;;
     *otp_i_ramsey*|*otp-i-ramsey*|*ramsey_replay*) echo "OTP-I-RAMSEY" ;;
     *spherical_codes*|*spherical-codes*) echo "OTP-B2-SPHERICAL-CODES" ;;
     *binary_codes*|*binary-codes*) echo "OTP-B1-BINARY-CODES" ;;
@@ -23,7 +24,7 @@ control_family() {
 
 MC_CERT_SCOPE="${MC_CERT_SCOPE:-$(command python3 ci/check_certification_platform_lane.py --certification-scope)}"
 case "$MC_CERT_SCOPE" in
-  FULL_ESTATE|OTP-A-SPHERE-PACKING|OTP-B1-BINARY-CODES|OTP-B2-SPHERICAL-CODES|OTP-H-GAPCVP|OTP-I-RAMSEY|OTP-C-PERMANENT|OTP-J1-COMPACTNESS|OTP-J2-TWO-DEGENERATE|OTP-F-EHRHART) ;;
+  FULL_ESTATE|OTP-A-SPHERE-PACKING|OTP-B1-BINARY-CODES|OTP-B2-SPHERICAL-CODES|OTP-G-QUANTUM-PARALLEL-REPETITION|OTP-H-GAPCVP|OTP-I-RAMSEY|OTP-C-PERMANENT|OTP-J1-COMPACTNESS|OTP-J2-TWO-DEGENERATE|OTP-F-EHRHART) ;;
   *) echo "unknown canonical certification scope: $MC_CERT_SCOPE" >&2; exit 1 ;;
 esac
 export MC_CERT_SCOPE
