@@ -119,6 +119,18 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         )
         self.assertEqual(errors, [])
 
+    def test_family_branch_may_register_bounded_route_state_consumers(self) -> None:
+        errors = evaluate(
+            "governance/certification/otp-i-ramsey-restricted-qualification-001",
+            [
+                "governance/certification_route_state_consumers.json",
+                "ci/validate_otp_i_ramsey_certification.py",
+                "certificates/formal_sources/MC-OTP-I-RAMSEY-QUAL-001.json",
+            ],
+            self.manifest,
+        )
+        self.assertEqual(errors, [])
+
     def test_platform_branch_rejects_family_payload(self) -> None:
         errors = evaluate(
             "platform/certification/example-repair",
