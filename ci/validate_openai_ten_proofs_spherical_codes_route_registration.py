@@ -119,7 +119,7 @@ def main() -> int:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         return 1
-    print("validated exact four-target B2 spherical-codes submitted route with zero adjudication/output authority")
+    print("validated exact four-target B2 spherical-codes registration and bounded qualified successor")
     return 0
 
 

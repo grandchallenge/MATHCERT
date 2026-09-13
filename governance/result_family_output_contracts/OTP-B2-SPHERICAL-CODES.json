@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "otp_b2_spherical_codes_output_contract",
+  "contract_id": "MC-OTP-B2-SPHERICAL-CODES-OUTPUT-CONTRACT-001",
+  "result_family": "OTP-B2-SPHERICAL-CODES",
+  "route_id": "MC-ROUTE-OTP-B2-SPHERICAL-CODES",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/270",
+  "contract_state": "execution_candidate",
+  "adjudication": {
+    "path": "governance/result_family_adjudications/OTP-B2-SPHERICAL-CODES.json",
+    "adjudication_id": "MC-OTP-B2-SPHERICAL-CODES-ADJUDICATION-001",
+    "required_disposition": "adjudication_clear_protected_four_targets_only"
+  },
+  "output_scope": {
+    "encoded_targets": [
+      "MetricCodes.Johnson.main_binary_theorem",
+      "MetricCodes.Spherical.HigherHierarchy.main_general",
+      "MetricCodes.Spherical.HigherHierarchy.strict_hierarchy",
+      "MetricCodes.Spherical.HigherHierarchy.NumericalMaximum.eventually_kissingNumber_lt_published"
+    ],
+    "classifications": [
+      "source_faithful_exact_projection",
+      "source_faithful_structured_projection",
+      "source_faithful_structured_projection",
+      "formal_strengthening_entailing_source_asymptotic_numerical_statement"
+    ],
+    "permitted_disposition": "qualified_protected_four_targets_only",
+    "mathematical_target_proved": false
+  },
+  "publication_protocol": {
+    "mode": "certificate_content_commit_then_route_transition_commit",
+    "route_transition": {"from": "submitted", "to": "qualified"},
+    "certificate_content_commit_first": true,
+    "route_transition_commit_must_descend_from_certificate_content_commit": true,
+    "cert_output_commit_sha_must_equal_certificate_content_commit": true,
+    "cert_output_digest_must_equal_certificate_blob": true,
+    "certificate_must_not_name_its_own_containing_commit": true,
+    "protected_merge_method": "merge",
+    "squash_merge_prohibited": true,
+    "rebase_merge_prohibited": true,
+    "partial_state_on_protected_main_prohibited": true
+  },
+  "execution_gate": {
+    "fresh_exact_head_B2_replay_required": true,
+    "exact_head_cert_and_GCL_required": true,
+    "fresh_non_author_specialist_approval_required": true,
+    "expected_head_guard_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "claim_boundary": "This contract permits one restricted qualification output for exactly the four protected current-root OTP-B2-SPHERICAL-CODES targets. It preserves the absence of authority from the predecessor seven-target surface, all recorded classifications and domain qualifications, the nonverbatim status of the exact eventual 0.39661 strengthening, and the prohibition on mathematical-proof promotion, other-family authority, and aggregate OpenAI Ten Proofs certification."
+}
