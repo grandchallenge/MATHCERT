@@ -4,6 +4,7 @@ if (-not (Get-Command lake -ErrorAction SilentlyContinue)) { throw "lake is not 
 
 function Get-ControlFamily([string]$Path) {
     $p = $Path.ToLowerInvariant()
+    if ($p -match 'otp[_-]i[_-]ramsey|ramsey[_-]replay') { return 'OTP-I-RAMSEY' }
     if ($p -match 'spherical[_-]codes') { return 'OTP-B2-SPHERICAL-CODES' }
     if ($p -match 'binary[_-]codes') { return 'OTP-B1-BINARY-CODES' }
     if ($p -match 'gapcvp') { return 'OTP-H-GAPCVP' }
@@ -27,6 +28,7 @@ $validScopes = @(
     'OTP-B1-BINARY-CODES',
     'OTP-B2-SPHERICAL-CODES',
     'OTP-H-GAPCVP',
+    'OTP-I-RAMSEY',
     'OTP-C-PERMANENT',
     'OTP-J1-COMPACTNESS',
     'OTP-J2-TWO-DEGENERATE',
@@ -230,6 +232,10 @@ if (Test-Path "ci/validate_openai_ten_proofs_spherical_codes_route_proposal.py")
 if (Test-Path "ci/validate_openai_ten_proofs_spherical_codes_route_registration.py") {
     Invoke-Control "ci/validate_openai_ten_proofs_spherical_codes_route_registration.py"
     Invoke-Control "ci/test_openai_ten_proofs_spherical_codes_route_registration.py"
+}
+if (Test-Path "ci/validate_otp_i_ramsey_certification.py") {
+    Invoke-Control "ci/validate_otp_i_ramsey_certification.py"
+    Invoke-Control "ci/test_otp_i_ramsey_certification.py"
 }
 Invoke-Control "ci/audit_ci_reachability.py"
 Invoke-Control "ci/test_audit_ci_reachability.py"
