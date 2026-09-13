@@ -21,6 +21,7 @@
     "ci/test_check_certification_route_state_consumers.py"
   ],
   "stateful_shared_validator_paths": [
+    "governance/certification_route_state_consumers.json",
     "ci/openai_ten_proofs_adjudication_contracts_data.py",
     "ci/otp_a_sphere_packing_output_contract.py",
     "ci/otp_b1_binary_codes_replay_evidence.py",
@@ -136,7 +137,6 @@
   ],
   "lane_support_paths": [
     "governance/certification_platform_lane.json",
-    "governance/certification_route_state_consumers.json",
     "ci/check_certification_platform_lane.py",
     "ci/test_check_certification_platform_lane.py",
     "ci/test_otp_finalize_family_replay_evidence.py"
