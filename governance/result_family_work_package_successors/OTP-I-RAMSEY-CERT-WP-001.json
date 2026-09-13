@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_ramsey_certification_work_package",
+  "work_package_id": "OTP-I-RAMSEY-CERT-WP-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-I-RAMSEY",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/272",
+  "status": "execution_candidate_pending_exact_head_controls",
+  "authority": {
+    "protected_mathcert_base": "f684c03562c8962232c50d3c0f4c41b5c3594f63",
+    "intake_record": {
+      "protected_commit": "c0f7f2f54f072e7c69fe8e4524f7658493527058",
+      "path": "governance/result_family_intake_successors/OTP-I-RAMSEY.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "e9302a671ebdb041fed3ad4bf5097b5deb78fb64"
+    },
+    "solve_handoff": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit": "a5b9488a4095a6669c9c242d59225c5735100123",
+      "path": "work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoff_successors/OTP-I-RAMSEY.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "14e0909cd5e704d3a9b6b35c218fae6a44ae2013"
+    },
+    "forge_semantic": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit": "dbf3b099331a1807c4d3036e7a6a406711ea7cf3",
+      "path": "sources/OPENAI-TEN-PROOFS-001/semantic/OTP-I-RAMSEY/audit_record.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "a7c014fb623b66355ef5d6260e5b994d99d67a6d"
+    },
+    "official_subject": {
+      "repository": "openai/ten-proofs",
+      "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+      "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+      "config_path": "ComparatorChallenges/I_MulticolorTriangleRamsey.json",
+      "config_blob": "ce67db0653e18a2de68f471c00b9f892b789f806",
+      "challenge_path": "ComparatorChallenges/I_MulticolorTriangleRamsey.lean",
+      "challenge_blob": "6a9e42d686720f4b74ddc2001006b0b7a20f11aa",
+      "solution_path": "MulticolorTriangleRamsey.lean",
+      "solution_blob": "24b55f531a4d36347cd2277b1b9c7d784d91ae35"
+    },
+    "source_pdf": {
+      "revision": "2026-08-06",
+      "sha256": "ebc561ab5c53dbd240e17a8fdb6fffeb648591eca85dbfc7466f563638f8c566",
+      "byte_length": 2487031
+    }
+  },
+  "toolchain": {
+    "lean": "leanprover/lean4:v4.32.0",
+    "lean4export_commit": "4e7915201d3f9f04470d9eae002fa695f7cdc589",
+    "nanoda_commit": "ddfac2bf5a7b56cb46e141494427ff3dd55963c7",
+    "landrun_commit": "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4"
+  },
+  "execution_contract": {
+    "clean_room_exact_head_replay_required": true,
+    "comparator_config": "ComparatorChallenges/I_MulticolorTriangleRamsey.json",
+    "solution_module": "MulticolorTriangleRamsey",
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+    "deterministic_commands": [
+      "lake exe cache get",
+      "lake build MulticolorTriangleRamsey",
+      "lake exe comparator ComparatorChallenges/I_MulticolorTriangleRamsey.json"
+    ],
+    "expected_target_count": 4,
+    "expected_outputs": [
+      "Nanoda kernel accepts the solution",
+      "Lean default kernel accepts the solution",
+      "Your solution is okay!"
+    ],
+    "failure_conditions": [
+      "source_or_toolchain_identity_mismatch",
+      "target_membership_or_order_drift",
+      "non_permitted_axiom_present",
+      "solution_build_or_kernel_or_comparator_reject",
+      "explicit_constant_misattributed_to_manuscript",
+      "natural_log_or_Filter_Theta_reformulation_boundary_erasure",
+      "least_Ramsey_nonvacuity_evidence_erasure",
+      "whole_chapter_or_proof_body_authority_inflation",
+      "mathematical_proof_or_cross_family_or_aggregate_authority_inflation"
+    ]
+  },
+  "target_scope": {
+    "lean_theorems": [
+      "ErdosProblems.MulticolourTriangleRamsey.erdos_183",
+      "ErdosProblems.MulticolourTriangleRamsey.erdos_problem_183_explicit",
+      "ErdosProblems.MulticolourTriangleRamsey.triangleRamseyNumber_log_sharp_coefficients",
+      "ErdosProblems.MulticolourTriangleRamsey.triangleRamseyNumber_log_isTheta"
+    ],
+    "classifications": [
+      "source_faithful_exact_projection_of_displayed_consequence_4",
+      "formal_explicit_constant_strengthening_plus_source_faithful_divergence",
+      "source_faithful_epsilonized_logarithmic_reformulation",
+      "source_faithful_logarithmic_reformulation_of_printed_theta"
+    ],
+    "mandatory_qualifications": [
+      "The manuscript does not specify the explicit constant 1/(6*exp 38); it is formal strengthening provenance only.",
+      "The epsilon logarithmic coefficients are source-faithful natural-log reformulations, not verbatim source text.",
+      "Filter-Theta is a source-faithful reformulation of printed R_k(3)=k^{Theta(k)}.",
+      "Least-Ramsey-number semantics rely on the protected nonempty forcing set and sInf realization evidence.",
+      "No whole-chapter semantic equivalence or proof-body comparison is transferred."
+    ],
+    "nonvacuity_state": "clear_for_all_four_targets"
+  },
+  "activation": {
+    "fresh_exact_head_replay_required": true,
+    "canonical_cert_and_gcl_checks_required": true,
+    "fresh_non_author_ramsey_combinatorics_lean_specialist_approval_required": true,
+    "expected_head_protected_merge_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "claim_boundary": "This work package binds only the exact protected four-target OTP-I-RAMSEY surface and its recorded classifications for a clean-room exact-head replay and restricted qualification candidate. It preserves the manuscript-versus-formal distinction for the explicit constant, the natural-log and Filter-Theta reformulations, and the protected least-Ramsey-number nonvacuity semantics. It does not mark a mathematical target proved, certify a complete source proof body, establish whole-chapter equivalence, transfer authority to another family, or create aggregate OpenAI Ten Proofs, novelty, priority, publication, patentability, product, or commercial authority."
+}

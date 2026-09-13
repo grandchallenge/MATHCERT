@@ -15,6 +15,8 @@ H_GAPCVP_NAME = "OTP-H-GAPCVP.json"
 EXPECTED_H_GAPCVP_BLOB = "1bcffa57c9e07dc0a224f13c84e9ec0597429b92"
 B2_SPHERICAL_CODES_NAME = "OTP-B2-SPHERICAL-CODES.json"
 EXPECTED_B2_SPHERICAL_CODES_BLOB = "ac5ca772fad30e6f8508b5ddb88484ce754b2e87"
+I_RAMSEY_NAME = "OTP-I-RAMSEY.json"
+EXPECTED_I_RAMSEY_BLOB = "870bb25044a5e703ef96036252ab2275b7c831b3"
 
 
 def git_blob_sha1(path: Path) -> str:
@@ -37,6 +39,7 @@ def membership_errors(root: Path, historical_expected: set[str]) -> list[str]:
     b1_binary_codes_contract = historical_dir / B1_BINARY_CODES_NAME
     h_gapcvp_contract = historical_dir / H_GAPCVP_NAME
     b2_spherical_codes_contract = historical_dir / B2_SPHERICAL_CODES_NAME
+    i_ramsey_contract = historical_dir / I_RAMSEY_NAME
 
     actual_historical = {p.name for p in historical_dir.glob("*.json")}
     expected_historical = set(historical_expected) | {FULL_FORMULA_NAME}
@@ -48,6 +51,8 @@ def membership_errors(root: Path, historical_expected: set[str]) -> list[str]:
         expected_historical.add(H_GAPCVP_NAME)
     if b2_spherical_codes_contract.exists():
         expected_historical.add(B2_SPHERICAL_CODES_NAME)
+    if i_ramsey_contract.exists():
+        expected_historical.add(I_RAMSEY_NAME)
     if actual_historical != expected_historical:
         errors.append(
             "output-contract historical membership drift beyond governed compatibility shadows/design objects: "
@@ -106,6 +111,14 @@ def membership_errors(root: Path, historical_expected: set[str]) -> list[str]:
             errors.append(
                 "governed B2 spherical-codes output contract blob drift: "
                 f"expected {EXPECTED_B2_SPHERICAL_CODES_BLOB}, found {blob}"
+            )
+
+    if i_ramsey_contract.exists():
+        blob = git_blob_sha1(i_ramsey_contract)
+        if blob != EXPECTED_I_RAMSEY_BLOB:
+            errors.append(
+                "governed I Ramsey output contract blob drift: "
+                f"expected {EXPECTED_I_RAMSEY_BLOB}, found {blob}"
             )
 
     if (

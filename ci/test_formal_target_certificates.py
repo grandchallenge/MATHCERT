@@ -176,6 +176,18 @@ class FormalTargetCertificateTests(unittest.TestCase):
         )
         self.assertTrue(any("OTP-B2-SPHERICAL-CODES" in error and "authority inflation" in error for error in errors))
 
+    def test_i_ramsey_target_omission_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-I-RAMSEY-001.json"]["encoded_targets"].pop()
+        )
+        self.assertTrue(any("OTP-I-RAMSEY" in error and "target" in error for error in errors))
+
+    def test_i_ramsey_proof_promotion_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-I-RAMSEY-001.json"]["state"].__setitem__("mathematical_target_proved", True)
+        )
+        self.assertTrue(any("OTP-I-RAMSEY" in error and "authority inflation" in error for error in errors))
+
     def test_permanent_route_output_drift_fails(self) -> None:
         registry = module.load_json(module.REGISTRY_PATH)
         route = next(route for route in registry["routes"] if route["campaign_id"] == "OTP-C-PERMANENT")

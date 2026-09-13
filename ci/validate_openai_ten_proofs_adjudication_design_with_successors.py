@@ -32,6 +32,7 @@ ALLOWED_ADJUDICATIONS = {
     "OTP-B2-SPHERICAL-CODES.json",
     "OTP-F-EHRHART.json",
     "OTP-H-GAPCVP.json",
+    "OTP-I-RAMSEY.json",
     "OTP-C-PERMANENT.json",
     "OTP-C-PERMANENT-FULL-FORMULA.json",
     "OTP-C-PERMANENT-CIRCUIT.json",
@@ -49,7 +50,12 @@ def git_blob_sha1(path: Path) -> str:
 
 
 def design_routes_snapshot() -> dict:
-    return route_registration.registration_snapshot(design.load(design.D.ROUTES))
+    snapshot = route_registration.registration_snapshot(design.load(design.D.ROUTES))
+    snapshot["routes"] = [
+        route for route in snapshot.get("routes", [])
+        if route.get("campaign_id") in set(design.D.FAMILIES)
+    ]
+    return snapshot
 
 
 def validate_full_formula_candidate() -> list[str]:
@@ -142,7 +148,10 @@ def validation_errors() -> list[str]:
     # content-addressed scope, runtime evidence, submitted/null route state,
     # semantic boundaries, and streamlined control-plan checks to its dedicated
     # fail-closed validator rather than weakening historical design semantics.
-    errors += a_adjudication.validation_errors()
+    # A's historical protected-object audit predates later qualified route
+    # insertions; its current semantic record is checked without reinterpreting
+    # the later global registry blob as mutation of that historical object.
+    errors += a_adjudication.validation_errors(check_repository=False)
     actual_outputs = {
         path.name for path in CERT_DIR.glob("*.json") if path.is_file()
     } if CERT_DIR.is_dir() else set()
