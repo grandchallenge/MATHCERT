@@ -75,6 +75,10 @@ class CertificationRouteTests(unittest.TestCase):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-B2-SPHERICAL-CODES")["source_manifest"]["digest"]="0"*40;self.assertTrue(any("manifest identity drift" in x for x in self.errors(d)))
  def test_i_ramsey_output_pointer_drift_fails(self):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-I-RAMSEY")["cert_output"]["digest"]="0"*40;self.assertTrue(any("output identity drift" in x for x in self.errors(d)))
+ def test_g_quantum_output_pointer_drift_fails(self):
+  d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-G-QUANTUM-PARALLEL-REPETITION")["cert_output"]["digest"]="0"*40;self.assertTrue(any("output identity drift" in x for x in self.errors(d)))
+ def test_g_quantum_packet_drift_fails(self):
+  d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-G-QUANTUM-PARALLEL-REPETITION")["intake_packet"]["digest"]="0"*40;self.assertTrue(any("packet identity drift" in x for x in self.errors(d)))
  def test_aggregate_route_fails(self):
   d=self.load_registry();r=copy.deepcopy(next(r for r in d["routes"] if r["campaign_id"]=="OTP-F-EHRHART"));r["campaign_id"]="OPENAI-TEN-PROOFS-001";r["route_id"]="MC-ROUTE-OPENAI-TEN-PROOFS-001";d["routes"].append(r);self.assertTrue(self.errors(d))
 class HCQualificationTests(unittest.TestCase):
