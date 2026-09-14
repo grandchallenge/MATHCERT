@@ -81,6 +81,8 @@ class CertificationRouteTests(unittest.TestCase):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-G-QUANTUM-PARALLEL-REPETITION")["intake_packet"]["digest"]="0"*40;self.assertTrue(any("packet identity drift" in x for x in self.errors(d)))
  def test_d_non_sofic_output_pointer_drift_fails(self):
   d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-D-NON-SOFIC")["cert_output"]["digest"]="0"*40;self.assertTrue(any("output identity drift" in x for x in self.errors(d)))
+ def test_e_connes_rigidity_output_pointer_drift_fails(self):
+  d=self.load_registry();next(r for r in d["routes"] if r["campaign_id"]=="OTP-E-CONNES-RIGIDITY")["cert_output"]["digest"]="0"*40;self.assertTrue(any("output identity drift" in x for x in self.errors(d)))
  def test_aggregate_route_fails(self):
   d=self.load_registry();r=copy.deepcopy(next(r for r in d["routes"] if r["campaign_id"]=="OTP-F-EHRHART"));r["campaign_id"]="OPENAI-TEN-PROOFS-001";r["route_id"]="MC-ROUTE-OPENAI-TEN-PROOFS-001";d["routes"].append(r);self.assertTrue(self.errors(d))
 class HCQualificationTests(unittest.TestCase):

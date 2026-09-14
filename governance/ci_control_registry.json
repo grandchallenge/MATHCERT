@@ -179,6 +179,8 @@
     {"path":"ci/test_otp_permanent_circuit_certification.py","mode":"direct"},
     {"path":"ci/validate_otp_replay_readback_reconciliation.py","mode":"direct"},
     {"path":"ci/test_otp_replay_readback_reconciliation.py","mode":"direct"},
+    {"path":"ci/validate_otp_e_connes_rigidity_certification.py","mode":"direct"},
+    {"path":"ci/test_otp_e_connes_rigidity_certification.py","mode":"direct"},
     {"path":"ci/audit_ci_reachability.py","mode":"direct"},
     {"path":"ci/test_audit_ci_reachability.py","mode":"direct"}
   ],
