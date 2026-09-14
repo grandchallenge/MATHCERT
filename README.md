@@ -2,6 +2,27 @@
 
 Lean-first certification workspace for the Grand Challenge programme.
 
+## Verified corpus · OpenAI Ten Proofs
+
+MATHCERT has independently kernel-verified the exact supplied Lean
+formalizations for all ten results advertised by
+[`openai/ten-proofs`](https://github.com/openai/ten-proofs) at commit
+[`94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6`](https://github.com/openai/ten-proofs/commit/94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6).
+
+| Verification surface | Protected result |
+|---|---|
+| Source modules | 10 of 10 built from the pinned upstream tree |
+| Advertised headline declarations | 12 of 12 accepted by the Lean kernel |
+| Axiom boundary | `Classical.choice`, `Quot.sound`, and `propext` only |
+| MATHCERT family routes | 12 of 12 qualified with their statement qualifications retained |
+| Protected-main replay | [Passed](https://github.com/grandchallenge/MATHCERT/actions/runs/34838818609) |
+
+This verifies the supplied Lean proofs and their complete Lean dependency
+graphs. It does not assert literal line-by-line identity with the accompanying
+PDF exposition, novelty, priority, or any broader paraphrase. Read the
+[public verification note](docs/OPENAI_TEN_PROOFS_VERIFICATION.md) or inspect
+the [machine-readable corpus record](governance/corpus_verifications/OPENAI-TEN-PROOFS-001.json).
+
 ## Programme links
 
 MATH-PROGRAMME is the front door and policy source for this pillar.
