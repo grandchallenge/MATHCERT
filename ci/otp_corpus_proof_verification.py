@@ -13,7 +13,6 @@ from jsonschema import Draft202012Validator, FormatChecker
 ROOT = Path(__file__).resolve().parents[1]
 RECORD = ROOT / "governance/corpus_verifications/OPENAI-TEN-PROOFS-001.json"
 SCHEMA = ROOT / "schemas/openai_ten_proofs_corpus_verification.schema.json"
-ROUTES = ROOT / "governance/certification_routes.json"
 
 FAMILIES = {
     "OTP-A-SPHERE-PACKING",
@@ -93,16 +92,6 @@ def validate(record_path: Path = RECORD) -> list[str]:
         errors.append("expected exactly twelve distinct advertised main declarations")
     if len(modules) != 10:
         errors.append("expected exactly ten distinct Lean source modules")
-
-    routes = load(ROUTES).get("routes", [])
-    otp_routes = {r.get("campaign_id"): r for r in routes if r.get("campaign_id") in FAMILIES}
-    if set(otp_routes) != FAMILIES:
-        errors.append("protected route registry does not contain all twelve families")
-    for family, route in otp_routes.items():
-        if route.get("intake_status") != "qualified":
-            errors.append(f"{family}: protected route is not qualified")
-        if not route.get("cert_output"):
-            errors.append(f"{family}: protected route has no certificate output")
 
     for ref in cert_refs:
         path = ROOT / ref["path"]

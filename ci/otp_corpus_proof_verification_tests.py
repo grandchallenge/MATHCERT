@@ -9,7 +9,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MODULE_PATH = ROOT / "ci/validate_openai_ten_proofs_corpus_verification.py"
+MODULE_PATH = ROOT / "ci/otp_corpus_proof_verification.py"
 SPEC = importlib.util.spec_from_file_location("otp_corpus_validator", MODULE_PATH)
 assert SPEC and SPEC.loader
 VALIDATOR = importlib.util.module_from_spec(SPEC)
