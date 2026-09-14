@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "protected_review_gate_exception",
+  "incident_id": "MC-REVIEW-GATE-EXCEPTION-PR-278",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/287",
+  "repository": "grandchallenge/MATHCERT",
+  "affected_change": {
+    "pull_request": "https://github.com/grandchallenge/MATHCERT/pull/278",
+    "head_sha": "51eed502ccad6e926548c5ce088cb7896f1087b9",
+    "merge_commit": "80e7a2c715501d43ac048f18d2229697429d8b15",
+    "author": "fyremael",
+    "merged_by": "fyremael",
+    "merged_at": "2026-09-13T11:31:57Z",
+    "successful_checks": 50
+  },
+  "exception": {
+    "declared_review_required": true,
+    "submitted_review_count": 0,
+    "exact_head_approval_present": false,
+    "auto_merge_enabled_by": "fyremael",
+    "retroactive_approval_prohibited": true
+  },
+  "impact_assessment": {
+    "affected_scope": "OTP-G certification-platform reachability registration only",
+    "mathematical_claim_promoted": false,
+    "certificate_issued": false,
+    "otp_g_final_qualification_invalidated": false,
+    "reason": "PR #278 granted no mathematical or certification authority; the corrective canonical-runner change in PR #279 and final restricted OTP-G qualification in PR #280 each received an independent APPROVED review bound to their exact head."
+  },
+  "subsequent_controls": [
+    {
+      "pull_request": "https://github.com/grandchallenge/MATHCERT/pull/279",
+      "head_sha": "42b28daf733b4fb4ae9b77a5c98d26ebd09ae049",
+      "merge_commit": "7f8e37412e24b985d3c33a550f0083c8eed9af03",
+      "reviewer": "jimsteeg",
+      "review_state": "APPROVED",
+      "review_commit_id": "42b28daf733b4fb4ae9b77a5c98d26ebd09ae049"
+    },
+    {
+      "pull_request": "https://github.com/grandchallenge/MATHCERT/pull/280",
+      "head_sha": "1c0d9a1c0d52dd947ba21e3e6405cbf2a97f33f6",
+      "merge_commit": "a1686c9718834f369655694a2ae85c04ea12d24a",
+      "reviewer": "jimsteeg",
+      "review_state": "APPROVED",
+      "review_commit_id": "1c0d9a1c0d52dd947ba21e3e6405cbf2a97f33f6"
+    }
+  ],
+  "prospective_enforcement": {
+    "ruleset_id": 17137628,
+    "ruleset_name": "Cert profile - main",
+    "enforcement": "active",
+    "required_approving_review_count": 1,
+    "dismiss_stale_reviews_on_push": true,
+    "require_last_push_approval": true,
+    "verified_at": "2026-09-14T07:51:55Z"
+  },
+  "closure_gate": {
+    "fresh_non_author_approval_required": true,
+    "approval_must_bind_final_head": true,
+    "expected_head_merge_required": true,
+    "protected_main_readback_required": true,
+    "history_rewrite_prohibited": true
+  }
+}
