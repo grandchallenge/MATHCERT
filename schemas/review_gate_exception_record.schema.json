@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/review_gate_exception_record.schema.json",
+  "title": "Protected review gate exception record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "incident_id", "tracker_issue", "repository", "affected_change", "exception", "impact_assessment", "subsequent_controls", "prospective_enforcement", "closure_gate"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "protected_review_gate_exception"},
+    "incident_id": {"type": "string", "minLength": 1},
+    "tracker_issue": {"type": "string", "format": "uri"},
+    "repository": {"type": "string", "minLength": 1},
+    "affected_change": {"type": "object", "additionalProperties": false, "required": ["pull_request", "head_sha", "merge_commit", "author", "merged_by", "merged_at", "successful_checks"], "properties": {"pull_request": {"type": "string", "format": "uri"}, "head_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "merge_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "author": {"type": "string"}, "merged_by": {"type": "string"}, "merged_at": {"type": "string", "format": "date-time"}, "successful_checks": {"type": "integer", "minimum": 0}}},
+    "exception": {"type": "object", "additionalProperties": false, "required": ["declared_review_required", "submitted_review_count", "exact_head_approval_present", "auto_merge_enabled_by", "retroactive_approval_prohibited"], "properties": {"declared_review_required": {"const": true}, "submitted_review_count": {"const": 0}, "exact_head_approval_present": {"const": false}, "auto_merge_enabled_by": {"type": "string"}, "retroactive_approval_prohibited": {"const": true}}},
+    "impact_assessment": {"type": "object", "additionalProperties": false, "required": ["affected_scope", "mathematical_claim_promoted", "certificate_issued", "otp_g_final_qualification_invalidated", "reason"], "properties": {"affected_scope": {"type": "string"}, "mathematical_claim_promoted": {"const": false}, "certificate_issued": {"const": false}, "otp_g_final_qualification_invalidated": {"const": false}, "reason": {"type": "string", "minLength": 1}}},
+    "subsequent_controls": {"type": "array", "minItems": 2, "items": {"type": "object", "additionalProperties": false, "required": ["pull_request", "head_sha", "merge_commit", "reviewer", "review_state", "review_commit_id"], "properties": {"pull_request": {"type": "string", "format": "uri"}, "head_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "merge_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "reviewer": {"type": "string"}, "review_state": {"const": "APPROVED"}, "review_commit_id": {"type": "string", "pattern": "^[0-9a-f]{40}$"}}}},
+    "prospective_enforcement": {"type": "object", "additionalProperties": false, "required": ["ruleset_id", "ruleset_name", "enforcement", "required_approving_review_count", "dismiss_stale_reviews_on_push", "require_last_push_approval", "verified_at"], "properties": {"ruleset_id": {"type": "integer"}, "ruleset_name": {"type": "string"}, "enforcement": {"const": "active"}, "required_approving_review_count": {"minimum": 1, "type": "integer"}, "dismiss_stale_reviews_on_push": {"const": true}, "require_last_push_approval": {"const": true}, "verified_at": {"type": "string", "format": "date-time"}}},
+    "closure_gate": {"type": "object", "additionalProperties": false, "required": ["fresh_non_author_approval_required", "approval_must_bind_final_head", "expected_head_merge_required", "protected_main_readback_required", "history_rewrite_prohibited"], "properties": {"fresh_non_author_approval_required": {"const": true}, "approval_must_bind_final_head": {"const": true}, "expected_head_merge_required": {"const": true}, "protected_main_readback_required": {"const": true}, "history_rewrite_prohibited": {"const": true}}}
+  }
+}
