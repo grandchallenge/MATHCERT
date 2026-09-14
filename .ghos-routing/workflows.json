@@ -397,7 +397,10 @@
     {
       "path": ".github/workflows/protected-review-gate.yml",
       "observed_features": [
-        "OPAQUE_EXECUTION"
+        "AUTONOMOUS_WAKE",
+        "OPAQUE_EXECUTION",
+        "SCHEDULED",
+        "SECRET_CREDENTIAL"
       ],
       "topology": "PERSISTENT_CONTROLLER_REQUIRED",
       "controller_id": "GITHUB_ACTIONS"
