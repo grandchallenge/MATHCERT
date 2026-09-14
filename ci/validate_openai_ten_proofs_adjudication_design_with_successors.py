@@ -31,6 +31,7 @@ ALLOWED_ADJUDICATIONS = {
     "OTP-B1-BINARY-CODES.json",
     "OTP-B2-SPHERICAL-CODES.json",
     "OTP-F-EHRHART.json",
+    "OTP-G-QUANTUM-PARALLEL-REPETITION.json",
     "OTP-H-GAPCVP.json",
     "OTP-I-RAMSEY.json",
     "OTP-C-PERMANENT.json",

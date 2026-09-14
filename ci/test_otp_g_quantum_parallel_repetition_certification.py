@@ -3,7 +3,9 @@ from __future__ import annotations
 import copy
 import unittest
 
+import otp_full_formula_contract_membership as contract_membership
 import validate_otp_g_quantum_parallel_repetition_certification as module
+import validate_otp_j2_output_contract as j2_design
 
 
 class QuantumParallelRepetitionCertificationTests(unittest.TestCase):
@@ -44,6 +46,12 @@ class QuantumParallelRepetitionCertificationTests(unittest.TestCase):
 
     def test_certificate_blob_drift_fails(self):
         self.assertTrue(any("certificate blob drift" in e for e in self.errors(local_blobs={"certificate": "0" * 40})))
+
+    def test_legacy_output_contract_membership_admits_exact_g_blob(self):
+        self.assertEqual(
+            [],
+            contract_membership.membership_errors(module.ROOT, set(j2_design.EXPECTED_CONTRACT_FILES)),
+        )
 
 
 if __name__ == "__main__":
