@@ -203,6 +203,14 @@
       "controller_id": "GITHUB_ACTIONS"
     },
     {
+      "path": ".github/workflows/otp-corpus-proof-verification.yml",
+      "observed_features": [
+        "OPAQUE_EXECUTION"
+      ],
+      "topology": "PERSISTENT_CONTROLLER_REQUIRED",
+      "controller_id": "GITHUB_ACTIONS"
+    },
+    {
       "path": ".github/workflows/otp-d-non-sofic-cert-replay.yml",
       "observed_features": [
         "OPAQUE_EXECUTION"

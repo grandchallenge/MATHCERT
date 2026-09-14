@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_corpus_verification",
+  "record_id": "MC-OPENAI-TEN-PROOFS-CORPUS-VERIFICATION-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/289",
+  "publication_state": "candidate_until_exact_head_independent_approval_and_protected_merge",
+  "subject": {
+    "repository": "openai/ten-proofs",
+    "commit": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6",
+    "tree": "174289e4d4958cb0509874e6e53400e098213de7",
+    "lean_version": "4.32.0",
+    "mathlib_commit": "81a5d257c8e410db227a6665ed08f64fea08e997",
+    "comparator_commit": "07bc4ea40f2266dcb861820a2ec1fa3244ed307f",
+    "module_count": 10,
+    "main_result_count": 12
+  },
+  "verification_standard": {
+    "criterion": "independent_kernel_verification_of_the_supplied_lean_formalizations_for_all_ten_advertised_results",
+    "proof_body_rule": "kernel_acceptance_of_each_top_level_declaration_checks_its_complete_lean_dependency_graph",
+    "source_correspondence_rule": "each_checked_declaration_must_remain_bound_to_its_recorded_source_statement_relation_and_qualifications"
+  },
+  "evidence_sources": {
+    "formal_source_successor": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit": "dd172c72d209c950b7ea56cac3945b0b811d623f",
+      "path": "sources/OPENAI-TEN-PROOFS-001/formal_source_successors/OTP-FORMAL-SOURCE-SUCCESSOR-002.json",
+      "git_blob_sha1": "6993ce9fac2c65ffae7f2a0c7d728aab828ed532"
+    },
+    "pdf_source_successor": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit": "8cec15c974eaa95a310abe27c53208d9cc0019ba",
+      "path": "sources/OPENAI-TEN-PROOFS-001/pdf_source_successors/OTP-SOURCE-PDF-SUCCESSOR-002.json",
+      "git_blob_sha1": "02d1748abed36717afba46451330be165c076737"
+    }
+  },
+  "evidence_summary": {
+    "family_replays": 12,
+    "protected_family_target_declarations": 38,
+    "supplemental_permanent_target_declarations": 5,
+    "main_declarations": 12,
+    "comparator_acceptances": 12,
+    "lean_kernel_acceptances": 12,
+    "sorry_count": 0,
+    "admit_count": 0,
+    "custom_axiom_count": 0,
+    "unsafe_declaration_count": 0,
+    "unexpected_axioms": [],
+    "permitted_axioms": ["Classical.choice", "Quot.sound", "propext"]
+  },
+  "results": [
+    {
+      "ordinal": 1,
+      "advertised_result": "High-dimensional sphere packing",
+      "module": "SpherePacking.lean",
+      "module_blob": "e6117934a80142a8249356fdafa797eba030e920",
+      "families": ["OTP-A-SPHERE-PACKING"],
+      "main_declarations": ["PackingBounds.sharpFullCohnElkiesManuscriptConclusions"],
+      "kernel_verified": true,
+      "source_correspondence": "source_result_with_formal_strengthening_or_derived_projection_qualifications",
+      "certificates": [{"path": "certificates/formal_sources/MC-OTP-A-SPHERE-PACKING-001.json", "git_blob_sha1": "534e98ad2f00406fc869ea137f802f8cf504798a"}]
+    },
+    {
+      "ordinal": 2,
+      "advertised_result": "Binary and spherical codes",
+      "module": "MetricCodes.lean",
+      "module_blob": "51628c0db81bd6cb9a79777fa601306c9d64cbc5",
+      "families": ["OTP-B1-BINARY-CODES", "OTP-B2-SPHERICAL-CODES"],
+      "main_declarations": ["MetricCodes.Johnson.binaryRate_lt_mrrw", "MetricCodes.Spherical.HigherHierarchy.strict_hierarchy"],
+      "kernel_verified": true,
+      "source_correspondence": "source_result_with_formal_strengthening_or_derived_projection_qualifications",
+      "certificates": [
+        {"path": "certificates/formal_sources/MC-OTP-B1-BINARY-CODES-001.json", "git_blob_sha1": "9e209b10ae814f79635735e6a3d5ee5821082c93"},
+        {"path": "certificates/formal_sources/MC-OTP-B2-SPHERICAL-CODES-001.json", "git_blob_sha1": "567294abc70d250a83647d4fd1fe82794c9203c8"}
+      ]
+    },
+    {
+      "ordinal": 3,
+      "advertised_result": "Non-sofic groups",
+      "module": "NonSoficGroup.lean",
+      "module_blob": "dd1f8e63960300c8674fcd491007d2a628fbc6fe",
+      "families": ["OTP-D-NON-SOFIC"],
+      "main_declarations": ["SoficGroups.SourceTopLevelCompressionFinal.exists_finitelyPresented_nonsofic_group"],
+      "kernel_verified": true,
+      "source_correspondence": "source_result_with_formal_strengthening_or_derived_projection_qualifications",
+      "certificates": [{"path": "certificates/formal_sources/MC-OTP-D-NON-SOFIC-001.json", "git_blob_sha1": "354da3dbf396daed15509013b4b6f7515e72ab4f"}]
+    },
+    {
+      "ordinal": 4,
+      "advertised_result": "Connes rigidity counterexample",
+      "module": "ConnesRigidity.lean",
+      "module_blob": "81cf03e3f7ccdc66815cc00c9969bcfd2341c8d6",
+      "families": ["OTP-E-CONNES-RIGIDITY"],
+      "main_declarations": ["ConnesRigidity.exists_infinite_pairwise_nonisomorphic_propertyT_icc_groups_with_isomorphic_factors"],
+      "kernel_verified": true,
+      "source_correspondence": "source_faithful_with_recorded_qualifications",
+      "certificates": [{"path": "certificates/formal_sources/MC-OTP-E-CONNES-RIGIDITY-001.json", "git_blob_sha1": "e135e4d7cd4eb752b25e1a940f970f224465191e"}]
+    },
+    {
+      "ordinal": 5,
+      "advertised_result": "Arithmetic circuit and formula lower bounds for the permanent",
+      "module": "Permanent.lean",
+      "module_blob": "56100e1ae26e6920a569166d0f4cdb4b42b04301",
+      "families": ["OTP-C-PERMANENT"],
+      "main_declarations": ["PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound"],
+      "kernel_verified": true,
+      "source_correspondence": "source_faithful_with_recorded_qualifications",
+      "certificates": [
+        {"path": "certificates/formal_sources/MC-OTP-C-PERMANENT-001.json", "git_blob_sha1": "ad10c427270cb1c747ebcacbc5c37e4c1ed1df04"},
+        {"path": "certificates/formal_sources/MC-OTP-C-PERMANENT-FULL-FORMULA-001.json", "git_blob_sha1": "2940f551805794b96c7b0793bfe0d14e9fcd9954"},
+        {"path": "certificates/formal_sources/MC-OTP-C-PERMANENT-CIRCUIT-001.json", "git_blob_sha1": "9d0eb4a83df73440b17cb6809ede5cdcc0a8e385"}
+      ]
+    },
+    {
+      "ordinal": 6,
+      "advertised_result": "Quantum parallel repetition",
+      "module": "QuantumParallelRepetition.lean",
+      "module_blob": "887c4378f124a5d81a3f2624b6dc34867ec409c4",
+      "families": ["OTP-G-QUANTUM-PARALLEL-REPETITION"],
+      "main_declarations": ["QuantumParallelRepetition.distributionUniformExponential"],
+      "kernel_verified": true,
+      "source_correspondence": "source_result_with_formal_strengthening_or_derived_projection_qualifications",
+      "certificates": [{"path": "certificates/formal_sources/MC-OTP-G-QUANTUM-PARALLEL-REPETITION-001.json", "git_blob_sha1": "4c7e5f091ddead5913733810933fa5f60f4dc11b"}]
+    },
+    {
+      "ordinal": 7,
+      "advertised_result": "Closest-vector and decoding hardness",
+      "module": "GapCVP.lean",
+      "module_blob": "47f3a395e4d9ec3e2892664860f26ed63421b0c9",
+      "families": ["OTP-H-GAPCVP"],
+      "main_declarations": ["GapCVP.Comparator.gapCVP400IsNPHard"],
+      "kernel_verified": true,
+      "source_correspondence": "source_result_with_formal_strengthening_or_derived_projection_qualifications",
+      "certificates": [{"path": "certificates/formal_sources/MC-OTP-H-GAPCVP-001.json", "git_blob_sha1": "88b24b5e850676d89267467ea05e21d6dddca9d0"}]
+    },
+    {
+      "ordinal": 8,
+      "advertised_result": "Sharp Ehrhart volume inequality",
+      "module": "EhrhartVolumeInequality.lean",
+      "module_blob": "842c602ab882dfae64352fed0bce2d83c19b31e8",
+      "families": ["OTP-F-EHRHART"],
+      "main_declarations": ["Ehrhart.Volume.ehrhart_volume_inequality_for_sets"],
+      "kernel_verified": true,
+      "source_correspondence": "source_faithful_with_recorded_qualifications",
+      "certificates": [{"path": "certificates/formal_sources/MC-OTP-F-EHRHART-001.json", "git_blob_sha1": "27a855c949b67e71372c7f0d6601d80125d33968"}]
+    },
+    {
+      "ordinal": 9,
+      "advertised_result": "Multicolor triangle Ramsey numbers",
+      "module": "MulticolorTriangleRamsey.lean",
+      "module_blob": "24b55f531a4d36347cd2277b1b9c7d784d91ae35",
+      "families": ["OTP-I-RAMSEY"],
+      "main_declarations": ["ErdosProblems.MulticolourTriangleRamsey.erdos_problem_183_explicit"],
+      "kernel_verified": true,
+      "source_correspondence": "source_result_with_formal_strengthening_or_derived_projection_qualifications",
+      "certificates": [{"path": "certificates/formal_sources/MC-OTP-I-RAMSEY-001.json", "git_blob_sha1": "34e45c5dd08a3bb19fc27bc1f7da4ec71b3e1d31"}]
+    },
+    {
+      "ordinal": 10,
+      "advertised_result": "Extremal graph counterexamples",
+      "module": "CompactnessAndDegeneracy.lean",
+      "module_blob": "0e973d50014e8c800af597ef699ef29b81e42fc6",
+      "families": ["OTP-J1-COMPACTNESS", "OTP-J2-TWO-DEGENERATE"],
+      "main_declarations": ["CompactnessConjecture.quantitativeCompactnessCounterexample", "TwoDegenerateGraphs.twoDegenerateExtremalCounterexample"],
+      "kernel_verified": true,
+      "source_correspondence": "source_faithful_with_recorded_qualifications",
+      "certificates": [
+        {"path": "certificates/formal_sources/MC-OTP-J1-COMPACTNESS-001.json", "git_blob_sha1": "88531e28951854961e86eec0517356999a391759"},
+        {"path": "certificates/formal_sources/MC-OTP-J2-TWO-DEGENERATE-001.json", "git_blob_sha1": "308a2eb7087fb24a07a6ae8c93a83b593468d2f7"}
+      ]
+    }
+  ],
+  "conclusion": {
+    "supplied_lean_formalizations_verified": true,
+    "ten_advertised_results_covered": true,
+    "proof_status": "kernel_verified_for_exact_listed_declarations_under_recorded_statement_qualifications",
+    "supersedes_blanket_denial": "Historical mathematical_target_proved:false fields do not negate kernel proof of the exact listed Lean declarations."
+  },
+  "limitations": {
+    "pdf_exposition_line_by_line_equivalence": "not_required_and_not_asserted",
+    "novelty_priority_publication": "not_adjudicated",
+    "scope": "The conclusion applies to the supplied Lean formalizations and exact listed declarations, not to unlisted statements or broader paraphrases."
+  },
+  "publication_gate": {
+    "fresh_non_author_specialist_approval": true,
+    "approval_binds_final_head": true,
+    "expected_head_protected_merge": true,
+    "protected_main_readback": true
+  }
+}

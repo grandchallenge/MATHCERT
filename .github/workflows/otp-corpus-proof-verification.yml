@@ -1,0 +1,154 @@
+name: OTP corpus proof verification
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/otp-corpus-proof-verification.yml"
+      - ".ghos-routing/workflows.json"
+      - "ci/validate_openai_ten_proofs_corpus_verification.py"
+      - "ci/test_openai_ten_proofs_corpus_verification.py"
+      - "governance/corpus_verifications/OPENAI-TEN-PROOFS-001.json"
+      - "schemas/openai_ten_proofs_corpus_verification.schema.json"
+      - "certificates/formal_sources/MC-OTP-*.json"
+      - "governance/certification_routes.json"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  record:
+    name: corpus-record
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - run: python ci/validate_openai_ten_proofs_corpus_verification.py
+      - run: python ci/test_openai_ten_proofs_corpus_verification.py -v
+
+  proof:
+    name: proof-${{ matrix.slug }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - slug: sphere-packing
+            module: SpherePacking
+            blob: e6117934a80142a8249356fdafa797eba030e920
+            declarations: PackingBounds.sharpFullCohnElkiesManuscriptConclusions
+          - slug: metric-codes
+            module: MetricCodes
+            blob: 51628c0db81bd6cb9a79777fa601306c9d64cbc5
+            declarations: MetricCodes.Johnson.binaryRate_lt_mrrw|MetricCodes.Spherical.HigherHierarchy.strict_hierarchy
+          - slug: non-sofic
+            module: NonSoficGroup
+            blob: dd1f8e63960300c8674fcd491007d2a628fbc6fe
+            declarations: SoficGroups.SourceTopLevelCompressionFinal.exists_finitelyPresented_nonsofic_group
+          - slug: connes-rigidity
+            module: ConnesRigidity
+            blob: 81cf03e3f7ccdc66815cc00c9969bcfd2341c8d6
+            declarations: ConnesRigidity.exists_infinite_pairwise_nonisomorphic_propertyT_icc_groups_with_isomorphic_factors
+          - slug: permanent
+            module: Permanent
+            blob: 56100e1ae26e6920a569166d0f4cdb4b42b04301
+            declarations: PermanentFormulaLowerBound.permanent_rational_formula_logarithmic_lower_bound
+          - slug: quantum-parallel-repetition
+            module: QuantumParallelRepetition
+            blob: 887c4378f124a5d81a3f2624b6dc34867ec409c4
+            declarations: QuantumParallelRepetition.distributionUniformExponential
+          - slug: gapcvp
+            module: GapCVP
+            blob: 47f3a395e4d9ec3e2892664860f26ed63421b0c9
+            declarations: GapCVP.Comparator.gapCVP400IsNPHard
+          - slug: ehrhart
+            module: EhrhartVolumeInequality
+            blob: 842c602ab882dfae64352fed0bce2d83c19b31e8
+            declarations: Ehrhart.Volume.ehrhart_volume_inequality_for_sets
+          - slug: ramsey
+            module: MulticolorTriangleRamsey
+            blob: 24b55f531a4d36347cd2277b1b9c7d784d91ae35
+            declarations: ErdosProblems.MulticolourTriangleRamsey.erdos_problem_183_explicit
+          - slug: extremal-graphs
+            module: CompactnessAndDegeneracy
+            blob: 0e973d50014e8c800af597ef699ef29b81e42fc6
+            declarations: CompactnessConjecture.quantitativeCompactnessCounterexample|TwoDegenerateGraphs.twoDegenerateExtremalCounterexample
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: openai/ten-proofs
+          ref: 94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6
+          path: upstream
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Verify exact formal subject and module
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"
+          test "$(git rev-parse HEAD^{tree})" = "174289e4d4958cb0509874e6e53400e098213de7"
+          test "$(git hash-object '${{ matrix.module }}.lean')" = "${{ matrix.blob }}"
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.32.0"
+      - uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          lake-package-directory: upstream
+      - name: Build supplied Lean proof module
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake build "${{ matrix.module }}"
+      - name: Kernel-check advertised declarations and axiom closure
+        working-directory: upstream
+        shell: bash
+        env:
+          DECLARATIONS: ${{ matrix.declarations }}
+        run: |
+          set -euo pipefail
+          {
+            echo "import ${{ matrix.module }}"
+            IFS='|' read -ra names <<< "$DECLARATIONS"
+            for name in "${names[@]}"; do
+              echo "#check $name"
+              echo "#print axioms $name"
+            done
+          } > MATHCERTCorpusAxioms.lean
+          lake env lean MATHCERTCorpusAxioms.lean 2>&1 | tee theorem-axioms.log
+          python3 - <<'PY'
+          import os, re
+          text=open('theorem-axioms.log', encoding='utf-8').read()
+          permitted={'Classical.choice','Quot.sound','propext'}
+          for theorem in os.environ['DECLARATIONS'].split('|'):
+              match=re.search(rf"'{re.escape(theorem)}' depends on axioms:\s*\[(.*?)\]", text, re.S)
+              if not match:
+                  raise SystemExit(f'missing theorem axiom report: {theorem}')
+              axioms={item.strip() for item in match.group(1).split(',') if item.strip()}
+              unexpected=axioms-permitted
+              if unexpected:
+                  raise SystemExit(f'unexpected axioms for {theorem}: {sorted(unexpected)}')
+          print('EXACT_ADVERTISED_DECLARATIONS_KERNEL_VERIFIED')
+          PY
+          rm MATHCERTCorpusAxioms.lean
+
