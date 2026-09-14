@@ -230,6 +230,10 @@ if [[ -f ci/validate_otp_d_non_sofic_certification.py ]]; then
   python3 ci/validate_otp_d_non_sofic_certification.py
   python3 ci/test_otp_d_non_sofic_certification.py
 fi
+if [[ -f ci/validate_otp_e_connes_rigidity_certification.py ]]; then
+  python3 ci/validate_otp_e_connes_rigidity_certification.py
+  python3 ci/test_otp_e_connes_rigidity_certification.py
+fi
 if [[ -f ci/validate_otp_i_ramsey_certification.py ]]; then
   python3 ci/validate_otp_i_ramsey_certification.py
   python3 ci/test_otp_i_ramsey_certification.py
