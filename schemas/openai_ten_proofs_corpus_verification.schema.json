@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grandchallenge/MATHCERT/schemas/openai_ten_proofs_corpus_verification.schema.json",
+  "title": "OpenAI Ten Proofs corpus verification record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "record_id",
+    "tracker_issue",
+    "publication_state",
+    "subject",
+    "verification_standard",
+    "evidence_sources",
+    "evidence_summary",
+    "results",
+    "conclusion",
+    "limitations",
+    "publication_gate"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "openai_ten_proofs_corpus_verification"},
+    "record_id": {"const": "MC-OPENAI-TEN-PROOFS-CORPUS-VERIFICATION-001"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/289"},
+    "publication_state": {"const": "candidate_until_exact_head_independent_approval_and_protected_merge"},
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit", "tree", "lean_version", "mathlib_commit", "comparator_commit", "module_count", "main_result_count"],
+      "properties": {
+        "repository": {"const": "openai/ten-proofs"},
+        "commit": {"const": "94bc0feb6a9ff12c7d31d6de640a725c9d43d2b6"},
+        "tree": {"const": "174289e4d4958cb0509874e6e53400e098213de7"},
+        "lean_version": {"const": "4.32.0"},
+        "mathlib_commit": {"const": "81a5d257c8e410db227a6665ed08f64fea08e997"},
+        "comparator_commit": {"const": "07bc4ea40f2266dcb861820a2ec1fa3244ed307f"},
+        "module_count": {"const": 10},
+        "main_result_count": {"const": 12}
+      }
+    },
+    "verification_standard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterion", "proof_body_rule", "source_correspondence_rule"],
+      "properties": {
+        "criterion": {"const": "independent_kernel_verification_of_the_supplied_lean_formalizations_for_all_ten_advertised_results"},
+        "proof_body_rule": {"const": "kernel_acceptance_of_each_top_level_declaration_checks_its_complete_lean_dependency_graph"},
+        "source_correspondence_rule": {"const": "each_checked_declaration_must_remain_bound_to_its_recorded_source_statement_relation_and_qualifications"}
+      }
+    },
+    "evidence_sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["formal_source_successor", "pdf_source_successor"],
+      "properties": {
+        "formal_source_successor": {
+          "const": {
+            "repository": "grandchallenge/MATHFORGE",
+            "commit": "dd172c72d209c950b7ea56cac3945b0b811d623f",
+            "path": "sources/OPENAI-TEN-PROOFS-001/formal_source_successors/OTP-FORMAL-SOURCE-SUCCESSOR-002.json",
+            "git_blob_sha1": "6993ce9fac2c65ffae7f2a0c7d728aab828ed532"
+          }
+        },
+        "pdf_source_successor": {
+          "const": {
+            "repository": "grandchallenge/MATHFORGE",
+            "commit": "8cec15c974eaa95a310abe27c53208d9cc0019ba",
+            "path": "sources/OPENAI-TEN-PROOFS-001/pdf_source_successors/OTP-SOURCE-PDF-SUCCESSOR-002.json",
+            "git_blob_sha1": "02d1748abed36717afba46451330be165c076737"
+          }
+        }
+      }
+    },
+    "evidence_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family_replays", "protected_family_target_declarations", "supplemental_permanent_target_declarations", "main_declarations", "comparator_acceptances", "lean_kernel_acceptances", "sorry_count", "admit_count", "custom_axiom_count", "unsafe_declaration_count", "unexpected_axioms", "permitted_axioms"],
+      "properties": {
+        "family_replays": {"const": 12},
+        "protected_family_target_declarations": {"const": 38},
+        "supplemental_permanent_target_declarations": {"const": 5},
+        "main_declarations": {"const": 12},
+        "comparator_acceptances": {"const": 12},
+        "lean_kernel_acceptances": {"const": 12},
+        "sorry_count": {"const": 0},
+        "admit_count": {"const": 0},
+        "custom_axiom_count": {"const": 0},
+        "unsafe_declaration_count": {"const": 0},
+        "unexpected_axioms": {"const": []},
+        "permitted_axioms": {"const": ["Classical.choice", "Quot.sound", "propext"]}
+      }
+    },
+    "results": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ordinal", "advertised_result", "module", "module_blob", "families", "main_declarations", "kernel_verified", "source_correspondence", "certificates"],
+        "properties": {
+          "ordinal": {"type": "integer", "minimum": 1, "maximum": 10},
+          "advertised_result": {"type": "string", "minLength": 1},
+          "module": {"type": "string", "pattern": "^[A-Za-z]+.*\\.lean$"},
+          "module_blob": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "families": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^OTP-"}},
+          "main_declarations": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "kernel_verified": {"const": true},
+          "source_correspondence": {"enum": ["source_faithful_with_recorded_qualifications", "source_result_with_formal_strengthening_or_derived_projection_qualifications"]},
+          "certificates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "git_blob_sha1"],
+              "properties": {
+                "path": {"type": "string", "pattern": "^certificates/formal_sources/MC-OTP-.*\\.json$"},
+                "git_blob_sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "conclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supplied_lean_formalizations_verified", "ten_advertised_results_covered", "proof_status", "supersedes_blanket_denial"],
+      "properties": {
+        "supplied_lean_formalizations_verified": {"const": true},
+        "ten_advertised_results_covered": {"const": true},
+        "proof_status": {"const": "kernel_verified_for_exact_listed_declarations_under_recorded_statement_qualifications"},
+        "supersedes_blanket_denial": {"const": "Historical mathematical_target_proved:false fields do not negate kernel proof of the exact listed Lean declarations."}
+      }
+    },
+    "limitations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pdf_exposition_line_by_line_equivalence", "novelty_priority_publication", "scope"],
+      "properties": {
+        "pdf_exposition_line_by_line_equivalence": {"const": "not_required_and_not_asserted"},
+        "novelty_priority_publication": {"const": "not_adjudicated"},
+        "scope": {"const": "The conclusion applies to the supplied Lean formalizations and exact listed declarations, not to unlisted statements or broader paraphrases."}
+      }
+    },
+    "publication_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fresh_non_author_specialist_approval", "approval_binds_final_head", "expected_head_protected_merge", "protected_main_readback"],
+      "properties": {
+        "fresh_non_author_specialist_approval": {"const": true},
+        "approval_binds_final_head": {"const": true},
+        "expected_head_protected_merge": {"const": true},
+        "protected_main_readback": {"const": true}
+      }
+    }
+  }
+}
