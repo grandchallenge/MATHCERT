@@ -226,6 +226,10 @@ if [[ -f ci/validate_otp_g_quantum_parallel_repetition_certification.py ]]; then
   python3 ci/validate_otp_g_quantum_parallel_repetition_certification.py
   python3 ci/test_otp_g_quantum_parallel_repetition_certification.py
 fi
+if [[ -f ci/validate_otp_d_non_sofic_certification.py ]]; then
+  python3 ci/validate_otp_d_non_sofic_certification.py
+  python3 ci/test_otp_d_non_sofic_certification.py
+fi
 if [[ -f ci/validate_otp_i_ramsey_certification.py ]]; then
   python3 ci/validate_otp_i_ramsey_certification.py
   python3 ci/test_otp_i_ramsey_certification.py
