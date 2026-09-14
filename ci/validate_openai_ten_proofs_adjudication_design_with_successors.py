@@ -33,6 +33,7 @@ ALLOWED_ADJUDICATIONS = {
     "OTP-F-EHRHART.json",
     "OTP-G-QUANTUM-PARALLEL-REPETITION.json",
     "OTP-D-NON-SOFIC.json",
+    "OTP-E-CONNES-RIGIDITY.json",
     "OTP-H-GAPCVP.json",
     "OTP-I-RAMSEY.json",
     "OTP-C-PERMANENT.json",
