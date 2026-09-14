@@ -21,6 +21,7 @@ import validate_otp_b2_spherical_codes_certification as b2_certification
 import validate_otp_h_gapcvp_certification as h_certification
 import validate_otp_i_ramsey_certification as i_certification
 import validate_otp_g_quantum_parallel_repetition_certification as g_certification
+import validate_otp_d_non_sofic_certification as d_certification
 
 ROOT = Path(__file__).resolve().parents[1]
 PRE_CIRCUIT_COMMIT = "809fcbc3704f146fbb9992f03b3b1851ba2fe59b"
@@ -63,6 +64,8 @@ I_FILE = "MC-OTP-I-RAMSEY-001.json"
 I_BLOB = "34e45c5dd08a3bb19fc27bc1f7da4ec71b3e1d31"
 G_FILE = "MC-OTP-G-QUANTUM-PARALLEL-REPETITION-001.json"
 G_BLOB = "4c7e5f091ddead5913733810933fa5f60f4dc11b"
+D_FILE = "MC-OTP-D-NON-SOFIC-001.json"
+D_BLOB = "354da3dbf396daed15509013b4b6f7515e72ab4f"
 
 
 def load_json(path: Path) -> Any:
@@ -317,6 +320,21 @@ def _g_certificate_errors(path: Path, registry_path: Path) -> list[str]:
     return errors
 
 
+def _d_certificate_errors(path: Path, registry_path: Path) -> list[str]:
+    if not path.exists():
+        return [f"missing formal target certificate: {D_FILE}"]
+    errors: list[str] = []
+    if git_blob(path) != D_BLOB:
+        errors.append(f"{path}: certificate blob identity drift")
+    errors.extend(
+        f"OTP-D-NON-SOFIC: {error}"
+        for error in d_certification.validation_errors(
+            certificate=load_json(path), routes=load_json(registry_path), check_history=False
+        )
+    )
+    return errors
+
+
 def certificate_errors(
     directory: Path = CERT_DIR,
     schema_path: Path = SCHEMA_PATH,
@@ -338,7 +356,7 @@ def certificate_errors(
     with tempfile.TemporaryDirectory() as temporary:
         predecessor_dir = Path(temporary)
         for source in directory.glob("*.json"):
-            if source.name not in {CIRCUIT_FILE, A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE}:
+            if source.name not in {CIRCUIT_FILE, A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE, D_FILE}:
                 shutil.copyfile(source, predecessor_dir / source.name)
         errors.extend(
             base.certificate_errors(
@@ -359,12 +377,13 @@ def certificate_errors(
     errors.extend(_h_certificate_errors(directory / H_FILE, registry_path))
     errors.extend(_i_certificate_errors(directory / I_FILE, registry_path))
     errors.extend(_g_certificate_errors(directory / G_FILE, registry_path))
+    errors.extend(_d_certificate_errors(directory / D_FILE, registry_path))
 
-    known = {path.name for path in directory.glob("*.json") if path.name not in {A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE}}
+    known = {path.name for path in directory.glob("*.json") if path.name not in {A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE, D_FILE}}
     with tempfile.TemporaryDirectory() as temporary:
         predecessor_dir = Path(temporary)
         for source in directory.glob("*.json"):
-            if source.name not in {A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE}:
+            if source.name not in {A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE, D_FILE}:
                 shutil.copyfile(source, predecessor_dir / source.name)
         # Unknown non-A members remain rejected by the predecessor chain above;
         # this local set exists only to make the A exception explicit.
@@ -380,6 +399,8 @@ def certificate_errors(
             errors.append("I successor certificate collided with predecessor membership")
         if G_FILE in known:
             errors.append("G successor certificate collided with predecessor membership")
+        if D_FILE in known:
+            errors.append("D successor certificate collided with predecessor membership")
     return errors
 
 
@@ -391,7 +412,7 @@ def main() -> int:
         return 1
     print(
         "validated protected predecessor certificates plus exact restricted "
-        "OTP-C-PERMANENT-FULL-FORMULA, OTP-C-PERMANENT-CIRCUIT, OTP-A-SPHERE-PACKING, OTP-B1-BINARY-CODES, OTP-B2-SPHERICAL-CODES, OTP-H-GAPCVP, OTP-I-RAMSEY, and OTP-G-QUANTUM-PARALLEL-REPETITION qualified successor outputs"
+        "OTP-C-PERMANENT-FULL-FORMULA, OTP-C-PERMANENT-CIRCUIT, OTP-A-SPHERE-PACKING, OTP-B1-BINARY-CODES, OTP-B2-SPHERICAL-CODES, OTP-H-GAPCVP, OTP-I-RAMSEY, OTP-G-QUANTUM-PARALLEL-REPETITION, and OTP-D-NON-SOFIC qualified successor outputs"
     )
     return 0
 

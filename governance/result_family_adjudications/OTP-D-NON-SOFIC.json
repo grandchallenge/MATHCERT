@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "openai_ten_proofs_non_sofic_adjudication",
+  "adjudication_id": "MC-OTP-D-NON-SOFIC-ADJUDICATION-001",
+  "candidate_id": "OPENAI-TEN-PROOFS-001",
+  "result_family": "OTP-D-NON-SOFIC",
+  "route_id": "MC-ROUTE-OTP-D-NON-SOFIC",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/281",
+  "encoded_targets": [
+    "SoficGroups.SourceTopLevelCompressionFinal.exists_finitelyPresented_nonsofic_group"
+  ],
+  "classifications": [
+    "derived_finitely_presented_nonsofic_consequence_of_source_nonsofic_construction"
+  ],
+  "evidence_assessment": {
+    "source_identity": "exact_pinned",
+    "solution_build": "must_pass_on_exact_head",
+    "comparator": "must_accept_on_exact_head",
+    "lean_default_kernel": "must_accept_on_exact_head",
+    "nanoda": "must_accept_on_exact_head",
+    "theorem_axioms": "must_be_permitted_only",
+    "trust_boundary_scan": "must_be_clear",
+    "nonvacuity": "clear_for_exact_derived_target",
+    "source_statement_concordance": "derived_consequence_only_under_recorded_qualifications",
+    "whole_chapter_equivalence": "not_established",
+    "proof_body_compared_in_full": false
+  },
+  "mandatory_qualifications": [
+    "Chapter 3 Theorem 1.1 does not itself state existence of a finitely presented nonsofic group.",
+    "The finitely presented witness is a derived formal consequence constructed from a finite failed sofic approximation test.",
+    "The source obstruction carrier is related through the proved EL_D(R)/EL_9(R) equivalence and is not definitionally the full unit group.",
+    "Group.IsFinitelyPresented remains pinned to Mathlib commit 81a5d257c8e410db227a6665ed08f64fea08e997.",
+    "No whole-chapter semantic equivalence or proof-body comparison is transferred."
+  ],
+  "decision": {
+    "disposition": "adjudication_clear_protected_single_derived_target_only",
+    "scope": "exact_protected_OTP_D_derived_finitely_presented_nonsofic_target_only",
+    "does_not_mark_mathematical_target_proved": true,
+    "does_not_issue_aggregate_output": true
+  },
+  "binding_gate": {
+    "fresh_exact_head_D_replay_required": true,
+    "exact_head_cert_gcl_and_routing_required": true,
+    "fresh_non_author_geometric_group_theory_Lean_specialist_approval_required": true,
+    "expected_head_protected_merge_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true
+  },
+  "state": {
+    "adjudication_recorded_on_candidate": true,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_adjudication": false
+  },
+  "claim_boundary": "This adjudication clears only the exact protected OTP-D derived target under its recorded classification and mandatory qualifications, contingent on final-head replay and independent specialist review. It creates no proof, other-family authority, or aggregate authority."
+}

@@ -19,6 +19,8 @@ I_RAMSEY_NAME = "OTP-I-RAMSEY.json"
 EXPECTED_I_RAMSEY_BLOB = "870bb25044a5e703ef96036252ab2275b7c831b3"
 G_QUANTUM_PARALLEL_REPETITION_NAME = "OTP-G-QUANTUM-PARALLEL-REPETITION.json"
 EXPECTED_G_QUANTUM_PARALLEL_REPETITION_BLOB = "63c6151a0cd055aa4de595db29a58a9a1d2f46c3"
+D_NON_SOFIC_NAME = "OTP-D-NON-SOFIC.json"
+EXPECTED_D_NON_SOFIC_BLOB = "8c0e1457b23d2cc81a9c69e888321c724ae4c91c"
 
 
 def git_blob_sha1(path: Path) -> str:
@@ -43,6 +45,7 @@ def membership_errors(root: Path, historical_expected: set[str]) -> list[str]:
     b2_spherical_codes_contract = historical_dir / B2_SPHERICAL_CODES_NAME
     i_ramsey_contract = historical_dir / I_RAMSEY_NAME
     g_quantum_parallel_repetition_contract = historical_dir / G_QUANTUM_PARALLEL_REPETITION_NAME
+    d_non_sofic_contract = historical_dir / D_NON_SOFIC_NAME
 
     actual_historical = {p.name for p in historical_dir.glob("*.json")}
     expected_historical = set(historical_expected) | {FULL_FORMULA_NAME}
@@ -58,6 +61,8 @@ def membership_errors(root: Path, historical_expected: set[str]) -> list[str]:
         expected_historical.add(I_RAMSEY_NAME)
     if g_quantum_parallel_repetition_contract.exists():
         expected_historical.add(G_QUANTUM_PARALLEL_REPETITION_NAME)
+    if d_non_sofic_contract.exists():
+        expected_historical.add(D_NON_SOFIC_NAME)
     if actual_historical != expected_historical:
         errors.append(
             "output-contract historical membership drift beyond governed compatibility shadows/design objects: "
@@ -132,6 +137,14 @@ def membership_errors(root: Path, historical_expected: set[str]) -> list[str]:
             errors.append(
                 "governed G quantum-parallel-repetition output contract blob drift: "
                 f"expected {EXPECTED_G_QUANTUM_PARALLEL_REPETITION_BLOB}, found {blob}"
+            )
+
+    if d_non_sofic_contract.exists():
+        blob = git_blob_sha1(d_non_sofic_contract)
+        if blob != EXPECTED_D_NON_SOFIC_BLOB:
+            errors.append(
+                "governed D non-sofic output contract blob drift: "
+                f"expected {EXPECTED_D_NON_SOFIC_BLOB}, found {blob}"
             )
 
     if (
