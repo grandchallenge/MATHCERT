@@ -200,6 +200,10 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         self.assertIn("python3 ci/test_otp_g_quantum_parallel_repetition_certification.py", sh)
         self.assertIn('Invoke-Control "ci/validate_otp_g_quantum_parallel_repetition_certification.py"', ps1)
         self.assertIn('Invoke-Control "ci/test_otp_g_quantum_parallel_repetition_certification.py"', ps1)
+        self.assertIn("python3 ci/validate_otp_d_non_sofic_certification.py", sh)
+        self.assertIn("python3 ci/test_otp_d_non_sofic_certification.py", sh)
+        self.assertIn('Invoke-Control "ci/validate_otp_d_non_sofic_certification.py"', ps1)
+        self.assertIn('Invoke-Control "ci/test_otp_d_non_sofic_certification.py"', ps1)
 
     def test_a_only_transition_gets_exact_family_scope(self) -> None:
         scope = certification_scope(

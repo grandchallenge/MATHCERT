@@ -239,6 +239,10 @@ if (Test-Path "ci/validate_otp_g_quantum_parallel_repetition_certification.py") 
     Invoke-Control "ci/validate_otp_g_quantum_parallel_repetition_certification.py"
     Invoke-Control "ci/test_otp_g_quantum_parallel_repetition_certification.py"
 }
+if (Test-Path "ci/validate_otp_d_non_sofic_certification.py") {
+    Invoke-Control "ci/validate_otp_d_non_sofic_certification.py"
+    Invoke-Control "ci/test_otp_d_non_sofic_certification.py"
+}
 if (Test-Path "ci/validate_otp_i_ramsey_certification.py") {
     Invoke-Control "ci/validate_otp_i_ramsey_certification.py"
     Invoke-Control "ci/test_otp_i_ramsey_certification.py"
