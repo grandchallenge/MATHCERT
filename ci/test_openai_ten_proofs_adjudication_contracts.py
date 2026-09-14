@@ -22,6 +22,11 @@ class AdjudicationContractMutationTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.contracts, cls.registry, live_routes = V.defaults()
         cls.routes = route_registration.registration_snapshot(live_routes)
+        cls.routes["routes"] = [
+            route
+            for route in cls.routes.get("routes", [])
+            if route.get("campaign_id") in set(V.D.FAMILIES)
+        ]
         cls.contract_schema = V.load(V.D.CONTRACT_SCHEMA)
         cls.registry_schema = V.load(V.D.REGISTRY_SCHEMA)
         cls.local_blobs = {
@@ -86,6 +91,8 @@ class AdjudicationContractMutationTests(unittest.TestCase):
         routes=copy.deepcopy(self.routes);route=next(r for r in routes["routes"] if r.get("campaign_id")==V.D.FAMILIES[0]);route["intake_status"]="qualified";self.assertTrue(self.errors(routes=routes))
     def test_route_blocker_removal_rejected(self):
         routes=copy.deepcopy(self.routes);route=next(r for r in routes["routes"] if r.get("campaign_id")==V.D.FAMILIES[1]);route["blockers"]=["No blockers."];self.assertTrue(self.errors(routes=routes))
+    def test_route_family_inflation_rejected(self):
+        routes=copy.deepcopy(self.routes);routes["routes"].append({"campaign_id":"OTP-X-EXTRA"});self.assertTrue(self.errors(routes=routes))
     def test_open_schema_rejected(self):
         schema=copy.deepcopy(self.contract_schema);schema["additionalProperties"]=True;self.assertTrue(self.errors(contract_schema=schema))
 

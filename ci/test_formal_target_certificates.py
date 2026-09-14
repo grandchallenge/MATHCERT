@@ -188,6 +188,18 @@ class FormalTargetCertificateTests(unittest.TestCase):
         )
         self.assertTrue(any("OTP-I-RAMSEY" in error and "authority inflation" in error for error in errors))
 
+    def test_g_quantum_target_omission_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-G-QUANTUM-PARALLEL-REPETITION-001.json"]["encoded_targets"].pop()
+        )
+        self.assertTrue(any("OTP-G-QUANTUM-PARALLEL-REPETITION" in error and "target" in error for error in errors))
+
+    def test_g_quantum_proof_promotion_fails(self) -> None:
+        errors = self.record_errors(
+            lambda r: r["MC-OTP-G-QUANTUM-PARALLEL-REPETITION-001.json"]["state"].__setitem__("mathematical_target_proved", True)
+        )
+        self.assertTrue(any("OTP-G-QUANTUM-PARALLEL-REPETITION" in error and "authority inflation" in error for error in errors))
+
     def test_permanent_route_output_drift_fails(self) -> None:
         registry = module.load_json(module.REGISTRY_PATH)
         route = next(route for route in registry["routes"] if route["campaign_id"] == "OTP-C-PERMANENT")

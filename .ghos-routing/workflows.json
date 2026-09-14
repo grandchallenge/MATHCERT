@@ -227,6 +227,14 @@
       "controller_id": "GITHUB_ACTIONS"
     },
     {
+      "path": ".github/workflows/otp-g-quantum-parallel-repetition-cert-replay.yml",
+      "observed_features": [
+        "OPAQUE_EXECUTION"
+      ],
+      "topology": "PERSISTENT_CONTROLLER_REQUIRED",
+      "controller_id": "GITHUB_ACTIONS"
+    },
+    {
       "path": ".github/workflows/otp-h-gapcvp-cert-intake.yml",
       "observed_features": [
         "OPAQUE_EXECUTION"
