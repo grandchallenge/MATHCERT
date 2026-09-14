@@ -1,0 +1,63 @@
+name: Protected review gate
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/protected-review-gate.yml'
+      - '.ghos-routing/workflows.json'
+      - 'governance/review_gate_exceptions/MATHCERT-PR-278.json'
+      - 'schemas/review_gate_exception_record.schema.json'
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 11 * * *'
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  enforce:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with: {python-version: '3.12'}
+      - run: python -m pip install jsonschema==4.26.0
+      - name: Validate immutable exception record
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator, FormatChecker
+          record_path=Path('governance/review_gate_exceptions/MATHCERT-PR-278.json')
+          schema_path=Path('schemas/review_gate_exception_record.schema.json')
+          record=json.loads(record_path.read_text())
+          schema=json.loads(schema_path.read_text())
+          Draft202012Validator(schema,format_checker=FormatChecker()).validate(record)
+          def blob(path):
+              data=path.read_bytes()
+              return hashlib.sha1(f'blob {len(data)}\0'.encode()+data,usedforsecurity=False).hexdigest()
+          assert blob(record_path)=='2c9f2471f35650c6f5014561e4479fd429290d7d'
+          assert blob(schema_path)=='1f62d8712faab1586816c9989eaa708db82105dd'
+          assert record['exception']=={
+              'declared_review_required':True,
+              'submitted_review_count':0,
+              'exact_head_approval_present':False,
+              'auto_merge_enabled_by':'fyremael',
+              'retroactive_approval_prohibited':True,
+          }
+          assert record['impact_assessment']['mathematical_claim_promoted'] is False
+          assert record['impact_assessment']['certificate_issued'] is False
+          assert record['impact_assessment']['otp_g_final_qualification_invalidated'] is False
+          PY
+          test "$(git rev-parse 80e7a2c715501d43ac048f18d2229697429d8b15^2)" = 51eed502ccad6e926548c5ce088cb7896f1087b9
+          test "$(git rev-parse 7f8e37412e24b985d3c33a550f0083c8eed9af03^2)" = 42b28daf733b4fb4ae9b77a5c98d26ebd09ae049
+          test "$(git rev-parse a1686c9718834f369655694a2ae85c04ea12d24a^2)" = 1c0d9a1c0d52dd947ba21e3e6405cbf2a97f33f6
+      - name: Verify live protected-main review enforcement and historical review evidence
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          api(){ curl --fail --silent --show-error --retry 3 -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' "https://api.github.com/$1"; }
+          rules="$(api repos/grandchallenge/MATHCERT/rulesets/17137628)"
+          jq -e '.enforcement=="active" and (.rules[]|select(.type=="pull_request")|.parameters.required_approving_review_count>=1 and .parameters.dismiss_stale_reviews_on_push==true and .parameters.require_last_push_approval==true)' <<<"$rules"
+          test "$(api repos/grandchallenge/MATHCERT/pulls/278/reviews | jq 'length')" = 0
+          api repos/grandchallenge/MATHCERT/pulls/279/reviews | jq -e 'any(.state=="APPROVED" and .user.login=="jimsteeg" and .commit_id=="42b28daf733b4fb4ae9b77a5c98d26ebd09ae049")'
+          api repos/grandchallenge/MATHCERT/pulls/280/reviews | jq -e 'any(.state=="APPROVED" and .user.login=="jimsteeg" and .commit_id=="1c0d9a1c0d52dd947ba21e3e6405cbf2a97f33f6")'
+          echo PROTECTED_REVIEW_GATE_REMEDIATION_VALID
