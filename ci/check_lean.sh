@@ -188,6 +188,8 @@ python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/check_certificate.py
 python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/test_certificate.py
 python3 ci/validate_vgse_route_registration.py
 python3 ci/test_vgse_route_registration.py
+python3 ci/replay_vgse_wp00_exact_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json
+python3 ci/test_replay_vgse_wp00_exact_evidence.py
 python3 ci/validate_otp_permanent_full_formula_certification.py
 python3 ci/test_otp_permanent_full_formula_certification.py
 python3 ci/validate_otp_permanent_circuit_certification.py
