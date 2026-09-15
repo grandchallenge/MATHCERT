@@ -37,6 +37,7 @@ ALPHAS = [
     y,
     3 - 2*x + 3*y,
 ]
+DIVISOR_FACTORS_TEXT = "x*y*(x + 1)*(7*x + 2*y - 6)*(-2*x + 3*y + 3)"
 BOUNDARY = [
     (sp.Rational(0), sp.Rational(0)),
     (sp.Rational(595245, 10**6), sp.Rational(-39685532, 10**6)),
@@ -124,6 +125,7 @@ def master_equations() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
         px, py = BOUNDARY[i-1]
         edges.append((cx-px) + I*(cy-py))
     divisor = sp.expand(sp.prod(ALPHAS))
+    assert sp.expand(sp.sympify(DIVISOR_FACTORS_TEXT, locals={"x": x, "y": y})) == divisor
     ex = sum(edges[i] * sp.diff(ALPHAS[i], x) / ALPHAS[i] for i in range(6))
     ey = sum(edges[i] * sp.diff(ALPHAS[i], y) / ALPHAS[i] for i in range(6))
     nx = sp.Poly(sp.cancel(ex*divisor), x, y, domain=sp.QQ_I).as_expr()
@@ -186,7 +188,7 @@ def exact_algebraic_certificate() -> dict:
             "boundary_precision": "exact_rationals_from_source_vector_coordinates_rounded_to_1e-6_pdf_point",
             "critical_numerator_x": canonical(nx),
             "critical_numerator_y": canonical(ny),
-            "arrangement_divisor": sp.sstr(sp.factor(divisor)),
+            "arrangement_divisor": DIVISOR_FACTORS_TEXT,
         },
         "saturation": {
             "construction": "<Nx,Ny,1-t*D> intersect QQ(i)[x,y]",
