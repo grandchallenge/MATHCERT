@@ -40,10 +40,16 @@
     "forge_source_archive_audit_merge": "7a7c1bcaba3c31726e34353f311a6de6d9530dbc",
     "forge_source_archive_audit_blob": "742a14910b5448d3fd9714434c7c5d0d3f7a61dc"
   },
-  "route_state": "registered_pending_evidence",
-  "intake_status": "pending",
+  "route_state": "qualified",
+  "intake_status": "qualified",
   "may_adjudicate": false,
-  "cert_output": null,
+  "cert_output": {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": "9001318adcc759e4841c6f68b6619b0fe25d0bb5",
+    "path": "certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "e6489fab69506adacc4a33214f22dd20413ec40a"
+  },
   "target_claim_ids": [
     "VGSE-C00",
     "VGSE-C01",
