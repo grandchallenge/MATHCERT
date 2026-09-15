@@ -1,0 +1,73 @@
+{
+  "campaign_id": "VGSE-001",
+  "cert_interpretation": {
+    "c04_admitted_evidence_status": "UNCHANGED",
+    "c05_admitted_evidence_status": "UNCHANGED",
+    "c06_state": "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C",
+    "historical_solve_handoff_rewritten": false,
+    "meaning": "The admitted C04 evidence remains an exact statement that the reconstructed reduced graph admits a positive weight representative measuring pinned C. The protected producer audit separately shows that the Euclidean geometric weights read from the committed visible Figure 16 drawings are not that measurement class. Therefore the missing generated-to-source bridge is upstream of C06 and remains unresolved.",
+    "post_hoc_equivalence_broadening_authorized": false,
+    "required_reopening_input": "Exact source graph/weight-generation data establishing the Figure 16-to-pinned-C bridge, or a separately governed source-authorized correspondence whose exact source locus and action are declared before matcher execution."
+  },
+  "claims_addressed": [
+    "VGSE-C06"
+  ],
+  "evidence_id": "MC-VGSE-WP00-CERT-001-C06-PRODUCER-BINDING-001",
+  "predecessor_cert_evidence": {
+    "git_blob_sha1": "062389091eb1104a3598cfcded786f6cc34ca336",
+    "path": "evidence/vgse/VGSE-WP00-CERT-001-source-equivalence-audit.json",
+    "predecessor_state": "BLOCKED_MISSING_EQUIVALENCE_DEFINITION",
+    "protected_merge": "53f198261d5b776d55aca9e704945054cd4407f5",
+    "repository": "grandchallenge/MATHCERT"
+  },
+  "producer_evidence": {
+    "evidence_record": {
+      "audit_id": "VGSE-FIG16-PINNED-C-MEASUREMENT-AUDIT-001",
+      "git_blob_sha1": "97f2834d57d8ac9d60544d0f2498aa527aa72422",
+      "path": "work_packages/VGSE_WP00/artifacts/data/figure16_pinned_c_measurement_audit.json"
+    },
+    "exact_candidate_head": "303ddc5b794289f1ad800e57e08521c86ad9b1c3",
+    "protected_main_readback": true,
+    "protected_merge": "c8e81d262d4da1a36b312f017443777a4c7888db",
+    "pull_request": "https://github.com/grandchallenge/MATHSOLVE/pull/240",
+    "replay_script": {
+      "git_blob_sha1": "177effe7f42f8dd8987c34e816ea99e4a8160d4e4",
+      "path": "work_packages/VGSE_WP00/artifacts/code/audit_figure16_pinned_c.py"
+    },
+    "repository": "grandchallenge/MATHSOLVE",
+    "source_fixture": {
+      "fixture_id": "VGSE-FIG16-SOURCE-VECTOR-001",
+      "git_blob_sha1": "8449555b71a38670374f172edd549385c3dda47d",
+      "path": "work_packages/VGSE_WP00/artifacts/data/figure16_source_vectors.json"
+    },
+    "tracker_issue": "https://github.com/grandchallenge/MATHSOLVE/issues/239"
+  },
+  "producer_result": {
+    "almost_perfect_matching_count_each": 31,
+    "boundary_relabelings_exhausted": 720,
+    "certified_rounding_robust_lower_bound": 131.50058917470795,
+    "failure_survives_all_boundary_relabelings_and_global_color_complement": true,
+    "global_color_complement_conventions_tested": 2,
+    "minimum_observed_best_projective_distortion_factor": 131.50098551816274,
+    "nonzero_plucker_count": 19,
+    "required_lower_threshold": 100.0,
+    "source_pattern_count": 5,
+    "visible_reconstructed_geometric_weight_class_measures_pinned_C": false
+  },
+  "route_id": "MC-ROUTE-VGSE-001",
+  "schema_version": "1.0.0",
+  "scope_exclusions": [
+    "This binding does not refute the source paper or identify the exact undisclosed source graph/weight-generation data.",
+    "No undeclared geometric equivalence relation is inferred from the failed visible-graph bridge.",
+    "No rigid foldability, collision freedom, finite thickness, manufacturability, novelty, priority, patentability, product, or commercial inference is authorized."
+  ],
+  "trust": {
+    "adjudication_effect": "none",
+    "binding_kind": "CONTENT_ADDRESSED_PRODUCER_EVIDENCE_BINDING",
+    "certificate_output": null,
+    "independent_mathcert_replay_of_producer_algorithm": false,
+    "mathematical_target_proved": false,
+    "may_adjudicate_after_this_record_alone": false
+  },
+  "workset_id": "VGSE-WP00-CERT-001"
+}
