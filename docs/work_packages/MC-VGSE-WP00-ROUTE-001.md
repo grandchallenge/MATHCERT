@@ -15,6 +15,7 @@ The route is an additive successor overlay over the pinned historical MATHCERT c
 - Forge provider merge: `593afd971a53ca0285f8b94570997ed7c3d7c170`.
 - Historical MATHCERT registry blob: `0487c3ebf702229741f16a544d68af25cf994e41`.
 - Admitted VGSE evidence merge: `53f198261d5b776d55aca9e704945054cd4407f5`.
+- Protected Solve C06 producer-audit merge: `c8e81d262d4da1a36b312f017443777a4c7888db`.
 
 ## Separate certification lanes
 
@@ -32,7 +33,13 @@ The route registers only `VGSE-C04`, `VGSE-C05`, and `VGSE-C06`.
 
 Protected evidence merge `53f198261d5b776d55aca9e704945054cd4407f5` admits independent exact/interval evidence for `VGSE-C04` and `VGSE-C05`. The evidence includes a strictly positive rational graph-weight representative and exact boundary measurement; exact discrete-holomorphic equations and primitive closure modulo the saturated ideal; exact Kawasaki cross-ratios; five disjoint Krawczyk-certified root boxes; and interval-certified strict convexity, noncrossing, interior containment, boundary inequalities, and branch distinction. The reconstructed cellulation is bound to the exact protected Figure 16 source-vector fixture.
 
-`VGSE-C06` is not discharged. The pinned Solve handoff states the claim modulo a declared geometric equivalence group, but the protected VGSE records do not define an operative equivalence group. The admitted audit therefore tests only the narrow label-preserving coordinate-identity relation in the common boundary gauge. It exhausts all 120 branch-to-source bijections and rejects identity at the recorded source-vector precision. No broader relation may be introduced by inference during certification.
+`VGSE-C06` is not discharged. The first MATHCERT source audit exhausts all 120 branch-to-source bijections under the narrow label-preserving fixed-boundary coordinate relation and rejects identity at source-vector precision. It does not invent a broader equivalence relation.
+
+Protected MATHSOLVE merge `c8e81d262d4da1a36b312f017443777a4c7888db` now supplies a second, upstream diagnostic. For each of the five committed Figure 16 source-vector drawings it reconstructs the visible eight-face bipartite graph, assigns Euclidean geometric dual-edge lengths, enumerates 31 almost-perfect matchings, and compares the resulting 19 nonzero Plücker coordinates to pinned Example B.1 `C`. It exhausts all 720 boundary relabelings and both global color/complement conventions. The best observed projective distortion is `131.50098551816274`; after conservative propagation of source-vector rounding, the certified lower bound is `131.50058917470795`, still greater than the required separation threshold `100`.
+
+This does **not** invalidate the admitted `VGSE-C04` evidence. `VGSE-C04` establishes that the reconstructed reduced graph admits an exact positive weight representative whose boundary measurement is pinned `C`. The producer diagnostic establishes a different statement: the Euclidean geometric weights read from the committed visible Figure 16 drawings are not that measurement class. The unresolved bridge is therefore the identification of the source Figure 16 geometric-weight data with the pinned-`C` reconstruction.
+
+The producer result also does not refute the source mathematics or identify the exact source graph/weight-generation data. Reopening `VGSE-C06` requires exact source graph/weight-generation data that establishes this bridge, or a separately governed source-authorized correspondence whose source locus and action are fixed before matcher execution. The historical Solve handoff's undeclared equivalence group remains non-operative and may not be broadened after observing the failed match.
 
 The algebraic and planar-geometry lanes are noninterchangeable. Evidence in one lane does not discharge the other.
 
@@ -42,12 +49,12 @@ The route remains `registered_pending_evidence` and the intake status remains `p
 
 This route registration does not authorize adjudication. It does not issue a certificate. It does not activate Programme routing. A separate protected Programme activation and any required INTELLECT repin remain necessary.
 
-The current protected evidence materially advances `VGSE-C00`, `VGSE-C01`, `VGSE-C04`, and `VGSE-C05`, but it does not itself promote those claims to certified status. `VGSE-C06` remains substantively blocked on an absent equivalence definition. Nothing in this route establishes rigid foldability, collision freedom, finite thickness, manufacturability, product performance, novelty, priority, patentability, or commercial value.
+The current protected evidence materially advances `VGSE-C00`, `VGSE-C01`, `VGSE-C04`, and `VGSE-C05`, but it does not itself promote those claims to certified status. `VGSE-C06` remains substantively blocked on the source geometric-weight bridge described above. Nothing in this route establishes rigid foldability, collision freedom, finite thickness, manufacturability, product performance, novelty, priority, patentability, or commercial value.
 
 ## Future transitions
 
-A separately reviewed MATHCERT operation is required before the route may move from pending intake to any adjudicated state. Such an operation must bind the exact protected evidence revision and a fresh non-author specialist disposition. Because `VGSE-C06` lacks a governed operative equivalence definition, the full five-claim route cannot be positively adjudicated as currently stated.
+A separately reviewed MATHCERT operation is required before the route may move from pending intake to any adjudicated state. Such an operation must bind the exact protected evidence revision and a fresh non-author specialist disposition. Because `VGSE-C06` remains blocked, the full five-claim route cannot be positively adjudicated as currently stated.
 
-Any proposed resolution of `VGSE-C06` must first define the permitted geometric equivalence relation under separate governance and then replay a bijective matcher against the protected source-vector fixture. A definition introduced solely to make the existing generated coordinates pass is not admissible evidence.
+Any proposed resolution of `VGSE-C06` must supply exact source graph/weight-generation data establishing the Figure 16-to-pinned-`C` bridge, or a separately governed source-authorized correspondence with an exact source locus and transformation action declared before matcher execution. A relation introduced solely to make the existing generated coordinates pass is not admissible evidence.
 
 Any certificate output must bind the exact claim, checker, evidence, and route revision and must preserve all scope exclusions above.
