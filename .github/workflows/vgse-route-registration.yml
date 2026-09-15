@@ -84,19 +84,69 @@ jobs:
           python-version: "3.12.13"
       - name: Install bounded VGSE validation dependencies
         run: python -m pip install 'jsonschema>=4.23,<5' 'sympy==1.14.0'
-      - name: Validate bounded route, successor route, output contract, adjudication state, and evidence replay
+      - name: Validate bounded route, R4 publication ancestry, adjudication state, and evidence replay
         run: |
           python ci/validate_vgse_route_registration.py
           python -m unittest ci/test_vgse_route_registration.py -v
           python - <<'PY'
           import hashlib
           import json
+          import subprocess
           from pathlib import Path
           from jsonschema import Draft202012Validator
 
           root = Path('.')
+          OUTPUT_CONTRACT_MERGE = 'e0b6a0124da3817d479cdfacebfded9f51bea8ed'
+          CERT_CONTENT_COMMIT = '9001318adcc759e4841c6f68b6619b0fe25d0bb5'
+          ROUTE_TRANSITION_COMMIT = '9ceccc588a1be451cb118bf8d92df65dce7a9d0a'
+          CERT_PATH = 'certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json'
+          SUCCESSOR_PATH = 'governance/certification_route_overlays/VGSE-001-R4.json'
+          PREDECESSOR_PATH = 'governance/certification_route_overlays/VGSE-001.json'
+          CONTRACT_PATH = 'governance/vgse_output_contracts/VGSE-001-R4.json'
+          CERT_BLOB = 'e6489fab69506adacc4a33214f22dd20413ec40a'
+          SUCCESSOR_PENDING_BLOB = 'c5106a668554427d940fb9b864351e75d1060d4d'
+          SUCCESSOR_QUALIFIED_BLOB = '578547c57d91df0616197ae56fd4497ffd6e1576'
+          PREDECESSOR_BLOB = '6dbd22485548114c91568dbc7ac18ac938e5f7e1'
+          OUTPUT_CONTRACT_BLOB = '2d9a8ead1ffa8dfb5dba2a479a937324db95eaa7'
+          AUTH_RECEIPT_BLOB = 'e470c7cb8545ae451156e44e1a3dad2d552800e0'
+
+          def git(*args, check=True):
+              return subprocess.run(['git', *args], cwd=root, capture_output=True, text=True, check=check)
+
+          if git('rev-parse', '--is-shallow-repository').stdout.strip() == 'true':
+              git('fetch', '--no-tags', '--unshallow', 'origin')
+          for commit in (OUTPUT_CONTRACT_MERGE, CERT_CONTENT_COMMIT, ROUTE_TRANSITION_COMMIT):
+              if subprocess.run(['git','cat-file','-e',f'{commit}^{{commit}}'], cwd=root).returncode != 0:
+                  git('fetch', '--no-tags', 'origin', commit)
+
+          def object_bytes(commit, path):
+              p = subprocess.run(['git','show',f'{commit}:{path}'], cwd=root, capture_output=True)
+              return p.stdout if p.returncode == 0 else None
+
+          def git_blob_bytes(data):
+              return hashlib.sha1(f'blob {len(data)}\0'.encode('ascii') + data, usedforsecurity=False).hexdigest()
+
+          def blob_sha1(path):
+              return git_blob_bytes((root / path).read_bytes())
+
+          def object_blob(commit, path):
+              data = object_bytes(commit, path)
+              return git_blob_bytes(data) if data is not None else None
+
+          def object_json(commit, path):
+              data = object_bytes(commit, path)
+              return json.loads(data.decode('utf-8')) if data is not None else None
+
+          def commit_files(commit):
+              return [x for x in git('diff-tree','--no-commit-id','--name-only','-r',commit).stdout.splitlines() if x]
+
+          def parent(commit):
+              return git('rev-parse', f'{commit}^').stdout.strip()
+
+          def is_ancestor(a, b):
+              return subprocess.run(['git','merge-base','--is-ancestor',a,b], cwd=root).returncode == 0
+
           pairs = [
-              ('governance/certification_route_overlays/VGSE-001-R4.json', 'schemas/vgse_r4_route_registration.schema.json'),
               ('governance/vgse_output_contracts/VGSE-001-R4.json', 'schemas/vgse_r4_output_contract.schema.json'),
               ('governance/result_family_adjudication_execution_inputs/VGSE-001.json', 'schemas/vgse_adjudication_execution_input.schema.json'),
               ('governance/vgse_adjudications/VGSE-001.json', 'schemas/vgse_adjudication.schema.json'),
@@ -108,17 +158,22 @@ jobs:
               if errors:
                   raise SystemExit('\n'.join(f'{record_path}: {e.json_path}: {e.message}' for e in errors))
 
-          future_schema = json.loads((root / 'schemas/vgse_r4_qualified_output.schema.json').read_text(encoding='utf-8'))
-          Draft202012Validator.check_schema(future_schema)
+          pending_schema = json.loads((root / 'schemas/vgse_r4_route_registration.schema.json').read_text(encoding='utf-8'))
+          pending_route = object_json(CERT_CONTENT_COMMIT, SUCCESSOR_PATH)
+          pending_errors = sorted(Draft202012Validator(pending_schema).iter_errors(pending_route), key=lambda e: list(e.path))
+          if pending_errors:
+              raise SystemExit('\n'.join(f'historical pending R4: {e.json_path}: {e.message}' for e in pending_errors))
 
-          def blob_sha1(path: str) -> str:
-              payload = (root / path).read_bytes()
-              return hashlib.sha1(f'blob {len(payload)}\0'.encode('ascii') + payload, usedforsecurity=False).hexdigest()
+          cert_schema = json.loads((root / 'schemas/vgse_r4_qualified_output.schema.json').read_text(encoding='utf-8'))
+          certificate = json.loads((root / CERT_PATH).read_text(encoding='utf-8'))
+          cert_errors = sorted(Draft202012Validator(cert_schema).iter_errors(certificate), key=lambda e: list(e.path))
+          if cert_errors:
+              raise SystemExit('\n'.join(f'{CERT_PATH}: {e.json_path}: {e.message}' for e in cert_errors))
 
           expected = {
-              'governance/certification_route_overlays/VGSE-001.json': '6dbd22485548114c91568dbc7ac18ac938e5f7e1',
-              'governance/certification_route_overlays/VGSE-001-R4.json': 'c5106a668554427d940fb9b864351e75d1060d4d',
-              'governance/vgse_route_successors/VGSE-001-R4.json': 'e470c7cb8545ae451156e44e1a3dad2d552800e0',
+              PREDECESSOR_PATH: PREDECESSOR_BLOB,
+              'governance/vgse_route_successors/VGSE-001-R4.json': AUTH_RECEIPT_BLOB,
+              CONTRACT_PATH: OUTPUT_CONTRACT_BLOB,
               'governance/result_family_adjudication_contracts/VGSE-001.json': '2214eb6e442ac758c78ec5bc4b1de335c831cffa',
               'governance/result_family_adjudication_execution_inputs/VGSE-001.json': '6ed94cce042978c0373d3c72de0e5ba080cfe320',
               'governance/vgse_adjudications/VGSE-001.json': '57668860de1c96370fb0075e0c7e8f43f7dc0067',
@@ -131,52 +186,79 @@ jobs:
               if observed != digest:
                   raise SystemExit(f'blob drift: {path}: expected {digest}, observed {observed}')
 
-          contract = json.loads((root / 'governance/result_family_adjudication_contracts/VGSE-001.json').read_text(encoding='utf-8'))
-          execution_input = json.loads((root / 'governance/result_family_adjudication_execution_inputs/VGSE-001.json').read_text(encoding='utf-8'))
-          adjudication = json.loads((root / 'governance/vgse_adjudications/VGSE-001.json').read_text(encoding='utf-8'))
-          route = json.loads((root / 'governance/certification_route_overlays/VGSE-001.json').read_text(encoding='utf-8'))
-          successor = json.loads((root / 'governance/certification_route_overlays/VGSE-001-R4.json').read_text(encoding='utf-8'))
-          output_contract = json.loads((root / 'governance/vgse_output_contracts/VGSE-001-R4.json').read_text(encoding='utf-8'))
+          head = git('rev-parse','HEAD').stdout.strip()
+          if parent(CERT_CONTENT_COMMIT) != OUTPUT_CONTRACT_MERGE:
+              raise SystemExit('certificate-content commit is not direct child of protected output-contract merge')
+          if parent(ROUTE_TRANSITION_COMMIT) != CERT_CONTENT_COMMIT:
+              raise SystemExit('R4 route transition is not direct child of certificate-content commit')
+          for ancestor in (OUTPUT_CONTRACT_MERGE, CERT_CONTENT_COMMIT, ROUTE_TRANSITION_COMMIT):
+              if not is_ancestor(ancestor, head):
+                  raise SystemExit(f'governed publication commit is not ancestor of final head: {ancestor}')
+          if commit_files(CERT_CONTENT_COMMIT) != [CERT_PATH]:
+              raise SystemExit('certificate-content commit changed files beyond certificate path')
+          if commit_files(ROUTE_TRANSITION_COMMIT) != [SUCCESSOR_PATH]:
+              raise SystemExit('route-transition commit changed files beyond R4 overlay')
+          if object_blob(OUTPUT_CONTRACT_MERGE, CERT_PATH) is not None:
+              raise SystemExit('R4 certificate existed before certificate-content commit')
+          for commit in (CERT_CONTENT_COMMIT, ROUTE_TRANSITION_COMMIT, head):
+              if object_blob(commit, CERT_PATH) != CERT_BLOB:
+                  raise SystemExit(f'R4 certificate bytes drift at {commit}')
+          if object_blob(OUTPUT_CONTRACT_MERGE, SUCCESSOR_PATH) != SUCCESSOR_PENDING_BLOB:
+              raise SystemExit('protected pre-output R4 overlay blob drift')
+          if object_blob(CERT_CONTENT_COMMIT, SUCCESSOR_PATH) != SUCCESSOR_PENDING_BLOB:
+              raise SystemExit('certificate-content commit mutated R4 route')
+          if object_blob(ROUTE_TRANSITION_COMMIT, SUCCESSOR_PATH) != SUCCESSOR_QUALIFIED_BLOB or object_blob(head, SUCCESSOR_PATH) != SUCCESSOR_QUALIFIED_BLOB:
+              raise SystemExit('qualified R4 overlay bytes drift')
+          for commit in (OUTPUT_CONTRACT_MERGE, CERT_CONTENT_COMMIT, ROUTE_TRANSITION_COMMIT, head):
+              if object_blob(commit, PREDECESSOR_PATH) != PREDECESSOR_BLOB:
+                  raise SystemExit(f'predecessor route bytes changed at {commit}')
+              if object_blob(commit, CONTRACT_PATH) != OUTPUT_CONTRACT_BLOB:
+                  raise SystemExit(f'output contract bytes changed at {commit}')
+
+          predecessor = json.loads((root / PREDECESSOR_PATH).read_text(encoding='utf-8'))
+          successor = json.loads((root / SUCCESSOR_PATH).read_text(encoding='utf-8'))
+          output_contract = json.loads((root / CONTRACT_PATH).read_text(encoding='utf-8'))
           c06 = json.loads((root / 'evidence/vgse/VGSE-WP00-CERT-001-c06-producer-binding.json').read_text(encoding='utf-8'))
-          targets = contract['route_scope']['target_claims']
-          target_ids = [item['claim_id'] for item in targets]
-          if execution_input['target_claims'] != targets or adjudication['target_claims'] != targets:
-              raise SystemExit('VGSE adjudication target statement drift')
-          if route['route_state'] != 'registered_pending_evidence' or route['may_adjudicate'] is not False or route['cert_output'] is not None:
-              raise SystemExit('VGSE predecessor route state inflated')
-          if c06['cert_interpretation']['c06_state'] != 'BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C':
-              raise SystemExit('VGSE C06 blocked state drift')
-          if c06['cert_interpretation']['post_hoc_equivalence_broadening_authorized'] is not False:
-              raise SystemExit('VGSE C06 equivalence-broadening boundary weakened')
-          if adjudication['decision']['disposition'] != 'adjudication_clear_exact_four_claims_only':
-              raise SystemExit('VGSE adjudication disposition drift')
+          target_ids = ['VGSE-C00','VGSE-C01','VGSE-C04','VGSE-C05']
+          expected_output = {
+              'repository':'grandchallenge/MATHCERT',
+              'commit_sha':CERT_CONTENT_COMMIT,
+              'path':CERT_PATH,
+              'digest_algorithm':'git_blob_sha1',
+              'digest':CERT_BLOB,
+          }
           if successor['route_id'] != 'MC-ROUTE-VGSE-001-R4' or successor['target_claim_ids'] != target_ids:
-              raise SystemExit('VGSE R4 route/target identity drift')
-          if 'VGSE-C06' in successor['target_claim_ids']:
-              raise SystemExit('VGSE R4 improperly absorbed C06')
-          if successor['predecessor_route']['digest'] != expected['governance/certification_route_overlays/VGSE-001.json']:
-              raise SystemExit('VGSE R4 predecessor binding drift')
-          if successor['route_state'] != 'registered_pending_evidence' or successor['intake_status'] != 'pending' or successor['cert_output'] is not None:
-              raise SystemExit('VGSE R4 registration/output state drift')
-          if output_contract['contract_state'] != 'design_only':
-              raise SystemExit('VGSE R4 output contract self-activated')
+              raise SystemExit('qualified R4 route/target identity drift')
+          if successor['route_state'] != 'qualified' or successor['intake_status'] != 'qualified' or successor['cert_output'] != expected_output:
+              raise SystemExit('R4 qualified route/output state drift')
+          if successor['may_adjudicate'] is not False:
+              raise SystemExit('R4 qualified route improperly gained adjudication authority')
+          if 'VGSE-C06' in successor['target_claim_ids'] or successor['excluded_claims'][0]['claim_id'] != 'VGSE-C06' or successor['excluded_claims'][0]['included_in_successor'] is not False:
+              raise SystemExit('R4 qualified route improperly absorbed C06')
+          if successor['claim_boundary']['mathematical_target_proved'] is not False:
+              raise SystemExit('R4 qualification improperly marks mathematical target proved')
+          before = object_json(CERT_CONTENT_COMMIT, SUCCESSOR_PATH)
+          allowed = {'route_state','intake_status','cert_output'}
+          for key in set(before) | set(successor):
+              if key not in allowed and before.get(key) != successor.get(key):
+                  raise SystemExit(f'R4 route transition changed unauthorized field: {key}')
+          if before.get('route_state') != 'registered_pending_evidence' or before.get('intake_status') != 'pending' or before.get('cert_output') is not None:
+              raise SystemExit('historical R4 pre-output state drift')
+          if predecessor['route_state'] != 'registered_pending_evidence' or predecessor['cert_output'] is not None:
+              raise SystemExit('predecessor route state changed during R4 qualification')
+          if c06['cert_interpretation']['c06_state'] != 'BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C' or c06['cert_interpretation']['post_hoc_equivalence_broadening_authorized'] is not False:
+              raise SystemExit('C06 blocked/equivalence boundary drift')
           if output_contract['output_scope']['target_claim_ids'] != target_ids or output_contract['output_scope']['excluded_claim_ids'] != ['VGSE-C06']:
-              raise SystemExit('VGSE R4 output scope drift')
-          if output_contract['protected_authority']['successor_registration_merge'] != '9573795834adbf751504e701e4a0d36342185205':
-              raise SystemExit('VGSE R4 output contract registration authority drift')
-          if output_contract['protected_authority']['successor_overlay_blob'] != expected['governance/certification_route_overlays/VGSE-001-R4.json']:
-              raise SystemExit('VGSE R4 output contract overlay authority drift')
-          if output_contract['protected_authority']['four_claim_adjudication_blob'] != expected['governance/vgse_adjudications/VGSE-001.json']:
-              raise SystemExit('VGSE R4 output contract adjudication authority drift')
-          if output_contract['state'] != {'route_state':'registered_pending_evidence','intake_status':'pending','cert_output':None,'mathematical_target_proved':False,'may_issue_output':False,'may_promote_claim':False,'c06_in_scope':False}:
-              raise SystemExit('VGSE R4 output contract authority inflation')
-          protocol = output_contract['publication_protocol']
-          for key in ('certificate_content_commit_first','route_transition_commit_must_be_direct_child_of_certificate_content_commit','route_transition_must_change_only_successor_route_output_semantics','route_transition_must_preserve_exact_target_set','route_transition_must_insert_exactly_one_cert_output','cert_output_commit_sha_must_equal_certificate_content_commit','cert_output_digest_must_equal_certificate_blob','certificate_must_not_name_its_own_containing_commit','predecessor_route_must_remain_blob_identical','c06_must_remain_excluded_and_blocked','programme_and_intellect_routing_must_remain_unchanged','squash_merge_prohibited','rebase_merge_prohibited','route_first_ordering_prohibited','partial_state_on_protected_main_prohibited'):
-              if protocol[key] is not True:
-                  raise SystemExit(f'VGSE R4 publication protocol weakened: {key}')
-          if (root / output_contract['future_certificate']['path']).exists():
-              raise SystemExit('VGSE R4 certificate exists during design-only output-contract stage')
-          print('validated additive VGSE R4 successor and design-only restricted output contract; C06 remains excluded and blocked')
+              raise SystemExit('R4 output-contract scope drift')
+          if certificate['target_claim_ids'] != target_ids or certificate['qualification']['disposition'] != 'qualified_exact_four_claims_only':
+              raise SystemExit('R4 certificate scope/disposition drift')
+          if certificate['source_authority']['output_contract']['digest'] != OUTPUT_CONTRACT_BLOB:
+              raise SystemExit('R4 certificate output-contract authority drift')
+          if certificate['state'] != {'route_state':'qualified','cert_output_inserted':True,'mathematical_target_proved':False,'may_promote_claim':False,'aggregate_authority':False,'c06_in_scope':False}:
+              raise SystemExit('R4 certificate authority inflation')
+          if successor['activation_effect']['programme_active_routing_changed'] is not False or successor['activation_effect']['intellect_repin_effect'] != 'none':
+              raise SystemExit('R4 qualification improperly changes Programme/INTELLECT routing')
+          print('validated VGSE R4 certificate-content-first qualified publication; predecessor and C06 remain fail-closed')
           PY
           python ci/replay_vgse_wp00_exact_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json
           python ci/replay_vgse_wp00_planar_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-planar.json
@@ -184,6 +266,7 @@ jobs:
           python -m json.tool governance/certification_route_overlays/VGSE-001.json >/dev/null
           python -m json.tool governance/certification_route_overlays/VGSE-001-R4.json >/dev/null
           python -m json.tool governance/vgse_output_contracts/VGSE-001-R4.json >/dev/null
+          python -m json.tool certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json >/dev/null
           python -m json.tool governance/result_family_adjudication_contracts/VGSE-001.json >/dev/null
           python -m json.tool governance/result_family_adjudication_execution_inputs/VGSE-001.json >/dev/null
           python -m json.tool governance/vgse_adjudications/VGSE-001.json >/dev/null
