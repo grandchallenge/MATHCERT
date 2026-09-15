@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "vgse_r4_output_contract",
+  "contract_id": "MC-VGSE-WP00-R4-OUTPUT-CONTRACT-001",
+  "campaign_id": "VGSE-001",
+  "route_id": "MC-ROUTE-VGSE-001-R4",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/303",
+  "contract_state": "design_only",
+  "protected_authority": {
+    "successor_registration_merge": "9573795834adbf751504e701e4a0d36342185205",
+    "successor_overlay_path": "governance/certification_route_overlays/VGSE-001-R4.json",
+    "successor_overlay_blob": "c5106a668554427d940fb9b864351e75d1060d4d",
+    "path_b_authority_receipt_path": "governance/vgse_route_successors/VGSE-001-R4.json",
+    "path_b_authority_receipt_blob": "e470c7cb8545ae451156e44e1a3dad2d552800e0",
+    "four_claim_adjudication_merge": "df9fd2e493da277646e844d3e20fbc65e965d861",
+    "four_claim_adjudication_blob": "57668860de1c96370fb0075e0c7e8f43f7dc0067",
+    "predecessor_overlay_blob": "6dbd22485548114c91568dbc7ac18ac938e5f7e1"
+  },
+  "output_scope": {
+    "target_claim_ids": ["VGSE-C00", "VGSE-C01", "VGSE-C04", "VGSE-C05"],
+    "excluded_claim_ids": ["VGSE-C06"],
+    "qualification_disposition": "qualified_exact_four_claims_only",
+    "scope_rule": "Certificate output may cover exactly VGSE-C00, VGSE-C01, VGSE-C04, and VGSE-C05 under their protected adjudicated statements and evidence limitations; VGSE-C06 remains excluded and blocked on the predecessor route."
+  },
+  "future_certificate": {
+    "certificate_id": "MC-VGSE-WP00-R4-QUAL-001",
+    "path": "certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json",
+    "record_type": "vgse_r4_qualified_output",
+    "disposition": "qualified_exact_four_claims_only",
+    "mathematical_target_proved": false
+  },
+  "publication_protocol": {
+    "mode": "certificate_content_commit_then_successor_route_transition_commit",
+    "route_transition": {
+      "route_state_from": "registered_pending_evidence",
+      "route_state_to": "qualified",
+      "intake_status_from": "pending",
+      "intake_status_to": "qualified"
+    },
+    "certificate_content_commit_first": true,
+    "route_transition_commit_must_be_direct_child_of_certificate_content_commit": true,
+    "route_transition_must_change_only_successor_route_output_semantics": true,
+    "route_transition_must_preserve_exact_target_set": true,
+    "route_transition_must_insert_exactly_one_cert_output": true,
+    "cert_output_commit_sha_must_equal_certificate_content_commit": true,
+    "cert_output_digest_must_equal_certificate_blob": true,
+    "certificate_must_not_name_its_own_containing_commit": true,
+    "predecessor_route_must_remain_blob_identical": true,
+    "c06_must_remain_excluded_and_blocked": true,
+    "programme_and_intellect_routing_must_remain_unchanged": true,
+    "protected_merge_method": "merge",
+    "squash_merge_prohibited": true,
+    "rebase_merge_prohibited": true,
+    "route_first_ordering_prohibited": true,
+    "partial_state_on_protected_main_prohibited": true
+  },
+  "execution_gate": {
+    "protected_contract_merge_required": true,
+    "exact_head_cert_checks_required": true,
+    "exact_head_vgse_replay_required": true,
+    "exact_head_gcl_conformance_required": true,
+    "fresh_non_author_specialist_approval_required": true,
+    "expected_head_guard_required": true,
+    "protected_main_readback_required": true,
+    "head_change_requires_revalidation_and_reapproval": true,
+    "separate_human_steward_authorization_required": false
+  },
+  "state": {
+    "route_state": "registered_pending_evidence",
+    "intake_status": "pending",
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_issue_output": false,
+    "may_promote_claim": false,
+    "c06_in_scope": false
+  },
+  "preserved_limitations": {
+    "predecessor_route_changed": false,
+    "c06_state": "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C",
+    "equivalence_group_broadening_authorized": false,
+    "source_paper_refutation_authorized": false,
+    "mechanical_claim_authorized": false,
+    "manufacturing_claim_authorized": false,
+    "novelty_or_priority_claim_authorized": false,
+    "patentability_claim_authorized": false,
+    "product_or_commercial_claim_authorized": false
+  },
+  "claim_boundary": "This design-only contract permits a future restricted qualification for exactly VGSE-C00, VGSE-C01, VGSE-C04, and VGSE-C05 on successor route MC-ROUTE-VGSE-001-R4. It does not itself issue a certificate or qualify the route. VGSE-C06 remains excluded and blocked on predecessor MC-ROUTE-VGSE-001; the predecessor remains unchanged. Future publication must use certificate-content-first ancestry followed by a direct successor-route transition, exact-head replay, fresh non-author specialist approval, expected-head merge, and protected-main readback. No mathematical-target-proved, claim-promotion, mechanical, manufacturing, novelty, priority, publication, patentability, product, performance, or commercial authority is created."
+}
