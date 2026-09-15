@@ -5,10 +5,14 @@ on:
     paths:
       - "governance/certification_route_overlays/VGSE-001.json"
       - "governance/result_family_adjudication_contracts/VGSE-001.json"
+      - "governance/result_family_adjudication_execution_inputs/VGSE-001.json"
+      - "governance/result_family_adjudications/VGSE-001.json"
       - "governance/certification_routes.json"
       - "governance/ci_control_registry.json"
       - "schemas/vgse_route_registration.schema.json"
       - "schemas/vgse_adjudication_contract.schema.json"
+      - "schemas/vgse_adjudication_execution_input.schema.json"
+      - "schemas/vgse_adjudication.schema.json"
       - "ci/validate_vgse_route_registration.py"
       - "ci/test_vgse_route_registration.py"
       - "ci/replay_vgse_wp00_exact_evidence.py"
@@ -18,16 +22,21 @@ on:
       - "evidence/vgse/**"
       - "docs/work_packages/MC-VGSE-WP00-ROUTE-001.md"
       - "docs/work_packages/MC-VGSE-WP00-ADJUDICATION-DESIGN-001.md"
+      - "docs/work_packages/MC-VGSE-WP00-ADJUDICATION-EXECUTION-001.md"
       - ".github/workflows/vgse-route-registration.yml"
   push:
     branches: [main]
     paths:
       - "governance/certification_route_overlays/VGSE-001.json"
       - "governance/result_family_adjudication_contracts/VGSE-001.json"
+      - "governance/result_family_adjudication_execution_inputs/VGSE-001.json"
+      - "governance/result_family_adjudications/VGSE-001.json"
       - "governance/certification_routes.json"
       - "governance/ci_control_registry.json"
       - "schemas/vgse_route_registration.schema.json"
       - "schemas/vgse_adjudication_contract.schema.json"
+      - "schemas/vgse_adjudication_execution_input.schema.json"
+      - "schemas/vgse_adjudication.schema.json"
       - "ci/validate_vgse_route_registration.py"
       - "ci/test_vgse_route_registration.py"
       - "ci/replay_vgse_wp00_exact_evidence.py"
@@ -37,6 +46,7 @@ on:
       - "evidence/vgse/**"
       - "docs/work_packages/MC-VGSE-WP00-ROUTE-001.md"
       - "docs/work_packages/MC-VGSE-WP00-ADJUDICATION-DESIGN-001.md"
+      - "docs/work_packages/MC-VGSE-WP00-ADJUDICATION-EXECUTION-001.md"
       - ".github/workflows/vgse-route-registration.yml"
 
 permissions:
@@ -60,15 +70,71 @@ jobs:
           python-version: "3.12.13"
       - name: Install bounded VGSE validation dependencies
         run: python -m pip install 'jsonschema>=4.23,<5' 'sympy==1.14.0'
-      - name: Validate bounded pending route, design contract, and evidence replay
+      - name: Validate bounded route, adjudication state, and evidence replay
         run: |
           python ci/validate_vgse_route_registration.py
           python -m unittest ci/test_vgse_route_registration.py -v
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          root = Path('.')
+          pairs = [
+              ('governance/result_family_adjudication_execution_inputs/VGSE-001.json', 'schemas/vgse_adjudication_execution_input.schema.json'),
+              ('governance/result_family_adjudications/VGSE-001.json', 'schemas/vgse_adjudication.schema.json'),
+          ]
+          for record_path, schema_path in pairs:
+              record = json.loads((root / record_path).read_text(encoding='utf-8'))
+              schema = json.loads((root / schema_path).read_text(encoding='utf-8'))
+              errors = sorted(Draft202012Validator(schema).iter_errors(record), key=lambda e: list(e.path))
+              if errors:
+                  raise SystemExit('\n'.join(f'{record_path}: {e.json_path}: {e.message}' for e in errors))
+
+          def blob_sha1(path: str) -> str:
+              payload = (root / path).read_bytes()
+              return hashlib.sha1(f'blob {len(payload)}\0'.encode('ascii') + payload, usedforsecurity=False).hexdigest()
+
+          expected = {
+              'governance/result_family_adjudication_contracts/VGSE-001.json': '2214eb6e442ac758c78ec5bc4b1de335c831cffa',
+              'governance/result_family_adjudication_execution_inputs/VGSE-001.json': '6ed94cce042978c0373d3c72de0e5ba080cfe320',
+              'evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json': 'f804023ea346feea9bbcc7feecdc19b442f0448d',
+              'evidence/vgse/VGSE-WP00-CERT-001-planar.json': '4ec159d6c7786f4c576f0b5b8a6a1088bf054a7a',
+              'evidence/vgse/VGSE-WP00-CERT-001-c06-producer-binding.json': '80ca458063ac2d500a2046f9594e90de0d737f86',
+          }
+          for path, digest in expected.items():
+              observed = blob_sha1(path)
+              if observed != digest:
+                  raise SystemExit(f'blob drift: {path}: expected {digest}, observed {observed}')
+
+          contract = json.loads((root / 'governance/result_family_adjudication_contracts/VGSE-001.json').read_text(encoding='utf-8'))
+          execution_input = json.loads((root / 'governance/result_family_adjudication_execution_inputs/VGSE-001.json').read_text(encoding='utf-8'))
+          adjudication = json.loads((root / 'governance/result_family_adjudications/VGSE-001.json').read_text(encoding='utf-8'))
+          route = json.loads((root / 'governance/certification_route_overlays/VGSE-001.json').read_text(encoding='utf-8'))
+          c06 = json.loads((root / 'evidence/vgse/VGSE-WP00-CERT-001-c06-producer-binding.json').read_text(encoding='utf-8'))
+          targets = contract['route_scope']['target_claims']
+          if execution_input['target_claims'] != targets or adjudication['target_claims'] != targets:
+              raise SystemExit('VGSE adjudication target statement drift')
+          if route['route_state'] != 'registered_pending_evidence' or route['may_adjudicate'] is not False or route['cert_output'] is not None:
+              raise SystemExit('VGSE route state inflated during adjudication')
+          if c06['cert_interpretation']['c06_state'] != 'BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C':
+              raise SystemExit('VGSE C06 blocked state drift')
+          if c06['cert_interpretation']['post_hoc_equivalence_broadening_authorized'] is not False:
+              raise SystemExit('VGSE C06 equivalence-broadening boundary weakened')
+          if adjudication['decision']['disposition'] != 'adjudication_clear_exact_four_claims_only':
+              raise SystemExit('VGSE adjudication disposition drift')
+          print('validated content-addressed VGSE four-claim adjudication state; C06 remains excluded and blocked')
+          PY
           python ci/replay_vgse_wp00_exact_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json
           python ci/replay_vgse_wp00_planar_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-planar.json
           python ci/replay_vgse_wp00_source_equivalence_audit.py --check evidence/vgse/VGSE-WP00-CERT-001-source-equivalence-audit.json
           python -m json.tool governance/certification_route_overlays/VGSE-001.json >/dev/null
           python -m json.tool governance/result_family_adjudication_contracts/VGSE-001.json >/dev/null
+          python -m json.tool governance/result_family_adjudication_execution_inputs/VGSE-001.json >/dev/null
+          python -m json.tool governance/result_family_adjudications/VGSE-001.json >/dev/null
           python -m json.tool evidence/vgse/VGSE-WP00-CERT-001-c06-producer-binding.json >/dev/null
           python -m json.tool schemas/vgse_route_registration.schema.json >/dev/null
           python -m json.tool schemas/vgse_adjudication_contract.schema.json >/dev/null
+          python -m json.tool schemas/vgse_adjudication_execution_input.schema.json >/dev/null
+          python -m json.tool schemas/vgse_adjudication.schema.json >/dev/null
