@@ -35,12 +35,30 @@
       "unique_y_for_each_x": true
     },
     "divisor_exclusion": {
-      "alpha_1": {"gcd": "1", "gcd_degree": 0},
-      "alpha_2": {"gcd": "1", "gcd_degree": 0},
-      "alpha_3": {"gcd": "1", "gcd_degree": 0},
-      "alpha_4": {"gcd": "1", "gcd_degree": 0},
-      "alpha_5": {"gcd": "1", "gcd_degree": 0},
-      "alpha_6": {"gcd": "1", "gcd_degree": 0}
+      "alpha_1": {
+        "gcd": "1",
+        "gcd_degree": 0
+      },
+      "alpha_2": {
+        "gcd": "1",
+        "gcd_degree": 0
+      },
+      "alpha_3": {
+        "gcd": "1",
+        "gcd_degree": 0
+      },
+      "alpha_4": {
+        "gcd": "1",
+        "gcd_degree": 0
+      },
+      "alpha_5": {
+        "gcd": "1",
+        "gcd_degree": 0
+      },
+      "alpha_6": {
+        "gcd": "1",
+        "gcd_degree": 0
+      }
     },
     "equation_reconstruction": {
       "arrangement_divisor": "x*y*(x + 1)*(7*x + 2*y - 6)*(-2*x + 3*y + 3)",
@@ -61,7 +79,13 @@
       "quintic_degree": 5,
       "quintic_monic": "(264313923428829400 - 483540693892620000*I)*(x**5*(264313923428829400 + 483540693892620000*I) + x**4*(-2216795100985993022 + 1828863333844625820*I) + x**3*(-3605280657884124497 - 4290971821226241732*I) + x**2*(5029360426989542682 - 2698133932258548966*I) + x*(629469832931420958 + 2775911427357818274*I) - 509002207288521984 - 11773047226564512*I)/303673452768497527775457518704360000",
       "quintic_squarefree": true,
-      "quotient_ring_basis": ["1", "x", "x^2", "x^3", "x^4"],
+      "quotient_ring_basis": [
+        "1",
+        "x",
+        "x^2",
+        "x^3",
+        "x^4"
+      ],
       "quotient_ring_dimension": 5,
       "triangular_y_relation": "(4376905787326692806875710 - 174689626698449981654670*I)*(x**4*(-28228300038581318481884400 - 6502231474366649682403400*I) + x**3*(14445353583777414193500192 - 134260531304177210566195078*I) + x**2*(218869786076601202793621028 + 37390744277986327125774873*I) + x*(-80371181456510293516344786 + 163946253545961105964839930*I) + y*(4376905787326692806875710 + 174689626698449981654670*I) - 40807985586634587335437962 - 42206228511342804566859546*I)/19187820736809940451715619871312118810602520813000"
     }
@@ -70,22 +94,142 @@
     "all_weights_strictly_positive": true,
     "almost_perfect_matching_count": 31,
     "common_scale": "1/7",
-    "matching_multiplicities": {"124": 1,"125": 2,"126": 1,"134": 1,"135": 2,"136": 1,"145": 1,"146": 1,"156": 1,"234": 1,"235": 2,"236": 1,"245": 2,"246": 3,"256": 4,"345": 1,"346": 2,"356": 3,"456": 1},
-    "measured_plucker_coordinates": {"124":"2/7","125":"1/7","126":"3/7","134":"2/7","135":"1/7","136":"3/7","145":"1","146":"25/7","156":"2/7","234":"2/7","235":"1/7","236":"3/7","245":"13/7","246":"7","256":"5/7","345":"6/7","346":"24/7","356":"3/7","456":"9/7"},
+    "matching_multiplicities": {
+      "124": 1,
+      "125": 2,
+      "126": 1,
+      "134": 1,
+      "135": 2,
+      "136": 1,
+      "145": 1,
+      "146": 1,
+      "156": 1,
+      "234": 1,
+      "235": 2,
+      "236": 1,
+      "245": 2,
+      "246": 3,
+      "256": 4,
+      "345": 1,
+      "346": 2,
+      "356": 3,
+      "456": 1
+    },
+    "measured_plucker_coordinates": {
+      "124": "2/7",
+      "125": "1/7",
+      "126": "3/7",
+      "134": "2/7",
+      "135": "1/7",
+      "136": "3/7",
+      "145": "1",
+      "146": "25/7",
+      "156": "2/7",
+      "234": "2/7",
+      "235": "1/7",
+      "236": "3/7",
+      "245": "13/7",
+      "246": "7",
+      "256": "5/7",
+      "345": "6/7",
+      "346": "24/7",
+      "356": "3/7",
+      "456": "9/7"
+    },
     "nonzero_plucker_count": 19,
-    "positive_exact_weights": {"B1":"1","B2":"1","B3":"1","B4":"1","B5":"1","B6":"1","F01|F02":"1","F01|F04":"1","F03|F04":"2/7","F03|F06":"1","F03|F08":"25/7","F05|F04":"3/25","F05|F06":"2/25","F07|F02":"1","F07|F04":"6/7","F07|F08":"9/7"},
+    "positive_exact_weights": {
+      "B1": "1",
+      "B2": "1",
+      "B3": "1",
+      "B4": "1",
+      "B5": "1",
+      "B6": "1",
+      "F01|F02": "1",
+      "F01|F04": "1",
+      "F03|F04": "2/7",
+      "F03|F06": "1",
+      "F03|F08": "25/7",
+      "F05|F04": "3/25",
+      "F05|F06": "2/25",
+      "F07|F02": "1",
+      "F07|F04": "6/7",
+      "F07|F08": "9/7"
+    },
     "support_exact": true,
-    "target_plucker_coordinates": {"124":2,"125":1,"126":3,"134":2,"135":1,"136":3,"145":7,"146":25,"156":2,"234":2,"235":1,"236":3,"245":13,"246":49,"256":5,"345":6,"346":24,"356":3,"456":9}
+    "target_plucker_coordinates": {
+      "124": 2,
+      "125": 1,
+      "126": 3,
+      "134": 2,
+      "135": 1,
+      "136": 3,
+      "145": 7,
+      "146": 25,
+      "156": 2,
+      "234": 2,
+      "235": 1,
+      "236": 3,
+      "245": 13,
+      "246": 49,
+      "256": 5,
+      "345": 6,
+      "346": 24,
+      "356": 3,
+      "456": 9
+    }
   },
   "campaign_id": "VGSE-001",
-  "claims_addressed": ["VGSE-C00", "VGSE-C01", "VGSE-C04"],
+  "claims_addressed": [
+    "VGSE-C00",
+    "VGSE-C01",
+    "VGSE-C04"
+  ],
   "evidence_id": "MC-VGSE-WP00-CERT-001-EXACT-ALGEBRAIC-GRAPH-001",
-  "hypothesis_audit": {"arrangement_divisor_saturated_explicitly":true,"critical_count_route":"direct_exact_saturated_ideal_computation","genericity_theorem_dependency_for_recorded_count":false,"note":"The recorded-instance count is established directly; this evidence does not promote a general OT95/Proposition B.2 theorem-chain hypothesis audit.","projective_chart":"a=(1,x,y)","recorded_arrangement_rank":2},
-  "independence": {"external_backend":{"name":"SymPy","version":"1.14.0"},"method":"fresh_exact_reconstruction_from_transcribed_arrangement_rounded_source_boundary_and_graph_incidence","solve_code_imported_or_executed":false,"solve_numerical_roots_consumed":false,"solve_numerical_weights_consumed":false},
+  "hypothesis_audit": {
+    "arrangement_divisor_saturated_explicitly": true,
+    "critical_count_route": "direct_exact_saturated_ideal_computation",
+    "genericity_theorem_dependency_for_recorded_count": false,
+    "note": "The recorded-instance count is established directly; this evidence does not promote a general OT95/Proposition B.2 theorem-chain hypothesis audit.",
+    "projective_chart": "a=(1,x,y)",
+    "recorded_arrangement_rank": 2
+  },
+  "independence": {
+    "external_backend": {
+      "name": "SymPy",
+      "version": "1.14.0"
+    },
+    "method": "fresh_exact_reconstruction_from_transcribed_arrangement_rounded_source_boundary_and_graph_incidence",
+    "solve_code_imported_or_executed": false,
+    "solve_numerical_roots_consumed": false,
+    "solve_numerical_weights_consumed": false
+  },
   "route_id": "MC-ROUTE-VGSE-001",
   "schema_version": "1.0.0",
-  "scope_exclusions": ["VGSE-C05 and VGSE-C06 are not discharged by this record","continuous rigid foldability","collision freedom","finite thickness","manufacturability","product performance","novelty","priority","patentability","commercial value"],
-  "source_identities": {"arxiv_v2_pdf_sha256":"f5aefb71dd0d662679e85cd0c7f96d1bbbc029a6b5cd2f1cfaa06286cc718e34","author_pdf_sha256":"e513789426ae6247438920bfc80cfba6bd9c32dc6799a4f7873d806a865f95de","forge_provider_manifest_blob_sha1":"9cb5ac2d92b458f7f63e8a9811448f245a151ddd","forge_source_concordance_blob_sha1":"6685cd1b0ed4d759f7447fce4b217ef8a59f0f93","normalized_text_sha256":"74d58d4465166fc5035e5064a2c1cabc8b0f1e62cdcf82f7b41c6af65492cba4"},
-  "trust": {"adjudication_effect":"none","certificate_output":null,"may_adjudicate_after_this_record_alone":false,"modality":"COMPUTER_ALGEBRA_CERTIFICATE_WITH_REPLAY","trust_boundary":"script_replayed_exact_arithmetic"},
+  "scope_exclusions": [
+    "VGSE-C05 and VGSE-C06 are not discharged by this record",
+    "continuous rigid foldability",
+    "collision freedom",
+    "finite thickness",
+    "manufacturability",
+    "product performance",
+    "novelty",
+    "priority",
+    "patentability",
+    "commercial value"
+  ],
+  "source_identities": {
+    "arxiv_v2_pdf_sha256": "f5aefb71dd0d662679e85cd0c7f96d1bbbc029a6b5cd2f1cfaa06286cc718e34",
+    "author_pdf_sha256": "e513789426ae6247438920bfc80cfba6bd9c32dc6799a4f7873d806a865f95de",
+    "forge_provider_manifest_blob_sha1": "9cb5ac2d92b458f7f63e8a9811448f245a151ddd",
+    "forge_source_concordance_blob_sha1": "6685cd1b0ed4d759f7447fce4b217ef8a59f0f93",
+    "normalized_text_sha256": "74d58d4465166fc5035e5064a2c1cabc8b0f1e62cdcf82f7b41c6af65492cba4"
+  },
+  "trust": {
+    "adjudication_effect": "none",
+    "certificate_output": null,
+    "may_adjudicate_after_this_record_alone": false,
+    "modality": "COMPUTER_ALGEBRA_CERTIFICATE_WITH_REPLAY",
+    "trust_boundary": "script_replayed_exact_arithmetic"
+  },
   "workset_id": "VGSE-WP00-CERT-001"
 }
