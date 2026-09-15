@@ -63,4 +63,5 @@ jobs:
           python ci/replay_vgse_wp00_planar_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-planar.json
           python ci/replay_vgse_wp00_source_equivalence_audit.py --check evidence/vgse/VGSE-WP00-CERT-001-source-equivalence-audit.json
           python -m json.tool governance/certification_route_overlays/VGSE-001.json >/dev/null
+          python -m json.tool evidence/vgse/VGSE-WP00-CERT-001-c06-producer-binding.json >/dev/null
           python -m json.tool schemas/vgse_route_registration.schema.json >/dev/null

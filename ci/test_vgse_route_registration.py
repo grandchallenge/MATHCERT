@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import json
 import runpy
@@ -16,6 +17,19 @@ SPEC = importlib.util.spec_from_file_location(
 module = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader is not None
 SPEC.loader.exec_module(module)
+
+C06_PRODUCER_BINDING_PATH = (
+    ROOT / "evidence" / "vgse" / "VGSE-WP00-CERT-001-c06-producer-binding.json"
+)
+EXPECTED_C06_PRODUCER_BINDING_BLOB = "80ca458063ac2d500a2046f9594e90de0d737f86"
+
+
+def git_blob_sha1(path: Path) -> str:
+    payload = path.read_bytes()
+    return hashlib.sha1(
+        f"blob {len(payload)}\0".encode("ascii") + payload,
+        usedforsecurity=False,
+    ).hexdigest()
 
 
 class VGSERouteRegistrationTests(unittest.TestCase):
@@ -102,6 +116,50 @@ class VGSERouteRegistrationTests(unittest.TestCase):
     def test_missing_documentary_boundary_fails(self) -> None:
         documentation = self.documentation.replace("does not issue a certificate", "issues a certificate")
         self.assertTrue(any("documentation boundary missing" in error for error in self.errors(documentation=documentation)))
+
+    def test_c06_producer_binding_is_exact_and_fail_closed(self) -> None:
+        self.assertTrue(C06_PRODUCER_BINDING_PATH.is_file())
+        self.assertEqual(
+            git_blob_sha1(C06_PRODUCER_BINDING_PATH),
+            EXPECTED_C06_PRODUCER_BINDING_BLOB,
+        )
+        binding = json.loads(C06_PRODUCER_BINDING_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(binding["route_id"], "MC-ROUTE-VGSE-001")
+        self.assertEqual(binding["claims_addressed"], ["VGSE-C06"])
+        self.assertEqual(
+            binding["producer_evidence"]["protected_merge"],
+            "c8e81d262d4da1a36b312f017443777a4c7888db",
+        )
+        self.assertEqual(
+            binding["producer_evidence"]["evidence_record"]["git_blob_sha1"],
+            "97f2834d57d8ac9d60544d0f2498aa527aa72422",
+        )
+        self.assertGreater(
+            binding["producer_result"]["certified_rounding_robust_lower_bound"],
+            binding["producer_result"]["required_lower_threshold"],
+        )
+        self.assertFalse(
+            binding["producer_result"]
+            ["visible_reconstructed_geometric_weight_class_measures_pinned_C"]
+        )
+        self.assertEqual(
+            binding["cert_interpretation"]["c04_admitted_evidence_status"],
+            "UNCHANGED",
+        )
+        self.assertEqual(
+            binding["cert_interpretation"]["c05_admitted_evidence_status"],
+            "UNCHANGED",
+        )
+        self.assertEqual(
+            binding["cert_interpretation"]["c06_state"],
+            "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C",
+        )
+        self.assertFalse(
+            binding["cert_interpretation"]["post_hoc_equivalence_broadening_authorized"]
+        )
+        self.assertFalse(binding["trust"]["may_adjudicate_after_this_record_alone"])
+        self.assertIsNone(binding["trust"]["certificate_output"])
+        self.assertFalse(binding["trust"]["mathematical_target_proved"])
 
     def test_wp00_evidence_replay_when_dependencies_are_available(self) -> None:
         evidence_test = ROOT / "ci" / "test_replay_vgse_wp00_exact_evidence.py"
