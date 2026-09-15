@@ -1,0 +1,126 @@
+{
+  "c05_source_binding": {
+    "boundary_coordinates_exactly_bound": true,
+    "boundary_reindex_source_1_based": [
+      1,
+      6,
+      5,
+      4,
+      3,
+      2
+    ],
+    "face_cycles": {
+      "F01": [
+        "A",
+        "P2",
+        "P1"
+      ],
+      "F02": [
+        "P0",
+        "A",
+        "P1"
+      ],
+      "F03": [
+        "P4",
+        "C",
+        "D"
+      ],
+      "F04": [
+        "A",
+        "D",
+        "C",
+        "P2"
+      ],
+      "F05": [
+        "P2",
+        "C",
+        "P3"
+      ],
+      "F06": [
+        "P3",
+        "C",
+        "P4"
+      ],
+      "F07": [
+        "A",
+        "P0",
+        "P5",
+        "D"
+      ],
+      "F08": [
+        "P4",
+        "D",
+        "P5"
+      ]
+    },
+    "face_cycles_exactly_bound": true,
+    "interpretation": "The C05 reconstructed cellulation is explicitly bound to the labeled topology and boundary coordinates extracted in the pinned protected source-vector fixture.",
+    "pattern_id": "FIG16-01",
+    "source_fixture": {
+      "evidence_class": "SOURCE_VECTOR_GEOMETRY_REPLICATION",
+      "fixture_id": "VGSE-FIG16-SOURCE-VECTOR-001",
+      "git_blob_sha1": "8449555b71a38670374f172edd549385c3dda47d",
+      "not_an_independent_algebraic_to_geometry_reconstruction": true,
+      "path": "work_packages/VGSE_WP00/artifacts/data/figure16_source_vectors.json",
+      "pdf_sha256": "e513789426ae6247438920bfc80cfba6bd9c32dc6799a4f7873d806a865f95de",
+      "protected_ref": "e6ec267cf5de910d2cb827008c66d10f31fe92c6",
+      "repository": "grandchallenge/MATHSOLVE"
+    }
+  },
+  "c06_authority": {
+    "cert_handoff": {
+      "git_blob_sha1": "42cfa84978fd63c75f074b388afd8b1fcbd56091",
+      "path": "cert_handoffs/VGSE-001.json",
+      "protected_ref": "e6ec267cf5de910d2cb827008c66d10f31fe92c6",
+      "repository": "grandchallenge/MATHSOLVE"
+    },
+    "claim_ledger": {
+      "git_blob_sha1": "a5d9edb3697bfbb5fe26b8dacbda4b2a2debb69f",
+      "path": "work_packages/VGSE_WP00/claim_ledger.json",
+      "protected_ref": "e6ec267cf5de910d2cb827008c66d10f31fe92c6",
+      "repository": "grandchallenge/MATHSOLVE"
+    },
+    "equivalence_group_definition_in_pinned_records": null,
+    "handoff_required_input": "A generated-to-source equivalence record with the declared equivalence group.",
+    "ledger_blocker": "A permutation-and-equivalence matcher between generated coordinates and the rounded source drawings has not been admitted.",
+    "ledger_support_route": "NONE"
+  },
+  "c06_narrow_relation_audit": {
+    "best_bijection_linf_coordinate_mismatch_lower_bound_gt": "1/1000 PDF point",
+    "bijections_exhausted": 120,
+    "generated_branches": 5,
+    "identity_gauge_match_at_source_precision": false,
+    "meaning": "No bijection can identify the five generated embeddings with the five rounded source drawings by labeled coordinate identity at source precision.",
+    "relation_tested": "label_preserving_identity_in_common_boundary_coordinate_gauge",
+    "source_coordinate_rounding": "1/1000000 PDF point",
+    "source_patterns": 5
+  },
+  "c06_outcome": {
+    "broader_geometric_equivalence_assessed": false,
+    "claim_refuted_under_undeclared_future_group": false,
+    "identity_gauge_relation_refuted_at_source_precision": true,
+    "may_certify_c06": false,
+    "required_reopening_input": "An explicit, source-faithful geometric equivalence group and matcher contract admitted on an exact protected revision.",
+    "state": "BLOCKED_MISSING_EQUIVALENCE_DEFINITION"
+  },
+  "campaign_id": "VGSE-001",
+  "claims_addressed": [
+    "VGSE-C05",
+    "VGSE-C06"
+  ],
+  "evidence_id": "MC-VGSE-WP00-CERT-001-SOURCE-EQUIVALENCE-AUDIT-001",
+  "route_id": "MC-ROUTE-VGSE-001",
+  "schema_version": "1.0.0",
+  "scope_exclusions": [
+    "No undeclared geometric transformation group is inferred or invented.",
+    "No rigid foldability, collision freedom, finite thickness, manufacturability, product, novelty, priority, patentability, or commercial inference is authorized."
+  ],
+  "trust": {
+    "adjudication_effect": "none",
+    "certificate_output": null,
+    "may_adjudicate_after_this_record_alone": false,
+    "modality": "SEMANTIC_REPLAY_PLUS_INTERVAL_NEGATIVE_AUDIT",
+    "trust_boundary": "pinned_source_fixture_identity_plus_exact_interval_replay"
+  },
+  "workset_id": "VGSE-WP00-CERT-001"
+}
