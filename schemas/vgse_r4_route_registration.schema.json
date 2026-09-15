@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "route_id",
+    "campaign_id",
+    "tracker_issue",
+    "registry_mode",
+    "predecessor_route",
+    "human_steward_authority",
+    "authority",
+    "route_state",
+    "intake_status",
+    "may_adjudicate",
+    "cert_output",
+    "target_claim_ids",
+    "requested_modalities",
+    "adjudication_binding",
+    "excluded_claims",
+    "qualification_readiness",
+    "claim_boundary",
+    "activation_effect",
+    "blockers",
+    "reopening_conditions"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"const": "MC-VGSE-WP00-R4-ROUTE-001"},
+    "route_id": {"const": "MC-ROUTE-VGSE-001-R4"},
+    "campaign_id": {"const": "VGSE-001"},
+    "tracker_issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/301"},
+    "registry_mode": {"const": "additive_restricted_successor_overlay"},
+    "predecessor_route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["route_id", "repository", "protected_main", "path", "digest_algorithm", "digest", "preserved_unchanged"],
+      "properties": {
+        "route_id": {"const": "MC-ROUTE-VGSE-001"},
+        "repository": {"const": "grandchallenge/MATHCERT"},
+        "protected_main": {"const": "df9fd2e493da277646e844d3e20fbc65e965d861"},
+        "path": {"const": "governance/certification_route_overlays/VGSE-001.json"},
+        "digest_algorithm": {"const": "git_blob_sha1"},
+        "digest": {"const": "6dbd22485548114c91568dbc7ac18ac938e5f7e1"},
+        "preserved_unchanged": {"const": true}
+      }
+    },
+    "human_steward_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["issue", "comment_id", "disposition", "authorized_route_id", "authorized_target_claim_ids", "predecessor_must_remain_unchanged", "c06_must_remain_on_predecessor_fail_closed"],
+      "properties": {
+        "issue": {"const": "https://github.com/grandchallenge/MATHCERT/issues/301"},
+        "comment_id": {"const": 5680762776},
+        "disposition": {"const": "PATH_B_ADDITIVE_RESTRICTED_SUCCESSOR_APPROVED"},
+        "authorized_route_id": {"const": "MC-ROUTE-VGSE-001-R4"},
+        "authorized_target_claim_ids": {"const": ["VGSE-C00", "VGSE-C01", "VGSE-C04", "VGSE-C05"]},
+        "predecessor_must_remain_unchanged": {"const": true},
+        "c06_must_remain_on_predecessor_fail_closed": {"const": true}
+      }
+    },
+    "authority": {"type": "object"},
+    "route_state": {"enum": ["registered_pending_evidence", "qualified"]},
+    "intake_status": {"enum": ["pending", "qualified"]},
+    "may_adjudicate": {"const": false},
+    "cert_output": {"type": ["object", "null"]},
+    "target_claim_ids": {"const": ["VGSE-C00", "VGSE-C01", "VGSE-C04", "VGSE-C05"]},
+    "requested_modalities": {"type": "array", "minItems": 5, "items": {"type": "string"}},
+    "adjudication_binding": {"type": "object"},
+    "excluded_claims": {"type": "array", "minItems": 1, "maxItems": 1},
+    "qualification_readiness": {"type": "object"},
+    "claim_boundary": {"type": "object"},
+    "activation_effect": {"type": "object"},
+    "blockers": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "reopening_conditions": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"route_state": {"const": "registered_pending_evidence"}}},
+      "then": {
+        "properties": {
+          "intake_status": {"const": "pending"},
+          "cert_output": {"type": "null"}
+        }
+      }
+    }
+  ]
+}

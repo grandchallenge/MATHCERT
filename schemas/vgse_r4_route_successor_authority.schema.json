@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_type", "record_id", "campaign_id", "successor_route_id", "predecessor_route_id", "human_steward_disposition", "protected_predecessor", "required_invariants", "authorized_downstream_sequence", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "vgse_route_successor_authority_receipt"},
+    "record_id": {"const": "MC-VGSE-WP00-R4-AUTH-001"},
+    "campaign_id": {"const": "VGSE-001"},
+    "successor_route_id": {"const": "MC-ROUTE-VGSE-001-R4"},
+    "predecessor_route_id": {"const": "MC-ROUTE-VGSE-001"},
+    "human_steward_disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "issue_number", "comment_id", "disposition", "authorized_scope", "excluded_scope"],
+      "properties": {
+        "repository": {"const": "grandchallenge/MATHCERT"},
+        "issue_number": {"const": 301},
+        "comment_id": {"const": 5680762776},
+        "disposition": {"const": "PATH_B_ADDITIVE_RESTRICTED_SUCCESSOR_APPROVED"},
+        "authorized_scope": {"const": ["VGSE-C00", "VGSE-C01", "VGSE-C04", "VGSE-C05"]},
+        "excluded_scope": {"const": ["VGSE-C06"]}
+      }
+    },
+    "protected_predecessor": {"type": "object"},
+    "required_invariants": {"type": "object"},
+    "authorized_downstream_sequence": {"const": ["successor_route_registration", "restricted_output_contract", "successor_route_qualification", "restricted_certificate_output"]},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}

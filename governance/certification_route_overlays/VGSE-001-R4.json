@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-VGSE-WP00-R4-ROUTE-001",
+  "route_id": "MC-ROUTE-VGSE-001-R4",
+  "campaign_id": "VGSE-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/301",
+  "registry_mode": "additive_restricted_successor_overlay",
+  "predecessor_route": {
+    "route_id": "MC-ROUTE-VGSE-001",
+    "repository": "grandchallenge/MATHCERT",
+    "protected_main": "df9fd2e493da277646e844d3e20fbc65e965d861",
+    "path": "governance/certification_route_overlays/VGSE-001.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "6dbd22485548114c91568dbc7ac18ac938e5f7e1",
+    "preserved_unchanged": true
+  },
+  "human_steward_authority": {
+    "issue": "https://github.com/grandchallenge/MATHCERT/issues/301",
+    "comment_id": 5680762776,
+    "disposition": "PATH_B_ADDITIVE_RESTRICTED_SUCCESSOR_APPROVED",
+    "authorized_route_id": "MC-ROUTE-VGSE-001-R4",
+    "authorized_target_claim_ids": [
+      "VGSE-C00",
+      "VGSE-C01",
+      "VGSE-C04",
+      "VGSE-C05"
+    ],
+    "predecessor_must_remain_unchanged": true,
+    "c06_must_remain_on_predecessor_fail_closed": true
+  },
+  "authority": {
+    "adjudication_merge": "df9fd2e493da277646e844d3e20fbc65e965d861",
+    "adjudication_path": "governance/vgse_adjudications/VGSE-001.json",
+    "adjudication_blob": "57668860de1c96370fb0075e0c7e8f43f7dc0067",
+    "adjudication_contract_blob": "2214eb6e442ac758c78ec5bc4b1de335c831cffa",
+    "adjudication_execution_input_blob": "6ed94cce042978c0373d3c72de0e5ba080cfe320",
+    "exact_algebraic_graph_evidence_blob": "f804023ea346feea9bbcc7feecdc19b442f0448d",
+    "planar_evidence_blob": "4ec159d6c7786f4c576f0b5b8a6a1088bf054a7a",
+    "c06_producer_binding_blob": "80ca458063ac2d500a2046f9594e90de0d737f86",
+    "forge_source_archive_audit_merge": "7a7c1bcaba3c31726e34353f311a6de6d9530dbc",
+    "forge_source_archive_audit_blob": "742a14910b5448d3fd9714434c7c5d0d3f7a61dc"
+  },
+  "route_state": "registered_pending_evidence",
+  "intake_status": "pending",
+  "may_adjudicate": false,
+  "cert_output": null,
+  "target_claim_ids": [
+    "VGSE-C00",
+    "VGSE-C01",
+    "VGSE-C04",
+    "VGSE-C05"
+  ],
+  "requested_modalities": [
+    "EXACT_RATIONAL_CERTIFICATE",
+    "COMPUTER_ALGEBRA_CERTIFICATE_WITH_REPLAY",
+    "INTERVAL_ARITHMETIC_CERTIFICATE",
+    "SEMANTIC_REPLAY",
+    "SPECIALIST_AUDIT_PENDING"
+  ],
+  "adjudication_binding": {
+    "disposition": "adjudication_clear_exact_four_claims_only",
+    "cleared_claim_ids": [
+      "VGSE-C00",
+      "VGSE-C01",
+      "VGSE-C04",
+      "VGSE-C05"
+    ],
+    "excluded_claim_ids": [
+      "VGSE-C06"
+    ],
+    "protected": true
+  },
+  "excluded_claims": [
+    {
+      "claim_id": "VGSE-C06",
+      "predecessor_route_id": "MC-ROUTE-VGSE-001",
+      "state": "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C",
+      "included_in_successor": false,
+      "reopening_condition": "Exact source graph/weight-generation data establishing the Figure-16-to-pinned-C bridge, or a separately governed source-authorized correspondence declared before matcher execution."
+    }
+  ],
+  "qualification_readiness": {
+    "protected_four_claim_adjudication_bound": true,
+    "protected_exact_evidence_bound": true,
+    "c06_excluded": true,
+    "next_stage": "separate_restricted_output_contract_and_qualification",
+    "registration_itself_qualifies_route": false,
+    "registration_itself_issues_certificate": false
+  },
+  "claim_boundary": {
+    "restricted_four_claim_successor_only": true,
+    "mathematical_target_proved": false,
+    "source_paper_refutation_authorized": false,
+    "equivalence_group_broadening_authorized": false,
+    "mechanical_claim_authorized": false,
+    "manufacturing_claim_authorized": false,
+    "novelty_or_priority_claim_authorized": false,
+    "patentability_claim_authorized": false,
+    "product_or_commercial_claim_authorized": false
+  },
+  "activation_effect": {
+    "mathcert_successor_route_registered": true,
+    "predecessor_route_changed": false,
+    "mathcert_adjudication_authorized": false,
+    "certificate_output_authorized": false,
+    "programme_active_routing_changed": false,
+    "intellect_repin_effect": "none"
+  },
+  "blockers": [
+    "Successor registration does not itself qualify the route or issue certificate output; a separate protected output-contract and qualification operation is required.",
+    "VGSE-C06 remains outside this successor and remains fail-closed on MC-ROUTE-VGSE-001."
+  ],
+  "reopening_conditions": [
+    "Update this successor if the protected four-claim adjudication identity, target statements, evidence identities, Human Steward Path-B disposition, or certificate-output state changes.",
+    "Do not add VGSE-C06 to this successor; C06 may progress only on the predecessor route through its existing protected reopening condition.",
+    "Programme and INTELLECT routing may change only through a later separately governed operation."
+  ]
+}

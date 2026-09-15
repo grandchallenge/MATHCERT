@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "vgse_route_successor_authority_receipt",
+  "record_id": "MC-VGSE-WP00-R4-AUTH-001",
+  "campaign_id": "VGSE-001",
+  "successor_route_id": "MC-ROUTE-VGSE-001-R4",
+  "predecessor_route_id": "MC-ROUTE-VGSE-001",
+  "human_steward_disposition": {
+    "repository": "grandchallenge/MATHCERT",
+    "issue_number": 301,
+    "comment_id": 5680762776,
+    "disposition": "PATH_B_ADDITIVE_RESTRICTED_SUCCESSOR_APPROVED",
+    "authorized_scope": ["VGSE-C00", "VGSE-C01", "VGSE-C04", "VGSE-C05"],
+    "excluded_scope": ["VGSE-C06"]
+  },
+  "protected_predecessor": {
+    "commit_sha": "df9fd2e493da277646e844d3e20fbc65e965d861",
+    "overlay_path": "governance/certification_route_overlays/VGSE-001.json",
+    "overlay_blob": "6dbd22485548114c91568dbc7ac18ac938e5f7e1",
+    "adjudication_path": "governance/vgse_adjudications/VGSE-001.json",
+    "adjudication_blob": "57668860de1c96370fb0075e0c7e8f43f7dc0067",
+    "adjudication_disposition": "adjudication_clear_exact_four_claims_only"
+  },
+  "required_invariants": {
+    "predecessor_overlay_unchanged": true,
+    "successor_additive_only": true,
+    "successor_target_claim_ids": ["VGSE-C00", "VGSE-C01", "VGSE-C04", "VGSE-C05"],
+    "c06_remains_on_predecessor": true,
+    "c06_state": "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C",
+    "partial_qualification_state_on_predecessor_prohibited": true,
+    "programme_routing_change_authorized": false,
+    "intellect_repin_authorized": false
+  },
+  "authorized_downstream_sequence": [
+    "successor_route_registration",
+    "restricted_output_contract",
+    "successor_route_qualification",
+    "restricted_certificate_output"
+  ],
+  "claim_boundary": "This receipt records the Human Steward control-plan authorization for an additive four-claim successor route only. It does not itself register, qualify, adjudicate, or issue certificate output; it does not include VGSE-C06 or authorize any broader mathematical, mechanical, manufacturing, novelty, priority, patentability, product, performance, or commercial claim."
+}
