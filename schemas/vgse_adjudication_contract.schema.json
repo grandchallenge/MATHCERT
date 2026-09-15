@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","contract_id","campaign_id","workset_id","route_id","contract_state","tracker_issue","authority","route_scope","decision_contract","reviewer_requirements","execution_gate","state","preserved_limitations","claim_boundary"],
+  "properties": {
+    "schema_version": {"const":"1.0.0"},
+    "record_type": {"const":"vgse_adjudication_contract"},
+    "contract_id": {"const":"MC-VGSE-WP00-ADJUDICATION-CONTRACT-001"},
+    "campaign_id": {"const":"VGSE-001"},
+    "workset_id": {"const":"VGSE-WP00-CERT-001"},
+    "route_id": {"const":"MC-ROUTE-VGSE-001"},
+    "contract_state": {"const":"design_only"},
+    "tracker_issue": {"const":"https://github.com/grandchallenge/MATHCERT/issues/295"},
+    "authority": {
+      "type":"object","additionalProperties":false,
+      "required":["solve_handoff_merge","solve_handoff_blob","solve_source_manifest_blob","cert_evidence_admission_merge","cert_c06_reconciliation_merge","route_overlay_blob","exact_algebraic_graph_evidence_blob","planar_evidence_blob","c06_producer_binding_blob","c06_producer_merge"],
+      "properties": {
+        "solve_handoff_merge":{"type":"string"},"solve_handoff_blob":{"type":"string"},"solve_source_manifest_blob":{"type":"string"},"cert_evidence_admission_merge":{"type":"string"},"cert_c06_reconciliation_merge":{"type":"string"},"route_overlay_blob":{"type":"string"},"exact_algebraic_graph_evidence_blob":{"type":"string"},"planar_evidence_blob":{"type":"string"},"c06_producer_binding_blob":{"type":"string"},"c06_producer_merge":{"type":"string"}
+      }
+    },
+    "route_scope": {
+      "type":"object","additionalProperties":false,
+      "required":["registered_route_state","target_claims","excluded_route_claim_ids","scope_exclusions"],
+      "properties": {
+        "registered_route_state":{"const":"registered_pending_evidence"},
+        "target_claims":{"type":"array","minItems":4,"maxItems":4,"items":{"type":"object","additionalProperties":false,"required":["claim_id","statement","support_type","evidence_path"],"properties":{"claim_id":{"type":"string"},"statement":{"type":"string"},"support_type":{"type":"string"},"evidence_path":{"type":"string"}}}},
+        "excluded_route_claim_ids":{"const":["VGSE-C06"]},
+        "scope_exclusions":{"type":"array","minItems":5,"items":{"type":"string"}}
+      }
+    },
+    "decision_contract": {
+      "type":"object","additionalProperties":false,
+      "required":["decision_question","admissible_dispositions","required_evidence"],
+      "properties": {
+        "decision_question":{"type":"string"},
+        "admissible_dispositions":{"const":["adjudication_clear_exact_four_claims_only","adjudication_not_clear","defer_insufficient_evidence"]},
+        "required_evidence":{"type":"array","minItems":9,"items":{"type":"string"}}
+      }
+    },
+    "reviewer_requirements": {
+      "type":"object","additionalProperties":false,
+      "required":["minimum_binding_non_author_reviewers","required_review_state","review_must_bind_exact_execution_head","competence","independence"],
+      "properties":{"minimum_binding_non_author_reviewers":{"const":1},"required_review_state":{"const":"APPROVED"},"review_must_bind_exact_execution_head":{"const":true},"competence":{"type":"array","minItems":4,"items":{"type":"string"}},"independence":{"type":"array","minItems":2,"items":{"type":"string"}}}
+    },
+    "execution_gate": {
+      "type":"object","additionalProperties":false,
+      "required":["future_adjudication_execution_required","future_adjudication_output_is_separate_operation","exact_head_cert_checks_required","exact_head_gcl_conformance_required","fresh_non_author_approval_required","exact_head_human_steward_disposition_required","protected_merge_required","head_change_requires_revalidation_reapproval_and_redisposition","design_merge_effect"],
+      "properties":{"future_adjudication_execution_required":{"const":true},"future_adjudication_output_is_separate_operation":{"const":true},"exact_head_cert_checks_required":{"const":true},"exact_head_gcl_conformance_required":{"const":true},"fresh_non_author_approval_required":{"const":true},"exact_head_human_steward_disposition_required":{"const":true},"protected_merge_required":{"const":true},"head_change_requires_revalidation_reapproval_and_redisposition":{"const":true},"design_merge_effect":{"const":"contract_admitted_design_only_no_adjudication"}}
+    },
+    "state": {
+      "type":"object","additionalProperties":false,
+      "required":["may_adjudicate","adjudication","cert_output","mathematical_target_proved","may_issue_output","may_promote_claim","aggregate_adjudication"],
+      "properties":{"may_adjudicate":{"const":false},"adjudication":{"type":"null"},"cert_output":{"type":"null"},"mathematical_target_proved":{"const":false},"may_issue_output":{"const":false},"may_promote_claim":{"const":false},"aggregate_adjudication":{"const":false}}
+    },
+    "preserved_limitations": {
+      "type":"object","additionalProperties":false,
+      "required":["c06_in_scope","c06_state","source_paper_refutation_authorized","equivalence_group_broadening_authorized","mechanical_claim_authorized","manufacturing_claim_authorized","novelty_or_priority_claim_authorized","patentability_claim_authorized","product_or_commercial_claim_authorized"],
+      "properties":{"c06_in_scope":{"const":false},"c06_state":{"const":"BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C"},"source_paper_refutation_authorized":{"const":false},"equivalence_group_broadening_authorized":{"const":false},"mechanical_claim_authorized":{"const":false},"manufacturing_claim_authorized":{"const":false},"novelty_or_priority_claim_authorized":{"const":false},"patentability_claim_authorized":{"const":false},"product_or_commercial_claim_authorized":{"const":false}}
+    },
+    "claim_boundary":{"type":"string"}
+  }
+}
