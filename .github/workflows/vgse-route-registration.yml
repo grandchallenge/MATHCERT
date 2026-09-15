@@ -5,9 +5,15 @@ on:
     paths:
       - "governance/certification_route_overlays/VGSE-001.json"
       - "governance/certification_routes.json"
+      - "governance/ci_control_registry.json"
       - "schemas/vgse_route_registration.schema.json"
       - "ci/validate_vgse_route_registration.py"
       - "ci/test_vgse_route_registration.py"
+      - "ci/replay_vgse_wp00_exact_evidence.py"
+      - "ci/replay_vgse_wp00_planar_evidence.py"
+      - "ci/replay_vgse_wp00_source_equivalence_audit.py"
+      - "ci/test_replay_vgse_wp00_exact_evidence.py"
+      - "evidence/vgse/**"
       - "docs/work_packages/MC-VGSE-WP00-ROUTE-001.md"
       - ".github/workflows/vgse-route-registration.yml"
   push:
@@ -16,9 +22,15 @@ on:
     paths:
       - "governance/certification_route_overlays/VGSE-001.json"
       - "governance/certification_routes.json"
+      - "governance/ci_control_registry.json"
       - "schemas/vgse_route_registration.schema.json"
       - "ci/validate_vgse_route_registration.py"
       - "ci/test_vgse_route_registration.py"
+      - "ci/replay_vgse_wp00_exact_evidence.py"
+      - "ci/replay_vgse_wp00_planar_evidence.py"
+      - "ci/replay_vgse_wp00_source_equivalence_audit.py"
+      - "ci/test_replay_vgse_wp00_exact_evidence.py"
+      - "evidence/vgse/**"
       - "docs/work_packages/MC-VGSE-WP00-ROUTE-001.md"
       - ".github/workflows/vgse-route-registration.yml"
 
@@ -28,7 +40,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -41,11 +53,14 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.12.13"
-      - name: Install validation dependency
-        run: python -m pip install 'jsonschema>=4.23,<5'
-      - name: Validate bounded pending route
+      - name: Install bounded VGSE validation dependencies
+        run: python -m pip install 'jsonschema>=4.23,<5' 'sympy==1.14.0'
+      - name: Validate bounded pending route and evidence replay
         run: |
           python ci/validate_vgse_route_registration.py
           python -m unittest ci/test_vgse_route_registration.py -v
+          python ci/replay_vgse_wp00_exact_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json
+          python ci/replay_vgse_wp00_planar_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-planar.json
+          python ci/replay_vgse_wp00_source_equivalence_audit.py --check evidence/vgse/VGSE-WP00-CERT-001-source-equivalence-audit.json
           python -m json.tool governance/certification_route_overlays/VGSE-001.json >/dev/null
           python -m json.tool schemas/vgse_route_registration.schema.json >/dev/null
