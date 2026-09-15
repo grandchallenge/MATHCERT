@@ -6,7 +6,7 @@ on:
       - "governance/certification_route_overlays/VGSE-001.json"
       - "governance/result_family_adjudication_contracts/VGSE-001.json"
       - "governance/result_family_adjudication_execution_inputs/VGSE-001.json"
-      - "governance/result_family_adjudications/VGSE-001.json"
+      - "governance/vgse_adjudications/VGSE-001.json"
       - "governance/certification_routes.json"
       - "governance/ci_control_registry.json"
       - "schemas/vgse_route_registration.schema.json"
@@ -30,7 +30,7 @@ on:
       - "governance/certification_route_overlays/VGSE-001.json"
       - "governance/result_family_adjudication_contracts/VGSE-001.json"
       - "governance/result_family_adjudication_execution_inputs/VGSE-001.json"
-      - "governance/result_family_adjudications/VGSE-001.json"
+      - "governance/vgse_adjudications/VGSE-001.json"
       - "governance/certification_routes.json"
       - "governance/ci_control_registry.json"
       - "schemas/vgse_route_registration.schema.json"
@@ -83,7 +83,7 @@ jobs:
           root = Path('.')
           pairs = [
               ('governance/result_family_adjudication_execution_inputs/VGSE-001.json', 'schemas/vgse_adjudication_execution_input.schema.json'),
-              ('governance/result_family_adjudications/VGSE-001.json', 'schemas/vgse_adjudication.schema.json'),
+              ('governance/vgse_adjudications/VGSE-001.json', 'schemas/vgse_adjudication.schema.json'),
           ]
           for record_path, schema_path in pairs:
               record = json.loads((root / record_path).read_text(encoding='utf-8'))
@@ -110,7 +110,7 @@ jobs:
 
           contract = json.loads((root / 'governance/result_family_adjudication_contracts/VGSE-001.json').read_text(encoding='utf-8'))
           execution_input = json.loads((root / 'governance/result_family_adjudication_execution_inputs/VGSE-001.json').read_text(encoding='utf-8'))
-          adjudication = json.loads((root / 'governance/result_family_adjudications/VGSE-001.json').read_text(encoding='utf-8'))
+          adjudication = json.loads((root / 'governance/vgse_adjudications/VGSE-001.json').read_text(encoding='utf-8'))
           route = json.loads((root / 'governance/certification_route_overlays/VGSE-001.json').read_text(encoding='utf-8'))
           c06 = json.loads((root / 'evidence/vgse/VGSE-WP00-CERT-001-c06-producer-binding.json').read_text(encoding='utf-8'))
           targets = contract['route_scope']['target_claims']
@@ -132,7 +132,7 @@ jobs:
           python -m json.tool governance/certification_route_overlays/VGSE-001.json >/dev/null
           python -m json.tool governance/result_family_adjudication_contracts/VGSE-001.json >/dev/null
           python -m json.tool governance/result_family_adjudication_execution_inputs/VGSE-001.json >/dev/null
-          python -m json.tool governance/result_family_adjudications/VGSE-001.json >/dev/null
+          python -m json.tool governance/vgse_adjudications/VGSE-001.json >/dev/null
           python -m json.tool evidence/vgse/VGSE-WP00-CERT-001-c06-producer-binding.json >/dev/null
           python -m json.tool schemas/vgse_route_registration.schema.json >/dev/null
           python -m json.tool schemas/vgse_adjudication_contract.schema.json >/dev/null
