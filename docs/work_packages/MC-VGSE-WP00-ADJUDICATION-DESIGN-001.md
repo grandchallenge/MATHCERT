@@ -27,7 +27,9 @@ A future adjudication must independently replay the evidence appropriate to each
 
 Admission of this contract does not authorize adjudication. It does not issue a certificate. It does not mark any mathematical target proved. It does not change the registered route state or Programme routing.
 
-A future adjudication execution is a separate exact-head operation. Before protected merge it requires the applicable machine gates, a binding non-author specialist approval, and the applicable explicit exact-head Human Steward disposition. Any head change invalidates those bindings.
+Protected admission of this design contract itself requires its exact-head machine gates, a binding non-author approval, and an explicit Human Steward disposition bound to that same exact head. Any head change invalidates those bindings.
+
+A future adjudication execution is a separate exact-head operation and independently requires its applicable machine gates, binding non-author specialist approval, and explicit exact-head Human Steward disposition.
 
 ## Exclusions
 

@@ -72,6 +72,7 @@
     "exact_head_cert_checks_required": true,
     "exact_head_gcl_conformance_required": true,
     "fresh_non_author_approval_required": true,
+    "design_merge_requires_exact_head_human_steward_disposition": true,
     "exact_head_human_steward_disposition_required": true,
     "protected_merge_required": true,
     "head_change_requires_revalidation_reapproval_and_redisposition": true,
@@ -97,5 +98,5 @@
     "patentability_claim_authorized": false,
     "product_or_commercial_claim_authorized": false
   },
-  "claim_boundary": "This design-only contract defines a possible future adjudication process for exactly VGSE-C00, VGSE-C01, VGSE-C04, and VGSE-C05. It does not adjudicate or prove any claim, issue a Cert output, alter the registered route state, promote a mathematical target, include VGSE-C06, infer or broaden an equivalence group, refute the source paper, or authorize rigid foldability, collision freedom, finite thickness, manufacturability, novelty, priority, publication, patentability, product, performance, or commercial claims. A future adjudication requires its own exact-head operation, required machine gates, binding non-author specialist review, and applicable explicit exact-head Human Steward disposition."
+  "claim_boundary": "This design-only contract defines a possible future adjudication process for exactly VGSE-C00, VGSE-C01, VGSE-C04, and VGSE-C05. It does not adjudicate or prove any claim, issue a Cert output, alter the registered route state, promote a mathematical target, include VGSE-C06, infer or broaden an equivalence group, refute the source paper, or authorize rigid foldability, collision freedom, finite thickness, manufacturability, novelty, priority, publication, patentability, product, performance, or commercial claims. Admission of this design contract itself requires a binding exact-head non-author approval and explicit exact-head Human Steward disposition. A future adjudication requires its own exact-head operation, required machine gates, binding non-author specialist review, and applicable explicit exact-head Human Steward disposition."
 }
