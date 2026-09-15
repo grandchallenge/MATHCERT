@@ -12,6 +12,7 @@ on:
       - "ci/replay_vgse_wp00_exact_evidence.py"
       - "ci/replay_vgse_wp00_planar_evidence.py"
       - "ci/replay_vgse_wp00_source_equivalence_audit.py"
+      - "ci/replay_vgse_wp00_c06_producer_evidence.py"
       - "ci/test_replay_vgse_wp00_exact_evidence.py"
       - "evidence/vgse/**"
       - "docs/work_packages/MC-VGSE-WP00-ROUTE-001.md"
@@ -29,6 +30,7 @@ on:
       - "ci/replay_vgse_wp00_exact_evidence.py"
       - "ci/replay_vgse_wp00_planar_evidence.py"
       - "ci/replay_vgse_wp00_source_equivalence_audit.py"
+      - "ci/replay_vgse_wp00_c06_producer_evidence.py"
       - "ci/test_replay_vgse_wp00_exact_evidence.py"
       - "evidence/vgse/**"
       - "docs/work_packages/MC-VGSE-WP00-ROUTE-001.md"
@@ -62,5 +64,6 @@ jobs:
           python ci/replay_vgse_wp00_exact_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json
           python ci/replay_vgse_wp00_planar_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-planar.json
           python ci/replay_vgse_wp00_source_equivalence_audit.py --check evidence/vgse/VGSE-WP00-CERT-001-source-equivalence-audit.json
+          python ci/replay_vgse_wp00_c06_producer_evidence.py --check evidence/vgse/VGSE-WP00-CERT-001-c06-producer-binding.json
           python -m json.tool governance/certification_route_overlays/VGSE-001.json >/dev/null
           python -m json.tool schemas/vgse_route_registration.schema.json >/dev/null
