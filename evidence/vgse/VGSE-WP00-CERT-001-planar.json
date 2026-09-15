@@ -1,0 +1,77 @@
+{
+  "campaign_id": "VGSE-001",
+  "claim_id": "VGSE-C05",
+  "conclusion": {
+    "boundary_angle_inequalities_certified": true,
+    "certified_root_boxes": 5,
+    "five_discrete_holomorphic_extensions": true,
+    "five_embeddings_distinct": true,
+    "five_planar_embeddings_strictly_convex_and_noncrossing": true,
+    "five_primitives_exactly_closed": true,
+    "kawasaki_equalities_exact": true,
+    "prescribed_boundary_exact": true
+  },
+  "dependencies": [
+    "MC-VGSE-WP00-CERT-001-EXACT-ALGEBRAIC-GRAPH-001"
+  ],
+  "evidence_id": "MC-VGSE-WP00-CERT-001-PLANAR-001",
+  "exact_replay": {
+    "f_all_equations_exact": true,
+    "f_system_rank": 7,
+    "kawasaki_cross_ratios": [
+      {"cross_ratio": "-6/7", "vertex": "A"},
+      {"cross_ratio": "-3/25", "vertex": "D"},
+      {"cross_ratio": "-4/21", "vertex": "C"}
+    ],
+    "position_expression_sha256": "7665c2610516af004530f023e32a0809053a4842f7a12e205ebe0403b7e96e4e",
+    "prescribed_boundary_exact_mod_saturated_ideal": true,
+    "primitive_closure_zero_mod_saturated_ideal": true,
+    "tilde_all_equations_zero_mod_saturated_ideal": true,
+    "tilde_system_rank": 7
+  },
+  "independence": {
+    "interval_arithmetic": "exact Fraction endpoint arithmetic",
+    "root_existence_uniqueness": "complex Krawczyk inclusion on five disjoint rational rectangles",
+    "solve_code_imported_or_executed": false,
+    "solve_numerical_embeddings_consumed": false,
+    "solve_numerical_roots_consumed": false
+  },
+  "prescribed_boundary": {
+    "coordinate_semantics": "rounded Figure 16 source-vector boundary interpreted as exact rationals at 1e-6 PDF-point resolution",
+    "corner_cross_products": [
+      "341624510022999/250000000000",
+      "1362556498253727/1000000000000",
+      "3403577042607/500000000000",
+      "681284778685749/500000000000",
+      "342608161869603/250000000000",
+      "67986486760983/50000000000"
+    ],
+    "strictly_convex": true
+  },
+  "route_id": "MC-ROUTE-VGSE-001",
+  "schema_version": "1.0.0",
+  "scope_exclusions": [
+    "VGSE-C06 is not discharged by this record",
+    "continuous rigid foldability",
+    "collision freedom",
+    "finite thickness",
+    "manufacturability",
+    "product performance",
+    "commercial value"
+  ],
+  "trust": {
+    "adjudication_effect": "none",
+    "certificate_output": null,
+    "may_adjudicate_after_this_record_alone": false,
+    "modality": "INTERVAL_CERTIFICATE_PLUS_EXACT_SYMBOLIC_REPLAY",
+    "trust_boundary": "script_replayed_exact_arithmetic"
+  },
+  "validated_branches": [
+    {"all_internal_vertices_strictly_inside_prescribed_boundary": true,"boundary_angle_inequalities":"strict convex planar cellulation inside strictly convex prescribed boundary","eight_faces_strictly_convex":true,"krawczyk_unique_root":true,"no_nonadjacent_edge_crossings":true,"pattern_index":1,"root_box_center":["-643258615714007/500000000000000","-209351489834101/125000000000000"],"root_box_radius":"1/10000000000"},
+    {"all_internal_vertices_strictly_inside_prescribed_boundary": true,"boundary_angle_inequalities":"strict convex planar cellulation inside strictly convex prescribed boundary","eight_faces_strictly_convex":true,"krawczyk_unique_root":true,"no_nonadjacent_edge_crossings":true,"pattern_index":2,"root_box_center":["-565695992298869/1000000000000000","-2083580087894511/1000000000000000"],"root_box_radius":"1/10000000000"},
+    {"all_internal_vertices_strictly_inside_prescribed_boundary": true,"boundary_angle_inequalities":"strict convex planar cellulation inside strictly convex prescribed boundary","eight_faces_strictly_convex":true,"krawczyk_unique_root":true,"no_nonadjacent_edge_crossings":true,"pattern_index":3,"root_box_center":["1268914500001/20000000000000","-367278724452119/1000000000000000"],"root_box_radius":"1/10000000000"},
+    {"all_internal_vertices_strictly_inside_prescribed_boundary": true,"boundary_angle_inequalities":"strict convex planar cellulation inside strictly convex prescribed boundary","eight_faces_strictly_convex":true,"krawczyk_unique_root":true,"no_nonadjacent_edge_crossings":true,"pattern_index":4,"root_box_center":["76048389833163/1000000000000000","-339351844508339/500000000000000"],"root_box_radius":"1/10000000000"},
+    {"all_internal_vertices_strictly_inside_prescribed_boundary": true,"boundary_angle_inequalities":"strict convex planar cellulation inside strictly convex prescribed boundary","eight_faces_strictly_convex":true,"krawczyk_unique_root":true,"no_nonadjacent_edge_crossings":true,"pattern_index":5,"root_box_center":["365042265789951/500000000000000","-158630455064113/500000000000000"],"root_box_radius":"1/10000000000"}
+  ],
+  "workset_id": "VGSE-WP00-CERT-001"
+}
