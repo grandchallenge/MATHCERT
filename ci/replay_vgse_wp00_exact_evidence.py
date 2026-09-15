@@ -186,7 +186,7 @@ def exact_algebraic_certificate() -> dict:
             "boundary_precision": "exact_rationals_from_source_vector_coordinates_rounded_to_1e-6_pdf_point",
             "critical_numerator_x": canonical(nx),
             "critical_numerator_y": canonical(ny),
-            "arrangement_divisor": canonical(divisor),
+            "arrangement_divisor": sp.sstr(sp.factor(divisor)),
         },
         "saturation": {
             "construction": "<Nx,Ny,1-t*D> intersect QQ(i)[x,y]",
