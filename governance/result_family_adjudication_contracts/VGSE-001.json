@@ -22,12 +22,34 @@
   "route_scope": {
     "registered_route_state": "registered_pending_evidence",
     "target_claims": [
-      {"claim_id":"VGSE-C00","statement":"For the recorded rational five-line arrangement, beta(C)=5.","support_type":"EXACT_RATIONAL_CERTIFICATE","evidence_path":"evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json"},
-      {"claim_id":"VGSE-C01","statement":"After saturation by the arrangement divisor, the recorded Figure 16 chart has exactly five isolated solutions away from every alpha_i=0.","support_type":"COMPUTER_ALGEBRA_CERTIFICATE_WITH_REPLAY","evidence_path":"evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json"},
-      {"claim_id":"VGSE-C04","statement":"A positive weighted representative of the reconstructed graph reproduces the recorded Plucker data up to one common scale.","support_type":"INTERVAL_ARITHMETIC_CERTIFICATE","evidence_path":"evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json"},
-      {"claim_id":"VGSE-C05","statement":"The five retained algebraic witnesses extend to five planar t-embeddings satisfying the recorded boundary and geometric constraints.","support_type":"INTERVAL_ARITHMETIC_CERTIFICATE","evidence_path":"evidence/vgse/VGSE-WP00-CERT-001-planar.json"}
+      {
+        "claim_id": "VGSE-C00",
+        "statement": "For the recorded rational five-line arrangement, beta(C)=5.",
+        "support_type": "EXACT_RATIONAL_CERTIFICATE",
+        "evidence_path": "evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json"
+      },
+      {
+        "claim_id": "VGSE-C01",
+        "statement": "After saturation by the arrangement divisor, the recorded Figure 16 chart has exactly five isolated solutions away from every alpha_i=0.",
+        "support_type": "COMPUTER_ALGEBRA_CERTIFICATE_WITH_REPLAY",
+        "evidence_path": "evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json"
+      },
+      {
+        "claim_id": "VGSE-C04",
+        "statement": "A positive weighted representative of the reconstructed graph reproduces the recorded Plucker data up to one common scale.",
+        "support_type": "INTERVAL_ARITHMETIC_CERTIFICATE",
+        "evidence_path": "evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json"
+      },
+      {
+        "claim_id": "VGSE-C05",
+        "statement": "The five retained algebraic witnesses extend to five planar t-embeddings satisfying the recorded boundary and geometric constraints.",
+        "support_type": "INTERVAL_ARITHMETIC_CERTIFICATE",
+        "evidence_path": "evidence/vgse/VGSE-WP00-CERT-001-planar.json"
+      }
     ],
-    "excluded_route_claim_ids": ["VGSE-C06"],
+    "excluded_route_claim_ids": [
+      "VGSE-C06"
+    ],
     "scope_exclusions": [
       "VGSE-C06 generated-to-source equivalence is excluded and remains blocked on the missing visible Figure 16 geometric-weight to pinned-C bridge.",
       "No undeclared or post-hoc broadened equivalence group is admissible.",
@@ -38,7 +60,11 @@
   },
   "decision_contract": {
     "decision_question": "Does the complete admissible evidence support a MATHCERT adjudication of exactly VGSE-C00, VGSE-C01, VGSE-C04, and VGSE-C05, preserving their pinned MATHSOLVE handoff statements and every recorded source, divisor-exclusion, boundary, geometric, and authority limitation while excluding VGSE-C06?",
-    "admissible_dispositions": ["adjudication_clear_exact_four_claims_only","adjudication_not_clear","defer_insufficient_evidence"],
+    "admissible_dispositions": [
+      "adjudication_clear_exact_four_claims_only",
+      "adjudication_not_clear",
+      "defer_insufficient_evidence"
+    ],
     "required_evidence": [
       "Reverify the content-addressed authority chain through protected MATHCERT merge 30efe4ecf4cd9b4553787968d19dfe853bbb67e5.",
       "Replay the exact C00 arrangement count and C01 saturated five-solution certificate from the admitted exact algebraic evidence.",
@@ -47,7 +73,7 @@
       "Reconfirm that the four adjudication statements are byte-for-byte the target statements in the pinned MATHSOLVE handoff.",
       "Reconfirm that C06 remains excluded and blocked, and that no equivalence relation is inferred or broadened from the failed visible-graph bridge.",
       "Obtain a binding non-author specialist APPROVED review on the exact future adjudication execution head.",
-      "Obtain the applicable explicit Human Steward disposition bound to the exact future adjudication execution head before protected merge.",
+      "Confirm that execution remains within this approved control plan; Human Steward intervention is required only if the control plan itself must change or another reserved-authority trigger is reached.",
       "Confirm that adjudication execution creates no certificate output, no mathematical-target-proved flag, and no authority outside the four exact claims."
     ]
   },
@@ -69,13 +95,13 @@
   "execution_gate": {
     "future_adjudication_execution_required": true,
     "future_adjudication_output_is_separate_operation": true,
+    "routine_stage_progression_without_human_steward_intervention": true,
+    "human_steward_intervention_required_for_control_plan_change": true,
     "exact_head_cert_checks_required": true,
     "exact_head_gcl_conformance_required": true,
     "fresh_non_author_approval_required": true,
-    "design_merge_requires_exact_head_human_steward_disposition": true,
-    "exact_head_human_steward_disposition_required": true,
     "protected_merge_required": true,
-    "head_change_requires_revalidation_reapproval_and_redisposition": true,
+    "head_change_requires_revalidation_and_reapproval": true,
     "design_merge_effect": "contract_admitted_design_only_no_adjudication"
   },
   "state": {
@@ -98,5 +124,5 @@
     "patentability_claim_authorized": false,
     "product_or_commercial_claim_authorized": false
   },
-  "claim_boundary": "This design-only contract defines a possible future adjudication process for exactly VGSE-C00, VGSE-C01, VGSE-C04, and VGSE-C05. It does not adjudicate or prove any claim, issue a Cert output, alter the registered route state, promote a mathematical target, include VGSE-C06, infer or broaden an equivalence group, refute the source paper, or authorize rigid foldability, collision freedom, finite thickness, manufacturability, novelty, priority, publication, patentability, product, performance, or commercial claims. Admission of this design contract itself requires a binding exact-head non-author approval and explicit exact-head Human Steward disposition. A future adjudication requires its own exact-head operation, required machine gates, binding non-author specialist review, and applicable explicit exact-head Human Steward disposition."
+  "claim_boundary": "This design-only contract defines a possible future adjudication process for exactly VGSE-C00, VGSE-C01, VGSE-C04, and VGSE-C05. It does not adjudicate or prove any claim, issue a Cert output, alter the registered route state, promote a mathematical target, include VGSE-C06, infer or broaden an equivalence group, refute the source paper, or authorize rigid foldability, collision freedom, finite thickness, manufacturability, novelty, priority, publication, patentability, product, performance, or commercial claims. Under current GI-STEWARD-0003 staffing policy, bounded non-reserved stage progression may proceed without a ceremonial Human Steward action; Human Steward intervention remains fail-closed for a control-plan change or any reserved-authority trigger."
 }

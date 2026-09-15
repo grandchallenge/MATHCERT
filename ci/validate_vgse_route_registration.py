@@ -99,8 +99,11 @@ def contract_validation_errors(contract: dict[str, Any] | None = None) -> list[s
         errors.append("contract exact four-target statement set drift")
     if candidate["route_scope"]["excluded_route_claim_ids"] != ["VGSE-C06"]:
         errors.append("contract C06 exclusion drift")
-    if candidate["execution_gate"]["exact_head_human_steward_disposition_required"] is not True:
-        errors.append("contract exact-head Human Steward gate weakened")
+    gate = candidate["execution_gate"]
+    if gate["routine_stage_progression_without_human_steward_intervention"] is not True:
+        errors.append("contract improperly reinstates ceremonial Human Steward intervention")
+    if gate["human_steward_intervention_required_for_control_plan_change"] is not True:
+        errors.append("contract control-plan-change Human Steward boundary weakened")
     if candidate["state"] != {"may_adjudicate":False,"adjudication":None,"cert_output":None,"mathematical_target_proved":False,"may_issue_output":False,"may_promote_claim":False,"aggregate_adjudication":False}:
         errors.append("contract design-only authority inflated")
 

@@ -121,8 +121,14 @@ class VGSERouteRegistrationTests(unittest.TestCase):
         contract = copy.deepcopy(self.contract); contract["state"]["may_adjudicate"] = True
         self.assertTrue(self.contract_errors(contract))
 
-    def test_contract_cannot_weaken_human_steward_gate(self) -> None:
-        contract = copy.deepcopy(self.contract); contract["execution_gate"]["exact_head_human_steward_disposition_required"] = False
+    def test_contract_cannot_reinstate_ceremonial_human_steward_gate(self) -> None:
+        contract = copy.deepcopy(self.contract)
+        contract["execution_gate"]["routine_stage_progression_without_human_steward_intervention"] = False
+        self.assertTrue(self.contract_errors(contract))
+
+    def test_contract_cannot_weaken_reserved_boundary(self) -> None:
+        contract = copy.deepcopy(self.contract)
+        contract["execution_gate"]["human_steward_intervention_required_for_control_plan_change"] = False
         self.assertTrue(self.contract_errors(contract))
 
     def test_contract_cannot_unblock_c06(self) -> None:

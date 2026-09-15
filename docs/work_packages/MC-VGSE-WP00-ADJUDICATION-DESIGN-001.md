@@ -27,9 +27,9 @@ A future adjudication must independently replay the evidence appropriate to each
 
 Admission of this contract does not authorize adjudication. It does not issue a certificate. It does not mark any mathematical target proved. It does not change the registered route state or Programme routing.
 
-Protected admission of this design contract itself requires its exact-head machine gates, a binding non-author approval, and an explicit Human Steward disposition bound to that same exact head. Any head change invalidates those bindings.
+Under the currently protected `GI-STEWARD-0003` staffing policy, this design admission is a bounded non-reserved substantive operation. It requires the applicable exact-head machine gates, binding non-author review, protected merge, and protected-main readback; it does not require a ceremonial Human Steward action.
 
-A future adjudication execution is a separate exact-head operation and independently requires its applicable machine gates, binding non-author specialist approval, and explicit exact-head Human Steward disposition.
+A future adjudication execution is a separate exact-head operation. It requires its applicable machine gates and binding non-author specialist review. Routine stage progression may proceed without a fresh Human Steward action while the admitted control plan remains unchanged. Human Steward intervention remains fail-closed if the control plan changes or another reserved-authority trigger is reached.
 
 ## Exclusions
 
