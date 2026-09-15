@@ -19,9 +19,18 @@
     "f_all_equations_exact": true,
     "f_system_rank": 7,
     "kawasaki_cross_ratios": [
-      {"cross_ratio": "-6/7", "vertex": "A"},
-      {"cross_ratio": "-3/25", "vertex": "D"},
-      {"cross_ratio": "-4/21", "vertex": "C"}
+      {
+        "cross_ratio": "-6/7",
+        "vertex": "A"
+      },
+      {
+        "cross_ratio": "-3/25",
+        "vertex": "D"
+      },
+      {
+        "cross_ratio": "-4/21",
+        "vertex": "C"
+      }
     ],
     "position_expression_sha256": "7665c2610516af004530f023e32a0809053a4842f7a12e205ebe0403b7e96e4e",
     "prescribed_boundary_exact_mod_saturated_ideal": true,
@@ -67,11 +76,71 @@
     "trust_boundary": "script_replayed_exact_arithmetic"
   },
   "validated_branches": [
-    {"all_internal_vertices_strictly_inside_prescribed_boundary": true,"boundary_angle_inequalities":"strict convex planar cellulation inside strictly convex prescribed boundary","eight_faces_strictly_convex":true,"krawczyk_unique_root":true,"no_nonadjacent_edge_crossings":true,"pattern_index":1,"root_box_center":["-643258615714007/500000000000000","-209351489834101/125000000000000"],"root_box_radius":"1/10000000000"},
-    {"all_internal_vertices_strictly_inside_prescribed_boundary": true,"boundary_angle_inequalities":"strict convex planar cellulation inside strictly convex prescribed boundary","eight_faces_strictly_convex":true,"krawczyk_unique_root":true,"no_nonadjacent_edge_crossings":true,"pattern_index":2,"root_box_center":["-565695992298869/1000000000000000","-2083580087894511/1000000000000000"],"root_box_radius":"1/10000000000"},
-    {"all_internal_vertices_strictly_inside_prescribed_boundary": true,"boundary_angle_inequalities":"strict convex planar cellulation inside strictly convex prescribed boundary","eight_faces_strictly_convex":true,"krawczyk_unique_root":true,"no_nonadjacent_edge_crossings":true,"pattern_index":3,"root_box_center":["1268914500001/20000000000000","-367278724452119/1000000000000000"],"root_box_radius":"1/10000000000"},
-    {"all_internal_vertices_strictly_inside_prescribed_boundary": true,"boundary_angle_inequalities":"strict convex planar cellulation inside strictly convex prescribed boundary","eight_faces_strictly_convex":true,"krawczyk_unique_root":true,"no_nonadjacent_edge_crossings":true,"pattern_index":4,"root_box_center":["76048389833163/1000000000000000","-339351844508339/500000000000000"],"root_box_radius":"1/10000000000"},
-    {"all_internal_vertices_strictly_inside_prescribed_boundary": true,"boundary_angle_inequalities":"strict convex planar cellulation inside strictly convex prescribed boundary","eight_faces_strictly_convex":true,"krawczyk_unique_root":true,"no_nonadjacent_edge_crossings":true,"pattern_index":5,"root_box_center":["365042265789951/500000000000000","-158630455064113/500000000000000"],"root_box_radius":"1/10000000000"}
+    {
+      "all_internal_vertices_strictly_inside_prescribed_boundary": true,
+      "boundary_angle_inequalities": "strict convex planar cellulation inside strictly convex prescribed boundary",
+      "eight_faces_strictly_convex": true,
+      "krawczyk_unique_root": true,
+      "no_nonadjacent_edge_crossings": true,
+      "pattern_index": 1,
+      "root_box_center": [
+        "-643258615714007/500000000000000",
+        "-209351489834101/125000000000000"
+      ],
+      "root_box_radius": "1/10000000000"
+    },
+    {
+      "all_internal_vertices_strictly_inside_prescribed_boundary": true,
+      "boundary_angle_inequalities": "strict convex planar cellulation inside strictly convex prescribed boundary",
+      "eight_faces_strictly_convex": true,
+      "krawczyk_unique_root": true,
+      "no_nonadjacent_edge_crossings": true,
+      "pattern_index": 2,
+      "root_box_center": [
+        "-565695992298869/1000000000000000",
+        "-2083580087894511/1000000000000000"
+      ],
+      "root_box_radius": "1/10000000000"
+    },
+    {
+      "all_internal_vertices_strictly_inside_prescribed_boundary": true,
+      "boundary_angle_inequalities": "strict convex planar cellulation inside strictly convex prescribed boundary",
+      "eight_faces_strictly_convex": true,
+      "krawczyk_unique_root": true,
+      "no_nonadjacent_edge_crossings": true,
+      "pattern_index": 3,
+      "root_box_center": [
+        "1268914500001/20000000000000",
+        "-367278724452119/1000000000000000"
+      ],
+      "root_box_radius": "1/10000000000"
+    },
+    {
+      "all_internal_vertices_strictly_inside_prescribed_boundary": true,
+      "boundary_angle_inequalities": "strict convex planar cellulation inside strictly convex prescribed boundary",
+      "eight_faces_strictly_convex": true,
+      "krawczyk_unique_root": true,
+      "no_nonadjacent_edge_crossings": true,
+      "pattern_index": 4,
+      "root_box_center": [
+        "76048389833163/1000000000000000",
+        "-339351844508339/500000000000000"
+      ],
+      "root_box_radius": "1/10000000000"
+    },
+    {
+      "all_internal_vertices_strictly_inside_prescribed_boundary": true,
+      "boundary_angle_inequalities": "strict convex planar cellulation inside strictly convex prescribed boundary",
+      "eight_faces_strictly_convex": true,
+      "krawczyk_unique_root": true,
+      "no_nonadjacent_edge_crossings": true,
+      "pattern_index": 5,
+      "root_box_center": [
+        "365042265789951/500000000000000",
+        "-158630455064113/500000000000000"
+      ],
+      "root_box_radius": "1/10000000000"
+    }
   ],
   "workset_id": "VGSE-WP00-CERT-001"
 }
