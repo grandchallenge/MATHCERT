@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import importlib.util
 import json
+import runpy
 import unittest
 
 from pathlib import Path
@@ -101,6 +102,14 @@ class VGSERouteRegistrationTests(unittest.TestCase):
     def test_missing_documentary_boundary_fails(self) -> None:
         documentation = self.documentation.replace("does not issue a certificate", "issues a certificate")
         self.assertTrue(any("documentation boundary missing" in error for error in self.errors(documentation=documentation)))
+
+    def test_wp00_evidence_replay_when_dependencies_are_available(self) -> None:
+        evidence_test = ROOT / "ci" / "test_replay_vgse_wp00_exact_evidence.py"
+        if not evidence_test.exists():
+            self.skipTest("VGSE WP00 evidence replay is not present on this revision")
+        if importlib.util.find_spec("sympy") is None:
+            self.skipTest("SymPy is installed only in the bounded VGSE evidence workflow")
+        runpy.run_path(str(evidence_test), run_name="__main__")
 
 
 if __name__ == "__main__":
