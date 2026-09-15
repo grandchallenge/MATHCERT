@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","contract_id","campaign_id","route_id","tracker_issue","contract_state","protected_authority","output_scope","future_certificate","publication_protocol","execution_gate","state","preserved_limitations","claim_boundary"],
+  "properties": {
+    "schema_version": {"const":"1.0.0"},
+    "record_type": {"const":"vgse_r4_output_contract"},
+    "contract_id": {"const":"MC-VGSE-WP00-R4-OUTPUT-CONTRACT-001"},
+    "campaign_id": {"const":"VGSE-001"},
+    "route_id": {"const":"MC-ROUTE-VGSE-001-R4"},
+    "tracker_issue": {"const":"https://github.com/grandchallenge/MATHCERT/issues/303"},
+    "contract_state": {"const":"design_only"},
+    "protected_authority": {
+      "type":"object","additionalProperties":false,
+      "required":["successor_registration_merge","successor_overlay_path","successor_overlay_blob","path_b_authority_receipt_path","path_b_authority_receipt_blob","four_claim_adjudication_merge","four_claim_adjudication_blob","predecessor_overlay_blob"],
+      "properties": {
+        "successor_registration_merge":{"const":"9573795834adbf751504e701e4a0d36342185205"},
+        "successor_overlay_path":{"const":"governance/certification_route_overlays/VGSE-001-R4.json"},
+        "successor_overlay_blob":{"const":"c5106a668554427d940fb9b864351e75d1060d4d"},
+        "path_b_authority_receipt_path":{"const":"governance/vgse_route_successors/VGSE-001-R4.json"},
+        "path_b_authority_receipt_blob":{"const":"e470c7cb8545ae451156e44e1a3dad2d552800e0"},
+        "four_claim_adjudication_merge":{"const":"df9fd2e493da277646e844d3e20fbc65e965d861"},
+        "four_claim_adjudication_blob":{"const":"57668860de1c96370fb0075e0c7e8f43f7dc0067"},
+        "predecessor_overlay_blob":{"const":"6dbd22485548114c91568dbc7ac18ac938e5f7e1"}
+      }
+    },
+    "output_scope": {
+      "type":"object","additionalProperties":false,
+      "required":["target_claim_ids","excluded_claim_ids","qualification_disposition","scope_rule"],
+      "properties": {
+        "target_claim_ids":{"const":["VGSE-C00","VGSE-C01","VGSE-C04","VGSE-C05"]},
+        "excluded_claim_ids":{"const":["VGSE-C06"]},
+        "qualification_disposition":{"const":"qualified_exact_four_claims_only"},
+        "scope_rule":{"type":"string","minLength":1}
+      }
+    },
+    "future_certificate": {
+      "type":"object","additionalProperties":false,
+      "required":["certificate_id","path","record_type","disposition","mathematical_target_proved"],
+      "properties": {
+        "certificate_id":{"const":"MC-VGSE-WP00-R4-QUAL-001"},
+        "path":{"const":"certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json"},
+        "record_type":{"const":"vgse_r4_qualified_output"},
+        "disposition":{"const":"qualified_exact_four_claims_only"},
+        "mathematical_target_proved":{"const":false}
+      }
+    },
+    "publication_protocol": {
+      "type":"object","additionalProperties":false,
+      "required":["mode","route_transition","certificate_content_commit_first","route_transition_commit_must_be_direct_child_of_certificate_content_commit","route_transition_must_change_only_successor_route_output_semantics","route_transition_must_preserve_exact_target_set","route_transition_must_insert_exactly_one_cert_output","cert_output_commit_sha_must_equal_certificate_content_commit","cert_output_digest_must_equal_certificate_blob","certificate_must_not_name_its_own_containing_commit","predecessor_route_must_remain_blob_identical","c06_must_remain_excluded_and_blocked","programme_and_intellect_routing_must_remain_unchanged","protected_merge_method","squash_merge_prohibited","rebase_merge_prohibited","route_first_ordering_prohibited","partial_state_on_protected_main_prohibited"],
+      "properties": {
+        "mode":{"const":"certificate_content_commit_then_successor_route_transition_commit"},
+        "route_transition":{"const":{"route_state_from":"registered_pending_evidence","route_state_to":"qualified","intake_status_from":"pending","intake_status_to":"qualified"}},
+        "certificate_content_commit_first":{"const":true},
+        "route_transition_commit_must_be_direct_child_of_certificate_content_commit":{"const":true},
+        "route_transition_must_change_only_successor_route_output_semantics":{"const":true},
+        "route_transition_must_preserve_exact_target_set":{"const":true},
+        "route_transition_must_insert_exactly_one_cert_output":{"const":true},
+        "cert_output_commit_sha_must_equal_certificate_content_commit":{"const":true},
+        "cert_output_digest_must_equal_certificate_blob":{"const":true},
+        "certificate_must_not_name_its_own_containing_commit":{"const":true},
+        "predecessor_route_must_remain_blob_identical":{"const":true},
+        "c06_must_remain_excluded_and_blocked":{"const":true},
+        "programme_and_intellect_routing_must_remain_unchanged":{"const":true},
+        "protected_merge_method":{"const":"merge"},
+        "squash_merge_prohibited":{"const":true},
+        "rebase_merge_prohibited":{"const":true},
+        "route_first_ordering_prohibited":{"const":true},
+        "partial_state_on_protected_main_prohibited":{"const":true}
+      }
+    },
+    "execution_gate": {
+      "const": {
+        "protected_contract_merge_required": true,
+        "exact_head_cert_checks_required": true,
+        "exact_head_vgse_replay_required": true,
+        "exact_head_gcl_conformance_required": true,
+        "fresh_non_author_specialist_approval_required": true,
+        "expected_head_guard_required": true,
+        "protected_main_readback_required": true,
+        "head_change_requires_revalidation_and_reapproval": true,
+        "separate_human_steward_authorization_required": false
+      }
+    },
+    "state": {"const":{"route_state":"registered_pending_evidence","intake_status":"pending","cert_output":null,"mathematical_target_proved":false,"may_issue_output":false,"may_promote_claim":false,"c06_in_scope":false}},
+    "preserved_limitations": {"const":{"predecessor_route_changed":false,"c06_state":"BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C","equivalence_group_broadening_authorized":false,"source_paper_refutation_authorized":false,"mechanical_claim_authorized":false,"manufacturing_claim_authorized":false,"novelty_or_priority_claim_authorized":false,"patentability_claim_authorized":false,"product_or_commercial_claim_authorized":false}},
+    "claim_boundary":{"type":"string","minLength":1}
+  }
+}
