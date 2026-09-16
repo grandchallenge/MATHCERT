@@ -30,6 +30,8 @@ class VGSERouteRegistrationTests(unittest.TestCase):
         cls.base_registry = json.loads(module.BASE_REGISTRY_PATH.read_text(encoding="utf-8"))
         cls.documentation = module.DOC_PATH.read_text(encoding="utf-8")
         cls.contract = json.loads(module.CONTRACT_PATH.read_text(encoding="utf-8"))
+        cls.successor = json.loads(module.SUCCESSOR_PATH.read_text(encoding="utf-8"))
+        cls.certificate = json.loads(module.CERTIFICATE_PATH.read_text(encoding="utf-8")) if module.CERTIFICATE_PATH.exists() else None
 
     def errors(self, record=None, **kwargs):
         return module.validation_errors(copy.deepcopy(self.record if record is None else record), base_registry=copy.deepcopy(kwargs.pop("base_registry", self.base_registry)), documentation=kwargs.pop("documentation", self.documentation), **kwargs)
@@ -37,11 +39,25 @@ class VGSERouteRegistrationTests(unittest.TestCase):
     def contract_errors(self, contract=None):
         return module.contract_validation_errors(copy.deepcopy(self.contract if contract is None else contract))
 
+    def qualified_errors(self, successor=None, certificate=None, **kwargs):
+        if self.certificate is None and certificate is None:
+            self.skipTest("qualified R4 certificate is not present on this revision")
+        return module.qualified_output_validation_errors(
+            copy.deepcopy(self.successor if successor is None else successor),
+            copy.deepcopy(self.certificate if certificate is None else certificate),
+            **kwargs,
+        )
+
     def test_current_registration_passes(self) -> None:
         self.assertEqual(module.validation_errors(), [])
 
     def test_current_adjudication_design_passes(self) -> None:
         self.assertEqual(module.contract_validation_errors(), [])
+
+    def test_current_qualified_output_passes_when_present(self) -> None:
+        if self.certificate is None:
+            self.skipTest("qualified R4 certificate is not present on this revision")
+        self.assertEqual(module.qualified_output_validation_errors(), [])
 
     def test_base_registry_blob_drift_fails(self) -> None:
         self.assertTrue(any("blob drift" in error for error in self.errors(base_blob="0" * 40)))
@@ -138,6 +154,26 @@ class VGSERouteRegistrationTests(unittest.TestCase):
     def test_contract_authority_blob_substitution_rejected(self) -> None:
         contract = copy.deepcopy(self.contract); contract["authority"]["planar_evidence_blob"] = "0" * 40
         self.assertTrue(any("blob mismatch" in error for error in self.contract_errors(contract)))
+
+    def test_qualified_certificate_cannot_absorb_c06(self) -> None:
+        if self.certificate is None:
+            self.skipTest("qualified R4 certificate is not present on this revision")
+        certificate = copy.deepcopy(self.certificate)
+        certificate["target_claim_ids"].append("VGSE-C06")
+        self.assertTrue(self.qualified_errors(certificate=certificate))
+
+    def test_qualified_route_certificate_binding_cannot_drift(self) -> None:
+        if self.certificate is None:
+            self.skipTest("qualified R4 certificate is not present on this revision")
+        successor = copy.deepcopy(self.successor)
+        successor["cert_output"]["digest"] = "0" * 40
+        self.assertTrue(any("cert_output binding drift" in error for error in self.qualified_errors(successor=successor)))
+
+    def test_qualified_family_rejects_extra_certificate(self) -> None:
+        if self.certificate is None:
+            self.skipTest("qualified R4 certificate is not present on this revision")
+        paths = [module.EXPECTED_CERTIFICATE_RELPATH, "certificates/vgse/UNAUTHORIZED.json"]
+        self.assertTrue(any("unauthorized or missing artifact" in error for error in self.qualified_errors(certificate_paths=paths)))
 
     def test_wp00_evidence_replay_when_dependencies_are_available(self) -> None:
         evidence_test = ROOT / "ci" / "test_replay_vgse_wp00_exact_evidence.py"

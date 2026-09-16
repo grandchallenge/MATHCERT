@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "vgse_r4_qualified_output",
+  "certificate_id": "MC-VGSE-WP00-R4-QUAL-001",
+  "campaign_id": "VGSE-001",
+  "route_id": "MC-ROUTE-VGSE-001-R4",
+  "target_claim_ids": [
+    "VGSE-C00",
+    "VGSE-C01",
+    "VGSE-C04",
+    "VGSE-C05"
+  ],
+  "qualification": {
+    "disposition": "qualified_exact_four_claims_only",
+    "scope": "Exactly VGSE-C00, VGSE-C01, VGSE-C04, and VGSE-C05 under their protected adjudicated statements and admitted evidence; VGSE-C06 is excluded and remains blocked on predecessor MC-ROUTE-VGSE-001.",
+    "claim_results": {
+      "VGSE-C00": "qualified_under_protected_exact_rational_certificate",
+      "VGSE-C01": "qualified_under_protected_saturated_computer_algebra_replay",
+      "VGSE-C04": "qualified_under_protected_positive_boundary_measurement_certificate",
+      "VGSE-C05": "qualified_under_protected_exact_interval_planar_embedding_certificate"
+    }
+  },
+  "source_authority": {
+    "output_contract": {
+      "path": "governance/vgse_output_contracts/VGSE-001-R4.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "2d9a8ead1ffa8dfb5dba2a479a937324db95eaa7"
+    },
+    "successor_registration": {
+      "merge_commit": "9573795834adbf751504e701e4a0d36342185205",
+      "path": "governance/certification_route_overlays/VGSE-001-R4.json",
+      "git_blob_sha1": "c5106a668554427d940fb9b864351e75d1060d4d"
+    },
+    "adjudication": {
+      "merge_commit": "df9fd2e493da277646e844d3e20fbc65e965d861",
+      "path": "governance/vgse_adjudications/VGSE-001.json",
+      "git_blob_sha1": "57668860de1c96370fb0075e0c7e8f43f7dc0067",
+      "disposition": "adjudication_clear_exact_four_claims_only"
+    },
+    "evidence": {
+      "exact_algebraic_graph_blob": "f804023ea346feea9bbcc7feecdc19b442f0448d",
+      "planar_blob": "4ec159d6c7786f4c576f0b5b8a6a1088bf054a7a",
+      "c06_producer_binding_blob": "80ca458063ac2d500a2046f9594e90de0d737f86"
+    }
+  },
+  "state": {
+    "route_state": "qualified",
+    "cert_output_inserted": true,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false,
+    "aggregate_authority": false,
+    "c06_in_scope": false
+  },
+  "preserved_limitations": {
+    "predecessor_route_changed": false,
+    "c06_state": "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C",
+    "equivalence_group_broadening_authorized": false,
+    "source_paper_refutation_authorized": false,
+    "mechanical_claim_authorized": false,
+    "manufacturing_claim_authorized": false,
+    "novelty_or_priority_claim_authorized": false,
+    "patentability_claim_authorized": false,
+    "product_or_commercial_claim_authorized": false
+  },
+  "claim_boundary": "This restricted qualification applies only to VGSE-C00, VGSE-C01, VGSE-C04, and VGSE-C05 under their exact protected adjudicated statements and admitted evidence. VGSE-C06 is not included or certified and remains blocked on predecessor MC-ROUTE-VGSE-001. The predecessor route remains unchanged. This certificate does not mark any mathematical target proved, promote a claim, infer or broaden an equivalence relation, refute the source paper, or authorize rigid foldability, collision freedom, finite thickness, manufacturability, novelty, priority, publication, patentability, product, performance, or commercial claims."
+}
