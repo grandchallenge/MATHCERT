@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the bounded VGSE route overlay and design-only adjudication contract."""
+"""Validate bounded VGSE route, adjudication, and restricted qualification state."""
 from __future__ import annotations
 
 import hashlib
@@ -27,6 +27,15 @@ CONTRACT_SCHEMA_PATH = ROOT / "schemas" / "vgse_adjudication_contract.schema.jso
 EXACT_EVIDENCE_PATH = ROOT / "evidence" / "vgse" / "VGSE-WP00-CERT-001-exact-algebraic-graph.json"
 PLANAR_EVIDENCE_PATH = ROOT / "evidence" / "vgse" / "VGSE-WP00-CERT-001-planar.json"
 C06_BINDING_PATH = ROOT / "evidence" / "vgse" / "VGSE-WP00-CERT-001-c06-producer-binding.json"
+SUCCESSOR_PATH = ROOT / "governance" / "certification_route_overlays" / "VGSE-001-R4.json"
+SUCCESSOR_SCHEMA_PATH = ROOT / "schemas" / "vgse_r4_route_registration.schema.json"
+OUTPUT_CONTRACT_PATH = ROOT / "governance" / "vgse_output_contracts" / "VGSE-001-R4.json"
+CERTIFICATE_PATH = ROOT / "certificates" / "vgse" / "MC-VGSE-WP00-R4-QUAL-001.json"
+CERTIFICATE_SCHEMA_PATH = ROOT / "schemas" / "vgse_r4_qualified_output.schema.json"
+EXPECTED_CERTIFICATE_COMMIT = "9001318adcc759e4841c6f68b6619b0fe25d0bb5"
+EXPECTED_CERTIFICATE_BLOB = "e6489fab69506adacc4a33214f22dd20413ec40a"
+EXPECTED_CERTIFICATE_RELPATH = "certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json"
+EXPECTED_SUCCESSOR_BLOB = "578547c57d91df0616197ae56fd4497ffd6e1576"
 
 EXPECTED_TARGETS = [
     {"claim_id":"VGSE-C00","statement":"For the recorded rational five-line arrangement, beta(C)=5.","support_type":"EXACT_RATIONAL_CERTIFICATE","evidence_path":"evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json"},
@@ -34,6 +43,7 @@ EXPECTED_TARGETS = [
     {"claim_id":"VGSE-C04","statement":"A positive weighted representative of the reconstructed graph reproduces the recorded Plucker data up to one common scale.","support_type":"INTERVAL_ARITHMETIC_CERTIFICATE","evidence_path":"evidence/vgse/VGSE-WP00-CERT-001-exact-algebraic-graph.json"},
     {"claim_id":"VGSE-C05","statement":"The five retained algebraic witnesses extend to five planar t-embeddings satisfying the recorded boundary and geometric constraints.","support_type":"INTERVAL_ARITHMETIC_CERTIFICATE","evidence_path":"evidence/vgse/VGSE-WP00-CERT-001-planar.json"},
 ]
+EXPECTED_TARGET_IDS = [item["claim_id"] for item in EXPECTED_TARGETS]
 
 
 def git(*args: str) -> subprocess.CompletedProcess[bytes]:
@@ -138,13 +148,108 @@ def contract_validation_errors(contract: dict[str, Any] | None = None) -> list[s
     return errors
 
 
+def qualified_output_validation_errors(
+    successor: dict[str, Any] | None = None,
+    certificate: dict[str, Any] | None = None,
+    *,
+    certificate_paths: list[str] | None = None,
+) -> list[str]:
+    """Validate R4 qualified output when the protected certificate is present."""
+    if certificate is None and not CERTIFICATE_PATH.exists():
+        return []
+
+    errors: list[str] = []
+    successor_record = json.loads(SUCCESSOR_PATH.read_text(encoding="utf-8")) if successor is None else successor
+    certificate_record = json.loads(CERTIFICATE_PATH.read_text(encoding="utf-8")) if certificate is None else certificate
+    successor_schema = json.loads(SUCCESSOR_SCHEMA_PATH.read_text(encoding="utf-8"))
+    certificate_schema = json.loads(CERTIFICATE_SCHEMA_PATH.read_text(encoding="utf-8"))
+
+    for error in Draft202012Validator(successor_schema).iter_errors(successor_record):
+        errors.append(f"R4 successor schema: {error.json_path}: {error.message}")
+    for error in Draft202012Validator(certificate_schema).iter_errors(certificate_record):
+        errors.append(f"R4 certificate schema: {error.json_path}: {error.message}")
+    if errors:
+        return errors
+
+    output_contract = json.loads(OUTPUT_CONTRACT_PATH.read_text(encoding="utf-8"))
+    expected_cert_output = {
+        "repository": "grandchallenge/MATHCERT",
+        "commit_sha": EXPECTED_CERTIFICATE_COMMIT,
+        "path": EXPECTED_CERTIFICATE_RELPATH,
+        "digest_algorithm": "git_blob_sha1",
+        "digest": EXPECTED_CERTIFICATE_BLOB,
+    }
+    if successor_record["route_state"] != "qualified" or successor_record["intake_status"] != "qualified":
+        errors.append("R4 qualified route state drift")
+    if successor_record["cert_output"] != expected_cert_output:
+        errors.append("R4 cert_output binding drift")
+    if successor_record["target_claim_ids"] != EXPECTED_TARGET_IDS:
+        errors.append("R4 target claim set drift")
+    if successor_record["may_adjudicate"] is not False:
+        errors.append("R4 may_adjudicate authority inflated")
+    if successor_record["claim_boundary"].get("mathematical_target_proved") is not False:
+        errors.append("R4 mathematical-target-proved boundary weakened")
+    if successor_record["excluded_claims"] != [{
+        "claim_id": "VGSE-C06",
+        "predecessor_route_id": "MC-ROUTE-VGSE-001",
+        "state": "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C",
+        "included_in_successor": False,
+        "reopening_condition": "Exact source graph/weight-generation data establishing the Figure-16-to-pinned-C bridge, or a separately governed source-authorized correspondence declared before matcher execution."
+    }]:
+        errors.append("R4 C06 exclusion drift")
+
+    if certificate_record["target_claim_ids"] != EXPECTED_TARGET_IDS:
+        errors.append("R4 certificate target set drift")
+    if certificate_record["qualification"]["disposition"] != "qualified_exact_four_claims_only":
+        errors.append("R4 certificate disposition drift")
+    if certificate_record["state"] != {
+        "route_state": "qualified",
+        "cert_output_inserted": True,
+        "mathematical_target_proved": False,
+        "may_promote_claim": False,
+        "aggregate_authority": False,
+        "c06_in_scope": False,
+    }:
+        errors.append("R4 certificate authority boundary drift")
+    if certificate_record["preserved_limitations"].get("c06_state") != "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C":
+        errors.append("R4 certificate C06 limitation drift")
+
+    if certificate is None and blob_sha1(CERTIFICATE_PATH) != EXPECTED_CERTIFICATE_BLOB:
+        errors.append("R4 certificate blob drift")
+    if successor is None and blob_sha1(SUCCESSOR_PATH) != EXPECTED_SUCCESSOR_BLOB:
+        errors.append("R4 qualified successor blob drift")
+    if certificate_record["source_authority"]["output_contract"]["digest"] != blob_sha1(OUTPUT_CONTRACT_PATH):
+        errors.append("R4 certificate output-contract digest drift")
+    if output_contract["future_certificate"]["path"] != EXPECTED_CERTIFICATE_RELPATH:
+        errors.append("R4 output contract certificate path drift")
+    if output_contract["output_scope"]["target_claim_ids"] != EXPECTED_TARGET_IDS or output_contract["output_scope"]["excluded_claim_ids"] != ["VGSE-C06"]:
+        errors.append("R4 output contract scope drift")
+    if output_contract["state"] != {"route_state":"registered_pending_evidence","intake_status":"pending","cert_output":None,"mathematical_target_proved":False,"may_issue_output":False,"may_promote_claim":False,"c06_in_scope":False}:
+        errors.append("R4 design-only output contract mutated during publication")
+
+    if certificate_paths is None:
+        family_dir = ROOT / "certificates" / "vgse"
+        certificate_paths = sorted(
+            str(path.relative_to(ROOT)).replace("\\", "/")
+            for path in family_dir.glob("*.json")
+            if path.is_file()
+        ) if family_dir.exists() else []
+    if certificate_paths != [EXPECTED_CERTIFICATE_RELPATH]:
+        errors.append("VGSE certificate family contains an unauthorized or missing artifact")
+
+    return errors
+
+
 def main() -> int:
-    errors = validation_errors() + contract_validation_errors()
+    errors = validation_errors() + contract_validation_errors() + qualified_output_validation_errors()
     if errors:
         print("\n".join(errors), file=sys.stderr)
-        print(f"VGSE route/design validation failed with {len(errors)} error(s)", file=sys.stderr)
+        print(f"VGSE route/certificate validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print("validated VGSE pending route and design-only exact four-claim adjudication contract; C06 remains excluded and blocked")
+    if CERTIFICATE_PATH.exists():
+        print("validated VGSE predecessor plus restricted qualified R4 output; C06 remains excluded and blocked")
+    else:
+        print("validated VGSE pending route and design-only exact four-claim adjudication contract; C06 remains excluded and blocked")
     return 0
 
 
