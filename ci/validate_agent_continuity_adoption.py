@@ -70,7 +70,7 @@ def adoption_errors(record: dict[str, Any], agents_text: str) -> list[str]:
 
     required_tokens = (
         "GCL-AGENT-CONTINUITY-001@1.0.0",
-        "operational state may transfer",
+        "Operational state may transfer",
         "certification authority and substantive independence do not transfer automatically",
         "continuity receipt cannot satisfy an independence requirement",
         "changed exact subject or evidence identity requires rebinding",
