@@ -1,0 +1,40 @@
+{
+  "adoption_id": "MATHCERT-GCL-AGENT-CONTINUITY-001",
+  "policy_id": "GCL-AGENT-CONTINUITY-001",
+  "version": "1.0.0",
+  "authority_repository": "grandchallenge/INTELLECT",
+  "authority_path": "governance/agent_execution/GCL-AGENT-CONTINUITY-001.md",
+  "repository": "grandchallenge/MATHCERT",
+  "required": true,
+  "specialization": "MATHCERT-CERTIFICATION-SAFE-CONTINUITY-001",
+  "interruption_rebind": {
+    "exact_claim_or_subject": true,
+    "certification_route": true,
+    "candidate_artifact": true,
+    "material_evidence_digests": true
+  },
+  "provenance": {
+    "construction_authorship_preserved": true,
+    "verification_provenance_preserved": true
+  },
+  "succession": {
+    "operational_state_may_transfer": true,
+    "certification_authority_inherited": false,
+    "substantive_independence_inherited": false,
+    "non_authoring_requirements_re_evaluated_when_materially_affected": true
+  },
+  "fail_closed": {
+    "continuity_receipt_satisfies_independence": false,
+    "continuity_receipt_is_certification_disposition": false,
+    "ci_or_protected_merge_implies_certification": false,
+    "predecessor_agent_conclusion_is_current_certification": false,
+    "changed_exact_subject_or_evidence_requires_rebind": true,
+    "certification_disposition_fail_closed": true
+  },
+  "authority_preservation": {
+    "authority_changed": false,
+    "certification_authority_changed": false,
+    "mathematical_claim_authority_changed": false,
+    "protected_bypass_changed": false
+  }
+}
