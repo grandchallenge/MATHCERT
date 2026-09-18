@@ -1,40 +1,54 @@
 {
+  "schema_id": "GCL-AGENT-CONTINUITY-ADOPTION-001",
+  "schema_version": "1.0.0",
   "adoption_id": "MATHCERT-GCL-AGENT-CONTINUITY-001",
   "policy_id": "GCL-AGENT-CONTINUITY-001",
   "version": "1.0.0",
   "authority_repository": "grandchallenge/INTELLECT",
   "authority_path": "governance/agent_execution/GCL-AGENT-CONTINUITY-001.md",
   "repository": "grandchallenge/MATHCERT",
+  "binding_surface": "AGENTS.md",
   "required": true,
   "specialization": "MATHCERT-CERTIFICATION-SAFE-CONTINUITY-001",
-  "interruption_rebind": {
-    "exact_claim_or_subject": true,
-    "certification_route": true,
-    "candidate_artifact": true,
-    "material_evidence_digests": true
-  },
-  "provenance": {
-    "construction_authorship_preserved": true,
-    "verification_provenance_preserved": true
-  },
-  "succession": {
-    "operational_state_may_transfer": true,
-    "certification_authority_inherited": false,
-    "substantive_independence_inherited": false,
-    "non_authoring_requirements_re_evaluated_when_materially_affected": true
-  },
-  "fail_closed": {
-    "continuity_receipt_satisfies_independence": false,
-    "continuity_receipt_is_certification_disposition": false,
-    "ci_or_protected_merge_implies_certification": false,
-    "predecessor_agent_conclusion_is_current_certification": false,
-    "changed_exact_subject_or_evidence_requires_rebind": true,
-    "certification_disposition_fail_closed": true
-  },
+  "local_validator": "ci/validate_agent_continuity_adoption.py",
   "authority_preservation": {
     "authority_changed": false,
     "certification_authority_changed": false,
     "mathematical_claim_authority_changed": false,
     "protected_bypass_changed": false
+  },
+  "specialization_data": {
+    "schema_binding": {
+      "authority_commit": "7e6b61ddf77e2d73309657d089a98cae84cc735f",
+      "schema_blob_sha": "b019881a54763a949613c8116260b729742867bd",
+      "local_snapshot": "embedded:specialization_data.schema_binding.embedded_schema",
+      "local_snapshot_authoritative": false,
+      "mutable_remote_fetch_allowed": false,
+      "embedded_schema": "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://grandchallenge.ai/schemas/GCL-AGENT-CONTINUITY-ADOPTION-001.schema.json\",\n  \"title\": \"GCL Agent Continuity Adoption\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\n    \"schema_id\",\n    \"schema_version\",\n    \"adoption_id\",\n    \"policy_id\",\n    \"version\",\n    \"authority_repository\",\n    \"authority_path\",\n    \"repository\",\n    \"binding_surface\",\n    \"required\",\n    \"specialization\",\n    \"local_validator\",\n    \"authority_preservation\",\n    \"specialization_data\"\n  ],\n  \"properties\": {\n    \"schema_id\": {\"const\": \"GCL-AGENT-CONTINUITY-ADOPTION-001\"},\n    \"schema_version\": {\"const\": \"1.0.0\"},\n    \"adoption_id\": {\"type\": \"string\", \"minLength\": 1},\n    \"policy_id\": {\"const\": \"GCL-AGENT-CONTINUITY-001\"},\n    \"version\": {\"const\": \"1.0.0\"},\n    \"authority_repository\": {\"const\": \"grandchallenge/INTELLECT\"},\n    \"authority_path\": {\"const\": \"governance/agent_execution/GCL-AGENT-CONTINUITY-001.md\"},\n    \"repository\": {\"type\": \"string\", \"pattern\": \"^grandchallenge/[A-Za-z0-9_.-]+$\"},\n    \"binding_surface\": {\"const\": \"AGENTS.md\"},\n    \"required\": {\"const\": true},\n    \"specialization\": {\"type\": [\"string\", \"null\"]},\n    \"local_validator\": {\"type\": \"string\", \"minLength\": 1},\n    \"authority_preservation\": {\n      \"type\": \"object\",\n      \"required\": [\"authority_changed\"],\n      \"properties\": {\n        \"authority_changed\": {\"const\": false}\n      },\n      \"additionalProperties\": {\"type\": \"boolean\"}\n    },\n    \"specialization_data\": {\n      \"type\": \"object\",\n      \"additionalProperties\": true\n    }\n  }\n}\n"
+    },
+    "interruption_rebind": {
+      "exact_claim_or_subject": true,
+      "certification_route": true,
+      "candidate_artifact": true,
+      "material_evidence_digests": true
+    },
+    "provenance": {
+      "construction_authorship_preserved": true,
+      "verification_provenance_preserved": true
+    },
+    "succession": {
+      "operational_state_may_transfer": true,
+      "certification_authority_inherited": false,
+      "substantive_independence_inherited": false,
+      "non_authoring_requirements_re_evaluated_when_materially_affected": true
+    },
+    "fail_closed": {
+      "continuity_receipt_satisfies_independence": false,
+      "continuity_receipt_is_certification_disposition": false,
+      "ci_or_protected_merge_implies_certification": false,
+      "predecessor_agent_conclusion_is_current_certification": false,
+      "changed_exact_subject_or_evidence_requires_rebind": true,
+      "certification_disposition_fail_closed": true
+    }
   }
 }
