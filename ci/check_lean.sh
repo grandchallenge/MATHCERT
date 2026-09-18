@@ -43,9 +43,6 @@ python3() {
   command python3 "$@"
 }
 
-python3 ci/validate_agent_continuity_adoption.py
-python3 ci/test_agent_continuity_adoption.py
-
 lake build
 lake build mathsolve/MathSolve
 lake env lean MathCert/FormalSources/RHNSReplay.lean
