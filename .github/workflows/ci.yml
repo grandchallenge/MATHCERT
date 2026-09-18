@@ -61,6 +61,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          python ci/validate_agent_continuity_adoption.py
+          python ci/test_agent_continuity_adoption.py
           python ci/certification_route_state.py validate
           python ci/check_certification_route_state_consumers.py
           python ci/test_certification_route_state.py
