@@ -6,6 +6,7 @@ import unittest
 
 from validate_agent_continuity_adoption import ROOT, adoption_errors, load_json
 
+
 class AgentContinuityAdoptionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -20,25 +21,98 @@ class AgentContinuityAdoptionTests(unittest.TestCase):
     def test_repository_candidate_is_valid(self) -> None:
         self.assertEqual([], adoption_errors(self.record, self.agents))
 
+    def test_common_policy_drift_is_rejected(self) -> None:
+        errors = self.errors(lambda r: r.update({"policy_id": "OTHER"}))
+        self.assertTrue(any("common schema" in error for error in errors))
+
+    def test_local_validator_identity_is_required(self) -> None:
+        errors = self.errors(lambda r: r.pop("local_validator"))
+        self.assertTrue(any("local_validator" in error for error in errors))
+
+    def test_embedded_schema_blob_cannot_drift(self) -> None:
+        errors = self.errors(
+            lambda r: r["specialization_data"]["schema_binding"].update(
+                {"embedded_schema": "{}\n"}
+            )
+        )
+        self.assertTrue(any("embedded schema blob mismatch" in error for error in errors))
+
+    def test_mutable_remote_schema_fetch_is_forbidden(self) -> None:
+        errors = self.errors(
+            lambda r: r["specialization_data"]["schema_binding"].update(
+                {"mutable_remote_fetch_allowed": True}
+            )
+        )
+        self.assertTrue(any("mutable_remote_fetch_allowed" in error for error in errors))
+
     def test_predecessor_conclusion_cannot_be_inherited_as_certification(self) -> None:
-        errors = self.errors(lambda r: r["fail_closed"].update({"predecessor_agent_conclusion_is_current_certification": True}))
+        errors = self.errors(
+            lambda r: r["specialization_data"]["fail_closed"].update(
+                {"predecessor_agent_conclusion_is_current_certification": True}
+            )
+        )
         self.assertTrue(any("predecessor_agent_conclusion" in error for error in errors))
 
     def test_continuity_receipt_cannot_satisfy_independence(self) -> None:
-        errors = self.errors(lambda r: r["fail_closed"].update({"continuity_receipt_satisfies_independence": True}))
+        errors = self.errors(
+            lambda r: r["specialization_data"]["fail_closed"].update(
+                {"continuity_receipt_satisfies_independence": True}
+            )
+        )
         self.assertTrue(any("continuity_receipt_satisfies_independence" in error for error in errors))
 
+    def test_continuity_receipt_cannot_be_certification_disposition(self) -> None:
+        errors = self.errors(
+            lambda r: r["specialization_data"]["fail_closed"].update(
+                {"continuity_receipt_is_certification_disposition": True}
+            )
+        )
+        self.assertTrue(any("continuity_receipt_is_certification_disposition" in error for error in errors))
+
     def test_certification_authority_is_not_inherited(self) -> None:
-        errors = self.errors(lambda r: r["succession"].update({"certification_authority_inherited": True}))
+        errors = self.errors(
+            lambda r: r["specialization_data"]["succession"].update(
+                {"certification_authority_inherited": True}
+            )
+        )
         self.assertTrue(any("certification_authority_inherited" in error for error in errors))
 
+    def test_substantive_independence_is_not_inherited(self) -> None:
+        errors = self.errors(
+            lambda r: r["specialization_data"]["succession"].update(
+                {"substantive_independence_inherited": True}
+            )
+        )
+        self.assertTrue(any("substantive_independence_inherited" in error for error in errors))
+
     def test_changed_subject_or_evidence_forces_rebind(self) -> None:
-        errors = self.errors(lambda r: r["fail_closed"].update({"changed_exact_subject_or_evidence_requires_rebind": False}))
+        errors = self.errors(
+            lambda r: r["specialization_data"]["fail_closed"].update(
+                {"changed_exact_subject_or_evidence_requires_rebind": False}
+            )
+        )
         self.assertTrue(any("changed_exact_subject_or_evidence_requires_rebind" in error for error in errors))
 
     def test_ci_or_merge_cannot_imply_certification(self) -> None:
-        errors = self.errors(lambda r: r["fail_closed"].update({"ci_or_protected_merge_implies_certification": True}))
+        errors = self.errors(
+            lambda r: r["specialization_data"]["fail_closed"].update(
+                {"ci_or_protected_merge_implies_certification": True}
+            )
+        )
         self.assertTrue(any("ci_or_protected_merge_implies_certification" in error for error in errors))
+
+    def test_authority_expansion_is_rejected(self) -> None:
+        errors = self.errors(
+            lambda r: r["authority_preservation"].update({"authority_changed": True})
+        )
+        self.assertTrue(any("authority_changed" in error for error in errors))
+
+    def test_protected_bypass_expansion_is_rejected(self) -> None:
+        errors = self.errors(
+            lambda r: r["authority_preservation"].update({"protected_bypass_changed": True})
+        )
+        self.assertTrue(any("protected_bypass_changed" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()
