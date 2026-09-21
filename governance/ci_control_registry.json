@@ -185,6 +185,8 @@
     {"path":"ci/test_otp_replay_readback_reconciliation.py","mode":"direct"},
     {"path":"ci/validate_otp_e_connes_rigidity_certification.py","mode":"direct"},
     {"path":"ci/test_otp_e_connes_rigidity_certification.py","mode":"direct"},
+    {"path":"ci/validate_rm_dio_004_certificate.py","mode":"direct"},
+    {"path":"ci/test_validate_rm_dio_004_certificate.py","mode":"direct"},
     {"path":"ci/audit_ci_reachability.py","mode":"direct"},
     {"path":"ci/test_audit_ci_reachability.py","mode":"direct"}
   ],
@@ -200,6 +202,6 @@
     {"root":"certificates/sat","checker":null,"admission":"blocked"},
     {"root":"certificates/external","checker":null,"admission":"blocked"}
   ],
-  "exact_certificate_files": ["certificates/exact/union_closed_n_le_4.json", "certificates/exact/finite_lattices_4_to_7.json"],
+  "exact_certificate_files": ["certificates/exact/union_closed_n_le_4.json", "certificates/exact/finite_lattices_4_to_7.json", "certificates/exact/RM-DIO-004-Y-ABS-1000000.json"],
   "supporting_artifact_files": ["certificates/exact/source/union_closed_small_audit.json"]
 }

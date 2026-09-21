@@ -69,6 +69,8 @@ python3 ci/validate_tropic_relu_certificates.py
 python3 ci/test_validate_tropic_relu_certificates.py
 python3 ci/test_validate_pb_certificate.py
 python3 ci/replay_certificates.py
+python3 ci/validate_rm_dio_004_certificate.py
+python3 ci/test_validate_rm_dio_004_certificate.py
 python3 ci/audit_certificate_coverage.py
 python3 ci/test_audit_certificate_coverage.py
 python3 ci/check_formal_trust.py

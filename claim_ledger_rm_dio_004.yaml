@@ -1,0 +1,30 @@
+claims:
+  - claim_id: MC-RM-DIO-004-C001
+    short_name: bounded_diophantine_exact_replay
+    claim_text: "For every integer y with -1000000 <= y <= 1000000 and unrestricted integer x, the solutions of x^2 - x = y^5 - y are exactly the twelve pairs in certificate MC-RM-DIO-004-Y-ABS-1000000."
+    claim_class: COMPUTED_EXACTLY
+    support_type: EXACT_RATIONAL_COMPUTATION
+    status: CERTIFIED
+    certainty: CERTIFIED
+    source_or_artifact: [certificates/exact/RM-DIO-004-Y-ABS-1000000.json, ci/validate_rm_dio_004_certificate.py]
+    assumptions: [The claim is restricted to the stated finite inclusive y interval., Python integer arithmetic and math.isqrt implement exact integer operations.]
+    promotion_condition: Preserve exact replay and upstream protected identities; do not promote this record to an unbounded theorem.
+    related_files: [ci/test_validate_rm_dio_004_certificate.py]
+    certificate_metadata:
+      certificate_id: MC-RM-DIO-004-Y-ABS-1000000
+      certificate_kind: bounded_diophantine_exact_replay
+      certificate_path: certificates/exact/RM-DIO-004-Y-ABS-1000000.json
+      trusted_boundary: script_replayed
+    knowledge_graph_refs: []
+  - claim_id: MC-RM-DIO-004-C002
+    short_name: global_completeness_not_certified
+    claim_text: "MATHCERT has not certified that the twelve recorded pairs exhaust all integer solutions for unbounded y."
+    claim_class: NEEDS_AUDIT
+    support_type: EXTERNAL_SPECIALIST_PENDING
+    status: OPEN_PROBLEM
+    certainty: UNKNOWN
+    source_or_artifact: [certificates/exact/RM-DIO-004-Y-ABS-1000000.json]
+    assumptions: []
+    promotion_condition: Supply an independently reviewed global arithmetic proof with no untracked assumptions.
+    related_files: [claim_ledger_rm_dio_004.yaml]
+    knowledge_graph_refs: []
