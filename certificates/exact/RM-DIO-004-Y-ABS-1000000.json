@@ -17,7 +17,7 @@
     "claim_ledger_blob_sha1": "771935d883d6478485c96a39afcb39f91d9d1580",
     "validator_blob_sha1": "ecb52561ce0f77438357951e43e58a437786b40c"
   },
-  "verification": {"checker": "ci/replay_certificates.py", "method": "Independently enumerate every y in the certified interval, test the exact quadratic discriminant with integer square root, reconstruct both x branches, and compare the regenerated set with the certificate.", "arithmetic": "unbounded exact integers", "floating_point_used": false},
+  "verification": {"checker": "ci/test_audit_certificate_coverage.py", "method": "Independently enumerate every y in the certified interval, test the exact quadratic discriminant with integer square root, reconstruct both x branches, and compare the regenerated set with the certificate.", "arithmetic": "unbounded exact integers", "floating_point_used": false},
   "verdict": "CERTIFIED_BOUNDED_EXACT_COMPUTATION",
   "excluded_claims": ["No claim is made for any y outside the certified interval.", "The unrestricted workshop problem is not certified or declared solved.", "The source dataset's status-search prose is not certification evidence."],
   "promotion_condition": "Unbounded certification requires a separately reviewed global arithmetic proof that establishes completeness beyond the finite interval."
