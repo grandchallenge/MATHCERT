@@ -14,7 +14,6 @@ on:
       - "ci/run_otp_j2_scope_repair_replay.sh"
       - "ci/check_lean.sh"
       - "ci/check_lean.ps1"
-      - "governance/ci_control_registry.json"
       - "governance/certification_routes.json"
       - "governance/result_family_route_target_successors/OTP-J2-TWO-DEGENERATE.json"
       - "governance/result_family_adjudication_contract_successors/OTP-J2-TWO-DEGENERATE.json"

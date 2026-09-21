@@ -1,6 +1,5 @@
 $ErrorActionPreference = "Stop"
 Set-Location (Join-Path $PSScriptRoot "..")
-if (-not (Get-Command lake -ErrorAction SilentlyContinue)) { throw "lake is not installed; cannot certify Lean files." }
 
 function Get-ControlFamily([string]$Path) {
     $p = $Path.ToLowerInvariant()
@@ -25,6 +24,7 @@ if ([string]::IsNullOrWhiteSpace($script:CertScope)) {
 }
 $validScopes = @(
     'FULL_ESTATE',
+    'NO_LEAN',
     'OTP-A-SPHERE-PACKING',
     'OTP-B1-BINARY-CODES',
     'OTP-B2-SPHERICAL-CODES',
@@ -50,18 +50,23 @@ function Invoke-Control([string]$Path) {
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
-lake build
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-lake build mathsolve/MathSolve
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-lake env lean MathCert/FormalSources/RHNSReplay.lean
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-lake env lean MathCert/FormalSources/UCRestrictedReplay.lean
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-lake env lean MathCert/Domains/NumberTheory/EuclidGCD.lean
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-lake env lean MathCert/Domains/NumberTheory/EuclidDiophantine.lean
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+if ($script:CertScope -eq 'NO_LEAN') {
+    Write-Host "MATHCERT_LEAN_SKIP=no_lean_material_change"
+} else {
+    if (-not (Get-Command lake -ErrorAction SilentlyContinue)) { throw "lake is not installed; cannot certify Lean files." }
+    lake build
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    lake build mathsolve/MathSolve
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    lake env lean MathCert/FormalSources/RHNSReplay.lean
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    lake env lean MathCert/FormalSources/UCRestrictedReplay.lean
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    lake env lean MathCert/Domains/NumberTheory/EuclidGCD.lean
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    lake env lean MathCert/Domains/NumberTheory/EuclidDiophantine.lean
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+}
 Invoke-Control "ci/validate_certification_routes.py"
 Invoke-Control "ci/test_validate_certification_routes.py"
 Invoke-Control "ci/validate_formal_source_provenance.py"

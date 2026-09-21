@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 trap 'status=$?; echo "::error title=MATHCERT canonical control failed::command=${BASH_COMMAND}; exit=${status}"; exit "$status"' ERR
-if ! command -v lake >/dev/null 2>&1; then echo "lake is not installed; cannot certify Lean files." >&2; exit 1; fi
 cd "$(dirname "$0")/.."
 
 control_family() {
@@ -24,7 +23,7 @@ control_family() {
 
 MC_CERT_SCOPE="${MC_CERT_SCOPE:-$(command python3 ci/check_certification_platform_lane.py --certification-scope)}"
 case "$MC_CERT_SCOPE" in
-  FULL_ESTATE|OTP-A-SPHERE-PACKING|OTP-B1-BINARY-CODES|OTP-B2-SPHERICAL-CODES|OTP-G-QUANTUM-PARALLEL-REPETITION|OTP-H-GAPCVP|OTP-I-RAMSEY|OTP-C-PERMANENT|OTP-J1-COMPACTNESS|OTP-J2-TWO-DEGENERATE|OTP-F-EHRHART) ;;
+  FULL_ESTATE|NO_LEAN|OTP-A-SPHERE-PACKING|OTP-B1-BINARY-CODES|OTP-B2-SPHERICAL-CODES|OTP-G-QUANTUM-PARALLEL-REPETITION|OTP-H-GAPCVP|OTP-I-RAMSEY|OTP-C-PERMANENT|OTP-J1-COMPACTNESS|OTP-J2-TWO-DEGENERATE|OTP-F-EHRHART) ;;
   *) echo "unknown canonical certification scope: $MC_CERT_SCOPE" >&2; exit 1 ;;
 esac
 export MC_CERT_SCOPE
@@ -43,12 +42,20 @@ python3() {
   command python3 "$@"
 }
 
-lake build
-lake build mathsolve/MathSolve
-lake env lean MathCert/FormalSources/RHNSReplay.lean
-lake env lean MathCert/FormalSources/UCRestrictedReplay.lean
-lake env lean MathCert/Domains/NumberTheory/EuclidGCD.lean
-lake env lean MathCert/Domains/NumberTheory/EuclidDiophantine.lean
+if [[ "$MC_CERT_SCOPE" == "NO_LEAN" ]]; then
+  echo "MATHCERT_LEAN_SKIP=no_lean_material_change"
+else
+  if ! command -v lake >/dev/null 2>&1; then
+    echo "lake is not installed; cannot certify Lean files." >&2
+    exit 1
+  fi
+  lake build
+  lake build mathsolve/MathSolve
+  lake env lean MathCert/FormalSources/RHNSReplay.lean
+  lake env lean MathCert/FormalSources/UCRestrictedReplay.lean
+  lake env lean MathCert/Domains/NumberTheory/EuclidGCD.lean
+  lake env lean MathCert/Domains/NumberTheory/EuclidDiophantine.lean
+fi
 python3 ci/validate_certification_routes.py
 python3 ci/test_validate_certification_routes.py
 python3 ci/validate_formal_source_provenance.py

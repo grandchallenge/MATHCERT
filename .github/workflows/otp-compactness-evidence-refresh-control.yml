@@ -18,7 +18,6 @@ on:
       - "docs/work_packages/OTP-J1-COMPACTNESS-CERT-EVIDENCE-REFRESH-001-CLAIM-BOUNDARY.md"
       - "ci/check_lean.sh"
       - "ci/check_lean.ps1"
-      - "governance/ci_control_registry.json"
   workflow_dispatch:
 
 permissions:

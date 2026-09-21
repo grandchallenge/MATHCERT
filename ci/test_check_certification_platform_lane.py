@@ -6,10 +6,13 @@ from unittest.mock import patch
 
 from check_certification_platform_lane import (
     FULL_ESTATE_SCOPE,
+    NO_LEAN_SCOPE,
     certification_scope,
+    changed_paths_between,
     changed_paths_for_pull_request,
     evaluate,
     family_for_path,
+    is_lean_material_path,
     load_manifest,
 )
 
@@ -196,6 +199,8 @@ class CertificationPlatformLaneTests(unittest.TestCase):
             "if ($script:CertScope -ne 'FULL_ESTATE' -and $family -and $family -ne $script:CertScope)",
             ps1,
         )
+        self.assertIn('MATHCERT_LEAN_SKIP=no_lean_material_change', sh)
+        self.assertIn('MATHCERT_LEAN_SKIP=no_lean_material_change', ps1)
         self.assertIn("python3 ci/validate_otp_g_quantum_parallel_repetition_certification.py", sh)
         self.assertIn("python3 ci/test_otp_g_quantum_parallel_repetition_certification.py", sh)
         self.assertIn('Invoke-Control "ci/validate_otp_g_quantum_parallel_repetition_certification.py"', ps1)
@@ -280,13 +285,22 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         )
         self.assertEqual(scope, FULL_ESTATE_SCOPE)
 
-    def test_unknown_change_fails_closed_to_full_estate(self) -> None:
+    def test_non_lean_unknown_change_keeps_controls_without_lean(self) -> None:
         scope = certification_scope(
             "agent/unknown-change",
             ["docs/architecture.md"],
             self.manifest,
         )
+        self.assertEqual(scope, NO_LEAN_SCOPE)
+
+    def test_unknown_lean_change_fails_closed_to_full_estate(self) -> None:
+        scope = certification_scope(
+            "agent/unknown-lean-change",
+            ["MathCert/NewDomain/Unclassified.lean"],
+            self.manifest,
+        )
         self.assertEqual(scope, FULL_ESTATE_SCOPE)
+        self.assertTrue(is_lean_material_path("MathCert/NewDomain/Unclassified.lean"))
 
     def test_platform_change_always_runs_full_estate(self) -> None:
         scope = certification_scope(
@@ -296,22 +310,64 @@ class CertificationPlatformLaneTests(unittest.TestCase):
         )
         self.assertEqual(scope, FULL_ESTATE_SCOPE)
 
-    def test_global_route_only_change_fails_closed_to_full_estate(self) -> None:
+    def test_global_route_only_change_keeps_controls_without_lean(self) -> None:
         scope = certification_scope(
             "agent/route-only",
             ["governance/certification_routes.json"],
             self.manifest,
         )
-        self.assertEqual(scope, FULL_ESTATE_SCOPE)
+        self.assertEqual(scope, NO_LEAN_SCOPE)
 
-    def test_ci_control_registry_only_change_fails_closed_to_full_estate(self) -> None:
+    def test_ci_control_registry_only_change_keeps_controls_without_lean(self) -> None:
         scope = certification_scope(
             "agent/ci-registry-only",
             ["governance/ci_control_registry.json"],
             self.manifest,
         )
-        self.assertEqual(scope, FULL_ESTATE_SCOPE)
+        self.assertEqual(scope, NO_LEAN_SCOPE)
 
+    def test_rm_dio_transition_does_not_select_unrelated_lean(self) -> None:
+        scope = certification_scope(
+            "certification/rm-dio-004-level2",
+            [
+                "certificates/exact/RM-DIO-004-Y-ABS-1000000.json",
+                "ci/test_audit_certificate_coverage.py",
+                "claim_ledger_rm_dio_004.yaml",
+                "docs/RM_DIO_004_BOUNDED_CERTIFICATE.md",
+                "governance/ci_control_registry.json",
+            ],
+            self.manifest,
+        )
+        self.assertEqual(scope, NO_LEAN_SCOPE)
+
+    def test_push_transition_diff_includes_deletions(self) -> None:
+        with patch("check_certification_platform_lane.subprocess.run"), patch(
+            "check_certification_platform_lane.subprocess.check_output",
+            return_value="governance/ci_control_registry.json\n",
+        ) as check_output:
+            paths = changed_paths_between("before-sha", "after-sha")
+        self.assertEqual(paths, ["governance/ci_control_registry.json"])
+        command = check_output.call_args.args[0]
+        self.assertEqual(command[-2:], ["before-sha", "after-sha"])
+        self.assertIn("--diff-filter=ACMRD", command)
+
+    def test_family_workflows_do_not_trigger_on_shared_registry_edits(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        governed = set(self.manifest["stateful_workflow_paths"])
+        offenders = [
+            relative
+            for relative in sorted(governed)
+            if '"governance/ci_control_registry.json"'
+            in (root / relative).read_text(encoding="utf-8")
+        ]
+        self.assertEqual(offenders, [])
+
+    def test_required_cert_context_skips_lean_bootstrap_for_no_lean_scope(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        workflow = (root / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+        self.assertIn("id: scope", workflow)
+        self.assertIn("certification_scope != 'NO_LEAN'", workflow)
+        self.assertIn("MC_CERT_SCOPE: ${{ steps.scope.outputs.certification_scope }}", workflow)
 
 if __name__ == "__main__":
     unittest.main()

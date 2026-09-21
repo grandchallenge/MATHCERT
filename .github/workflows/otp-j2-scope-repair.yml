@@ -12,7 +12,6 @@ on:
       - "ci/test_otp_j2_route_target_successor.py"
       - "ci/check_lean.sh"
       - "ci/check_lean.ps1"
-      - "governance/ci_control_registry.json"
       - "evidence/openai_ten_proofs/two_degenerate_scope_repair/**"
       - "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json"
       - "governance/certification_routes.json"
