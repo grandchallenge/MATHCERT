@@ -5,12 +5,14 @@ from __future__ import annotations
 import hashlib
 import json
 from itertools import permutations
+from math import isqrt
 from pathlib import Path
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 COORDINATOR_ROOT = Path(__file__).resolve().parents[2]
 UNION_CLOSED_CERTIFICATE = PACKAGE_ROOT / "certificates" / "exact" / "union_closed_n_le_4.json"
 FINITE_LATTICE_CERTIFICATE = PACKAGE_ROOT / "certificates" / "exact" / "finite_lattices_4_to_7.json"
+RM_DIO_004_CERTIFICATE = PACKAGE_ROOT / "certificates" / "exact" / "RM-DIO-004-Y-ABS-1000000.json"
 UNION_CLOSED_CONVENTION = (
     "raw union-closed counts include the empty family; Frankl-facing counts include "
     "only nontrivial families with nonempty support"
@@ -248,9 +250,67 @@ def validate_finite_lattice_certificate() -> None:
     print("Replayed finite-lattice certificate for sizes 4..7: no branch (i) violations")
 
 
+def replay_rm_dio_004(lower: int, upper: int) -> list[list[int]]:
+    found: list[list[int]] = []
+    for y in range(lower, upper + 1):
+        rhs = y**5 - y
+        discriminant = 4 * rhs + 1
+        if discriminant < 0:
+            continue
+        z = isqrt(discriminant)
+        if z**2 != discriminant:
+            continue
+        for x in {(1 - z) // 2, (1 + z) // 2}:
+            if 2 * x in {1 - z, 1 + z} and x**2 - x == rhs:
+                found.append([x, y])
+    return sorted(found)
+
+
+def rm_dio_004_errors(certificate: dict) -> list[str]:
+    lower, upper = -1_000_000, 1_000_000
+    domain = certificate.get("domain", {})
+    upstream = certificate.get("upstream", {})
+    expected_blobs = {
+        "source_binding_blob_sha1": "f2d0f1f06abf76fce6ce9dba4092e6f174180703",
+        "exact_screen_blob_sha1": "a39c05ef411b4aeb66e845aefb65b67f1f78bacc",
+        "handoff_blob_sha1": "92cd330bfd59e75ab85e3da4d7201c2482c1cb81",
+        "claim_ledger_blob_sha1": "771935d883d6478485c96a39afcb39f91d9d1580",
+        "validator_blob_sha1": "ecb52561ce0f77438357951e43e58a437786b40c",
+    }
+    checks = {
+        "wrong certificate id": certificate.get("certificate_id") == "MC-RM-DIO-004-Y-ABS-1000000",
+        "wrong certification level": certificate.get("certification_level") == 2,
+        "lower bound drift": domain.get("minimum") == lower,
+        "upper bound drift": domain.get("maximum") == upper,
+        "domain not inclusive": domain.get("inclusive") is True,
+        "x must remain unrestricted": domain.get("x_restriction") == "none",
+        "MATHFORGE commit drift": upstream.get("mathforge_protected_commit") == "bab7ae57f54601b49ad9fc870051095ad487c64a",
+        "MATHSOLVE commit drift": upstream.get("mathsolve_protected_commit") == "dc232d903be7647416bf1fcfc0bf4c415d95e245",
+        "solution count drift": certificate.get("solution_count") == len(certificate.get("solutions", [])),
+        "verdict inflation or drift": certificate.get("verdict") == "CERTIFIED_BOUNDED_EXACT_COMPUTATION",
+    }
+    errors = [message for message, ok in checks.items() if not ok]
+    errors.extend(f"upstream blob drift: {field}" for field, expected in expected_blobs.items() if upstream.get(field) != expected)
+    exclusions = " ".join(certificate.get("excluded_claims", [])).lower()
+    if "unrestricted" not in exclusions or "not certified" not in exclusions:
+        errors.append("unbounded nonclaim is missing")
+    if not errors and certificate.get("solutions") != replay_rm_dio_004(lower, upper):
+        errors.append("certificate solutions differ from independent exact replay")
+    return errors
+
+
+def validate_rm_dio_004_certificate() -> None:
+    certificate = json.loads(RM_DIO_004_CERTIFICATE.read_text(encoding="utf-8"))
+    errors = rm_dio_004_errors(certificate)
+    if errors:
+        raise ValueError("RM-DIO-004 certificate rejection: " + "; ".join(errors))
+    print("Replayed RM-DIO-004 Level-2 certificate: 12 solutions for |y| <= 1000000; unrestricted claim excluded")
+
+
 def main() -> int:
     validate_union_closed_certificate()
     validate_finite_lattice_certificate()
+    validate_rm_dio_004_certificate()
     return 0
 
 

@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 import audit_certificate_coverage as module
+import replay_certificates as replay
 
 
 class CertificateCoverageTests(unittest.TestCase):
@@ -41,6 +42,31 @@ class CertificateCoverageTests(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text("{}\n", encoding="utf-8")
         self.assertTrue(any("blocked certificate family" in item for item in module.errors(root)))
+
+    def test_rm_dio_004_committed_certificate_replays(self) -> None:
+        certificate = json.loads(replay.RM_DIO_004_CERTIFICATE.read_text(encoding="utf-8"))
+        self.assertEqual([], replay.rm_dio_004_errors(certificate))
+
+    def test_rm_dio_004_rejects_missing_solution(self) -> None:
+        certificate = json.loads(replay.RM_DIO_004_CERTIFICATE.read_text(encoding="utf-8"))
+        certificate["solutions"].pop()
+        certificate["solution_count"] -= 1
+        self.assertTrue(replay.rm_dio_004_errors(certificate))
+
+    def test_rm_dio_004_rejects_bound_inflation(self) -> None:
+        certificate = json.loads(replay.RM_DIO_004_CERTIFICATE.read_text(encoding="utf-8"))
+        certificate["domain"]["maximum"] += 1
+        self.assertTrue(replay.rm_dio_004_errors(certificate))
+
+    def test_rm_dio_004_rejects_upstream_drift(self) -> None:
+        certificate = json.loads(replay.RM_DIO_004_CERTIFICATE.read_text(encoding="utf-8"))
+        certificate["upstream"]["mathsolve_protected_commit"] = "0" * 40
+        self.assertTrue(replay.rm_dio_004_errors(certificate))
+
+    def test_rm_dio_004_rejects_unbounded_claim_inflation(self) -> None:
+        certificate = json.loads(replay.RM_DIO_004_CERTIFICATE.read_text(encoding="utf-8"))
+        certificate["excluded_claims"] = []
+        self.assertTrue(replay.rm_dio_004_errors(certificate))
 
 
 if __name__ == "__main__":

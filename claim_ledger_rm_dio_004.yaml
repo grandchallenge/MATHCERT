@@ -6,10 +6,10 @@ claims:
     support_type: EXACT_RATIONAL_COMPUTATION
     status: CERTIFIED
     certainty: CERTIFIED
-    source_or_artifact: [certificates/exact/RM-DIO-004-Y-ABS-1000000.json, ci/validate_rm_dio_004_certificate.py]
+    source_or_artifact: [certificates/exact/RM-DIO-004-Y-ABS-1000000.json, ci/replay_certificates.py]
     assumptions: [The claim is restricted to the stated finite inclusive y interval., Python integer arithmetic and math.isqrt implement exact integer operations.]
     promotion_condition: Preserve exact replay and upstream protected identities; do not promote this record to an unbounded theorem.
-    related_files: [ci/test_validate_rm_dio_004_certificate.py]
+    related_files: [ci/test_audit_certificate_coverage.py]
     certificate_metadata:
       certificate_id: MC-RM-DIO-004-Y-ABS-1000000
       certificate_kind: bounded_diophantine_exact_replay
