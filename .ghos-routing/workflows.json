@@ -205,7 +205,9 @@
     {
       "path": ".github/workflows/otp-corpus-proof-verification.yml",
       "observed_features": [
-        "OPAQUE_EXECUTION"
+        "AUTONOMOUS_WAKE",
+        "OPAQUE_EXECUTION",
+        "SCHEDULED"
       ],
       "topology": "PERSISTENT_CONTROLLER_REQUIRED",
       "controller_id": "GITHUB_ACTIONS"

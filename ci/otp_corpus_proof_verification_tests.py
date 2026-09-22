@@ -48,6 +48,38 @@ class CorpusVerificationTests(unittest.TestCase):
         errors = self.errors_for(lambda r: r["limitations"].__setitem__("pdf_exposition_line_by_line_equivalence", "established"))
         self.assertTrue(any("pdf_exposition" in error or "PDF exposition" in error for error in errors))
 
+    def test_protected_push_is_path_scoped_with_weekly_full_replay(self) -> None:
+        workflow = (ROOT / ".github/workflows/otp-corpus-proof-verification.yml").read_text(
+            encoding="utf-8"
+        )
+        push_block = workflow.split("  push:\n", 1)[1].split("  schedule:\n", 1)[0]
+        self.assertIn("    paths:", push_block)
+        self.assertIn('"ci/otp_corpus_proof_verification.py"', push_block)
+        self.assertIn('cron: "43 3 * * 0"', workflow)
+        self.assertIn("  workflow_dispatch:", workflow)
+        routing = json.loads((ROOT / ".ghos-routing/workflows.json").read_text(encoding="utf-8"))
+        entry = next(
+            item
+            for item in routing["workflows"]
+            if item["path"] == ".github/workflows/otp-corpus-proof-verification.yml"
+        )
+        self.assertEqual(
+            entry["observed_features"],
+            ["AUTONOMOUS_WAKE", "OPAQUE_EXECUTION", "SCHEDULED"],
+        )
+
+    def test_shared_registry_does_not_directly_trigger_specialized_workflows(self) -> None:
+        specialized = (
+            "otp-h-gapcvp-cert-work-package.yml",
+            "vgse-route-registration.yml",
+        )
+        offenders = []
+        for name in specialized:
+            path = ROOT / ".github/workflows" / name
+            if '"governance/ci_control_registry.json"' in path.read_text(encoding="utf-8"):
+                offenders.append(name)
+        self.assertEqual(offenders, [])
+
 
 if __name__ == "__main__":
     unittest.main()
