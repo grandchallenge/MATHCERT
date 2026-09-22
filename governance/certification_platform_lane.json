@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.3.0",
+  "schema_version": "1.4.0",
   "control_id": "MC-PLATFORM-LANE-001",
   "contextual_certification_control_id": "MC-CONTEXT-AWARE-CERTIFY-001",
   "state": "ACTIVE_WHEN_PROTECTED",
@@ -157,9 +157,12 @@
     "stateful_workflow_family_transition_updates_may_remain_on_family_branch": true,
     "platform_branch_may_change_only_declared_paths": true,
     "family_scoped_certification_allowed_only_for_one_unambiguous_family": true,
-    "unknown_or_multi_family_changes_require_full_estate": true,
+    "unknown_lean_or_multi_family_changes_require_full_estate": true,
+    "non_lean_changes_preserve_controls_without_lean_bootstrap": true,
     "platform_changes_require_full_estate": true,
-    "non_pull_request_runs_require_full_estate": true,
+    "push_changes_use_exact_transition_scope": true,
+    "manual_runs_require_full_estate": true,
+    "shared_ci_registry_does_not_directly_trigger_family_workflows": true,
     "explicit_force_full_mode_supported": true,
     "route_state_consumer_inventory_must_remain_classified": true,
     "historical_route_state_must_bind_exact_protected_snapshot": true,
@@ -169,5 +172,5 @@
     "aggregate_authority": false,
     "promotion_authority": false
   },
-  "operating_rule": "Family-agnostic shared infrastructure is admitted only through platform/certification/* branches. Stateful route-registry consumers and the workflow entry points that execute them are governed architectural surfaces. Generic route-state semantic repairs belong on the platform lane; bounded family-transition registration, compatibility, and family-workflow updates may remain on a family branch. Historical consumers must bind exact protected predecessor state, current-state consumers validate the live registry, transition consumers compare explicitly governed endpoints, and invariant consumers may inspect route-independent structure only. Dedicated workflow entry points must preserve the same state classification as the controls they execute. Canonical certification runs the invariant/shared core plus only the one unambiguously affected result-family control set; platform, non-pull-request, unknown, route-only without family evidence, and multi-family changes fail closed to the full validation estate. Family branches consume protected platform-only helpers and must not carry private revisions of them."
+  "operating_rule": "Family-agnostic shared infrastructure is admitted only through platform/certification/* branches. Stateful route-registry consumers and the workflow entry points that execute them are governed architectural surfaces. Generic route-state semantic repairs belong on the platform lane; bounded family-transition registration, compatibility, and family-workflow updates may remain on a family branch. Historical consumers must bind exact protected predecessor state, current-state consumers validate the live registry, transition consumers compare explicitly governed endpoints, and invariant consumers may inspect route-independent structure only. Dedicated workflow entry points must preserve the same state classification as the controls they execute. Canonical certification runs the invariant/shared Python controls for every transition, provisions Lean only for actual Lean material, and selects only the one unambiguously affected result-family control set. Platform, unknown Lean/control-plane, and multi-family changes fail closed to the full validation estate. Exact push transitions use the same classifier; manual execution remains full-estate. Shared CI-registry edits are validated by the canonical runner and do not directly instantiate every family workflow. Family branches consume protected platform-only helpers and must not carry private revisions of them."
 }

@@ -17,7 +17,6 @@ on:
       - "ci/validate_otp_j2_scope_repair_with_successor.py"
       - "ci/check_lean.sh"
       - "ci/check_lean.ps1"
-      - "governance/ci_control_registry.json"
       - "governance/certification_routes.json"
       - "governance/result_family_scope_repairs/OTP-J2-TWO-DEGENERATE.json"
       - "governance/result_family_construction_evidence/OTP-J2-TWO-DEGENERATE.json"

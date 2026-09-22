@@ -16,7 +16,6 @@ on:
       - "governance/result_family_output_contracts/OTP-C-PERMANENT.json"
       - "governance/result_family_adjudications/OTP-C-PERMANENT.json"
       - "governance/certification_routes.json"
-      - "governance/ci_control_registry.json"
       - "ci/check_lean.sh"
       - "ci/check_lean.ps1"
   workflow_dispatch:

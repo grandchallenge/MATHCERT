@@ -18,6 +18,7 @@ MANIFEST_PATH = Path(
 ).resolve()
 
 FULL_ESTATE_SCOPE = "FULL_ESTATE"
+NO_LEAN_SCOPE = "NO_LEAN"
 FAMILY_MARKERS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("OTP-G-QUANTUM-PARALLEL-REPETITION", ("otp-g-quantum-parallel-repetition", "otp_g_quantum_parallel_repetition", "quantum-parallel-repetition", "quantum_parallel_repetition")),
     ("OTP-I-RAMSEY", ("otp-i-ramsey", "otp_i_ramsey", "ramsey-replay", "ramsey_replay")),
@@ -33,6 +34,17 @@ FAMILY_MARKERS: tuple[tuple[str, tuple[str, ...]], ...] = (
 GLOBAL_FAMILY_TRANSITION_PATHS = {
     "governance/certification_routes.json",
     "governance/ci_control_registry.json",
+}
+LEAN_MATERIAL_PREFIXES = (
+    "MathCert/",
+    "mathsolve/",
+    "certificates/formal_sources/",
+)
+LEAN_MATERIAL_PATHS = {
+    "MathCert.lean",
+    "lake-manifest.json",
+    "lakefile.lean",
+    "lean-toolchain",
 }
 
 
@@ -90,37 +102,55 @@ def family_for_path(path: str) -> str | None:
     return None
 
 
+def is_lean_material_path(path: str) -> bool:
+    normalized = path.replace("\\", "/")
+    if normalized in LEAN_MATERIAL_PATHS or normalized.endswith(".lean"):
+        return True
+    if normalized.startswith(LEAN_MATERIAL_PREFIXES):
+        return True
+    if normalized.startswith(".github/workflows/"):
+        return True
+    if normalized.startswith("ci/") and normalized.endswith((".sh", ".ps1")):
+        return True
+    return False
+
+
 def certification_scope(
     branch: str,
     changed_paths: Iterable[str],
     manifest: dict[str, object],
 ) -> str:
-    """Return one exact family scope or fail closed to FULL_ESTATE.
+    """Return the exact substantive certification scope for a transition.
 
     Family-scoped execution is allowed only when every non-global changed path
-    is unambiguously attributable to one result family. Platform branches,
-    unknown paths, zero-family changes, and multi-family changes run the full
-    certification estate.
+    is either non-Lean material or unambiguously attributable to one result
+    family. Platform branches, unknown Lean/control-plane paths, and
+    multi-family changes run the full certification estate. Transitions with
+    no Lean material retain canonical Python controls without provisioning Lean.
     """
     if branch.startswith(str(manifest["platform_branch_prefix"])):
         return FULL_ESTATE_SCOPE
 
-    neutral = GLOBAL_FAMILY_TRANSITION_PATHS | {
+    neutral = {
         str(path) for path in manifest["stateful_shared_validator_paths"]  # type: ignore[index]
     }
     families: set[str] = set()
     for raw in sorted({str(path) for path in changed_paths if str(path)}):
-        if raw in neutral:
+        if raw in GLOBAL_FAMILY_TRANSITION_PATHS:
             continue
         family = family_for_path(raw)
-        if family is None:
-            return FULL_ESTATE_SCOPE
-        families.add(family)
-        if len(families) > 1:
+        if family is not None:
+            families.add(family)
+            if len(families) > 1:
+                return FULL_ESTATE_SCOPE
+            continue
+        if raw in neutral:
+            continue
+        if is_lean_material_path(raw):
             return FULL_ESTATE_SCOPE
 
     if len(families) != 1:
-        return FULL_ESTATE_SCOPE
+        return NO_LEAN_SCOPE
     return next(iter(families))
 
 
@@ -146,15 +176,48 @@ def changed_paths_for_pull_request(base_ref: str) -> list[str]:
     return [line.strip() for line in output.splitlines() if line.strip()]
 
 
+def changed_paths_between(base: str, head: str) -> list[str]:
+    if not base or not head or set(base) == {"0"}:
+        raise RuntimeError("push transition lacks a usable before/after identity")
+    for revision in (base, head):
+        try:
+            subprocess.run(
+                ["git", "rev-parse", "--verify", revision],
+                cwd=ROOT,
+                check=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+        except subprocess.CalledProcessError as exc:
+            raise RuntimeError(
+                f"missing push revision {revision}; canonical checkout must use fetch-depth: 0"
+            ) from exc
+    output = subprocess.check_output(
+        ["git", "diff", "--name-only", "--diff-filter=ACMRD", base, head],
+        cwd=ROOT,
+        text=True,
+    )
+    return [line.strip() for line in output.splitlines() if line.strip()]
+
+
+def changed_paths_for_push(event_path: str) -> list[str]:
+    event = json.loads(Path(event_path).read_text(encoding="utf-8"))
+    return changed_paths_between(str(event.get("before", "")), str(event.get("after", "")))
+
+
 def current_certification_scope(manifest: dict[str, object]) -> str:
     if os.environ.get("MC_CERT_FORCE_FULL") == "1":
         return FULL_ESTATE_SCOPE
     event = os.environ.get("GITHUB_EVENT_NAME", "")
     branch = os.environ.get("GITHUB_HEAD_REF", "")
     base_ref = os.environ.get("GITHUB_BASE_REF", "")
-    if event != "pull_request" or not branch or not base_ref:
+    if event == "pull_request" and branch and base_ref:
+        paths = changed_paths_for_pull_request(base_ref)
+    elif event == "push" and os.environ.get("GITHUB_EVENT_PATH"):
+        branch = os.environ.get("GITHUB_REF_NAME", branch)
+        paths = changed_paths_for_push(os.environ["GITHUB_EVENT_PATH"])
+    else:
         return FULL_ESTATE_SCOPE
-    paths = changed_paths_for_pull_request(base_ref)
     return certification_scope(branch, paths, manifest)
 
 

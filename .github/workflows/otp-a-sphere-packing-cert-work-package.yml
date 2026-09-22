@@ -8,7 +8,6 @@ on:
       - "ci/test_openai_ten_proofs_sphere_packing_certification_work_package.py"
       - "schemas/openai_ten_proofs_sphere_packing_certification_work_package.schema.json"
       - "governance/result_family_work_package_successors/OTP-A-SPHERE-PACKING-CERT-WP-001.json"
-      - "governance/ci_control_registry.json"
       - "ci/check_lean.sh"
       - "ci/check_lean.ps1"
   workflow_dispatch:

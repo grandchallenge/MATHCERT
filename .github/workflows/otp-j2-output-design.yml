@@ -26,7 +26,6 @@ on:
       - "governance/result_family_output_candidates/OTP-J2-TWO-DEGENERATE.json"
       - "governance/result_family_output_candidates/staged_certificates/MC-OTP-J2-TWO-DEGENERATE-001.json"
       - "governance/result_family_output_candidates/staged_route_transitions/OTP-J2-TWO-DEGENERATE.json"
-      - "governance/ci_control_registry.json"
       - "ci/check_lean.sh"
       - "ci/check_lean.ps1"
   workflow_dispatch:

@@ -21,7 +21,8 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      - name: Enforce certification platform lane
+      - name: Enforce certification platform lane and classify impact
+        id: scope
         shell: bash
         run: |
           set -euo pipefail
@@ -34,12 +35,17 @@ jobs:
             MC_PLATFORM_ROOT="${GITHUB_WORKSPACE}" \
             MC_PLATFORM_MANIFEST="${manifest}" \
               python3 "${guard}"
+            scope="$(MC_PLATFORM_ROOT="${GITHUB_WORKSPACE}" MC_PLATFORM_MANIFEST="${manifest}" python3 "${guard}" --certification-scope)"
           else
             python3 ci/check_certification_platform_lane.py
+            scope="$(python3 ci/check_certification_platform_lane.py --certification-scope)"
           fi
+          printf 'certification_scope=%s\n' "${scope}" >> "${GITHUB_OUTPUT}"
+          printf 'MATHCERT_TRANSITION_SCOPE=%s\n' "${scope}"
           python3 ci/test_check_certification_platform_lane.py
           python3 ci/test_otp_finalize_family_replay_evidence.py
       - uses: grandchallenge/lean-action@37f8471aecd2efbeab3b1e1a75ad18fb8f5c1b01
+        if: steps.scope.outputs.certification_scope != 'NO_LEAN'
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v6
         with:
           python-version: "3.13"
@@ -48,6 +54,7 @@ jobs:
       - name: Install locked CI dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
       - name: Capture canonical lake build diagnostic
+        if: steps.scope.outputs.certification_scope != 'NO_LEAN'
         shell: bash
         run: |
           mkdir -p diagnostics
@@ -59,6 +66,8 @@ jobs:
           exit 0
       - name: Run certification checks
         shell: bash
+        env:
+          MC_CERT_SCOPE: ${{ steps.scope.outputs.certification_scope }}
         run: |
           set -euo pipefail
           python ci/validate_agent_continuity_adoption.py
@@ -93,7 +102,7 @@ jobs:
           PATH="${shim_dir}:${PATH}" \
             bash ./ci/check_lean.sh
       - name: Upload canonical build diagnostic
-        if: always()
+        if: always() && steps.scope.outputs.certification_scope != 'NO_LEAN'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: cert-canonical-lake-build-diagnostic
