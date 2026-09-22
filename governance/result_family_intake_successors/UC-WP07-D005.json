@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "union_closed_wp07_d005_successor_intake",
+  "intake_id": "MC-UC-WP07-D005-INTAKE-001",
+  "campaign_id": "UC-001",
+  "work_package_id": "UC-WP07-D005",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/320",
+  "intake_status": "submitted",
+  "authority": {
+    "solve_theorem_merge": "dbfbb117ef1e3733268da6590c824a330c69ee64",
+    "solve_successor_handoff_merge": "0eef2146588d10953ffc29dede7614d66ca2c0b7",
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "0eef2146588d10953ffc29dede7614d66ca2c0b7",
+      "path": "handoffs/UC-001/WP07_D005_MATHCERT_INTAKE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1d6365df8c6178ed4b22eb9531a9220cd13bbf24"
+    },
+    "theorem_source": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "dbfbb117ef1e3733268da6590c824a330c69ee64",
+      "path": "MathSolve/UnionClosed/FunctionalPreorderD005.lean",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "5638ddb60e573a7416a844ece74234fcffba52ad"
+    }
+  },
+  "target_scope": {
+    "claim_id": "UC-WP07-P006",
+    "theorem": "MathSolve.UnionClosed.WP07.d005_complement_frankl",
+    "companion_theorem": "MathSolve.UnionClosed.WP07.d005_complement_averageAbundant",
+    "d003_surface": "MathSolve/UnionClosed/FunctionalPreorderBridge.lean",
+    "d004_surface": "MathSolve/UnionClosed/FunctionalPreorderD004.lean",
+    "requested_modalities": [
+      "LEAN_FORMALIZATION",
+      "SEMANTIC_REPLAY",
+      "SPECIALIST_AUDIT"
+    ]
+  },
+  "state": {
+    "historical_route_id": "MC-ROUTE-UC-001",
+    "historical_route_mutated": false,
+    "requested_successor_route_id": null,
+    "route_registered": false,
+    "may_adjudicate": false,
+    "adjudication": null,
+    "cert_output": null,
+    "mathematical_target_proved": false,
+    "may_promote_claim": false
+  },
+  "independence": {
+    "construction_source": "same authoring system as MATHSOLVE D005 preparation",
+    "certification_requires_substantive_independence": true,
+    "this_intake_is_not_certification": true
+  },
+  "activation": {
+    "condition": "protected MATHCERT merge and protected-main readback",
+    "effect": "successor intake acknowledged; independent adjudication may be separately staffed and authorized"
+  },
+  "scope_exclusions": [
+    "The historical MC-ROUTE-UC-001 qualification and MC-UC-WP04-QUAL-001 certificate remain immutable predecessor authority.",
+    "No arbitrary finite union-closed family representation by exact D003 functional-preorder complements is established.",
+    "UC-P04 remains open.",
+    "UC-FRANKL remains an open problem.",
+    "No adjudication, certificate output, mathematical-proof promotion, novelty, priority, publication, patentability, product, or commercial authority is created."
+  ],
+  "claim_boundary": "This protected successor intake acknowledges only the exact restricted UC-WP07-P006 producer packet for later independent MATHCERT adjudication. It does not register a successor route, adjudicate or certify the theorem, mutate historical UC certification authority, close UC-P04, or prove Frankl's conjecture."
+}
