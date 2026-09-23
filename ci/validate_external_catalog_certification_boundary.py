@@ -13,8 +13,10 @@ POLICY = ROOT / "governance" / "external_catalog_certification_boundary.json"
 SCHEMA = ROOT / "schemas" / "external_catalog_certification_boundary.schema.json"
 EXPECTED_PROGRAMME_COMMIT = "4b78daac0b85298957b52e34687423e5442b5e51"
 EXPECTED_PROGRAMME_BLOB = "8544fcd383e68a1ca0acd060e56bb0e7d0fe16a0"
-EXPECTED_MATHSOLVE_COMMIT = "cea3853b04dac1b419e2232b38fab893d1b4a633"
-EXPECTED_MATHSOLVE_BLOB = "1873313a8742293524cc92ade0f9e7248a9d59d9"
+EXPECTED_MATHSOLVE_COMMIT = "7e1f27f7ec205d511570cf3b498037a8907a89c6"
+EXPECTED_MATHSOLVE_BLOB = "e61732d9c732eaa8ecd26067d6561d1ce0b1a779"
+EXPECTED_CHAIDEZ_COMMIT = "861479cb599df01f6e9cafc8647fdefe56249d29"
+EXPECTED_CHAIDEZ_BLOB = "29e12c793d116c6c3af121c04486c5daa6c09e1e"
 
 
 def load(path: Path) -> Any:
@@ -26,14 +28,21 @@ def validation_errors(instance: dict[str, Any] | None = None) -> list[str]:
     errors = [error.message for error in Draft202012Validator(load(SCHEMA), format_checker=FormatChecker()).iter_errors(policy)]
     programme = policy.get("programme_authority", {})
     solve = policy.get("mathsolve_authority", {})
+    chaidez = policy.get("chaidez_authority", {})
     if (programme.get("commit"), programme.get("git_blob_sha1")) != (EXPECTED_PROGRAMME_COMMIT, EXPECTED_PROGRAMME_BLOB):
         errors.append("Programme catalog authority identity drift")
     if (solve.get("commit"), solve.get("git_blob_sha1")) != (EXPECTED_MATHSOLVE_COMMIT, EXPECTED_MATHSOLVE_BLOB):
         errors.append("MATHSOLVE intake authority identity drift")
+    if (chaidez.get("commit"), chaidez.get("git_blob_sha1")) != (EXPECTED_CHAIDEZ_COMMIT, EXPECTED_CHAIDEZ_BLOB):
+        errors.append("Programme Chaidez authority identity drift")
     if policy.get("direct_catalog_intake") is not False:
         errors.append("direct catalog certification intake is forbidden")
     if any(value is not False for value in policy.get("forbidden_inferences", {}).values()):
         errors.append("catalog assurance was inflated into certification authority")
+    handoff = policy.get("required_handoff", {})
+    for field in ("chaidez_promotion_dossier_provenance", "trust_quartet_consistent", "named_proof_debt_preserved"):
+        if handoff.get(field) is not True:
+            errors.append(f"required_handoff.{field} must be true")
     return errors
 
 

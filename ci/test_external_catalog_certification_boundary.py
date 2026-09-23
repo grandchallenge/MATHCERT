@@ -32,6 +32,12 @@ class ExternalCatalogCertificationBoundaryTests(unittest.TestCase):
             changed["required_handoff"][field] = False
             self.assertTrue(validation_errors(changed), field)
 
+    def test_chaidez_dossier_state_is_preserved(self):
+        for field in ("chaidez_promotion_dossier_provenance", "trust_quartet_consistent", "named_proof_debt_preserved"):
+            changed = copy.deepcopy(self.policy)
+            changed["required_handoff"][field] = False
+            self.assertTrue(validation_errors(changed), field)
+
 
 if __name__ == "__main__":
     unittest.main()
