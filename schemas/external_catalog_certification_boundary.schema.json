@@ -3,14 +3,14 @@
   "$id": "https://grandchallenge.ai/schemas/external_catalog_certification_boundary.schema.json",
   "title": "MATHCERT external catalog certification boundary",
   "type": "object", "additionalProperties": false,
-  "required": ["schema_version", "policy_id", "programme_authority", "mathsolve_authority", "direct_catalog_intake", "required_handoff", "forbidden_inferences", "claim_boundary"],
+  "required": ["schema_version", "policy_id", "programme_authority", "mathsolve_authority", "chaidez_authority", "direct_catalog_intake", "required_handoff", "forbidden_inferences", "claim_boundary"],
   "properties": {
     "schema_version": {"const": "2.0.0"}, "policy_id": {"const": "MC-EXTERNAL-CATALOG-CERTIFICATION-BOUNDARY-001"},
-    "programme_authority": {"$ref": "#/$defs/artifact"}, "mathsolve_authority": {"$ref": "#/$defs/artifact"},
+    "programme_authority": {"$ref": "#/$defs/artifact"}, "mathsolve_authority": {"$ref": "#/$defs/artifact"}, "chaidez_authority": {"$ref": "#/$defs/artifact"},
     "direct_catalog_intake": {"const": false},
     "required_handoff": {
-      "type": "object", "additionalProperties": false, "required": ["separately_scoped_mathsolve_handoff", "exact_local_claim", "local_replay_evidence", "registered_certification_route", "independent_verification"],
-      "properties": {"separately_scoped_mathsolve_handoff": {"const": true}, "exact_local_claim": {"const": true}, "local_replay_evidence": {"const": true}, "registered_certification_route": {"const": true}, "independent_verification": {"const": true}}
+      "type": "object", "additionalProperties": false, "required": ["separately_scoped_mathsolve_handoff", "chaidez_promotion_dossier_provenance", "trust_quartet_consistent", "named_proof_debt_preserved", "exact_local_claim", "local_replay_evidence", "registered_certification_route", "independent_verification"],
+      "properties": {"separately_scoped_mathsolve_handoff": {"const": true}, "chaidez_promotion_dossier_provenance": {"const": true}, "trust_quartet_consistent": {"const": true}, "named_proof_debt_preserved": {"const": true}, "exact_local_claim": {"const": true}, "local_replay_evidence": {"const": true}, "registered_certification_route": {"const": true}, "independent_verification": {"const": true}}
     },
     "forbidden_inferences": {
       "type": "object", "additionalProperties": false, "required": ["source_locked_is_certified", "normalized_replayed_is_certified", "semantically_reviewed_is_certified", "campaign_concordant_is_certified", "provider_formal_proof_annotation_is_certificate", "catalog_relation_is_proof", "ci_success_is_certification"],
