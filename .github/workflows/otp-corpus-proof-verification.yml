@@ -117,7 +117,7 @@ jobs:
           test "$(git rev-parse HEAD^{tree})" = "174289e4d4958cb0509874e6e53400e098213de7"
           test "$(git hash-object '${{ matrix.module }}.lean')" = "${{ matrix.blob }}"
           test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.32.0"
-      - uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
+      - uses: grandchallenge/lean-action@37f8471aecd2efbeab3b1e1a75ad18fb8f5c1b01
         with:
           auto-config: false
           build: false
