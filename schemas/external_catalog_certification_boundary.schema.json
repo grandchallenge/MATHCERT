@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/external_catalog_certification_boundary.schema.json",
+  "title": "MATHCERT external catalog certification boundary",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "policy_id", "programme_authority", "mathsolve_authority", "direct_catalog_intake", "required_handoff", "forbidden_inferences", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "2.0.0"}, "policy_id": {"const": "MC-EXTERNAL-CATALOG-CERTIFICATION-BOUNDARY-001"},
+    "programme_authority": {"$ref": "#/$defs/artifact"}, "mathsolve_authority": {"$ref": "#/$defs/artifact"},
+    "direct_catalog_intake": {"const": false},
+    "required_handoff": {
+      "type": "object", "additionalProperties": false, "required": ["separately_scoped_mathsolve_handoff", "exact_local_claim", "local_replay_evidence", "registered_certification_route", "independent_verification"],
+      "properties": {"separately_scoped_mathsolve_handoff": {"const": true}, "exact_local_claim": {"const": true}, "local_replay_evidence": {"const": true}, "registered_certification_route": {"const": true}, "independent_verification": {"const": true}}
+    },
+    "forbidden_inferences": {
+      "type": "object", "additionalProperties": false, "required": ["source_locked_is_certified", "normalized_replayed_is_certified", "semantically_reviewed_is_certified", "campaign_concordant_is_certified", "provider_formal_proof_annotation_is_certificate", "catalog_relation_is_proof", "ci_success_is_certification"],
+      "properties": {"source_locked_is_certified": {"const": false}, "normalized_replayed_is_certified": {"const": false}, "semantically_reviewed_is_certified": {"const": false}, "campaign_concordant_is_certified": {"const": false}, "provider_formal_proof_annotation_is_certificate": {"const": false}, "catalog_relation_is_proof": {"const": false}, "ci_success_is_certification": {"const": false}}
+    },
+    "claim_boundary": {"type": "string", "minLength": 220}
+  },
+  "$defs": {
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["repository", "commit", "path", "git_blob_sha1"], "properties": {"repository": {"type": "string", "pattern": "^grandchallenge/"}, "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "path": {"type": "string", "minLength": 3}, "git_blob_sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"}}}
+  }
+}
