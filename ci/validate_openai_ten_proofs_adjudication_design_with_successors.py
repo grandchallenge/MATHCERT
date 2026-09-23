@@ -41,6 +41,7 @@ ALLOWED_ADJUDICATIONS = {
     "OTP-C-PERMANENT-CIRCUIT.json",
     "OTP-J1-COMPACTNESS.json",
     "OTP-J2-TWO-DEGENERATE.json",
+    "UC-WP07-D005.json",
 }
 
 
