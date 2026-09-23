@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0.0",
+  "policy_id": "MC-EXTERNAL-CATALOG-CERTIFICATION-BOUNDARY-001",
+  "programme_authority": {"repository": "grandchallenge/MATH-PROGRAMME", "commit": "4b78daac0b85298957b52e34687423e5442b5e51", "path": "governance/mathforge_external_source_imports.json", "git_blob_sha1": "8544fcd383e68a1ca0acd060e56bb0e7d0fe16a0"},
+  "mathsolve_authority": {"repository": "grandchallenge/MATHSOLVE", "commit": "cea3853b04dac1b419e2232b38fab893d1b4a633", "path": "governance/external_semantic_catalog_intake.json", "git_blob_sha1": "1873313a8742293524cc92ade0f9e7248a9d59d9"},
+  "direct_catalog_intake": false,
+  "required_handoff": {"separately_scoped_mathsolve_handoff": true, "exact_local_claim": true, "local_replay_evidence": true, "registered_certification_route": true, "independent_verification": true},
+  "forbidden_inferences": {
+    "source_locked_is_certified": false,
+    "normalized_replayed_is_certified": false,
+    "semantically_reviewed_is_certified": false,
+    "campaign_concordant_is_certified": false,
+    "provider_formal_proof_annotation_is_certificate": false,
+    "catalog_relation_is_proof": false,
+    "ci_success_is_certification": false
+  },
+  "claim_boundary": "MATHCERT cannot receive an external catalog entry directly. Every certification action requires a separately scoped MATHSOLVE handoff naming an exact local claim, local replay evidence, a registered certification route, and independent verification. Source locks, deterministic normalization, semantic review, campaign concordance, provider proof annotations, typed catalog relations, CI, integration, and publication do not prove or certify the claim and cannot issue a certificate."
+}

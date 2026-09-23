@@ -62,6 +62,8 @@ python3 ci/validate_formal_source_provenance.py
 python3 ci/test_formal_source_provenance.py
 python3 ci/validate_formal_target_certificates.py
 python3 ci/test_formal_target_certificates.py
+python3 ci/validate_external_catalog_certification_boundary.py
+python3 -m unittest ci/test_external_catalog_certification_boundary.py -v
 python3 ci/validate_uc_restricted_qualification_schema.py
 python3 ci/test_uc_restricted_qualification_schema.py
 python3 ci/validate_uc_restricted_qualification.py
