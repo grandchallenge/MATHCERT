@@ -13,6 +13,7 @@
     "ci/audit_ci_reachability.py",
     "ci/certification_route_state.py",
     "ci/check_certification_route_state_consumers.py",
+    "ci/test_external_catalog_certification_boundary.py",
     "ci/check_lean.ps1",
     "ci/check_lean.sh",
     "ci/otp_finalize_family_replay_evidence.py",
@@ -21,8 +22,11 @@
     "ci/test_audit_ci_reachability.py",
     "ci/test_certification_route_state.py",
     "ci/test_check_certification_route_state_consumers.py",
+    "ci/validate_external_catalog_certification_boundary.py",
     "ci/validate_agent_continuity_adoption.py",
-    "requirements-ci.txt"
+    "governance/external_catalog_certification_boundary.json",
+    "requirements-ci.txt",
+    "schemas/external_catalog_certification_boundary.schema.json"
   ],
   "stateful_shared_validator_paths": [
     "governance/certification_route_state_consumers.json",
