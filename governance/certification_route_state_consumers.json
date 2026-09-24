@@ -18,6 +18,7 @@
     "meaning": "A non-direct descendant control may override inherited semantic ownership only when it is inside the machine-discovered certification-route dependency closure. Direct route-token consumers remain classified exclusively in consumers."
   },
   "consumers": [
+    {"path":"ci/validate_external_catalog_certification_intake.py","classification":"CURRENT_STATE"},
     {"path":"ci/certification_route_state.py","classification":"TRANSITION_STATE"},
     {"path":"ci/check_certification_platform_lane.py","classification":"INVARIANT"},
     {"path":"ci/check_certification_route_state_consumers.py","classification":"INVARIANT"},

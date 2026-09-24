@@ -3,6 +3,8 @@
   "registry_id": "MC-CI-CONTROLS",
   "orchestrators": ["ci/check_lean.sh", "ci/check_lean.ps1"],
   "controls": [
+    {"path":"ci/validate_external_catalog_certification_intake.py","mode":"direct"},
+    {"path":"ci/test_external_catalog_certification_intake.py","mode":"direct"},
     {"path":"ci/validate_certification_routes.py","mode":"direct"},
     {"path":"ci/test_validate_certification_routes.py","mode":"direct"},
     {"path":"ci/validate_formal_source_provenance.py","mode":"direct"},

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "registry_id",
+    "promotion_count",
+    "promotions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "registry_id": {
+      "const": "MS-EXTERNAL-CATALOG-PROMOTIONS"
+    },
+    "promotion_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "promotions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "promotion_id",
+          "dossier"
+        ],
+        "properties": {
+          "promotion_id": {
+            "type": "string",
+            "pattern": "^MS-CAT-PROMOTION-[A-Z0-9-]+$"
+          },
+          "dossier": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "git_blob_sha1",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9_.\\-/]+$",
+                "minLength": 1
+              },
+              "section_anchor": {
+                "type": "string",
+                "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+              },
+              "git_blob_sha1": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{40}$"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

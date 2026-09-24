@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/mathcert_handoff.schema.json",
+  "title": "MATHSOLVE to MATHCERT handoff packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "handoff_id",
+    "campaign_id",
+    "solve_work_package_id",
+    "source_commit",
+    "cert_contract",
+    "target_claims",
+    "claim_ledger",
+    "proof_obligations",
+    "checker_contract",
+    "requested_modalities",
+    "claim_boundary",
+    "status",
+    "blockers",
+    "reopening_conditions"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.2.0"},
+    "handoff_id": {"type": "string", "pattern": "^MC-HANDOFF-[A-Z0-9-]+$"},
+    "campaign_id": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]+$"},
+    "solve_work_package_id": {"type": "string", "minLength": 1},
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "cert_contract": {"$ref": "#/$defs/cert_contract_ref"},
+    "target_claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim_id", "statement", "claim_type", "support_type"],
+        "properties": {
+          "claim_id": {"type": "string", "minLength": 1},
+          "statement": {"type": "string", "minLength": 1},
+          "claim_type": {"type": "string", "minLength": 1},
+          "support_type": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "claim_ledger": {"$ref": "#/$defs/artifact_ref"},
+    "proof_obligations": {"$ref": "#/$defs/artifact_ref"},
+    "checker_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "inputs", "acceptance", "rejection"],
+      "properties": {
+        "target": {"enum": ["Lean", "Coq", "SAT", "SMT", "PB", "CAS", "interval", "human_audit", "other"]},
+        "inputs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "acceptance": {"type": "string", "minLength": 1},
+        "rejection": {"type": "string", "minLength": 1}
+      }
+    },
+    "requested_modalities": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "LEAN_FORMALIZATION",
+          "COQ_FORMALIZATION",
+          "ISABELLE_FORMALIZATION",
+          "AGDA_FORMALIZATION",
+          "HOL_LIGHT_FORMALIZATION",
+          "EXACT_RATIONAL_CERTIFICATE",
+          "INTERVAL_ARITHMETIC_CERTIFICATE",
+          "SAT_SMT_CERTIFICATE",
+          "COMPUTER_ALGEBRA_CERTIFICATE_WITH_REPLAY",
+          "SEMANTIC_REPLAY",
+          "SPECIALIST_AUDIT_PENDING"
+        ]
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 10},
+    "status": {"enum": ["pending", "ready", "submitted", "certified", "qualified", "rejected", "proof_debt"]},
+    "blockers": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "reopening_conditions": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "pending"}}, "required": ["status"]},
+      "then": {"properties": {"blockers": {"minItems": 1}}}
+    }
+  ],
+  "$defs": {
+    "cert_contract_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit_sha", "path", "digest_algorithm", "digest", "route_id"],
+      "properties": {
+        "repository": {"const": "grandchallenge/MATHCERT"},
+        "commit_sha": {"const": "3854dd1b4f6e162a7e74c3da1993f022ee691e5e"},
+        "path": {"const": "governance/certification_routes.json"},
+        "digest_algorithm": {"const": "git_blob_sha1"},
+        "digest": {"const": "065f0531e4d763b389b207d4922d5a85b4335ee3"},
+        "route_id": {"type": "string", "pattern": "^MC-ROUTE-[A-Z0-9-]+$"}
+      }
+    },
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit_sha", "path", "digest_algorithm", "digest", "role"],
+      "properties": {
+        "repository": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+        "commit_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "path": {"type": "string", "minLength": 1, "not": {"const": "."}},
+        "digest_algorithm": {"enum": ["git_blob_sha1", "git_tree_sha1", "sha256"]},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{40}$|^[0-9a-f]{64}$"},
+        "role": {"enum": ["claim_ledger", "proof_obligation_dag"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"digest_algorithm": {"enum": ["git_blob_sha1", "git_tree_sha1"]}}, "required": ["digest_algorithm"]},
+          "then": {"properties": {"digest": {"pattern": "^[0-9a-f]{40}$"}}}
+        },
+        {
+          "if": {"properties": {"digest_algorithm": {"const": "sha256"}}, "required": ["digest_algorithm"]},
+          "then": {"properties": {"digest": {"pattern": "^[0-9a-f]{64}$"}}}
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "2.0.0",
+  "registry_id": "MATHFORGE-EXTERNAL-SOURCE-IMPORTS",
+  "source_foundry": {
+    "repository": "grandchallenge/MATHFORGE",
+    "commit": "862378dfba0b44fb824cbca65318b0d212554b6b"
+  },
+  "catalog_release": {
+    "catalog_release_id": "GCL-CATALOG-CANARY",
+    "entry_count": 1,
+    "relation_artifacts": [
+      {
+        "kind": "typed_relation_set",
+        "path": "catalog/relations/relations.json",
+        "git_blob_sha1": "a5234c341db1202852b81c7ae39408d1b051390c",
+        "sha256": "2f96825cb0ec655beca11bc6780c08955de880a5fc1a87a0dd2d800317428d09"
+      }
+    ]
+  },
+  "providers": [
+    {
+      "provider_id": "CANARY",
+      "snapshot_id": "CANARY-SNAPSHOT",
+      "inventory_count": 1,
+      "catalog_shards": [
+        {
+          "kind": "catalog_shard",
+          "path": "catalog/entries/canary.jsonl",
+          "git_blob_sha1": "2ca17db4de9b9b7227e98add9daad22e1991b88f",
+          "sha256": "912646dc5365609e6c0e70bdbfed903f0686c1bbeb860dff155bb3782ac75358"
+        }
+      ]
+    }
+  ]
+}
