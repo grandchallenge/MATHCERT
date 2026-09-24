@@ -210,6 +210,11 @@ Invoke-Control "work_packages/EUCLID_DIOPHANTINE_E2E_002/check_certificate.py"
 Invoke-Control "work_packages/EUCLID_DIOPHANTINE_E2E_002/test_certificate.py"
 Invoke-Control "ci/validate_vgse_route_registration.py"
 Invoke-Control "ci/test_vgse_route_registration.py"
+if (Test-Path "ci/replay_vgse_c05_te3_conformance.py") {
+    python "ci/replay_vgse_c05_te3_conformance.py" --check "evidence/vgse/VGSE-WP00-CERT-001-te3-conformance-audit.json"
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    Invoke-Control "ci/test_replay_vgse_c05_te3_conformance.py"
+}
 Invoke-Control "ci/validate_otp_permanent_full_formula_certification.py"
 Invoke-Control "ci/test_otp_permanent_full_formula_certification.py"
 Invoke-Control "ci/validate_otp_permanent_circuit_certification.py"

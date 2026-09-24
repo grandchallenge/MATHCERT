@@ -199,6 +199,10 @@ python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/check_certificate.py
 python3 work_packages/EUCLID_DIOPHANTINE_E2E_002/test_certificate.py
 python3 ci/validate_vgse_route_registration.py
 python3 ci/test_vgse_route_registration.py
+if [[ -f ci/replay_vgse_c05_te3_conformance.py ]]; then
+  python3 ci/replay_vgse_c05_te3_conformance.py --check evidence/vgse/VGSE-WP00-CERT-001-te3-conformance-audit.json
+  python3 ci/test_replay_vgse_c05_te3_conformance.py
+fi
 python3 ci/validate_otp_permanent_full_formula_certification.py
 python3 ci/test_otp_permanent_full_formula_certification.py
 python3 ci/validate_otp_permanent_circuit_certification.py
