@@ -24,6 +24,7 @@ class CertificationPlatformLaneTests(unittest.TestCase):
 
     def test_chaidez_receiver_paths_are_platform_only(self) -> None:
         paths = [
+            "ci/check_ledgers.py",
             "ci/validate_external_catalog_certification_intake.py",
             "ci/test_external_catalog_certification_intake.py",
             "schemas/external_catalog_certification_intake.schema.json",
