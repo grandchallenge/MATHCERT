@@ -5,6 +5,8 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
+import sys
 from pathlib import Path
 
 from ci.validate_external_catalog_certification_intake import (
@@ -153,6 +155,36 @@ class ExternalCatalogReceivingTests(unittest.TestCase):
         solve = self.roots["grandchallenge/MATHSOLVE"]
         BYTES.git(solve, "update-ref", "refs/remotes/origin/main", "HEAD^")
         self.assertTrue(self.validate())
+
+    def test_ledger_discovery_separates_only_the_exact_canary(self):
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        try:
+            import check_ledgers
+        finally:
+            sys.path.pop(0)
+        production = Path(self.temp.name) / "production_claim_ledger.json"
+        other_fixture = Path(self.temp.name) / "fixtures" / "claim_ledger.json"
+        paths = [check_ledgers.CANARY_PATH, production, other_fixture]
+        with patch.object(check_ledgers.module, "discover_ledgers", return_value=paths):
+            self.assertEqual(check_ledgers.ledger_files(), [production, other_fixture])
+        self.assertNotIn(check_ledgers.CANARY_PATH, check_ledgers.ledger_files())
+
+    def test_ledger_fixture_drift_and_symlink_fail_closed(self):
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        try:
+            import check_ledgers
+        finally:
+            sys.path.pop(0)
+        fixture = Path(self.temp.name) / "claim_ledger.json"
+        fixture.write_text('{"claims":[{"claim_id":"INFLATED"}]}')
+        with patch.object(check_ledgers, "CANARY_PATH", fixture), patch.object(check_ledgers.module, "discover_ledgers", return_value=[fixture]):
+            with self.assertRaisesRegex(ValueError, "fixture identity drift"):
+                check_ledgers.ledger_files()
+        fixture.unlink()
+        fixture.symlink_to(check_ledgers.CANARY_PATH)
+        with patch.object(check_ledgers, "CANARY_PATH", fixture), patch.object(check_ledgers.module, "discover_ledgers", return_value=[fixture]):
+            with self.assertRaisesRegex(ValueError, "fixture identity drift"):
+                check_ledgers.ledger_files()
 
 
 if __name__ == "__main__":

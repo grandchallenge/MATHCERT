@@ -41,6 +41,11 @@ python -m unittest ci.test_external_catalog_certification_intake -v
 These commands check the empty production inventory and a full synthetic
 filesystem canary. The canary's simulated reviewer and route exist only in test
 repositories. It demonstrates contract replay, not production exercise or proof.
+The generic Claim Ledger scanner excludes only the exact SHA-256-pinned canary
+ledger, not a directory or a class of production records. Digest drift or a
+symlink fails closed; all other discovered ledger instances remain subject to
+the ordinary validator. The complete fixture still undergoes receiving-gate
+validation and on-disk replay.
 
 For a real receiving record, use explicit authenticated checkouts with freshly
 fetched protected `origin/main` references:
