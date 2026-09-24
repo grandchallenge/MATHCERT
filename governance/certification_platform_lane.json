@@ -11,6 +11,7 @@
     ".github/workflows/gcl-conformance.yml",
     "AGENTS.md",
     "ci/audit_ci_reachability.py",
+    "ci/check_ledgers.py",
     "ci/certification_route_state.py",
     "ci/check_certification_route_state_consumers.py",
     "ci/test_external_catalog_certification_boundary.py",

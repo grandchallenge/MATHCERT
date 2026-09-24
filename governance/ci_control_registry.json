@@ -778,6 +778,14 @@
     {
       "path": "ci/test_replay_vgse_c05_te3_conformance.py",
       "mode": "direct"
+    },
+    {
+      "path": "ci/validate_external_catalog_certification_intake.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_external_catalog_certification_intake.py",
+      "mode": "direct"
     }
   ],
   "certificate_families": [

@@ -1,0 +1,147 @@
+{
+  "schema_version": "2.0.0",
+  "repository": "grandchallenge/MATHSOLVE",
+  "commit": "b9906e0d150e232efed1a5e4fbd2f5081609ab56",
+  "files": [
+    {
+      "path": "ci/chaidez_contract.py",
+      "git_blob_sha1": "8d1d7161916a6b386daade30015106b8e10b3cbb",
+      "sha256": "9d9df1426251e826caa46e9e0d1239a63282836418082ae27c09ad6acfa07ed8"
+    },
+    {
+      "path": "ci/validate_external_catalog_promotion_dossiers.py",
+      "git_blob_sha1": "aede693f294e317d820819a030329a0280e3d767",
+      "sha256": "b0c1c47cef821c669166a2ac56e01045d71c60aab74e3a6d6faa859c1474c050"
+    },
+    {
+      "path": "schemas/external_catalog_promotion_dossier.schema.json",
+      "git_blob_sha1": "aef0bc06028a28d3d217d03f8f3728eb71a2d8a5",
+      "sha256": "365709b4bd64c75a492f42e65e16baf4e02bf54b98281c471537a2d1465e9e34"
+    },
+    {
+      "path": "schemas/external_catalog_promotion_registry.schema.json",
+      "git_blob_sha1": "fd800caaedbc2230e3214075822aaa38df8957ac",
+      "sha256": "96dcebcf18f9f34ff3d2359fcfa1a922e5453e2d867af7bbd9c6bc2c8c5c4f48"
+    },
+    {
+      "path": "schemas/external_catalog_mathcert_handoff.schema.json",
+      "git_blob_sha1": "9771342f824ca37cd23fd8a7fa004a2fbd2e2a1f",
+      "sha256": "006ee5cd070d75a961006e0aaab07f539ba0499062582ef5ef70f1557a13d771"
+    },
+    {
+      "path": "schemas/mathcert_handoff.schema.json",
+      "git_blob_sha1": "c03baeed7fd454a72969b658a5429b171c6c3782",
+      "sha256": "4565469e1308c822d914f9cd377a3318bbddc6e30f2ef77f45dff70f636323eb"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/README.md",
+      "git_blob_sha1": "5b2b0d09c53182c32cabd4a8e6ff11642d0e8969",
+      "sha256": "834129675fa007b87f2eaeb1371bf241b717100a90e9ff1723bda81a99062753"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/forge/catalog/entries/canary.jsonl",
+      "git_blob_sha1": "2ca17db4de9b9b7227e98add9daad22e1991b88f",
+      "sha256": "912646dc5365609e6c0e70bdbfed903f0686c1bbeb860dff155bb3782ac75358"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/forge/catalog/relations/relations.json",
+      "git_blob_sha1": "a5234c341db1202852b81c7ae39408d1b051390c",
+      "sha256": "2f96825cb0ec655beca11bc6780c08955de880a5fc1a87a0dd2d800317428d09"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/programme/governance/mathforge_external_source_imports.json",
+      "git_blob_sha1": "675ee4f438d114a70e42c0059da96f21f24ae01c",
+      "sha256": "6fc9035879fb770b787fe24a95cb49e0d4b75b7dcde1110dd522b2c70a1ef56b"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/cert_handoffs/canary-generic.json",
+      "git_blob_sha1": "667a52d6ef4179cbb461de1bb965907b32c28f11",
+      "sha256": "e6d21cfa7353a81333963a44fd060160dca7d50f6382b3db16bb4e78bc6c15ba"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/cert_handoffs/external_catalog/MS-CAT-HANDOFF-CANARY.json",
+      "git_blob_sha1": "d955508d57ba035b882d7de674bda572b0688926",
+      "sha256": "cd3ff22d75112f1727daaf117ed0c165e9f106cdc38844f99938dffd147f1dde"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/governance/external_catalog_promotion_registry.json",
+      "git_blob_sha1": "e919a5b679527762113e6a8fe07828d47a701df0",
+      "sha256": "34e617df6d07ab70f225abb8155a7cf5d14a30a0c5b114470a1b8ac81c945aa6"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/promotions/external_catalog/MS-CAT-PROMOTION-CANARY.json",
+      "git_blob_sha1": "7d60e93767aabbc76636f0d476ee4b632580b7a9",
+      "sha256": "c215f69eae88b2048890a9d99103c28e1adb90973d3c7a9a9d958f508e8c70fd"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/claim_ledger.json",
+      "git_blob_sha1": "5afbcd89446764c2cacd7110fb41ae7b6639e8ba",
+      "sha256": "d4e87ab68c260bb80bacff1969279b6b5a8c0d42350f74c8c6f4b5524d661de3"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/dependency_dag.json",
+      "git_blob_sha1": "8a067c485a403f8941bb946002b2f226cb49b803",
+      "sha256": "fd77a93477feeb26568565c862e4a94a305fd387f8d6e75247eb31f8b97a2120"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/failure_and_negative_results.md",
+      "git_blob_sha1": "dfc48bebf933be5011e18bea18c0da9a6b27430a",
+      "sha256": "567c9c7af80c15bd51d43ea7d060cb98ecd6e8ebdbc004b366829e6113147c76"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/handoff_intent.json",
+      "git_blob_sha1": "b23768bb965ac50dd778fd2edc37c464e6843d41",
+      "sha256": "b6faaa204a96ccc01959ab0bba18f08bd27050eab63b877045e2f452ce266970"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/lay_companion.md",
+      "git_blob_sha1": "f9bee0baf920fa2bcf2b120e3630278fb12ad9e0",
+      "sha256": "b93aae1b7188413712e003e38228444a84671d397cbea77b547278a122a5bf94"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/next_executable_step.md",
+      "git_blob_sha1": "6a423bde472c1d19b5582a18a5e1c3dee6d7140b",
+      "sha256": "e22b005a1ea7403427415c4826c137130ed91cf1efd1f19a6c3673186432755b"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/object_and_obstruction.md",
+      "git_blob_sha1": "209ca1da6cbe87cb8529048565b3ba20f4a3b749",
+      "sha256": "f68bec0772b659bc994fe6f73826e81fa0d9e2721bb06fe41cc4d076c0b06eb1"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/proof_debt.json",
+      "git_blob_sha1": "1e935ba0c6af04a216eb4db80553bd63d6afeca9",
+      "sha256": "53968c2e61a6824b3f12112b0e2c67f7ccf31b8e781928c8d76f92746ada85ec"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/proofs_and_computations.md",
+      "git_blob_sha1": "7df5d10b8be26740505e06771811830caa8ec36a",
+      "sha256": "5e2b66f14859deb57bbfc26ee320c3f3809942b8ef04916ab4596adb0b4cd374"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/replay.md",
+      "git_blob_sha1": "4a293372f041643bda4d2618e0d575b6fb704395",
+      "sha256": "c524e28441e9df1cc47b08c44c3a22e3ed2855898047ae765ae4b1efde337daf"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/result_status.md",
+      "git_blob_sha1": "8e031f6dad77948068bf5c0d9e9a4c68ed92d654",
+      "sha256": "a0b10c61d536dd8daae1d6a948fd04316e657ad10d4328a75e95a98a72652923"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/review.md",
+      "git_blob_sha1": "6534b96599741df3f970abb99a039e41745d5579",
+      "sha256": "b458db13d4c49997a68a25807f350333325ca59f0b917b0ab1fd094cfbde40b0"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/status_audit.md",
+      "git_blob_sha1": "c932c12a749db888c4352046f440b2707e77071b",
+      "sha256": "15f230a643dfbd1d68246292c40240a838e35f5d22a8a8d63dca84eadc041961"
+    },
+    {
+      "path": "tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/theorem_spine.json",
+      "git_blob_sha1": "a0f5a3921b4c4c341d621803f21034e605e7167c",
+      "sha256": "e542615aa87af5de71a63309acba8046c2dab6361b3e6cff2f94f3317bfc0252"
+    }
+  ]
+}

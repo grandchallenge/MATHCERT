@@ -1,0 +1,43 @@
+{
+  "certification_state": "NOT_CERTIFIED",
+  "local_claims": [
+    {
+      "claim_id": "CANARY-CLAIM-001",
+      "statement": "Synthetic open target: for the fixed integer 0, establish 0 + 0 = 0. This record asserts no proof.",
+      "node_id": "CANARY-N1",
+      "status": "OPEN",
+      "proof_debt_ids": [
+        "CANARY-D1"
+      ],
+      "requires_external_verification": true
+    }
+  ],
+  "trust_quartet": {
+    "WHAT_IS_PROVED": {
+      "answer": "Nothing is proved by this synthetic intake canary.",
+      "claim_ids": [],
+      "debt_ids": []
+    },
+    "WHAT_IS_CHECKED": {
+      "answer": "Only structural contract and byte integrity checks are replayed.",
+      "claim_ids": [],
+      "debt_ids": []
+    },
+    "WHAT_REMAINS_OPEN": {
+      "answer": "The synthetic target remains open; CANARY-D1 is unresolved.",
+      "claim_ids": [
+        "CANARY-CLAIM-001"
+      ],
+      "debt_ids": [
+        "CANARY-D1"
+      ]
+    },
+    "WHAT_REQUIRES_EXTERNAL_VERIFICATION": {
+      "answer": "A separate checker must supply verification; this fixture is not that verification.",
+      "claim_ids": [
+        "CANARY-CLAIM-001"
+      ],
+      "debt_ids": []
+    }
+  }
+}

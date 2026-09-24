@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.2.0",
+  "handoff_id": "MC-HANDOFF-CANARY-001",
+  "campaign_id": "CANARY",
+  "solve_work_package_id": "CANARY",
+  "source_commit": "2904cf95c001d55624da039d3075d2a78fdd8981",
+  "cert_contract": {
+    "repository": "grandchallenge/MATHCERT",
+    "commit_sha": "3854dd1b4f6e162a7e74c3da1993f022ee691e5e",
+    "path": "governance/certification_routes.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "065f0531e4d763b389b207d4922d5a85b4335ee3",
+    "route_id": "MC-ROUTE-CANARY"
+  },
+  "target_claims": [
+    {
+      "claim_id": "CANARY-CLAIM-001",
+      "statement": "Synthetic open target: for the fixed integer 0, establish 0 + 0 = 0. This record asserts no proof.",
+      "claim_type": "FORMAL_INTERFACE",
+      "support_type": "PROOF_DEBT"
+    }
+  ],
+  "claim_ledger": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "commit_sha": "2904cf95c001d55624da039d3075d2a78fdd8981",
+    "path": "work_packages/CANARY/claim_ledger.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "5afbcd89446764c2cacd7110fb41ae7b6639e8ba",
+    "role": "claim_ledger"
+  },
+  "proof_obligations": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "commit_sha": "2904cf95c001d55624da039d3075d2a78fdd8981",
+    "path": "work_packages/CANARY/dependency_dag.json",
+    "digest_algorithm": "git_blob_sha1",
+    "digest": "8a067c485a403f8941bb946002b2f226cb49b803",
+    "role": "proof_obligation_dag"
+  },
+  "checker_contract": {
+    "target": "human_audit",
+    "inputs": [
+      "Exact source and certificate artifact identities"
+    ],
+    "acceptance": "The selected checker accepts every target claim under the exact stated hypotheses.",
+    "rejection": "Any parse, replay, type, proof, identity, scope, or provenance failure rejects the handoff."
+  },
+  "requested_modalities": [
+    "SPECIALIST_AUDIT_PENDING"
+  ],
+  "claim_boundary": "NON-AUTHORITATIVE SYNTHETIC CANARY. No production promotion, mathematical proof, campaign authority or MATHCERT certification.",
+  "status": "proof_debt",
+  "blockers": [
+    "CANARY-D1"
+  ],
+  "reopening_conditions": [
+    "Source, claim, hypothesis, checker, or certificate identity changes."
+  ]
+}
