@@ -22,6 +22,51 @@ class CertificationPlatformLaneTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.manifest = load_manifest()
 
+    def test_chaidez_receiver_paths_are_platform_only(self) -> None:
+        paths = [
+            "ci/validate_external_catalog_certification_intake.py",
+            "ci/test_external_catalog_certification_intake.py",
+            "schemas/external_catalog_certification_intake.schema.json",
+            "governance/external_catalog_certification_intakes.json",
+            "governance/external_catalog_solve_contract.json",
+            "docs/EXTERNAL_CATALOG_CERTIFICATION_INTAKE.md",
+            "contracts/chaidez_solve/ci/chaidez_contract.py",
+            "contracts/chaidez_solve/ci/validate_external_catalog_promotion_dossiers.py",
+            "contracts/chaidez_solve/schemas/external_catalog_promotion_dossier.schema.json",
+            "contracts/chaidez_solve/schemas/external_catalog_promotion_registry.schema.json",
+            "contracts/chaidez_solve/schemas/external_catalog_mathcert_handoff.schema.json",
+            "contracts/chaidez_solve/schemas/mathcert_handoff.schema.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/README.md",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/forge/catalog/entries/canary.jsonl",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/forge/catalog/relations/relations.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/programme/governance/mathforge_external_source_imports.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/cert_handoffs/canary-generic.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/cert_handoffs/external_catalog/MS-CAT-HANDOFF-CANARY.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/governance/external_catalog_promotion_registry.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/promotions/external_catalog/MS-CAT-PROMOTION-CANARY.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/claim_ledger.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/dependency_dag.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/failure_and_negative_results.md",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/handoff_intent.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/lay_companion.md",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/next_executable_step.md",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/object_and_obstruction.md",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/proof_debt.json",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/proofs_and_computations.md",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/replay.md",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/result_status.md",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/review.md",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/status_audit.md",
+            "contracts/chaidez_solve/tests/fixtures/external_catalog_promotion/solve/work_packages/CANARY/theorem_spine.json"
+        ]
+        self.assertTrue(set(paths) <= set(self.manifest["shared_platform_paths"]))
+        for path in paths:
+            with self.subTest(path=path):
+                self.assertTrue(evaluate("family/canary", [path], self.manifest))
+                self.assertEqual(evaluate("platform/certification/chaidez", [path], self.manifest), [])
+                self.assertEqual(certification_scope("platform/certification/chaidez", [path], self.manifest), FULL_ESTATE_SCOPE)
+        self.assertIn("governance/ci_control_registry.json", self.manifest["stateful_shared_validator_paths"])
+
     def test_family_branch_cannot_modify_shared_finalizer(self) -> None:
         errors = evaluate(
             "agent/otp-h-gapcvp-replay-evidence-001",
