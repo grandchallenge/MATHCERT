@@ -1,207 +1,851 @@
 {
   "schema_version": "1.0.0",
   "registry_id": "MC-CI-CONTROLS",
-  "orchestrators": ["ci/check_lean.sh", "ci/check_lean.ps1"],
+  "orchestrators": [
+    "ci/check_lean.sh",
+    "ci/check_lean.ps1"
+  ],
   "controls": [
-    {"path":"ci/validate_external_catalog_certification_intake.py","mode":"direct"},
-    {"path":"ci/test_external_catalog_certification_intake.py","mode":"direct"},
-    {"path":"ci/validate_certification_routes.py","mode":"direct"},
-    {"path":"ci/test_validate_certification_routes.py","mode":"direct"},
-    {"path":"ci/validate_formal_source_provenance.py","mode":"direct"},
-    {"path":"ci/test_formal_source_provenance.py","mode":"direct"},
-    {"path":"ci/validate_formal_target_certificates.py","mode":"direct"},
-    {"path":"ci/test_formal_target_certificates.py","mode":"direct"},
-    {"path":"ci/validate_uc_restricted_qualification_schema.py","mode":"direct"},
-    {"path":"ci/test_uc_restricted_qualification_schema.py","mode":"direct"},
-    {"path":"ci/validate_uc_restricted_qualification.py","mode":"direct"},
-    {"path":"ci/test_uc_restricted_qualification.py","mode":"direct"},
-    {"path":"ci/validate_uc_provider_identity_exclusion.py","mode":"direct"},
-    {"path":"ci/test_uc_provider_identity_exclusion.py","mode":"direct"},
-    {"path":"ci/validate_ledgers.py","mode":"library","exercised_by":"ci/check_ledgers.py"},
-    {"path":"ci/check_ledgers.py","mode":"direct"},
-    {"path":"ci/test_validate_ledgers.py","mode":"direct"},
-    {"path":"ci/validate_algebraic_certificates.py","mode":"direct"},
-    {"path":"ci/test_validate_algebraic_certificates.py","mode":"direct"},
-    {"path":"ci/validate_tropic_relu_certificates.py","mode":"direct"},
-    {"path":"ci/test_validate_tropic_relu_certificates.py","mode":"direct"},
-    {"path":"ci/validate_pb_certificate.py","mode":"library","exercised_by":"ci/test_validate_pb_certificate.py"},
-    {"path":"ci/test_validate_pb_certificate.py","mode":"direct"},
-    {"path":"ci/replay_certificates.py","mode":"direct"},
-    {"path":"ci/audit_certificate_coverage.py","mode":"direct"},
-    {"path":"ci/test_audit_certificate_coverage.py","mode":"direct"},
-    {"path":"ci/check_formal_trust.py","mode":"direct"},
-    {"path":"ci/test_check_formal_trust.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_result_family_intakes.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_result_family_intakes.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_sphere_packing_intake_successor.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_sphere_packing_intake_successor.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_spherical_codes_intake_successor.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_gapcvp_intake_successor.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_gapcvp_intake_successor.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_binary_codes_intake_successor.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_binary_codes_intake_successor.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_ramsey_intake_successor.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_ramsey_intake_successor.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_quantum_parallel_repetition_intake_successor.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_quantum_parallel_repetition_intake_successor.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_non_sofic_intake_successor.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_non_sofic_intake_successor.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_connes_rigidity_intake_successor.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_connes_rigidity_intake_successor.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_certification_work_packages.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_certification_work_packages.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_permanent_certification_work_package.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_permanent_certification_work_package.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_sphere_packing_certification_work_package.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_sphere_packing_certification_work_package.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_gapcvp_certification_work_package.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_gapcvp_certification_work_package.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_binary_codes_certification_work_package.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_binary_codes_certification_work_package.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_spherical_codes_certification_work_package.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_spherical_codes_certification_work_package.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_replay_execution.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_replay_execution.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_replay_evidence.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_replay_evidence.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_permanent_cert_replay_evidence.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_permanent_cert_replay_evidence.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_route_proposals.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_route_proposals.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_sphere_packing_route_proposal.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_sphere_packing_route_proposal.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_gapcvp_route_proposal.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_gapcvp_route_proposal.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_binary_codes_route_proposal.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_binary_codes_route_proposal.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_spherical_codes_route_proposal.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_spherical_codes_route_proposal.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_binary_codes_route_registration.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_binary_codes_route_registration.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_spherical_codes_route_registration.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_spherical_codes_route_registration.py","mode":"direct"},
-    {"path":"ci/validate_otp_b2_spherical_codes_certification.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_spherical_codes_route_registration.py"},
-    {"path":"ci/test_otp_b2_spherical_codes_certification.py","mode":"library","exercised_by":"ci/test_openai_ten_proofs_spherical_codes_route_registration.py"},
-    {"path":"ci/validate_otp_i_ramsey_certification.py","mode":"direct"},
-    {"path":"ci/test_otp_i_ramsey_certification.py","mode":"direct"},
-    {"path":"ci/validate_otp_g_quantum_parallel_repetition_certification.py","mode":"direct"},
-    {"path":"ci/test_otp_g_quantum_parallel_repetition_certification.py","mode":"direct"},
-    {"path":"ci/validate_otp_d_non_sofic_certification.py","mode":"direct"},
-    {"path":"ci/test_otp_d_non_sofic_certification.py","mode":"direct"},
-    {"path":"ci/validate_otp_b1_binary_codes_certification.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_binary_codes_route_registration.py"},
-    {"path":"ci/test_otp_b1_binary_codes_certification.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_binary_codes_route_registration.py"},
-    {"path":"ci/validate_openai_ten_proofs_gapcvp_route_registration.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_gapcvp_route_registration.py","mode":"direct"},
-    {"path":"ci/validate_otp_h_gapcvp_certification.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_gapcvp_route_registration.py"},
-    {"path":"ci/test_otp_h_gapcvp_certification.py","mode":"library","exercised_by":"ci/test_openai_ten_proofs_gapcvp_route_registration.py"},
-    {"path":"ci/validate_openai_ten_proofs_sphere_packing_route_registration.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_sphere_packing_route_registration.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_permanent_route_proposal.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py"},
-    {"path":"ci/validate_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_permanent_route_proposal.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py"},
-    {"path":"ci/test_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_route_registrations.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py"},
-    {"path":"ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_route_registrations.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_permanent_route_registration.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_permanent_route_registration.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_permanent_adjudication_contract.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_permanent_adjudication_contract.py","mode":"direct"},
-    {"path":"ci/validate_otp_permanent_execution_candidate.py","mode":"direct"},
-    {"path":"ci/test_otp_permanent_execution_candidate.py","mode":"direct"},
-    {"path":"ci/validate_otp_permanent_adjudication.py","mode":"direct"},
-    {"path":"ci/test_otp_permanent_adjudication.py","mode":"direct"},
-    {"path":"ci/validate_otp_permanent_output_contract.py","mode":"library","exercised_by":"ci/validate_otp_permanent_output_contract_with_full_formula_successor.py"},
-    {"path":"ci/validate_otp_permanent_output_contract_with_full_formula_successor.py","mode":"direct"},
-    {"path":"ci/test_otp_permanent_output_contract.py","mode":"direct"},
-    {"path":"ci/validate_otp_permanent_output_execution.py","mode":"direct"},
-    {"path":"ci/test_otp_permanent_output_execution.py","mode":"direct"},
-    {"path":"ci/validate_human_steward_post_merge_attestation.py","mode":"library","exercised_by":"ci/validate_human_steward_post_merge_attestation_with_j2_output.py"},
-    {"path":"ci/validate_human_steward_post_merge_attestation_with_j2_output.py","mode":"direct"},
-    {"path":"ci/test_human_steward_post_merge_attestation.py","mode":"direct"},
-    {"path":"ci/validate_openai_ten_proofs_adjudication_contracts.py","mode":"library","exercised_by":"ci/validate_openai_ten_proofs_adjudication_design_with_successors.py"},
-    {"path":"ci/validate_openai_ten_proofs_adjudication_design_with_successors.py","mode":"direct"},
-    {"path":"ci/test_openai_ten_proofs_adjudication_contracts.py","mode":"direct"},
-    {"path":"ci/validate_otp_ehrhart_adjudication.py","mode":"direct"},
-    {"path":"ci/test_otp_ehrhart_adjudication.py","mode":"direct"},
-    {"path":"ci/validate_otp_ehrhart_adjudication_post_merge_attestation.py","mode":"direct"},
-    {"path":"ci/test_otp_ehrhart_adjudication_post_merge_attestation.py","mode":"direct"},
-    {"path":"ci/validate_otp_ehrhart_output_contract.py","mode":"library","exercised_by":"ci/validate_otp_ehrhart_output_candidate.py"},
-    {"path":"ci/validate_otp_ehrhart_output_execution.py","mode":"library","exercised_by":"ci/validate_otp_ehrhart_output_candidate.py"},
-    {"path":"ci/validate_otp_ehrhart_output_candidate.py","mode":"direct"},
-    {"path":"ci/test_otp_ehrhart_output_contract.py","mode":"direct"},
-    {"path":"ci/test_otp_ehrhart_output_candidate.py","mode":"direct"},
-    {"path":"ci/validate_otp_ehrhart_output_execution_post_merge_attestation.py","mode":"library","exercised_by":"ci/validate_otp_ehrhart_output_execution_post_merge_attestation_with_j2_output.py"},
-    {"path":"ci/validate_otp_ehrhart_output_execution_post_merge_attestation_with_j2_output.py","mode":"direct"},
-    {"path":"ci/test_otp_ehrhart_output_execution_post_merge_attestation.py","mode":"direct"},
-    {"path":"ci/validate_otp_compactness_evidence_refresh.py","mode":"direct"},
-    {"path":"ci/test_otp_compactness_evidence_refresh.py","mode":"direct"},
-    {"path":"ci/build_otp_compactness_construction_evidence.py","mode":"direct"},
-    {"path":"ci/verify_otp_compactness_construction_evidence.py","mode":"direct"},
-    {"path":"ci/validate_otp_compactness_construction_evidence.py","mode":"library","exercised_by":"ci/validate_otp_compactness_construction_evidence_with_j2_output.py"},
-    {"path":"ci/validate_otp_compactness_construction_evidence_with_j2_output.py","mode":"direct"},
-    {"path":"ci/test_otp_compactness_construction_evidence.py","mode":"direct"},
-    {"path":"ci/validate_otp_compactness_output_contract.py","mode":"library","exercised_by":"ci/validate_otp_compactness_output_contract_with_full_formula_successor.py"},
-    {"path":"ci/validate_otp_compactness_output_contract_with_full_formula_successor.py","mode":"direct"},
-    {"path":"ci/test_otp_compactness_output_contract.py","mode":"direct"},
-    {"path":"ci/validate_otp_compactness_output_execution.py","mode":"library","exercised_by":"ci/validate_otp_compactness_output_execution_with_j2_output.py"},
-    {"path":"ci/validate_otp_compactness_output_execution_with_j2_output.py","mode":"direct"},
-    {"path":"ci/test_otp_compactness_output_execution.py","mode":"direct"},
-    {"path":"ci/build_otp_j2_construction_evidence.py","mode":"direct"},
-    {"path":"ci/verify_otp_j2_construction_evidence.py","mode":"direct"},
-    {"path":"ci/validate_otp_j2_source_faithful_evidence.py","mode":"library","exercised_by":"ci/validate_otp_j2_source_faithful_evidence_with_successor.py"},
-    {"path":"ci/validate_otp_j2_source_faithful_evidence_with_successor.py","mode":"direct"},
-    {"path":"ci/test_otp_j2_source_faithful_evidence.py","mode":"direct"},
-    {"path":"ci/validate_otp_j2_scope_repair.py","mode":"library","exercised_by":"ci/validate_otp_j2_scope_repair_with_successor.py"},
-    {"path":"ci/validate_otp_j2_scope_repair_with_successor.py","mode":"direct"},
-    {"path":"ci/test_otp_j2_scope_repair.py","mode":"direct"},
-    {"path":"ci/validate_otp_j2_route_target_successor.py","mode":"direct"},
-    {"path":"ci/test_otp_j2_route_target_successor.py","mode":"direct"},
-    {"path":"ci/validate_otp_j2_adjudication_input.py","mode":"direct"},
-    {"path":"ci/test_otp_j2_adjudication_input.py","mode":"direct"},
-    {"path":"ci/validate_otp_j2_adjudication.py","mode":"direct"},
-    {"path":"ci/test_otp_j2_adjudication.py","mode":"direct"},
-    {"path":"ci/validate_otp_a_sphere_packing_adjudication_input.py","mode":"direct"},
-    {"path":"ci/test_otp_a_sphere_packing_adjudication_input.py","mode":"direct"},
-    {"path":"ci/validate_otp_a_sphere_packing_adjudication.py","mode":"direct"},
-    {"path":"ci/test_otp_a_sphere_packing_adjudication.py","mode":"direct"},
-    {"path":"ci/validate_otp_j2_output_contract.py","mode":"library","exercised_by":"ci/validate_otp_j2_output_contract_with_execution.py"},
-    {"path":"ci/validate_otp_j2_output_contract_with_execution.py","mode":"direct"},
-    {"path":"ci/test_otp_j2_output_contract.py","mode":"direct"},
-    {"path":"ci/validate_otp_j2_output_execution.py","mode":"library","exercised_by":"ci/validate_otp_j2_output_execution_with_a_registration.py"},
-    {"path":"ci/validate_otp_j2_output_execution_with_a_registration.py","mode":"direct"},
-    {"path":"ci/test_otp_j2_output_execution.py","mode":"library","exercised_by":"ci/validate_otp_j2_output_execution_with_a_registration.py"},
-    {"path":"ci/test_otp_j2_output_execution_with_a_registration.py","mode":"direct"},
-    {"path":"ci/validate_vgse_route_registration.py","mode":"direct"},
-    {"path":"ci/test_vgse_route_registration.py","mode":"direct"},
-    {"path":"ci/replay_vgse_wp00_exact_evidence.py","mode":"library","exercised_by":"ci/test_vgse_route_registration.py"},
-    {"path":"ci/replay_vgse_wp00_planar_evidence.py","mode":"library","exercised_by":"ci/test_vgse_route_registration.py"},
-    {"path":"ci/replay_vgse_wp00_source_equivalence_audit.py","mode":"library","exercised_by":"ci/test_vgse_route_registration.py"},
-    {"path":"ci/test_replay_vgse_wp00_exact_evidence.py","mode":"library","exercised_by":"ci/test_vgse_route_registration.py"},
-    {"path":"ci/validate_otp_permanent_full_formula_certification.py","mode":"direct"},
-    {"path":"ci/test_otp_permanent_full_formula_certification.py","mode":"direct"},
-    {"path":"ci/validate_otp_permanent_circuit_certification.py","mode":"direct"},
-    {"path":"ci/test_otp_permanent_circuit_certification.py","mode":"direct"},
-    {"path":"ci/validate_otp_replay_readback_reconciliation.py","mode":"direct"},
-    {"path":"ci/test_otp_replay_readback_reconciliation.py","mode":"direct"},
-    {"path":"ci/validate_otp_e_connes_rigidity_certification.py","mode":"direct"},
-    {"path":"ci/test_otp_e_connes_rigidity_certification.py","mode":"direct"},
-    {"path":"ci/audit_ci_reachability.py","mode":"direct"},
-    {"path":"ci/test_audit_ci_reachability.py","mode":"direct"}
+    {
+      "path": "ci/validate_certification_routes.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_validate_certification_routes.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_formal_source_provenance.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_formal_source_provenance.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_formal_target_certificates.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_formal_target_certificates.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_uc_restricted_qualification_schema.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_uc_restricted_qualification_schema.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_uc_restricted_qualification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_uc_restricted_qualification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_uc_provider_identity_exclusion.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_uc_provider_identity_exclusion.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_ledgers.py",
+      "mode": "library",
+      "exercised_by": "ci/check_ledgers.py"
+    },
+    {
+      "path": "ci/check_ledgers.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_validate_ledgers.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_algebraic_certificates.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_validate_algebraic_certificates.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_tropic_relu_certificates.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_validate_tropic_relu_certificates.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_pb_certificate.py",
+      "mode": "library",
+      "exercised_by": "ci/test_validate_pb_certificate.py"
+    },
+    {
+      "path": "ci/test_validate_pb_certificate.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/replay_certificates.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/audit_certificate_coverage.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_audit_certificate_coverage.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/check_formal_trust.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_check_formal_trust.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_result_family_intakes.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_result_family_intakes.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_sphere_packing_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_sphere_packing_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_spherical_codes_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_spherical_codes_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_gapcvp_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_gapcvp_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_binary_codes_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_binary_codes_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_ramsey_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_ramsey_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_quantum_parallel_repetition_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_quantum_parallel_repetition_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_non_sofic_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_non_sofic_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_connes_rigidity_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_connes_rigidity_intake_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_certification_work_packages.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_certification_work_packages.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_permanent_certification_work_package.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_permanent_certification_work_package.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_sphere_packing_certification_work_package.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_sphere_packing_certification_work_package.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_gapcvp_certification_work_package.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_gapcvp_certification_work_package.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_binary_codes_certification_work_package.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_binary_codes_certification_work_package.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_spherical_codes_certification_work_package.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_spherical_codes_certification_work_package.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_replay_execution.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_replay_execution.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_replay_evidence.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_replay_evidence.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_permanent_cert_replay_evidence.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_permanent_cert_replay_evidence.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_route_proposals.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_route_proposals.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_sphere_packing_route_proposal.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_sphere_packing_route_proposal.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_gapcvp_route_proposal.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_gapcvp_route_proposal.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_binary_codes_route_proposal.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_binary_codes_route_proposal.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_spherical_codes_route_proposal.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_spherical_codes_route_proposal.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_binary_codes_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_binary_codes_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_spherical_codes_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_spherical_codes_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_b2_spherical_codes_certification.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_openai_ten_proofs_spherical_codes_route_registration.py"
+    },
+    {
+      "path": "ci/test_otp_b2_spherical_codes_certification.py",
+      "mode": "library",
+      "exercised_by": "ci/test_openai_ten_proofs_spherical_codes_route_registration.py"
+    },
+    {
+      "path": "ci/validate_otp_i_ramsey_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_i_ramsey_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_g_quantum_parallel_repetition_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_g_quantum_parallel_repetition_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_d_non_sofic_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_d_non_sofic_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_b1_binary_codes_certification.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_openai_ten_proofs_binary_codes_route_registration.py"
+    },
+    {
+      "path": "ci/test_otp_b1_binary_codes_certification.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_openai_ten_proofs_binary_codes_route_registration.py"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_gapcvp_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_gapcvp_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_h_gapcvp_certification.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_openai_ten_proofs_gapcvp_route_registration.py"
+    },
+    {
+      "path": "ci/test_otp_h_gapcvp_certification.py",
+      "mode": "library",
+      "exercised_by": "ci/test_openai_ten_proofs_gapcvp_route_registration.py"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_sphere_packing_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_sphere_packing_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_permanent_route_proposal.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_permanent_route_proposal.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_permanent_route_proposal_with_full_formula_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_route_registrations.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_route_registrations_with_j2_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_route_registrations.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_permanent_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_permanent_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_permanent_adjudication_contract.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_permanent_adjudication_contract.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_permanent_execution_candidate.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_permanent_execution_candidate.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_permanent_adjudication.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_permanent_adjudication.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_permanent_output_contract.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_permanent_output_contract_with_full_formula_successor.py"
+    },
+    {
+      "path": "ci/validate_otp_permanent_output_contract_with_full_formula_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_permanent_output_contract.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_permanent_output_execution.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_permanent_output_execution.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_human_steward_post_merge_attestation.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_human_steward_post_merge_attestation_with_j2_output.py"
+    },
+    {
+      "path": "ci/validate_human_steward_post_merge_attestation_with_j2_output.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_human_steward_post_merge_attestation.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_adjudication_contracts.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_openai_ten_proofs_adjudication_design_with_successors.py"
+    },
+    {
+      "path": "ci/validate_openai_ten_proofs_adjudication_design_with_successors.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_openai_ten_proofs_adjudication_contracts.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_ehrhart_adjudication.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_ehrhart_adjudication.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_ehrhart_adjudication_post_merge_attestation.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_ehrhart_adjudication_post_merge_attestation.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_ehrhart_output_contract.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_ehrhart_output_candidate.py"
+    },
+    {
+      "path": "ci/validate_otp_ehrhart_output_execution.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_ehrhart_output_candidate.py"
+    },
+    {
+      "path": "ci/validate_otp_ehrhart_output_candidate.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_ehrhart_output_contract.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_ehrhart_output_candidate.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_ehrhart_output_execution_post_merge_attestation.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_ehrhart_output_execution_post_merge_attestation_with_j2_output.py"
+    },
+    {
+      "path": "ci/validate_otp_ehrhart_output_execution_post_merge_attestation_with_j2_output.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_ehrhart_output_execution_post_merge_attestation.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_compactness_evidence_refresh.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_compactness_evidence_refresh.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/build_otp_compactness_construction_evidence.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/verify_otp_compactness_construction_evidence.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_compactness_construction_evidence.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_compactness_construction_evidence_with_j2_output.py"
+    },
+    {
+      "path": "ci/validate_otp_compactness_construction_evidence_with_j2_output.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_compactness_construction_evidence.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_compactness_output_contract.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_compactness_output_contract_with_full_formula_successor.py"
+    },
+    {
+      "path": "ci/validate_otp_compactness_output_contract_with_full_formula_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_compactness_output_contract.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_compactness_output_execution.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_compactness_output_execution_with_j2_output.py"
+    },
+    {
+      "path": "ci/validate_otp_compactness_output_execution_with_j2_output.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_compactness_output_execution.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/build_otp_j2_construction_evidence.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/verify_otp_j2_construction_evidence.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_j2_source_faithful_evidence.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_j2_source_faithful_evidence_with_successor.py"
+    },
+    {
+      "path": "ci/validate_otp_j2_source_faithful_evidence_with_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_j2_source_faithful_evidence.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_j2_scope_repair.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_j2_scope_repair_with_successor.py"
+    },
+    {
+      "path": "ci/validate_otp_j2_scope_repair_with_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_j2_scope_repair.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_j2_route_target_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_j2_route_target_successor.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_j2_adjudication_input.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_j2_adjudication_input.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_j2_adjudication.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_j2_adjudication.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_a_sphere_packing_adjudication_input.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_a_sphere_packing_adjudication_input.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_a_sphere_packing_adjudication.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_a_sphere_packing_adjudication.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_j2_output_contract.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_j2_output_contract_with_execution.py"
+    },
+    {
+      "path": "ci/validate_otp_j2_output_contract_with_execution.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_j2_output_contract.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_j2_output_execution.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_j2_output_execution_with_a_registration.py"
+    },
+    {
+      "path": "ci/validate_otp_j2_output_execution_with_a_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_j2_output_execution.py",
+      "mode": "library",
+      "exercised_by": "ci/validate_otp_j2_output_execution_with_a_registration.py"
+    },
+    {
+      "path": "ci/test_otp_j2_output_execution_with_a_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_vgse_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_vgse_route_registration.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/replay_vgse_wp00_exact_evidence.py",
+      "mode": "library",
+      "exercised_by": "ci/test_vgse_route_registration.py"
+    },
+    {
+      "path": "ci/replay_vgse_wp00_planar_evidence.py",
+      "mode": "library",
+      "exercised_by": "ci/test_vgse_route_registration.py"
+    },
+    {
+      "path": "ci/replay_vgse_wp00_source_equivalence_audit.py",
+      "mode": "library",
+      "exercised_by": "ci/test_vgse_route_registration.py"
+    },
+    {
+      "path": "ci/test_replay_vgse_wp00_exact_evidence.py",
+      "mode": "library",
+      "exercised_by": "ci/test_vgse_route_registration.py"
+    },
+    {
+      "path": "ci/validate_otp_permanent_full_formula_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_permanent_full_formula_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_permanent_circuit_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_permanent_circuit_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_replay_readback_reconciliation.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_replay_readback_reconciliation.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_otp_e_connes_rigidity_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_otp_e_connes_rigidity_certification.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/audit_ci_reachability.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_audit_ci_reachability.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/replay_vgse_c05_te3_conformance.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_replay_vgse_c05_te3_conformance.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/validate_external_catalog_certification_intake.py",
+      "mode": "direct"
+    },
+    {
+      "path": "ci/test_external_catalog_certification_intake.py",
+      "mode": "direct"
+    }
   ],
   "certificate_families": [
-    {"root":"certificates/exact","checker":"ci/replay_certificates.py","admission":"enumerated"},
-    {"root":"certificates/algebraic","checker":"ci/validate_algebraic_certificates.py","admission":"recursive"},
-    {"root":"certificates/tropic_relu","checker":"ci/validate_tropic_relu_certificates.py","admission":"recursive"},
-    {"root":"certificates/formal_sources","checker":"ci/validate_formal_target_certificates.py","admission":"recursive"},
-    {"root":"certificates/union_closed","checker":"ci/validate_uc_restricted_qualification.py","admission":"recursive"},
-    {"root":"certificates/hodge","checker":"ci/validate_certification_routes.py","admission":"recursive"},
-    {"root":"certificates/vgse","checker":"ci/validate_vgse_route_registration.py","admission":"recursive"},
-    {"root":"certificates/interval","checker":null,"admission":"blocked"},
-    {"root":"certificates/sat","checker":null,"admission":"blocked"},
-    {"root":"certificates/external","checker":null,"admission":"blocked"}
+    {
+      "root": "certificates/exact",
+      "checker": "ci/replay_certificates.py",
+      "admission": "enumerated"
+    },
+    {
+      "root": "certificates/algebraic",
+      "checker": "ci/validate_algebraic_certificates.py",
+      "admission": "recursive"
+    },
+    {
+      "root": "certificates/tropic_relu",
+      "checker": "ci/validate_tropic_relu_certificates.py",
+      "admission": "recursive"
+    },
+    {
+      "root": "certificates/formal_sources",
+      "checker": "ci/validate_formal_target_certificates.py",
+      "admission": "recursive"
+    },
+    {
+      "root": "certificates/union_closed",
+      "checker": "ci/validate_uc_restricted_qualification.py",
+      "admission": "recursive"
+    },
+    {
+      "root": "certificates/hodge",
+      "checker": "ci/validate_certification_routes.py",
+      "admission": "recursive"
+    },
+    {
+      "root": "certificates/vgse",
+      "checker": "ci/validate_vgse_route_registration.py",
+      "admission": "recursive"
+    },
+    {
+      "root": "certificates/interval",
+      "checker": null,
+      "admission": "blocked"
+    },
+    {
+      "root": "certificates/sat",
+      "checker": null,
+      "admission": "blocked"
+    },
+    {
+      "root": "certificates/external",
+      "checker": null,
+      "admission": "blocked"
+    }
   ],
-  "exact_certificate_files": ["certificates/exact/union_closed_n_le_4.json", "certificates/exact/finite_lattices_4_to_7.json", "certificates/exact/RM-DIO-004-Y-ABS-1000000.json"],
-  "supporting_artifact_files": ["certificates/exact/source/union_closed_small_audit.json"]
+  "exact_certificate_files": [
+    "certificates/exact/union_closed_n_le_4.json",
+    "certificates/exact/finite_lattices_4_to_7.json",
+    "certificates/exact/RM-DIO-004-Y-ABS-1000000.json"
+  ],
+  "supporting_artifact_files": [
+    "certificates/exact/source/union_closed_small_audit.json"
+  ]
 }
