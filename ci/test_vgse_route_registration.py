@@ -30,6 +30,7 @@ class VGSERouteRegistrationTests(unittest.TestCase):
         cls.base_registry = json.loads(module.BASE_REGISTRY_PATH.read_text(encoding="utf-8"))
         cls.documentation = module.DOC_PATH.read_text(encoding="utf-8")
         cls.contract = json.loads(module.CONTRACT_PATH.read_text(encoding="utf-8"))
+        cls.reconciliation = json.loads(module.RECONCILIATION_PATH.read_text(encoding="utf-8"))
         cls.successor = json.loads(module.SUCCESSOR_PATH.read_text(encoding="utf-8"))
         cls.certificate = json.loads(module.CERTIFICATE_PATH.read_text(encoding="utf-8")) if module.CERTIFICATE_PATH.exists() else None
 
@@ -38,6 +39,11 @@ class VGSERouteRegistrationTests(unittest.TestCase):
 
     def contract_errors(self, contract=None):
         return module.contract_validation_errors(copy.deepcopy(self.contract if contract is None else contract))
+
+    def reconciliation_errors(self, reconciliation=None):
+        return module.current_state_reconciliation_errors(
+            copy.deepcopy(self.reconciliation if reconciliation is None else reconciliation)
+        )
 
     def qualified_errors(self, successor=None, certificate=None, **kwargs):
         if self.certificate is None and certificate is None:
@@ -53,6 +59,24 @@ class VGSERouteRegistrationTests(unittest.TestCase):
 
     def test_current_adjudication_design_passes(self) -> None:
         self.assertEqual(module.contract_validation_errors(), [])
+
+    def test_current_c05_reconciliation_passes(self) -> None:
+        self.assertEqual(module.current_state_reconciliation_errors(), [])
+
+    def test_c05_reconciliation_cannot_restore_t_embedding_statement(self) -> None:
+        record = copy.deepcopy(self.reconciliation)
+        record["current_state"]["active_statement"] = module.HISTORICAL_C05_STATEMENT
+        self.assertTrue(self.reconciliation_errors(record))
+
+    def test_c05_reconciliation_audit_disposition_drift_fails(self) -> None:
+        record = copy.deepcopy(self.reconciliation)
+        record["new_evidence"]["disposition"] = "TE3_CLEAR"
+        self.assertTrue(self.reconciliation_errors(record))
+
+    def test_c05_reconciliation_cannot_gain_authority(self) -> None:
+        record = copy.deepcopy(self.reconciliation)
+        record["authority"]["claim_promotion_authorized"] = True
+        self.assertTrue(self.reconciliation_errors(record))
 
     def test_current_qualified_output_passes_when_present(self) -> None:
         if self.certificate is None:

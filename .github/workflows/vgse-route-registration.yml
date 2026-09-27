@@ -9,6 +9,9 @@ on:
       - "governance/result_family_adjudication_contracts/VGSE-001.json"
       - "governance/result_family_adjudication_execution_inputs/VGSE-001.json"
       - "governance/vgse_adjudications/VGSE-001.json"
+      - "governance/result_family_adjudication_reconciliations/VGSE-001-C05-TE3.json"
+      - "schemas/vgse_c05_te3_current_state_reconciliation.schema.json"
+      - "docs/work_packages/MC-VGSE-C05-TE3-CURRENT-STATE-RECONCILIATION-001.md"
       - "governance/certification_routes.json"
       - "schemas/vgse_route_registration.schema.json"
       - "schemas/vgse_r4_route_registration.schema.json"
@@ -41,6 +44,9 @@ on:
       - "governance/result_family_adjudication_contracts/VGSE-001.json"
       - "governance/result_family_adjudication_execution_inputs/VGSE-001.json"
       - "governance/vgse_adjudications/VGSE-001.json"
+      - "governance/result_family_adjudication_reconciliations/VGSE-001-C05-TE3.json"
+      - "schemas/vgse_c05_te3_current_state_reconciliation.schema.json"
+      - "docs/work_packages/MC-VGSE-C05-TE3-CURRENT-STATE-RECONCILIATION-001.md"
       - "governance/certification_routes.json"
       - "schemas/vgse_route_registration.schema.json"
       - "schemas/vgse_r4_route_registration.schema.json"
@@ -274,6 +280,8 @@ jobs:
           python -m json.tool governance/result_family_adjudication_contracts/VGSE-001.json >/dev/null
           python -m json.tool governance/result_family_adjudication_execution_inputs/VGSE-001.json >/dev/null
           python -m json.tool governance/vgse_adjudications/VGSE-001.json >/dev/null
+          python -m json.tool governance/result_family_adjudication_reconciliations/VGSE-001-C05-TE3.json >/dev/null
+          python -m json.tool schemas/vgse_c05_te3_current_state_reconciliation.schema.json >/dev/null
           python -m json.tool evidence/vgse/VGSE-WP00-CERT-001-c06-producer-binding.json >/dev/null
           python -m json.tool schemas/vgse_route_registration.schema.json >/dev/null
           python -m json.tool schemas/vgse_r4_route_registration.schema.json >/dev/null
