@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "vgse_c05_te3_current_state_reconciliation",
+  "reconciliation_id": "MC-VGSE-C05-TE3-CURRENT-STATE-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/337",
+  "protected_predecessor": {
+    "adjudication_merge": "df9fd2e493da277646e844d3e20fbc65e965d861",
+    "adjudication_path": "governance/vgse_adjudications/VGSE-001.json",
+    "adjudication_blob": "57668860de1c96370fb0075e0c7e8f43f7dc0067",
+    "contract_path": "governance/result_family_adjudication_contracts/VGSE-001.json",
+    "contract_blob": "2214eb6e442ac758c78ec5bc4b1de335c831cffa",
+    "execution_input_path": "governance/result_family_adjudication_execution_inputs/VGSE-001.json",
+    "execution_input_blob": "6ed94cce042978c0373d3c72de0e5ba080cfe320",
+    "r4_certificate_path": "certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json",
+    "r4_certificate_blob": "e6489fab69506adacc4a33214f22dd20413ec40a",
+    "r4_route_path": "governance/certification_route_overlays/VGSE-001-R4.json",
+    "r4_route_blob": "578547c57d91df0616197ae56fd4497ffd6e1576"
+  },
+  "historical_record_policy": {
+    "mutation_prohibited": true,
+    "historical_c05_statement": "The five retained algebraic witnesses extend to five planar t-embeddings satisfying the recorded boundary and geometric constraints.",
+    "historical_statement_is_current": false,
+    "files": [
+      {
+        "role": "adjudication_contract",
+        "path": "governance/result_family_adjudication_contracts/VGSE-001.json",
+        "blob": "2214eb6e442ac758c78ec5bc4b1de335c831cffa"
+      },
+      {
+        "role": "adjudication_execution_input",
+        "path": "governance/result_family_adjudication_execution_inputs/VGSE-001.json",
+        "blob": "6ed94cce042978c0373d3c72de0e5ba080cfe320"
+      },
+      {
+        "role": "adjudication",
+        "path": "governance/vgse_adjudications/VGSE-001.json",
+        "blob": "57668860de1c96370fb0075e0c7e8f43f7dc0067"
+      },
+      {
+        "role": "r4_qualified_certificate",
+        "path": "certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json",
+        "blob": "e6489fab69506adacc4a33214f22dd20413ec40a"
+      },
+      {
+        "role": "r4_qualified_route",
+        "path": "governance/certification_route_overlays/VGSE-001-R4.json",
+        "blob": "578547c57d91df0616197ae56fd4497ffd6e1576"
+      }
+    ]
+  },
+  "new_evidence": {
+    "audit_merge": "15b68c196d020045bea42fc34236e0647b87cbb9",
+    "audit_path": "evidence/vgse/VGSE-WP00-CERT-001-te3-conformance-audit.json",
+    "audit_blob": "db6d0d8505dd754a8148a1fd77068c53aa032903",
+    "disposition": "TE3_FAILS_FOR_PROTECTED_C04_WEIGHT_CLASS_ON_ALL_FIVE_RETAINED_C05_BRANCHES",
+    "all_five_branches_exclude_te3": true,
+    "maximum_certified_squared_ratio_strictly_below": "1/1000",
+    "te3_required_squared_ratio": "1"
+  },
+  "current_state": {
+    "claim_id": "VGSE-C05",
+    "active_statement": "The five retained algebraic witnesses extend to five planar algebraic Kenyon–Smirnov realizations satisfying the certified discrete-holomorphic, primitive-closure, prescribed-boundary, strict-convexity/noncrossing, Kawasaki, boundary-angle, and distinctness constraints.",
+    "source_te3_status": "not_certified_for_protected_c04_weight_class",
+    "terminology_effect": "Do not call the five retained objects source-defined t-embeddings of the protected C04 weighted graph.",
+    "certified_properties": [
+      "five_discrete_holomorphic_extensions",
+      "five_primitives_exactly_closed",
+      "prescribed_boundary_exact",
+      "strict_convexity",
+      "noncrossing",
+      "kawasaki_equalities_exact",
+      "boundary_angle_inequalities_certified",
+      "five_embeddings_distinct"
+    ],
+    "applies_to_route_ids": [
+      "MC-ROUTE-VGSE-001",
+      "MC-ROUTE-VGSE-001-R4"
+    ],
+    "r4_qualification_interpretation": "qualified_only_under_current_reconciled_c05_statement",
+    "historical_adjudication_superseded_interpretation_only": true
+  },
+  "preserved_claims": {
+    "unchanged_claim_ids": [
+      "VGSE-C00",
+      "VGSE-C01",
+      "VGSE-C04"
+    ],
+    "excluded_claim_ids": [
+      "VGSE-C06"
+    ],
+    "c06_state": "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C"
+  },
+  "authority": {
+    "route_created_by_this_operation": false,
+    "adjudication_created_by_this_operation": false,
+    "cert_output_created_by_this_operation": false,
+    "existing_r4_certificate_mutated": false,
+    "mathematical_target_proved": false,
+    "claim_promotion_authorized": false,
+    "source_paper_refutation_authorized": false,
+    "equivalence_group_broadening_authorized": false,
+    "mechanical_claim_authorized": false,
+    "manufacturing_claim_authorized": false,
+    "novelty_or_priority_claim_authorized": false,
+    "patentability_claim_authorized": false,
+    "product_or_commercial_claim_authorized": false
+  },
+  "activation_rule": "This record becomes the current C05 interpretation only after ordinary protected merge and protected-main readback. Historical adjudication, contract, execution-input, route, and certificate bytes remain immutable predecessor evidence.",
+  "effect": "documentary_current_state_reconciliation_only",
+  "claim_boundary": "This reconciliation narrows only the active interpretation of VGSE-C05 in light of the independently protected TE3 audit. It preserves C00, C01, and C04; leaves C06 excluded and blocked; mutates no historical adjudication or certificate bytes; creates no route, adjudication, Cert output, proof promotion, source-paper refutation, equivalence broadening, mechanical, manufacturing, novelty, priority, publication, patentability, product, performance, or commercial authority."
+}
