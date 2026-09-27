@@ -1,0 +1,330 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grandchallenge.ai/schemas/vgse_c05_te3_current_state_reconciliation.schema.json",
+  "title": "VGSE C05 TE3 current-state reconciliation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "reconciliation_id",
+    "tracker_issue",
+    "protected_predecessor",
+    "historical_record_policy",
+    "new_evidence",
+    "current_state",
+    "preserved_claims",
+    "authority",
+    "activation_rule",
+    "effect",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "vgse_c05_te3_current_state_reconciliation"
+    },
+    "reconciliation_id": {
+      "const": "MC-VGSE-C05-TE3-CURRENT-STATE-001"
+    },
+    "tracker_issue": {
+      "const": "https://github.com/grandchallenge/MATHCERT/issues/337"
+    },
+    "protected_predecessor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adjudication_merge",
+        "adjudication_path",
+        "adjudication_blob",
+        "contract_path",
+        "contract_blob",
+        "execution_input_path",
+        "execution_input_blob",
+        "r4_certificate_path",
+        "r4_certificate_blob",
+        "r4_route_path",
+        "r4_route_blob"
+      ],
+      "properties": {
+        "adjudication_merge": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "adjudication_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adjudication_blob": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "contract_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contract_blob": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "execution_input_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "execution_input_blob": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "r4_certificate_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "r4_certificate_blob": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "r4_route_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "r4_route_blob": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "historical_record_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mutation_prohibited",
+        "historical_c05_statement",
+        "historical_statement_is_current",
+        "files"
+      ],
+      "properties": {
+        "mutation_prohibited": {
+          "const": true
+        },
+        "historical_c05_statement": {
+          "const": "The five retained algebraic witnesses extend to five planar t-embeddings satisfying the recorded boundary and geometric constraints."
+        },
+        "historical_statement_is_current": {
+          "const": false
+        },
+        "files": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "role",
+              "path",
+              "blob"
+            ],
+            "properties": {
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "blob": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{40}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "new_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audit_merge",
+        "audit_path",
+        "audit_blob",
+        "disposition",
+        "all_five_branches_exclude_te3",
+        "maximum_certified_squared_ratio_strictly_below",
+        "te3_required_squared_ratio"
+      ],
+      "properties": {
+        "audit_merge": {
+          "const": "15b68c196d020045bea42fc34236e0647b87cbb9"
+        },
+        "audit_path": {
+          "const": "evidence/vgse/VGSE-WP00-CERT-001-te3-conformance-audit.json"
+        },
+        "audit_blob": {
+          "const": "db6d0d8505dd754a8148a1fd77068c53aa032903"
+        },
+        "disposition": {
+          "const": "TE3_FAILS_FOR_PROTECTED_C04_WEIGHT_CLASS_ON_ALL_FIVE_RETAINED_C05_BRANCHES"
+        },
+        "all_five_branches_exclude_te3": {
+          "const": true
+        },
+        "maximum_certified_squared_ratio_strictly_below": {
+          "const": "1/1000"
+        },
+        "te3_required_squared_ratio": {
+          "const": "1"
+        }
+      }
+    },
+    "current_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "active_statement",
+        "source_te3_status",
+        "terminology_effect",
+        "certified_properties",
+        "applies_to_route_ids",
+        "r4_qualification_interpretation",
+        "historical_adjudication_superseded_interpretation_only"
+      ],
+      "properties": {
+        "claim_id": {
+          "const": "VGSE-C05"
+        },
+        "active_statement": {
+          "const": "The five retained algebraic witnesses extend to five planar algebraic Kenyon–Smirnov realizations satisfying the certified discrete-holomorphic, primitive-closure, prescribed-boundary, strict-convexity/noncrossing, Kawasaki, boundary-angle, and distinctness constraints."
+        },
+        "source_te3_status": {
+          "const": "not_certified_for_protected_c04_weight_class"
+        },
+        "terminology_effect": {
+          "const": "Do not call the five retained objects source-defined t-embeddings of the protected C04 weighted graph."
+        },
+        "certified_properties": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "applies_to_route_ids": {
+          "const": [
+            "MC-ROUTE-VGSE-001",
+            "MC-ROUTE-VGSE-001-R4"
+          ]
+        },
+        "r4_qualification_interpretation": {
+          "const": "qualified_only_under_current_reconciled_c05_statement"
+        },
+        "historical_adjudication_superseded_interpretation_only": {
+          "const": true
+        }
+      }
+    },
+    "preserved_claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unchanged_claim_ids",
+        "excluded_claim_ids",
+        "c06_state"
+      ],
+      "properties": {
+        "unchanged_claim_ids": {
+          "const": [
+            "VGSE-C00",
+            "VGSE-C01",
+            "VGSE-C04"
+          ]
+        },
+        "excluded_claim_ids": {
+          "const": [
+            "VGSE-C06"
+          ]
+        },
+        "c06_state": {
+          "const": "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C"
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_created_by_this_operation",
+        "adjudication_created_by_this_operation",
+        "cert_output_created_by_this_operation",
+        "existing_r4_certificate_mutated",
+        "mathematical_target_proved",
+        "claim_promotion_authorized",
+        "source_paper_refutation_authorized",
+        "equivalence_group_broadening_authorized",
+        "mechanical_claim_authorized",
+        "manufacturing_claim_authorized",
+        "novelty_or_priority_claim_authorized",
+        "patentability_claim_authorized",
+        "product_or_commercial_claim_authorized"
+      ],
+      "properties": {
+        "route_created_by_this_operation": {
+          "const": false
+        },
+        "adjudication_created_by_this_operation": {
+          "const": false
+        },
+        "cert_output_created_by_this_operation": {
+          "const": false
+        },
+        "existing_r4_certificate_mutated": {
+          "const": false
+        },
+        "mathematical_target_proved": {
+          "const": false
+        },
+        "claim_promotion_authorized": {
+          "const": false
+        },
+        "source_paper_refutation_authorized": {
+          "const": false
+        },
+        "equivalence_group_broadening_authorized": {
+          "const": false
+        },
+        "mechanical_claim_authorized": {
+          "const": false
+        },
+        "manufacturing_claim_authorized": {
+          "const": false
+        },
+        "novelty_or_priority_claim_authorized": {
+          "const": false
+        },
+        "patentability_claim_authorized": {
+          "const": false
+        },
+        "product_or_commercial_claim_authorized": {
+          "const": false
+        }
+      }
+    },
+    "activation_rule": {
+      "type": "string",
+      "minLength": 1
+    },
+    "effect": {
+      "const": "documentary_current_state_reconciliation_only"
+    },
+    "claim_boundary": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
