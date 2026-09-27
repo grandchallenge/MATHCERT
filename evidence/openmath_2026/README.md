@@ -53,3 +53,9 @@ Operational continuity may transfer across agents. Certification authority and s
 Do not create placeholder certified claims for `OM26-H1` through `OM26-H6`.
 
 A slot enters Cert only when a concrete claim-bearing MATHSOLVE handoff exists.
+
+## Active intake: OM26-H1
+
+`OM26-H1` now has a concrete claim-bearing intake under MATHCERT issue #341. The admitted objects are the H1-02 face-criterion theorem and the exact `n=18` construction claim for `RD_LOCAL_MUTATION_086`.
+
+The intake is **pending a fresh non-authoring Cert executor**. No MATHCERT certification disposition has been issued.

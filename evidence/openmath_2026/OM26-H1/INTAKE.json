@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OPENMATH-2026-OM26-H1-INTAKE-001",
+  "campaign_id": "OPENMATH-2026",
+  "hill_slot": "OM26-H1",
+  "hill_id": "alejandrozu/kobon-triangles",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/341",
+  "parent_readiness_issue": "https://github.com/grandchallenge/MATHCERT/issues/339",
+  "status": "ADMITTED_PENDING_INDEPENDENT_CERT_EXECUTOR",
+  "certification_effect": false,
+  "source_authority": {
+    "forge_repository": "grandchallenge/MATHFORGE",
+    "forge_commit": "73f1890387eec56eb6be31f8c00f10b6a5a56383",
+    "source_lock": {
+      "path": "reports/discovery/openmath_2026/hills/OM26-H1_KOBON_TRIANGLES/SOURCE_LOCK.json",
+      "git_blob_sha1": "7a90cd6eeb54e8e4c5b63c5977e40a1ab5bcaa2c"
+    },
+    "statement": {
+      "path": "reports/discovery/openmath_2026/hills/OM26-H1_KOBON_TRIANGLES/STATEMENT.md",
+      "git_blob_sha1": "47e529bce21e76c575c69a26824e182848dceedc"
+    },
+    "evaluator_contract": {
+      "path": "reports/discovery/openmath_2026/hills/OM26-H1_KOBON_TRIANGLES/EVALUATOR_CONTRACT.md",
+      "git_blob_sha1": "b9f9d8b58fa613c9e788d09f987b50260066bc67"
+    }
+  },
+  "producer_handoff": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "protected_commit": "47a7318488229da3e7aaff67d68ebec7de7a4ab1",
+    "handoff": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/MATHCERT_HANDOFF_H1_02_H1_07.md",
+      "git_blob_sha1": "af86b409ca1f13907a0310c951a42d89c6b3a280"
+    },
+    "claim_ledger": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/CLAIM_LEDGER.json",
+      "git_blob_sha1": "2aad160289527b58da828aa5b25d42041b438ad0"
+    },
+    "proof_receipt": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/H1_02_PROOF_RECEIPT.json",
+      "git_blob_sha1": "caae12a8ef1aee4dc783201c9dd0cba60bbc1b83"
+    },
+    "search_receipt": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/H1_06_SEARCH_RECEIPT.json",
+      "git_blob_sha1": "14e64403c62a22142ca79b3de914963a72ac2caa"
+    },
+    "replay_receipt": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/H1_07_REPLAY_RECEIPT.json",
+      "git_blob_sha1": "8fe38960ace381ae4a4f8781a48f47a9fc135a0f"
+    }
+  },
+  "target_claims": [
+    {
+      "claim_id": "OM26-H1-THM-001",
+      "kind": "STRUCTURAL_THEOREM",
+      "statement": "Counted Kobon triangular faces are exactly the nondegenerate 3-cycles of the straight-line arrangement graph, equivalently support triples whose three side segments join consecutive arrangement vertices.",
+      "requested_disposition": "INDEPENDENT_PROOF_AND_SEMANTIC_ADJUDICATION",
+      "producer_state": "SOLVE_PROOF_COMPLETE__BOUNDED_FALSIFICATION_PASS"
+    },
+    {
+      "claim_id": "OM26-H1-CON-001",
+      "kind": "EXACT_FINITE_CONSTRUCTION",
+      "statement": "The exact candidate RD_LOCAL_MUTATION_086 has 86 counted triangular faces at n=18 under the locked hill semantics.",
+      "requested_disposition": "LEVEL_2_EXACT_CONSTRUCTION_REPLAY",
+      "producer_state": "SOLVE_VERIFIED__H1_07_PASS"
+    }
+  ],
+  "candidate_subject": {
+    "local_snapshot_path": "evidence/openmath_2026/OM26-H1/RD_LOCAL_MUTATION_086.solution.json",
+    "upstream_path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/candidates/RD_LOCAL_MUTATION_086/solution.json",
+    "upstream_git_blob_sha1": "17f8355b484bacf115bafd413de9a0be8f8e3385",
+    "sha256": "05a5f519433a0787a96a3f6c5a8cef17fc7f8ab093ccf0c9ab45a2d564ad11d5",
+    "n": 18,
+    "producer_reported_triangles": 86
+  },
+  "independence": {
+    "required": true,
+    "authoring_system_may_issue_final_disposition": false,
+    "reason": "The authoring system supplied the search construction and existing Solve verification evidence.",
+    "independent_executor_requirements": [
+      "Reconstruct the mathematical face test independently from the locked source statement.",
+      "Do not import or execute MATHSOLVE scorer, search, direct-oracle, or test modules as the Cert verifier.",
+      "Treat the candidate snapshot as data only.",
+      "Verify the candidate byte identity and SHA-256 before replay.",
+      "Use exact arithmetic for all geometric predicates.",
+      "Independently review the H1-02 proof including parallelism, concurrency, zero-area collapse, and vertex-touch cases.",
+      "Separate exact replay, semantic fidelity, provenance, and certification disposition."
+    ]
+  },
+  "explicit_exclusions": [
+    "86 is best known",
+    "86 is globally optimal",
+    "the construction is novel or first",
+    "the unofficial local AutoLab score is official competition acceptance",
+    "the result is publication-ready",
+    "CI success alone constitutes certification"
+  ],
+  "completion_test": "A fresh non-authoring Cert executor produces an exact identity-bound adjudication for both target claims, with independent replay for OM26-H1-CON-001 and independent proof/semantic review for OM26-H1-THM-001. Any final disposition must remain within the explicit exclusions.",
+  "claim_boundary": "This intake admits two concrete claims for independent MATHCERT work. It is not itself a certification, correctness judgment, novelty judgment, official competition result, or publication authorization."
+}
