@@ -27,6 +27,30 @@ CONTRACT_SCHEMA_PATH = ROOT / "schemas" / "vgse_adjudication_contract.schema.jso
 EXACT_EVIDENCE_PATH = ROOT / "evidence" / "vgse" / "VGSE-WP00-CERT-001-exact-algebraic-graph.json"
 PLANAR_EVIDENCE_PATH = ROOT / "evidence" / "vgse" / "VGSE-WP00-CERT-001-planar.json"
 C06_BINDING_PATH = ROOT / "evidence" / "vgse" / "VGSE-WP00-CERT-001-c06-producer-binding.json"
+TE3_AUDIT_PATH = ROOT / "evidence" / "vgse" / "VGSE-WP00-CERT-001-te3-conformance-audit.json"
+RECONCILIATION_PATH = ROOT / "governance" / "result_family_adjudication_reconciliations" / "VGSE-001-C05-TE3.json"
+RECONCILIATION_SCHEMA_PATH = ROOT / "schemas" / "vgse_c05_te3_current_state_reconciliation.schema.json"
+HISTORICAL_C05_STATEMENT = "The five retained algebraic witnesses extend to five planar t-embeddings satisfying the recorded boundary and geometric constraints."
+ACTIVE_C05_STATEMENT = "The five retained algebraic witnesses extend to five planar algebraic Kenyon–Smirnov realizations satisfying the certified discrete-holomorphic, primitive-closure, prescribed-boundary, strict-convexity/noncrossing, Kawasaki, boundary-angle, and distinctness constraints."
+EXPECTED_TE3_AUDIT_BLOB = "db6d0d8505dd754a8148a1fd77068c53aa032903"
+EXPECTED_TE3_AUDIT_MERGE = "15b68c196d020045bea42fc34236e0647b87cbb9"
+EXPECTED_HISTORICAL_VGSE_BLOBS = {
+    "governance/result_family_adjudication_contracts/VGSE-001.json": "2214eb6e442ac758c78ec5bc4b1de335c831cffa",
+    "governance/result_family_adjudication_execution_inputs/VGSE-001.json": "6ed94cce042978c0373d3c72de0e5ba080cfe320",
+    "governance/vgse_adjudications/VGSE-001.json": "57668860de1c96370fb0075e0c7e8f43f7dc0067",
+    "certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json": "e6489fab69506adacc4a33214f22dd20413ec40a",
+    "governance/certification_route_overlays/VGSE-001-R4.json": "578547c57d91df0616197ae56fd4497ffd6e1576",
+}
+EXPECTED_C05_CERTIFIED_PROPERTIES = [
+    "five_discrete_holomorphic_extensions",
+    "five_primitives_exactly_closed",
+    "prescribed_boundary_exact",
+    "strict_convexity",
+    "noncrossing",
+    "kawasaki_equalities_exact",
+    "boundary_angle_inequalities_certified",
+    "five_embeddings_distinct",
+]
 SUCCESSOR_PATH = ROOT / "governance" / "certification_route_overlays" / "VGSE-001-R4.json"
 SUCCESSOR_SCHEMA_PATH = ROOT / "schemas" / "vgse_r4_route_registration.schema.json"
 OUTPUT_CONTRACT_PATH = ROOT / "governance" / "vgse_output_contracts" / "VGSE-001-R4.json"
@@ -148,6 +172,94 @@ def contract_validation_errors(contract: dict[str, Any] | None = None) -> list[s
     return errors
 
 
+
+def current_state_reconciliation_errors(reconciliation: dict[str, Any] | None = None) -> list[str]:
+    errors: list[str] = []
+    candidate = json.loads(RECONCILIATION_PATH.read_text(encoding="utf-8")) if reconciliation is None else reconciliation
+    schema = json.loads(RECONCILIATION_SCHEMA_PATH.read_text(encoding="utf-8"))
+    for error in Draft202012Validator(schema).iter_errors(candidate):
+        errors.append(f"reconciliation schema: {error.json_path}: {error.message}")
+    if errors:
+        return errors
+
+    predecessor = candidate["protected_predecessor"]
+    expected_predecessor = {
+        "adjudication_merge": "df9fd2e493da277646e844d3e20fbc65e965d861",
+        "adjudication_path": "governance/vgse_adjudications/VGSE-001.json",
+        "adjudication_blob": EXPECTED_HISTORICAL_VGSE_BLOBS["governance/vgse_adjudications/VGSE-001.json"],
+        "contract_path": "governance/result_family_adjudication_contracts/VGSE-001.json",
+        "contract_blob": EXPECTED_HISTORICAL_VGSE_BLOBS["governance/result_family_adjudication_contracts/VGSE-001.json"],
+        "execution_input_path": "governance/result_family_adjudication_execution_inputs/VGSE-001.json",
+        "execution_input_blob": EXPECTED_HISTORICAL_VGSE_BLOBS["governance/result_family_adjudication_execution_inputs/VGSE-001.json"],
+        "r4_certificate_path": "certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json",
+        "r4_certificate_blob": EXPECTED_HISTORICAL_VGSE_BLOBS["certificates/vgse/MC-VGSE-WP00-R4-QUAL-001.json"],
+        "r4_route_path": "governance/certification_route_overlays/VGSE-001-R4.json",
+        "r4_route_blob": EXPECTED_HISTORICAL_VGSE_BLOBS["governance/certification_route_overlays/VGSE-001-R4.json"],
+    }
+    if predecessor != expected_predecessor:
+        errors.append("C05 reconciliation protected-predecessor identity drift")
+
+    policy = candidate["historical_record_policy"]
+    if policy["historical_c05_statement"] != HISTORICAL_C05_STATEMENT or policy["historical_statement_is_current"] is not False:
+        errors.append("C05 historical/current statement boundary drift")
+    observed_files = {entry.get("path"): entry.get("blob") for entry in policy.get("files", [])}
+    if observed_files != EXPECTED_HISTORICAL_VGSE_BLOBS:
+        errors.append("C05 reconciliation historical file set/blob drift")
+    for relpath, expected_blob in EXPECTED_HISTORICAL_VGSE_BLOBS.items():
+        path = ROOT / relpath
+        if not path.exists() or blob_sha1(path) != expected_blob:
+            errors.append(f"historical VGSE protected bytes changed: {relpath}")
+
+    evidence = candidate["new_evidence"]
+    if evidence["audit_merge"] != EXPECTED_TE3_AUDIT_MERGE or evidence["audit_blob"] != EXPECTED_TE3_AUDIT_BLOB:
+        errors.append("C05 reconciliation TE3 audit identity drift")
+    if blob_sha1(TE3_AUDIT_PATH) != EXPECTED_TE3_AUDIT_BLOB:
+        errors.append("protected C05 TE3 audit bytes drift")
+    audit = json.loads(TE3_AUDIT_PATH.read_text(encoding="utf-8"))
+    conclusion = audit.get("conclusion", {})
+    if conclusion.get("disposition") != "TE3_FAILS_FOR_PROTECTED_C04_WEIGHT_CLASS_ON_ALL_FIVE_RETAINED_C05_BRANCHES":
+        errors.append("C05 TE3 audit disposition drift")
+    if conclusion.get("all_five_branches_exclude_te3") is not True:
+        errors.append("C05 TE3 all-five-branches exclusion weakened")
+    if conclusion.get("maximum_certified_squared_ratio_strictly_below") != "1/1000" or conclusion.get("te3_required_squared_ratio") != "1":
+        errors.append("C05 TE3 quantitative exclusion drift")
+
+    current = candidate["current_state"]
+    if current["claim_id"] != "VGSE-C05" or current["active_statement"] != ACTIVE_C05_STATEMENT:
+        errors.append("C05 active reconciled statement drift")
+    if "t-embeddings" in current["active_statement"] or "source-defined t-embeddings" in current["active_statement"]:
+        errors.append("C05 active statement improperly restores t-embedding terminology")
+    if current["certified_properties"] != EXPECTED_C05_CERTIFIED_PROPERTIES:
+        errors.append("C05 retained certified-property set drift")
+    if current["applies_to_route_ids"] != ["MC-ROUTE-VGSE-001", "MC-ROUTE-VGSE-001-R4"]:
+        errors.append("C05 reconciliation route applicability drift")
+    if current["r4_qualification_interpretation"] != "qualified_only_under_current_reconciled_c05_statement":
+        errors.append("C05 R4 current-state qualification interpretation drift")
+    if current["historical_adjudication_superseded_interpretation_only"] is not True:
+        errors.append("C05 historical-adjudication preservation weakened")
+
+    authority = candidate["authority"]
+    if any(value is not False for value in authority.values()):
+        errors.append("C05 reconciliation contains unauthorized positive authority")
+
+    preserved = candidate["preserved_claims"]
+    if preserved != {
+        "unchanged_claim_ids": ["VGSE-C00", "VGSE-C01", "VGSE-C04"],
+        "excluded_claim_ids": ["VGSE-C06"],
+        "c06_state": "BLOCKED_VISIBLE_GEOMETRIC_WEIGHT_BRIDGE_TO_PINNED_C",
+    }:
+        errors.append("C05 reconciliation collateral claim boundary drift")
+
+    certificate = json.loads(CERTIFICATE_PATH.read_text(encoding="utf-8"))
+    successor = json.loads(SUCCESSOR_PATH.read_text(encoding="utf-8"))
+    if "VGSE-C05" not in certificate.get("target_claim_ids", []) or "VGSE-C05" not in successor.get("target_claim_ids", []):
+        errors.append("C05 reconciliation lost protected R4 target identity")
+    if certificate.get("state", {}).get("mathematical_target_proved") is not False or successor.get("claim_boundary", {}).get("mathematical_target_proved") is not False:
+        errors.append("C05 reconciliation improperly promotes mathematical target")
+
+    return errors
+
+
 def qualified_output_validation_errors(
     successor: dict[str, Any] | None = None,
     certificate: dict[str, Any] | None = None,
@@ -241,13 +353,13 @@ def qualified_output_validation_errors(
 
 
 def main() -> int:
-    errors = validation_errors() + contract_validation_errors() + qualified_output_validation_errors()
+    errors = validation_errors() + contract_validation_errors() + current_state_reconciliation_errors() + qualified_output_validation_errors()
     if errors:
         print("\n".join(errors), file=sys.stderr)
         print(f"VGSE route/certificate validation failed with {len(errors)} error(s)", file=sys.stderr)
         return 1
     if CERTIFICATE_PATH.exists():
-        print("validated VGSE predecessor plus restricted qualified R4 output; C06 remains excluded and blocked")
+        print("validated VGSE predecessor, C05 TE3 current-state reconciliation, and restricted qualified R4 output; C06 remains excluded and blocked")
     else:
         print("validated VGSE pending route and design-only exact four-claim adjudication contract; C06 remains excluded and blocked")
     return 0
