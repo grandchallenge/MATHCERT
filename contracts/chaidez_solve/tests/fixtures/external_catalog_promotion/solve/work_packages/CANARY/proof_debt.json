@@ -1,0 +1,16 @@
+{
+  "proof_debt": [
+    {
+      "debt_id": "CANARY-D1",
+      "category": "MISSING_LEMMA",
+      "blocked_node": "CANARY-N1",
+      "present_evidence": [
+        "Synthetic fixture only; no mathematical proof supplied."
+      ],
+      "discharge_condition": "Submit a separately checked local proof of precisely the fixed target.",
+      "route": "FORMAL_PROOF",
+      "owner": "synthetic-fixture-owner",
+      "status": "OPEN"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "2.0.0",
+  "registry_id": "MS-EXTERNAL-CATALOG-PROMOTIONS",
+  "promotion_count": 1,
+  "promotions": [
+    {
+      "promotion_id": "MS-CAT-PROMOTION-CANARY",
+      "dossier": {
+        "path": "promotions/external_catalog/MS-CAT-PROMOTION-CANARY.json",
+        "git_blob_sha1": "7d60e93767aabbc76636f0d476ee4b632580b7a9",
+        "sha256": "c215f69eae88b2048890a9d99103c28e1adb90973d3c7a9a9d958f508e8c70fd"
+      }
+    }
+  ]
+}

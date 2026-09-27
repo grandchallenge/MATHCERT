@@ -1,0 +1,113 @@
+{
+  "schema_version": "2.0.0",
+  "record_class": "NON_AUTHORITATIVE_CANARY",
+  "handoff_id": "MS-CAT-HANDOFF-CANARY",
+  "promotion_id": "MS-CAT-PROMOTION-CANARY",
+  "promotion_registry": {
+    "path": "governance/external_catalog_promotion_registry.json",
+    "git_blob_sha1": "e919a5b679527762113e6a8fe07828d47a701df0",
+    "sha256": "34e617df6d07ab70f225abb8155a7cf5d14a30a0c5b114470a1b8ac81c945aa6"
+  },
+  "dossier": {
+    "path": "promotions/external_catalog/MS-CAT-PROMOTION-CANARY.json",
+    "git_blob_sha1": "7d60e93767aabbc76636f0d476ee4b632580b7a9",
+    "sha256": "c215f69eae88b2048890a9d99103c28e1adb90973d3c7a9a9d958f508e8c70fd"
+  },
+  "generic_handoff": {
+    "path": "cert_handoffs/canary-generic.json",
+    "git_blob_sha1": "667a52d6ef4179cbb461de1bb965907b32c28f11",
+    "sha256": "e6d21cfa7353a81333963a44fd060160dca7d50f6382b3db16bb4e78bc6c15ba"
+  },
+  "catalog_source": {
+    "catalog_id": "GCL-CAT-CANARY",
+    "catalog_release_id": "GCL-CATALOG-CANARY",
+    "provider_id": "CANARY",
+    "snapshot_id": "CANARY-SNAPSHOT",
+    "raw_sha256": "bfc713ecc0701fffcb4aade3cad69a6e7d84e75b1388a17b2ac4abf5e5c3e71c",
+    "normalized_sha256": "bfc713ecc0701fffcb4aade3cad69a6e7d84e75b1388a17b2ac4abf5e5c3e71c",
+    "assurance_tier": "SEMANTICALLY_REVIEWED",
+    "programme_import": {
+      "repository": "grandchallenge/MATH-PROGRAMME",
+      "commit": "6b2d7b0e7d5518f17fa3392c12315fcbe02e769c",
+      "artifact": {
+        "path": "governance/mathforge_external_source_imports.json",
+        "git_blob_sha1": "675ee4f438d114a70e42c0059da96f21f24ae01c",
+        "sha256": "6fc9035879fb770b787fe24a95cb49e0d4b75b7dcde1110dd522b2c70a1ef56b"
+      }
+    },
+    "catalog_shard": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit": "862378dfba0b44fb824cbca65318b0d212554b6b",
+      "artifact": {
+        "path": "catalog/entries/canary.jsonl",
+        "git_blob_sha1": "2ca17db4de9b9b7227e98add9daad22e1991b88f",
+        "sha256": "912646dc5365609e6c0e70bdbfed903f0686c1bbeb860dff155bb3782ac75358"
+      }
+    },
+    "exact_campaign_target": false,
+    "campaign_id": "CANARY",
+    "reviewed_relation_id": null
+  },
+  "selected_claim": {
+    "claim_id": "CANARY-CLAIM-001",
+    "statement": "Synthetic open target: for the fixed integer 0, establish 0 + 0 = 0. This record asserts no proof.",
+    "node_id": "CANARY-N1",
+    "status": "OPEN",
+    "proof_debt_ids": [
+      "CANARY-D1"
+    ],
+    "requires_external_verification": true
+  },
+  "global_theorem_spine_id": "CANARY-SPINE",
+  "theorem_spine_node": "CANARY-N1",
+  "proof_debt_ids": [
+    "CANARY-D1"
+  ],
+  "trust_quartet": {
+    "WHAT_IS_PROVED": {
+      "answer": "Nothing is proved by this synthetic intake canary.",
+      "claim_ids": [],
+      "debt_ids": []
+    },
+    "WHAT_IS_CHECKED": {
+      "answer": "Only structural contract and byte integrity checks are replayed.",
+      "claim_ids": [],
+      "debt_ids": []
+    },
+    "WHAT_REMAINS_OPEN": {
+      "answer": "The synthetic target remains open; CANARY-D1 is unresolved.",
+      "claim_ids": [
+        "CANARY-CLAIM-001"
+      ],
+      "debt_ids": [
+        "CANARY-D1"
+      ]
+    },
+    "WHAT_REQUIRES_EXTERNAL_VERIFICATION": {
+      "answer": "A separate checker must supply verification; this fixture is not that verification.",
+      "claim_ids": [
+        "CANARY-CLAIM-001"
+      ],
+      "debt_ids": []
+    }
+  },
+  "support_route_class": "FORMAL_PROOF",
+  "local_replay_evidence": [
+    {
+      "path": "work_packages/CANARY/replay.md",
+      "git_blob_sha1": "4a293372f041643bda4d2618e0d575b6fb704395",
+      "sha256": "c524e28441e9df1cc47b08c44c3a22e3ed2855898047ae765ae4b1efde337daf"
+    }
+  ],
+  "certification_route_id": "MC-ROUTE-CANARY",
+  "independent_verification": {
+    "disposition": "REQUIRED_PENDING",
+    "evidence": []
+  },
+  "non_claim_boundary": {
+    "text": "NON-AUTHORITATIVE SYNTHETIC CANARY. No production promotion, mathematical proof, campaign authority or MATHCERT certification.",
+    "certification_inferred": false,
+    "catalog_status_is_local_result": false,
+    "unscoped_campaign_claim": false
+  }
+}

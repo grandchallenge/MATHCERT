@@ -1,0 +1,290 @@
+{
+  "schema_version": "2.0.0",
+  "record_class": "NON_AUTHORITATIVE_CANARY",
+  "promotion_id": "MS-CAT-PROMOTION-CANARY",
+  "promotion_state": "REVIEWED_PROMOTION",
+  "creation_trigger": "REVIEWED_PROMOTION_TO_MATHSOLVE",
+  "automatic_promotion": false,
+  "catalog_source": {
+    "catalog_id": "GCL-CAT-CANARY",
+    "catalog_release_id": "GCL-CATALOG-CANARY",
+    "provider_id": "CANARY",
+    "snapshot_id": "CANARY-SNAPSHOT",
+    "raw_sha256": "bfc713ecc0701fffcb4aade3cad69a6e7d84e75b1388a17b2ac4abf5e5c3e71c",
+    "normalized_sha256": "bfc713ecc0701fffcb4aade3cad69a6e7d84e75b1388a17b2ac4abf5e5c3e71c",
+    "assurance_tier": "SEMANTICALLY_REVIEWED",
+    "programme_import": {
+      "repository": "grandchallenge/MATH-PROGRAMME",
+      "commit": "6b2d7b0e7d5518f17fa3392c12315fcbe02e769c",
+      "artifact": {
+        "path": "governance/mathforge_external_source_imports.json",
+        "git_blob_sha1": "675ee4f438d114a70e42c0059da96f21f24ae01c",
+        "sha256": "6fc9035879fb770b787fe24a95cb49e0d4b75b7dcde1110dd522b2c70a1ef56b"
+      }
+    },
+    "catalog_shard": {
+      "repository": "grandchallenge/MATHFORGE",
+      "commit": "862378dfba0b44fb824cbca65318b0d212554b6b",
+      "artifact": {
+        "path": "catalog/entries/canary.jsonl",
+        "git_blob_sha1": "2ca17db4de9b9b7227e98add9daad22e1991b88f",
+        "sha256": "912646dc5365609e6c0e70bdbfed903f0686c1bbeb860dff155bb3782ac75358"
+      }
+    },
+    "exact_campaign_target": false,
+    "campaign_id": "CANARY",
+    "reviewed_relation_id": null
+  },
+  "review": {
+    "reviewer": "synthetic-fixture-reviewer",
+    "qualification": "TEST DATA ONLY; no qualified human review is asserted.",
+    "reviewed_at": "2000-01-01",
+    "evidence": [
+      {
+        "path": "work_packages/CANARY/review.md",
+        "git_blob_sha1": "6534b96599741df3f970abb99a039e41745d5579",
+        "sha256": "b458db13d4c49997a68a25807f350333325ca59f0b917b0ab1fd094cfbde40b0"
+      }
+    ],
+    "decision": "APPROVE_REVIEWED_PROMOTION",
+    "semantic_fidelity_confirmed": true,
+    "machine_consistency_reviewed": true
+  },
+  "result_status": {
+    "result_status": "OPEN",
+    "conditional_on": [
+      "The object is the fixed integer 0, not an arbitrary mathematical conjecture."
+    ],
+    "strongest_supported_claim": "Synthetic open target: for the fixed integer 0, establish 0 + 0 = 0. This record asserts no proof.",
+    "not_claimed": [
+      "No proof, generalization, campaign result, or MATHCERT certificate is asserted."
+    ],
+    "support_route_class": "FORMAL_PROOF",
+    "foundational_profile": {
+      "disposition": "PROFILE_PRESENT",
+      "profile": {
+        "carrier_type": "finite",
+        "ambient_structure": [
+          "computable_presentation"
+        ],
+        "regularity": [
+          "finite",
+          "decidable",
+          "computable"
+        ],
+        "axiom_profile": {
+          "base": "finite",
+          "choice_usage": "none",
+          "excluded_middle": "avoided",
+          "large_cardinal_usage": "none",
+          "determinacy_usage": "none"
+        },
+        "witness_policy": {
+          "existence_claim": "explicit_witness",
+          "witness_location": "absent"
+        },
+        "certification_target": [
+          "Lean"
+        ],
+        "pathology_risk": {
+          "level": "low",
+          "notes": "Synthetic fixed integer target; no promotion or mathematical authority."
+        }
+      }
+    },
+    "certification_state": "NOT_CERTIFIED",
+    "first_executable_step": {
+      "node_id": "CANARY-N1",
+      "input": [
+        "Synthetic fixed target and empty proof state"
+      ],
+      "output": "A scoped proof candidate only",
+      "completion_test": "The candidate states exactly the fixed target and retains independent verification as pending."
+    }
+  },
+  "exposition": [
+    {
+      "stage": "STATUS_BOX",
+      "artifact_role": "RESULT_STATUS"
+    },
+    {
+      "stage": "PLAIN_OBJECT",
+      "artifact_role": "LAY_COMPANION"
+    },
+    {
+      "stage": "EXACT_OBSTRUCTION",
+      "artifact_role": "OBJECT_AND_OBSTRUCTION"
+    },
+    {
+      "stage": "WORKING_MODEL",
+      "artifact_role": "OBJECT_AND_OBSTRUCTION"
+    },
+    {
+      "stage": "RESTRICTED_CLAIM",
+      "artifact_role": "CLAIM_LEDGER"
+    },
+    {
+      "stage": "SPINE_LOCATION",
+      "artifact_role": "THEOREM_SPINE"
+    },
+    {
+      "stage": "SUPPORT_ROUTE",
+      "artifact_role": "PROOFS_AND_COMPUTATIONS"
+    },
+    {
+      "stage": "DEBT_AND_CLAIM_BOUNDARY",
+      "artifact_role": "PROOF_DEBT_REGISTER"
+    },
+    {
+      "stage": "FIRST_EXECUTABLE_STEP",
+      "artifact_role": "NEXT_EXECUTABLE_STEP"
+    }
+  ],
+  "trust_quartet": {
+    "WHAT_IS_PROVED": {
+      "answer": "Nothing is proved by this synthetic intake canary.",
+      "claim_ids": [],
+      "debt_ids": []
+    },
+    "WHAT_IS_CHECKED": {
+      "answer": "Only structural contract and byte integrity checks are replayed.",
+      "claim_ids": [],
+      "debt_ids": []
+    },
+    "WHAT_REMAINS_OPEN": {
+      "answer": "The synthetic target remains open; CANARY-D1 is unresolved.",
+      "claim_ids": [
+        "CANARY-CLAIM-001"
+      ],
+      "debt_ids": [
+        "CANARY-D1"
+      ]
+    },
+    "WHAT_REQUIRES_EXTERNAL_VERIFICATION": {
+      "answer": "A separate checker must supply verification; this fixture is not that verification.",
+      "claim_ids": [
+        "CANARY-CLAIM-001"
+      ],
+      "debt_ids": []
+    }
+  },
+  "global_theorem_spine_id": "CANARY-SPINE",
+  "local_node_advanced": "CANARY-N1",
+  "strongest_claim_id": "CANARY-CLAIM-001",
+  "local_claims": [
+    {
+      "claim_id": "CANARY-CLAIM-001",
+      "statement": "Synthetic open target: for the fixed integer 0, establish 0 + 0 = 0. This record asserts no proof.",
+      "node_id": "CANARY-N1",
+      "status": "OPEN",
+      "proof_debt_ids": [
+        "CANARY-D1"
+      ],
+      "requires_external_verification": true
+    }
+  ],
+  "theorem_spine": [
+    {
+      "node_id": "CANARY-N1",
+      "role": "THEOREM",
+      "status": "OPEN",
+      "dependencies": [],
+      "support_route_class": "FORMAL_PROOF",
+      "discharge_criterion": "Submit a separately checked local proof of precisely the fixed target.",
+      "proof_debt_ids": [
+        "CANARY-D1"
+      ]
+    }
+  ],
+  "proof_debt": [
+    {
+      "debt_id": "CANARY-D1",
+      "category": "MISSING_LEMMA",
+      "blocked_node": "CANARY-N1",
+      "present_evidence": [
+        "Synthetic fixture only; no mathematical proof supplied."
+      ],
+      "discharge_condition": "Submit a separately checked local proof of precisely the fixed target.",
+      "route": "FORMAL_PROOF",
+      "owner": "synthetic-fixture-owner",
+      "status": "OPEN"
+    }
+  ],
+  "escalation_gate": {
+    "theorem_spine_audited": true,
+    "dependencies_named": true,
+    "proof_debt_register_current": true,
+    "trust_quartet_complete": true,
+    "foundational_profile_present_or_deferred": true,
+    "first_executable_step_present": true,
+    "next_package_names_spine_node": true
+  },
+  "required_artifacts": {
+    "RESULT_STATUS": {
+      "path": "work_packages/CANARY/result_status.md",
+      "git_blob_sha1": "8e031f6dad77948068bf5c0d9e9a4c68ed92d654",
+      "sha256": "a0b10c61d536dd8daae1d6a948fd04316e657ad10d4328a75e95a98a72652923"
+    },
+    "LAY_COMPANION": {
+      "path": "work_packages/CANARY/lay_companion.md",
+      "git_blob_sha1": "f9bee0baf920fa2bcf2b120e3630278fb12ad9e0",
+      "sha256": "b93aae1b7188413712e003e38228444a84671d397cbea77b547278a122a5bf94"
+    },
+    "OBJECT_AND_OBSTRUCTION": {
+      "path": "work_packages/CANARY/object_and_obstruction.md",
+      "git_blob_sha1": "209ca1da6cbe87cb8529048565b3ba20f4a3b749",
+      "sha256": "f68bec0772b659bc994fe6f73826e81fa0d9e2721bb06fe41cc4d076c0b06eb1"
+    },
+    "STATUS_AUDIT": {
+      "path": "work_packages/CANARY/status_audit.md",
+      "git_blob_sha1": "c932c12a749db888c4352046f440b2707e77071b",
+      "sha256": "15f230a643dfbd1d68246292c40240a838e35f5d22a8a8d63dca84eadc041961"
+    },
+    "CLAIM_LEDGER": {
+      "path": "work_packages/CANARY/claim_ledger.json",
+      "git_blob_sha1": "5afbcd89446764c2cacd7110fb41ae7b6639e8ba",
+      "sha256": "d4e87ab68c260bb80bacff1969279b6b5a8c0d42350f74c8c6f4b5524d661de3"
+    },
+    "THEOREM_SPINE": {
+      "path": "work_packages/CANARY/theorem_spine.json",
+      "git_blob_sha1": "a0f5a3921b4c4c341d621803f21034e605e7167c",
+      "sha256": "e542615aa87af5de71a63309acba8046c2dab6361b3e6cff2f94f3317bfc0252"
+    },
+    "DEPENDENCY_DAG": {
+      "path": "work_packages/CANARY/dependency_dag.json",
+      "git_blob_sha1": "8a067c485a403f8941bb946002b2f226cb49b803",
+      "sha256": "fd77a93477feeb26568565c862e4a94a305fd387f8d6e75247eb31f8b97a2120"
+    },
+    "PROOFS_AND_COMPUTATIONS": {
+      "path": "work_packages/CANARY/proofs_and_computations.md",
+      "git_blob_sha1": "7df5d10b8be26740505e06771811830caa8ec36a",
+      "sha256": "5e2b66f14859deb57bbfc26ee320c3f3809942b8ef04916ab4596adb0b4cd374"
+    },
+    "FAILURE_AND_NEGATIVE_RESULTS": {
+      "path": "work_packages/CANARY/failure_and_negative_results.md",
+      "git_blob_sha1": "dfc48bebf933be5011e18bea18c0da9a6b27430a",
+      "sha256": "567c9c7af80c15bd51d43ea7d060cb98ecd6e8ebdbc004b366829e6113147c76"
+    },
+    "PROOF_DEBT_REGISTER": {
+      "path": "work_packages/CANARY/proof_debt.json",
+      "git_blob_sha1": "1e935ba0c6af04a216eb4db80553bd63d6afeca9",
+      "sha256": "53968c2e61a6824b3f12112b0e2c67f7ccf31b8e781928c8d76f92746ada85ec"
+    },
+    "CERT_HANDOFF": {
+      "path": "work_packages/CANARY/handoff_intent.json",
+      "git_blob_sha1": "b23768bb965ac50dd778fd2edc37c464e6843d41",
+      "sha256": "b6faaa204a96ccc01959ab0bba18f08bd27050eab63b877045e2f452ce266970"
+    },
+    "NEXT_EXECUTABLE_STEP": {
+      "path": "work_packages/CANARY/next_executable_step.md",
+      "git_blob_sha1": "6a423bde472c1d19b5582a18a5e1c3dee6d7140b",
+      "sha256": "e22b005a1ea7403427415c4826c137130ed91cf1efd1f19a6c3673186432755b"
+    }
+  },
+  "non_claim_boundary": {
+    "text": "NON-AUTHORITATIVE SYNTHETIC CANARY. No production promotion, mathematical proof, campaign authority or MATHCERT certification.",
+    "certification_inferred": false,
+    "catalog_status_is_local_result": false,
+    "unscoped_campaign_claim": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "theorem_spine": [
+    {
+      "node_id": "CANARY-N1",
+      "role": "THEOREM",
+      "status": "OPEN",
+      "dependencies": [],
+      "support_route_class": "FORMAL_PROOF",
+      "discharge_criterion": "Submit a separately checked local proof of precisely the fixed target.",
+      "proof_debt_ids": [
+        "CANARY-D1"
+      ]
+    }
+  ]
+}

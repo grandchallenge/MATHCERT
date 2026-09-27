@@ -1,0 +1,14 @@
+{
+  "local_claims": [
+    {
+      "claim_id": "CANARY-CLAIM-001",
+      "statement": "Synthetic open target: for the fixed integer 0, establish 0 + 0 = 0. This record asserts no proof.",
+      "node_id": "CANARY-N1",
+      "status": "OPEN",
+      "proof_debt_ids": [
+        "CANARY-D1"
+      ],
+      "requires_external_verification": true
+    }
+  ]
+}

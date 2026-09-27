@@ -2,7 +2,7 @@
   "schema_version": "2.0.0",
   "policy_id": "MC-EXTERNAL-CATALOG-CERTIFICATION-BOUNDARY-001",
   "programme_authority": {"repository": "grandchallenge/MATH-PROGRAMME", "commit": "4b78daac0b85298957b52e34687423e5442b5e51", "path": "governance/mathforge_external_source_imports.json", "git_blob_sha1": "8544fcd383e68a1ca0acd060e56bb0e7d0fe16a0"},
-  "mathsolve_authority": {"repository": "grandchallenge/MATHSOLVE", "commit": "7e1f27f7ec205d511570cf3b498037a8907a89c6", "path": "governance/external_semantic_catalog_intake.json", "git_blob_sha1": "e61732d9c732eaa8ecd26067d6561d1ce0b1a779"},
+  "mathsolve_authority": {"repository": "grandchallenge/MATHSOLVE", "commit": "b9906e0d150e232efed1a5e4fbd2f5081609ab56", "path": "governance/external_semantic_catalog_intake.json", "git_blob_sha1": "e61732d9c732eaa8ecd26067d6561d1ce0b1a779"},
   "chaidez_authority": {"repository": "grandchallenge/MATH-PROGRAMME", "commit": "861479cb599df01f6e9cafc8647fdefe56249d29", "path": "pedagogy/chaidez_protocol_contract.json", "git_blob_sha1": "29e12c793d116c6c3af121c04486c5daa6c09e1e"},
   "direct_catalog_intake": false,
   "required_handoff": {"separately_scoped_mathsolve_handoff": true, "chaidez_promotion_dossier_provenance": true, "trust_quartet_consistent": true, "named_proof_debt_preserved": true, "exact_local_claim": true, "local_replay_evidence": true, "registered_certification_route": true, "independent_verification": true},
