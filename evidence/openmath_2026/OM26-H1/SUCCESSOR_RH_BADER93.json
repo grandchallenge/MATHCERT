@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OPENMATH-2026-OM26-H1-SUCCESSOR-RH-BADER93-001",
+  "campaign_id": "OPENMATH-2026",
+  "hill_slot": "OM26-H1",
+  "hill_id": "alejandrozu/kobon-triangles",
+  "predecessor_intake": "MC-OPENMATH-2026-OM26-H1-INTAKE-001",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/341",
+  "status": "ADMITTED_PENDING_INDEPENDENT_CERT_EXECUTOR",
+  "certification_effect": false,
+  "source_authority": {
+    "forge_repository": "grandchallenge/MATHFORGE",
+    "forge_commit": "9e00c45fd665546b813f9234314a63eddbec854d",
+    "literature_reconnaissance": {
+      "path": "reports/discovery/openmath_2026/hills/OM26-H1_KOBON_TRIANGLES/LITERATURE_RECONNAISSANCE.md",
+      "git_blob_sha1": "a9cd296023e57ebe30128cf3a45c68e538340397"
+    },
+    "literature_status": {
+      "path": "reports/discovery/openmath_2026/hills/OM26-H1_KOBON_TRIANGLES/LITERATURE_STATUS.json",
+      "git_blob_sha1": "79a97067d520ea7e7321bd1ccae65919da77f1a4"
+    }
+  },
+  "producer_handoff": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "protected_commit": "5e5770c287f6bbf8e66f8cab4487594db6100f53",
+    "handoff": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/MATHCERT_HANDOFF_RH_BADER93.md",
+      "git_blob_sha1": "db4e772d072050f575c86271ed88e3674c128f79"
+    },
+    "replay_receipt": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/H1_07_RH_BADER93_REPLAY_RECEIPT.json",
+      "git_blob_sha1": "cc6a593953de2ce523e19e16022dce60e562dc99"
+    },
+    "candidate_ladder": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/CANDIDATE_LADDER.json",
+      "git_blob_sha1": "53592a6b261147e2545a501167f42124f3a1d2e7"
+    },
+    "source_record": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/BADER_93_SOURCE.json",
+      "git_blob_sha1": "0a2e2ddc355f1b5d237cffdb24b152b69b66ba30"
+    },
+    "order_table": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/BADER_93_ORDER_TABLE.json",
+      "git_blob_sha1": "679edd9f3e218e6685186708584eaa6173c25415"
+    }
+  },
+  "target_claim": {
+    "claim_id": "OM26-H1-CON-002",
+    "kind": "EXACT_FINITE_CONSTRUCTION",
+    "statement": "The exact candidate RH_BADER_RECONSTRUCTION_093 has 93 counted triangular faces at n=18 under the locked hill semantics.",
+    "requested_disposition": "LEVEL_2_EXACT_CONSTRUCTION_REPLAY",
+    "producer_state": "SOLVE_VERIFIED__H1_07_PASS__SOURCE_GUIDED_RECONSTRUCTION"
+  },
+  "candidate_subject": {
+    "local_snapshot_path": "evidence/openmath_2026/OM26-H1/RH_BADER_RECONSTRUCTION_093.solution.json",
+    "upstream_path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/candidates/RH_BADER_RECONSTRUCTION_093/solution.json",
+    "upstream_git_blob_sha1": "bb244e4b0422922ae9f85cc4facb2109c33162b3",
+    "sha256": "e606799ad6c1296deedb475440d1eecbe86daba8a3af625718f55726f93da4d5",
+    "n": 18,
+    "producer_reported_triangles": 93,
+    "provenance": "GCL-generated rational realization of externally sourced Johannes Bader 93-triangle order type"
+  },
+  "independence": {
+    "required": true,
+    "authoring_system_may_issue_final_disposition": false,
+    "independent_executor_requirements": [
+      "Treat the candidate snapshot as data only.",
+      "Verify the candidate Git blob and SHA-256 before replay.",
+      "Reconstruct the counted-face predicate independently from the locked hill statement.",
+      "Do not import or execute MATHSOLVE scorer, direct-oracle, search, order-verifier, or test modules as the Cert verifier.",
+      "Use exact arithmetic for all geometric predicates.",
+      "Verify exactly 93 counted triangular faces and export supporting-line triples.",
+      "Preserve the provenance distinction between the external Bader order type and GCL-generated rational coefficients."
+    ]
+  },
+  "explicit_exclusions": [
+    "93 is globally best known",
+    "93 is globally optimal",
+    "the GCL rational coefficients are Johannes Bader's original coordinates",
+    "the construction is novel or first",
+    "the unofficial local AutoLab score is official competition acceptance",
+    "publication readiness",
+    "CI success alone constitutes certification"
+  ],
+  "completion_test": "A fresh non-authoring Cert executor independently verifies the exact identity-bound 93-triangle construction claim and issues a disposition within the explicit exclusions.",
+  "claim_boundary": "Successor intake only. It does not itself certify the 93-triangle construction or any best-known, optimality, novelty, priority, official competition, or publication claim."
+}

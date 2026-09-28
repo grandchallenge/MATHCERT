@@ -53,3 +53,15 @@ Operational continuity may transfer across agents. Certification authority and s
 Do not create placeholder certified claims for `OM26-H1` through `OM26-H6`.
 
 A slot enters Cert only when a concrete claim-bearing MATHSOLVE handoff exists.
+
+## Active intake: OM26-H1
+
+`OM26-H1` now has a concrete claim-bearing intake under MATHCERT issue #341. The admitted objects are the H1-02 face-criterion theorem and the exact `n=18` construction claim for `RD_LOCAL_MUTATION_086`.
+
+The intake is **pending a fresh non-authoring Cert executor**. No MATHCERT certification disposition has been issued.
+
+## OM26-H1 successor intake: 93-triangle reconstruction
+
+The same pending independent Cert intake now includes a separate successor object for `OM26-H1-CON-002`, the exact 93-triangle rational reconstruction `RH_BADER_RECONSTRUCTION_093` bound to protected MATHSOLVE commit `5e5770c287f6bbf8e66f8cab4487594db6100f53`.
+
+This successor does not replace the historical 86-triangle intake or the H1-02 theorem review. It is independently adjudicated and has no certification effect until a fresh non-authoring Cert executor completes the replay.
