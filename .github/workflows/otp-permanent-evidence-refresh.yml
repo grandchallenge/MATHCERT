@@ -70,7 +70,7 @@ jobs:
           test -f upstream/ComparatorChallenges/C_PermanentFormulaLowerBound.json
 
       - name: Bootstrap project dependencies
-        uses: grandchallenge/lean-action@138a564e38a62ce545e8d47d86a97628463aced4
+        uses: grandchallenge/lean-action@37f8471aecd2efbeab3b1e1a75ad18fb8f5c1b01
         with:
           auto-config: false
           build: false
