@@ -1,0 +1,95 @@
+[
+  {
+    "fixture": "unit_triangle",
+    "expected": 1,
+    "observed": {
+      "triangles": 1,
+      "supporting_line_triples": [
+        [
+          0,
+          1,
+          2
+        ]
+      ],
+      "statistics": {
+        "parallel_support_triples": 0,
+        "concurrent_support_triples": 0,
+        "interior_crossed_triples": 0,
+        "accepted_with_vertex_touch": 0
+      }
+    }
+  },
+  {
+    "fixture": "parallel",
+    "expected": 0,
+    "observed": {
+      "triangles": 0,
+      "supporting_line_triples": [],
+      "statistics": {
+        "parallel_support_triples": 1,
+        "concurrent_support_triples": 0,
+        "interior_crossed_triples": 0,
+        "accepted_with_vertex_touch": 0
+      }
+    }
+  },
+  {
+    "fixture": "concurrent",
+    "expected": 0,
+    "observed": {
+      "triangles": 0,
+      "supporting_line_triples": [],
+      "statistics": {
+        "parallel_support_triples": 0,
+        "concurrent_support_triples": 1,
+        "interior_crossed_triples": 0,
+        "accepted_with_vertex_touch": 0
+      }
+    }
+  },
+  {
+    "fixture": "vertex_touch",
+    "expected": 2,
+    "observed": {
+      "triangles": 2,
+      "supporting_line_triples": [
+        [
+          0,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "statistics": {
+        "parallel_support_triples": 0,
+        "concurrent_support_triples": 1,
+        "interior_crossed_triples": 1,
+        "accepted_with_vertex_touch": 2
+      }
+    }
+  },
+  {
+    "fixture": "side_subdivision",
+    "expected": 1,
+    "observed": {
+      "triangles": 1,
+      "supporting_line_triples": [
+        [
+          0,
+          1,
+          2
+        ]
+      ],
+      "statistics": {
+        "parallel_support_triples": 2,
+        "concurrent_support_triples": 1,
+        "interior_crossed_triples": 0,
+        "accepted_with_vertex_touch": 1
+      }
+    }
+  }
+]

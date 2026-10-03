@@ -1,0 +1,54 @@
+[
+  {
+    "name": "vertex_only_touch",
+    "expected": 1,
+    "observed": 1,
+    "result": "PASS"
+  },
+  {
+    "name": "vertex_entry",
+    "expected": 2,
+    "observed": 2,
+    "result": "PASS"
+  },
+  {
+    "name": "concurrent",
+    "expected": 0,
+    "observed": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "parallel",
+    "expected": 0,
+    "observed": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "coincident_scaled",
+    "result": "REJECTED_AS_REQUIRED"
+  },
+  {
+    "name": "boolean",
+    "result": "REJECTED_AS_REQUIRED"
+  },
+  {
+    "name": "zero_normal",
+    "result": "REJECTED_AS_REQUIRED"
+  },
+  {
+    "name": "integer_bound",
+    "result": "REJECTED_AS_REQUIRED"
+  },
+  {
+    "name": "candidate_coordinate_mutation",
+    "result": "REJECTED_BEFORE_REPLAY_BY_SHA256"
+  },
+  {
+    "name": "candidate86_ledger_count_mutation",
+    "result": "DETECTED_BY_EXACT_REGENERATED_COUNT"
+  },
+  {
+    "name": "candidate93_ledger_count_mutation",
+    "result": "DETECTED_BY_EXACT_REGENERATED_COUNT"
+  }
+]

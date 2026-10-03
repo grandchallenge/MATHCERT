@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "reviewer_system_id": "Codex",
+  "mode": "non_authoring_read_only",
+  "exact_subject": {
+    "mathcert_evidence_commit": "74c77ec89edf485b6aa67393c8c797860beca69e",
+    "evidence_path": "evidence/openmath_2026/OM26-H1/review_20261002",
+    "review_sha256": "f555974e68e2f492ef7143f05f610ec4b8c1a6a95a3c4f7aec21e89b16b0e253",
+    "manifest_sha256": "60310751b8beb9c2fcd83a48be22f3c98fcaa217ffb16f1437957a5c5fa51d1d"
+  },
+  "candidate_or_original_evidence_mutated": false,
+  "github_mutation_performed": false,
+  "record_id": "MC-OM26-H1-CON-001-DISPOSITION-20261002-001",
+  "role": "MATHCERT_CERTIFIER",
+  "logical_pass_id": "MC-OPENMATH-H1-CERTIFIER-RECONCILIATION-20261002-002",
+  "claim_id": "OM26-H1-CON-001",
+  "exact_claim_subject": {
+    "solve_commit": "47a7318488229da3e7aaff67d68ebec7de7a4ab1",
+    "candidate_blob": "17f8355b484bacf115bafd413de9a0be8f8e3385",
+    "candidate_sha256": "05a5f519433a0787a96a3f6c5a8cef17fc7f8ab093ccf0c9ab45a2d564ad11d5"
+  },
+  "eligibility_finding": "ELIGIBILITY_FINDING.json",
+  "eligibility_sha256": "bbd834a27e972b194c501868cdd3ca46b01d710a5af81dd8238e968338eb9db6",
+  "adversary_record": "ADVERSARY_ROLE.json",
+  "adversary_sha256": "acfbb48a39f6c3d280d54cd6f02e90c788647c25cd5966e943379ac35162eb55",
+  "bounded_evidence_finding": "Exact recorded replay corroborated in scratch: 18 distinct valid integer lines, 86 faces; copied reviewer verifier and graph crosscheck agree on exact supporting triples. No producer executable run. This is corroboration, not a newly system-independent verification.",
+  "disposition": "CERTIFIED_LEVEL2_EXACT_CONSTRUCTION",
+  "certification_level": 2,
+  "formal_theorem_certified": false,
+  "criteria": [
+    "Exact source/candidate binding",
+    "Non-authoring independent implementation provenance",
+    "Exact arithmetic predicate and complete support-triple enumeration",
+    "Degeneracy and semantic fidelity",
+    "Claim boundaries"
+  ],
+  "accepted_statement": "The exact RD_LOCAL_MUTATION_086 integer-line candidate has 86 counted bounded triangular faces at n=18 under the content-locked hill statement.",
+  "excluded_claims": [
+    "global best-known status",
+    "optimality",
+    "novelty or priority",
+    "original Bader coefficient authorship",
+    "official competition acceptance",
+    "publication readiness",
+    "Level4/5 formal theorem or kernel verifier soundness"
+  ],
+  "residual_uncertainty": [
+    "The verification was targeted, not blinded: expected counts were known.",
+    "Shared platform/architecture is known and is not intrinsic proof of independence or authorship. Historical producer agent identities were not exhaustively audited. Eligibility rests on concrete participation and implementation provenance plus admitted precedent.",
+    "The verifier is not kernel-formalized; this supports Level2 finite constructions and informal semantic qualification, not Level4/5 theorem status.",
+    "Live AutoLab submission concordance and official acceptance remain separate obligations."
+  ],
+  "authority_state": "candidate_until_protected_merge",
+  "protected_effect": false,
+  "policy_exception_requested": false,
+  "supporting_triples_ledger_sha256": "fb35bb97c3787cf6ee69a03a492e0d58b4284872719f23c16784ffbcc450f5b7",
+  "exact_face_count": 86,
+  "accepted_route_authority": {
+    "authority": "EXISTING_ADMITTED_H1_INTAKE_AND_MATHCERT_LEVEL2_POLICY",
+    "intake_issues": [
+      "https://github.com/grandchallenge/MATHCERT/issues/341",
+      "https://github.com/grandchallenge/MATHCERT/issues/345"
+    ],
+    "intake_commit": "74c77ec89edf485b6aa67393c8c797860beca69e",
+    "intake_paths": [
+      "evidence/openmath_2026/OM26-H1/INTAKE.json",
+      "evidence/openmath_2026/OM26-H1/RH_BADER93/INTAKE.json"
+    ],
+    "authoring_system_may_issue_final_disposition": false,
+    "intakes_unchanged": true,
+    "policy_exception": false,
+    "eligibility_correction": "Recognizes substantively non-authoring actor from actual participation and independent implementation; does not waive producer prohibition."
+  }
+}

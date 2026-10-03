@@ -1,0 +1,19 @@
+{
+  "record_type": "REVIEWER_ORCHESTRATION_PROVENANCE",
+  "reviewer_agent": "/root/cert_h1_independent",
+  "fork_turns": "none",
+  "initial_assignment": "fresh non-authoring H1 review",
+  "inherited_producer_turns": false,
+  "producer_source_commits": [
+    "47a7318488229da3e7aaff67d68ebec7de7a4ab1",
+    "efd9a02b700a260c54aba8ba1a8dc50903e50a71"
+  ],
+  "initial_assignment_disclosed_expected_counts": true,
+  "initial_assignment_supplied_producer_code": false,
+  "reviewer_evidence": "74c77ec89edf485b6aa67393c8c797860beca69e",
+  "platform_family": "Codex",
+  "platform_identity_alone_determines_authorship": false,
+  "automatic_independence_from_spawn": false,
+  "authority_claim": "None; factual orchestration record only",
+  "basis": "Actual spawn_agent call used fork_turns=none; no producer history was forked. Substantive separation must be assessed from reviewer actions and evidence."
+}

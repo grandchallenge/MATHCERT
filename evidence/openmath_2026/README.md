@@ -80,3 +80,28 @@ system-level independence prohibition in `AGENTS.md` and the admitted H1
 bootstrap. The existing intake statuses and certification effects remain
 unchanged. An eligible non-authoring certifier must evaluate the evidence and
 record separate dispositions for the three exact claims.
+
+## Provenance reconciliation — 2026-10-03 UTC
+
+The earlier review treated shared Codex platform identity as evidence of shared
+producer authorship. That inference is superseded by the append-only records
+in `OM26-H1/provenance_reconciliation_20261003/` and
+`OM26-H1/adjudication_20261003/`.
+
+The separately staffed reviewer attests no participation in protected Solve
+construction, proof authorship or prior verification. It derived and executed
+its exact verifier from the locked statement before inspecting the producer
+proof; it imported and executed no producer verification implementation.
+The separately staffed Certifier assessed that actual provenance against the
+recorded UC-WP07-D005 precedent and the bounded RM-DIO-004 exact-replay route.
+It did not infer independence from an account, product brand or agent title.
+
+The authoring-system prohibition remains in force and the original intakes
+and historical findings remain unchanged. The correction recognizes the
+non-authoring reviewer/certifier against actual participation and substantive
+checking; it creates no exception. The proposed dispositions apply separately
+to the exact 86- and 93-face constructions at Level 2 and to the informal
+face-criterion proof/semantic review. No Level 4/5 theorem claim, optimality,
+novelty, official competition acceptance or publication authority follows.
+The adjudication record has protected effect only after normal reviewed merge
+and exact-content readback; until then it is a candidate.

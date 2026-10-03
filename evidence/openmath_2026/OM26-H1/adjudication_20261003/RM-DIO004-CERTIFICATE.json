@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "certificate_id": "MC-RM-DIO-004-Y-ABS-1000000",
+  "certificate_type": "bounded_diophantine_exact_replay",
+  "certification_level": 2,
+  "claim": "For every integer y with -1000000 <= y <= 1000000 and unrestricted integer x, the solutions of x^2 - x = y^5 - y are exactly the twelve ordered pairs recorded here.",
+  "domain": {"variable": "y", "minimum": -1000000, "maximum": 1000000, "inclusive": true, "x_restriction": "none"},
+  "solutions": [[-4929, 30], [-15, 3], [-5, 2], [0, -1], [0, 0], [0, 1], [1, -1], [1, 0], [1, 1], [6, 2], [16, 3], [4930, 30]],
+  "solution_count": 12,
+  "upstream": {
+    "mathforge_protected_commit": "bab7ae57f54601b49ad9fc870051095ad487c64a",
+    "mathsolve_repository": "grandchallenge/MATHSOLVE",
+    "mathsolve_protected_commit": "dc232d903be7647416bf1fcfc0bf4c415d95e245",
+    "source_binding_blob_sha1": "f2d0f1f06abf76fce6ce9dba4092e6f174180703",
+    "exact_screen_blob_sha1": "a39c05ef411b4aeb66e845aefb65b67f1f78bacc",
+    "handoff_blob_sha1": "92cd330bfd59e75ab85e3da4d7201c2482c1cb81",
+    "claim_ledger_blob_sha1": "771935d883d6478485c96a39afcb39f91d9d1580",
+    "validator_blob_sha1": "ecb52561ce0f77438357951e43e58a437786b40c"
+  },
+  "verification": {"checker": "ci/test_audit_certificate_coverage.py", "method": "Independently enumerate every y in the certified interval, test the exact quadratic discriminant with integer square root, reconstruct both x branches, and compare the regenerated set with the certificate.", "arithmetic": "unbounded exact integers", "floating_point_used": false},
+  "verdict": "CERTIFIED_BOUNDED_EXACT_COMPUTATION",
+  "excluded_claims": ["No claim is made for any y outside the certified interval.", "The unrestricted workshop problem is not certified or declared solved.", "The source dataset's status-search prose is not certification evidence."],
+  "promotion_condition": "Unbounded certification requires a separately reviewed global arithmetic proof that establishes completeness beyond the finite interval."
+}

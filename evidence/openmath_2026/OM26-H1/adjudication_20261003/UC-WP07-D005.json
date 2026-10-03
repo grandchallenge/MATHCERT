@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "union_closed_wp07_d005_adjudication",
+  "adjudication_id": "MC-UC-WP07-D005-ADJUDICATION-001",
+  "campaign_id": "UC-001",
+  "work_package_id": "UC-WP07-D005",
+  "claim_id": "UC-WP07-P006",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/320",
+  "authority": {
+    "producer_packet": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "0eef2146588d10953ffc29dede7614d66ca2c0b7",
+      "path": "handoffs/UC-001/WP07_D005_MATHCERT_INTAKE.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "1d6365df8c6178ed4b22eb9531a9220cd13bbf24"
+    },
+    "theorem_source": {
+      "repository": "grandchallenge/MATHSOLVE",
+      "commit_sha": "dbfbb117ef1e3733268da6590c824a330c69ee64",
+      "path": "MathSolve/UnionClosed/FunctionalPreorderD005.lean",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "5638ddb60e573a7416a844ece74234fcffba52ad"
+    },
+    "intake_record": {
+      "repository": "grandchallenge/MATHCERT",
+      "commit_sha": "0fb5030600cbe72de72dbf0900732352d50cf3e8",
+      "path": "governance/result_family_intake_successors/UC-WP07-D005.json",
+      "digest_algorithm": "git_blob_sha1",
+      "digest": "2a18733c11eb23ff98a2cbdbad8a664d9db47921"
+    }
+  },
+  "target_scope": {
+    "claim_id": "UC-WP07-P006",
+    "theorem": "MathSolve.UnionClosed.WP07.d005_complement_frankl",
+    "companion_theorem": "MathSolve.UnionClosed.WP07.d005_complement_averageAbundant",
+    "statement": "For every exact D003 functional-preorder ideal family F on carrier U, the carrier-relative complement family complementFamilyOn F U is union-closed, nontrivial, and Frankl-abundant."
+  },
+  "formal_replay": {
+    "result": "PASS",
+    "lean_version": "4.29.1",
+    "build_command": "lake build MathSolve.UnionClosed.FunctionalPreorderD005",
+    "clean_checkout_replay": true,
+    "placeholders": {
+      "sorry_count": 0,
+      "admit_count": 0
+    },
+    "axioms": {
+      "kernel_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "imported_domain_axioms": [],
+      "unexpected_axioms": []
+    },
+    "trust_boundary_scan": "clear; no custom axioms, no opaque bypasses"
+  },
+  "semantic_replay": {
+    "result": "PASS",
+    "d003_hypothesis_audit": {
+      "predicate": "MathSolve.UnionClosed.WP07.IsFunctionalPreorderIdealFamilyOn F U",
+      "carrier_semantics": "U is exactly the ground finset of a FuncSetup datum",
+      "family_equality": "F is extensionally equal to S.idealFamily",
+      "order_ideal_predicate": "S.IsOrderIdealOn I requires I ⊆ ground and downward closure under reachability relation Relation.ReflTransGen S.cover",
+      "nonempty_carrier": "guaranteed by S.nonempty witness in FuncSetup",
+      "member_subset_property": "every member of F is provably a subset of U"
+    }
+  },
+  "key_d005_chain": {
+    "intersection_closure": {
+      "status": "PASS",
+      "lemma": "functionalPreorderIdealFamily_inter_closed",
+      "assessment": "Order ideals for a single preorder are closed under binary intersection directly from downward closure; WP06 subset-downward closure (IsIdealFamilyOn) is completely avoided."
+    },
+    "complement_union_closure": {
+      "status": "PASS",
+      "lemma": "complementFamilyOn_unionClosed_of_functionalPreorder",
+      "assessment": "De Morgan duality on subsets of fixed carrier U: (U \\ S) ∪ (U \\ T) = U \\ (S ∩ T), transferring intersection closure of F to union closure of complementFamilyOn F U."
+    },
+    "cardinality_preservation": {
+      "status": "PASS",
+      "lemma": "complementFamilyOn_card",
+      "assessment": "Map S ↦ U \\ S is an involution on P(U) (sdiff_sdiff_eq_self_of_subset) and thus strictly injective on F; Finset.card_image_iff guarantees |complementFamilyOn F U| = |F|."
+    },
+    "frequency_duality": {
+      "status": "PASS",
+      "lemma": "freq_complementFamilyOn",
+      "assessment": "Element x ∈ U occurs in complement U \\ S if and only if x ∉ S; natural number subtraction |F| - freq(F, x) is exact without truncation error."
+    },
+    "double_counting": {
+      "status": "PASS",
+      "lemma": "sum_card_eq_sum_freq_on",
+      "assessment": "Finite bipartite incidence counting (sum_card_bipartiteAbove_eq_sum_card_bipartiteBelow) independently establishes ∑_{S ∈ F} |S| = ∑_{x ∈ U} freq(F, x)."
+    },
+    "rare_element_extraction": {
+      "status": "PASS",
+      "lemma": "exists_rare_of_averageRare",
+      "assessment": "D004 average rarity (2 * ∑ |S| ≤ |U| * |F|) together with carrier nonemptiness guarantees existence of x ∈ U with 2 * freq(F, x) ≤ |F| by contradiction on summing strict inequalities."
+    },
+    "abundance_transfer": {
+      "status": "PASS",
+      "lemma": "complementFamilyOn_abundant_of_exists_rare",
+      "assessment": "Duality 2 * (|F| - freq(F, x)) ≥ |F| yields 2 * freq(F', x) ≥ |F'|; support membership x ∈ support(F') is witnessed by U = U \\ ∅ ∈ F' since ∅ ∈ F."
+    },
+    "nontriviality": {
+      "status": "PASS",
+      "lemma": "d005_complement_frankl",
+      "assessment": "IsNontrivial is defined as (support F').Nonempty and is directly witnessed by the abundant support element x."
+    }
+  },
+  "companion_theorem_assessment": {
+    "theorem": "MathSolve.UnionClosed.WP07.d005_complement_averageAbundant",
+    "status": "PASS",
+    "assessment": "Average rarity 2 * ∑ |S| ≤ |U| * |F| dualizes to average abundance |U| * |F| ≤ 2 * ∑ |U \\ S| using exact integer subtraction in complementFamilyOn_averageAbundant_of_averageRare."
+  },
+  "representation_firewall": {
+    "status": "PASS",
+    "assessment": "IsComplementOfFunctionalPreorderIdealFamily and complementOfFunctionalPreorderIdealFamily_frankl are one-way restricted wrappers. No converse or universal representation theorem exists. UC-P04 remains OPEN, and UC-FRANKL remains an OPEN_PROBLEM."
+  },
+  "adversarial_checks": {
+    "smallest_admissible_carrier": "PASS: |U|=1, U={1}, F={∅,{1}}, F'={{1},∅}=F, freq=1, card=2, abundant, nontrivial.",
+    "total_chain_preorder": "PASS: Chain 1 ≤ 2 ≤ ... ≤ n, ideals are initial segments, complements are final segments, strictly union-closed, element n abundant in n of n+1 sets.",
+    "discrete_preorder": "PASS: f=id, every subset is an order ideal, F=P(U), F'=P(U), elements have frequency 2^(n-1) = |F|/2, abundance holds with exact equality.",
+    "equivalence_classes_preorder": "PASS: Cycles/SCCs condense to single components, ideals respect equivalence classes, duality and abundance are preserved.",
+    "minimum_order_ideals": "PASS: F={∅,U}, F'={U,∅}, support=U, each element occurs in 1 of 2 sets, 2*1 ≥ 2, abundant.",
+    "half_frequency_boundary": "PASS: Exact half frequency 2*freq = card satisfies nonstrict inequality 2*freq ≥ card in IsFranklAbundant.",
+    "duplicate_complement_invariance": "PASS: S ↦ U \\ S is an involution on P(U), Finset.image preserves cardinality exactly without collapse.",
+    "singleton_carrier_support": "PASS: |U|=1 yields support {x} which is nonempty, satisfying IsNontrivial without vacuity."
+  },
+  "disposition": {
+    "final_bounded_disposition": "QUALIFIED",
+    "claim_id": "UC-WP07-P006",
+    "qualifications": [
+      "The certification is strictly restricted to families that are carrier-relative complements of exact D003 functional-preorder ideal families on nonempty finite ground sets.",
+      "This certification does not establish representation of arbitrary finite union-closed families by complements of functional-preorder ideal families.",
+      "Proof obligation UC-P04 remains OPEN.",
+      "Frankl's union-closed sets conjecture (UC-FRANKL) remains an OPEN_PROBLEM.",
+      "Predecessor certificate MC-UC-WP04-QUAL-001 remains immutable predecessor authority.",
+      "Preorder-downward closure does not imply WP06 subset-downward closure (IsIdealFamilyOn), which fails on the 3-chain fixture."
+    ]
+  },
+  "status_boundaries": {
+    "uc_p04": "OPEN",
+    "uc_frankl": "OPEN_PROBLEM",
+    "mathematical_target_proved": false
+  },
+  "provenance": {
+    "certifier": "MATHCERT independent certifier",
+    "certification_standard": "GCL-AGENT-STAFFING-001@1.0.0",
+    "independence_statement": "Substantively independent certifier evaluation; certifier did not participate in WP07-D005 proof construction or verification in MATHSOLVE.",
+    "reviewed_theorem_merge": "dbfbb117ef1e3733268da6590c824a330c69ee64",
+    "reviewed_handoff_merge": "0eef2146588d10953ffc29dede7614d66ca2c0b7",
+    "reviewed_intake_merge": "0fb5030600cbe72de72dbf0900732352d50cf3e8",
+    "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/320"
+  },
+  "claim_boundary": "This adjudication certifies only the exact restricted UC-WP07-P006 theorem under its recorded qualifications. It does not establish representation of arbitrary union-closed families, does not close UC-P04, does not prove Frankl's conjecture (UC-FRANKL), does not mutate predecessor certificate MC-UC-WP04-QUAL-001, and authorizes no novelty, priority, publication, patentability, product, or commercial claims."
+}
