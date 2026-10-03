@@ -65,3 +65,18 @@ The intake is **pending a fresh non-authoring Cert executor**. No MATHCERT certi
 The same pending independent Cert intake now includes a separate successor object for `OM26-H1-CON-002`, the exact 93-triangle rational reconstruction `RH_BADER_RECONSTRUCTION_093` bound to protected MATHSOLVE commit `5e5770c287f6bbf8e66f8cab4487594db6100f53`.
 
 This successor does not replace the historical 86-triangle intake or the H1-02 theorem review. It is independently adjudicated and has no certification effect until a fresh non-authoring Cert executor completes the replay.
+
+## H1 review evidence — 2026-10-02
+
+A fresh non-authoring logical review pass reconstructed the face predicate from
+the pinned Forge statement, replayed the 86- and 93-triangle snapshots with a
+new exact rational checker, and reviewed the pinned face-criterion proof.
+The reproducible record is in `OM26-H1/review_20261002/REVIEW.md`.
+
+This is completed preparatory verification evidence. It does not issue a final
+MATHCERT certification disposition: the reviewer is a distinct agent within
+the same Codex system, and that separation does not by itself satisfy the
+system-level independence prohibition in `AGENTS.md` and the admitted H1
+bootstrap. The existing intake statuses and certification effects remain
+unchanged. An eligible non-authoring certifier must evaluate the evidence and
+record separate dispositions for the three exact claims.

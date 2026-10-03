@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MF-OPENMATH-2026-OM26-H1-SOURCE-LOCK",
+  "campaign_id": "OPENMATH-2026",
+  "hill_slot": "OM26-H1",
+  "state": "SOURCE_LOCKED_CONTENT_ADDRESSED",
+  "external_identity": {
+    "provider": "AutoLab",
+    "owner": "alejandrozu",
+    "slug": "kobon-triangles",
+    "canonical_id": "alejandrozu/kobon-triangles",
+    "canonical_url": "https://app.autolab.ai/hills/alejandrozu/kobon-triangles",
+    "rendered_title": "Kobon triangles"
+  },
+  "acquisition": {
+    "date": "2026-09-27",
+    "mode": "AUTHENTICATED_RENDER_SUPPLIED_BY_HUMAN_STEWARD",
+    "capture_path": "reports/discovery/openmath_2026/hills/OM26-H1_KOBON_TRIANGLES/STATEMENT.md",
+    "capture_integrity": {
+      "algorithm": "git_blob_sha1",
+      "value": "47e529bce21e76c575c69a26824e182848dceedc"
+    },
+    "immutable_external_version_exposed": false,
+    "version_qualification": "The authenticated render does not expose a separate immutable AutoLab hill-version token. The lock is content-addressed to the captured body. The displayed hills==0.11.0 value is a local evaluator package pin, not treated as the AutoLab hill version.",
+    "pre_submit_requirement": "Re-read the live hill and compare its rules and evaluator contract against this captured body before any final competition submission."
+  },
+  "exact_task": {
+    "task_kind": "DETERMINISTIC_EXACT_GEOMETRIC_CONSTRUCTION_OPTIMIZATION",
+    "object": "Exactly n distinct straight Euclidean lines represented by integer triples [a,b,c] for a*x+b*y+c=0.",
+    "objective": "Maximize evaluator-verified bounded triangular faces.",
+    "counted_face": "A nonzero-area bounded triangular face whose interior is not crossed by any line in the arrangement.",
+    "exclusions": [
+      "A larger triangle subdivided by another line does not count.",
+      "A claimed count without an actual geometric arrangement does not count.",
+      "An abstract pseudoline arrangement is not a submission."
+    ],
+    "n": {
+      "minimum": 3,
+      "maximum": 100,
+      "default": 18,
+      "comparison_rule": "Scores are compared only at the same n."
+    },
+    "metric": {
+      "name": "triangles",
+      "direction": "maximize"
+    },
+    "arithmetic": "EXACT_RATIONAL",
+    "baseline": {
+      "n": 18,
+      "family": "2*i*x - y - i*i = 0 for i=0,...,17",
+      "reported_triangles": 16,
+      "qualification": "valid starting point; not claimed best known"
+    }
+  },
+  "evaluator_contract": {
+    "path": "reports/discovery/openmath_2026/hills/OM26-H1_KOBON_TRIANGLES/EVALUATOR_CONTRACT.md",
+    "integrity": {
+      "algorithm": "git_blob_sha1",
+      "value": "b9f9d8b58fa613c9e788d09f987b50260066bc67"
+    },
+    "local_commands": [
+      "autolab hills check kobon-triangles",
+      "uv tool run --from hills==0.11.0 hills eval <submission-directory> -H kobon-triangles"
+    ],
+    "watchdog_seconds": 120,
+    "search_runtime_scored": false,
+    "final_flag_changes_scoring_rule": false
+  },
+  "source_map": {
+    "path": "reports/discovery/openmath_2026/hills/OM26-H1_KOBON_TRIANGLES/SOURCE_MAP.md",
+    "integrity": {
+      "algorithm": "git_blob_sha1",
+      "value": "cfdc8e40e383ee290f238143c5a7f438af43086a"
+    }
+  },
+  "status_triage": {
+    "path": "reports/discovery/openmath_2026/hills/OM26-H1_KOBON_TRIANGLES/STATUS_TRIAGE.md",
+    "integrity": {
+      "algorithm": "git_blob_sha1",
+      "value": "58b2d8ab30b33de1d110d30578011d516ea078d0"
+    },
+    "disposition": "OPEN_CONSTRUCTION_OPTIMIZATION__NO_OPTIMALITY_CLAIM_REQUIRED"
+  },
+  "problem_card": {
+    "path": "reports/discovery/openmath_2026/hills/OM26-H1_KOBON_TRIANGLES/PROBLEM_CARD.md",
+    "integrity": {
+      "algorithm": "git_blob_sha1",
+      "value": "466224d5623c9463b556f8aa76277b94fc56bc85"
+    }
+  },
+  "campaign_cardinality": {
+    "hill_count": 6,
+    "authority": "HUMAN_STEWARD_CLARIFICATION",
+    "note": "The authenticated hill page sidebar displayed '7 hills'. The Human Steward clarified that this is a typo and that OPENMATH-2026 contains six hills. No seventh campaign slot is created."
+  },
+  "release": {
+    "solve_release": true,
+    "scope": "RESEARCH_AND_CANDIDATE_CONSTRUCTION",
+    "final_submission_release": false,
+    "final_submission_blocker": "LIVE_HILL_VERSION_CONCORDANCE_REQUIRED"
+  },
+  "claim_boundary": "This record locks the captured Kobon-triangles task and evaluator semantics for research. It does not establish a best-known score, an upper bound, optimality, novelty, competition acceptance, or MATHCERT certification."
+}

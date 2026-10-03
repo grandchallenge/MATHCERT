@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OPENMATH-2026-OM26-H1-RH-BADER93-INTAKE-001",
+  "campaign_id": "OPENMATH-2026",
+  "hill_slot": "OM26-H1",
+  "hill_id": "alejandrozu/kobon-triangles",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/345",
+  "parent_readiness_issue": "https://github.com/grandchallenge/MATHCERT/issues/339",
+  "predecessor_intake_issue": "https://github.com/grandchallenge/MATHCERT/issues/341",
+  "status": "ADMITTED_PENDING_INDEPENDENT_CERT_EXECUTOR",
+  "certification_effect": false,
+  "source_authority": {
+    "forge_source_lock_commit": "73f1890387eec56eb6be31f8c00f10b6a5a56383",
+    "forge_literature_commit": "9e00c45fd665546b813f9234314a63eddbec854d",
+    "lineorder_source": {
+      "repository": "zegalur/line-order",
+      "commit": "2631b8793eb351be2ad6b8a91b7194eeb67e25bb",
+      "order_table_blob": "551747de426042e1542fa4b8f55c1383a9afe157",
+      "attribution": "18-Line Solution (93 Triangles) by Johannes Bader"
+    }
+  },
+  "producer_handoff": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "protected_commit": "efd9a02b700a260c54aba8ba1a8dc50903e50a71",
+    "handoff": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/MATHCERT_HANDOFF_RH_BADER93.md",
+      "git_blob_sha1": "db4e772d072050f575c86271ed88e3674c128f79"
+    },
+    "replay_receipt": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/H1_07_RH_BADER93_REPLAY_RECEIPT.json",
+      "git_blob_sha1": "cc6a593953de2ce523e19e16022dce60e562dc99"
+    },
+    "claim_ledger": {
+      "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/CLAIM_LEDGER.json",
+      "git_blob_sha1": "754962db6239b0f0a8eada86c86cc2657493dbb7"
+    }
+  },
+  "target_claim": {
+    "claim_id": "OM26-H1-CON-002",
+    "kind": "EXACT_FINITE_CONSTRUCTION",
+    "statement": "The exact candidate RH_BADER_RECONSTRUCTION_093 has 93 counted triangular faces at n=18 under the locked hill semantics.",
+    "requested_disposition": "LEVEL_2_EXACT_CONSTRUCTION_REPLAY",
+    "producer_state": "SOLVE_VERIFIED__H1_07_PASS__SOURCE_GUIDED_RECONSTRUCTION"
+  },
+  "candidate_subject": {
+    "local_snapshot_path": "evidence/openmath_2026/OM26-H1/RH_BADER93/solution.json",
+    "upstream_path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/candidates/RH_BADER_RECONSTRUCTION_093/solution.json",
+    "upstream_git_blob_sha1": "bb244e4b0422922ae9f85cc4facb2109c33162b3",
+    "sha256": "e606799ad6c1296deedb475440d1eecbe86daba8a3af625718f55726f93da4d5",
+    "n": 18,
+    "producer_reported_triangles": 93
+  },
+  "provenance_boundary": "The 93-triangle order type is externally attributed to Johannes Bader. The integer coefficients in the candidate are a GCL reconstruction and are not attributed to Bader.",
+  "independence": {
+    "required": true,
+    "authoring_system_may_issue_final_disposition": false,
+    "independent_executor_requirements": [
+      "Bind to the locked hill statement and evaluator semantics independently of producer code.",
+      "Treat the candidate snapshot as data only.",
+      "Verify candidate bytes and SHA-256 before replay.",
+      "Do not import or execute the MATHSOLVE scorer, direct oracle, search, or test modules as the Cert verifier.",
+      "Use exact arithmetic for every geometric predicate.",
+      "Export the independently counted supporting-line triples and exact total.",
+      "Separate exact replay, semantic fidelity, provenance, and final certification disposition."
+    ]
+  },
+  "explicit_exclusions": [
+    "93 is globally best known",
+    "93 is globally optimal",
+    "the reconstruction coordinates are Johannes Bader's original coordinates",
+    "the construction is novel or first",
+    "the unofficial public AutoLab score is official competition acceptance",
+    "the result is publication-ready",
+    "CI success alone constitutes certification"
+  ],
+  "completion_test": "A fresh non-authoring Cert executor independently reconstructs the hill face predicate, verifies the exact candidate identity, obtains an exact count of 93 from the snapshot, records supporting triples and semantic-fidelity checks, and issues a bounded identity-linked disposition.",
+  "claim_boundary": "This intake admits one exact construction claim for independent MATHCERT work. It is not itself certification, optimality, novelty, priority, official competition acceptance, or publication authorization."
+}
