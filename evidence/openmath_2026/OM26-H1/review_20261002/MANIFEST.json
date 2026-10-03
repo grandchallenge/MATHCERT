@@ -1,0 +1,18 @@
+{
+  "cert_main": "8a2610215989bec15474f0a088945c0a1b6d8172",
+  "forge_commit": "73f1890387eec56eb6be31f8c00f10b6a5a56383",
+  "solve86_commit": "47a7318488229da3e7aaff67d68ebec7de7a4ab1",
+  "solve93_commit": "efd9a02b700a260c54aba8ba1a8dc50903e50a71",
+  "sequence": [
+    "policy and intakes",
+    "Forge statement only",
+    "predicate.md fixed",
+    "candidate byte checks",
+    "verify.py implemented and executed: 86 and 93",
+    "Forge lock/contract and pinned Solve proof inspected",
+    "post-proof graph corroboration"
+  ],
+  "producer_modules_imported_or_executed": false,
+  "system_independence_established": false,
+  "certification_effect": false
+}

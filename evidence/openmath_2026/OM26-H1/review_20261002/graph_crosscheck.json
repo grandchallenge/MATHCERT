@@ -1,0 +1,16 @@
+[
+  {
+    "candidate": "candidate86.json",
+    "count": 86,
+    "exact_triples_equal": true
+  },
+  {
+    "candidate": "candidate93.json",
+    "count": 93,
+    "exact_triples_equal": true
+  },
+  {
+    "degeneracy_arrangements": 8,
+    "exact_triples_equal": true
+  }
+]
