@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "reviewer_system_id": "Codex",
+  "mode": "non_authoring_read_only",
+  "exact_subject": {
+    "mathcert_evidence_commit": "74c77ec89edf485b6aa67393c8c797860beca69e",
+    "evidence_path": "evidence/openmath_2026/OM26-H1/review_20261002",
+    "review_sha256": "f555974e68e2f492ef7143f05f610ec4b8c1a6a95a3c4f7aec21e89b16b0e253",
+    "manifest_sha256": "60310751b8beb9c2fcd83a48be22f3c98fcaa217ffb16f1437957a5c5fa51d1d"
+  },
+  "candidate_or_original_evidence_mutated": false,
+  "github_mutation_performed": false,
+  "record_id": "MC-OPENMATH-H1-ADVERSARY-20261002-001",
+  "logical_pass_id": "MC-OPENMATH-H1-ADVERSARY-20261002-001",
+  "role": "MATHCERT_ADVERSARY",
+  "criteria": [
+    "Disconfirm finite face predicate with vertex touch/entry, parallelism and collapsed concurrence.",
+    "Test exact input rejection and hash guard on mutated candidate copies.",
+    "Compare ledger claims with freshly regenerated exact outputs."
+  ],
+  "finding": "PASS__NO_MATERIAL_DEFECT_FOUND",
+  "test_evidence": "ADVERSARY_CHECKS.json",
+  "test_sha256": "c79ab17ab3fc5ad65cc9c56de0c7c9fbac570c9cb2af8d3a62bf91546229ab17",
+  "test_count": 11,
+  "subject_mutation": false,
+  "mutation_scope": "Temporary in-memory/copied adversarial fixtures only; original candidate/proof/evidence bytes unchanged.",
+  "residual_uncertainty": [
+    "The verification was targeted, not blinded: expected counts were known.",
+    "Shared platform/architecture is known and is not intrinsic proof of independence or authorship. Historical producer agent identities were not exhaustively audited. Eligibility rests on concrete participation and implementation provenance plus admitted precedent.",
+    "The verifier is not kernel-formalized; this supports Level2 finite constructions and informal semantic qualification, not Level4/5 theorem status.",
+    "Live AutoLab submission concordance and official acceptance remain separate obligations."
+  ],
+  "unresolved_obligations": [],
+  "certification_effect": false
+}

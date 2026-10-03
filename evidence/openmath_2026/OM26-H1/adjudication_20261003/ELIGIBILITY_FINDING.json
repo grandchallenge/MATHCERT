@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "reviewer_system_id": "Codex",
+  "mode": "non_authoring_read_only",
+  "exact_subject": {
+    "mathcert_evidence_commit": "74c77ec89edf485b6aa67393c8c797860beca69e",
+    "evidence_path": "evidence/openmath_2026/OM26-H1/review_20261002",
+    "review_sha256": "f555974e68e2f492ef7143f05f610ec4b8c1a6a95a3c4f7aec21e89b16b0e253",
+    "manifest_sha256": "60310751b8beb9c2fcd83a48be22f3c98fcaa217ffb16f1437957a5c5fa51d1d"
+  },
+  "candidate_or_original_evidence_mutated": false,
+  "github_mutation_performed": false,
+  "record_id": "MC-OPENMATH-H1-ELIGIBILITY-RECONCILIATION-20261002-001",
+  "role": "MATHCERT_CERTIFIER",
+  "logical_pass_id": "MC-OPENMATH-H1-CERTIFIER-RECONCILIATION-20261002-002",
+  "role_staffing_status": "STAFFED",
+  "finding": "ELIGIBLE_BY_SUBSTANTIVE_NON_AUTHORING_PROVENANCE__NO_POLICY_EXCEPTION",
+  "criteria": [
+    "Determine authoring participation from actual provenance rather than product/account/session labels.",
+    "Apply issue320 protected precedent and exact H1 independent-executor requirements.",
+    "Separate finite certificate level from formal verifier soundness."
+  ],
+  "governing_evidence": {
+    "governing_directive": "GI-STEWARD-0003",
+    "intellect_commit": "cacfe1f749b91a335e1d1734352cecff56bad7c1",
+    "standard": "GCL-AGENT-STAFFING-001@1.0.0",
+    "standard_commit": "6704b4037161133a1efeedddcb69060a79cb7bc7",
+    "human_steward_precedent": "https://github.com/grandchallenge/MATHCERT/issues/320#issuecomment-5811727281",
+    "protected_uc_adjudication": "245a2f395c358a8d11941e7085512a2e53751619",
+    "uc_adjudication_blob": "00c37d4a379811b52e7f44e6d384adc75e2fc850",
+    "rm_dio_level2_merge": "e58e8a6ec1ae552f598991cc6df337aa78942f36",
+    "euclid_formal_soundness_merge": "78b69e6a3461a83f4893d61c421b1570c08a9ba6"
+  },
+  "provenance_addendum_sha256": "09f7270971ed169a440a07698ef9bcfb683b2d2c9755cfde8479e624b4d11ca6",
+  "prior_finding_sha256": "6f953fc0fbb7a759932d9abef24206ee64010e271664ffedd419e411c2c275ee",
+  "prior_finding_status": "PRESERVED_HISTORICALLY__SUPERSEDED_AUTHORING_IDENTITY_INFERENCE",
+  "basis": "The first reviewer did not participate in Sept27/28 Solve construction, proof authorship, or verification; parent records fork_turns=none. That fact is not sufficient alone. Recorded actions derive affine-sign predicate from locked Forge statement before candidate/proof/producer implementation; newly implement Fraction verifier; verify blobs/SHA256; regenerate exact supporting triples; then review proof. No producer scorer/oracle/search/test implementation inspected or executed. Current Certifier did not participate in Solve construction or reviewer-code creation; inspected identities, replayed immutable reviewer evidence, adjudicated policy and proof. Thus neither certifying invocation supplied the sole producer construction or sole verification. The exact intake prohibition excludes the authoring producer system; it does not state a product-wide Codex exclusion. Issue320 protected artifact/Steward clarification supports this actual-participation interpretation.",
+  "residual_uncertainty": [
+    "The verification was targeted, not blinded: expected counts were known.",
+    "Shared platform/architecture is known and is not intrinsic proof of independence or authorship. Historical producer agent identities were not exhaustively audited. Eligibility rests on concrete participation and implementation provenance plus admitted precedent.",
+    "The verifier is not kernel-formalized; this supports Level2 finite constructions and informal semantic qualification, not Level4/5 theorem status.",
+    "Live AutoLab submission concordance and official acceptance remain separate obligations."
+  ],
+  "unresolved_obligations": [
+    "Normal protected exact-head review/integration and readback for proposed bounded disposition records."
+  ],
+  "policy_exception_requested": false,
+  "protected_effect": "NONE_UNTIL_NORMAL_PROTECTED_INTEGRATION",
+  "accepted_route_authority": {
+    "authority": "EXISTING_ADMITTED_H1_INTAKE_AND_MATHCERT_LEVEL2_POLICY",
+    "intake_issues": [
+      "https://github.com/grandchallenge/MATHCERT/issues/341",
+      "https://github.com/grandchallenge/MATHCERT/issues/345"
+    ],
+    "intake_commit": "74c77ec89edf485b6aa67393c8c797860beca69e",
+    "intake_paths": [
+      "evidence/openmath_2026/OM26-H1/INTAKE.json",
+      "evidence/openmath_2026/OM26-H1/RH_BADER93/INTAKE.json"
+    ],
+    "authoring_system_may_issue_final_disposition": false,
+    "intakes_unchanged": true,
+    "policy_exception": false,
+    "eligibility_correction": "Recognizes substantively non-authoring actor from actual participation and independent implementation; does not waive producer prohibition."
+  },
+  "authority_state": "candidate_until_protected_merge"
+}

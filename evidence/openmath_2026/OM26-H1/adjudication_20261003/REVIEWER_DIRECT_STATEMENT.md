@@ -1,0 +1,9 @@
+# Direct reviewer provenance statement
+
+I am the separately staffed H1 reviewer invocation /root/cert_h1_independent, assigned on the current task date 2026-10-02, after the September 27/28 protected producer work. I did not participate in the MATHSOLVE candidate construction, FACE_CRITERION proof authorship, or prior Solve verification. The parent confirms this invocation was started with fork_turns=none. I received a task brief containing the expected counts and intake/source identifiers, not producer conversation history or verifier code.
+
+I derived and fixed my exact affine-sign predicate from the locked Forge statement before reading the Solve proof. I authored verify.py here using Python Fraction, verified both candidate byte identities, and independently obtained all 86/93 supporting-line triples. I did not inspect, import or execute any producer scorer/oracle/search/test implementation. FACE_CRITERION.md was read only after those replays. check_graph.py was authored afterward and is clearly marked corroboration.
+
+These facts support actual substantive verification separation. My earlier attribution of authoring-system identity solely from shared Codex branding was a conservative platform-identity assumption, not evidence of my participation in producer work. The issue #320 Human Steward clarification places independence on separately staffed agency and independently produced adjudication, rather than shared GitHub authorization. I do not infer common authorship from common platform or account, and I request no policy exception. This statement supplies provenance facts to the authorized certifier; it does not itself issue a final certification disposition.
+
+I can attest to my visible invocation and actions, not unseen identities or histories of unrelated platform invocations.
