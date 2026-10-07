@@ -94,5 +94,18 @@
       "certification_effect": false
     }
   ],
-  "claim_boundary": "Identity lock only. No mathematical or certification effect follows from this record."
+  "claim_boundary": "Identity lock only. No mathematical or certification effect follows from this record.",
+  "prem001_external_support": {
+    "record": "PREM001_EXTERNAL_SUPPORT.json",
+    "wp07_zero_context_replay": {
+      "dispatch_id": "OM26-H1-WP07-IA-001",
+      "raw_git_blob_sha1": "99085e9278cd906471a2086270cc19daba1ac034",
+      "dispatch_git_blob_sha1": "61a5e2c08e7b84a6850c25a96bd6695e4930ad8b",
+      "receipt_git_blob_sha1": "f9bf16827779853d1ce843424e32fcb8bb7d9f33",
+      "replay_git_blob_sha1": "d8a126c4b4b16f3782d05cbba27c339613d68c90",
+      "adjudication_git_blob_sha1": "942036f38546ef92f5ae0304b1b2dd9026c7942d",
+      "certification_effect": false,
+      "independence_strength_adjudicated": false
+    }
+  }
 }

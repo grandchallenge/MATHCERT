@@ -221,18 +221,24 @@ Finally, `h` counts exactly the arrangement lines containing at least one multip
 
 `PASS__QUALIFIED_INFORMAL_PROOF`.
 
+## PREM-001 external support and corroboration
+
+The projective-normalization claim is supported separately from the Kobon-specific external source. Adrien Deloro's Affine and Projective Geometry, Proposition 2.3.1(ii), gives the standard affinization fact that deleting any projective line from the projective plane gives an affine plane. Joseph Malkevitch's York College notes describe the standard projective completion in which each affine parallel class meets at one point at infinity and all such points lie on a single line at infinity. These independently published facts are the external basis; the finite-avoidance and compactness step choosing a new infinity line that misses the finite pair-intersection set and the selected compact face closures is rederived above.
+
+The protected WP07 return separately reproduced the exact PREM-001 statement in zero context and gave the same finite-avoidance/compactness construction. Its dispatch was marked independent_blind, but its receipt explicitly records independence_strength_adjudicated: false. MATHCERT therefore treats WP07 as corroboration only and does not infer reserved independence from the agent label or authenticated relay actor.
+
 ## Independence and prior-evidence assessment
 
 The Cert disposition does not rely on the producer checker as authority.
 
 The mathematical content of the current Solve premise proof is unchanged from the proof bytes audited by WP60; only status/provenance lines changed. WP60-WP64 supply repeated zero-context replay closure, but their own records correctly deny certification effect and they are treated only as corroboration.
 
-More importantly, the pinned external `alejandrozu/kobon-proof` source predates the GCL premise packet and contains:
+For PREM-002 through PREM-004, the pinned external `alejandrozu/kobon-proof` source predates the GCL premise packet and contains:
 - an independently authored paper derivation of the clean-line parity and charging budget;
 - real-line Lean proofs of the fan propagation and cyclic `2r-3` bound;
 - an explicitly conditional arithmetic module rather than a disguised global theorem.
 
-This independent prior source means the present system is not the sole source of construction/proof or verification evidence for the adjudicated chain. No policy exception is requested.
+Eligibility is therefore claim-specific: PREM-001 is grounded in independently published standard projective-geometry facts plus the separate zero-context corroboration described above; PREM-002 through PREM-004 have the independently authored prior Kobon source and, for the fan component, a fresh exact-commit Lean replay. The producer checker is not used as authority. No policy exception is requested.
 
 ## Residual uncertainty and exclusions
 

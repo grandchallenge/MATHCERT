@@ -6,9 +6,16 @@ lock=json.loads((R/"SOURCE_LOCK.json").read_text())
 elig=json.loads((R/"ELIGIBILITY_FINDING.json").read_text())
 adj=json.loads((R/"ADJUDICATION.json").read_text())
 finite=json.loads((R/"FINITE_REPLAY.json").read_text())
+prem001=json.loads((R/"PREM001_EXTERNAL_SUPPORT.json").read_text())
 assert lock["mathsolve_subject"]["commit"]=="bf094d909de041761a925c1c5c770f67983df210"
 assert elig["policy_exception_requested"] is False
 assert elig["formal_level_4_or_5_eligible"] is False
+assert elig["independence_finding"].endswith("NO_POLICY_EXCEPTION")
+basis_types={x["type"] for x in elig["basis"]}
+assert "STANDARD_PROJECTIVE_GEOMETRY_EXTERNAL_SUPPORT" in basis_types
+assert "INDEPENDENT_BLIND_PROTECTED_REPLAY" not in basis_types
+assert prem001["zero_context_corroboration"]["certification_effect"] is False
+assert prem001["zero_context_corroboration"]["independence_strength_adjudicated"] is False
 assert finite["fan_enumeration"]["3"]=={"bound":3,"max_d1":3,"maximizers":2}
 assert finite["fan_enumeration"]["4"]=={"bound":5,"max_d1":5,"maximizers":8}
 expected={f"OM26-H1-PREM-00{i}" for i in range(1,5)}
@@ -21,6 +28,8 @@ for name in adj["dispositions"]:
     assert d["certification_level"] is None
     assert d["formal_theorem_certified"] is False
     assert d["policy_exception_requested"] is False
+    if d["claim_id"]=="OM26-H1-PREM-001":
+        assert "PREM001_EXTERNAL_SUPPORT.json" in d["support"]
 assert seen==expected
 assert adj["formal_certification_level"] is None
 assert adj["protected_effect"] is False

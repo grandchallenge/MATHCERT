@@ -26,5 +26,8 @@
   ],
   "next_certification_residual": "Downstream H1-12 reductions that consume these premises require separate exact-subject MATHCERT adjudication if they are to lose their own NOT_CERTIFIED status.",
   "external_lean_replay": "EXTERNAL_LEAN_REPLAY.json",
-  "external_lean_replay_result": "PASS"
+  "external_lean_replay_result": "PASS",
+  "prem001_external_support": "PREM001_EXTERNAL_SUPPORT.json",
+  "eligibility_scope": "CLAIM_BY_CLAIM_EXTERNAL_SUPPORT__NO_POLICY_EXCEPTION",
+  "independence_summary": "Claim-specific external support: PREM-001 uses independently published projective-geometry sources; PREM-002 through PREM-004 use the prior external Kobon source. WP07 is corroboration only and has zero certification effect."
 }

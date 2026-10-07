@@ -14,7 +14,7 @@ The four source-scoped geometric interface claims survive trusted mathematical r
 | `OM26-H1-PREM-003` clean-line parity | qualified informal proof / semantic adjudication | none assigned |
 | `OM26-H1-PREM-004` blocked charge capacity | qualified informal proof / semantic adjudication | none assigned |
 
-The current producer system is disclosed and is not treated as an independent author. Eligibility instead rests on the exact prior external source `alejandrozu/kobon-proof@22d1165f6c455fe45e461baef4410f6d5c78a014`, authored by Alejandro Zarzuelo Urdiales on 2026-09-22, which predates the GCL packet and independently contains the clean-line paper proof and real-line Lean fan components. WP60–WP64 are corroborating zero-context replays only and retain zero certification effect.
+The current producer system is disclosed and is not treated as an independent author. Eligibility is claim-specific. PREM-001 is supported by independently published standard projective-geometry sources recorded in `PREM001_EXTERNAL_SUPPORT.json`; the exact finite-avoidance/compactness consequence is rederived in Cert. PREM-002 through PREM-004 are supported by the prior external source `alejandrozu/kobon-proof@22d1165f6c455fe45e461baef4410f6d5c78a014`, authored by Alejandro Zarzuelo Urdiales on 2026-09-22, with a clean-line proof route and real-line Lean fan components. WP07 and WP60–WP64 are corroborating zero-context replays only and retain zero certification effect.
 
 ## Mathematical scope
 

@@ -3,10 +3,21 @@
   "record_id": "MC-OM26-H1-PREMISE-CHAIN-ELIGIBILITY-20261007-001",
   "tracker": "https://github.com/grandchallenge/MATHCERT/issues/349",
   "producer_system_disclosure": "The current GPT-5.6 Sol system participated in GCL-side premise development/replay. It is not represented as a substantively independent author.",
-  "independence_finding": "ELIGIBLE_FOR_QUALIFIED_MATHCERT_ADJUDICATION__NOT_SOLE_PRODUCER_EVIDENCE",
+  "independence_finding": "ELIGIBLE_BY_CLAIM_SPECIFIC_EXTERNAL_SUPPORT__NO_POLICY_EXCEPTION",
   "basis": [
     {
+      "type": "STANDARD_PROJECTIVE_GEOMETRY_EXTERNAL_SUPPORT",
+      "claim_id": "OM26-H1-PREM-001",
+      "record": "PREM001_EXTERNAL_SUPPORT.json",
+      "finding": "Independently published projective-geometry sources support the standard projective completion/affinization facts. The finite-avoidance and compactness consequence is rederived in REVIEW.md."
+    },
+    {
       "type": "INDEPENDENT_PRIOR_EXTERNAL_SOURCE",
+      "claims": [
+        "OM26-H1-PREM-002",
+        "OM26-H1-PREM-003",
+        "OM26-H1-PREM-004"
+      ],
       "repository": "alejandrozu/kobon-proof",
       "commit": "22d1165f6c455fe45e461baef4410f6d5c78a014",
       "author": "Alejandro Zarzuelo Urdiales",
@@ -14,20 +25,18 @@
       "finding": "Predates the GCL premise packet and independently contains the clean-line parity/charging paper proof and real-line Lean fan components."
     },
     {
-      "type": "ZERO_CONTEXT_CORROBORATING_REPLAYS",
-      "dispatches": [
-        "OM26-H1-WP60-IA-001",
-        "OM26-H1-WP61-IA-001",
-        "OM26-H1-WP62-IA-001",
-        "OM26-H1-WP63-IA-001",
-        "OM26-H1-WP64-IA-001"
-      ],
-      "finding": "Repeatedly replay the conditional chain, but retain zero certification effect and are not used as the independence basis."
+      "type": "ZERO_CONTEXT_CORROBORATING_REPLAY",
+      "dispatch_id": "OM26-H1-WP07-IA-001",
+      "finding": "Reproduces PREM-001 through PREM-004 in zero context, but its receipt says independence_strength_adjudicated=false and certification_effect=false; it is corroboration only."
+    },
+    {
+      "type": "FRESH_CERT_SIDE_REPLAY",
+      "finding": "Current Cert pass rederived all four claims without producer-checker authority and freshly rebuilt the pinned external Lean fan components. This is replay evidence, not independent authorship."
     }
   ],
   "producer_verification_used_as_authority": false,
   "policy_exception_requested": false,
   "formal_level_4_or_5_eligible": false,
   "permitted_disposition": "QUALIFIED_INFORMAL_PROOF_AND_SEMANTIC_ADJUDICATION",
-  "claim_boundary": "Eligibility concerns only the four exact premise claims in MATHCERT #349. It does not certify downstream q-profile eliminations, a global upper bound, or optimality."
+  "claim_boundary": "Eligibility is claim-specific. PREM-001 rests on independently published projective-geometry support plus Cert-side derivation; PREM-002 through PREM-004 rest on the prior external Kobon source. WP07 is corroboration only. No downstream theorem is certified."
 }

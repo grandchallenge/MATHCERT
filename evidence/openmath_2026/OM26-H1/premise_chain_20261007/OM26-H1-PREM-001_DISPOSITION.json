@@ -34,10 +34,13 @@
   ],
   "bounded_evidence_finding": "PASS__QUALIFIED_INFORMAL_PROOF",
   "support": [
-    "REVIEW.md#PREM-001 \u2014 projective normalization"
+    "REVIEW.md#PREM-001 \u2014 projective normalization",
+    "PREM001_EXTERNAL_SUPPORT.json",
+    "OM26-H1-WP07-IA-001 zero-context replay (corroboration only; certification_effect=false)"
   ],
   "residual_uncertainty": [
     "The proof is paper-level rather than kernel-formalized.",
     "Projective normalization preserves concurrence; it does not reduce multiple-point multiplicity."
-  ]
+  ],
+  "independence_note": "PREM-001 is not presented as independently authored by the producer system. Standard published projective-geometry facts are independently sourced; the exact finite-avoidance consequence is Cert-rederived and separately zero-context replayed by WP07, whose independence strength was not itself adjudicated."
 }
