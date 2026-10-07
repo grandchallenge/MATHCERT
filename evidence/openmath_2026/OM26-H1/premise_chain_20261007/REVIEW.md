@@ -76,31 +76,15 @@ No concurrence is removed: projective transformations preserve incidence multipl
 
 ### Accepted statement
 
-At an `r`-fold point `v`, `r >= 3`, no `r-1` cyclically consecutive rays can all be D1. Consequently
-
-[
-d_1(v) le 2r-3.
-]
+At an `r`-fold point `v`, `r >= 3`, no `r-1` cyclically consecutive rays can all be D1. Consequently `d_1(v) <= 2r-3`.
 
 ### Replay
 
-Suppose `r-1` consecutive rays are D1. Since each D1 elementary segment borders triangular faces on both sides, the run forces `r` consecutive triangular sectors. Label the successive radial far endpoints
+Suppose `r-1` consecutive rays are D1. Since each D1 elementary segment borders triangular faces on both sides, the run forces `r` consecutive triangular sectors. Label the successive radial far endpoints `P_0, P_1, ..., P_r`
 
-[
-P_0,P_1,ldots,P_r
-]
+and the opposite supporting lines of the `r` triangles `A_0, A_1, ..., A_{r-1}`.
 
-and the opposite supporting lines of the `r` triangles
-
-[
-A_0,A_1,ldots,A_{r-1}.
-]
-
-For each internal `P_i`, `1 <= i <= r-1`, the radial elementary segment is D1, so `P_i` is ordinary. Both `A_{i-1}` and `A_i` pass through `P_i` and are distinct from the radial support. At an ordinary arrangement vertex exactly one nonradial arrangement line is available, hence
-
-[
-A_{i-1}=A_i.
-]
+For each internal `P_i`, `1 <= i <= r-1`, the radial elementary segment is D1, so `P_i` is ordinary. Both `A_{i-1}` and `A_i` pass through `P_i` and are distinct from the radial support. At an ordinary arrangement vertex exactly one nonradial arrangement line is available, hence `A_{i-1}=A_i`.
 
 Induction gives one common opposite support `A`.
 
@@ -108,11 +92,7 @@ Among the `2r` rays of `r` full lines through `v`, advancing `r` cyclic ray posi
 
 The common opposite support `A` contains both `P_0` and `P_r`, so it is that same radial line and hence contains `v`. This makes the end triangle degenerate, contradiction.
 
-Thus every cyclic block of `r-1` rays contains at most `r-2` D1 rays. There are `2r` such cyclic blocks and each D1 ray belongs to exactly `r-1` of them. Double counting gives
-
-[
-(r-1)d_1(v)le 2r(r-2).
-]
+Thus every cyclic block of `r-1` rays contains at most `r-2` D1 rays. There are `2r` such cyclic blocks and each D1 ray belongs to exactly `r-1` of them. Double counting gives `(r-1)d_1(v) <= 2r(r-2)`.
 
 For `r>=3`, the integer consequence is `d1(v) <= 2r-3`.
 
@@ -139,25 +119,13 @@ For even `n>=4`, every clean line has at one of its ordinary crossings a bounded
 
 Fix a clean line `L` and make it horizontal. Because all arrangement lines are pairwise nonparallel and `L` contains no multiple point, the other `n-1` lines cross `L` at `m=n-1` distinct ordinary points. Since `n` is even, `m` is odd.
 
-Order the crossings from left to right. For the bounded interval of `L` between crossings `i` and `i+1`, let `x_i` and `y_i` be the indicators that the incident face above or below `L` is triangular. Set
-
-[
-x_0=y_0=x_m=y_m=0
-]
+Order the crossings from left to right. For the bounded interval of `L` between crossings `i` and `i+1`, let `x_i` and `y_i` be the indicators that the incident face above or below `L` is triangular. Set `x_0=y_0=x_m=y_m=0`
 
 for the exterior rays.
 
-A bounded segment of `L` has two ordinary endpoints, so it cannot be a side of triangular faces on both sides. Hence
+A bounded segment of `L` has two ordinary endpoints, so it cannot be a side of triangular faces on both sides. Hence `x_i+y_i <= 1`.
 
-[
-x_i+y_ile1.
-]
-
-Let `R_i` be the transverse arrangement line at crossing `i`. Its upper and lower elementary pieces incident to `L` have triangle-use counts
-
-[
-a_i=x_{i-1}+x_i,qquad b_i=y_{i-1}+y_i.
-]
+Let `R_i` be the transverse arrangement line at crossing `i`. Its upper and lower elementary pieces incident to `L` have triangle-use counts `a_i=x_{i-1}+x_i` and `b_i=y_{i-1}+y_i`.
 
 Assume, for contradiction, that every bounded transverse piece has triangle-use exactly one. Then:
 - any use-zero piece is unbounded;
@@ -167,13 +135,9 @@ At the first crossing at least one transverse direction is bounded: `R_1` inters
 
 Now suppose some upper piece of `R_j` had use zero. It would be unbounded. The nonparallel lines `R_1` and `R_j` intersect away from `L`. If their intersection is below `L`, it lies on the allegedly unbounded lower ray of `R_1`; if above `L`, it lies on the allegedly unbounded upper ray of `R_j`. Either case is impossible. Therefore every `a_j` is nonzero.
 
-Use two is impossible under the contradictory assumption, so in fact
+Use two is impossible under the contradictory assumption, so in fact `a_j=x_{j-1}+x_j=1`
 
-[
-a_j=x_{j-1}+x_j=1
-]
-
-for every `j=1,ldots,m`. Starting from `x_0=0`, the `x_j` alternate. Because `m` is odd, this forces `x_m=1`, contradicting the boundary condition `x_m=0`.
+for every `j=1,...,m`. Starting from `x_0=0`, the `x_j` alternate. Because `m` is odd, this forces `x_m=1`, contradicting the boundary condition `x_m=0`.
 
 Therefore the assumption was false. Some bounded transverse elementary piece has triangle-use different from one, hence zero or two.
 
@@ -187,17 +151,9 @@ The pairwise-nonparallel hypothesis is essential to this proof: it supplies exac
 
 ### Accepted statement
 
-Choose for every clean line one chargeable transverse segment furnished by PREM-003. Then the total available capacity is at most
+Choose for every clean line one chargeable transverse segment furnished by PREM-003. Then the total available capacity is at most `2U+D1-B`,
 
-[
-2U+D1-B,
-]
-
-and since there are exactly `n-h` clean lines,
-
-[
-n-hle 2U+D1-B.
-]
+and since there are exactly `n-h` clean lines, `n-h <= 2U+D1-B`.
 
 ### Replay
 
