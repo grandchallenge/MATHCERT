@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OM26-H1-PREMISE-CHAIN-ADVERSARY-20261007-001",
+  "role": "MATHCERT_ADVERSARY",
+  "mode": "non_authoring_read_only",
+  "reviewer_system_id": "GPT-5.6 Sol",
+  "exact_subject": {
+    "mathcert_candidate_commit": "f3f0521dbd8fcc887b3f8208b33b102127435147",
+    "solve_commit": "bf094d909de041761a925c1c5c770f67983df210",
+    "blobs": {
+      "review": "f0509042f6a5b63af587a8bbdd4fdababb956c3b",
+      "eligibility": "6ff987abbabdbd89618cd75148b3916a9a9cce61",
+      "prem001_external_support": "151252ead2533f119eb83b5a8bf9f09cfdc73a55",
+      "external_lean_replay": "36dced58536ac3c4a4d4976b553756e34283ac96",
+      "adjudication": "07db24692ceda78da68bbc60a1fe17d3b797069e"
+    }
+  },
+  "authorship_boundary": "This system participated in GCL-side premise development and in the Cert packet. This adversary pass supplies no independence and no reserved authority.",
+  "tests": [
+    {
+      "target": "OM26-H1-PREM-001",
+      "attacks": [
+        "new line at infinity accidentally contains a finite arrangement vertex",
+        "new line at infinity uses an existing arrangement direction and leaves a parallel pair",
+        "selected triangular closure meets the new line at infinity and becomes unbounded",
+        "projective chart change silently removes or changes concurrence",
+        "claim silently asserts preservation of total bounded-triangle count"
+      ],
+      "finding": "PASS_AT_STATED_SCOPE",
+      "reason": "The proof chooses a direction outside the finite arrangement-direction set, avoids the finite vertex set, and translates beyond the compact selected-face union. Thus every pairwise projective intersection stays off the chosen infinity line and every selected face remains compact in the new affine chart. Concurrence is preserved, not removed, and total face-count preservation is explicitly excluded."
+    },
+    {
+      "target": "OM26-H1-PREM-002",
+      "attacks": [
+        "D1 does not force triangular sectors on both sides",
+        "ordinary far endpoint permits two distinct nonradial supports",
+        "the first and last boundary rays of an r-sector strip need not be antipodal",
+        "cyclic-window double count does not imply 2r-3"
+      ],
+      "finding": "PASS_AT_STATED_SCOPE",
+      "reason": "D1 is a shared elementary segment by definition; ordinary endpoints have exactly one nonradial arrangement line; r steps among 2r rays from r full lines reaches the antipodal ray; and floor(2r(r-2)/(r-1)) equals 2r-3 for r>=3."
+    },
+    {
+      "target": "OM26-H1-PREM-003",
+      "attacks": [
+        "a transverse line may have both incident rays unbounded",
+        "use-zero need not imply unbounded under the contradiction hypothesis",
+        "the upper-ray contradiction may fail for n=4",
+        "odd parity may not force the terminal contradiction"
+      ],
+      "finding": "PASS_AT_STATED_SCOPE",
+      "reason": "Each transverse line has another nonparallel intersection away from the clean-line crossing, so at least one incident elementary piece is bounded. Under the contrary assumption every bounded piece has use exactly one, hence a use-zero adjacent piece is unbounded. Orienting the first bounded side upward forces every upper adjacent piece nonzero by the pairwise-intersection contradiction; recurrence x_j=1-x_{j-1} then gives x_m=1 for odd m=n-1, contradicting x_m=0. The argument remains valid at n=4."
+    },
+    {
+      "target": "OM26-H1-PREM-004",
+      "attacks": [
+        "a target endpoint may accept more than one clean-line charge",
+        "a D2 segment might be chargeable by a clean line",
+        "blocked D1 subtraction may double-count a target",
+        "the adjacent D1/D2 triangle may not force the charging line through a multiple point"
+      ],
+      "finding": "PASS_AT_STATED_SCOPE",
+      "reason": "At an ordinary endpoint there is exactly one non-target arrangement line, giving endpoint capacity one. A clean charging line cannot pass through a multiple endpoint, so D2 has capacity zero and D1 at most one. Each D1 segment has a unique multiple endpoint/ray, so B subtracts each blocked D1 target once. The shared D1/D2 sector has an opposite side through the D1 ordinary endpoint and D2 multiple far endpoint, making the only possible charging line non-clean."
+    },
+    {
+      "target": "INDEPENDENCE_AND_AUTHORITY",
+      "attacks": [
+        "treat WP07 agent label or relay account as reserved independence",
+        "use producer checker or finite fixtures as proof authority",
+        "use the external Lean component as a formalization of the whole global claim",
+        "infer certification from green CI or mergeability"
+      ],
+      "finding": "PASS_WITH_QUALIFICATION",
+      "reason": "WP07 is explicitly corroboration only with independence_strength_adjudicated=false and certification_effect=false. PREM-001 has separately pinned published projective-geometry support; PREM-002 through PREM-004 have the prior external Kobon source. Producer fixtures are non-authoritative, the Lean replay is scoped to local fan/conditional components, and no CI/integration inference is made."
+    }
+  ],
+  "external_source_checks": {
+    "prem001_deloro": {
+      "sha256": "24d35d7d63d9f0682595cad45278b9af99f468222dccc286d1f99fbefdc5c4be",
+      "byte_length": 707553,
+      "pinpoint": "Section 2.3, Proposition 2.3.1(ii)",
+      "finding": "SUPPORTS_ARBITRARY_PROJECTIVE_LINE_AFFINIZATION"
+    },
+    "prem001_malkevitch": {
+      "sha256": "33cea1f099f64633d4f86a5a323eeadb9f46f8910dda034425c54e302e3de54b",
+      "byte_length": 9403,
+      "finding": "SUPPORTS_PROJECTIVE_COMPLETION_OF_PARALLEL_CLASSES_AND_LINE_AT_INFINITY"
+    },
+    "kobon_external_commit": "22d1165f6c455fe45e461baef4410f6d5c78a014"
+  },
+  "disposition": "NO_FATAL_DEFECT__QUALIFIED_SCOPE_ENFORCED",
+  "required_qualifications": [
+    "No Level 4/5 theorem status.",
+    "Global arrangement-to-fan extraction remains paper-level.",
+    "PREM-003 and PREM-004 remain paper-level.",
+    "No downstream q-profile elimination or K(18)<=94 follows automatically.",
+    "WP07 remains corroboration only."
+  ],
+  "certification_effect": false,
+  "protected_effect": false,
+  "policy_exception_requested": false
+}

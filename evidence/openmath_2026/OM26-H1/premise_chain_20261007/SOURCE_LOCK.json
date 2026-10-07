@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OM26-H1-PREMISE-CHAIN-SOURCE-LOCK-20261007-001",
+  "tracker": "https://github.com/grandchallenge/MATHCERT/issues/349",
+  "mathsolve_subject": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "commit": "bf094d909de041761a925c1c5c770f67983df210",
+    "artifacts": [
+      {
+        "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/H1_12_PARALLEL_REDUCTION.md",
+        "git_blob_sha1": "37484279278d945b591ccece055e66a2e83a847f",
+        "sha256": "e1a0c26369b869aa36c58c3d55016e76e5bd1fd53bdf50642d1c4f458a7c8707"
+      },
+      {
+        "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/H1_SIX_CORE_PREMISE_PROOF.md",
+        "git_blob_sha1": "6d2e46c0dedd58a88fff58f833a8293a7564aab0",
+        "sha256": "5223890e038d8d8c2d976c55c471c5fe5ec8807694394c791263c9519021963f"
+      },
+      {
+        "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/H1_PREMISE_SCOPE_DISPOSITION.md",
+        "git_blob_sha1": "5a1fbc735aa06a85fe241451026fc88e7c821e68",
+        "sha256": "9f655612f4d3a61ebac041131384e7967313130d81741651b62a0a1f8434ab9f"
+      },
+      {
+        "path": "work_packages/OPENMATH_2026/OM26_H1_KOBON_TRIANGLES/H1_SIX_CORE_PREMISE_AUDIT_RECEIPT.json",
+        "git_blob_sha1": "b70f5e6950ce62c300825da694d84cd8b8d9a753",
+        "sha256": "e02194d7f8f6e04f1911e0cefb4562595bd9cafff773c95c52a9527c49515378",
+        "role": "producer_regression_evidence_only"
+      }
+    ],
+    "wp60_pinned_predecessor": {
+      "commit": "36b7c79bebd42fde17ea9f0f809406fb55e093f9",
+      "proof_git_blob_sha1": "f4c63a43cad65d14a1100e3d9faeae98d50a87b1",
+      "proof_sha256": "631ecee3e7304ed8dac53b3de5f8b126adff49a5f446d57a69790df6623e1b21",
+      "difference_to_current_proof": "STATUS_AND_PROVENANCE_LINES_ONLY__MATHEMATICAL_TEXT_UNCHANGED"
+    }
+  },
+  "external_prior_source": {
+    "repository": "alejandrozu/kobon-proof",
+    "commit": "22d1165f6c455fe45e461baef4410f6d5c78a014",
+    "artifacts": [
+      {
+        "path": "research/six-hour-2026-09-21/general-bounds/clean-line-parity.md",
+        "git_blob_sha1": "9cdfd43d3c9d9f47485d4c2a45926bcf22574ab0",
+        "sha256": "cddda7f723ba63d5d96d5a12ea97a30bebcda13935d96061dd5b1febf2cac828"
+      },
+      {
+        "path": "Kobon/FanGeometry.lean",
+        "git_blob_sha1": "117d8285fd49caedf5fdc1faf7ce0c348d8531a6",
+        "sha256": "ef0cebcdec87dbdda547ae2631fc8ccb255971378ba4ba8a6174bb106dfed5e0"
+      },
+      {
+        "path": "Kobon/CyclicFan.lean",
+        "git_blob_sha1": "87792624342e11edc002a79d14c89411ba69674e",
+        "sha256": "c52ad0bd91ce06185c13365f05c8e939543a9fef9eb1a8e45d313916dc2eac85"
+      },
+      {
+        "path": "Kobon/CleanLineBudget.lean",
+        "git_blob_sha1": "71bb41e17b385c5a42443c39610421471d70f465",
+        "sha256": "4fc9559a8e35615b55b2fc0ed259d510234a4d22c3c5888e8c214147ec2e7594"
+      }
+    ],
+    "independence_role": "PRIOR_EXTERNAL_PROOF_SOURCE_AND_MACHINE_CHECKED_COMPONENTS"
+  },
+  "corroborating_zero_context_replays": [
+    {
+      "dispatch_id": "OM26-H1-WP60-IA-001",
+      "raw_git_blob_sha1": "35e7bf8f9f7f32a56160b1d22b531aaaa0fa393b",
+      "disposition": "NO_MATERIAL_DELTA",
+      "certification_effect": false
+    },
+    {
+      "dispatch_id": "OM26-H1-WP61-IA-001",
+      "raw_git_blob_sha1": "4a6a17972eeb1703df6765d6ab06d8cd962a1794",
+      "disposition": "REPLAY_CLOSURE_VALIDATED",
+      "certification_effect": false
+    },
+    {
+      "dispatch_id": "OM26-H1-WP62-IA-001",
+      "raw_git_blob_sha1": "55d7ef9f6f2b229a22703c22fbc68101d9d09aa9",
+      "disposition": "REPLAY_CLOSURE_VALIDATED",
+      "certification_effect": false
+    },
+    {
+      "dispatch_id": "OM26-H1-WP63-IA-001",
+      "raw_git_blob_sha1": "13f208d72b8a3a39060fe7634aed915d6e1c6580",
+      "disposition": "REPLAY_CLOSURE_VALIDATED",
+      "certification_effect": false
+    },
+    {
+      "dispatch_id": "OM26-H1-WP64-IA-001",
+      "raw_git_blob_sha1": "01f6f846348f4ac7bb2a1ff31a05ea942aa3b6c7",
+      "disposition": "REPLAY_CLOSURE_VALIDATED",
+      "certification_effect": false
+    }
+  ],
+  "claim_boundary": "Identity lock only. No mathematical or certification effect follows from this record.",
+  "prem001_external_support": {
+    "record": "PREM001_EXTERNAL_SUPPORT.json",
+    "wp07_zero_context_replay": {
+      "dispatch_id": "OM26-H1-WP07-IA-001",
+      "raw_git_blob_sha1": "99085e9278cd906471a2086270cc19daba1ac034",
+      "dispatch_git_blob_sha1": "61a5e2c08e7b84a6850c25a96bd6695e4930ad8b",
+      "receipt_git_blob_sha1": "f9bf16827779853d1ce843424e32fcb8bb7d9f33",
+      "replay_git_blob_sha1": "d8a126c4b4b16f3782d05cbba27c339613d68c90",
+      "adjudication_git_blob_sha1": "942036f38546ef92f5ae0304b1b2dd9026c7942d",
+      "certification_effect": false,
+      "independence_strength_adjudicated": false
+    }
+  }
+}

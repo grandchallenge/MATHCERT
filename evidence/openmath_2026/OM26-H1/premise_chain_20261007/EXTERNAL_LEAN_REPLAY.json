@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OM26-H1-PREMISE-CHAIN-EXTERNAL-LEAN-REPLAY-20261007-001",
+  "repository": "alejandrozu/kobon-proof",
+  "commit": "22d1165f6c455fe45e461baef4410f6d5c78a014",
+  "author": "Alejandro Zarzuelo Urdiales",
+  "author_date": "2026-09-22T13:22:07-07:00",
+  "toolchain": "leanprover/lean4:v4.31.0",
+  "command": "lake build Kobon.FanGeometry Kobon.FanCount Kobon.CyclicFan Kobon.CleanLineBudget",
+  "result": "PASS",
+  "build_summary": "Build completed successfully (1215 jobs).",
+  "targets": {
+    "Kobon.FanGeometry": {
+      "git_blob_sha1": "117d8285fd49caedf5fdc1faf7ce0c348d8531a6",
+      "sha256": "ef0cebcdec87dbdda547ae2631fc8ccb255971378ba4ba8a6174bb106dfed5e0",
+      "theorem_axioms": {
+        "ordinary_nonradial_unique": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "FanStrip.all_opposites_eq": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "FanStrip.center_not_affine_combination": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "no_opposite_end_fan": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    "Kobon.FanCount": {
+      "theorem_axioms": {
+        "ordinary_shared_ray_bound": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    "Kobon.CyclicFan": {
+      "git_blob_sha1": "87792624342e11edc002a79d14c89411ba69674e",
+      "sha256": "c52ad0bd91ce06185c13365f05c8e939543a9fef9eb1a8e45d313916dc2eac85",
+      "theorem_axioms": {
+        "Geometry.no_long_run": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "Geometry.selected_card_le": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    "Kobon.CleanLineBudget": {
+      "git_blob_sha1": "71bb41e17b385c5a42443c39610421471d70f465",
+      "sha256": "4fc9559a8e35615b55b2fc0ed259d510234a4d22c3c5888e8c214147ec2e7594",
+      "build": "PASS",
+      "role": "conditional arithmetic component only"
+    }
+  },
+  "recovery_history": [
+    "Initial direct `lake env lean` invocation failed because root Kobon modules had not yet been built into Lake's search path.",
+    "First full dependency build exposed transient Windows cache/toolchain read failures while high-parallelism workers were active.",
+    "Targeted Mathlib cache retrieval for the four source files was used; stale build workers were terminated.",
+    "A fresh exact-commit target build then completed successfully."
+  ],
+  "claim_boundary": "This replay machine-checks the external local fan and conditional arithmetic components. It does not formalize the global arrangement-to-fan extraction, clean-line parity geometry, blocked-capacity geometry, or PREM-001."
+}

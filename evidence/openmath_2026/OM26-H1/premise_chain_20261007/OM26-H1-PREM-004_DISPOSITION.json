@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "role": "MATHCERT_CERTIFIER",
+  "reviewer_system_id": "GPT-5.6 Sol",
+  "mode": "PRODUCER_SYSTEM_DISCLOSED__EXTERNAL_PRIOR_EVIDENCE_BOUND",
+  "tracker": "https://github.com/grandchallenge/MATHCERT/issues/349",
+  "exact_subject": {
+    "solve_repository": "grandchallenge/MATHSOLVE",
+    "solve_commit": "bf094d909de041761a925c1c5c770f67983df210",
+    "source_lock": "SOURCE_LOCK.json"
+  },
+  "eligibility_finding": "ELIGIBILITY_FINDING.json",
+  "disposition": "QUALIFIED_INFORMAL_PROOF_AND_SEMANTIC_ADJUDICATION",
+  "certification_level": null,
+  "formal_theorem_certified": false,
+  "authority_state": "candidate_until_protected_merge",
+  "protected_effect": false,
+  "policy_exception_requested": false,
+  "excluded_claims": [
+    "hill-global K(18)<=94",
+    "optimality of the 93-face construction",
+    "downstream q-profile certification",
+    "novelty or priority",
+    "official competition acceptance",
+    "publication readiness",
+    "Level 4/5 complete formal theorem status"
+  ],
+  "record_id": "MC-OM26-H1-PREM-004-DISPOSITION-20261007-001",
+  "claim_id": "OM26-H1-PREM-004",
+  "accepted_statement": "With U,D1,D2,B,h as defined in the locked premise packet, one chargeable transverse target can be chosen for each clean line; blocked D1 targets have zero clean-line capacity, and n-h<=2U+D1-B.",
+  "hypotheses": [
+    "PREM-003 hypotheses",
+    "locked definitions of U,D1,D2,B,h",
+    "ordinary-endpoint and elementary-segment semantics in REVIEW.md"
+  ],
+  "bounded_evidence_finding": "PASS__QUALIFIED_INFORMAL_PROOF",
+  "support": [
+    "REVIEW.md#PREM-004 \u2014 blocked capacity",
+    "alejandrozu/kobon-proof@22d1165:research/six-hour-2026-09-21/general-bounds/clean-line-parity.md"
+  ],
+  "residual_uncertainty": [
+    "The blocked refinement is adjudicated from the geometric argument in the locked Solve packet plus direct Cert replay.",
+    "The claim is a premise inequality, not a downstream Kobon upper bound."
+  ]
+}
