@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OM26-H1-PREMISE-CHAIN-ADJUDICATION-20261007-001",
+  "tracker": "https://github.com/grandchallenge/MATHCERT/issues/349",
+  "authority_state": "candidate_until_protected_merge",
+  "protected_effect": false,
+  "exact_subject": {
+    "solve_commit": "bf094d909de041761a925c1c5c770f67983df210",
+    "source_lock": "SOURCE_LOCK.json"
+  },
+  "eligibility": "ELIGIBILITY_FINDING.json",
+  "review": "REVIEW.md",
+  "dispositions": [
+    "OM26-H1-PREM-001_DISPOSITION.json",
+    "OM26-H1-PREM-002_DISPOSITION.json",
+    "OM26-H1-PREM-003_DISPOSITION.json",
+    "OM26-H1-PREM-004_DISPOSITION.json"
+  ],
+  "overall_disposition": "QUALIFIED_INFORMAL_PROOF_AND_SEMANTIC_ADJUDICATION__FOUR_PREMISES_PASS",
+  "formal_certification_level": null,
+  "mathematical_effect": "The four source-scoped interface premises are no longer pending trusted mathematical replay at their exact stated scopes once this candidate is protected.",
+  "non_effects": [
+    "No downstream q=3/q=4/q=5/q=6 theorem is independently certified by this adjudication.",
+    "No hill-global K(18)<=94 conclusion follows.",
+    "No optimality, novelty, competition, or publication claim follows."
+  ],
+  "next_certification_residual": "Downstream H1-12 reductions that consume these premises require separate exact-subject MATHCERT adjudication if they are to lose their own NOT_CERTIFIED status.",
+  "external_lean_replay": "EXTERNAL_LEAN_REPLAY.json",
+  "external_lean_replay_result": "PASS"
+}

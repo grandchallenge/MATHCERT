@@ -1,0 +1,74 @@
+{
+  "claim_boundary": "Finite corroboration only. General geometric validity is supplied by REVIEW.md, not by this enumeration.",
+  "clean_line_parity_endpoint_check": {
+    "11": {
+      "contradiction": true,
+      "endpoint_forced": 1,
+      "required_endpoint": 0
+    },
+    "13": {
+      "contradiction": true,
+      "endpoint_forced": 1,
+      "required_endpoint": 0
+    },
+    "15": {
+      "contradiction": true,
+      "endpoint_forced": 1,
+      "required_endpoint": 0
+    },
+    "17": {
+      "contradiction": true,
+      "endpoint_forced": 1,
+      "required_endpoint": 0
+    },
+    "19": {
+      "contradiction": true,
+      "endpoint_forced": 1,
+      "required_endpoint": 0
+    },
+    "3": {
+      "contradiction": true,
+      "endpoint_forced": 1,
+      "required_endpoint": 0
+    },
+    "5": {
+      "contradiction": true,
+      "endpoint_forced": 1,
+      "required_endpoint": 0
+    },
+    "7": {
+      "contradiction": true,
+      "endpoint_forced": 1,
+      "required_endpoint": 0
+    },
+    "9": {
+      "contradiction": true,
+      "endpoint_forced": 1,
+      "required_endpoint": 0
+    }
+  },
+  "fan_enumeration": {
+    "3": {
+      "bound": 3,
+      "max_d1": 3,
+      "maximizers": 2
+    },
+    "4": {
+      "bound": 5,
+      "max_d1": 5,
+      "maximizers": 8
+    },
+    "5": {
+      "bound": 7,
+      "max_d1": 7,
+      "maximizers": 20
+    },
+    "6": {
+      "bound": 9,
+      "max_d1": 9,
+      "maximizers": 40
+    }
+  },
+  "record_id": "MC-OM26-H1-PREMISE-CHAIN-FINITE-REPLAY-20261007-001",
+  "schema_version": "1.0.0"
+}

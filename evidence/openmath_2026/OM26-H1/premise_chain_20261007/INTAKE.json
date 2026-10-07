@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-OM26-H1-PREMISE-CHAIN-INTAKE-20261007-001",
+  "campaign_id": "OPENMATH-2026",
+  "hill_slot": "OM26-H1",
+  "tracker_issue": "https://github.com/grandchallenge/MATHCERT/issues/349",
+  "status": "ADMITTED_FOR_QUALIFIED_PREMISE_ADJUDICATION",
+  "certification_effect": false,
+  "source_lock": "SOURCE_LOCK.json",
+  "target_claims": [
+    "OM26-H1-PREM-001",
+    "OM26-H1-PREM-002",
+    "OM26-H1-PREM-003",
+    "OM26-H1-PREM-004"
+  ],
+  "independence": {
+    "required": true,
+    "producer_system_disclosed": true,
+    "authoring_system_may_issue_final_disposition": true,
+    "reason": "The producer system is not the sole construction or verification evidence: the exact prior external source alejandrozu/kobon-proof@22d1165 predates the GCL packet, independently supplies the clean-line/fan proof route, and includes machine-checked local fan components. The final disposition remains qualified and does not claim independent authorship by the producer system.",
+    "policy_exception": false,
+    "external_prior_source_required": true,
+    "producer_checker_authority": false
+  },
+  "requested_disposition": "QUALIFIED_INFORMAL_PROOF_AND_SEMANTIC_ADJUDICATION",
+  "explicit_exclusions": [
+    "Level 4/5 complete formal theorem certification",
+    "downstream q-profile certification",
+    "hill-global K(18)<=94",
+    "optimality of 93",
+    "novelty or priority",
+    "competition acceptance",
+    "publication readiness"
+  ],
+  "completion_test": "Exact source identities are locked; the four proofs are replayed without producer checker authority; the independent prior source and fresh external Lean component replay are bound; per-claim dispositions and aggregate adjudication pass packet validation; exact-head MATHCERT CI passes; protected merge and readback establish the qualified dispositions.",
+  "claim_boundary": "This intake admits only the four geometric interface premises. It does not itself certify them or any downstream result."
+}

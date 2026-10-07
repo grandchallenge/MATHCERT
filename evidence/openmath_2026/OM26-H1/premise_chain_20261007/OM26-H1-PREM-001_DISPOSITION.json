@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "role": "MATHCERT_CERTIFIER",
+  "reviewer_system_id": "GPT-5.6 Sol",
+  "mode": "PRODUCER_SYSTEM_DISCLOSED__EXTERNAL_PRIOR_EVIDENCE_BOUND",
+  "tracker": "https://github.com/grandchallenge/MATHCERT/issues/349",
+  "exact_subject": {
+    "solve_repository": "grandchallenge/MATHSOLVE",
+    "solve_commit": "bf094d909de041761a925c1c5c770f67983df210",
+    "source_lock": "SOURCE_LOCK.json"
+  },
+  "eligibility_finding": "ELIGIBILITY_FINDING.json",
+  "disposition": "QUALIFIED_INFORMAL_PROOF_AND_SEMANTIC_ADJUDICATION",
+  "certification_level": null,
+  "formal_theorem_certified": false,
+  "authority_state": "candidate_until_protected_merge",
+  "protected_effect": false,
+  "policy_exception_requested": false,
+  "excluded_claims": [
+    "hill-global K(18)<=94",
+    "optimality of the 93-face construction",
+    "downstream q-profile certification",
+    "novelty or priority",
+    "official competition acceptance",
+    "publication readiness",
+    "Level 4/5 complete formal theorem status"
+  ],
+  "record_id": "MC-OM26-H1-PREM-001-DISPOSITION-20261007-001",
+  "claim_id": "OM26-H1-PREM-001",
+  "accepted_statement": "For a finite affine line arrangement and any finite selected family of counted bounded triangular faces, there exists a projectively equivalent affine chart with no parallel line pairs in which every selected face remains a counted bounded triangular face.",
+  "hypotheses": [
+    "finite arrangement of distinct affine straight lines",
+    "finite selected family of counted bounded triangular faces"
+  ],
+  "bounded_evidence_finding": "PASS__QUALIFIED_INFORMAL_PROOF",
+  "support": [
+    "REVIEW.md#PREM-001 \u2014 projective normalization"
+  ],
+  "residual_uncertainty": [
+    "The proof is paper-level rather than kernel-formalized.",
+    "Projective normalization preserves concurrence; it does not reduce multiple-point multiplicity."
+  ]
+}
