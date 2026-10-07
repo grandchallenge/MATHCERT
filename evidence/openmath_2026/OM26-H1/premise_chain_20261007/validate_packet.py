@@ -5,6 +5,8 @@ R=pathlib.Path(__file__).resolve().parent
 lock=json.loads((R/"SOURCE_LOCK.json").read_text())
 elig=json.loads((R/"ELIGIBILITY_FINDING.json").read_text())
 adj=json.loads((R/"ADJUDICATION.json").read_text())
+adv=json.loads((R/"ADVERSARY_ROLE.json").read_text())
+ref=json.loads((R/"REFEREE_ROLE.json").read_text())
 finite=json.loads((R/"FINITE_REPLAY.json").read_text())
 prem001=json.loads((R/"PREM001_EXTERNAL_SUPPORT.json").read_text())
 assert lock["mathsolve_subject"]["commit"]=="bf094d909de041761a925c1c5c770f67983df210"
@@ -33,5 +35,10 @@ for name in adj["dispositions"]:
 assert seen==expected
 assert adj["formal_certification_level"] is None
 assert adj["protected_effect"] is False
+assert adv["disposition"]=="NO_FATAL_DEFECT__QUALIFIED_SCOPE_ENFORCED"
+assert ref["overall_finding"]=="ACCEPT_QUALIFIED_DISPOSITIONS__NO_FORMAL_LEVEL_ASSIGNED"
+assert adv["certification_effect"] is False and ref["certification_effect"] is False
+assert adj["adversary_role"]=="ADVERSARY_ROLE.json"
+assert adj["referee_role"]=="REFEREE_ROLE.json"
 print("OM26_H1_PREMISE_CHAIN_PACKET=PASS")
 print("claims="+",".join(sorted(seen)))

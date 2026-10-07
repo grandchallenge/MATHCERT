@@ -29,5 +29,8 @@
   "external_lean_replay_result": "PASS",
   "prem001_external_support": "PREM001_EXTERNAL_SUPPORT.json",
   "eligibility_scope": "CLAIM_BY_CLAIM_EXTERNAL_SUPPORT__NO_POLICY_EXCEPTION",
-  "independence_summary": "Claim-specific external support: PREM-001 uses independently published projective-geometry sources; PREM-002 through PREM-004 use the prior external Kobon source. WP07 is corroboration only and has zero certification effect."
+  "independence_summary": "Claim-specific external support: PREM-001 uses independently published projective-geometry sources; PREM-002 through PREM-004 use the prior external Kobon source. WP07 is corroboration only and has zero certification effect.",
+  "adversary_role": "ADVERSARY_ROLE.json",
+  "referee_role": "REFEREE_ROLE.json",
+  "premerge_referee_finding": "ACCEPT_QUALIFIED_DISPOSITIONS__NO_FORMAL_LEVEL_ASSIGNED"
 }
