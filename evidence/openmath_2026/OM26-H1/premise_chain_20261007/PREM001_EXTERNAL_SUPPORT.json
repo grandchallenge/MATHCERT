@@ -11,7 +11,10 @@
       "url": "https://webusers.imj-prg.fr/~adrien.deloro/teaching-archive/Sirince-Geometry.pdf",
       "pinpoint": "Section 2.3, Proposition 2.3.1(ii)",
       "supported_fact": "For any projective line lambda in P^2(F), deleting lambda gives an affine plane isomorphic to A^2(F); equivalently an arbitrary projective line can serve as the line at infinity.",
-      "role": "STANDARD_AFFINIZATION_FACT"
+      "role": "STANDARD_AFFINIZATION_FACT",
+      "sha256": "24d35d7d63d9f0682595cad45278b9af99f468222dccc286d1f99fbefdc5c4be",
+      "byte_length": 707553,
+      "retrieved_for_certification": "2026-10-07"
     },
     {
       "author": "Joseph Malkevitch",
@@ -19,7 +22,10 @@
       "institution": "York College (CUNY)",
       "url": "https://web.york.cuny.edu/~malk/geometricstructures/affine-projective.html",
       "supported_fact": "Projective completion sends each affine parallel class to a common point at infinity, with the points at infinity lying on one projective line; in homogeneous coordinates distinct projective lines meet in a unique point.",
-      "role": "STANDARD_PROJECTIVE_COMPLETION_AND_PARALLELISM_FACT"
+      "role": "STANDARD_PROJECTIVE_COMPLETION_AND_PARALLELISM_FACT",
+      "sha256": "33cea1f099f64633d4f86a5a323eeadb9f46f8910dda034425c54e302e3de54b",
+      "byte_length": 9403,
+      "retrieved_for_certification": "2026-10-07"
     }
   ],
   "cert_side_derived_step": "For a finite arrangement and compact union K of finitely many selected bounded triangular-face closures, choose a candidate new infinity line from a direction avoiding the finitely many arrangement directions, then translate it to avoid both the finitely many finite pair-intersection points and K. Standard affinization then makes all pair intersections finite while the selected compact cells remain in the affine chart.",
