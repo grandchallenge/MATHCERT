@@ -64,5 +64,5 @@ jobs:
           python3 ci/test_otp_e_connes_rigidity_certification.py -v
       - name: Upload E evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with: {name: otp-e-connes-rigidity-exact-evidence, path: 'evidence/e-connes-rigidity/', if-no-files-found: warn, retention-days: 30}
