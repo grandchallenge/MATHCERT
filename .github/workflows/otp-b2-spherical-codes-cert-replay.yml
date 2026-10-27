@@ -98,5 +98,5 @@ jobs:
           echo OTP_EVIDENCE_B64_END
       - name: Upload B2 evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with: {name: otp-b2-spherical-codes-exact-evidence, path: 'evidence/b2-spherical-codes/', if-no-files-found: warn, retention-days: 30}
