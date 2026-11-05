@@ -9,7 +9,7 @@
       "governance/ci_routing/"
     ],
     "test_prefixes": [
-      "ci/test_gcl_component_"
+      "tests/test_gcl_component_"
     ]
   },
   "depends_on": [],
