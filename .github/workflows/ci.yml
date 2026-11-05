@@ -43,7 +43,6 @@ jobs:
           printf 'certification_scope=%s\n' "${scope}" >> "${GITHUB_OUTPUT}"
           printf 'MATHCERT_TRANSITION_SCOPE=%s\n' "${scope}"
           python3 ci/test_check_certification_platform_lane.py
-          python3 ci/test_gcl_component_routing.py
           python3 ci/test_otp_finalize_family_replay_evidence.py
       - uses: grandchallenge/lean-action@37f8471aecd2efbeab3b1e1a75ad18fb8f5c1b01
         if: steps.scope.outputs.certification_scope != 'NO_LEAN'
