@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "MC-ERDOS-579-CERTIFICATION-PREROUTE-001",
+  "record_class": "PRE_ROUTE_CANDIDATE__NO_CERTIFICATION",
+  "claim_id": "ERDOS-579-C001",
+  "campaign_id": "ERDOS-579-DISPROOF-001",
+  "source_repository": "grandchallenge/MATHSOLVE",
+  "source_handoff_candidate_path": "governance/erdos_579_disproof_handoff.json",
+  "programme_assessment": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/1850#issuecomment-6998200134",
+  "proof_source_sha256": "c210bfcb2e4f1d9acf56e210d8800f831868783ff949d964033bb9cda6b684b2",
+  "provider_formal_conjectures_commit": "6a786f997e18e8f095762a2830d191b7e25e505e",
+  "lean_version": "4.33.1",
+  "mathlib_commit": "0df444a360eaa60ab8c11dca51a86af692955474",
+  "evidence_summary": {
+    "build_exit": 0,
+    "build_jobs": 8901,
+    "kernel_replay": "57271 constants rechecked successfully in empty environment",
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "comparator": "separate final readback not completed; direct theorem type matched pinned statement by inspection and Lean print"
+  },
+  "intake_policy": {
+    "direct_external_catalog_intake": false,
+    "required_separate_mathsolve_handoff": true,
+    "current_registered_route": false,
+    "certification_requires_non_author_verification": true
+  },
+  "decision_scope": "MATHCERT to evaluate exact negative theorem under registered route; do not broaden to determination of exact density.",
+  "promotion_state": "AWAITING_PROTECTED_SOLVE_HANDOFF_AND_ROUTE",
+  "certification_inferred": false
+}
