@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "MC-ERDOS579-C001-ADJUDICATION-CANDIDATE-001",
+  "record_class": "CLAIM_SPECIFIC_INDEPENDENT_REVIEW_CANDIDATE",
+  "candidate_status": "SOURCE_CONCORDANCE_AND_KERNEL_REPLAY_REVIEWED__NONAUTHOR_CERT_ADJUDICATION_PENDING",
+  "subject": {
+    "claim_id": "ERDOS-579-C001",
+    "campaign_id": "ERDOS-579-DISPROOF-001",
+    "route_id": "MC-ROUTE-ERDOS-579-DISPROOF-001",
+    "route_admission_pr": "https://github.com/grandchallenge/MATHCERT/pull/367",
+    "source_claim": "For δ=3/2048, arbitrarily large K_(2,2,2)-free finite simple graphs exist with ≥ δ n² unordered edges and independence ratio tending to zero; hence the original universal Ramsey–Turán assertion is false.",
+    "not_claimed": [
+      "sharp Ramsey–Turán density",
+      "new priority/novelty",
+      "stronger-than-formalized generalization"
+    ]
+  },
+  "external_author": {
+    "role": "original proof construction",
+    "provider_result": "https://conjectures.io/results/e4934265-aa96-4bf5-a3c0-d01153dfcfaa",
+    "attribution": "Jordan (provider reported)",
+    "source_sha256": "c210bfcb2e4f1d9acf56e210d8800f831868783ff949d964033bb9cda6b684b2",
+    "source_bytes": 810011
+  },
+  "protected_evidence": {
+    "repo": "grandchallenge/MATHSOLVE",
+    "commit": "94d0bff64630b5592ae5d10e84b4d3eefa1860ee",
+    "handoff_path": "governance/erdos_579_disproof_handoff.json",
+    "handoff_git_blob_sha1": "a0d27b14e96b30db56027b99807326b7a8a0feb8",
+    "evidence_directory": "evidence/erdos_579_replay_20261119",
+    "sha_manifest_git_blob_sha1": "5e9d93dc0fc8675d2a9ee5f78bd2c547d7b3e438"
+  },
+  "formal_statement": {
+    "historic_primary_source": "https://www.renyi.hu/~p_erdos/1983-09.pdf",
+    "historic_source_locus": "Combinatorica 3(1), 69–81, scanned p.72",
+    "formal_conjectures_repo": "google-deepmind/formal-conjectures",
+    "provider_formal_conjectures_commit": "6a786f997e18e8f095762a2830d191b7e25e505e",
+    "pinned_gcl_statement_commit": "85f863718beeec7b58a3a1926ee92e3472bc2020",
+    "pinned_gcl_statement_blob": "ba1faf6e48768b411e82136b4e57a723eeb05b2a",
+    "target_declaration": "Bounty.target",
+    "target_type": "¬ (True ↔ ∀ (δ : ℝ), 0 < δ → ∃ c, 0 < c ∧ ∀ᶠ (n : ℕ) in Filter.atTop, ∀ (G : SimpleGraph (Fin n)), Erdos579.octahedron.Free G → δ * ↑n ^ 2 ≤ ↑G.edgeFinset.card → c * ↑n ≤ ↑G.indepNum)",
+    "semantic_checklist": [
+      {
+        "dimension": "forbidden graph",
+        "conclusion": "K_(2,2,2) non-induced simple-subgraph free; no induced-only substitution"
+      },
+      {
+        "dimension": "edge count",
+        "conclusion": "unordered SimpleGraph.edgeFinset.card compared to δ n², not doubled oriented edges"
+      },
+      {
+        "dimension": "asymptotic quantifiers",
+        "conclusion": "∀δ>0 ∃c>0 ∀ᶠn ∀G, negated by one fixed δ with arbitrarily large counterexamples"
+      },
+      {
+        "dimension": "independence",
+        "conclusion": "SimpleGraph.indepNum is maximum independent-set size"
+      },
+      {
+        "dimension": "density",
+        "conclusion": "p = 3/128, δ = p/16 = 3/2048 (not an exact extremal value)"
+      },
+      {
+        "dimension": "polarity",
+        "conclusion": "the certified original task requests proof of negation; final Bounty.target has that type"
+      }
+    ]
+  },
+  "independent_gcl_evidence": {
+    "role": "independent from the external original proof author; same GCL assistant carried out source review and kernel replay, no separate human identity claimed",
+    "assessment": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/1850#issuecomment-6998200134",
+    "lean_version": "4.33.1",
+    "mathlib_commit": "0df444a360eaa60ab8c11dca51a86af692955474",
+    "build": "lake build Challenge Solution: 8901 jobs, exit 0",
+    "declaration_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "empty_kernel_replay": {
+      "transitive_constants": 57271,
+      "reported_acceptance": true,
+      "unsafe_or_partial": 0,
+      "post_replay_wrapper_exit": 1,
+      "post_replay_wrapper_failure": "API-mismatched target lookup after successful kernel replay",
+      "separate_challenge_comparator_completed": false
+    },
+    "third_party_independent_replay": "https://erdosproblems.ai/wiki/library/number_theory/conjectures_io_2026_lean_solutions_erdos_problems/evidence/verify/receipt_e0579_e4934265"
+  },
+  "adversarial_checks": [
+    {
+      "question": "Was Challenge.lean sorry treated as a proof?",
+      "answer": "No: Challenge is the task template; the proof is in Solution, and Bounty.target in Solution has no sorryAx dependencies."
+    },
+    {
+      "question": "Can a theorem of an altered proposition be substituted?",
+      "answer": "TaskSupport fcTypeOfName references the pinned Erdos579.erdos_579; the imported target theorem's printed type is the original proposition's negation. A full independent post-replay closure comparator did not complete and is explicitly not claimed."
+    },
+    {
+      "question": "Is the statement weaker than the historic question?",
+      "answer": "The finite simple graph, K2,2,2-free, unordered density, eventual-n and independence-size quantifiers match the 1983 question under reviewed conventions."
+    },
+    {
+      "question": "Does provider self-report alone substantiate the claim?",
+      "answer": "No. GCL independently compiled and kernel-replayed the submitted proof and inspected the formal/historic statements. Plasma's independent external replay is separate corroboration."
+    }
+  ],
+  "independence_governance": {
+    "proof_constructor": "external original author",
+    "gcl_source_semantic_review": "single logical non-author reviewer pass; not a separately authenticated identity",
+    "gcl_kernel_replay": "same GCL assistant; not independent of its own semantic review",
+    "third_party_plasma": "external independently reported replay, not a MATHCERT review vote",
+    "protected_github_non_author_approval": "required on final certificate PR, not inferred from earlier preregistration PR"
+  },
+  "remaining_authority_conditions": [
+    "Register exact route on protected MATHCERT main (PR #367), then rebind route Git object.",
+    "Activate canonical MATHSOLVE generic handoff under exact protected registry and preserve proof debt; do not use draft unbound references as admitted artifacts.",
+    "Obtain non-author claim-specific source-semantic adjudication on the exact candidate claim and material evidence closure; do not infer it solely from CI.",
+    "Produce and merge a separate MATHCERT Level 5 certificate referencing exact accepted formal theorem, independent evidence and protected review; read back.",
+    "Reconcile MATH-PROGRAMME current-status representation while retaining historical OPEN source snapshot."
+  ],
+  "certification_issued": false,
+  "source_semantic_recommendation": "The separately authored Lean proof supports recognition that the original universal assertion is false. This is a preparatory non-author analysis, not a protected MATHCERT disposition."
+}
