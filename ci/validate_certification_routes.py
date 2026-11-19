@@ -18,6 +18,7 @@ EXPECTED={
 "RH-001":{"tracker":"https://github.com/grandchallenge/MATHCERT/issues/28","source":art("grandchallenge/MATHSOLVE",SOLVE,"campaign_manifests/RH-001.json","4ce2c5bcdc7bc1d0d63f7b2244898c8a651d5f64"),"state":"qualified","packet":art("grandchallenge/MATHSOLVE",SOLVE,"cert_handoffs/RH-001.json","7304f185bd817bb67b77540513dc01d05f6fcd3a"),"output":art("grandchallenge/MATHCERT","b1aa08001eb8537be8e204c3866aefd5f898252e","certificates/formal_sources/MC-FC-WP00-RH-001.json","3668bbf792d994a6d8919101417f2f3cad342cdc")},
 "YM-001":{"tracker":"https://github.com/grandchallenge/MATHCERT/issues/29","source":art("grandchallenge/MATHSOLVE",SOLVE,"campaign_manifests/YM-001.json","733d11811d0226fa2b2467965c3655a7d0fad963"),"state":"pending","packet":None,"output":None},
 "OZ-001":{"tracker":"https://github.com/grandchallenge/MATHCERT/issues/30","source":art("grandchallenge/MATHSOLVE",SOLVE,"campaign_manifests/OZ-001.json","8b3164ab88a35ec9fba69013b44056573e846bfe"),"state":"pending","packet":None,"output":None}}
+EXPECTED["ERDOS-579-DISPROOF-001"]={"tracker":"https://github.com/grandchallenge/MATHCERT/issues/365","source":art("grandchallenge/MATHSOLVE","94d0bff64630b5592ae5d10e84b4d3eefa1860ee","governance/erdos_579_disproof_handoff.json","a0d27b14e96b30db56027b99807326b7a8a0feb8"),"state":"pending","packet":None,"output":None}
 PROVIDER=art("grandchallenge/MATHFORGE","0ea98866de3066e6a44ea1ca2cf93ade8a9e1c15","provider_manifests/OPENAI-TEN-PROOFS-001.json","fe1dab478e4ef9d6ddfe1b94a289fe7b51f58472")
 PACKETS={"OTP-F-EHRHART":"4653985d4980113514266c3c421804437bacb019","OTP-J1-COMPACTNESS":"2d9c6e555a03b71eb33c476321e7f2d311ed168f","OTP-J2-TWO-DEGENERATE":"0d226492bf13e13bc1a437be01104db3d4c96f79"}
 for fam,digest in PACKETS.items():EXPECTED[fam]={"tracker":"https://github.com/grandchallenge/MATHCERT/issues/55","source":PROVIDER,"state":"submitted","packet":art("grandchallenge/MATHSOLVE","443daf537dc7e4ee34ab43aeb01508d9177816ab",f"work_packages/OPENAI_TEN_PROOFS_WP00/result_family_handoffs/{fam}.json",digest),"output":None}
@@ -211,6 +212,6 @@ def hc_qualification_errors(root:Path=ROOT)->list[str]:
 def main()->int:
  e=route_errors()+hc_qualification_errors()
  if e:print("\n".join(e),file=sys.stderr);return 1
- print("validated twenty exact routes, including restricted qualified OTP-E-CONNES-RIGIDITY, OTP-D-NON-SOFIC, OTP-G-QUANTUM-PARALLEL-REPETITION, OTP-I-RAMSEY, OTP-B2-SPHERICAL-CODES, OTP-H-GAPCVP, OTP-B1-BINARY-CODES, OTP-A-SPHERE-PACKING, OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
+ print("validated twenty-one exact routes, including restricted qualified OTP-E-CONNES-RIGIDITY, OTP-D-NON-SOFIC, OTP-G-QUANTUM-PARALLEL-REPETITION, OTP-I-RAMSEY, OTP-B2-SPHERICAL-CODES, OTP-H-GAPCVP, OTP-B1-BINARY-CODES, OTP-A-SPHERE-PACKING, OTP-F-EHRHART, OTP-J1-COMPACTNESS, OTP-J2-TWO-DEGENERATE, and OTP-C-PERMANENT routes")
  return 0
 if __name__=="__main__":raise SystemExit(main())
