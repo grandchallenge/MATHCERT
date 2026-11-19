@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "gcl_level5_exact_formal_disproof_certificate",
+  "certificate_id": "MC-ERDOS-579-LEVEL5-001",
+  "certification_level": 5,
+  "route_id": "MC-ROUTE-ERDOS-579-DISPROOF-001",
+  "campaign_id": "ERDOS-579-DISPROOF-001",
+  "claim_id": "ERDOS-579-C001",
+  "certified_statement": "The universal positive assertion that every sufficiently dense K_(2,2,2)-free finite simple graph must have a linearly large independent set is FALSE. One fixed density delta=3/2048 admits arbitrarily large counterexamples with independence number o(n).",
+  "encoded_target": "Bounty.target",
+  "target_type": "¬ (True ↔ ∀ (δ : ℝ), 0 < δ → ∃ c, 0 < c ∧ ∀ᶠ (n : ℕ) in Filter.atTop, ∀ (G : SimpleGraph (Fin n)), Erdos579.octahedron.Free G → δ * ↑n ^ 2 ≤ ↑G.edgeFinset.card → c * ↑n ≤ ↑G.indepNum)",
+  "target_mathematically_proved": true,
+  "statement_alignment": {
+    "primary_source": "https://www.renyi.hu/~p_erdos/1983-09.pdf",
+    "locus": "1983 Combinatorica 3(1), p.72",
+    "graph": "K_{2,2,2} forbidden as non-induced simple subgraph",
+    "edge_count": "unordered edgeFinset.card",
+    "asymptotics": "δ>0; c(δ)>0; eventually all n; negation with fixed δ and arbitrarily large counterexamples",
+    "independence": "maximum independent-set number",
+    "density_lower_bound_fraction": "3/2048",
+    "exact_ramsey_turan_density_claimed": false
+  },
+  "original_external_proof": {
+    "result": "https://conjectures.io/results/e4934265-aa96-4bf5-a3c0-d01153dfcfaa",
+    "original_author_role": "external Conjectures.io author; not GCL",
+    "original_source_bytes": 810011,
+    "original_source_sha256": "c210bfcb2e4f1d9acf56e210d8800f831868783ff949d964033bb9cda6b684b2",
+    "solution_sha256": "d0fa2f94aacf873ae57c982c46d8682fc7de8ee69d8c9cc8bd63fd733a28036d",
+    "formal_conjectures_proof_commit": "6a786f997e18e8f095762a2830d191b7e25e505e",
+    "pinned_provider_statement_commit": "85f863718beeec7b58a3a1926ee92e3472bc2020",
+    "pinned_provider_statement_blob": "ba1faf6e48768b411e82136b4e57a723eeb05b2a"
+  },
+  "independent_verification": {
+    "lean_version": "4.33.1",
+    "mathlib_commit": "0df444a360eaa60ab8c11dca51a86af692955474",
+    "full_solution_build": {
+      "jobs": 8901,
+      "exit_code": 0
+    },
+    "axiom_set": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "unsafe_or_partial_declarations": 0,
+    "independent_empty_kernel_replay": {
+      "declarations": 57271,
+      "kernel_result": "ACCEPT",
+      "post_replay_wrapper_exit": 1,
+      "post_replay_lookup_bug": "Lean 4.33.1 kernel environment target lookup API mismatch after successful replay",
+      "separate_challenge_comparator_result": "NOT COMPLETED (resource exhaustion); not represented as PASS"
+    },
+    "external_independent_corroboration": "https://erdosproblems.ai/wiki/library/number_theory/conjectures_io_2026_lean_solutions_erdos_problems/evidence/verify/receipt_e0579_e4934265"
+  },
+  "protected_source": {
+    "repository": "grandchallenge/MATHSOLVE",
+    "evidence_merge": "94d0bff64630b5592ae5d10e84b4d3eefa1860ee",
+    "evidence_directory": "evidence/erdos_579_replay_20261119",
+    "sha256_manifest_git_blob": "5e9d93dc0fc8675d2a9ee5f78bd2c547d7b3e438",
+    "canonical_handoff_merge": "e6abc6006f63a22c923be403afa6de2d8072b5a8",
+    "canonical_handoff_path": "cert_handoffs/ERDOS-579-DISPROOF-001.json",
+    "canonical_handoff_blob": "19ea3194f1fee3a97fbb6617942f687aa6b66189",
+    "canonical_campaign_manifest_blob": "08b106e8aeb28c9d156364adc53ef68c212667e9"
+  },
+  "governed_authority": {
+    "route_merge": "095bc71c5aa080880b8b6c28daa50fb04e988e2c",
+    "route_blob_pre_adjudication": "d9522855fbe4bc061deac1657a57767fe1d18352",
+    "protected_review_packet_merge": "83c2abd7ca2ce0b7a40c5c6fdf78a0b64c88ae50",
+    "pending_adjudication_pr": "https://github.com/grandchallenge/MATHCERT/pull/371",
+    "adjudication_merge": "f70686fcd219ecfc38426710c6b335983245a441",
+    "adjudication_blob": "337fb30c814e19b043c887b98e060a30ca42aa00",
+    "final_certificate_review": "FRESH_PROTECTED_NONAUTHOR_REVIEW_REQUIRED_ON_CERTIFICATE_PR_EXACT_HEAD",
+    "adjudication_path": "governance/result_family_adjudications/ERDOS-579-C001.json",
+    "adjudication_pr_exact_head": "ade1237f303f7b0da31dc7f21ca04a33012a78c5",
+    "adjudication_non_author_review": {
+      "reviewer": "jimsteeg",
+      "review_id": 5974647750,
+      "review_state": "APPROVED",
+      "review_commit": "ade1237f303f7b0da31dc7f21ca04a33012a78c5",
+      "submitted_at": "2026-11-19T12:04:54Z"
+    }
+  },
+  "trust_quartet": {
+    "source": "source-locked external original with proof hash",
+    "claim": "exact pinned Formal Conjectures target aligned to 1983 non-induced K_(2,2,2) question",
+    "checker": "GCL independently compiled and kernel replayed exact proof with standard axiom set",
+    "adjudicator": "MATHCERT protected adjudication PR #371 approved on exact head by jimsteeg; final certificate also requires protected exact-head non-author review."
+  },
+  "scope_exclusions": [
+    "no exact Ramsey–Turán density",
+    "no independent proof priority or novelty claims",
+    "no assertion of complete standalone comparison-wrapper success",
+    "no arbitrary Ramsey–Turán graph-family generalization",
+    "no claim of external public certification or publication"
+  ],
+  "certificate_state": "LEVEL5_EXACT_FORMAL_DISPROOF__ISSUANCE_CONDITIONAL_ON_THIS_CERTIFICATE_PROTECTED_MERGE",
+  "claim_boundary": "The exact formal negation of the historical K_(2,2,2) universal positive-density/linear-independence assertion is formally proved under source-pinned standard Lean axioms. This candidate certificate takes effect only after independent non-author exact-head review, green required checks, protected merge and readback. The separate final challenge comparator was incomplete; the actual built theorem and independently accepted kernel replay are preserved with precise limitations. No sharp Ramsey–Turán density, priority or novelty is certified."
+}
