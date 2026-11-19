@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "gcl_erdos_579_claim_adjudication",
+  "adjudication_id": "MC-ERDOS-579-C001-ADJUDICATION-001",
+  "claim_id": "ERDOS-579-C001",
+  "route_id": "MC-ROUTE-ERDOS-579-DISPROOF-001",
+  "tracker": "https://github.com/grandchallenge/MATHCERT/issues/365",
+  "scope": "Exactly the negation of the historical K_(2,2,2)-free universal positive-density/linear-independence Ramsey–Turán assertion. The counterexample gives fixed δ=3/2048, not sharp density.",
+  "original_proof": {
+    "author": "External Conjectures.io contributor ('Jordan' per provider); not GCL",
+    "url": "https://conjectures.io/results/e4934265-aa96-4bf5-a3c0-d01153dfcfaa",
+    "sha256": "c210bfcb2e4f1d9acf56e210d8800f831868783ff949d964033bb9cda6b684b2",
+    "bytes": 810011,
+    "task_commit": "2a58149e6edb0f1dc15b32391f8c29fdd85e9db3",
+    "formal_conjectures_source_commit": "6a786f997e18e8f095762a2830d191b7e25e505e",
+    "pinned_statement_commit": "85f863718beeec7b58a3a1926ee92e3472bc2020",
+    "pinned_statement_blob": "ba1faf6e48768b411e82136b4e57a723eeb05b2a"
+  },
+  "governed_evidence": {
+    "solve_protected_merge": "94d0bff64630b5592ae5d10e84b4d3eefa1860ee",
+    "solve_handoff_path": "governance/erdos_579_disproof_handoff.json",
+    "solve_handoff_blob": "a0d27b14e96b30db56027b99807326b7a8a0feb8",
+    "solve_evidence_path": "evidence/erdos_579_replay_20261119",
+    "solve_sha256_manifest_blob": "5e9d93dc0fc8675d2a9ee5f78bd2c547d7b3e438",
+    "cert_route_protected_merge": "095bc71c5aa080880b8b6c28daa50fb04e988e2c",
+    "cert_formal_review_packet_protected_merge": "83c2abd7ca2ce0b7a40c5c6fdf78a0b64c88ae50",
+    "review_packet_path": "governance/pre_route_candidates/ERDOS_579_C001_ADJUDICATION_PACKET.json",
+    "source_semantic_audit": "https://github.com/grandchallenge/MATH-PROGRAMME/issues/1850#issuecomment-6998200134"
+  },
+  "formal_target": {
+    "declaration": "Bounty.target",
+    "type": "¬ (True ↔ ∀ δ : ℝ, δ > 0 → ∃ c : ℝ, c > 0 ∧ ∀ᶠ n : ℕ in Filter.atTop, ∀ G : SimpleGraph (Fin n), Erdos579.octahedron.Free G → δ * n^2 ≤ G.edgeFinset.card → c * n ≤ G.indepNum)",
+    "lean": "4.33.1",
+    "mathlib_commit": "0df444a360eaa60ab8c11dca51a86af692955474",
+    "build_exit": 0,
+    "build_jobs": 8901,
+    "dependency_closure_kernel_replay": "accepted 57271 constants into empty Lean environment",
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "unsafe_or_partial_dependencies": 0,
+    "separate_full_challenge_comparator": "NOT COMPLETED; no green combined-comparator claim"
+  },
+  "adversarial_disposition": {
+    "formal_semantic_match": "ACCEPT_FOR_EXACT_CLAIM: graph forbidden as non-induced subgraph, unordered edge count, eventual-n and δ/c quantifiers, and maximum independent set match historic question. Source/statement comparisons are documented in pinned GCL assessment.",
+    "formal_proof": "ACCEPT_FOR_EXACT_TARGET: source-locked solution builds and proof dependency closure kernel-replays with no admitted/custom/unsafe axioms; template Challenge.lean sorry excluded from solution theorem.",
+    "external_corroboration": "Plasma AI independently reported proof-kernel replay; not misrepresented as GCL-authenticated specialist reviewer.",
+    "comparator_limitation": "Remaining post-replay wrapper check incomplete. Main target is separately verified by Lean elaborated theorem type and pinned fcTypeOfName source; uncompleted wrapper is NOT counted as passed.",
+    "disjoint_roles": "Original mathematical constructor was not GCL. GCL assistant did source audit and kernel replay under separate logical passes, not separate authenticated human identities. A fresh non-author protected PR review is required for this adjudication.",
+    "conclusion": "PROPOSED_ACCEPT_EXACT_FORMAL_DISPROOF_LEVEL5_THEOREM_ONLY",
+    "prohibited_expansions": [
+      "sharp Ramsey–Turán density",
+      "priority/novelty",
+      "different forbidden graph conventions",
+      "whole-document source equivalence",
+      "external public certification absent governed release"
+    ]
+  },
+  "review_gate": {
+    "fresh_non_author_specialist_review_required": true,
+    "exact_pr_head_required": true,
+    "required_review_state": "APPROVED",
+    "review_record": null,
+    "binding": "Decision is a proposed mathematical adjudication. It becomes protected GCL adjudication only after fresh exact-head protected review, applicable CI and merge. The subsequent certificate is a separate artifact and approval."
+  },
+  "status": {
+    "adjudication_record": "PROPOSED_PENDING_PROTECTED_REVIEW",
+    "cert_output_issued": false,
+    "canonical_mathematical_status_promoted": false,
+    "source_formalization_proved": "GCL evidence strongly supports proof of the exact negation at source-locked scope",
+    "publication_authorized": false
+  }
+}
