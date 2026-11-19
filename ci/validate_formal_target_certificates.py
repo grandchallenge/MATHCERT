@@ -69,6 +69,8 @@ D_FILE = "MC-OTP-D-NON-SOFIC-001.json"
 D_BLOB = "354da3dbf396daed15509013b4b6f7515e72ab4f"
 E_FILE = "MC-OTP-E-CONNES-RIGIDITY-001.json"
 E_BLOB = "e135e4d7cd4eb752b25e1a940f970f224465191e"
+ERDOS_FILE = "MC-ERDOS-579-LEVEL5-001.json"
+ERDOS_BLOB = "9edadf6c23810612b44c8ac0e7a0d3ad37a782b5"
 
 
 def load_json(path: Path) -> Any:
@@ -353,6 +355,53 @@ def _e_certificate_errors(path: Path, registry_path: Path) -> list[str]:
     return errors
 
 
+
+def _erdos_579_certificate_errors(path: Path) -> list[str]:
+    """Fail-closed exact formal-disproof certificate audit, not a legacy OTP certificate."""
+    if not path.is_file():
+        return [f"missing formal target certificate: {ERDOS_FILE}"]
+    errors: list[str] = []
+    if git_blob(path) != ERDOS_BLOB:
+        errors.append(f"{ERDOS_FILE}: exact certificate blob drift")
+    try:
+        record = load_json(path)
+    except (OSError, json.JSONDecodeError) as exc:
+        return errors + [f"{ERDOS_FILE}: invalid certificate JSON: {exc}"]
+    for field, expected in {
+        "record_type": "gcl_level5_exact_formal_disproof_certificate",
+        "certificate_id": "MC-ERDOS-579-LEVEL5-001",
+        "route_id": "MC-ROUTE-ERDOS-579-DISPROOF-001",
+        "campaign_id": "ERDOS-579-DISPROOF-001",
+        "claim_id": "ERDOS-579-C001",
+        "encoded_target": "Bounty.target",
+        "certification_level": 5,
+        "target_mathematically_proved": True,
+        "certificate_state": "LEVEL5_EXACT_FORMAL_DISPROOF__ISSUANCE_CONDITIONAL_ON_THIS_CERTIFICATE_PROTECTED_MERGE",
+    }.items():
+        if record.get(field) != expected:
+            errors.append(f"{ERDOS_FILE}: {field} drift")
+    original = record.get("original_external_proof", {})
+    if original.get("original_source_sha256") != "c210bfcb2e4f1d9acf56e210d8800f831868783ff949d964033bb9cda6b684b2":
+        errors.append(f"{ERDOS_FILE}: original proof identity drift")
+    verification = record.get("independent_verification", {})
+    if (verification.get("lean_version"), verification.get("full_solution_build", {}).get("exit_code"), verification.get("independent_empty_kernel_replay", {}).get("declarations")) != ("4.33.1", 0, 57271):
+        errors.append(f"{ERDOS_FILE}: checker execution identity drift")
+    if set(verification.get("axiom_set", [])) != {"propext", "Classical.choice", "Quot.sound"}:
+        errors.append(f"{ERDOS_FILE}: unexpected axiom trust boundary")
+    if verification.get("independent_empty_kernel_replay", {}).get("separate_challenge_comparator_result") != "NOT COMPLETED (resource exhaustion); not represented as PASS":
+        errors.append(f"{ERDOS_FILE}: comparator limitation suppressed")
+    g = record.get("governed_authority", {})
+    if g.get("adjudication_merge") != "f70686fcd219ecfc38426710c6b335983245a441" or g.get("adjudication_blob") != "337fb30c814e19b043c887b98e060a30ca42aa00":
+        errors.append(f"{ERDOS_FILE}: protected mathematical adjudication drift")
+    review = g.get("adjudication_non_author_review", {})
+    if (review.get("reviewer"), review.get("review_id"), review.get("review_commit"), review.get("review_state")) != ("jimsteeg", 5974647750, "ade1237f303f7b0da31dc7f21ca04a33012a78c5", "APPROVED"):
+        errors.append(f"{ERDOS_FILE}: non-author adjudication approval drift")
+    if record.get("statement_alignment", {}).get("exact_ramsey_turan_density_claimed") is not False:
+        errors.append(f"{ERDOS_FILE}: sharp density claim inflation")
+    if not isinstance(record.get("scope_exclusions"), list) or len(record["scope_exclusions"]) < 4:
+        errors.append(f"{ERDOS_FILE}: exclusions dropped")
+    return errors
+
 def certificate_errors(
     directory: Path = CERT_DIR,
     schema_path: Path = SCHEMA_PATH,
@@ -374,7 +423,7 @@ def certificate_errors(
     with tempfile.TemporaryDirectory() as temporary:
         predecessor_dir = Path(temporary)
         for source in directory.glob("*.json"):
-            if source.name not in {CIRCUIT_FILE, A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE, D_FILE, E_FILE}:
+            if source.name not in {CIRCUIT_FILE, A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE, D_FILE, E_FILE, ERDOS_FILE}:
                 shutil.copyfile(source, predecessor_dir / source.name)
         errors.extend(
             base.certificate_errors(
@@ -397,12 +446,13 @@ def certificate_errors(
     errors.extend(_g_certificate_errors(directory / G_FILE, registry_path))
     errors.extend(_d_certificate_errors(directory / D_FILE, registry_path))
     errors.extend(_e_certificate_errors(directory / E_FILE, registry_path))
+    errors.extend(_erdos_579_certificate_errors(directory / ERDOS_FILE))
 
-    known = {path.name for path in directory.glob("*.json") if path.name not in {A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE, D_FILE, E_FILE}}
+    known = {path.name for path in directory.glob("*.json") if path.name not in {A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE, D_FILE, E_FILE, ERDOS_FILE}}
     with tempfile.TemporaryDirectory() as temporary:
         predecessor_dir = Path(temporary)
         for source in directory.glob("*.json"):
-            if source.name not in {A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE, D_FILE, E_FILE}:
+            if source.name not in {A_FILE, B1_FILE, B2_FILE, H_FILE, I_FILE, G_FILE, D_FILE, E_FILE, ERDOS_FILE}:
                 shutil.copyfile(source, predecessor_dir / source.name)
         # Unknown non-A members remain rejected by the predecessor chain above;
         # this local set exists only to make the A exception explicit.

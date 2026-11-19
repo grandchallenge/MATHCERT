@@ -41,6 +41,17 @@ class FormalTargetCertificateTests(unittest.TestCase):
         finally:
             path.unlink(missing_ok=True)
 
+    def test_erdos_579_certificate_exact_pass(self) -> None:
+        self.assertEqual([], module._erdos_579_certificate_errors(module.CERT_DIR / module.ERDOS_FILE))
+
+    def test_erdos_579_certificate_tampered_blob_rejected(self) -> None:
+        errors = self.record_errors(lambda r: r[module.ERDOS_FILE].__setitem__("target_mathematically_proved", False))
+        self.assertTrue(any("exact certificate blob drift" in e for e in errors), errors)
+
+    def test_erdos_579_comparator_boundary_rejected_if_suppressed(self) -> None:
+        errors = self.record_errors(lambda r: r[module.ERDOS_FILE]["independent_verification"]["independent_empty_kernel_replay"].__setitem__("separate_challenge_comparator_result", "PASS"))
+        self.assertTrue(any("comparator limitation suppressed" in e for e in errors), errors)
+
     def test_current_certificates_pass(self) -> None:
         self.assertEqual([], module.certificate_errors())
 

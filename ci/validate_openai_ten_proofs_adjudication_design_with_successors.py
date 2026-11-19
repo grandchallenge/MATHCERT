@@ -42,6 +42,7 @@ ALLOWED_ADJUDICATIONS = {
     "OTP-J1-COMPACTNESS.json",
     "OTP-J2-TWO-DEGENERATE.json",
     "UC-WP07-D005.json",
+    "ERDOS-579-C001.json",  # governed non-OTP successor; exact claim verified below
 }
 
 
@@ -146,6 +147,18 @@ def validation_errors() -> list[str]:
             "separately governed adjudication membership drift: "
             f"expected {sorted(ALLOWED_ADJUDICATIONS)}, got {sorted(actual_adjudications)}"
         )
+    # This additional member is not an OpenAI Ten Proofs adjudication.
+    # Admit it only as a separately protected, exact-blob-pinned Erdős #579
+    # adjudication, without transferring any OTP family authority.
+    erdos = ADJUDICATION_DIR / "ERDOS-579-C001.json"
+    if not erdos.is_file() or git_blob_sha1(erdos) != "337fb30c814e19b043c887b98e060a30ca42aa00":
+        errors.append("independent Erdős-579 adjudication protected blob drift")
+    else:
+        record = json.loads(erdos.read_text(encoding="utf-8"))
+        if (record.get("claim_id"), record.get("route_id"), record.get("adjudication_id")) != (
+            "ERDOS-579-C001", "MC-ROUTE-ERDOS-579-DISPROOF-001", "MC-ERDOS-579-C001-ADJUDICATION-001"
+        ):
+            errors.append("independent Erdős-579 adjudication identity drift")
     errors += validate_full_formula_candidate()
     errors += validate_circuit_candidate()
     # The A adjudication is a separately governed successor. Delegate its exact
